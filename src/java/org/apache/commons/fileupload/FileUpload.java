@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.21 2003/06/01 00:18:13 martinc Exp $
- * $Revision: 1.21 $
- * $Date: 2003/06/01 00:18:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.22 2003/06/01 17:33:24 martinc Exp $
+ * $Revision: 1.22 $
+ * $Date: 2003/06/01 17:33:24 $
  *
  * ====================================================================
  *
@@ -89,7 +89,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.21 2003/06/01 00:18:13 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.22 2003/06/01 17:33:24 martinc Exp $
  */
 public class FileUpload
     extends FileUploadBase
@@ -156,129 +156,5 @@ public class FileUpload
         this.fileItemFactory = factory;
     }
 
-
-    /**
-     * Returns the size threshold beyond which files are written directly to
-     * disk.
-     *
-     * @return The size threshold, in bytes.
-     *
-     * @see #setSizeThreshold(int)
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
-     */
-    public int getSizeThreshold()
-    {
-        if (fileItemFactory instanceof DefaultFileItemFactory)
-        {
-            DefaultFileItemFactory factory =
-                    (DefaultFileItemFactory) fileItemFactory;
-            return factory.getSizeThreshold();
-        }
-        return -1;
-    }
-
-
-    /**
-     * Sets the size threshold beyond which files are written directly to disk.
-     *
-     * @param sizeThreshold The size threshold, in bytes.
-     *
-     * @see #getSizeThreshold()
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
-     *
-     */
-    public void setSizeThreshold(int sizeThreshold)
-    {
-        if (fileItemFactory instanceof DefaultFileItemFactory)
-        {
-            DefaultFileItemFactory factory =
-                    (DefaultFileItemFactory) fileItemFactory;
-            factory.setSizeThreshold(sizeThreshold);
-        }
-    }
-
-
-    /**
-     * Returns the location used to temporarily store files that are larger
-     * than the configured size threshold.
-     *
-     * @return The path to the temporary file location.
-     *
-     * @see #setRepositoryPath(String)
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
-     *
-     */
-    public String getRepositoryPath()
-    {
-        if (fileItemFactory instanceof DefaultFileItemFactory)
-        {
-            DefaultFileItemFactory factory =
-                    (DefaultFileItemFactory) fileItemFactory;
-            return factory.getRepository().getPath();
-        }
-        return null;
-    }
-
-
-    /**
-     * Sets the location used to temporarily store files that are larger
-     * than the configured size threshold.
-     *
-     * @param repositoryPath The path to the temporary file location.
-     *
-     * @see #getRepositoryPath()
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
-     *
-     */
-    public void setRepositoryPath(String repositoryPath)
-    {
-        if (fileItemFactory instanceof DefaultFileItemFactory)
-        {
-            DefaultFileItemFactory factory =
-                    (DefaultFileItemFactory) fileItemFactory;
-            factory.setRepository(new File(repositoryPath));
-        }
-    }
-
-
-    // --------------------------------------------------------- Public methods
-
-    /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
-     * compliant <code>multipart/form-data</code> stream. If files are stored
-     * on disk, the path is given by <code>getRepository()</code>.
-     *
-     * @param req           The servlet request to be parsed. Must be non-null.
-     * @param sizeThreshold The max size in bytes to be stored in memory.
-     * @param sizeMax       The maximum allowed upload size, in bytes.
-     * @param path          The location where the files should be stored.
-     *
-     * @return A list of <code>FileItem</code> instances parsed from the
-     *         request, in the order that they were transmitted.
-     *
-     * @exception FileUploadException if there are problems reading/parsing
-     *                                the request or storing files.
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
-     */
-    public List /* FileItem */ parseRequest(HttpServletRequest req,
-                                            int sizeThreshold,
-                                            long sizeMax, String path)
-        throws FileUploadException
-    {
-        setSizeThreshold(sizeThreshold);
-        setSizeMax(sizeMax);
-        setRepositoryPath(path);
-        return parseRequest(req);
-    }
 
 }

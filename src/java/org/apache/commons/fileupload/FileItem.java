@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.14 2003/05/12 05:24:52 martinc Exp $
- * $Revision: 1.14 $
- * $Date: 2003/05/12 05:24:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.15 2003/06/01 17:33:24 martinc Exp $
+ * $Revision: 1.15 $
+ * $Date: 2003/06/01 17:33:24 $
  *
  * ====================================================================
  *
@@ -96,7 +96,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileItem.java,v 1.14 2003/05/12 05:24:52 martinc Exp $
+ * @version $Id: FileItem.java,v 1.15 2003/06/01 17:33:24 martinc Exp $
  */
 public interface FileItem
     extends Serializable
@@ -215,27 +215,6 @@ public interface FileItem
 
 
     /**
-     * A convenience method to write an uploaded item to disk. The client code
-     * is not concerned with whether or not the item is stored in memory, or on
-     * disk in a temporary location. They just want to write the uploaded item
-     * to a file.
-     * <p>
-     * This method is not guaranteed to succeed if called more than once for
-     * the same item. This allows a particular implementation to use, for
-     * example, file renaming, where possible, rather than copying all of the
-     * underlying data, thus gaining a significant performance benefit.
-     *
-     * @param file The full path to location where the uploaded item should
-     *             be stored.
-     *
-     * @exception Exception if an error occurs.
-     *
-     * @deprecated Use <code>write(File)</code> instead.
-     */
-    void write(String file) throws Exception;
-
-
-    /**
      * Deletes the underlying storage for a file item, including deleting any
      * associated temporary disk file. Although this storage will be deleted
      * automatically when the <code>FileItem</code> instance is garbage
@@ -280,18 +259,6 @@ public interface FileItem
      *              field; <code>false</code> if it represents an uploaded file.
      */
     void setFormField(boolean state);
-
-
-    /**
-     * Specifies whether or not a <code>FileItem</code> instance represents
-     * a simple form field.
-     *
-     * @param state <code>true</code> if the instance represents a simple form
-     *              field; <code>false</code> if it represents an uploaded file.
-     *
-     * @deprecated Use <code>setFormField()</code> instead.
-     */
-    void setIsFormField(boolean state);
 
 
     /**
