@@ -56,6 +56,7 @@ package org.apache.commons.fileupload;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
+import org.apache.commons.fileupload.*;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.MultipartStream}.
