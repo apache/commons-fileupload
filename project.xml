@@ -20,7 +20,7 @@
   
   <name>FileUpload</name>
   <id>commons-fileupload</id>
-  <currentVersion>1.0</currentVersion>
+  <currentVersion>1.1-dev</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>File upload component for Java servlets</shortDescription>
   <description>
@@ -139,11 +139,18 @@
   
   <dependencies>
     <dependency>
-      <id>servletapi</id>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
       <version>2.3</version>
     </dependency>
     <dependency>
-      <id>junit</id>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
       <version>3.8.1</version>
     </dependency>
   </dependencies>
