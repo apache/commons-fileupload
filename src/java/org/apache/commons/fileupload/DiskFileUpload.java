@@ -40,11 +40,10 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DiskFileUpload.java,v 1.5 2004/02/25 21:07:12 scolebourne Exp $
+ * @version $Id: DiskFileUpload.java,v 1.6 2004/10/29 04:17:23 martinc Exp $
  */
 public class DiskFileUpload
-    extends FileUploadBase
- {
+    extends FileUploadBase {
 
     // ----------------------------------------------------------- Data members
 
@@ -64,8 +63,7 @@ public class DiskFileUpload
      *
      * @see #DiskFileUpload(DefaultFileItemFactory fileItemFactory)
      */
-    public DiskFileUpload()
-    {
+    public DiskFileUpload() {
         super();
         this.fileItemFactory = new DefaultFileItemFactory();
     }
@@ -77,8 +75,7 @@ public class DiskFileUpload
      *
      * @see #DiskFileUpload()
      */
-    public DiskFileUpload(DefaultFileItemFactory fileItemFactory)
-    {
+    public DiskFileUpload(DefaultFileItemFactory fileItemFactory) {
         super();
         this.fileItemFactory = fileItemFactory;
     }
@@ -92,8 +89,7 @@ public class DiskFileUpload
      *
      * @return The factory class for new file items.
      */
-    public FileItemFactory getFileItemFactory()
-    {
+    public FileItemFactory getFileItemFactory() {
         return fileItemFactory;
     }
 
@@ -105,8 +101,7 @@ public class DiskFileUpload
      *
      * @param factory The factory class for new file items.
      */
-    public void setFileItemFactory(FileItemFactory factory)
-    {
+    public void setFileItemFactory(FileItemFactory factory) {
         this.fileItemFactory = (DefaultFileItemFactory) factory;
     }
 
@@ -119,8 +114,7 @@ public class DiskFileUpload
      *
      * @see #setSizeThreshold(int)
      */
-    public int getSizeThreshold()
-    {
+    public int getSizeThreshold() {
         return fileItemFactory.getSizeThreshold();
     }
 
@@ -132,8 +126,7 @@ public class DiskFileUpload
      *
      * @see #getSizeThreshold()
      */
-    public void setSizeThreshold(int sizeThreshold)
-    {
+    public void setSizeThreshold(int sizeThreshold) {
         fileItemFactory.setSizeThreshold(sizeThreshold);
     }
 
@@ -146,8 +139,7 @@ public class DiskFileUpload
      *
      * @see #setRepositoryPath(String)
      */
-    public String getRepositoryPath()
-    {
+    public String getRepositoryPath() {
         return fileItemFactory.getRepository().getPath();
     }
 
@@ -160,8 +152,7 @@ public class DiskFileUpload
      *
      * @see #getRepositoryPath()
      */
-    public void setRepositoryPath(String repositoryPath)
-    {
+    public void setRepositoryPath(String repositoryPath) {
         fileItemFactory.setRepository(new File(repositoryPath));
     }
 
@@ -188,8 +179,7 @@ public class DiskFileUpload
     public List /* FileItem */ parseRequest(HttpServletRequest req,
                                             int sizeThreshold,
                                             long sizeMax, String path)
-        throws FileUploadException
-    {
+        throws FileUploadException {
         setSizeThreshold(sizeThreshold);
         setSizeMax(sizeMax);
         setRepositoryPath(path);

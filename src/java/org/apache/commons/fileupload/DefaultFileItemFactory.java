@@ -37,10 +37,9 @@ import java.io.File;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DefaultFileItemFactory.java,v 1.4 2004/02/25 21:07:12 scolebourne Exp $
+ * @version $Id: DefaultFileItemFactory.java,v 1.5 2004/10/29 04:17:23 martinc Exp $
  */
-public class DefaultFileItemFactory implements FileItemFactory
-{
+public class DefaultFileItemFactory implements FileItemFactory {
 
     // ----------------------------------------------------- Manifest constants
 
@@ -73,8 +72,7 @@ public class DefaultFileItemFactory implements FileItemFactory
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
      */
-    public DefaultFileItemFactory()
-    {
+    public DefaultFileItemFactory() {
     }
 
 
@@ -88,8 +86,7 @@ public class DefaultFileItemFactory implements FileItemFactory
      *                      which files will be created, should the item size
      *                      exceed the threshold.
      */
-    public DefaultFileItemFactory(int sizeThreshold, File repository)
-    {
+    public DefaultFileItemFactory(int sizeThreshold, File repository) {
         this.sizeThreshold = sizeThreshold;
         this.repository = repository;
     }
@@ -107,8 +104,7 @@ public class DefaultFileItemFactory implements FileItemFactory
      * @see #setRepository(java.io.File)
      *
      */
-    public File getRepository()
-    {
+    public File getRepository() {
         return repository;
     }
 
@@ -122,8 +118,7 @@ public class DefaultFileItemFactory implements FileItemFactory
      * @see #getRepository()
      *
      */
-    public void setRepository(File repository)
-    {
+    public void setRepository(File repository) {
         this.repository = repository;
     }
 
@@ -136,8 +131,7 @@ public class DefaultFileItemFactory implements FileItemFactory
      *
      * @see #setSizeThreshold(int)
      */
-    public int getSizeThreshold()
-    {
+    public int getSizeThreshold() {
         return sizeThreshold;
     }
 
@@ -150,8 +144,7 @@ public class DefaultFileItemFactory implements FileItemFactory
      * @see #getSizeThreshold()
      *
      */
-    public void setSizeThreshold(int sizeThreshold)
-    {
+    public void setSizeThreshold(int sizeThreshold) {
         this.sizeThreshold = sizeThreshold;
     }
 
@@ -177,8 +170,7 @@ public class DefaultFileItemFactory implements FileItemFactory
             String contentType,
             boolean isFormField,
             String fileName
-            )
-    {
+            ) {
         return new DefaultFileItem(fieldName, contentType,
                 isFormField, fileName, sizeThreshold, repository);
     }

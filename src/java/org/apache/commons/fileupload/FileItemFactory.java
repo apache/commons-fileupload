@@ -22,11 +22,10 @@ package org.apache.commons.fileupload;
  * by the default file upload implementation.</p>
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
- * 
- * @version $Id: FileItemFactory.java,v 1.3 2004/02/25 21:07:12 scolebourne Exp $
+ *
+ * @version $Id: FileItemFactory.java,v 1.4 2004/10/29 04:17:23 martinc Exp $
  */
-public interface FileItemFactory
-{
+public interface FileItemFactory {
 
     /**
      * Create a new {@link FileItem} instance from the supplied parameters and
