@@ -75,9 +75,20 @@ final class HttpServletRequestFactory
 	}
 
 	static public HttpServletRequest createValidHttpServletRequest(
-		final String[] strFileNames)
+			final String[] strFileNames)
 	{
-		byte[] requestData = "todo".getBytes();
+		// todo - provide a real implementation 
+		
+		StringBuffer sbRequestData = new StringBuffer();
+		
+		for (int i = 0; i < strFileNames.length; i++)
+		{
+			sbRequestData.append(strFileNames[i]);
+		}
+		
+		byte[] requestData = null;
+		requestData = sbRequestData.toString().getBytes();
+		
 		return new MyHttpServletRequest(
 							requestData,
 							FileUpload.MULTIPART_FORM_DATA);
