@@ -3,7 +3,7 @@ package org.apache.commons.fileupload;
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,9 +115,24 @@ public class FileUploadTest extends TestCase
         super(name);
     }
 
-    public void testParseRequest()
+    public void testParseRequest() throws FileUploadException
     {
-    	// todo - implement
+    	
+    	String[] fileNames = 
+    	{ 
+			"filename1",
+    		"filename2"
+    	};
+    	
+		FileUpload fu = null;
+    	
+		fu = new FileUpload();
+    	
+		HttpServletRequest req = HttpServletRequestFactory.createValidHttpServletRequest(fileNames);
+    	
+		// todo java.util.List lst = fu.parseRequest(req);
+		// todo assertNotNull(lst);
+		
     }
 }
 
