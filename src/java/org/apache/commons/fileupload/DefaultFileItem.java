@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.14 2002/12/25 04:05:07 martinc Exp $
- * $Revision: 1.14 $
- * $Date: 2002/12/25 04:05:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.15 2003/03/01 21:17:44 martinc Exp $
+ * $Revision: 1.15 $
+ * $Date: 2003/03/01 21:17:44 $
  *
  * ====================================================================
  *
@@ -95,7 +95,7 @@ import java.io.OutputStream;
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DefaultFileItem.java,v 1.14 2002/12/25 04:05:07 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.15 2003/03/01 21:17:44 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -288,14 +288,29 @@ public class DefaultFileItem
             if (storeLocation != null)
             {
                 content = new byte[(int) getSize()];
+                FileInputStream fis = null;
                 try
                 {
-                    FileInputStream fis = new FileInputStream(storeLocation);
+                    fis = new FileInputStream(storeLocation);
                     fis.read(content);
                 }
                 catch (Exception e)
                 {
                     content = null;
+                }
+                finally
+                {
+                    if (fis != null)
+                    {
+                        try
+                        {
+                            fis.close();
+                        }
+                        catch (IOException e)
+                        {
+                            // ignore
+                        }
+                    }
                 }
             }
             else
