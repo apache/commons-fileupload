@@ -86,6 +86,12 @@
       <email>rdonkin@apache.org</email>
       <organization/>
     </developer>
+    <developer>
+      <name>Sean C. Sullivan</name>
+      <id>sullis</id>
+      <email>sean |at| seansullivan |dot| com</email>
+      <organization></organization>
+    </developer>
   </developers>
   
   <dependencies>
