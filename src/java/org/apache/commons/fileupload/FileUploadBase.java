@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.7 2004/10/10 21:59:48 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.8 2004/10/11 01:59:49 martinc Exp $
  */
 public abstract class FileUploadBase
 {
@@ -273,15 +273,14 @@ public abstract class FileUploadBase
 
         try
         {
-            int boundaryIndex = contentType.indexOf("boundary=");
-            if (boundaryIndex < 0)
+            String boundaryStr = getBoundary(contentType);
+            if (boundaryStr == null)
             {
                 throw new FileUploadException(
                         "the request was rejected because "
                         + "no multipart boundary was found");
             }
-            byte[] boundary = contentType.substring(
-                    boundaryIndex + 9).getBytes();
+            byte[] boundary = boundaryStr.getBytes();
 
             InputStream input = req.getInputStream();
 
@@ -300,10 +299,8 @@ public abstract class FileUploadBase
                         .toLowerCase().startsWith(MULTIPART_MIXED))
                     {
                         // Multiple files.
-                        byte[] subBoundary =
-                            subContentType.substring(
-                                subContentType
-                                .indexOf("boundary=") + 9).getBytes();
+                        String subBoundaryStr = getBoundary(subContentType);
+                        byte[] subBoundary = subBoundaryStr.getBytes();
                         multi.setBoundary(subBoundary);
                         boolean nextSubPart = multi.skipPreamble();
                         while (nextSubPart)
@@ -370,6 +367,24 @@ public abstract class FileUploadBase
 
 
     // ------------------------------------------------------ Protected methods
+
+
+    /**
+     * Retrieves the boundary from the <code>Content-type</code> header.
+     *
+     * @param contentType The value of the content type header from which to
+     *                    extract the boundary value.
+     *
+     * @return The boundary, without any surrounding quotes.
+     */
+    protected String getBoundary(String contentType)
+    {
+        ParameterParser parser = new ParameterParser();
+        parser.setLowerCaseNames(true);
+        // Parameter parser can handle null input
+        Map params = parser.parse(contentType, ';');
+        return (String)params.get("boundary");
+    }
 
 
     /**
