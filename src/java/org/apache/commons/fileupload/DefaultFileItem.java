@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.10 2002/07/22 07:21:54 martinc Exp $
- * $Revision: 1.10 $
- * $Date: 2002/07/22 07:21:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.11 2002/08/18 06:09:21 martinc Exp $
+ * $Revision: 1.11 $
+ * $Date: 2002/08/18 06:09:21 $
  *
  * ====================================================================
  *
@@ -85,9 +85,9 @@ import java.io.OutputStream;
  * {@link org.apache.commons.fileupload.FileUpload
  * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
  * either request all contents of file at once using {@link #get()} or
- * request an {@link java.io.InputStream InputStream} with {@link #getInputStream()}
- * and process the file without attempting to load it into memory, which
- * may come handy with large files.
+ * request an {@link java.io.InputStream InputStream} with
+ * {@link #getInputStream()} and process the file without attempting to load
+ * it into memory, which may come in handy with large files.
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
@@ -95,11 +95,9 @@ import java.io.OutputStream;
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DefaultFileItem.java,v 1.10 2002/07/22 07:21:54 martinc Exp $
+ * @version $Revision: 1.11 $ $Date: 2002/08/18 06:09:21 $
  */
-public class DefaultFileItem
-    implements FileItem
-{
+public class DefaultFileItem implements FileItem {
 
     // ----------------------------------------------------------- Data members
 
@@ -159,8 +157,7 @@ public class DefaultFileItem
     /**
      * Default constructor.
      */
-    public DefaultFileItem()
-    {
+    public DefaultFileItem() {
     }
 
 
@@ -174,8 +171,7 @@ public class DefaultFileItem
      * @param contentType The content type passed by the browser or
      * <code>null</code> if not defined.
      */
-    protected DefaultFileItem(String fileName, String contentType)
-    {
+    protected DefaultFileItem(String fileName, String contentType) {
         this.fileName = fileName;
         this.contentType = contentType;
     }
@@ -193,17 +189,11 @@ public class DefaultFileItem
      *
      * @exception IOException if an error occurs.
      */
-    public InputStream getInputStream()
-        throws IOException
-    {
-        if (content == null)
-        {
-            if (storeLocation != null)
-            {
+    public InputStream getInputStream() throws IOException {
+        if (content == null) {
+            if (storeLocation != null) {
                 return new FileInputStream(storeLocation);
-            }
-            else
-            {
+            } else {
                 content = byteStream.toByteArray();
                 byteStream = null;
             }
@@ -219,8 +209,7 @@ public class DefaultFileItem
      * @return The content type passed by the browser or <code>null</code> if
      *         not defined.
      */
-    public String getContentType()
-    {
+    public String getContentType() {
         return contentType;
     }
 
@@ -230,8 +219,7 @@ public class DefaultFileItem
      *
      * @return The original filename in the client's filesystem.
      */
-    public String getName()
-    {
+    public String getName() {
         return fileName;
     }
 
@@ -246,8 +234,7 @@ public class DefaultFileItem
      * @return <code>true</code> if the file contents will be read
      *         from memory.
      */
-    public boolean isInMemory()
-    {
+    public boolean isInMemory() {
         return (content != null || byteStream != null);
     }
 
@@ -257,18 +244,12 @@ public class DefaultFileItem
      *
      * @return The size of the file, in bytes.
      */
-    public long getSize()
-    {
-        if (storeLocation != null)
-        {
+    public long getSize() {
+        if (storeLocation != null) {
             return storeLocation.length();
-        }
-        else if (byteStream != null)
-        {
+        } else if (byteStream != null) {
             return byteStream.size();
-        }
-        else
-        {
+        } else {
             return content.length;
         }
     }
@@ -281,25 +262,17 @@ public class DefaultFileItem
      *
      * @return The contents of the file as an array of bytes.
      */
-    public byte[] get()
-    {
-        if (content == null)
-        {
-            if (storeLocation != null)
-            {
+    public byte[] get() {
+        if (content == null) {
+            if (storeLocation != null) {
                 content = new byte[(int) getSize()];
-                try
-                {
+                try {
                     FileInputStream fis = new FileInputStream(storeLocation);
                     fis.read(content);
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     content = null;
                 }
-            }
-            else
-            {
+            } else {
                 content = byteStream.toByteArray();
                 byteStream = null;
             }
@@ -322,8 +295,7 @@ public class DefaultFileItem
      *                                         encoding is not available.
      */
     public String getString(String encoding)
-        throws UnsupportedEncodingException
-    {
+            throws UnsupportedEncodingException {
         return new String(get(), encoding);
     }
 
@@ -335,8 +307,7 @@ public class DefaultFileItem
      *
      * @return The contents of the file, as a string.
      */
-    public String getString()
-    {
+    public String getString() {
         return new String(get());
     }
 
@@ -354,8 +325,7 @@ public class DefaultFileItem
      * @return The data file, or <code>null</code> if the data is stored in
      *         memory.
      */
-    public File getStoreLocation()
-    {
+    public File getStoreLocation() {
         return storeLocation;
     }
 
@@ -371,70 +341,49 @@ public class DefaultFileItem
      *
      * @exception Exception if an error occurs.
      */
-    public void write(String file) throws Exception
-    {
-        if (isInMemory())
-        {
+    public void write(String file) throws Exception {
+        if (isInMemory()) {
             FileOutputStream fout = null;
-            try
-            {
+            try {
                 fout = new FileOutputStream(file);
                 fout.write(get());
-            }
-            finally
-            {
-                if (fout != null)
-                {
+            } finally {
+                if (fout != null) {
                     fout.close();
                 }
             }
-        }
-        else if (storeLocation != null)
-        {
+        } else if (storeLocation != null) {
             /*
              * The uploaded file is being stored on disk
              * in a temporary location so move it to the
              * desired file.
              */
-            if (storeLocation.renameTo(new File(file)) == false)
-            {
+            if (storeLocation.renameTo(new File(file)) == false) {
                 BufferedInputStream in = null;
                 BufferedOutputStream out = null;
-                try
-                {
+                try {
                     in = new BufferedInputStream(
                         new FileInputStream(storeLocation));
                     out = new BufferedOutputStream(new FileOutputStream(file));
                     byte[] bytes = new byte[2048];
                     int s = 0;
-                    while ((s = in.read(bytes)) != -1)
-                    {
+                    while ((s = in.read(bytes)) != -1) {
                         out.write(bytes, 0, s);
                     }
-                }
-                finally
-                {
-                    try
-                    {
+                } finally {
+                    try {
                         in.close();
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         // ignore
                     }
-                    try
-                    {
+                    try {
                         out.close();
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         // ignore
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             /*
              * For whatever reason we cannot write the
              * file to disk.
@@ -452,12 +401,10 @@ public class DefaultFileItem
      * collected, this method can be used to ensure that this is done at an
      * earlier time, thus preserving system resources.
      */
-    public void delete()
-    {
+    public void delete() {
         byteStream = null;
         content = null;
-        if (storeLocation != null && storeLocation.exists())
-        {
+        if (storeLocation != null && storeLocation.exists()) {
             storeLocation.delete();
         }
     }
@@ -469,8 +416,7 @@ public class DefaultFileItem
      *
      * @return The name of the form field.
      */
-    public String getFieldName()
-    {
+    public String getFieldName() {
         return fieldName;
     }
 
@@ -480,8 +426,7 @@ public class DefaultFileItem
      *
      * @param fieldName The name of the form field.
      */
-    public void setFieldName(String fieldName)
-    {
+    public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
     }
 
@@ -493,8 +438,7 @@ public class DefaultFileItem
      * @return <code>true</code> if the instance represents a simple form
      *         field; <code>false</code> if it represents an uploaded file.
      */
-    public boolean isFormField()
-    {
+    public boolean isFormField() {
         return isFormField;
     }
 
@@ -506,8 +450,7 @@ public class DefaultFileItem
      * @param state <code>true</code> if the instance represents a simple form
      *              field; <code>false</code> if it represents an uploaded file.
      */
-    public void setIsFormField(boolean state)
-    {
+    public void setIsFormField(boolean state) {
         isFormField = state;
     }
 
@@ -518,10 +461,8 @@ public class DefaultFileItem
     /**
      * Removes the file contents from the temporary storage.
      */
-    protected void finalize()
-    {
-        if (storeLocation != null && storeLocation.exists())
-        {
+    protected void finalize() {
+        if (storeLocation != null && storeLocation.exists()) {
             storeLocation.delete();
         }
     }
@@ -536,15 +477,10 @@ public class DefaultFileItem
      *
      * @exception IOException if an error occurs.
      */
-    public OutputStream getOutputStream()
-        throws IOException
-    {
-        if (storeLocation == null)
-        {
+    public OutputStream getOutputStream() throws IOException {
+        if (storeLocation == null) {
             return byteStream;
-        }
-        else
-        {
+        } else {
             return new FileOutputStream(storeLocation);
         }
     }
@@ -569,20 +505,16 @@ public class DefaultFileItem
                                        String name,
                                        String contentType,
                                        int requestSize,
-                                       int threshold)
-    {
+                                       int threshold) {
         DefaultFileItem item = new DefaultFileItem(name, contentType);
-        if (requestSize > threshold)
-        {
+        if (requestSize > threshold) {
             String fileName = getUniqueId();
             fileName = "upload_" + fileName + ".tmp";
             fileName = path + "/" + fileName;
             File f = new File(fileName);
             f.deleteOnExit();
             item.storeLocation = f;
-        }
-        else
-        {
+        } else {
             item.byteStream = new ByteArrayOutputStream();
         }
         return item;
@@ -598,19 +530,16 @@ public class DefaultFileItem
      *
      * @return A String with the non-random looking instance identifier.
      */
-    private static String getUniqueId()
-    {
+    private static String getUniqueId() {
         int current;
-        synchronized (DefaultFileItem.class)
-        {
+        synchronized (DefaultFileItem.class) {
             current = counter++;
         }
         String id = Integer.toString(current);
 
         // If you manage to get more than 100 million of ids, you'll
         // start getting ids longer than 8 characters.
-        if (current < 100000000)
-        {
+        if (current < 100000000) {
             id = ("00000000" + id).substring(id.length());
         }
         return id;

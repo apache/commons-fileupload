@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadException.java,v 1.3 2002/07/17 01:17:06 martinc Exp $
- * $Revision: 1.3 $
- * $Date: 2002/07/17 01:17:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadException.java,v 1.4 2002/08/18 06:09:21 martinc Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/08/18 06:09:21 $
  *
  * ====================================================================
  *
@@ -67,17 +67,14 @@ package org.apache.commons.fileupload;
  * Exception for errors encountered processing the request.
  *
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id: FileUploadException.java,v 1.3 2002/07/17 01:17:06 martinc Exp $
+ * @version $Revision: 1.4 $ $Date: 2002/08/18 06:09:21 $
  */
-public class FileUploadException
-    extends Exception
-{
+public class FileUploadException extends Exception {
 
     /**
      * Constructs a new <code>FileUploadException</code> without message.
      */
-    public FileUploadException()
-    {
+    public FileUploadException() {
     }
 
     /**
@@ -86,8 +83,7 @@ public class FileUploadException
      *
      * @param msg the error message.
      */
-    public FileUploadException(String msg)
-    {
+    public FileUploadException(String msg) {
         super(msg);
     }
 }
