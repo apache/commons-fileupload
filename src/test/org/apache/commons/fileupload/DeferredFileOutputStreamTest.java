@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/test/org/apache/commons/fileupload/Attic/DeferredFileOutputStreamTest.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/test/org/apache/commons/fileupload/Attic/DeferredFileOutputStreamTest.java,v 1.2 2003/05/03 04:47:38 martinc Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/05/03 04:47:38 $
  *
  * ====================================================================
  *
@@ -76,7 +76,7 @@ import java.util.Arrays;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DeferredFileOutputStreamTest.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: DeferredFileOutputStreamTest.java,v 1.2 2003/05/03 04:47:38 martinc Exp $
  */
 public class DeferredFileOutputStreamTest extends TestCase
  {
@@ -171,7 +171,54 @@ public class DeferredFileOutputStreamTest extends TestCase
         assertFalse(dfos.isInMemory());
         assertNull(dfos.getData());
 
-        // Verify that the data is consistent.
+        verifyResultFile(testFile);
+
+        // Ensure that the test starts from a clean base.
+        testFile.delete();
+    }
+
+    /**
+     * Tests the case where there are multiple writes beyond the threshold, to
+     * ensure that the <code>thresholdReached()</code> method is only called
+     * once, as the threshold is crossed for the first time.
+     */
+    public void testThresholdReached() {
+        File testFile = new File("testThresholdReached.dat");
+
+        // Ensure that the test starts from a clean base.
+        testFile.delete();
+
+        DeferredFileOutputStream dfos =
+                new DeferredFileOutputStream(testBytes.length / 2, testFile);
+        int chunkSize = testBytes.length / 3;
+
+        try
+        {
+            dfos.write(testBytes, 0, chunkSize);
+            dfos.write(testBytes, chunkSize, chunkSize);
+            dfos.write(testBytes, chunkSize * 2,
+                    testBytes.length - chunkSize * 2);
+            dfos.close();
+        }
+        catch (IOException e) {
+            fail("Unexpected IOException");
+        }
+        assertFalse(dfos.isInMemory());
+        assertNull(dfos.getData());
+
+        verifyResultFile(testFile);
+
+        // Ensure that the test starts from a clean base.
+        testFile.delete();
+    }
+
+    /**
+     * Verifies that the specified file contains the same data as the original
+     * test data.
+     *
+     * @param testFile The file containing the test output.
+     */
+    private void verifyResultFile(File testFile) {
         try
         {
             FileInputStream fis = new FileInputStream(testFile);
@@ -197,8 +244,5 @@ public class DeferredFileOutputStreamTest extends TestCase
         catch (IOException e) {
             fail("Unexpected IOException");
         }
-
-        // Ensure that the test starts from a clean base.
-        testFile.delete();
     }
 }

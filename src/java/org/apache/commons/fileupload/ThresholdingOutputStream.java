@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/Attic/ThresholdingOutputStream.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/Attic/ThresholdingOutputStream.java,v 1.2 2003/05/03 04:47:38 martinc Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/05/03 04:47:38 $
  *
  * ====================================================================
  *
@@ -82,7 +82,7 @@ import java.io.OutputStream;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: ThresholdingOutputStream.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: ThresholdingOutputStream.java,v 1.2 2003/05/03 04:47:38 martinc Exp $
  */
 public abstract class ThresholdingOutputStream
     extends OutputStream
@@ -101,6 +101,12 @@ public abstract class ThresholdingOutputStream
      * The number of bytes written to the output stream.
      */
     private long written;
+
+
+    /**
+     * Whether or not the configured threshold has been exceeded.
+     */
+    private boolean thresholdExceeded;
 
 
     // ----------------------------------------------------------- Constructors
@@ -255,9 +261,10 @@ public abstract class ThresholdingOutputStream
      */
     protected void checkThreshold(int count) throws IOException
     {
-        if (written + count > threshold)
+        if (!thresholdExceeded && (written + count > threshold))
         {
             thresholdReached();
+            thresholdExceeded = true;
         }
     }
 
