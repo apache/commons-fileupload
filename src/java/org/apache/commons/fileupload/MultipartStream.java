@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.10 2003/03/07 23:12:41 sullis Exp $
- * $Revision: 1.10 $
- * $Date: 2003/03/07 23:12:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.11 2003/04/27 17:30:06 martinc Exp $
+ * $Revision: 1.11 $
+ * $Date: 2003/04/27 17:30:06 $
  *
  * ====================================================================
  *
@@ -63,10 +63,10 @@
 package org.apache.commons.fileupload;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -128,7 +128,7 @@ import java.io.ByteArrayOutputStream;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: MultipartStream.java,v 1.10 2003/03/07 23:12:41 sullis Exp $
+ * @version $Id: MultipartStream.java,v 1.11 2003/04/27 17:30:06 martinc Exp $
  */
 public class MultipartStream
 {
@@ -231,10 +231,10 @@ public class MultipartStream
 
     /**
      * Default constructor.
-     * 
+     *
      * @see #MultipartStream(InputStream, byte[], int)
      * @see #MultipartStream(InputStream, byte[])
-     * 
+     *
      */
     public MultipartStream()
     {
@@ -253,11 +253,11 @@ public class MultipartStream
      * @param boundary The token used for dividing the stream into
      *                 <code>encapsulations</code>.
      * @param bufSize  The size of the buffer to be used, in bytes.
-     * 
-     * 
+     *
+     *
      * @see #MultipartStream()
      * @see #MultipartStream(InputStream, byte[])
-     * 
+     *
      */
     public MultipartStream(InputStream input,
                            byte[] boundary,
@@ -291,10 +291,10 @@ public class MultipartStream
      *                 <code>encapsulations</code>.
      *
      * @exception IOException when an error occurs.
-     * 
+     *
      * @see #MultipartStream()
      * @see #MultipartStream(InputStream, byte[], int)
-     * 
+     *
      */
     public MultipartStream(InputStream input,
                            byte[] boundary)
@@ -742,14 +742,20 @@ public class MultipartStream
         return -1;
     }
 
-	public String toString() {
-		StringBuffer sbTemp = new StringBuffer();
-		sbTemp.append("boundary='");
-		sbTemp.append(String.valueOf(boundary));
-		sbTemp.append("'\nbufSize=");
-		sbTemp.append(bufSize);
-		return sbTemp.toString();
-	}
+    /**
+     * Returns a string representation of this object.
+     *
+     * @return The string representation of this object.
+     */
+    public String toString()
+    {
+        StringBuffer sbTemp = new StringBuffer();
+        sbTemp.append("boundary='");
+        sbTemp.append(String.valueOf(boundary));
+        sbTemp.append("'\nbufSize=");
+        sbTemp.append(bufSize);
+        return sbTemp.toString();
+    }
 
     /**
      * Thrown to indicate that the input stream fails to follow the

@@ -1,6 +1,6 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.19 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.19 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DiskFileUpload.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
+ * $Revision: 1.1 $
  * $Date: 2003/04/27 17:30:06 $
  *
  * ====================================================================
@@ -89,9 +89,9 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.19 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: DiskFileUpload.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
  */
-public class FileUpload
+public class DiskFileUpload
     extends FileUploadBase
  {
 
@@ -101,7 +101,7 @@ public class FileUpload
     /**
      * The factory to use to create new form items.
      */
-    protected FileItemFactory fileItemFactory;
+    protected DefaultFileItemFactory fileItemFactory;
 
 
     // ----------------------------------------------------------- Constructors
@@ -111,11 +111,12 @@ public class FileUpload
      * Constructs an instance of this class which uses the default factory to
      * create <code>FileItem</code> instances.
      *
-     * @see #FileUpload(FileItemFactory)
+     * @see #DiskFileUpload(DefaultFileItemFactory fileItemFactory)
      */
-    public FileUpload()
+    public DiskFileUpload()
     {
         super();
+        this.fileItemFactory = new DefaultFileItemFactory();
     }
 
 
@@ -123,9 +124,9 @@ public class FileUpload
      * Constructs an instance of this class which uses the supplied factory to
      * create <code>FileItem</code> instances.
      *
-     * @see #FileUpload()
+     * @see #DiskFileUpload()
      */
-    public FileUpload(FileItemFactory fileItemFactory)
+    public DiskFileUpload(DefaultFileItemFactory fileItemFactory)
     {
         super();
         this.fileItemFactory = fileItemFactory;
@@ -147,13 +148,17 @@ public class FileUpload
 
 
     /**
-     * Sets the factory class to use when creating file items.
+     * Sets the factory class to use when creating file items. The factory must
+     * be instance of <code>DefaultFileItemFactory</code> or a subclass thereof.
      *
      * @param factory The factory class for new file items.
+     *
+     * @exception ClassCastException if the factory is not of an appropriate
+     *                               type.
      */
     public void setFileItemFactory(FileItemFactory factory)
     {
-        this.fileItemFactory = factory;
+        this.fileItemFactory = (DefaultFileItemFactory) factory;
     }
 
 
@@ -164,19 +169,10 @@ public class FileUpload
      * @return The size threshold, in bytes.
      *
      * @see #setSizeThreshold(int)
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
      */
     public int getSizeThreshold()
     {
-        if (fileItemFactory instanceof DefaultFileItemFactory)
-        {
-            DefaultFileItemFactory factory =
-                    (DefaultFileItemFactory) fileItemFactory;
-            return factory.getSizeThreshold();
-        }
-        return -1;
+        return fileItemFactory.getSizeThreshold();
     }
 
 
@@ -186,19 +182,10 @@ public class FileUpload
      * @param sizeThreshold The size threshold, in bytes.
      *
      * @see #getSizeThreshold()
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
-     *
      */
     public void setSizeThreshold(int sizeThreshold)
     {
-        if (fileItemFactory instanceof DefaultFileItemFactory)
-        {
-            DefaultFileItemFactory factory =
-                    (DefaultFileItemFactory) fileItemFactory;
-            factory.setSizeThreshold(sizeThreshold);
-        }
+        fileItemFactory.setSizeThreshold(sizeThreshold);
     }
 
 
@@ -209,20 +196,10 @@ public class FileUpload
      * @return The path to the temporary file location.
      *
      * @see #setRepositoryPath(String)
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
-     *
      */
     public String getRepositoryPath()
     {
-        if (fileItemFactory instanceof DefaultFileItemFactory)
-        {
-            DefaultFileItemFactory factory =
-                    (DefaultFileItemFactory) fileItemFactory;
-            return factory.getRepository().getPath();
-        }
-        return null;
+        return fileItemFactory.getRepository().getPath();
     }
 
 
@@ -233,23 +210,15 @@ public class FileUpload
      * @param repositoryPath The path to the temporary file location.
      *
      * @see #getRepositoryPath()
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
-     *
      */
     public void setRepositoryPath(String repositoryPath)
     {
-        if (fileItemFactory instanceof DefaultFileItemFactory)
-        {
-            DefaultFileItemFactory factory =
-                    (DefaultFileItemFactory) fileItemFactory;
-            factory.setRepository(new File(repositoryPath));
-        }
+        fileItemFactory.setRepository(new File(repositoryPath));
     }
 
 
     // --------------------------------------------------------- Public methods
+
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
@@ -266,9 +235,6 @@ public class FileUpload
      *
      * @exception FileUploadException if there are problems reading/parsing
      *                                the request or storing files.
-     *
-     * @deprecated Functionality specific to a disk-based implementation has
-     *             been moved to the <code>DiskFileUpload</code> class.
      */
     public List /* FileItem */ parseRequest(HttpServletRequest req,
                                             int sizeThreshold,

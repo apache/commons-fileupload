@@ -1,6 +1,6 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadException.java,v 1.7 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.7 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItemFactory.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
+ * $Revision: 1.1 $
  * $Date: 2003/04/27 17:30:06 $
  *
  * ====================================================================
@@ -64,30 +64,34 @@ package org.apache.commons.fileupload;
 
 
 /**
- * Exception for errors encountered while processing the request.
+ * <p>A factory interface for creating {@link FileItem} instances. Factories
+ * can provide their own custom configuration, over and above that provided
+ * by the default file upload implementation.</p>
  *
- * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id: FileUploadException.java,v 1.7 2003/04/27 17:30:06 martinc Exp $
+ * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
+ * 
+ * @version $Id: FileItemFactory.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
  */
-public class FileUploadException
-    extends Exception
+public interface FileItemFactory
 {
 
     /**
-     * Constructs a new <code>FileUploadException</code> without message.
-     */
-    public FileUploadException()
-    {
-    }
-
-    /**
-     * Constructs a new <code>FileUploadException</code> with specified detail
-     * message.
+     * Create a new {@link FileItem} instance from the supplied parameters and
+     * any local factory configuration.
      *
-     * @param msg the error message.
+     * @param fieldName   The name of the form field.
+     * @param contentType The content type of the form field.
+     * @param isFormField <code>true</code> if this is a plain form field;
+     *                    <code>false</code> otherwise.
+     * @param fileName    The name of the uploaded file, if any, as supplied
+     *                    by the browser or other client.
+     *
+     * @return The newly created file item.
      */
-    public FileUploadException(String msg)
-    {
-        super(msg);
-    }
+    FileItem createItem(
+            String fieldName,
+            String contentType,
+            boolean isFormField,
+            String fileName
+            );
 }

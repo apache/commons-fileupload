@@ -19,7 +19,7 @@
         might write the following code to handle a file upload request:
 <pre>
     // Create a new file upload handler
-    FileUpload upload = new FileUpload();
+    DiskFileUpload upload = new DiskFileUpload();
 
     // Set upload parameters
     upload.setSizeMax(MAX_UPLOAD_SIZE);
