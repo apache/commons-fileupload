@@ -43,7 +43,8 @@
           <li>
             Replaced the ad hoc <code>newInstance()</code> means of creating
             <code>FileItem</code> instances with a factory-based scheme for
-            much greater flexibility and simpler customization.
+            much greater flexibility and simpler customization. This change
+            also eliminates a dependency on Commons BeanUtils.
           </li>
           <li>
             Change the semantics of the size threshold to apply to the size of
