@@ -91,7 +91,7 @@ import javax.activation.DataSource;
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
- * @version $Id: DefaultFileItem.java,v 1.1 2002/03/24 07:05:13 jmcnally Exp $
+ * @version $Id: DefaultFileItem.java,v 1.2 2002/04/05 22:29:22 jmcnally Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -415,17 +415,17 @@ public class DefaultFileItem
     {
         if (inMemory())
         {
-            FileWriter writer = null;
+            FileOutputStream fout = null;
             try
             {
-                writer = new FileWriter(file);
-                writer.write(getString());
+                fout = new FileOutputStream(file);
+                fout.write(get());
             }
             finally
             {
-                if (writer != null)
+                if (fout != null)
                 {
-                    writer.close();
+                    fout.close();
                 }
             }
         }
