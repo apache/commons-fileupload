@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.6 2002/07/19 03:56:51 martinc Exp $
- * $Revision: 1.6 $
- * $Date: 2002/07/19 03:56:51 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.7 2002/07/22 05:00:46 martinc Exp $
+ * $Revision: 1.7 $
+ * $Date: 2002/07/22 05:00:46 $
  *
  * ====================================================================
  *
@@ -66,11 +66,13 @@ package org.apache.commons.fileupload;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.beanutils.MethodUtils;
 
 
 /**
@@ -93,7 +95,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileUpload.java,v 1.6 2002/07/19 03:56:51 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.7 2002/07/22 05:00:46 martinc Exp $
  */
 public class FileUpload
 {
@@ -169,6 +171,19 @@ public class FileUpload
      * The path to which uploaded files will be stored, if stored on disk.
      */
     private String repositoryPath;
+
+
+    /**
+     * The name of the class to use for <code>FileItem</code>s.
+     */
+    private String fileItemClassName =
+            "org.apache.commons.fileupload.DefaultFileItem";
+
+
+    /**
+     * The cached method for obtaining a new <code>FileItem</code> instance.
+     */
+    private Method newInstanceMethod;
     
 
     // ----------------------------------------------------- Property accessors
@@ -239,6 +254,31 @@ public class FileUpload
     public void setRepositoryPath(String repositoryPath) 
     {
         this.repositoryPath = repositoryPath;
+    }
+
+
+    /**
+     * Returns the fully qualified name of the class which will be used to
+     * instantiate <code>FileItem</code> instances when a request is parsed.
+     *
+     * @return The fully qualified name of the Java class.
+     */
+    public String getFileItemClassName()
+    {
+        return fileItemClassName;
+    }
+
+
+    /**
+     * Sets the fully qualified name of the class which will be used to
+     * instantiate <code>FileItem</code> instances when a request is parsed.
+     *
+     * @param fileItemClassName The fully qualified name of the Java class.
+     */
+    public void setFileItemClassName(String fileItemClassName)
+    {
+        this.fileItemClassName = fileItemClassName;
+        this.newInstanceMethod = null;
     }
 
 
@@ -495,14 +535,97 @@ public class FileUpload
      * @param requestSize   The total size of the request, in bytes.
      *
      * @return A newly created <code>FileItem</code> instance.
+     *
+     * @exception FileUploadException if an error occurs.
      */
-    protected FileItem createItem(int sizeThreshold, 
+    protected FileItem createItem(int sizeThreshold,
                                   String path,
                                   Map /* String, String */ headers,
                                   int requestSize)
+        throws FileUploadException
     {
-        return DefaultFileItem.newInstance(path, getFileName(headers),
-            getHeader(headers, CONTENT_TYPE), requestSize, sizeThreshold);
+        Method newInstanceMethod = getNewInstanceMethod();
+        Object[] args = new Object[] {
+                path, getFileName(headers), getHeader(headers, CONTENT_TYPE),
+                new Integer(requestSize), new Integer(sizeThreshold) };
+        FileItem fileItem = null;
+
+        try
+        {
+            fileItem = (FileItem) newInstanceMethod.invoke(null, args);
+        }
+        catch (Exception e)
+        {
+            throw new FileUploadException(e.toString());
+        }
+
+        return fileItem;
+    }
+
+
+    /**
+     * <p> Returns the <code>Method</code> object to be used to obtain a new
+     * <code>FileItem</code> instance.
+     *
+     * <p> For performance reasons, we cache the method once it has been
+     * looked up, since method lookup is one of the more expensive aspects
+     * of reflection.
+     *
+     * @return The <code>newInstance()</code> method to be invoked.
+     *
+     * @exception FileUploadException if an error occurs.
+     */
+    protected Method getNewInstanceMethod()
+        throws FileUploadException
+    {
+        // If the method is already cached, just return it.
+        if (this.newInstanceMethod != null)
+        {
+            return this.newInstanceMethod;
+        }
+
+        // Load the FileUpload implementation class.
+        ClassLoader classLoader =
+                Thread.currentThread().getContextClassLoader();
+        Class fileItemClass = null;
+
+        if (classLoader == null)
+        {
+            classLoader = getClass().getClassLoader();
+        }
+
+        try
+        {
+            fileItemClass = classLoader.loadClass(fileItemClassName);
+        }
+        catch (Exception e)
+        {
+            throw new FileUploadException(e.toString());
+        }
+
+        if (fileItemClass == null)
+        {
+            throw new FileUploadException(
+                    "Failed to load FileItem class: " + fileItemClassName);
+        }
+
+        // Find the newInstance() method.
+        Class[] parameterTypes = new Class[] {
+                String.class, String.class, String.class,
+                Integer.TYPE, Integer.TYPE };
+        Method newInstanceMethod = MethodUtils.getAccessibleMethod(
+                fileItemClass, "newInstance", parameterTypes);
+
+        if (newInstanceMethod == null)
+        {
+            throw new FileUploadException(
+                    "Failed find newInstance() method in FileItem class: "
+                            + fileItemClassName);
+        }
+
+        // Cache the method so that all this only happens once.
+        this.newInstanceMethod = newInstanceMethod;
+        return newInstanceMethod;
     }
 
 
