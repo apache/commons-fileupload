@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.8 2002/07/22 07:21:54 martinc Exp $
- * $Revision: 1.8 $
- * $Date: 2002/07/22 07:21:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.9 2002/08/01 07:15:57 martinc Exp $
+ * $Revision: 1.9 $
+ * $Date: 2002/08/01 07:15:57 $
  *
  * ====================================================================
  *
@@ -95,7 +95,7 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileUpload.java,v 1.8 2002/07/22 07:21:54 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.9 2002/08/01 07:15:57 martinc Exp $
  */
 public class FileUpload
 {
@@ -487,13 +487,9 @@ public class FileUpload
         {
             int start = cd.indexOf("filename=\"");
             int end = cd.indexOf('"', start + 10);
-            if (start != -1 && end != -1 && (start + 10) != end)
+            if (start != -1 && end != -1)
             {
-                String str = cd.substring(start + 10, end).trim();
-                if (str.length() > 0)
-                {
-                    fileName = str;
-                }
+                fileName = cd.substring(start + 10, end).trim();
             }            
         }
         return fileName;
