@@ -54,6 +54,7 @@ package org.apache.commons.fileupload;
  * <http://www.apache.org/>.
  */
 
+import java.net.URLDecoder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -87,7 +88,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id: FileUpload.java,v 1.2 2002/04/11 05:57:37 jmcnally Exp $
+ * @version $Id: FileUpload.java,v 1.3 2002/04/18 16:10:28 jmcnally Exp $
  */
 public class FileUpload
 {
@@ -110,6 +111,12 @@ public class FileUpload
      * Content-disposition value.
      */
     public static final String ATTACHMENT = "attachment";
+
+    /**
+     * Part of HTTP header.
+     */
+    public static final String MULTIPART =
+        "multipart/";
 
     /**
      * HTTP header.
@@ -163,10 +170,10 @@ public class FileUpload
         ArrayList items = new ArrayList();
         String contentType = req.getHeader(CONTENT_TYPE);
 
-        if(!contentType.startsWith(MULTIPART_FORM_DATA))
+        if(!contentType.startsWith(MULTIPART))
         {
             throw new FileUploadException("the request doesn't contain a " +
-                MULTIPART_FORM_DATA + " stream");
+                MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED + " stream");
         }
         int requestSize = req.getContentLength();
 
@@ -320,7 +327,7 @@ public class FileUpload
                 }
             }
         }
-        return fileName;
+        return URLDecoder.decode(fileName);
     }
 
     /**
@@ -342,7 +349,7 @@ public class FileUpload
                 fieldName = cd.substring(start + 6, end);
             }
         }
-        return fieldName;
+        return URLDecoder.decode(fieldName);
     }
 
     /**
