@@ -32,7 +32,7 @@ public class TestAll extends TestCase {
         TestSuite suite = new TestSuite();
         suite.addTest(new TestSuite(ParameterParserTest.class));
         suite.addTest(new TestSuite(MultipartStreamTest.class));
-        suite.addTest(new TestSuite(FileUploadTest.class));
+        suite.addTest(new TestSuite(ServletFileUploadTest.class));
         suite.addTest(new TestSuite(DefaultFileItemTest.class));
         return suite;
     }
