@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadBase.java,v 1.4 2003/10/09 21:15:47 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/09 21:15:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadBase.java,v 1.5 2004/01/23 06:51:10 martinc Exp $
+ * $Revision: 1.5 $
+ * $Date: 2004/01/23 06:51:10 $
  *
  * ====================================================================
  *
@@ -94,7 +94,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.4 2003/10/09 21:15:47 rdonkin Exp $
+ * @version $Id: FileUploadBase.java,v 1.5 2004/01/23 06:51:10 martinc Exp $
  */
 public abstract class FileUploadBase
 {
@@ -384,36 +384,18 @@ public abstract class FileUploadBase
                     }
                     else
                     {
-                        if (getFileName(headers) != null)
+                        FileItem item = createItem(headers,
+                                getFileName(headers) == null);
+                        OutputStream os = item.getOutputStream();
+                        try
                         {
-                            // A single file.
-                            FileItem item = createItem(headers, false);
-                            OutputStream os = item.getOutputStream();
-                            try
-                            {
-                                multi.readBodyData(os);
-                            }
-                            finally
-                            {
-                                os.close();
-                            }
-                            items.add(item);
+                            multi.readBodyData(os);
                         }
-                        else
+                        finally
                         {
-                            // A form field.
-                            FileItem item = createItem(headers, true);
-                            OutputStream os = item.getOutputStream();
-                            try
-                            {
-                                multi.readBodyData(os);
-                            }
-                            finally
-                            {
-                                os.close();
-                            }
-                            items.add(item);
+                            os.close();
                         }
+                        items.add(item);
                     }
                 }
                 else
