@@ -58,6 +58,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.fileupload.*;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.FileUpload}.
