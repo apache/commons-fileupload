@@ -28,6 +28,7 @@ class MyHttpServletRequest implements HttpServletRequest
 
 	private byte[] m_requestData;
 	private String m_strContentType;
+	private Map m_headers = new java.util.HashMap();
 	
 	public MyHttpServletRequest(
 			final byte[] requestData,
@@ -35,6 +36,7 @@ class MyHttpServletRequest implements HttpServletRequest
 	{
 		m_requestData = requestData;
 		m_strContentType = strContentType;
+		m_headers.put(FileUpload.CONTENT_TYPE, strContentType);
 	}
 
 	/**
@@ -64,9 +66,9 @@ class MyHttpServletRequest implements HttpServletRequest
 	/**
 	 * @see javax.servlet.http.HttpServletRequest#getHeader(String)
 	 */
-	public String getHeader(String arg0)
+	public String getHeader(String headerName)
 	{
-		return null;
+		return (String) m_headers.get(headerName);
 	}
 
 	/**
@@ -74,6 +76,7 @@ class MyHttpServletRequest implements HttpServletRequest
 	 */
 	public Enumeration getHeaders(String arg0)
 	{
+		// todo - implement
 		return null;
 	}
 
@@ -82,6 +85,7 @@ class MyHttpServletRequest implements HttpServletRequest
 	 */
 	public Enumeration getHeaderNames()
 	{
+		// todo - implement
 		return null;
 	}
 

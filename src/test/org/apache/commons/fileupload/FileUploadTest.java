@@ -57,6 +57,7 @@ package org.apache.commons.fileupload;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.FileUpload}.
@@ -65,6 +66,52 @@ import junit.framework.TestSuite;
  */
 public class FileUploadTest extends TestCase
 {
+	public void testWithInvalidRequest()
+    {
+    	HttpServletRequest hsr = HttpServletRequestFactory.createInvalidHttpServletRequest();
+    	
+    	FileUpload fu = null;
+    	
+    	fu = new FileUpload();
+    	
+    	HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
+    	
+    	try
+    	{
+    		fu.parseRequest(req);
+    		fail("expected exception was not thrown");
+    	}
+    	catch (FileUploadException expected)
+    	{
+    		// this exception is expected
+    	}
+    	
+    }
+
+
+	public void testWithNullContentType()
+    {
+    	HttpServletRequest hsr = HttpServletRequestFactory.createInvalidHttpServletRequest();
+    	
+    	FileUpload fu = null;
+    	
+    	fu = new FileUpload();
+    	
+    	HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
+    	
+    	try
+    	{
+    		fu.parseRequest(req);
+    		fail("expected exception was not thrown");
+    	}
+    	catch (FileUploadException expected)
+    	{
+    		// this exception is expected
+    	}
+    	
+    }
+
+
     public FileUploadTest(String name)
     {
         super(name);
