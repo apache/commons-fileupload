@@ -54,9 +54,7 @@ package org.apache.commons.fileupload;
  * <http://www.apache.org/>.
  */
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import org.apache.commons.fileupload.*;
 import java.io.*;
 
 /**
@@ -71,10 +69,12 @@ public class MultipartStreamTest extends TestCase
 
     public void testDefaultConstructor() throws Exception {
     	MultipartStream ms = new MultipartStream();
+    	// todo - ms.setBoundary(BOUNDARY_TEXT.getBytes());
     }
     
     public void testThreeParamConstructor() throws Exception {
-    	InputStream input = null;
+		final String strData = "foobar";
+		InputStream input = new ByteArrayInputStream(strData.getBytes());
     	byte[] boundary = BOUNDARY_TEXT.getBytes();
     	int iBufSize = boundary.length;
     	MultipartStream ms = new MultipartStream(
@@ -84,7 +84,8 @@ public class MultipartStreamTest extends TestCase
     }
 
 	public void testTwoParamConstructor() throws Exception {
-		InputStream input = null;
+		final String strData = "foobar";
+		InputStream input = new ByteArrayInputStream(strData.getBytes());
 		byte[] boundary = BOUNDARY_TEXT.getBytes();
 		MultipartStream ms = new MultipartStream(
 				input,
