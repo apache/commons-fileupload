@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.7 2002/07/22 05:00:46 martinc Exp $
- * $Revision: 1.7 $
- * $Date: 2002/07/22 05:00:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.8 2002/07/22 07:21:54 martinc Exp $
+ * $Revision: 1.8 $
+ * $Date: 2002/07/22 07:21:54 $
  *
  * ====================================================================
  *
@@ -81,7 +81,7 @@ import org.apache.commons.beanutils.MethodUtils;
  * <p>This class handles multiple files per single HTML widget, sent using
  * <code>multipar/mixed</code> encoding type, as specified by 
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
- * #parseRequest(HttpServletRequest, String)} to acquire a list of {@link
+ * #parseRequest(HttpServletRequest)} to acquire a list of {@link
  * org.apache.commons.fileupload.FileItem}s associated with a given HTML
  * widget.
  *
@@ -95,7 +95,7 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileUpload.java,v 1.7 2002/07/22 05:00:46 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.8 2002/07/22 07:21:54 martinc Exp $
  */
 public class FileUpload
 {
@@ -146,7 +146,7 @@ public class FileUpload
 
 
     /**
-     * The maximum length of a single header line that will be parsed.
+     * The maximum length of a single header line that will be parsed
      * (1024 bytes).
      */
     public static final int MAX_HEADER_SIZE = 1024;

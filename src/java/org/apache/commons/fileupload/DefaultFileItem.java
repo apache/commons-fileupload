@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.9 2002/07/19 03:56:51 martinc Exp $
- * $Revision: 1.9 $
- * $Date: 2002/07/19 03:56:51 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.10 2002/07/22 07:21:54 martinc Exp $
+ * $Revision: 1.10 $
+ * $Date: 2002/07/22 07:21:54 $
  *
  * ====================================================================
  *
@@ -83,9 +83,9 @@ import java.io.OutputStream;
  * <p> After retrieving an instance of this class from a {@link
  * org.apache.commons.fileupload.FileUpload FileUpload} instance (see
  * {@link org.apache.commons.fileupload.FileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest, String)), you may
+ * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
  * either request all contents of file at once using {@link #get()} or
- * request an {@link java.io.InputStream InputStream} with {@link #getStream()}
+ * request an {@link java.io.InputStream InputStream} with {@link #getInputStream()}
  * and process the file without attempting to load it into memory, which
  * may come handy with large files.
  *
@@ -95,7 +95,7 @@ import java.io.OutputStream;
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DefaultFileItem.java,v 1.9 2002/07/19 03:56:51 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.10 2002/07/22 07:21:54 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.5 2002/07/19 03:56:51 martinc Exp $
- * $Revision: 1.5 $
- * $Date: 2002/07/19 03:56:51 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.6 2002/07/22 07:21:54 martinc Exp $
+ * $Revision: 1.6 $
+ * $Date: 2002/07/22 07:21:54 $
  *
  * ====================================================================
  *
@@ -76,9 +76,9 @@ import java.io.UnsupportedEncodingException;
  * <p> After retrieving an instance of this class from a {@link
  * org.apache.commons.fileupload.FileUpload FileUpload} instance (see
  * {@link org.apache.commons.fileupload.FileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest, String)), you may
+ * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
  * either request all contents of file at once using {@link #get()} or
- * request an {@link java.io.InputStream InputStream} with {@link #getStream()}
+ * request an {@link java.io.InputStream InputStream} with {@link #getInputStream()}
  * and process the file without attempting to load it into memory, which
  * may come handy with large files.
  *
@@ -94,7 +94,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileItem.java,v 1.5 2002/07/19 03:56:51 martinc Exp $
+ * @version $Id: FileItem.java,v 1.6 2002/07/22 07:21:54 martinc Exp $
  */
 public interface FileItem
 {

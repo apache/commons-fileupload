@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.4 2002/07/19 03:56:51 martinc Exp $
- * $Revision: 1.4 $
- * $Date: 2002/07/19 03:56:51 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.5 2002/07/22 07:21:54 martinc Exp $
+ * $Revision: 1.5 $
+ * $Date: 2002/07/22 07:21:54 $
  *
  * ====================================================================
  *
@@ -126,7 +126,7 @@ import java.io.OutputStream;
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: MultipartStream.java,v 1.4 2002/07/19 03:56:51 martinc Exp $
+ * @version $Id: MultipartStream.java,v 1.5 2002/07/22 07:21:54 martinc Exp $
  */
 public class MultipartStream
 {
@@ -136,7 +136,7 @@ public class MultipartStream
 
     /**
      * The maximum length of <code>header-part</code> that will be
-     * processed. (10 kilobytes = 10240 bytes.)
+     * processed (10 kilobytes = 10240 bytes.).
      */
     public static final int HEADER_PART_SIZE_MAX = 10240;
 
