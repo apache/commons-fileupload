@@ -13,7 +13,7 @@
   <inceptionYear>2002</inceptionYear>
   <package>org.apache.commons.fileupload</package>
   <gumpRepositoryId>jakarta</gumpRepositoryId>
-  <shortDescription>File upload component.</shortDescription>
+  <shortDescription>Commons File Upload</shortDescription>
 
   <description>
     File upload component.
@@ -26,7 +26,7 @@
 
   <repository>
     <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic/jakarta-commons-sandbox/fileupload/</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/jdbc2pool/</url>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/fileupload/</url>
   </repository>
 
   <mailingLists>
@@ -63,6 +63,12 @@
       <email>jason@zenplex.com</email>
       <organization>Zenplex</organization>
     </developer>
+    <developer>
+      <name>Martin Cooper</name>
+      <id>martinc</id>
+      <email>martin.cooper@tumbleweed.com</email>
+      <organization>Tumbleweed Communications</organization>
+    </developer>
   </developers>
   
   <dependencies>
@@ -70,6 +76,10 @@
       <id>jaf</id>
       <version>1.0.1</version>
       <jar>activation-1.0.1.jar</jar>
+    </dependency>
+    <dependency>
+      <id>junit</id>
+      <version>3.7</version>
     </dependency>
     <dependency>
       <id>servletapi</id>
