@@ -48,7 +48,7 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.14 2004/12/12 17:21:41 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.15 2004/12/20 16:13:42 martinc Exp $
  */
 public abstract class FileUploadBase {
 
@@ -301,13 +301,13 @@ public abstract class FileUploadBase {
 
         if (requestSize == -1) {
             throw new UnknownSizeException(
-                "the request was rejected because it's size is unknown");
+                "the request was rejected because its size is unknown");
         }
 
         if (sizeMax >= 0 && requestSize > sizeMax) {
             throw new SizeLimitExceededException(
                 "the request was rejected because "
-                + "it's size exceeds allowed range");
+                + "its size exceeds allowed range");
         }
 
         try {
