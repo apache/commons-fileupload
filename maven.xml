@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<project default="java:jar"
+<project default="jar:jar"
   xmlns:j="jelly:core">
 
   <!-- ================================================================== -->
