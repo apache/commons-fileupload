@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/Attic/ThresholdingOutputStream.java,v 1.2 2003/05/03 04:47:38 martinc Exp $
- * $Revision: 1.2 $
- * $Date: 2003/05/03 04:47:38 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/Attic/ThresholdingOutputStream.java,v 1.3 2003/05/31 22:31:08 martinc Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/05/31 22:31:08 $
  *
  * ====================================================================
  *
@@ -82,7 +82,7 @@ import java.io.OutputStream;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: ThresholdingOutputStream.java,v 1.2 2003/05/03 04:47:38 martinc Exp $
+ * @version $Id: ThresholdingOutputStream.java,v 1.3 2003/05/31 22:31:08 martinc Exp $
  */
 public abstract class ThresholdingOutputStream
     extends OutputStream
@@ -132,7 +132,7 @@ public abstract class ThresholdingOutputStream
      *
      * @param b The byte to be written.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     public void write(int b) throws IOException
     {
@@ -148,7 +148,7 @@ public abstract class ThresholdingOutputStream
      *
      * @param b The array of bytes to be written.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     public void write(byte b[]) throws IOException
     {
@@ -166,7 +166,7 @@ public abstract class ThresholdingOutputStream
      * @param off The start offset in the byte array.
      * @param len The number of bytes to write.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     public void write(byte b[], int off, int len) throws IOException
     {
@@ -180,7 +180,7 @@ public abstract class ThresholdingOutputStream
      * Flushes this output stream and forces any buffered output bytes to be
      * written out.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     public void flush() throws IOException
     {
@@ -192,7 +192,7 @@ public abstract class ThresholdingOutputStream
      * Closes this output stream and releases any system resources associated
      * with this stream.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     public void close() throws IOException
     {
@@ -257,7 +257,7 @@ public abstract class ThresholdingOutputStream
      * @param count The number of bytes about to be written to the underlying
      *              output stream.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     protected void checkThreshold(int count) throws IOException
     {
@@ -278,7 +278,7 @@ public abstract class ThresholdingOutputStream
      *
      * @return The underlying output stream.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     protected abstract OutputStream getStream() throws IOException;
 
@@ -288,7 +288,7 @@ public abstract class ThresholdingOutputStream
      * subclass should take whatever action necessary on this event. This may
      * include changing the underlying output stream.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     protected abstract void thresholdReached() throws IOException;
 }

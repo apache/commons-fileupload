@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DiskFileUpload.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DiskFileUpload.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/05/31 22:31:08 $
  *
  * ====================================================================
  *
@@ -89,7 +89,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DiskFileUpload.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: DiskFileUpload.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
  */
 public class DiskFileUpload
     extends FileUploadBase
@@ -101,7 +101,7 @@ public class DiskFileUpload
     /**
      * The factory to use to create new form items.
      */
-    protected DefaultFileItemFactory fileItemFactory;
+    private DefaultFileItemFactory fileItemFactory;
 
 
     // ----------------------------------------------------------- Constructors
@@ -149,12 +149,10 @@ public class DiskFileUpload
 
     /**
      * Sets the factory class to use when creating file items. The factory must
-     * be instance of <code>DefaultFileItemFactory</code> or a subclass thereof.
+     * be an instance of <code>DefaultFileItemFactory</code> or a subclass
+     * thereof, or else a <code>ClassCastException</code> will be thrown.
      *
      * @param factory The factory class for new file items.
-     *
-     * @exception ClassCastException if the factory is not of an appropriate
-     *                               type.
      */
     public void setFileItemFactory(FileItemFactory factory)
     {

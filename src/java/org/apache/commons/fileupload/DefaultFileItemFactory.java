@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItemFactory.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItemFactory.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/05/31 22:31:08 $
  *
  * ====================================================================
  *
@@ -64,17 +64,15 @@ package org.apache.commons.fileupload;
 
 import java.io.File;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.DefaultFileItem;
-
 
 /**
- * <p>The default {@link org.apache.commons.fileupload.FileItemFactory} implementation. This implementation
- * creates {@link org.apache.commons.fileupload.FileItem} instances which keep their content either in memory,
- * for smaller items, or in a temporary file on disk, for larger items. The
- * size threshold, above which content will be stored on disk, is configurable,
- * as is the directory in which temporary files will be created.</p>
+ * <p>The default {@link org.apache.commons.fileupload.FileItemFactory}
+ * implementation. This implementation creates
+ * {@link org.apache.commons.fileupload.FileItem} instances which keep their
+ * content either in memory, for smaller items, or in a temporary file on disk,
+ * for larger items. The size threshold, above which content will be stored on
+ * disk, is configurable, as is the directory in which temporary files will be
+ * created.</p>
  *
  * <p>If not otherwise configured, the default configuration values are as
  * follows:
@@ -87,7 +85,7 @@ import org.apache.commons.fileupload.DefaultFileItem;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DefaultFileItemFactory.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: DefaultFileItemFactory.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
  */
 public class DefaultFileItemFactory implements FileItemFactory
 {
@@ -209,8 +207,9 @@ public class DefaultFileItemFactory implements FileItemFactory
     // --------------------------------------------------------- Public Methods
 
     /**
-     * Create a new {@link org.apache.commons.fileupload.DefaultFileItem} instance from the supplied
-     * parameters and the local factory configuration.
+     * Create a new {@link org.apache.commons.fileupload.DefaultFileItem}
+     * instance from the supplied parameters and the local factory
+     * configuration.
      *
      * @param fieldName   The name of the form field.
      * @param contentType The content type of the form field.
