@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.5 2002/07/17 01:17:06 martinc Exp $
- * $Revision: 1.5 $
- * $Date: 2002/07/17 01:17:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.6 2002/07/19 03:56:51 martinc Exp $
+ * $Revision: 1.6 $
+ * $Date: 2002/07/19 03:56:51 $
  *
  * ====================================================================
  *
@@ -70,25 +70,20 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
- * <p>High level api for processing file uploads.
+ * <p>High level API for processing file uploads.
  *
- * <p>This class handles multiple
- * files per single html widget, sent using multipar/mixed encoding
- * type, as specified by 
+ * <p>This class handles multiple files per single HTML widget, sent using
+ * <code>multipar/mixed</code> encoding type, as specified by 
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
- * #parseRequest(HttpServletRequest, String)} to
- * acquire a list of {@link
- * org.apache.commons.fileupload.FileItem}s associated with given
- * html widget.
+ * #parseRequest(HttpServletRequest, String)} to acquire a list of {@link
+ * org.apache.commons.fileupload.FileItem}s associated with a given HTML
+ * widget.
  *
- * <p> Files will be stored in temporary disk storage on in memory,
+ * <p> Files will be stored in temporary disk storage or in memory,
  * depending on request size, and will be available as {@link
  * org.apache.commons.fileupload.FileItem}s.
  *
@@ -96,106 +91,219 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id: FileUpload.java,v 1.5 2002/07/17 01:17:06 martinc Exp $
+ * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
+ *
+ * @version $Id: FileUpload.java,v 1.6 2002/07/19 03:56:51 martinc Exp $
  */
 public class FileUpload
 {
+
+    // ----------------------------------------------------- Manifest constants
+
+
     /**
-     * HTTP header.
+     * HTTP content type header name.
      */
     public static final String CONTENT_TYPE = "Content-type";
 
+
     /**
-     * HTTP header.
+     * HTTP content disposition header name.
      */
     public static final String CONTENT_DISPOSITION = "Content-disposition";
 
+
     /**
-     * Content-disposition value.
+     * Content-disposition value for form data.
      */
     public static final String FORM_DATA = "form-data";
 
+
     /**
-     * Content-disposition value.
+     * Content-disposition value for file attachment.
      */
     public static final String ATTACHMENT = "attachment";
 
-    /**
-     * Part of HTTP header.
-     */
-    private static final String MULTIPART =
-        "multipart/";
 
     /**
-     * HTTP header.
+     * Part of HTTP content type header.
      */
-    public static final String MULTIPART_FORM_DATA =
-        "multipart/form-data";
+    private static final String MULTIPART = "multipart/";
+
 
     /**
-     * HTTP header.
+     * HTTP content type header for multipart forms.
+     */
+    public static final String MULTIPART_FORM_DATA = "multipart/form-data";
+
+
+    /**
+     * HTTP content type header for multiple uploads.
      */
     public static final String MULTIPART_MIXED = "multipart/mixed";
 
+
     /**
-     * A maximum lenght of a single header line that will be
-     * parsed. (1024 bytes).
+     * The maximum length of a single header line that will be parsed.
+     * (1024 bytes).
      */
     public static final int MAX_HEADER_SIZE = 1024;
 
-    private int sizeMax;    
+
+    // ----------------------------------------------------------- Data members
+
+
+    /**
+     * The maximum size permitted for an uploaded file.
+     */
+    private int sizeMax;
+
+
+    /**
+     * The threshold above which uploads will be stored on disk.
+     */
     private int sizeThreshold;
+
+
+    /**
+     * The path to which uploaded files will be stored, if stored on disk.
+     */
     private String repositoryPath;
     
 
+    // ----------------------------------------------------- Property accessors
+
+
     /**
-     * <p> Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> 
-     * compliant <code>multipart/form-data</code> stream.  if files are
-     * stored on disk, the path is given by getRepository()
+     * Returns the maximum allowed upload size.
+     *
+     * @return The maximum allowed size, in bytes.
+     */
+    public int getSizeMax() 
+    {
+        return sizeMax;
+    }
+
+
+    /**
+     * Sets the maximum allowed upload size. If negative, there is no maximum.
+     *
+     * @param sizeMax The maximum allowed size, in bytes, or -1 for no maximum.
+     */
+    public void setSizeMax(int sizeMax) 
+    {
+        this.sizeMax = sizeMax;
+    }
+
+
+    /**
+     * Returns the size threshold beyond which files are written directly to
+     * disk. The default value is 1024 bytes.
+     *
+     * @return The size threshold, in bytes.
+     */
+    public int getSizeThreshold()
+    {
+        return sizeThreshold;
+    }
+
+
+    /**
+     * Sets the size threshold beyond which files are written directly to disk.
+     *
+     * @param sizeThreshold The size threshold, in bytes.
+     */
+    public void setSizeThreshold(int sizeThreshold) 
+    {
+        this.sizeThreshold = sizeThreshold;
+    }
+
+
+    /**
+     * Returns the location used to temporarily store files that are larger
+     * than the configured size threshold.
+     *
+     * @return The path to the temporary file location.
+     */
+    public String getRepositoryPath()
+    {
+        return repositoryPath;
+    }
+
+    /**
+     * Sets the location used to temporarily store files that are larger
+     * than the configured size threshold.
+     *
+     * @param repositoryPath The path to the temporary file location.
+     */
+    public void setRepositoryPath(String repositoryPath) 
+    {
+        this.repositoryPath = repositoryPath;
+    }
+
+
+    // --------------------------------------------------------- Public methods
+
+
+    /**
+     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant <code>multipart/form-data</code> stream. If files are stored
+     * on disk, the path is given by <code>getRepositoryPath()</code>.
      *
      * @param req The servlet request to be parsed.
-     * @exception FileUploadException If there are problems reading/parsing
-     * the request or storing files.
+     *
+     * @return A list of <code>FileItem</code> instances parsed from the
+     *         request, in the order that they were transmitted.
+     *
+     * @exception FileUploadException if there are problems reading/parsing
+     *                                the request or storing files.
      */
-    public List parseRequest(HttpServletRequest req)
+    public List /* FileItem */ parseRequest(HttpServletRequest req)
         throws FileUploadException
     {
         return parseRequest(req, getSizeThreshold(), getSizeMax(), 
                             getRepositoryPath());
     }
 
+
     /**
-     * <p> Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> 
-     * compliant <code>multipart/form-data</code> stream.
+     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant <code>multipart/form-data</code> stream. If files are stored
+     * on disk, the path is given by <code>getRepositoryPath()</code>.
      *
-     * @param req The servlet request to be parsed.
-     * @param sizeThreshold the max size in bytes to be stored in memory
-     * @param sizeMax the maximum allowed upload size in bytes
-     * @param path The location where the files should be stored.
-     * @exception FileUploadException If there are problems reading/parsing
-     * the request or storing files.
+     * @param req           The servlet request to be parsed.
+     * @param sizeThreshold The max size in bytes to be stored in memory.
+     * @param sizeMax       The maximum allowed upload size, in bytes.
+     * @param path          The location where the files should be stored.
+     *
+     * @return A list of <code>FileItem</code> instances parsed from the
+     *         request, in the order that they were transmitted.
+     *
+     * @exception FileUploadException if there are problems reading/parsing
+     *                                the request or storing files.
      */
-    public List parseRequest(HttpServletRequest req, int sizeThreshold, 
-                             int sizeMax, String path)
+    public List /* FileItem */ parseRequest(HttpServletRequest req,
+                                            int sizeThreshold, 
+                                            int sizeMax, String path)
         throws FileUploadException
     {
         ArrayList items = new ArrayList();
         String contentType = req.getHeader(CONTENT_TYPE);
 
-        if(!contentType.startsWith(MULTIPART))
+        if (!contentType.startsWith(MULTIPART))
         {
             throw new FileUploadException("the request doesn't contain a " +
                 MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED + " stream");
         }
         int requestSize = req.getContentLength();
 
-        if(requestSize == -1)
+        if (requestSize == -1)
         {
             throw new FileUploadException("the request was rejected because " +
                 "it's size is unknown");
         }
 
-        if(sizeMax >= 0 && requestSize > sizeMax)
+        if (sizeMax >= 0 && requestSize > sizeMax)
         {
             throw new FileUploadException("the request was rejected because " +
                 "it's size exceeds allowed range");
@@ -204,13 +312,13 @@ public class FileUpload
         try
         {
             byte[] boundary = contentType.substring(
-                contentType.indexOf("boundary=")+9).getBytes();
+                contentType.indexOf("boundary=") + 9).getBytes();
 
-            InputStream input = (InputStream)req.getInputStream();
+            InputStream input = (InputStream) req.getInputStream();
 
             MultipartStream multi = new MultipartStream(input, boundary);
             boolean nextPart = multi.skipPreamble();
-            while(nextPart)
+            while (nextPart)
             {
                 Map headers = parseHeaders(multi.readHeaders());
                 String fieldName = getFieldName(headers);
@@ -224,7 +332,7 @@ public class FileUpload
                         byte[] subBoundary =
                             subContentType.substring(
                                 subContentType
-                                .indexOf("boundary=")+9).getBytes();
+                                .indexOf("boundary=") + 9).getBytes();
                         multi.setBoundary(subBoundary);
                         boolean nextSubPart = multi.skipPreamble();
                         while (nextSubPart)
@@ -236,7 +344,7 @@ public class FileUpload
                                     createItem(sizeThreshold, path,
                                                headers, requestSize);
                                 OutputStream os = 
-                                    ((DefaultFileItem)item).getOutputStream();
+                                    ((DefaultFileItem) item).getOutputStream();
                                 try
                                 {
                                     multi.readBodyData(os);
@@ -267,7 +375,7 @@ public class FileUpload
                                                        path, headers,
                                                        requestSize);
                             OutputStream os = 
-                                ((DefaultFileItem)item).getOutputStream();
+                                ((DefaultFileItem) item).getOutputStream();
                             try
                             {
                                 multi.readBodyData(os);
@@ -286,7 +394,7 @@ public class FileUpload
                                                        path, headers,
                                                        requestSize);
                             OutputStream os = 
-                                ((DefaultFileItem)item).getOutputStream();
+                                ((DefaultFileItem) item).getOutputStream();
                             try
                             {
                                 multi.readBodyData(os);
@@ -309,31 +417,37 @@ public class FileUpload
                 nextPart = multi.readBoundary();
             }
         }
-        catch(IOException e)
+        catch (IOException e)
         {
             throw new FileUploadException(
                 "Processing of " + MULTIPART_FORM_DATA +
-                    " request failed. " + e.getMessage() );
+                    " request failed. " + e.getMessage());
         }
 
         return items;
     }
 
+
+    // ------------------------------------------------------ Protected methods
+
+
     /**
-     * <p> Retrieves file name from <code>Content-disposition</code> header.
+     * Retrieves the file name from the <code>Content-disposition</code>
+     * header.
      *
-     * @param headers The HTTP request headers.
-     * @return A the file name for the current <code>encapsulation</code>.
+     * @param headers A <code>Map</code> containing the HTTP request headers.
+     *
+     * @return The file name for the current <code>encapsulation</code>.
      */
-    protected String getFileName(Map headers)
+    protected String getFileName(Map /* String, String */ headers)
     {
         String fileName = null;
         String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if(cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT))
+        if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT))
         {
             int start = cd.indexOf("filename=\"");
             int end = cd.indexOf('"', start + 10);
-            if(start != -1 && end != -1 && (start + 10) != end)
+            if (start != -1 && end != -1 && (start + 10) != end)
             {
                 String str = cd.substring(start + 10, end).trim();
                 if (str.length() > 0)
@@ -345,21 +459,24 @@ public class FileUpload
         return fileName;
     }
 
+
     /**
-     * <p> Retrieves field name from <code>Content-disposition</code> header.
+     * Retrieves the field name from the <code>Content-disposition</code>
+     * header.
      *
-     * @param headers The HTTP request headers.
+     * @param headers A <code>Map</code> containing the HTTP request headers.
+     *
      * @return The field name for the current <code>encapsulation</code>.
      */
-    protected String getFieldName(Map headers)
+    protected String getFieldName(Map /* String, String */ headers)
     {
         String fieldName = null;
         String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if(cd != null && cd.startsWith(FORM_DATA))
+        if (cd != null && cd.startsWith(FORM_DATA))
         {
             int start = cd.indexOf("name=\"");
             int end = cd.indexOf('"', start + 6);
-            if(start != -1 && end != -1)
+            if (start != -1 && end != -1)
             {
                 fieldName = cd.substring(start + 6, end);
             }
@@ -367,23 +484,27 @@ public class FileUpload
         return fieldName;
     }
 
+
     /**
-     * <p> Creates a new instance of {@link
-     * org.apache.commons.fileupload.FileItem}.
+     * Creates a new {@link org.apache.commons.fileupload.FileItem} instance.
      *
-     * @param path The path for the FileItem.
-     * @param headers The HTTP request headers.
-     * @param requestSize The size of the request.
-     * @return A newly created <code>FileItem</code>.
+     * @param sizeThreshold The max size in bytes to be stored in memory.
+     * @param path          The path for the FileItem.
+     * @param headers       A <code>Map</code> containing the HTTP request
+     *                      headers.
+     * @param requestSize   The total size of the request, in bytes.
+     *
+     * @return A newly created <code>FileItem</code> instance.
      */
-    protected FileItem createItem( int sizeThreshold, 
-                                   String path,
-                                   Map headers,
-                                   int requestSize )
+    protected FileItem createItem(int sizeThreshold, 
+                                  String path,
+                                  Map /* String, String */ headers,
+                                  int requestSize)
     {
         return DefaultFileItem.newInstance(path, getFileName(headers),
             getHeader(headers, CONTENT_TYPE), requestSize, sizeThreshold);
     }
+
 
     /**
      * <p> Parses the <code>header-part</code> and returns as key/value
@@ -393,10 +514,11 @@ public class FileUpload
      * will map to a comma-separated list containing the values.
      *
      * @param headerPart The <code>header-part</code> of the current
-     * <code>encapsulation</code>.
-     * @return The parsed HTTP request headers.
+     *                   <code>encapsulation</code>.
+     *
+     * @return A <code>Map</code> containing the parsed HTTP request headers.
      */
-    protected Map parseHeaders( String headerPart )
+    protected Map /* String, String */ parseHeaders(String headerPart)
     {
         Map headers = new HashMap();
         char buffer[] = new char[MAX_HEADER_SIZE];
@@ -408,14 +530,14 @@ public class FileUpload
         {
             while (!done)
             {
-                i=0;
+                i = 0;
                 // Copy a single line of characters into the buffer,
                 // omitting trailing CRLF.
-                while (i<2 || buffer[i-2] != '\r' || buffer[i-1] != '\n')
+                while (i < 2 || buffer[i - 2] != '\r' || buffer[i - 1] != '\n')
                 {
                     buffer[i++] = headerPart.charAt(j++);
                 }
-                header = new String(buffer, 0, i-2);
+                header = new String(buffer, 0, i - 2);
                 if (header.equals(""))
                 {
                     done = true;
@@ -446,7 +568,7 @@ public class FileUpload
                 }
             }
         }
-        catch(IndexOutOfBoundsException e)
+        catch (IndexOutOfBoundsException e)
         {
             // Headers were malformed. continue with all that was
             // parsed.
@@ -454,74 +576,21 @@ public class FileUpload
         return headers;
     }
 
+
     /**
-     * <p> Returns a header with specified name.
+     * Returns the header with the specified name from the supplied map. The
+     * header lookup is case-insensitive.
      *
-     * @param headers The HTTP request headers.
-     * @param name The name of the header to fetch.
-     * @return The value of specified header, or a comma-separated
-     * list if there were multiple headers of that name.
+     * @param headers A <code>Map</code> containing the HTTP request headers.
+     * @param name    The name of the header to return.
+     *
+     * @return The value of specified header, or a comma-separated list if
+     *         there were multiple headers of that name.
      */
-    protected final String getHeader( Map headers, String name )
+    protected final String getHeader(Map /* String, String */ headers,
+                                     String name)
     {
-        return (String)headers.get(name.toLowerCase());
+        return (String) headers.get(name.toLowerCase());
     }
 
-    // -------------------------------------------------------------------
-    // properties
-
-    /**
-     * The maximum allowed upload size
-     */
-    public int getSizeMax() 
-    {
-        return sizeMax;
-    }
-    
-    /**
-     * The maximum allowed upload size.  If negative there is no
-     * maximum.
-     */
-    public void setSizeMax(int  v) 
-    {
-        this.sizeMax = v;
-    }
-    
-
-    /**
-     * The threshold beyond which files are written directly to disk.
-     * Default is 1024 bytes.
-     */
-    public int getSizeThreshold()
-    {
-        return sizeThreshold;
-    }
-
-    
-    /**
-     * The threshold beyond which files are written directly to disk.
-     * Default is 1024 bytes.
-     */
-    public void setSizeThreshold(int  v) 
-    {
-        this.sizeThreshold = v;
-    }
-    
-    /**
-     * The location used to temporarily store files that are larger
-     * than the size threshold.
-     */
-    public String getRepositoryPath()
-    {
-        return repositoryPath;
-    }
-    
-    /**
-     * The location used to temporarily store files that are larger
-     * than the size threshold.
-     */
-    public void setRepositoryPath(String  v) 
-    {
-        this.repositoryPath = v;
-    }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.8 2002/07/17 05:14:14 martinc Exp $
- * $Revision: 1.8 $
- * $Date: 2002/07/17 05:14:14 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.9 2002/07/19 03:56:51 martinc Exp $
+ * $Revision: 1.9 $
+ * $Date: 2002/07/19 03:56:51 $
  *
  * ====================================================================
  *
@@ -70,64 +70,91 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.OutputStream;
 
-import javax.activation.DataSource;
 
 /**
- * <p> The implementation of 
+ * <p> The default mplementation of the
  * {@link org.apache.commons.fileupload.FileItem FileItem} interface.
  *
- * <p> After retrieving an instance of this class from the {@link
- * org.apache.commons.fileupload.FileUpload FileUpload} (see
+ * <p> After retrieving an instance of this class from a {@link
+ * org.apache.commons.fileupload.FileUpload FileUpload} instance (see
  * {@link org.apache.commons.fileupload.FileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest, String)
- * You may either request all
- * contents of file at once using {@link #get()} or request an {@link
- * java.io.InputStream InputStream} with {@link #getStream()} and
- * process the file without attempting to load it into memory, which
+ * #parseRequest(javax.servlet.http.HttpServletRequest, String)), you may
+ * either request all contents of file at once using {@link #get()} or
+ * request an {@link java.io.InputStream InputStream} with {@link #getStream()}
+ * and process the file without attempting to load it into memory, which
  * may come handy with large files.
- *
- * Implements the javax.activation.DataSource interface (which allows
- * for example the adding of a FileItem as an attachment to a multipart
- * email).
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
- * @version $Id: DefaultFileItem.java,v 1.8 2002/07/17 05:14:14 martinc Exp $
+ * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
+ *
+ * @version $Id: DefaultFileItem.java,v 1.9 2002/07/19 03:56:51 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
 {
-    protected static int counter = 0;
 
-    /** The original filename in the user's filesystem. */
-    protected String fileName;
+    // ----------------------------------------------------------- Data members
+
 
     /**
-     * The content type passed by the browser or <code>null</code> if
+     * Counter used in unique identifier generation.
+     */
+    private static int counter = 0;
+
+
+    /**
+     * The original filename in the user's filesystem.
+     */
+    private String fileName;
+
+
+    /**
+     * The content type passed by the browser, or <code>null</code> if
      * not defined.
      */
-    protected String contentType;
+    private String contentType;
 
-    /** Cached contents of the file. */
-    protected byte[] content;
 
-    /** Temporary storage location. */
-    protected File storeLocation;
+    /**
+     * Cached contents of the file.
+     */
+    private byte[] content;
 
-    /** Temporary storage for in-memory files. */
-    protected ByteArrayOutputStream byteStream;
 
-    protected String fieldName;
+    /**
+     * Temporary storage location on disk.
+     */
+    private File storeLocation;
 
-    protected boolean isFormField;
+
+    /**
+     * Temporary storage for in-memory files.
+     */
+    private ByteArrayOutputStream byteStream;
+
+
+    /**
+     * The name of the form field as provided by the browser.
+     */
+    private String fieldName;
+
+
+    /**
+     * Whether or not this item is a simple form field.
+     */
+    private boolean isFormField;
+
+
+    // ----------------------------------------------------------- Constructors
+
 
     /**
      * Default constructor.
@@ -136,79 +163,107 @@ public class DefaultFileItem
     {
     }
 
-    public void setFieldName(String fieldName)
-    {
-        this.fieldName = fieldName;
-    }
-
-    public String getFieldName()
-    {
-        return fieldName;
-    }
 
     /**
-     * Constructs a new <code>DefaultFileItem</code>.
+     * Constructs a new <code>DefaultFileItem</code> instance.
      *
      * <p>Use {@link #newInstance(String,String,String,int,int)} to
-     * instantiate <code>DefaultFileItems</code>.
+     * instantiate <code>DefaultFileItem</code>s.
      *
      * @param fileName The original filename in the user's filesystem.
      * @param contentType The content type passed by the browser or
      * <code>null</code> if not defined.
      */
-    protected DefaultFileItem( String fileName, String contentType )
+    protected DefaultFileItem(String fileName, String contentType)
     {
         this.fileName = fileName;
         this.contentType = contentType;
     }
 
+
+    // ------------------------------- Methods from javax.activation.DataSource
+
+
     /**
-     * Returns the original filename in the user's filesystem.
-     * (implements DataSource method)
+     * Returns an {@link java.io.InputStream InputStream} that can be
+     * used to retrieve the contents of the file.
      *
-     * @return The original filename in the user's filesystem.
+     * @return An {@link java.io.InputStream InputStream} that can be
+     *         used to retrieve the contents of the file.
+     *
+     * @exception IOException if an error occurs.
+     */
+    public InputStream getInputStream()
+        throws IOException
+    {
+        if (content == null)
+        {
+            if (storeLocation != null)
+            {
+                return new FileInputStream(storeLocation);
+            }
+            else
+            {
+                content = byteStream.toByteArray();
+                byteStream = null;
+            }
+        }
+        return new ByteArrayInputStream(content);
+    }
+
+
+    /**
+     * Returns the content type passed by the browser or <code>null</code> if
+     * not defined.
+     *
+     * @return The content type passed by the browser or <code>null</code> if
+     *         not defined.
+     */
+    public String getContentType()
+    {
+        return contentType;
+    }
+
+
+    /**
+     * Returns the original filename in the client's filesystem.
+     *
+     * @return The original filename in the client's filesystem.
      */
     public String getName()
     {
         return fileName;
     }
 
-    /**
-    * Returns the content type passed by the browser or
-    * <code>null</code> if not defined. (implements
-    * DataSource method).
-    *
-    * @return The content type passed by the browser or
-    * <code>null</code> if not defined.
-    */
-    public String getContentType()
-    {
-        return contentType;
-    }
+
+    // ------------------------------------------------------- FileItem methods
+
 
     /**
-     * Provides a hint if the file contents will be read from memory.
-     *
-     * @return <code>True</code> if the file contents will be read
+     * Provides a hint as to whether or not the file contents will be read
      * from memory.
+     *
+     * @return <code>true</code> if the file contents will be read
+     *         from memory.
      */
-    public boolean inMemory()
+    public boolean isInMemory()
     {
         return (content != null || byteStream != null);
     }
 
+
     /**
      * Returns the size of the file.
      *
-     * @return The size of the file.
+     * @return The size of the file, in bytes.
      */
     public long getSize()
     {
-        if(storeLocation != null)
+        if (storeLocation != null)
         {
             return storeLocation.length();
         }
-        else if(byteStream != null)
+        else if (byteStream != null)
         {
             return byteStream.size();
         }
@@ -218,20 +273,21 @@ public class DefaultFileItem
         }
     }
 
+
     /**
      * Returns the contents of the file as an array of bytes.  If the
-     * contents of the file were not yet cached int the memory, they
-     * will be loaded from the disk storage and chached.
+     * contents of the file were not yet cached in memory, they will be
+     * loaded from the disk storage and cached.
      *
      * @return The contents of the file as an array of bytes.
      */
     public byte[] get()
     {
-        if(content == null)
+        if (content == null)
         {
-            if(storeLocation != null)
+            if (storeLocation != null)
             {
-                content = new byte[(int)getSize()];
+                content = new byte[(int) getSize()];
                 try
                 {
                     FileInputStream fis = new FileInputStream(storeLocation);
@@ -252,156 +308,72 @@ public class DefaultFileItem
         return content;
     }
 
+
     /**
-     * Returns the contents of the file as a String, using specified
-     * encoding.  This method uses {@link #get()} to retireve the
-     * contents of the file.<br>
+     * Returns the contents of the file as a String, using the specified
+     * encoding.  This method uses {@link #get()} to retrieve the
+     * contents of the file.
      *
-     * @param encoding The encoding to use.
-     * @return The contents of the file.
-     * @exception UnsupportedEncodingException.
+     * @param encoding The character encoding to use.
+     *
+     * @return The contents of the file, as a string.
+     *
+     * @exception UnsupportedEncodingException if the requested character
+     *                                         encoding is not available.
      */
-    public String getString( String encoding )
+    public String getString(String encoding)
         throws UnsupportedEncodingException
     {
         return new String(get(), encoding);
     }
 
+
+    /**
+     * Returns the contents of the file as a String, using the default
+     * character encoding.  This method uses {@link #get()} to retrieve the
+     * contents of the file.
+     *
+     * @return The contents of the file, as a string.
+     */
     public String getString()
     {
         return new String(get());
     }
 
-    /**
-     * Returns an {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file. (implements DataSource
-     * method)
-     *
-     * @return An {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
-     * @exception Exception, a generic exception.
-     */
-    public InputStream getInputStream()
-        throws IOException
-    {
-        if(content == null)
-        {
-            if(storeLocation != null)
-            {
-                return new FileInputStream(storeLocation);
-            }
-            else
-            {
-                content = byteStream.toByteArray();
-                byteStream = null;
-            }
-        }
-        return new ByteArrayInputStream(content);
-    }
 
     /**
-     * Returns the {@link java.io.File} objects for the DefaultFileItems's
-     * data temporary location on the disk.  Note that for
-     * <code>DefaultFileItems</code> that have their data stored in memory
-     * this method will return <code>null</code>.  When handling large
+     * Returns the {@link java.io.File} object for the <code>FileItem</code>'s
+     * data's temporary location on the disk. Note that for
+     * <code>FileItem</code>s that have their data stored in memory,
+     * this method will return <code>null</code>. When handling large
      * files, you can use {@link java.io.File#renameTo(File)} to
      * move the file to new location without copying the data, if the
      * source and destination locations reside within the same logical
      * volume.
      *
-     * @return A File.
+     * @return The data file, or <code>null</code> if the data is stored in
+     *         memory.
      */
     public File getStoreLocation()
     {
         return storeLocation;
     }
 
-    /**
-     * Removes the file contents from the temporary storage.
-     */
-    protected void finalize()
-    {
-        if(storeLocation != null && storeLocation.exists())
-        {
-            storeLocation.delete();
-        }
-    }
 
     /**
-     * Returns an {@link java.io.OutputStream OutputStream} that can
-     * be used for storing the contents of the file.
-     * (implements DataSource method)
+     * A convenience method to write an uploaded file to disk. The client code
+     * is not concerned whether or not the file is stored in memory, or on disk
+     * in a temporary location. They just want to write the uploaded file to
+     * disk.
      *
-     * @return an {@link java.io.OutputStream OutputStream} that can be
-     * used for storing the contensts of the file.
-     * @exception IOException.
-     */
-    public OutputStream getOutputStream()
-        throws IOException
-    {
-        if(storeLocation == null)
-        {
-            return byteStream;
-        }
-        else
-        {
-            return new FileOutputStream(storeLocation);
-        }
-    }
-
-    /**
-     * Instantiates a DefaultFileItem.  It uses <code>requestSize</code> to
-     * decide what temporary storage approach the new item should
-     * take.  The largest request that will have its items cached in
-     * memory can be configured in
-     * <code>TurbineResources.properties</code> in the entry named
-     * <code>file.upload.size.threshold</code>
+     * @param file The full path to location where the uploaded file should
+     *             be stored.
      *
-     * @param path A String.
-     * @param name The original filename in the user's filesystem.
-     * @param contentType The content type passed by the browser or
-     * <code>null</code> if not defined.
-     * @param requestSize The total size of the POST request this item
-     * belongs to.
-     * @param threshold The maximum size to store in memory.
-     * @return A DefaultFileItem.
-     */
-    public static FileItem newInstance(String path,
-                                       String name,
-                                       String contentType,
-                                       int requestSize,
-                                       int threshold)
-    {
-        DefaultFileItem item = new DefaultFileItem(name, contentType);
-        if(requestSize > threshold)
-        {
-            String fileName = getUniqueId();
-            fileName = "upload_" + fileName + ".tmp";
-            fileName = path + "/" + fileName;
-            File f = new File(fileName);
-            f.deleteOnExit();
-            item.storeLocation = f;
-        }
-        else
-        {
-            item.byteStream = new ByteArrayOutputStream();
-        }
-        return item;
-    }
-
-    /**
-     * A convenience method to write an uploaded
-     * file to disk. The client code is not concerned
-     * whether or not the file is stored in memory,
-     * or on disk in a temporary location. They just
-     * want to write the uploaded file to disk.
-     *
-     * @param String full path to location where uploaded
-     *               should be stored.
+     * @exception Exception if an error occurs.
      */
     public void write(String file) throws Exception
     {
-        if (inMemory())
+        if (isInMemory())
         {
             FileOutputStream fout = null;
             try
@@ -435,9 +407,9 @@ public class DefaultFileItem
                     out = new BufferedOutputStream(new FileOutputStream(file));
                     byte[] bytes = new byte[2048];
                     int s = 0;
-                    while ( (s = in.read(bytes)) != -1 )
+                    while ((s = in.read(bytes)) != -1)
                     {
-                        out.write(bytes,0,s);
+                        out.write(bytes, 0, s);
                     }
                 }
                 finally
@@ -472,35 +444,164 @@ public class DefaultFileItem
         }
     }
 
-    public void setIsFormField(boolean state)
+
+    /**
+     * Deletes the underlying storage for a file item, including deleting any
+     * associated temporary disk file. Although this storage will be deleted
+     * automatically when the <code>FileItem</code> instance is garbage
+     * collected, this method can be used to ensure that this is done at an
+     * earlier time, thus preserving system resources.
+     */
+    public void delete()
     {
-        isFormField = state;
+        byteStream = null;
+        content = null;
+        if (storeLocation != null && storeLocation.exists())
+        {
+            storeLocation.delete();
+        }
     }
 
+
+    /**
+     * Returns the name of the field in the multipart form corresponding to
+     * this file item.
+     *
+     * @return The name of the form field.
+     */
+    public String getFieldName()
+    {
+        return fieldName;
+    }
+
+
+    /**
+     * Sets the field name used to reference this file item.
+     *
+     * @param fieldName The name of the form field.
+     */
+    public void setFieldName(String fieldName)
+    {
+        this.fieldName = fieldName;
+    }
+
+
+    /**
+     * Determines whether or not a <code>FileItem</code> instance represents
+     * a simple form field.
+     *
+     * @return <code>true</code> if the instance represents a simple form
+     *         field; <code>false</code> if it represents an uploaded file.
+     */
     public boolean isFormField()
     {
         return isFormField;
     }
 
-    public void delete() {
-        byteStream = null;
-        content = null;
-        if (storeLocation != null && storeLocation.exists()) {
+
+    /**
+     * Specifies whether or not a <code>FileItem</code> instance represents
+     * a simple form field.
+     *
+     * @param state <code>true</code> if the instance represents a simple form
+     *              field; <code>false</code> if it represents an uploaded file.
+     */
+    public void setIsFormField(boolean state)
+    {
+        isFormField = state;
+    }
+
+
+    // --------------------------------------------------------- Public methods
+
+
+    /**
+     * Removes the file contents from the temporary storage.
+     */
+    protected void finalize()
+    {
+        if (storeLocation != null && storeLocation.exists())
+        {
             storeLocation.delete();
         }
     }
 
+
     /**
-     * <p> Returns an identifier that is unique within this turbine
-     * instance, but does not have random-like apearance.
+     * Returns an {@link java.io.OutputStream OutputStream} that can
+     * be used for storing the contents of the file.
      *
-     * @return A String with the non-random looking instance
-     * identifier.
+     * @return An {@link java.io.OutputStream OutputStream} that can be used
+     *         for storing the contensts of the file.
+     *
+     * @exception IOException if an error occurs.
+     */
+    public OutputStream getOutputStream()
+        throws IOException
+    {
+        if (storeLocation == null)
+        {
+            return byteStream;
+        }
+        else
+        {
+            return new FileOutputStream(storeLocation);
+        }
+    }
+
+
+    /**
+     * Instantiates a DefaultFileItem. It uses <code>requestSize</code> to
+     * decide what temporary storage approach the new item should take.
+     *
+     * @param path        The path under which temporary files should be
+     *                    created.
+     * @param name        The original filename in the client's filesystem.
+     * @param contentType The content type passed by the browser, or
+     *                    <code>null</code> if not defined.
+     * @param requestSize The total size of the POST request this item
+     *                    belongs to.
+     * @param threshold   The maximum size to store in memory.
+     *
+     * @return A <code>DefaultFileItem</code> instance.
+     */
+    public static FileItem newInstance(String path,
+                                       String name,
+                                       String contentType,
+                                       int requestSize,
+                                       int threshold)
+    {
+        DefaultFileItem item = new DefaultFileItem(name, contentType);
+        if (requestSize > threshold)
+        {
+            String fileName = getUniqueId();
+            fileName = "upload_" + fileName + ".tmp";
+            fileName = path + "/" + fileName;
+            File f = new File(fileName);
+            f.deleteOnExit();
+            item.storeLocation = f;
+        }
+        else
+        {
+            item.byteStream = new ByteArrayOutputStream();
+        }
+        return item;
+    }
+
+
+    // -------------------------------------------------------- Private methods
+
+
+    /**
+     * Returns an identifier that is unique within the class loader used to 
+     * load this class, but does not have random-like apearance.
+     *
+     * @return A String with the non-random looking instance identifier.
      */
     private static String getUniqueId()
     {
         int current;
-        synchronized(DefaultFileItem.class)
+        synchronized (DefaultFileItem.class)
         {
             current = counter++;
         }
@@ -508,10 +609,11 @@ public class DefaultFileItem
 
         // If you manage to get more than 100 million of ids, you'll
         // start getting ids longer than 8 characters.
-        if(current < 100000000)
+        if (current < 100000000)
         {
-            id = ("00000000"+id).substring(id.length());
+            id = ("00000000" + id).substring(id.length());
         }
         return id;
     }
+
 }
