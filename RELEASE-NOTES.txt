@@ -1,21 +1,24 @@
-$Id: RELEASE-NOTES.txt,v 1.1 2002/03/24 07:05:13 jmcnally Exp $
+$Id: RELEASE-NOTES.txt,v 1.2 2003/02/11 07:07:31 martinc Exp $
 
-			Commons FileUpload Package
-			   Version 1.0-dev
-			    Release Notes
+                           Commons FileUpload Package
+                               Version 1.0 Beta 1
+                                 Release Notes
 
 
-INTRODUCTION:
+INTRODUCTION
+============
 
 This document contains the release notes for this version of the Commons
-FileUpload package, and highlights changes since the previous version.  The
-current release adds new features and bug fixes, and is being done now to
-follow the release early/release often mentality.
+FileUpload component, and highlights changes since the previous version.
 
 
-NEW FEATURES:
+NEW FEATURES
+============
+
+This is the first milestone release of this component.
 
 
-BUG FIXES:
+BUG FIXES
+=========
 
-
+Not applicable.
