@@ -26,7 +26,7 @@
 
   <repository>
     <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic/jakarta-commons-sandbox/fileupload/</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-turbine-3/</url>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/jdbc2pool/</url>
   </repository>
 
   <mailingLists>
