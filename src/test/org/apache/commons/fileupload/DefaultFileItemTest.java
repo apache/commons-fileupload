@@ -44,7 +44,7 @@ public class DefaultFileItemTest extends TestCase
     private static final String fileContentType = "application/octet-stream";
 
     /**
-     * Very low threshold for testing memory vs. disk options.
+     * Very low threshold for testing memory versus disk options.
      */
     private static final int threshold = 16;
 
