@@ -77,7 +77,7 @@
     <copy todir="dist">
       <fileset dir="${defaulttargetdir}" includes="*.jar">
       </fileset>
-      <fileset dir="${basedir}" includes="LICENSE*, README*">
+      <fileset dir="${basedir}" includes="LICENSE*, NOTICE*, README*">
       </fileset>
     </copy>
   </target>
