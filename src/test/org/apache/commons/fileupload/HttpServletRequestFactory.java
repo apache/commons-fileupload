@@ -30,7 +30,7 @@ final class HttpServletRequestFactory
 	static public HttpServletRequest createHttpServletRequestWithNullContentType()
 	{
 		byte[] requestData = "foobar".getBytes();
-		return new MyHttpServletRequest(
+		return new MockHttpServletRequest(
 							requestData,
 							null);
 	}
@@ -50,7 +50,7 @@ final class HttpServletRequestFactory
 		byte[] requestData = null;
 		requestData = sbRequestData.toString().getBytes();
 
-		return new MyHttpServletRequest(
+		return new MockHttpServletRequest(
 							requestData,
 							FileUploadBase.MULTIPART_FORM_DATA);
 	}
@@ -58,7 +58,7 @@ final class HttpServletRequestFactory
 	static public HttpServletRequest createInvalidHttpServletRequest()
 	{
 		byte[] requestData = "foobar".getBytes();
-		return new MyHttpServletRequest(
+		return new MockHttpServletRequest(
 							requestData,
 							FileUploadBase.MULTIPART_FORM_DATA);
 	}
