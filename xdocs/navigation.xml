@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE project [
+<!ENTITY commons-nav SYSTEM "../incl_nav.xml">
+]>
+
 <project name="FileUpload">
 
   <title>FileUpload</title>
@@ -11,5 +16,7 @@
       <item name="Customizing"         href="/customizing.html"/>
       <item name="To Do List"          href="/tasks.html"/>
     </menu>
+
+    &commons-nav;
   </body>
 </project>
