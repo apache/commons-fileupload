@@ -59,9 +59,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
+ * <p>Low level api for processing file uploads.
+ *
  * This class can be used to process data streams conforming to MIME
- * 'multipart' format as defined in <a
- * href="http://rf.cs/rfc1521.html">RFC&nbsp;1251</a>.  Arbitrary
+ * 'multipart' format as defined in
+ * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Arbitrary
  * large amouns of data in the stream can be processed under constant
  * memory usage.
  *
@@ -112,7 +114,7 @@ import java.io.OutputStream;
  * </pre>
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
- * @version $Id: MultipartStream.java,v 1.1 2002/03/24 07:05:13 jmcnally Exp $
+ * @version $Id: MultipartStream.java,v 1.2 2002/04/11 06:03:19 jmcnally Exp $
  */
 public class MultipartStream
 {
