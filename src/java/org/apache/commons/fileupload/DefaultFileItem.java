@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.20 2003/06/01 17:33:24 martinc Exp $
- * $Revision: 1.20 $
- * $Date: 2003/06/01 17:33:24 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.21 2003/06/24 05:45:15 martinc Exp $
+ * $Revision: 1.21 $
+ * $Date: 2003/06/24 05:45:15 $
  *
  * ====================================================================
  *
@@ -95,7 +95,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.20 2003/06/01 17:33:24 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.21 2003/06/24 05:45:15 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -515,7 +515,7 @@ public class DefaultFileItem
      * @return <code>true</code> if the instance represents a simple form
      *         field; <code>false</code> if it represents an uploaded file.
      *
-     * @see #setIsFormField(boolean)
+     * @see #setFormField(boolean)
      *
      */
     public boolean isFormField()
