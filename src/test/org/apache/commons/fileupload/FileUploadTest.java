@@ -63,6 +63,8 @@ import javax.servlet.http.HttpServletRequest;
  * Unit tests {@link org.apache.commons.fileupload.FileUpload}.
  *
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
+ * @author Sean C. Sullivan
+ * 
  */
 public class FileUploadTest extends TestCase
 {
@@ -91,8 +93,6 @@ public class FileUploadTest extends TestCase
 
 	public void testWithNullContentType()
     {
-    	HttpServletRequest hsr = HttpServletRequestFactory.createInvalidHttpServletRequest();
-    	
     	FileUpload fu = null;
     	
     	fu = new FileUpload();
