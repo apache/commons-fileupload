@@ -204,7 +204,7 @@ public class FileUploadTest extends TestCase
         String contentType = "multipart/form-data; boundary=---1234";
 
         FileUploadBase upload = new DiskFileUpload();
-        HttpServletRequest request = new MyHttpServletRequest(bytes, contentType);
+        HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
 
         List fileItems = upload.parseRequest(request);
         return fileItems;
