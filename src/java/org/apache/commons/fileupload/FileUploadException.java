@@ -19,17 +19,15 @@ package org.apache.commons.fileupload;
  * Exception for errors encountered while processing the request.
  *
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id: FileUploadException.java,v 1.9 2004/02/25 21:07:12 scolebourne Exp $
+ * @version $Id: FileUploadException.java,v 1.10 2004/10/29 04:17:23 martinc Exp $
  */
 public class FileUploadException
-    extends Exception
-{
+    extends Exception {
 
     /**
      * Constructs a new <code>FileUploadException</code> without message.
      */
-    public FileUploadException()
-    {
+    public FileUploadException() {
     }
 
     /**
@@ -38,8 +36,7 @@ public class FileUploadException
      *
      * @param msg the error message.
      */
-    public FileUploadException(String msg)
-    {
+    public FileUploadException(final String msg) {
         super(msg);
     }
 }

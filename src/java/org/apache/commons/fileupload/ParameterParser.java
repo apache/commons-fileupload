@@ -31,34 +31,41 @@ import java.util.Map;
  * @author <a href="mailto:oleg@ural.ru">Oleg Kalnichevski</a>
  */
 
-public class ParameterParser
-{
-    /** String to be parsed */
+public class ParameterParser {
+    /**
+     * String to be parsed.
+     */
     private char[] chars = null;
 
-    /** Current position in the string */
+    /**
+     * Current position in the string.
+     */
     private int pos = 0;
 
-    /** Maximum position in the string */
+    /**
+     * Maximum position in the string.
+     */
     private int len = 0;
 
-    /** Start of a token */
+    /**
+     * Start of a token.
+     */
     private int i1 = 0;
 
-    /** End of a token */
+    /**
+     * End of a token.
+     */
     private int i2 = 0;
 
     /**
-     * Whether names stored in the map should be converted
-     * to lower case
+     * Whether names stored in the map should be converted to lower case.
      */
     private boolean lowerCaseNames = false;
 
     /**
-     * Default ParameterParser constructor
+     * Default ParameterParser constructor.
      */
-    public ParameterParser()
-    {
+    public ParameterParser() {
         super();
     }
 
@@ -68,8 +75,7 @@ public class ParameterParser
      * @return <tt>true</tt> if there are unparsed characters,
      *         <tt>false</tt> otherwise.
      */
-    private boolean hasChar()
-    {
+    private boolean hasChar() {
         return this.pos < this.len;
     }
 
@@ -82,39 +88,33 @@ public class ParameterParser
      *               <tt>false</tt> otherwise.
      * @return the token
      */
-    private String getToken(boolean quoted)
-    {
+    private String getToken(boolean quoted) {
         // Trim leading white spaces
-        while ((i1 < i2) && (Character.isWhitespace(chars[i1])))
-        {
+        while ((i1 < i2) && (Character.isWhitespace(chars[i1]))) {
             i1++;
         }
         // Trim trailing white spaces
-        while ((i2 > i1) && (Character.isWhitespace(chars[i2 - 1])))
-        {
+        while ((i2 > i1) && (Character.isWhitespace(chars[i2 - 1]))) {
             i2--;
         }
         // Strip away quotation marks if necessary
-        if (quoted)
-        {
+        if (quoted) {
             if (((i2 - i1) >= 2)
                 && (chars[i1] == '"')
-                && (chars[i2 - 1] == '"'))
-            {
+                && (chars[i2 - 1] == '"')) {
                 i1++;
                 i2--;
             }
         }
         String result = null;
-        if (i2 > i1)
-        {
+        if (i2 > i1) {
             result = new String(chars, i1, i2 - i1);
         }
         return result;
     }
 
     /**
-     * Tests if the given character is present in the array of characters
+     * Tests if the given character is present in the array of characters.
      *
      * @param ch the character to test for presense in the array of characters
      * @param charray the array of characters to test against
@@ -122,13 +122,10 @@ public class ParameterParser
      * @return <tt>true</tt> if the character is present in the array of
      *   characters, <tt>false</tt> otherwise.
      */
-    private boolean isOneOf(char ch, final char[] charray)
-    {
+    private boolean isOneOf(char ch, final char[] charray) {
         boolean result = false;
-        for (int i = 0; i < charray.length; i++)
-        {
-            if (ch == charray[i])
-            {
+        for (int i = 0; i < charray.length; i++) {
+            if (ch == charray[i]) {
                 result = true;
                 break;
             }
@@ -145,16 +142,13 @@ public class ParameterParser
      *
      * @return the token
      */
-    private String parseToken(final char[] terminators)
-    {
+    private String parseToken(final char[] terminators) {
         char ch;
         i1 = pos;
         i2 = pos;
-        while (hasChar())
-        {
+        while (hasChar()) {
             ch = chars[pos];
-            if (isOneOf(ch, terminators))
-            {
+            if (isOneOf(ch, terminators)) {
                 break;
             }
             i2++;
@@ -173,22 +167,18 @@ public class ParameterParser
      *
      * @return the token
      */
-    private String parseQuotedToken(final char[] terminators)
-    {
+    private String parseQuotedToken(final char[] terminators) {
         char ch;
         i1 = pos;
         i2 = pos;
         boolean quoted = false;
         boolean charEscaped = false;
-        while (hasChar())
-        {
+        while (hasChar()) {
             ch = chars[pos];
-            if (!quoted && isOneOf(ch, terminators))
-            {
+            if (!quoted && isOneOf(ch, terminators)) {
                 break;
             }
-            if (!charEscaped && ch == '"')
-            {
+            if (!charEscaped && ch == '"') {
                 quoted = !quoted;
             }
             charEscaped = (!charEscaped && ch == '\\');
@@ -200,44 +190,40 @@ public class ParameterParser
     }
 
     /**
-    * Returns <tt>true</tt> if parameter names are to be
-    * converted to lower case when name/value pairs are parsed
-    *
-    * @return <tt>true</tt> if parameter names are to be
-    * converted to lower case when name/value pairs are parsed.
-    * Otherwise returns <tt>false</tt>
-    */
-    public boolean isLowerCaseNames()
-    {
+     * Returns <tt>true</tt> if parameter names are to be converted to lower
+     * case when name/value pairs are parsed.
+     *
+     * @return <tt>true</tt> if parameter names are to be
+     * converted to lower case when name/value pairs are parsed.
+     * Otherwise returns <tt>false</tt>
+     */
+    public boolean isLowerCaseNames() {
         return this.lowerCaseNames;
     }
 
     /**
-    * Sets the flag if parameter names are to be converted to
-    * lower case when name/value pairs are parsed
-    *
-    * @param b <tt>true</tt> if parameter names are to be
-    * converted to lower case when name/value pairs are parsed.
-    * <tt>false</tt> otherwise.
-    */
-    public void setLowerCaseNames(boolean b)
-    {
+     * Sets the flag if parameter names are to be converted to lower case when
+     * name/value pairs are parsed.
+     *
+     * @param b <tt>true</tt> if parameter names are to be
+     * converted to lower case when name/value pairs are parsed.
+     * <tt>false</tt> otherwise.
+     */
+    public void setLowerCaseNames(boolean b) {
         this.lowerCaseNames = b;
     }
 
     /**
-     * Extracts a map of name/value pairs from the given string.
-     * Names are expected to be unique
+     * Extracts a map of name/value pairs from the given string. Names are
+     * expected to be unique.
      *
      * @param str the string that contains a sequence of name/value pairs
      * @param separator the name/value pairs separator
      *
      * @return a map of name/value pairs
      */
-    public Map parse(final String str, char separator)
-    {
-        if (str == null)
-        {
+    public Map parse(final String str, char separator) {
+        if (str == null) {
             return new HashMap();
         }
         return parse(str.toCharArray(), separator);
@@ -245,7 +231,7 @@ public class ParameterParser
 
     /**
      * Extracts a map of name/value pairs from the given array of
-     * characters. Names are expected to be unique
+     * characters. Names are expected to be unique.
      *
      * @param chars the array of characters that contains a sequence of
      * name/value pairs
@@ -253,10 +239,8 @@ public class ParameterParser
      *
      * @return a map of name/value pairs
      */
-    public Map parse(final char[] chars, char separator)
-    {
-        if (chars == null)
-        {
+    public Map parse(final char[] chars, char separator) {
+        if (chars == null) {
             return new HashMap();
         }
         return parse(chars, 0, chars.length, separator);
@@ -264,7 +248,7 @@ public class ParameterParser
 
     /**
      * Extracts a map of name/value pairs from the given array of
-     * characters. Names are expected to be unique
+     * characters. Names are expected to be unique.
      *
      * @param chars the array of characters that contains a sequence of
      * name/value pairs
@@ -278,11 +262,9 @@ public class ParameterParser
         final char[] chars,
         int offset,
         int length,
-        char separator)
-    {
+        char separator) {
 
-        if (chars == null)
-        {
+        if (chars == null) {
             return new HashMap();
         }
         HashMap params = new HashMap();
@@ -292,23 +274,20 @@ public class ParameterParser
 
         String paramName = null;
         String paramValue = null;
-        while (hasChar())
-        {
-            paramName = parseToken(new char[] { '=', separator });
+        while (hasChar()) {
+            paramName = parseToken(new char[] {
+                    '=', separator });
             paramValue = null;
-            if (hasChar() && (chars[pos] == '='))
-            {
+            if (hasChar() && (chars[pos] == '=')) {
                 pos++; // skip '='
-                paramValue = parseQuotedToken(new char[] { separator });
+                paramValue = parseQuotedToken(new char[] {
+                        separator });
             }
-            if (hasChar() && (chars[pos] == separator))
-            {
+            if (hasChar() && (chars[pos] == separator)) {
                 pos++; // skip separator
             }
-            if ((paramName != null) && (paramName.length() > 0))
-            {
-                if (this.lowerCaseNames)
-                {
+            if ((paramName != null) && (paramName.length() > 0)) {
+                if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase();
                 }
                 params.put(paramName, paramValue);

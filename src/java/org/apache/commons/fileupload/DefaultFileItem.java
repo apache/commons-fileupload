@@ -50,11 +50,28 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.27 2004/10/12 04:17:27 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.28 2004/10/29 04:17:23 martinc Exp $
  */
 public class DefaultFileItem
-    implements FileItem
-{
+    implements FileItem {
+
+    // ----------------------------------------------------- Manifest constants
+
+
+    /**
+     * Default content charset to be used when no explicit charset
+     * parameter is provided by the sender. Media subtypes of the
+     * "text" type are defined to have a default charset value of
+     * "ISO-8859-1" when received via HTTP.
+     */
+    public static final String DEFAULT_CHARSET = "ISO-8859-1";
+
+
+    /**
+     * Size of buffer to use when writing an item to disk.
+     */
+    private static final int WRITE_BUFFER_SIZE = 2048;
+
 
     // ----------------------------------------------------------- Data members
 
@@ -69,15 +86,6 @@ public class DefaultFileItem
      * The name of the form field as provided by the browser.
      */
     private String fieldName;
-
-
-    /**
-     * Default content charset to be used when no explicit charset
-     * parameter is provided by the sender. Media subtypes of the 
-     * "text" type are defined to have a default charset value of 
-     * "ISO-8859-1" when received via HTTP.
-     */
-    public static final String DEFAULT_CHARSET = "ISO-8859-1";
 
 
     /**
@@ -144,8 +152,7 @@ public class DefaultFileItem
      *                      exceed the threshold.
      */
     DefaultFileItem(String fieldName, String contentType, boolean isFormField,
-                    String fileName, int sizeThreshold, File repository)
-    {
+                    String fileName, int sizeThreshold, File repository) {
         this.fieldName = fieldName;
         this.contentType = contentType;
         this.isFormField = isFormField;
@@ -168,15 +175,12 @@ public class DefaultFileItem
      * @exception IOException if an error occurs.
      */
     public InputStream getInputStream()
-        throws IOException
-    {
-        if (!dfos.isInMemory())
-        {
+        throws IOException {
+        if (!dfos.isInMemory()) {
             return new FileInputStream(dfos.getFile());
         }
 
-        if (cachedContent == null)
-        {
+        if (cachedContent == null) {
             cachedContent = dfos.getData();
         }
         return new ByteArrayInputStream(cachedContent);
@@ -190,8 +194,7 @@ public class DefaultFileItem
      * @return The content type passed by the agent or <code>null</code> if
      *         not defined.
      */
-    public String getContentType()
-    {
+    public String getContentType() {
         return contentType;
     }
 
@@ -199,17 +202,16 @@ public class DefaultFileItem
     /**
      * Returns the content charset passed by the agent or <code>null</code> if
      * not defined.
-     * 
+     *
      * @return The content charset passed by the agent or <code>null</code> if
      *         not defined.
      */
-    public String getCharSet()
-    {
+    public String getCharSet() {
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
         Map params = parser.parse(getContentType(), ';');
-        return (String)params.get("charset");
+        return (String) params.get("charset");
     }
 
 
@@ -218,8 +220,7 @@ public class DefaultFileItem
      *
      * @return The original filename in the client's filesystem.
      */
-    public String getName()
-    {
+    public String getName() {
         return fileName;
     }
 
@@ -234,8 +235,7 @@ public class DefaultFileItem
      * @return <code>true</code> if the file contents will be read
      *         from memory; <code>false</code> otherwise.
      */
-    public boolean isInMemory()
-    {
+    public boolean isInMemory() {
         return (dfos.isInMemory());
     }
 
@@ -245,18 +245,12 @@ public class DefaultFileItem
      *
      * @return The size of the file, in bytes.
      */
-    public long getSize()
-    {
-        if (cachedContent != null)
-        {
+    public long getSize() {
+        if (cachedContent != null) {
             return cachedContent.length;
-        }
-        else if (dfos.isInMemory())
-        {
+        } else if (dfos.isInMemory()) {
             return dfos.getData().length;
-        }
-        else
-        {
+        } else {
             return dfos.getFile().length();
         }
     }
@@ -269,12 +263,9 @@ public class DefaultFileItem
      *
      * @return The contents of the file as an array of bytes.
      */
-    public byte[] get()
-    {
-        if (dfos.isInMemory())
-        {
-            if (cachedContent == null)
-            {
+    public byte[] get() {
+        if (dfos.isInMemory()) {
+            if (cachedContent == null) {
                 cachedContent = dfos.getData();
             }
             return cachedContent;
@@ -283,25 +274,16 @@ public class DefaultFileItem
         byte[] fileData = new byte[(int) getSize()];
         FileInputStream fis = null;
 
-        try
-        {
+        try {
             fis = new FileInputStream(dfos.getFile());
             fis.read(fileData);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             fileData = null;
-        }
-        finally
-        {
-            if (fis != null)
-            {
-                try
-                {
+        } finally {
+            if (fis != null) {
+                try {
                     fis.close();
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     // ignore
                 }
             }
@@ -324,8 +306,7 @@ public class DefaultFileItem
      *                                         encoding is not available.
      */
     public String getString(final String charset)
-        throws UnsupportedEncodingException
-    {
+        throws UnsupportedEncodingException {
         return new String(get(), charset);
     }
 
@@ -336,20 +317,18 @@ public class DefaultFileItem
      * contents of the file.
      *
      * @return The contents of the file, as a string.
+     *
+     * @todo Consider making this method throw UnsupportedEncodingException.
      */
-    public String getString()
-    //@TODO: Consider making this method throw UnsupportedEncodingException 
-    {
+    public String getString() {
         byte[] rawdata = get();
         String charset = getCharSet();
         if (charset == null) {
             charset = DEFAULT_CHARSET;
         }
-        try
-        {
+        try {
             return new String(rawdata, charset);
-        }
-        catch(UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             return new String(rawdata);
         }
     }
@@ -375,80 +354,56 @@ public class DefaultFileItem
      *
      * @exception Exception if an error occurs.
      */
-    public void write(File file) throws Exception
-    {
-        if (isInMemory())
-        {
+    public void write(File file) throws Exception {
+        if (isInMemory()) {
             FileOutputStream fout = null;
-            try
-            {
+            try {
                 fout = new FileOutputStream(file);
                 fout.write(get());
-            }
-            finally
-            {
-                if (fout != null)
-                {
+            } finally {
+                if (fout != null) {
                     fout.close();
                 }
             }
-        }
-        else
-        {
+        } else {
             File outputFile = getStoreLocation();
-            if (outputFile != null)
-            {
+            if (outputFile != null) {
                 /*
                  * The uploaded file is being stored on disk
                  * in a temporary location so move it to the
                  * desired file.
                  */
-                if (!outputFile.renameTo(file))
-                {
+                if (!outputFile.renameTo(file)) {
                     BufferedInputStream in = null;
                     BufferedOutputStream out = null;
-                    try
-                    {
+                    try {
                         in = new BufferedInputStream(
                             new FileInputStream(outputFile));
                         out = new BufferedOutputStream(
                                 new FileOutputStream(file));
-                        byte[] bytes = new byte[2048];
+                        byte[] bytes = new byte[WRITE_BUFFER_SIZE];
                         int s = 0;
-                        while ((s = in.read(bytes)) != -1)
-                        {
+                        while ((s = in.read(bytes)) != -1) {
                             out.write(bytes, 0, s);
                         }
-                    }
-                    finally
-                    {
-                        if (in != null)
-                        {
-                            try
-                            {
+                    } finally {
+                        if (in != null) {
+                            try {
                                 in.close();
-                            }
-                            catch (IOException e)
-                            {
+                            } catch (IOException e) {
                                 // ignore
                             }
                         }
-                        if (out != null)
-                        {
-                            try
-                            {
+                        if (out != null) {
+                            try {
                                 out.close();
-                            }
-                            catch (IOException e)
-                            {
+                            } catch (IOException e) {
                                 // ignore
                             }
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 /*
                  * For whatever reason we cannot write the
                  * file to disk.
@@ -467,12 +422,10 @@ public class DefaultFileItem
      * collected, this method can be used to ensure that this is done at an
      * earlier time, thus preserving system resources.
      */
-    public void delete()
-    {
+    public void delete() {
         cachedContent = null;
         File outputFile = getStoreLocation();
-        if (outputFile != null && outputFile.exists())
-        {
+        if (outputFile != null && outputFile.exists()) {
             outputFile.delete();
         }
     }
@@ -487,8 +440,7 @@ public class DefaultFileItem
      * @see #setFieldName(java.lang.String)
      *
      */
-    public String getFieldName()
-    {
+    public String getFieldName() {
         return fieldName;
     }
 
@@ -501,8 +453,7 @@ public class DefaultFileItem
      * @see #getFieldName()
      *
      */
-    public void setFieldName(String fieldName)
-    {
+    public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
     }
 
@@ -517,8 +468,7 @@ public class DefaultFileItem
      * @see #setFormField(boolean)
      *
      */
-    public boolean isFormField()
-    {
+    public boolean isFormField() {
         return isFormField;
     }
 
@@ -533,8 +483,7 @@ public class DefaultFileItem
      * @see #isFormField()
      *
      */
-    public void setFormField(boolean state)
-    {
+    public void setFormField(boolean state) {
         isFormField = state;
     }
 
@@ -549,10 +498,8 @@ public class DefaultFileItem
      * @exception IOException if an error occurs.
      */
     public OutputStream getOutputStream()
-        throws IOException
-    {
-        if (dfos == null)
-        {
+        throws IOException {
+        if (dfos == null) {
             File outputFile = getTempFile();
             dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
         }
@@ -576,8 +523,7 @@ public class DefaultFileItem
      * @return The data file, or <code>null</code> if the data is stored in
      *         memory.
      */
-    public File getStoreLocation()
-    {
+    public File getStoreLocation() {
         return dfos.getFile();
     }
 
@@ -588,12 +534,10 @@ public class DefaultFileItem
     /**
      * Removes the file contents from the temporary storage.
      */
-    protected void finalize()
-    {
+    protected void finalize() {
         File outputFile = dfos.getFile();
 
-        if (outputFile != null && outputFile.exists())
-        {
+        if (outputFile != null && outputFile.exists()) {
             outputFile.delete();
         }
     }
@@ -607,11 +551,9 @@ public class DefaultFileItem
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
-    protected File getTempFile()
-    {
+    protected File getTempFile() {
         File tempDir = repository;
-        if (tempDir == null)
-        {
+        if (tempDir == null) {
             tempDir = new File(System.getProperty("java.io.tmpdir"));
         }
 
@@ -632,19 +574,16 @@ public class DefaultFileItem
      *
      * @return A String with the non-random looking instance identifier.
      */
-    private static String getUniqueId()
-    {
+    private static String getUniqueId() {
         int current;
-        synchronized (DefaultFileItem.class)
-        {
+        synchronized (DefaultFileItem.class) {
             current = counter++;
         }
         String id = Integer.toString(current);
 
         // If you manage to get more than 100 million of ids, you'll
         // start getting ids longer than 8 characters.
-        if (current < 100000000)
-        {
+        if (current < 100000000) {
             id = ("00000000" + id).substring(id.length());
         }
         return id;

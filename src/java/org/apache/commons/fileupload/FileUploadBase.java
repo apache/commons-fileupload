@@ -45,10 +45,9 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.10 2004/10/16 18:17:50 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.11 2004/10/29 04:17:23 martinc Exp $
  */
-public abstract class FileUploadBase
-{
+public abstract class FileUploadBase {
 
     // ---------------------------------------------------------- Class methods
 
@@ -62,19 +61,15 @@ public abstract class FileUploadBase
      * @return <code>true</code> if the request is multipart;
      *         <code>false</code> otherwise.
      */
-    public static final boolean isMultipartContent(HttpServletRequest req)
-    {
-        if (!"post".equals(req.getMethod().toLowerCase()))
-        {
+    public static final boolean isMultipartContent(HttpServletRequest req) {
+        if (!"post".equals(req.getMethod().toLowerCase())) {
             return false;
         }
         String contentType = req.getHeader(CONTENT_TYPE);
-        if (contentType == null)
-        {
+        if (contentType == null) {
             return false;
         }
-        if (contentType.toLowerCase().startsWith(MULTIPART))
-        {
+        if (contentType.toLowerCase().startsWith(MULTIPART)) {
             return true;
         }
         return false;
@@ -176,8 +171,7 @@ public abstract class FileUploadBase
      * @see #setSizeMax(long)
      *
      */
-    public long getSizeMax()
-    {
+    public long getSizeMax() {
         return sizeMax;
     }
 
@@ -190,8 +184,7 @@ public abstract class FileUploadBase
      * @see #getSizeMax()
      *
      */
-    public void setSizeMax(long sizeMax)
-    {
+    public void setSizeMax(long sizeMax) {
         this.sizeMax = sizeMax;
     }
 
@@ -203,8 +196,7 @@ public abstract class FileUploadBase
      *
      * @return The encoding used to read part headers.
      */
-    public String getHeaderEncoding()
-    {
+    public String getHeaderEncoding() {
         return headerEncoding;
     }
 
@@ -216,8 +208,7 @@ public abstract class FileUploadBase
      *
      * @param encoding The encoding used to read part headers.
      */
-    public void setHeaderEncoding(String encoding)
-    {
+    public void setHeaderEncoding(String encoding) {
         headerEncoding = encoding;
     }
 
@@ -239,10 +230,8 @@ public abstract class FileUploadBase
      *                                the request or storing files.
      */
     public List /* FileItem */ parseRequest(HttpServletRequest req)
-        throws FileUploadException
-    {
-        if (null == req)
-        {
+        throws FileUploadException {
+        if (null == req) {
             throw new NullPointerException("req parameter");
         }
 
@@ -250,8 +239,7 @@ public abstract class FileUploadBase
         String contentType = req.getHeader(CONTENT_TYPE);
 
         if ((null == contentType)
-            || (!contentType.toLowerCase().startsWith(MULTIPART)))
-        {
+            || (!contentType.toLowerCase().startsWith(MULTIPART))) {
             throw new InvalidContentTypeException(
                 "the request doesn't contain a "
                 + MULTIPART_FORM_DATA
@@ -262,24 +250,20 @@ public abstract class FileUploadBase
         }
         int requestSize = req.getContentLength();
 
-        if (requestSize == -1)
-        {
+        if (requestSize == -1) {
             throw new UnknownSizeException(
                 "the request was rejected because it's size is unknown");
         }
 
-        if (sizeMax >= 0 && requestSize > sizeMax)
-        {
+        if (sizeMax >= 0 && requestSize > sizeMax) {
             throw new SizeLimitExceededException(
                 "the request was rejected because "
                 + "it's size exceeds allowed range");
         }
 
-        try
-        {
+        try {
             String boundaryStr = getBoundary(contentType);
-            if (boundaryStr == null)
-            {
+            if (boundaryStr == null) {
                 throw new FileUploadException(
                         "the request was rejected because "
                         + "no multipart boundary was found");
@@ -292,41 +276,31 @@ public abstract class FileUploadBase
             multi.setHeaderEncoding(headerEncoding);
 
             boolean nextPart = multi.skipPreamble();
-            while (nextPart)
-            {
+            while (nextPart) {
                 Map headers = parseHeaders(multi.readHeaders());
                 String fieldName = getFieldName(headers);
-                if (fieldName != null)
-                {
+                if (fieldName != null) {
                     String subContentType = getHeader(headers, CONTENT_TYPE);
                     if (subContentType != null && subContentType
-                        .toLowerCase().startsWith(MULTIPART_MIXED))
-                    {
+                        .toLowerCase().startsWith(MULTIPART_MIXED)) {
                         // Multiple files.
                         String subBoundaryStr = getBoundary(subContentType);
                         byte[] subBoundary = subBoundaryStr.getBytes();
                         multi.setBoundary(subBoundary);
                         boolean nextSubPart = multi.skipPreamble();
-                        while (nextSubPart)
-                        {
+                        while (nextSubPart) {
                             headers = parseHeaders(multi.readHeaders());
-                            if (getFileName(headers) != null)
-                            {
+                            if (getFileName(headers) != null) {
                                 FileItem item =
                                         createItem(headers, false);
                                 OutputStream os = item.getOutputStream();
-                                try
-                                {
+                                try {
                                     multi.readBodyData(os);
-                                }
-                                finally
-                                {
+                                } finally {
                                     os.close();
                                 }
                                 items.add(item);
-                            }
-                            else
-                            {
+                            } else {
                                 // Ignore anything but files inside
                                 // multipart/mixed.
                                 multi.discardBodyData();
@@ -334,33 +308,24 @@ public abstract class FileUploadBase
                             nextSubPart = multi.readBoundary();
                         }
                         multi.setBoundary(boundary);
-                    }
-                    else
-                    {
+                    } else {
                         FileItem item = createItem(headers,
                                 getFileName(headers) == null);
                         OutputStream os = item.getOutputStream();
-                        try
-                        {
+                        try {
                             multi.readBodyData(os);
-                        }
-                        finally
-                        {
+                        } finally {
                             os.close();
                         }
                         items.add(item);
                     }
-                }
-                else
-                {
+                } else {
                     // Skip this part.
                     multi.discardBodyData();
                 }
                 nextPart = multi.readBoundary();
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new FileUploadException(
                 "Processing of " + MULTIPART_FORM_DATA
                     + " request failed. " + e.getMessage());
@@ -381,13 +346,12 @@ public abstract class FileUploadBase
      *
      * @return The boundary, without any surrounding quotes.
      */
-    protected String getBoundary(String contentType)
-    {
+    protected String getBoundary(String contentType) {
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
         Map params = parser.parse(contentType, ';');
-        return (String)params.get("boundary");
+        return (String) params.get("boundary");
     }
 
 
@@ -399,25 +363,19 @@ public abstract class FileUploadBase
      *
      * @return The file name for the current <code>encapsulation</code>.
      */
-    protected String getFileName(Map /* String, String */ headers)
-    {
+    protected String getFileName(Map /* String, String */ headers) {
         String fileName = null;
         String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT))
-        {
+        if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT)) {
             ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
             Map params = parser.parse(cd, ';');
-            if (params.containsKey("filename"))
-            {
-                fileName = (String)params.get("filename");
-                if (fileName != null)
-                {
+            if (params.containsKey("filename")) {
+                fileName = (String) params.get("filename");
+                if (fileName != null) {
                     fileName = fileName.trim();
-                }
-                else
-                {
+                } else {
                     // Even if there is no value, the parameter is present, so
                     // we return an empty file name rather than no file name.
                     fileName = "";
@@ -436,20 +394,17 @@ public abstract class FileUploadBase
      *
      * @return The field name for the current <code>encapsulation</code>.
      */
-    protected String getFieldName(Map /* String, String */ headers)
-    {
+    protected String getFieldName(Map /* String, String */ headers) {
         String fieldName = null;
         String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if (cd != null && cd.startsWith(FORM_DATA))
-        {
+        if (cd != null && cd.startsWith(FORM_DATA)) {
 
             ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
             Map params = parser.parse(cd, ';');
-            fieldName = (String)params.get("name");
-            if (fieldName != null)
-            {
+            fieldName = (String) params.get("name");
+            if (fieldName != null) {
                 fieldName = fieldName.trim();
             }
         }
@@ -471,8 +426,7 @@ public abstract class FileUploadBase
      */
     protected FileItem createItem(Map /* String, String */ headers,
                                   boolean isFormField)
-        throws FileUploadException
-    {
+        throws FileUploadException {
         return getFileItemFactory().createItem(getFieldName(headers),
                 getHeader(headers, CONTENT_TYPE),
                 isFormField,
@@ -492,34 +446,27 @@ public abstract class FileUploadBase
      *
      * @return A <code>Map</code> containing the parsed HTTP request headers.
      */
-    protected Map /* String, String */ parseHeaders(String headerPart)
-    {
+    protected Map /* String, String */ parseHeaders(String headerPart) {
         Map headers = new HashMap();
-        char buffer[] = new char[MAX_HEADER_SIZE];
+        char[] buffer = new char[MAX_HEADER_SIZE];
         boolean done = false;
         int j = 0;
         int i;
         String header, headerName, headerValue;
-        try
-        {
-            while (!done)
-            {
+        try {
+            while (!done) {
                 i = 0;
                 // Copy a single line of characters into the buffer,
                 // omitting trailing CRLF.
-                while (i < 2 || buffer[i - 2] != '\r' || buffer[i - 1] != '\n')
-                {
+                while (i < 2
+                        || buffer[i - 2] != '\r' || buffer[i - 1] != '\n') {
                     buffer[i++] = headerPart.charAt(j++);
                 }
                 header = new String(buffer, 0, i - 2);
-                if (header.equals(""))
-                {
+                if (header.equals("")) {
                     done = true;
-                }
-                else
-                {
-                    if (header.indexOf(':') == -1)
-                    {
+                } else {
+                    if (header.indexOf(':') == -1) {
                         // This header line is malformed, skip it.
                         continue;
                     }
@@ -527,23 +474,18 @@ public abstract class FileUploadBase
                         .trim().toLowerCase();
                     headerValue =
                         header.substring(header.indexOf(':') + 1).trim();
-                    if (getHeader(headers, headerName) != null)
-                    {
+                    if (getHeader(headers, headerName) != null) {
                         // More that one heder of that name exists,
                         // append to the list.
                         headers.put(headerName,
                                     getHeader(headers, headerName) + ','
                                         + headerValue);
-                    }
-                    else
-                    {
+                    } else {
                         headers.put(headerName, headerValue);
                     }
                 }
             }
-        }
-        catch (IndexOutOfBoundsException e)
-        {
+        } catch (IndexOutOfBoundsException e) {
             // Headers were malformed. continue with all that was
             // parsed.
         }
@@ -562,8 +504,7 @@ public abstract class FileUploadBase
      *         there were multiple headers of that name.
      */
     protected final String getHeader(Map /* String, String */ headers,
-                                     String name)
-    {
+                                     String name) {
         return (String) headers.get(name.toLowerCase());
     }
 
@@ -572,14 +513,12 @@ public abstract class FileUploadBase
      * Thrown to indicate that the request is not a multipart request.
      */
     public static class InvalidContentTypeException
-        extends FileUploadException
-    {
+        extends FileUploadException {
         /**
          * Constructs a <code>InvalidContentTypeException</code> with no
          * detail message.
          */
-        public InvalidContentTypeException()
-        {
+        public InvalidContentTypeException() {
             super();
         }
 
@@ -589,8 +528,7 @@ public abstract class FileUploadBase
          *
          * @param message The detail message.
          */
-        public InvalidContentTypeException(String message)
-        {
+        public InvalidContentTypeException(String message) {
             super(message);
         }
     }
@@ -600,14 +538,12 @@ public abstract class FileUploadBase
      * Thrown to indicate that the request size is not specified.
      */
     public static class UnknownSizeException
-        extends FileUploadException
-    {
+        extends FileUploadException {
         /**
          * Constructs a <code>UnknownSizeException</code> with no
          * detail message.
          */
-        public UnknownSizeException()
-        {
+        public UnknownSizeException() {
             super();
         }
 
@@ -617,8 +553,7 @@ public abstract class FileUploadBase
          *
          * @param message The detail message.
          */
-        public UnknownSizeException(String message)
-        {
+        public UnknownSizeException(String message) {
             super(message);
         }
     }
@@ -628,14 +563,12 @@ public abstract class FileUploadBase
      * Thrown to indicate that the request size exceeds the configured maximum.
      */
     public static class SizeLimitExceededException
-        extends FileUploadException
-    {
+        extends FileUploadException {
         /**
          * Constructs a <code>SizeExceededException</code> with no
          * detail message.
          */
-        public SizeLimitExceededException()
-        {
+        public SizeLimitExceededException() {
             super();
         }
 
@@ -645,8 +578,7 @@ public abstract class FileUploadBase
          *
          * @param message The detail message.
          */
-        public SizeLimitExceededException(String message)
-        {
+        public SizeLimitExceededException(String message) {
             super(message);
         }
     }

@@ -36,11 +36,10 @@ package org.apache.commons.fileupload;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.26 2004/02/25 21:07:12 scolebourne Exp $
+ * @version $Id: FileUpload.java,v 1.27 2004/10/29 04:17:23 martinc Exp $
  */
 public class FileUpload
-    extends FileUploadBase
- {
+    extends FileUploadBase {
 
     // ----------------------------------------------------------- Data members
 
@@ -61,8 +60,7 @@ public class FileUpload
      *
      * @see #FileUpload(FileItemFactory)
      */
-    public FileUpload()
-    {
+    public FileUpload() {
         super();
     }
 
@@ -73,8 +71,7 @@ public class FileUpload
      *
      * @see #FileUpload()
      */
-    public FileUpload(FileItemFactory fileItemFactory)
-    {
+    public FileUpload(FileItemFactory fileItemFactory) {
         super();
         this.fileItemFactory = fileItemFactory;
     }
@@ -88,8 +85,7 @@ public class FileUpload
      *
      * @return The factory class for new file items.
      */
-    public FileItemFactory getFileItemFactory()
-    {
+    public FileItemFactory getFileItemFactory() {
         return fileItemFactory;
     }
 
@@ -99,8 +95,7 @@ public class FileUpload
      *
      * @param factory The factory class for new file items.
      */
-    public void setFileItemFactory(FileItemFactory factory)
-    {
+    public void setFileItemFactory(FileItemFactory factory) {
         this.fileItemFactory = factory;
     }
 
