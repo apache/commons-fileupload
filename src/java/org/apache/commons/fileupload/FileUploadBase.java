@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.6 2004/02/25 21:07:12 scolebourne Exp $
+ * @version $Id: FileUploadBase.java,v 1.7 2004/10/10 21:59:48 martinc Exp $
  */
 public abstract class FileUploadBase
 {
@@ -69,7 +69,7 @@ public abstract class FileUploadBase
         {
             return false;
         }
-        if (contentType.startsWith(MULTIPART))
+        if (contentType.toLowerCase().startsWith(MULTIPART))
         {
             return true;
         }
@@ -245,7 +245,8 @@ public abstract class FileUploadBase
         ArrayList items = new ArrayList();
         String contentType = req.getHeader(CONTENT_TYPE);
 
-        if ((null == contentType) || (!contentType.startsWith(MULTIPART)))
+        if ((null == contentType)
+            || (!contentType.toLowerCase().startsWith(MULTIPART)))
         {
             throw new InvalidContentTypeException(
                 "the request doesn't contain a "
@@ -296,7 +297,7 @@ public abstract class FileUploadBase
                 {
                     String subContentType = getHeader(headers, CONTENT_TYPE);
                     if (subContentType != null && subContentType
-                                                .startsWith(MULTIPART_MIXED))
+                        .toLowerCase().startsWith(MULTIPART_MIXED))
                     {
                         // Multiple files.
                         byte[] subBoundary =
