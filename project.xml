@@ -1,54 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <pomVersion>3</pomVersion>
+  <extend>../project.xml</extend>
   <name>FileUpload</name>
   <id>commons-fileupload</id>
   <currentVersion>1.0-beta-2-dev</currentVersion>
-
-  <organization>
-    <name>Apache Software Foundation</name>
-    <url>http://jakarta.apache.org/</url>
-    <logo>/images/jakarta-logo-blue.gif</logo>
-  </organization>
-  <logo>/images/logo.gif</logo>
-
   <inceptionYear>2002</inceptionYear>
-  <package>org.apache.commons.fileupload</package>
-  <shortDescription>Commons File Upload</shortDescription>
-
-  <gumpRepositoryId>jakarta</gumpRepositoryId>
-
+  <shortDescription>File upload component for Java servlets</shortDescription>
   <description>
-    File upload component.
+    The FileUpload component provides a simple yet flexible means of adding
+    support for multipart file upload functionality to servlets and web
+    applications.
   </description>
-  
-  <url>http://jakarta.apache.org/commons/fileupload/</url>
-  <issueTrackingUrl>http://issues.apache.org/scarab/servlet/scarab/</issueTrackingUrl>
-  <siteAddress>jakarta.apache.org</siteAddress>
-  <siteDirectory>/www/jakarta.apache.org/commons/fileupload/</siteDirectory>
-  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/fileupload/</distributionDirectory>
+  <logo>/images/logo.gif</logo>
+  <issueTrackingUrl>http://nagoya.apache.org/bugzilla/</issueTrackingUrl>
 
-  <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/fileupload/</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-commons/fileupload/</url>
-  </repository>
+  <versions>
+    <version>
+      <id>b1</id>
+      <name>1.0-beta-1</name>
+      <tag>FILEUPLOAD_1_0_B1</tag>
+    </version>
+  </versions>
 
-  <mailingLists>
-    <mailingList>
-      <name>Commons User List</name>
-      <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://archives.apache.org/eyebrowse/SummarizeList?listName=commons-user@jakarta.apache.org</archive>
-    </mailingList>
-    <mailingList>
-      <name>Commons Developer List</name>
-      <subscribe>mailto:commons-dev-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>mailto:commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
-      <archive>http://archives.apache.org/eyebrowse/SummarizeList?listName=commons-dev@jakarta.apache.org</archive>
-    </mailingList>
-  </mailingLists>
-  
   <developers>
     <developer>
       <name>Martin Cooper</name>
@@ -97,42 +71,31 @@
   <dependencies>
     <dependency>
       <id>commons-beanutils</id>
-      <version>1.3</version>
-    </dependency>
-    <dependency>
-      <id>junit</id>
-      <version>3.8.1</version>
+      <version>1.6</version>
     </dependency>
     <dependency>
       <id>servletapi</id>
       <version>2.3</version>
     </dependency>
+    <dependency>
+      <id>junit</id>
+      <version>3.8.1</version>
+    </dependency>
   </dependencies>
-  
-  <build>
 
-    <nagEmailAddress>commons-dev@jakarta.apache.org</nagEmailAddress>
+  <reports>
+    <report>maven-changelog-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-license-plugin</report>
+    <report>maven-linkcheck-plugin</report>
+    <report>maven-tasklist-plugin</report>
+<!--    <report>maven-clover-plugin</report> -->
+  </reports>
 
-    <sourceDirectory>src/java</sourceDirectory>
-    <aspectSourceDirectory/>
-
-    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-
-    <unitTest>
-      <includes>
-        <include>**/*Test.java</include>
-      </includes>
-    </unitTest>
-
-    <integrationUnitTestSourceDirectory>src/rttest</integrationUnitTestSourceDirectory>
-    <integrationUnitTestPatterns>
-      <integrationUnitTestPattern>include = **/*Test.java</integrationUnitTestPattern>
-    </integrationUnitTestPatterns>
-
-    <jarResources>
-    </jarResources>
-  
-    <jars/>
-  
-  </build>
 </project>
