@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.9 2002/08/22 04:41:29 martinc Exp $
- * $Revision: 1.9 $
- * $Date: 2002/08/22 04:41:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.10 2002/12/20 04:09:07 dion Exp $
+ * $Revision: 1.10 $
+ * $Date: 2002/12/20 04:09:07 $
  *
  * ====================================================================
  *
@@ -66,6 +66,7 @@ package org.apache.commons.fileupload;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 
@@ -94,9 +95,9 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileItem.java,v 1.9 2002/08/22 04:41:29 martinc Exp $
+ * @version $Id: FileItem.java,v 1.10 2002/12/20 04:09:07 dion Exp $
  */
-public interface FileItem
+public interface FileItem extends Serializable
 {
 
 
