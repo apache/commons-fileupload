@@ -28,7 +28,7 @@ import org.apache.commons.fileupload.RequestContext;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: ServletRequestContext.java,v 1.3 2004/12/12 17:21:41 martinc Exp $
+ * @version $Id$
  */
 public class ServletRequestContext implements RequestContext {
 

@@ -32,7 +32,7 @@ import javax.portlet.WindowState;
  * A mock portlet request, useful for unit testing and offline utilities
  * 
  * @author <a href="mailto:taylor@apache.org">David Sean Taylor</a>
- * @version $Id: MockPortletRequest.java,v 1.1 2004/12/08 03:55:02 sullis Exp $
+ * @version $Id$
  */
 public class MockPortletRequest implements PortletRequest
 {

@@ -48,7 +48,7 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.15 2004/12/20 16:13:42 martinc Exp $
+ * @version $Id$
  */
 public abstract class FileUploadBase {
 

@@ -42,7 +42,7 @@ import org.apache.commons.fileupload.FileUploadException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: ServletFileUpload.java,v 1.1 2004/10/31 05:21:43 martinc Exp $
+ * @version $Id$
  */
 public class ServletFileUpload extends FileUpload {
 

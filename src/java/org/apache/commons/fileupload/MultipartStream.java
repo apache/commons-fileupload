@@ -80,7 +80,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: MultipartStream.java,v 1.17 2004/10/29 04:17:23 martinc Exp $
+ * @version $Id$
  */
 public class MultipartStream {
 

@@ -28,7 +28,7 @@ import org.apache.commons.fileupload.RequestContext;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: PortletRequestContext.java,v 1.2 2004/12/08 03:02:26 sullis Exp $
+ * @version $Id$
  */
 public class PortletRequestContext implements RequestContext {
 
