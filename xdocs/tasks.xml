@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>TODO</title>
+    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+  </properties>
+
+  <body>
+    <section name="TODO list">
+      <p>
+        The following is a list of items that need to be completed in
+        Fileupload.  Contributions are welcome! 
+      </p>
+    
+    <subsection name="High priority"> 
+      <ul>
+        <li>
+            <strong>Comprehensive unit test</strong>
+            covering all the existing functionality. 
+        </li>
+        <li>
+            <strong>Comprehensive Documentation</strong>
+            for all the existing functionality.
+        </li>
+       </ul>
+    </subsection>
+    
+    <subsection name="Medium priority"> 
+    </subsection>
+    
+    <subsection name="Low priority"> 
+    </subsection>
+</section>
+<section name='Completed'>
+    <subsection name="Since Last Release"> 
+    </subsection>
+</section>
+  </body>
+</document>
+

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Fileupload Overview</title>
+  <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+ </properties>
+
+<body>
+
+    <section name="Using FileUpload">
+      <p>
+        Your application should detect whether or not FileUpload should be
+        invoked, based on the HTTP method and the content type of the request.
+      </p>
+      <p>
+        Assuming that you have decided that FileUpload should be invoked, you
+        might write the following code to handle a file upload request:
+<pre>
+    // Create a new file upload handler
+    FileUpload upload = new FileUpload();
+
+    // Set upload parameters
+    upload.setSizeMax(MAX_UPLOAD_SIZE);
+    upload.setSizeThreshold(MAX_MEMORY_SIZE);
+    upload.setRepositoryPath(TEMP_DIR);
+
+    // Parse the request
+    List items = upload.parseRequest(request);
+
+    // Process the uploaded fields
+    Iterator iter = items.iterator();
+    while (iter.hasNext()) {
+        FileItem item = (FileItem) iter.next();
+
+        if (item.isFormField()) {
+            processTextParameter(request, item);
+        } else {
+            processFileParameter(request, item);
+        }
+    }
+</pre>
+      </p>
+    </section>
+
+</body>
+</document>

@@ -25,41 +25,24 @@
       </p>
     </section>
 
-    <section name="Using FileUpload">
-      <p>
-        Your application should detect whether or not FileUpload should be
-        invoked, based on the HTTP method and the content type of the request.
-      </p>
-      <p>
-        Assuming that you have decided that FileUpload should be invoked, you
-        might write the following code to handle a file upload request:
-<pre>
-    // Create a new file upload handler
-    FileUpload upload = new FileUpload();
-
-    // Set upload parameters
-    upload.setSizeMax(MAX_UPLOAD_SIZE);
-    upload.setSizeThreshold(MAX_MEMORY_SIZE);
-    upload.setRepositoryPath(TEMP_DIR);
-
-    // Parse the request
-    List items = upload.parseRequest(request);
-
-    // Process the uploaded fields
-    Iterator iter = items.iterator();
-    while (iter.hasNext()) {
-        FileItem item = (FileItem) iter.next();
-
-        if (item.isFormField()) {
-            processTextParameter(request, item);
-        } else {
-            processFileParameter(request, item);
-        }
-    }
-</pre>
-      </p>
+    <section name="Downloading Fileupload">
+        <subsection name='Full Releases'>
+            <!-- list full releases here -->
+        </subsection>
+        <subsection name='Beta Releases'>
+            <!-- list beta releases here-->
+        </subsection>
+        <subsection name='Nightly Builds'>	
+            <p>
+            Nightly builds are built every day from the current CVS HEAD. This is 
+            the latest code and so should be treated with caution!
+            </p>
+            <p>
+            Download nightly builds from 
+            <a href='http://cvs.apache.org/builds/jakarta-commons/nightly/commons-fileupload/'>here</a>.
+            </p>
+        </subsection>
     </section>
-
   </body>
 
 </document>

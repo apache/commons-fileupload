@@ -80,6 +80,12 @@
       <email>jason@zenplex.com</email>
       <organization>Zenplex</organization>
     </developer>
+    <developer>
+      <name>Robert Burrell Donkin</name>
+      <id>rdonkin</id>
+      <email>rdonkin@apache.org</email>
+      <organization/>
+    </developer>
   </developers>
   
   <dependencies>
