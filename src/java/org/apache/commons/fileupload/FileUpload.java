@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.12 2002/10/26 22:22:29 sullis Exp $
- * $Revision: 1.12 $
- * $Date: 2002/10/26 22:22:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.13 2002/10/27 17:11:46 sullis Exp $
+ * $Revision: 1.13 $
+ * $Date: 2002/10/27 17:11:46 $
  *
  * ====================================================================
  *
@@ -96,7 +96,7 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.12 2002/10/26 22:22:29 sullis Exp $
+ * @version $Id: FileUpload.java,v 1.13 2002/10/27 17:11:46 sullis Exp $
  */
 public class FileUpload
 {
@@ -361,10 +361,14 @@ public class FileUpload
         ArrayList items = new ArrayList();
         String contentType = req.getHeader(CONTENT_TYPE);
 
-        if (!contentType.startsWith(MULTIPART))
+        if ( (null == contentType) || (!contentType.startsWith(MULTIPART)) )
         {
-            throw new FileUploadException("the request doesn't contain a " +
-                MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED + " stream");
+            throw new FileUploadException("the request doesn't contain a "
+                + MULTIPART_FORM_DATA 
+                + " or " 
+                + MULTIPART_MIXED 
+                + " stream, content type header is "
+                + contentType);
         }
         int requestSize = req.getContentLength();
 
