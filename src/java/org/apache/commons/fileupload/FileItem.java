@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.13 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.13 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.14 2003/05/12 05:24:52 martinc Exp $
+ * $Revision: 1.14 $
+ * $Date: 2003/05/12 05:24:52 $
  *
  * ====================================================================
  *
@@ -96,7 +96,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileItem.java,v 1.13 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: FileItem.java,v 1.14 2003/05/12 05:24:52 martinc Exp $
  */
 public interface FileItem
     extends Serializable
@@ -130,7 +130,10 @@ public interface FileItem
 
 
     /**
-     * Returns the original filename in the client's filesystem.
+     * Returns the original filename in the client's filesystem, as provided by
+     * the browser (or other client software). In most cases, this will be the
+     * base file name, without path information. However, some clients, such as
+     * the Opera browser, do include path information.
      *
      * @return The original filename in the client's filesystem.
      */
@@ -194,9 +197,14 @@ public interface FileItem
 
     /**
      * A convenience method to write an uploaded item to disk. The client code
-     * is not concerned whether or not the item is stored in memory, or on disk
-     * in a temporary location. They just want to write the uploaded item to
-     * disk.
+     * is not concerned with whether or not the item is stored in memory, or on
+     * disk in a temporary location. They just want to write the uploaded item
+     * to a file.
+     * <p>
+     * This method is not guaranteed to succeed if called more than once for
+     * the same item. This allows a particular implementation to use, for
+     * example, file renaming, where possible, rather than copying all of the
+     * underlying data, thus gaining a significant performance benefit.
      *
      * @param file The <code>File</code> into which the uploaded item should
      *             be stored.
@@ -208,9 +216,14 @@ public interface FileItem
 
     /**
      * A convenience method to write an uploaded item to disk. The client code
-     * is not concerned whether or not the item is stored in memory, or on disk
-     * in a temporary location. They just want to write the uploaded item to
-     * disk.
+     * is not concerned with whether or not the item is stored in memory, or on
+     * disk in a temporary location. They just want to write the uploaded item
+     * to a file.
+     * <p>
+     * This method is not guaranteed to succeed if called more than once for
+     * the same item. This allows a particular implementation to use, for
+     * example, file renaming, where possible, rather than copying all of the
+     * underlying data, thus gaining a significant performance benefit.
      *
      * @param file The full path to location where the uploaded item should
      *             be stored.

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.17 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.17 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.18 2003/05/12 05:24:52 martinc Exp $
+ * $Revision: 1.18 $
+ * $Date: 2003/05/12 05:24:52 $
  *
  * ====================================================================
  *
@@ -98,7 +98,7 @@ import org.apache.commons.fileupload.FileUploadException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.17 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.18 2003/05/12 05:24:52 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -367,9 +367,18 @@ public class DefaultFileItem
 
     /**
      * A convenience method to write an uploaded item to disk. The client code
-     * is not concerned whether or not the item is stored in memory, or on disk
-     * in a temporary location. They just want to write the uploaded item to
-     * disk.
+     * is not concerned with whether or not the item is stored in memory, or on
+     * disk in a temporary location. They just want to write the uploaded item
+     * to a file.
+     * <p>
+     * This implementation first attempts to rename the uploaded item to the
+     * specified destination file, if the item was originally written to disk.
+     * Otherwise, the data will be copied to the specified file.
+     * <p>
+     * This method is only guaranteed to work <em>once</em>, the first time it
+     * is invoked for a particular item. This is because, in the event that the
+     * method renames a temporary file, that file will no longer be available
+     * to copy or rename again at a later time.
      *
      * @param file The <code>File</code> into which the uploaded item should
      *             be stored.
@@ -457,9 +466,9 @@ public class DefaultFileItem
 
     /**
      * A convenience method to write an uploaded item to disk. The client code
-     * is not concerned whether or not the item is stored in memory, or on disk
-     * in a temporary location. They just want to write the uploaded item to
-     * disk.
+     * is not concerned with whether or not the item is stored in memory, or on
+     * disk in a temporary location. They just want to write the uploaded item
+     * to a file.
      *
      * @param file The full path to location where the uploaded file should
      *             be stored.
