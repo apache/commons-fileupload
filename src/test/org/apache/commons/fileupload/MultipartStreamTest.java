@@ -3,7 +3,7 @@ package org.apache.commons.fileupload;
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 2002-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,6 +57,7 @@ package org.apache.commons.fileupload;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import org.apache.commons.fileupload.*;
+import java.io.*;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.MultipartStream}.
@@ -66,10 +67,32 @@ import org.apache.commons.fileupload.*;
  */
 public class MultipartStreamTest extends TestCase
 {
+	static private final String BOUNDARY_TEXT = "myboundary"; 
 
-    public void testMultipartStream()
-    {
-    	// todo 
+    public void testDefaultConstructor() throws Exception {
+    	MultipartStream ms = new MultipartStream();
+    }
+    
+    public void testThreeParamConstructor() throws Exception {
+    	InputStream input = null;
+    	byte[] boundary = BOUNDARY_TEXT.getBytes();
+    	int iBufSize = boundary.length;
+    	MultipartStream ms = new MultipartStream(
+    			input,
+    			boundary,
+    			iBufSize);
     }
 
+	public void testTwoParamConstructor() throws Exception {
+		InputStream input = null;
+		byte[] boundary = BOUNDARY_TEXT.getBytes();
+		MultipartStream ms = new MultipartStream(
+				input,
+				boundary);
+	}
+	
+	public void testToString() {
+		MultipartStream ms = new MultipartStream();
+		assertNotNull(ms.toString());
+	}
 }
