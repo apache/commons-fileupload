@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.7 2002/08/22 04:26:47 martinc Exp $
- * $Revision: 1.7 $
- * $Date: 2002/08/22 04:26:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.8 2002/11/24 03:14:41 jericho Exp $
+ * $Revision: 1.8 $
+ * $Date: 2002/11/24 03:14:41 $
  *
  * ====================================================================
  *
@@ -126,7 +126,7 @@ import java.io.OutputStream;
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: MultipartStream.java,v 1.7 2002/08/22 04:26:47 martinc Exp $
+ * @version $Id: MultipartStream.java,v 1.8 2002/11/24 03:14:41 jericho Exp $
  */
 public class MultipartStream
 {
@@ -413,8 +413,8 @@ public class MultipartStream
     {
         int i = 0;
         byte b[] = new byte[1];
-        StringBuffer buf = new StringBuffer();
         int sizeMax = HEADER_PART_SIZE_MAX;
+        byte[] buf = new byte[sizeMax];
         int size = 0;
         while (i < 4)
         {
@@ -437,10 +437,10 @@ public class MultipartStream
             }
             if (size <= sizeMax)
             {
-                buf.append(new String(b));
+                buf[size] = b[0];
             }
         }
-        return buf.toString();
+        return new String(buf, 0, tail);
     }
 
 
