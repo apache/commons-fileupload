@@ -30,7 +30,7 @@
   <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/fileupload/</distributionDirectory>
 
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic/jakarta-commons/fileupload/</connection>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/fileupload/</connection>
     <url>http://cvs.apache.org/viewcvs/jakarta-commons/fileupload/</url>
   </repository>
 
