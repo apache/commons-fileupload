@@ -1,7 +1,7 @@
-$Id: RELEASE-NOTES.txt,v 1.2 2003/02/11 07:07:31 martinc Exp $
+$Id: RELEASE-NOTES.txt,v 1.3 2003/06/03 06:09:48 martinc Exp $
 
                            Commons FileUpload Package
-                               Version 1.0 Beta 1
+                         Version 1.0 Release Candidate 1
                                  Release Notes
 
 
@@ -15,10 +15,31 @@ FileUpload component, and highlights changes since the previous version.
 NEW FEATURES
 ============
 
-This is the first milestone release of this component.
+* The FileUpload class has been split into an abstract base class and two
+  concrete classes, one of which is specific to a disk-based repository and
+  the other a more generic implementation. Clients who previously used the
+  disk-specific functionality of FileUpload should use DiskFileUpload instead.
+
+* Instances of the FileItem interface are now created by a factory, and custom
+  factories are supported. This allows for much greater flexibility in creating
+  customized FileUpload applications.
+
+* The size threshold now applies to the size of individual items, rather than
+  the overall size of the request. This brings the implmentation in line with
+  the original documentation, as well as better meeting user expectations.
+
+* More specific exceptions are thrown for invalid content type, unknown size
+  and size limit exceeded.
 
 
 BUG FIXES
 =========
 
-Not applicable.
+14120  [FileUpload] uploading files with non-ASCII filenames
+17043  Temporary upload files are not being deleted
+17044  The size threshold parameter works based on the whole request instead of
+       individual parts
+17106  File upload exceptions.
+17872  DefaultFileItem issues
+18265  DefaultFileItem should not catch Exception
+19366  [fileupload] Sample code is not working
