@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.24 2003/10/09 21:15:47 rdonkin Exp $
- * $Revision: 1.24 $
- * $Date: 2003/10/09 21:15:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.25 2004/02/01 04:55:09 martinc Exp $
+ * $Revision: 1.25 $
+ * $Date: 2004/02/01 04:55:09 $
  *
  * ====================================================================
  *
@@ -84,7 +84,7 @@ package org.apache.commons.fileupload;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.24 2003/10/09 21:15:47 rdonkin Exp $
+ * @version $Id: FileUpload.java,v 1.25 2004/02/01 04:55:09 martinc Exp $
  */
 public class FileUpload
     extends FileUploadBase
@@ -103,8 +103,9 @@ public class FileUpload
 
 
     /**
-     * Constructs an instance of this class which uses the default factory to
-     * create <code>FileItem</code> instances.
+     * Constructs an uninitialised instance of this class. A factory must be
+     * configured, using <code>setFileItemFactory()</code>, before attempting
+     * to parse requests.
      *
      * @see #FileUpload(FileItemFactory)
      */
