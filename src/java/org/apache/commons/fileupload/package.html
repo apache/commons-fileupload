@@ -1,4 +1,4 @@
-<!-- $Id: package.html,v 1.1 2002/04/11 06:03:19 jmcnally Exp $ -->
+<!-- $Id: package.html,v 1.2 2003/03/04 04:47:27 martinc Exp $ -->
 <html>
    <head>
       <title>Overview of the org.apache.commons.fileupload component</title>
@@ -43,7 +43,7 @@
         String comment = ((FileItem)i.next()).getString();
         FileItem fi = (FileItem)i.next();
         // filename on the client
-        String fileName = fi.getFileName();
+        String fileName = fi.getName();
         // save comment and filename to database
         ...
         // write the file
