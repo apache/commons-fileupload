@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.3 2002/07/17 01:17:06 martinc Exp $
- * $Revision: 1.3 $
- * $Date: 2002/07/17 01:17:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.4 2002/07/17 05:14:14 martinc Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/07/17 05:14:14 $
  *
  * ====================================================================
  *
@@ -92,7 +92,7 @@ import javax.activation.DataSource;
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileItem.java,v 1.3 2002/07/17 01:17:06 martinc Exp $
+ * @version $Id: FileItem.java,v 1.4 2002/07/17 05:14:14 martinc Exp $
  */
 public interface FileItem
     extends DataSource
@@ -110,13 +110,6 @@ public interface FileItem
      * @return The original filename in the user's filesystem.
      */
     public String getName();
-
-    /**
-     * Returns the original filename in the user's filesystem.
-     *
-     * @return The original filename in the user's filesystem.
-     */
-    public String getFileName();
 
     /**
     * Returns the content type passed by the browser or
@@ -179,17 +172,6 @@ public interface FileItem
         throws IOException;
 
     /**
-     * Returns an {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
-     *
-     * @return An {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
-     * @exception Exception, a generic exception.
-     */
-    public InputStream getStream()
-        throws IOException;
-
-    /**
      * Returns the {@link java.io.File} objects for the DefaultFileItems's
      * data temporary location on the disk.  Note that for
      * <code>DefaultFileItems</code> that have their data stored in memory
@@ -221,4 +203,6 @@ public interface FileItem
 
     public boolean isFormField();
     public void setIsFormField(boolean state);
+
+    public void delete();
 }

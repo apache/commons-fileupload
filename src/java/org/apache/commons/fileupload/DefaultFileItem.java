@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.7 2002/07/17 01:17:06 martinc Exp $
- * $Revision: 1.7 $
- * $Date: 2002/07/17 01:17:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.8 2002/07/17 05:14:14 martinc Exp $
+ * $Revision: 1.8 $
+ * $Date: 2002/07/17 05:14:14 $
  *
  * ====================================================================
  *
@@ -100,7 +100,7 @@ import javax.activation.DataSource;
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
- * @version $Id: DefaultFileItem.java,v 1.7 2002/07/17 01:17:06 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.8 2002/07/17 05:14:14 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -169,16 +169,6 @@ public class DefaultFileItem
      * @return The original filename in the user's filesystem.
      */
     public String getName()
-    {
-        return getFileName();
-    }
-
-    /**
-     * Returns the original filename in the user's filesystem.
-     *
-     * @return The original filename in the user's filesystem.
-     */
-    public String getFileName()
     {
         return fileName;
     }
@@ -292,20 +282,6 @@ public class DefaultFileItem
      * @exception Exception, a generic exception.
      */
     public InputStream getInputStream()
-        throws IOException
-    {
-        return getStream();
-    }
-
-    /**
-     * Returns an {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
-     *
-     * @return An {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
-     * @exception Exception, a generic exception.
-     */
-    public InputStream getStream()
         throws IOException
     {
         if(content == null)
@@ -504,6 +480,14 @@ public class DefaultFileItem
     public boolean isFormField()
     {
         return isFormField;
+    }
+
+    public void delete() {
+        byteStream = null;
+        content = null;
+        if (storeLocation != null && storeLocation.exists()) {
+            storeLocation.delete();
+        }
     }
 
     /**
