@@ -23,15 +23,15 @@
     File upload component.
   </description>
   
-  <url>http://jakarta.apache.org/commons/sandbox/fileupload/</url>
+  <url>http://jakarta.apache.org/commons/fileupload/</url>
   <issueTrackingUrl>http://issues.apache.org/scarab/servlet/scarab/</issueTrackingUrl>
   <siteAddress>jakarta.apache.org</siteAddress>
-  <siteDirectory>/www/jakarta.apache.org/commons/sandbox/fileupload/</siteDirectory>
-  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons-sandbox/fileupload/</distributionDirectory>
+  <siteDirectory>/www/jakarta.apache.org/commons/fileupload/</siteDirectory>
+  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/fileupload/</distributionDirectory>
 
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic/jakarta-commons-sandbox/fileupload/</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/fileupload/</url>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic/jakarta-commons/fileupload/</connection>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons/fileupload/</url>
   </repository>
 
   <mailingLists>
