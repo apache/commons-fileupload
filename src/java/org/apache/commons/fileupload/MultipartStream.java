@@ -80,7 +80,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: MultipartStream.java,v 1.15 2004/07/25 04:47:17 martinc Exp $
+ * @version $Id: MultipartStream.java,v 1.16 2004/10/17 00:58:35 martinc Exp $
  */
 public class MultipartStream
 {
@@ -339,6 +339,17 @@ public class MultipartStream
         try
         {
             marker[0] = readByte();
+            if (marker[0] == 0x0A)
+            {
+                // Work around IE5 Mac bug with input type=image.
+                // Because the boundary delimiter, not including the trailing
+                // CRLF, must not appear within any file (RFC 2046, section
+                // 5.1.1), we know the missing CR is due to a buggy browser
+                // rather than a file containing something similar to a
+                // boundary.
+                return true;
+            }
+
             marker[1] = readByte();
             if (arrayequals(marker, STREAM_TERMINATOR, 2))
             {
