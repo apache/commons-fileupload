@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.18 2003/05/12 05:24:52 martinc Exp $
- * $Revision: 1.18 $
- * $Date: 2003/05/12 05:24:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.19 2003/05/31 22:31:08 martinc Exp $
+ * $Revision: 1.19 $
+ * $Date: 2003/05/31 22:31:08 $
  *
  * ====================================================================
  *
@@ -74,9 +74,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-
 
 /**
  * <p> The default implementation of the
@@ -98,7 +95,7 @@ import org.apache.commons.fileupload.FileUploadException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.18 2003/05/12 05:24:52 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.19 2003/05/31 22:31:08 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -204,7 +201,7 @@ public class DefaultFileItem
      * @return An {@link java.io.InputStream InputStream} that can be
      *         used to retrieve the contents of the file.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     public InputStream getInputStream()
         throws IOException
@@ -342,7 +339,7 @@ public class DefaultFileItem
      *
      * @return The contents of the file, as a string.
      *
-     * @exception java.io.UnsupportedEncodingException if the requested character
+     * @exception UnsupportedEncodingException if the requested character
      *                                         encoding is not available.
      */
     public String getString(String encoding)
@@ -383,7 +380,7 @@ public class DefaultFileItem
      * @param file The <code>File</code> into which the uploaded item should
      *             be stored.
      *
-     * @exception java.lang.Exception if an error occurs.
+     * @exception Exception if an error occurs.
      */
     public void write(File file) throws Exception
     {
@@ -473,7 +470,7 @@ public class DefaultFileItem
      * @param file The full path to location where the uploaded file should
      *             be stored.
      *
-     * @exception java.lang.Exception if an error occurs.
+     * @exception Exception if an error occurs.
      *
      * @deprecated Use <code>write(File)</code> instead.
      */
@@ -587,7 +584,7 @@ public class DefaultFileItem
      * @return An {@link java.io.OutputStream OutputStream} that can be used
      *         for storing the contensts of the file.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     public OutputStream getOutputStream()
         throws IOException

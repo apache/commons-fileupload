@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/Attic/DeferredFileOutputStream.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/Attic/DeferredFileOutputStream.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/05/31 22:31:08 $
  *
  * ====================================================================
  *
@@ -76,7 +76,7 @@ import java.io.OutputStream;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DeferredFileOutputStream.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: DeferredFileOutputStream.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
  */
 public class DeferredFileOutputStream
     extends ThresholdingOutputStream
@@ -142,7 +142,7 @@ public class DeferredFileOutputStream
      *
      * @return The underlying output stream.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     protected OutputStream getStream() throws IOException
     {
@@ -156,7 +156,7 @@ public class DeferredFileOutputStream
      * much data is being written to keep in memory, so we elect to switch to
      * disk-based storage.
      *
-     * @exception java.io.IOException if an error occurs.
+     * @exception IOException if an error occurs.
      */
     protected void thresholdReached() throws IOException
     {

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.19 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.19 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.20 2003/05/31 22:31:08 martinc Exp $
+ * $Revision: 1.20 $
+ * $Date: 2003/05/31 22:31:08 $
  *
  * ====================================================================
  *
@@ -89,7 +89,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.19 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.20 2003/05/31 22:31:08 martinc Exp $
  */
 public class FileUpload
     extends FileUploadBase
@@ -101,7 +101,7 @@ public class FileUpload
     /**
      * The factory to use to create new form items.
      */
-    protected FileItemFactory fileItemFactory;
+    private FileItemFactory fileItemFactory;
 
 
     // ----------------------------------------------------------- Constructors

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadBase.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadBase.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/05/31 22:31:08 $
  *
  * ====================================================================
  *
@@ -94,7 +94,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.1 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
  */
 public abstract class FileUploadBase
 {
@@ -185,7 +185,7 @@ public abstract class FileUploadBase
      * The maximum size permitted for an uploaded file. A value of -1 indicates
      * no maximum.
      */
-    protected long sizeMax = -1;
+    private long sizeMax = -1;
 
 
     // ----------------------------------------------------- Property accessors
@@ -464,7 +464,7 @@ public abstract class FileUploadBase
      *
      * @return A newly created <code>FileItem</code> instance.
      *
-     * @exception org.apache.commons.fileupload.FileUploadException if an error occurs.
+     * @exception FileUploadException if an error occurs.
      */
     protected FileItem createItem(Map /* String, String */ headers,
                                   boolean isFormField)
