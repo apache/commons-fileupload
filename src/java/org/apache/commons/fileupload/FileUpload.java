@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.17 2003/03/03 06:23:39 martinc Exp $
- * $Revision: 1.17 $
- * $Date: 2003/03/03 06:23:39 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.18 2003/03/15 22:34:22 martinc Exp $
+ * $Revision: 1.18 $
+ * $Date: 2003/03/15 22:34:22 $
  *
  * ====================================================================
  *
@@ -96,7 +96,7 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.17 2003/03/03 06:23:39 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.18 2003/03/15 22:34:22 martinc Exp $
  */
 public class FileUpload
 {
@@ -185,7 +185,7 @@ public class FileUpload
     /**
      * The maximum size permitted for an uploaded file.
      */
-    private int sizeMax;
+    private int sizeMax = -1;
 
 
     /**
@@ -413,8 +413,15 @@ public class FileUpload
 
         try
         {
+            int boundaryIndex = contentType.indexOf("boundary=");
+            if (boundaryIndex < 0)
+            {
+                throw new FileUploadException(
+                        "the request was rejected because "
+                        + "no multipart boundary was found");
+            }
             byte[] boundary = contentType.substring(
-                contentType.indexOf("boundary=") + 9).getBytes();
+                    boundaryIndex + 9).getBytes();
 
             InputStream input = (InputStream) req.getInputStream();
 

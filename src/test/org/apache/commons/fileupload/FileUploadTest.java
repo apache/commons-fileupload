@@ -68,18 +68,17 @@ public class FileUploadTest extends TestCase
 {
 	public void testWithInvalidRequest()
     {
-    	HttpServletRequest hsr = HttpServletRequestFactory.createInvalidHttpServletRequest();
-    	
     	FileUpload fu = null;
     	
     	fu = new FileUpload();
     	
     	HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
-    	
+
+
     	try
     	{
     		fu.parseRequest(req);
-    		fail("expected exception was not thrown");
+    		fail("testWithInvalidRequest: expected exception was not thrown");
     	}
     	catch (FileUploadException expected)
     	{
@@ -91,21 +90,23 @@ public class FileUploadTest extends TestCase
 
 	public void testWithNullContentType()
     {
-    	FileUpload fu = null;
-    	
-    	fu = new FileUpload();
+    	FileUpload fu = new FileUpload();
     	
     	HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
     	
     	try
     	{
     		fu.parseRequest(req);
-    		fail("expected exception was not thrown");
+    		fail("testWithNullContentType: expected exception was not thrown");
     	}
-    	catch (FileUploadException expected)
+    	catch (FileUpload.InvalidContentTypeException expected)
     	{
     		// this exception is expected
     	}
+        catch (FileUploadException unexpected)
+        {
+    		fail("testWithNullContentType: unexpected exception was thrown");
+        }
     	
     }
 
@@ -124,9 +125,7 @@ public class FileUploadTest extends TestCase
     		"filename2"
     	};
     	
-		FileUpload fu = null;
-    	
-		fu = new FileUpload();
+		FileUpload fu = new FileUpload();
     	
 		HttpServletRequest req = HttpServletRequestFactory.createValidHttpServletRequest(fileNames);
     	
