@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.15 2003/03/01 21:17:44 martinc Exp $
- * $Revision: 1.15 $
- * $Date: 2003/03/01 21:17:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.16 2003/03/07 23:29:26 sullis Exp $
+ * $Revision: 1.16 $
+ * $Date: 2003/03/07 23:29:26 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,7 @@ import java.io.OutputStream;
 
 
 /**
- * <p> The default mplementation of the
+ * <p> The default implementation of the
  * {@link org.apache.commons.fileupload.FileItem FileItem} interface.
  *
  * <p> After retrieving an instance of this class from a {@link
@@ -94,8 +94,9 @@ import java.io.OutputStream;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
+ * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.15 2003/03/01 21:17:44 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.16 2003/03/07 23:29:26 sullis Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -158,6 +159,9 @@ public class DefaultFileItem
 
     /**
      * Default constructor.
+     * 
+     * @see #DefaultFileItem(String, String)
+     * 
      */
     public DefaultFileItem()
     {
@@ -173,6 +177,9 @@ public class DefaultFileItem
      * @param fileName The original filename in the user's filesystem.
      * @param contentType The content type passed by the browser or
      * <code>null</code> if not defined.
+     * 
+     * @see #DefaultFileItem()
+     * 
      */
     protected DefaultFileItem(String fileName, String contentType)
     {
@@ -483,6 +490,9 @@ public class DefaultFileItem
      * this file item.
      *
      * @return The name of the form field.
+     * 
+     * @see #setFieldName(String)
+     * 
      */
     public String getFieldName()
     {
@@ -494,6 +504,9 @@ public class DefaultFileItem
      * Sets the field name used to reference this file item.
      *
      * @param fieldName The name of the form field.
+     * 
+     * @see #getFieldName()
+     * 
      */
     public void setFieldName(String fieldName)
     {
@@ -507,6 +520,9 @@ public class DefaultFileItem
      *
      * @return <code>true</code> if the instance represents a simple form
      *         field; <code>false</code> if it represents an uploaded file.
+     * 
+     * @see #setIsFormField(boolean)
+     * 
      */
     public boolean isFormField()
     {
@@ -520,6 +536,9 @@ public class DefaultFileItem
      *
      * @param state <code>true</code> if the instance represents a simple form
      *              field; <code>false</code> if it represents an uploaded file.
+     * 
+     * @see #isFormField()
+     * 
      */
     public void setIsFormField(boolean state)
     {
