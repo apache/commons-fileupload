@@ -28,7 +28,7 @@ import org.apache.commons.fileupload.RequestContext;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: PortletRequestContext.java,v 1.1 2004/10/31 05:21:43 martinc Exp $
+ * @version $Id: PortletRequestContext.java,v 1.2 2004/12/08 03:02:26 sullis Exp $
  */
 public class PortletRequestContext implements RequestContext {
 
@@ -80,4 +80,12 @@ public class PortletRequestContext implements RequestContext {
     public InputStream getInputStream() throws IOException {
         return request.getPortletInputStream();
     }
+    
+    public String toString() {
+    	return "ContentLength=" 
+			+ this.getContentLength()
+			+ ", ContentType="
+			+ this.getContentType();
+    }
+
 }
