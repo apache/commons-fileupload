@@ -30,7 +30,17 @@
             <!-- list full releases here -->
         </subsection>
         <subsection name='Beta Releases'>
-            <!-- list beta releases here-->
+          <p>
+            <strong>FileUpload 1.0 Beta 1</strong> - 15 Feb 2003
+            <ul>
+              <li>Download the binary distribution from a mirror site
+                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
+              </li>
+              <li>Download the source distribution from a mirror site
+                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
         </subsection>
         <subsection name='Nightly Builds'>	
             <p>
