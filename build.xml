@@ -1,134 +1,165 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<project name="maven" default="maven:jar" basedir=".">
-
-  <!-- Give user a chance to override without editing this file
-       (and without typing -D each time they invoke a target) -->
-
-  <!-- Allow any user specific values to override the defaults -->
-  <property file="${user.home}/build.properties" />
-  <!-- Allow user defaults for this project -->
-  <property file="build.properties" />
-  <!-- Set default values for the build -->
-  <property file="project.properties" />
-
-  <!-- maven:start -->
+<project default="jar" name="commons-fileupload" basedir=".">
   
-  <!-- ================================================================== -->
-  <!-- D E L E G A T O R S                                                -->
-  <!-- ================================================================== -->
-        
-    <target name="maven:site">
-      <ant antfile="${maven.home}/build-docs.xml" target="site"/>
-    </target>
+  <property name="defaulttargetdir" value="target"></property> 
+  <property name="classesdir" value="target/classes"></property>
+  <property name="testclassesdir" value="target/test-classes"></property>
+  <property name="testreportdir" value="target/test-reports"></property>
+  <property name="distdir" value="dist"></property>
+  <property name="javadocdir" value="target/docs/apidocs"></property>
+  <property name="final.name" value="commons-fileupload-1.0-dev"></property>
+  
+  <target name="init" description="o Initializes some properties">
 
-    <target name="maven:fo">
-      <ant antfile="${maven.home}/build-docs.xml" target="docs:fo"/>
-    </target>
+    <condition property="noget">
+      <equals arg2="only" arg1="${build.sysclasspath}"></equals>
+    </condition>
+  </target>
 
-    <target name="maven:pdf">
-      <ant antfile="${maven.home}/build-docs.xml" target="docs:pdf"/>
-    </target>
-        
-    <target name="maven:jar">
-      <ant antfile="${maven.home}/build-maven.xml" target="jar"/>
-    </target>
-        
-    <target name="maven:install-jar">
-      <ant antfile="${maven.home}/build-maven.xml" target="install-jar"/>
-    </target>
-        
-    <target name="maven:env">
-      <ant antfile="${maven.home}/build-maven.xml" target="env"/>
-    </target>
-        
-    <target name="maven:docs">
-      <ant antfile="${maven.home}/build-docs.xml" target="docs"/>
-    </target>
-        
-    <target name="maven:test">
-      <ant antfile="${maven.home}/build-test.xml" target="test"/>
-    </target>
-
-    <target name="maven:iutest">
-      <ant antfile="${maven.home}/build-iutest.xml" target="test"/>
-    </target>
-        
-    <target name="maven:clean">
-      <ant antfile="${maven.home}/build-maven.xml" target="clean"/>
-    </target>
-        
-    <target name="maven:metrics">
-      <ant antfile="${maven.home}/build-metrics.xml" target="metrics"/>
-    </target>
-        
-    <target name="maven:dist">
-      <ant antfile="${maven.home}/build-maven.xml" target="dist"/>
-    </target>
-        
-    <target name="maven:deploy-site">
-      <ant antfile="${maven.home}/build-docs.xml" target="deploy-site"/>
-    </target>
-        
-    <target name="maven:gump-descriptor">
-      <ant antfile="${maven.home}/build-maven.xml" target="gump-descriptor"/>
-    </target>
-        
-    <target name="maven:javadocs">
-      <ant antfile="${maven.home}/build-docs.xml" target="javadocs"/>
-    </target>
-        
-    <target name="maven:compile">
-      <ant antfile="${maven.home}/build-maven.xml" target="compile"/>
-    </target>
+  <target name="compile" description="o Compile the code" depends="get-deps">
     
-    <target name="maven:check-source">
-      <ant antfile="${maven.home}/build-maven.xml" target="check-source"/>
-    </target>
-        
-    <target name="maven:update-jars">
-      <ant antfile="${maven.home}/build-maven.xml" target="update-jars"/>
-    </target>
+    <mkdir dir="${classesdir}"></mkdir>
 
-    <target name="maven:announce">
-      <ant antfile="${maven.home}/build-maven.xml" target="announce"/>
-    </target>
-
-    <target name="maven:update-descriptor">
-      <ant antfile="${maven.home}/build-maven.xml" target="update-descriptor"/>
-    </target>
-
-    <target name="maven:updates-available">
-      <ant antfile="${maven.home}/build-maven.xml" target="updates-available"/>
-    </target>
-
-    <target name="maven:validate-pom">
-      <ant antfile="${maven.home}/build-maven.xml" target="validate-pom"/>
-    </target>
-
-    <target name="maven:maven-update">
-      <ant antfile="${maven.home}/build-maven.xml" target="maven-update"/>
-    </target>
+    <javac destdir="${classesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
+      <src>
+        <pathelement location="src/java"></pathelement>
+      </src>
+      <classpath>
+        <fileset dir="lib">
+          <include name="*.jar"></include>
+        </fileset>
+      </classpath>
+    </javac>
     
-  <!-- maven:end -->
+    
 
-  <target name="dist" depends="maven:jar,maven:javadocs"
-   description="Create binary distribution">
-    <property name="dist.home" value="${basedir}/dist"/>
-    <property name="target.home" value="${basedir}/target"/>
-    <mkdir      dir="${dist.home}"/>
-    <copy      file="../LICENSE"
-              todir="${dist.home}"/>
-    <copy      file="RELEASE-NOTES.txt"
-              todir="${dist.home}"/>
-    <copy     todir="${dist.home}">
-        <fileset dir="${target.home}" includes="commons-fileupload*.jar"/> 
-    </copy>
-    <copy     todir="${dist.home}">
-        <fileset dir="${target.home}" includes="docs"/>
-    </copy>
+  </target>
+    
+  <target name="jar" description="o Create the jar" depends="compile,test">
 
+    <jar jarfile="target/${final.name}.jar" excludes="**/package.html" basedir="${classesdir}"></jar>
+
+  </target>
+  
+  <target name="clean" description="o Clean up the generated directories">
+    <delete dir="${defaulttargetdir}"></delete>
+    <delete dir="${distdir}"></delete>
+  </target>
+
+  <target name="dist" description="o Create a distribution" depends="jar, javadoc">
+    <mkdir dir="dist"></mkdir>
+    <copy todir="dist">
+      <fileset dir="${defaulttargetdir}"></fileset>
+    </copy>
+  </target>
+ 
+  <target name="test" description="o Run the test cases" depends="compile-tests">
+    <mkdir dir="${testreportdir}"></mkdir>
+    <junit dir="./" printSummary="yes" fork="true" haltonerror="true">
+      <sysproperty key="basedir" value="src/test"></sysproperty>
+      <formatter type="xml"></formatter>
+      <formatter usefile="true" type="plain"></formatter>
+      <classpath>
+        <fileset dir="lib">
+          <include name="*.jar"></include>
+        </fileset>
+        <pathelement location="target/${final.name}.jar"></pathelement>
+        <pathelement path="${testclassesdir}"></pathelement>
+      </classpath>
+      <batchtest todir="${testreportdir}">
+        <fileset dir="src/test">
+              
+                <include name="**/*Test.java"></include>
+              
+              
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="compile-tests" depends="compile">
+    <mkdir dir="${testclassesdir}"></mkdir>
+    <javac destdir="${testclassesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
+      <src>
+        <pathelement location="src/test"></pathelement>
+      </src>
+      <classpath>
+        <fileset dir="lib">
+          <include name="*.jar"></include>
+        </fileset>
+        <pathelement location="target/${final.name}.jar"></pathelement>
+      </classpath>
+    </javac>
+
+    
+   
+    
+ 
+    <copy todir="${testclassesdir}">
+      <fileset dir="src/test">
+      
+      
+      </fileset>
+    </copy>
+    
+  </target>
+
+  <target name="javadoc" description="o Generate javadoc" depends="jar">
+ 
+ 
+    <mkdir dir="${javadocdir}"></mkdir>
+ 
+    
+    <tstamp>
+      <format pattern="2002-yyyy" property="year"></format>
+    </tstamp>
+ 
+    <property name="copyright" value="Copyright &amp;copy;  Apache Software Foundation. All Rights Reserved."></property>
+ 
+    <property name="title" value="FileUpload 1.0-dev API"></property>
+ 
+    <javadoc use="true" private="true" destdir="${javadocdir}" author="true" version="true" sourcepath="src/java" packagenames="org.apache.commons.fileupload.*">
+      <classpath>
+        <fileset dir="lib">
+          <include name="*.jar"></include>
+        </fileset>
+        <pathelement location="target/${final.name}.jar"></pathelement>
+      </classpath>
+    </javadoc>
+ 
+  </target>
+
+  <target name="get-deps" unless="noget" depends="init">
+  
+    <mkdir dir="lib"></mkdir>
+    
+    <get dest="lib/commons-beanutils-1.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-beanutils/jars/commons-beanutils-1.3.jar"></get>
+    <get dest="lib/junit-3.7.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.7.jar"></get>
+    <get dest="lib/servletapi-2.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/servletapi/jars/servletapi-2.3.jar"></get>
+    
+    <get dest="lib/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.1.jar"></get>
+  
+  </target>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <target name="install-maven">
+
+    
+
+    <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${maven.repo.remote}/maven/maven-install-latest.jar"></get>
+    
+    <unjar dest="${maven.home}" src="${user.home}/maven-install-latest.jar"></unjar>
+    
   </target>
 
 </project>
-
+    
