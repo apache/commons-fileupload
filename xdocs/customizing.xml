@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <title>Customizing FileUpload</title>
+    <author email="martinc@apache.org">Martin Cooper</author>
+  </properties>
+
+<body>
+
+  <section name="Customizing FileUpload">
+    <p>
+	  TODO: Document usage of factories and subclassing for customization.
+    </p>
+  </section>
+
+</body>
+</document>

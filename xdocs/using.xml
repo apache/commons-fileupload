@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <title>Using FileUpload</title>
+    <author email="martinc@apache.org">Martin Cooper</author>
+  </properties>
+
+<body>
+
+  <section name="Using FileUpload">
+    <p>
+      FileUpload can be used in a number of different ways, depending upon the
+      requirements of your application. In the simplest case, you will call a
+      single method to parse the servlet request, and then process the list of
+      items as they apply to your application. At the other end of the scale,
+      you might decide to customize FileUpload to take full control of the way
+      in which individual items are stored; for example, you might decide to
+      stream the content into a database.
+    </p>
+    <p>
+      Here, we will describe the basic principles of FileUpload, and illustrate
+      some of the simpler - and most common - usage patterns. Customization of
+      FileUpload is described <a href="customizing.html">elsewhere</a>.
+    </p>
+  </section>
+
+  <section name="How it works">
+    <p>
+      A file upload request comprises an ordered list of <em>items</em> that
+      are encoded according to
+      <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>,
+      "Form-based File Upload in HTML". FileUpload can parse such a request
+      and provide your application with a list of the individual uploaded
+      items. Each such item implements the <code>FileItem</code> interface,
+      regardless of its underlying implementation.
+    </p>
+    <p>
+      Each file item has a number of properties that might be of interest for
+      your application. For example, every item has a name and a content type,
+      and can provide an <code>InputStream</code> to access its data. On the
+      other hand, you may need to process items differently, depending upon
+      whether the item is a regular form field - that is, the data came from
+      an ordinary text box or similar HTML field - or an uploaded file. The
+      <code>FileItem</code> interface provides the methods to make such a
+      determination, and to access the data in the most appropriate manner.
+    </p>
+    <p>
+      FileUpload creates new file items using a <code>FileItemFactory</code>.
+      This is what gives FileUpload most of its flexibility. The factory has
+      ultimate control over how each item is created. The default factory
+      stores the item's data in memory or on disk, depending on the size of
+      the item (i.e. bytes of data). However, this behavior can be customized
+      to suit your application.
+    </p>
+  </section>
+
+  <section name="Parsing the request">
+    <p>
+      Before you can work with the uploaded items, of course, you need to parse
+      the request itself. Ensuring that the request is actually a file upload
+      request is straightforward, but FileUpload makes it simplicity itself, by
+      providing a static method to do just that.
+    </p>
+<source><![CDATA[// Check that we have a file upload request
+boolean isMultipart = FileUpload.isMultipartContent(request);]]></source>
+      <p>
+        Now we are ready to parse the request into its constituent items.
+      </p>
+    <subsection name="The simplest case">
+      <p>
+        The simplest usage scenario is the following:
+        <ul>
+          <li>
+            Uploaded items should be retained in memory as long as they are
+            reasonably small.
+          </li>
+          <li>
+            Larger items should be written to a temporary file on disk.
+          </li>
+          <li>
+            Very large upload requests should not be permitted.
+          </li>
+          <li>
+            The built-in defaults for the maximum size of an item to
+            be retained in memory, the maximum permitted size of an upload
+            request, and the location of temporary files are acceptable.
+          </li>
+        </ul>
+      </p>
+      <p>
+        Handling a request in this scenario couldn't be much simpler:
+      </p>
+<source><![CDATA[// Create a new file upload handler
+FileUpload upload = new DiskFileUpload();
+
+// Parse the request
+List /* FileItem */ items = upload.parseRequest(request);]]></source>
+      <p>
+        That's all that's needed. Really!
+      </p>
+      <p>
+        The result of the parse is a <code>List</code> of file items, each of
+        which implements the <code>FileItem</code> interface. Processing these
+        items is discussed below.
+      </p>
+    </subsection>
+
+    <subsection name="Exercising more control">
+      <p>
+        If your usage scenario is close to the simplest case, described above,
+        but you need a little more control over the size thresholds or the
+        location of temporary files, you can customize the behavior using the
+        methods of the <code>DiskFileUpload</code> class, like this:
+      </p>
+<source><![CDATA[// Create a new file upload handler
+DiskFileUpload upload = new DiskFileUpload();
+
+// Set upload parameters
+upload.setSizeThreshold(yourMaxMemorySize);
+upload.setSizeMax(yourMaxRequestSize);
+upload.setRepositoryPath(yourTempDirectory);
+
+// Parse the request
+List /* FileItem */ items = upload.parseRequest(request);]]></source>
+      <p>
+        Of course, each of the configuration methods is independent of the
+        others, but if you want to configure them all at once, you can do that
+        with an alternate <code>parseRequest()</code> method, like this:
+      </p>
+<source><![CDATA[// Create a new file upload handler
+DiskFileUpload upload = new DiskFileUpload();
+
+// Parse the request
+List /* FileItem */ items = upload.parseRequest(request,
+        yourMaxMemorySize, yourMaxRequestSize, yourTempDirectory);]]></source>
+      <p>
+        Should you need further control over the parsing of the request, such
+        as storing the items elsewhere - for example, in a database - you will
+        need to look into <a href="customizing.html">customizing</a> FileUpload.
+      </p>
+    </subsection>
+  </section>
+
+  <section name="Processing the uploaded items">
+    <p>
+      Once the parse has completed, you will have a <code>List</code> of file
+      items that you need to process. In most cases, you will want to handle
+      file uploads differently from regular form fields, so you might process
+      the list like this:
+    </p>
+<source><![CDATA[// Process the uploaded items
+Iterator iter = items.iterator();
+while (iter.hasNext()) {
+    FileItem item = (FileItem) iter.next();
+
+    if (item.isFormField()) {
+        processFormField(item);
+    } else {
+        processUploadedFile(item);
+    }
+}]]></source>
+    <p>
+      For a regular form field, you will most likely be interested only in the
+      name of the item, and its <code>String</code> value. As you might expect,
+      accessing these is very simple.
+    </p>
+<source><![CDATA[// Process a regular form field
+if (item.isFormField()) {
+    String name = item.getFieldName();
+    String value = item.getString();
+    ...
+}]]></source>
+    <p>
+      For a file upload, there are several different things you might want to
+      know before you process the content. Here is an example of some of the
+      methods you might be interested in.
+    </p>
+<source><![CDATA[// Process a file upload
+if (!item.isFormField()) {
+    String fieldName = item.getFieldName();
+    String fileName = item.getName();
+    String contentType = item.getContentType();
+    boolean isInMemory = item.isInMemory();
+    long sizeInBytes = item.getSize();
+    ...
+}]]></source>
+    <p>
+      With uploaded files, you generally will not want to access them via
+      memory, unless they are small, or unless you have no other alternative.
+      Rather, you will want to process the content as a stream, or write the
+      entire file to its ultimate location. FileUpload provides simple means of
+      accomplishing both of these.
+    </p>
+<source><![CDATA[// Process a file upload
+if (writeToFile) {
+    File uploadedFile = new File(...);
+    item.write(uploadedFile);
+} else {
+    InputStream uploadedStream = item.getInputStream();
+    ...
+    uploadedStream.close();
+}]]></source>
+    <p>
+      Note that, in the default implementation of FileUpload, <code>write()</code>
+      will attempt to rename the file to the specified destination, if the data
+      is already in a temporary file. Actually copying the data is only done if
+      the the rename fails, for some reason, or if the data was in memory.
+    </p>
+    <p>
+      If you do need to access the uploaded data in memory, you need simply
+      call the <code>get()</code> method to obtain the data as an array of
+      bytes.
+    </p>
+<source><![CDATA[// Process a file upload in memory
+byte[] data = item.get();
+...]]></source>
+  </section>
+
+  <section name="What's next">
+    <p>
+      Hopefully this page has provided you with a good idea of how to use
+      FileUpload in your own applications. For more detail on the methods
+      introduced here, as well as other available methods, you should refer
+      to the <a href="apidocs/index.html">JavaDocs</a>.
+    </p>
+    <p>
+      The usage described here should satisfy a large majority of file upload
+      needs. However, should you have more complex requirements, FileUpload
+      should still be able to help you, with it's flexible
+      <a href="customizing.html">customization</a> capabilities.
+    </p>
+  </section>
+
+</body>
+</document>
