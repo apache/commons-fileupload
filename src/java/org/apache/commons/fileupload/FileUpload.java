@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.14 2002/11/10 06:31:10 martinc Exp $
- * $Revision: 1.14 $
- * $Date: 2002/11/10 06:31:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.15 2002/12/25 04:05:07 martinc Exp $
+ * $Revision: 1.15 $
+ * $Date: 2002/12/25 04:05:07 $
  *
  * ====================================================================
  *
@@ -96,7 +96,7 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.14 2002/11/10 06:31:10 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.15 2002/12/25 04:05:07 martinc Exp $
  */
 public class FileUpload
 {
@@ -443,8 +443,7 @@ public class FileUpload
                                 FileItem item = 
                                     createItem(sizeThreshold, path,
                                                headers, requestSize);
-                                OutputStream os = 
-                                    ((DefaultFileItem) item).getOutputStream();
+                                OutputStream os = item.getOutputStream();
                                 try
                                 {
                                     multi.readBodyData(os);
@@ -474,8 +473,7 @@ public class FileUpload
                             FileItem item = createItem(sizeThreshold, 
                                                        path, headers,
                                                        requestSize);
-                            OutputStream os = 
-                                ((DefaultFileItem) item).getOutputStream();
+                            OutputStream os = item.getOutputStream();
                             try
                             {
                                 multi.readBodyData(os);
@@ -493,8 +491,7 @@ public class FileUpload
                             FileItem item = createItem(sizeThreshold,
                                                        path, headers,
                                                        requestSize);
-                            OutputStream os = 
-                                ((DefaultFileItem) item).getOutputStream();
+                            OutputStream os = item.getOutputStream();
                             try
                             {
                                 multi.readBodyData(os);
