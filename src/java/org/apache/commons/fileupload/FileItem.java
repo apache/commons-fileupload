@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.10 2002/12/20 04:09:07 dion Exp $
- * $Revision: 1.10 $
- * $Date: 2002/12/20 04:09:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.11 2002/12/25 04:05:07 martinc Exp $
+ * $Revision: 1.11 $
+ * $Date: 2002/12/25 04:05:07 $
  *
  * ====================================================================
  *
@@ -66,6 +66,7 @@ package org.apache.commons.fileupload;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
@@ -95,7 +96,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileItem.java,v 1.10 2002/12/20 04:09:07 dion Exp $
+ * @version $Id: FileItem.java,v 1.11 2002/12/25 04:05:07 martinc Exp $
  */
 public interface FileItem extends Serializable
 {
@@ -277,5 +278,17 @@ public interface FileItem extends Serializable
      *              field; <code>false</code> if it represents an uploaded file.
      */
     void setIsFormField(boolean state);
+
+
+    /**
+     * Returns an {@link java.io.OutputStream OutputStream} that can
+     * be used for storing the contents of the file.
+     *
+     * @return An {@link java.io.OutputStream OutputStream} that can be used
+     *         for storing the contensts of the file.
+     *
+     * @exception IOException if an error occurs.
+     */
+    public OutputStream getOutputStream() throws IOException;
 
 }

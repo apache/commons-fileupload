@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.13 2002/08/22 04:41:29 martinc Exp $
- * $Revision: 1.13 $
- * $Date: 2002/08/22 04:41:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.14 2002/12/25 04:05:07 martinc Exp $
+ * $Revision: 1.14 $
+ * $Date: 2002/12/25 04:05:07 $
  *
  * ====================================================================
  *
@@ -95,7 +95,7 @@ import java.io.OutputStream;
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DefaultFileItem.java,v 1.13 2002/08/22 04:41:29 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.14 2002/12/25 04:05:07 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -512,21 +512,6 @@ public class DefaultFileItem
     }
 
 
-    // --------------------------------------------------------- Public methods
-
-
-    /**
-     * Removes the file contents from the temporary storage.
-     */
-    protected void finalize()
-    {
-        if (storeLocation != null && storeLocation.exists())
-        {
-            storeLocation.delete();
-        }
-    }
-
-
     /**
      * Returns an {@link java.io.OutputStream OutputStream} that can
      * be used for storing the contents of the file.
@@ -546,6 +531,21 @@ public class DefaultFileItem
         else
         {
             return new FileOutputStream(storeLocation);
+        }
+    }
+
+
+    // --------------------------------------------------------- Public methods
+
+
+    /**
+     * Removes the file contents from the temporary storage.
+     */
+    protected void finalize()
+    {
+        if (storeLocation != null && storeLocation.exists())
+        {
+            storeLocation.delete();
         }
     }
 
