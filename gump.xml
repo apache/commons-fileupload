@@ -3,14 +3,14 @@
 
   <description>File upload component.</description>
   <url href="http://jakarta.apache.org/commons/fileupload/"/>
-  
+
   <cvs repository="jakarta"/>
-  
+
   <!-- This is really the cvs module. We need to change this but -->
   <!-- I will leave this for now until everything works.         -->
-  
+
   <project name="commons-fileupload">
-    
+
     <!-- Standard Maven target to produce Javadocs, source -->
     <!-- and binary distributions.                         -->
     <ant buildfile="build-gump.xml" target="jar">
@@ -20,7 +20,7 @@
     <package>org.apache.commons.fileupload</package>
 
     <!-- All Maven projects need Ant and Xerces to build. -->
-    <depend project="jakarta-ant"/>
+    <depend project="jakarta-ant" inherit="runtime"/>
     <depend project="xml-xerces"/>
 
     <depend project="jaf"/>
@@ -34,7 +34,7 @@
     <nag from="Maven Developers &lt;turbine-maven-dev@jakarta.apache.org&gt;"
          to="commons-dev@jakarta.apache.org"/>
 
-    
+
   </project>
-  
+
 </module>
