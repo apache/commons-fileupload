@@ -94,10 +94,13 @@
     <aspectSourceDirectory/>
 
     <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-    <unitTestPatterns>
-      <unitTestPattern>include = **/*Test.java</unitTestPattern>
-    </unitTestPatterns>
-  
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+
     <integrationUnitTestSourceDirectory>src/rttest</integrationUnitTestSourceDirectory>
     <integrationUnitTestPatterns>
       <integrationUnitTestPattern>include = **/*Test.java</integrationUnitTestPattern>
