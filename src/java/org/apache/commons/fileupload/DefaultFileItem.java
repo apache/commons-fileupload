@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 
 /**
@@ -47,7 +48,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.24 2004/02/25 21:07:12 scolebourne Exp $
+ * @version $Id: DefaultFileItem.java,v 1.25 2004/03/12 07:34:45 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -66,6 +67,15 @@ public class DefaultFileItem
      * The name of the form field as provided by the browser.
      */
     private String fieldName;
+
+
+    /**
+     * Default content charset to be used when no explicit charset
+     * parameter is provided by the sender. Media subtypes of the 
+     * "text" type are defined to have a default charset value of 
+     * "ISO-8859-1" when received via HTTP.
+     */
+    public static final String DEFAULT_CHARSET = "ISO-8859-1";
 
 
     /**
@@ -172,15 +182,32 @@ public class DefaultFileItem
 
 
     /**
-     * Returns the content type passed by the browser or <code>null</code> if
+     * Returns the content type passed by the agent or <code>null</code> if
      * not defined.
      *
-     * @return The content type passed by the browser or <code>null</code> if
+     * @return The content type passed by the agent or <code>null</code> if
      *         not defined.
      */
     public String getContentType()
     {
         return contentType;
+    }
+
+
+    /**
+     * Returns the content charset passed by the agent or <code>null</code> if
+     * not defined.
+     * 
+     * @return The content charset passed by the agent or <code>null</code> if
+     *         not defined.
+     */
+    public String getCharSet()
+    {
+        ParameterParser parser = new ParameterParser();
+        parser.setLowerCaseNames(true);
+        // Parameter parser can handle null input
+        Map params = parser.parse(getContentType(), ';');
+        return (String)params.get("charset");
     }
 
 
@@ -287,17 +314,17 @@ public class DefaultFileItem
      * encoding.  This method uses {@link #get()} to retrieve the
      * contents of the file.
      *
-     * @param encoding The character encoding to use.
+     * @param charset The charset to use.
      *
      * @return The contents of the file, as a string.
      *
      * @exception UnsupportedEncodingException if the requested character
      *                                         encoding is not available.
      */
-    public String getString(String encoding)
+    public String getString(final String charset)
         throws UnsupportedEncodingException
     {
-        return new String(get(), encoding);
+        return new String(get(), charset);
     }
 
 
@@ -309,8 +336,20 @@ public class DefaultFileItem
      * @return The contents of the file, as a string.
      */
     public String getString()
+    //@TODO: Consider making this method throw UnsupportedEncodingException 
     {
-        return new String(get());
+        byte[] rawdata = get();
+        String charset = getCharSet();
+        if (charset == null) {
+            charset = DEFAULT_CHARSET;
+        }
+        try
+        {
+            return new String(rawdata, charset);
+        }
+        catch(UnsupportedEncodingException e) {
+            return new String(rawdata);
+        }
     }
 
 

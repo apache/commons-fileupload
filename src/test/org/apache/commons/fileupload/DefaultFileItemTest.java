@@ -225,4 +225,148 @@ public class DefaultFileItemTest extends TestCase
     {
         return new DefaultFileItemFactory(threshold, repository);
     }
+
+
+    static final String CHARSET_ISO88591 = "ISO-8859-1";
+    static final String CHARSET_ASCII = "US-ASCII";
+    static final String CHARSET_UTF8 = "UTF-8";
+    static final String CHARSET_KOI8_R = "KOI8_R";
+    static final String CHARSET_WIN1251 = "Cp1251";
+
+    static final int SWISS_GERMAN_STUFF_UNICODE [] = 
+    {
+        0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4
+    };
+    
+    static final int SWISS_GERMAN_STUFF_ISO8859_1 [] = 
+    {
+        0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4
+    };
+    
+    static final int SWISS_GERMAN_STUFF_UTF8 [] = 
+    {
+        0x47, 0x72, 0xC3, 0xBC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xC3, 0xA4,
+        0x6D, 0xC3, 0xA4
+    };
+
+    static final int RUSSIAN_STUFF_UNICODE [] = 
+    {
+        0x412, 0x441, 0x435, 0x43C, 0x5F, 0x43F, 0x440, 0x438, 
+        0x432, 0x435, 0x442 
+    }; 
+
+    static final int RUSSIAN_STUFF_UTF8 [] = 
+    {
+        0xD0, 0x92, 0xD1, 0x81, 0xD0, 0xB5, 0xD0, 0xBC, 0x5F, 
+        0xD0, 0xBF, 0xD1, 0x80, 0xD0, 0xB8, 0xD0, 0xB2, 0xD0, 
+        0xB5, 0xD1, 0x82
+    };
+
+    static final int RUSSIAN_STUFF_KOI8R [] = 
+    {
+        0xF7, 0xD3, 0xC5, 0xCD, 0x5F, 0xD0, 0xD2, 0xC9, 0xD7, 
+        0xC5, 0xD4
+    };
+
+    static final int RUSSIAN_STUFF_WIN1251 [] = 
+    {
+        0xC2, 0xF1, 0xE5, 0xEC, 0x5F, 0xEF, 0xF0, 0xE8, 0xE2, 
+        0xE5, 0xF2
+    };
+
+
+    private static String constructString(int[] unicodeChars)
+    {
+        StringBuffer buffer = new StringBuffer();
+        if (unicodeChars != null)
+        {
+            for (int i = 0; i < unicodeChars.length; i++)
+            {
+                buffer.append((char) unicodeChars[i]);
+            }
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * Test construction of content charset.
+     */
+    public void testContentCharSet() throws Exception
+    {
+        FileItemFactory factory = createFactory(null);
+
+        String teststr = constructString(SWISS_GERMAN_STUFF_UNICODE);
+
+        FileItem item =
+            factory.createItem(
+                "doesnotmatter",
+                "text/plain; charset=" + CHARSET_ISO88591,
+                true,
+                null);
+        OutputStream outstream = item.getOutputStream();
+        for (int i = 0; i < SWISS_GERMAN_STUFF_ISO8859_1.length; i++)
+        {
+            outstream.write(SWISS_GERMAN_STUFF_ISO8859_1[i]);
+        }
+        outstream.close();
+        assertEquals(teststr, teststr, item.getString());
+
+        item =
+            factory.createItem(
+                "doesnotmatter",
+                "text/plain; charset=" + CHARSET_UTF8,
+                true,
+                null);
+        outstream = item.getOutputStream();
+        for (int i = 0; i < SWISS_GERMAN_STUFF_UTF8.length; i++)
+        {
+            outstream.write(SWISS_GERMAN_STUFF_UTF8[i]);
+        }
+        outstream.close();
+        assertEquals(teststr, teststr, item.getString());
+
+        teststr = constructString(RUSSIAN_STUFF_UNICODE);
+
+        item =
+            factory.createItem(
+                "doesnotmatter",
+                "text/plain; charset=" + CHARSET_KOI8_R,
+                true,
+                null);
+        outstream = item.getOutputStream();
+        for (int i = 0; i < RUSSIAN_STUFF_KOI8R.length; i++)
+        {
+            outstream.write(RUSSIAN_STUFF_KOI8R[i]);
+        }
+        outstream.close();
+        assertEquals(teststr, teststr, item.getString());
+
+        item =
+            factory.createItem(
+                "doesnotmatter",
+                "text/plain; charset=" + CHARSET_WIN1251,
+                true,
+                null);
+        outstream = item.getOutputStream();
+        for (int i = 0; i < RUSSIAN_STUFF_WIN1251.length; i++)
+        {
+            outstream.write(RUSSIAN_STUFF_WIN1251[i]);
+        }
+        outstream.close();
+        assertEquals(teststr, teststr, item.getString());
+
+        item =
+            factory.createItem(
+                "doesnotmatter",
+                "text/plain; charset=" + CHARSET_UTF8,
+                true,
+                null);
+        outstream = item.getOutputStream();
+        for (int i = 0; i < RUSSIAN_STUFF_UTF8.length; i++)
+        {
+            outstream.write(RUSSIAN_STUFF_UTF8[i]);
+        }
+        outstream.close();
+        assertEquals(teststr, teststr, item.getString());
+    }
 }
