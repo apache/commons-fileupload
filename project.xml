@@ -126,7 +126,7 @@
     <report>maven-junit-report-plugin</report>
     <report>maven-jxr-plugin</report>
     <report>maven-license-plugin</report>
-    <report>maven-linkcheck-plugin</report>
+    <!--report>maven-linkcheck-plugin</report-->
     <report>maven-tasklist-plugin</report>
 <!--    <report>maven-clover-plugin</report> -->
   </reports>

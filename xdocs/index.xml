@@ -24,7 +24,7 @@
 
   <body>
 
-    <section name="Introduction">
+    <section name="Commons FileUpload">
       <p>
         The Commons <strong>FileUpload</strong> package makes it easy to add
         robust, high-performance, file upload capability to your servlets and
