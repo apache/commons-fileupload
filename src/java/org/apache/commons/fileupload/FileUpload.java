@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.22 2003/06/01 17:33:24 martinc Exp $
- * $Revision: 1.22 $
- * $Date: 2003/06/01 17:33:24 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.23 2003/06/24 05:45:43 martinc Exp $
+ * $Revision: 1.23 $
+ * $Date: 2003/06/24 05:45:43 $
  *
  * ====================================================================
  *
@@ -63,11 +63,6 @@
 package org.apache.commons.fileupload;
 
 
-import java.io.File;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-
-
 /**
  * <p>High level API for processing file uploads.</p>
  *
@@ -89,7 +84,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.22 2003/06/01 17:33:24 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.23 2003/06/24 05:45:43 martinc Exp $
  */
 public class FileUpload
     extends FileUploadBase
