@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.19 2003/05/31 22:31:08 martinc Exp $
- * $Revision: 1.19 $
- * $Date: 2003/05/31 22:31:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DefaultFileItem.java,v 1.20 2003/06/01 17:33:24 martinc Exp $
+ * $Revision: 1.20 $
+ * $Date: 2003/06/01 17:33:24 $
  *
  * ====================================================================
  *
@@ -95,7 +95,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.19 2003/05/31 22:31:08 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.20 2003/06/01 17:33:24 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -462,25 +462,6 @@ public class DefaultFileItem
 
 
     /**
-     * A convenience method to write an uploaded item to disk. The client code
-     * is not concerned with whether or not the item is stored in memory, or on
-     * disk in a temporary location. They just want to write the uploaded item
-     * to a file.
-     *
-     * @param file The full path to location where the uploaded file should
-     *             be stored.
-     *
-     * @exception Exception if an error occurs.
-     *
-     * @deprecated Use <code>write(File)</code> instead.
-     */
-    public void write(String file) throws Exception
-    {
-        write(new File(file));
-    }
-
-
-    /**
      * Deletes the underlying storage for a file item, including deleting any
      * associated temporary disk file. Although this storage will be deleted
      * automatically when the <code>FileItem</code> instance is garbage
@@ -556,24 +537,6 @@ public class DefaultFileItem
     public void setFormField(boolean state)
     {
         isFormField = state;
-    }
-
-
-    /**
-     * Specifies whether or not a <code>FileItem</code> instance represents
-     * a simple form field.
-     *
-     * @param state <code>true</code> if the instance represents a simple form
-     *              field; <code>false</code> if it represents an uploaded file.
-     *
-     * @see #isFormField()
-     *
-     * @deprecated Use <code>setFormField()</code> instead.
-     *
-     */
-    public void setIsFormField(boolean state)
-    {
-        setFormField(state);
     }
 
 
