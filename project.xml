@@ -4,7 +4,7 @@
   <extend>../project.xml</extend>
   <name>FileUpload</name>
   <id>commons-fileupload</id>
-  <currentVersion>1.0-beta-2-dev</currentVersion>
+  <currentVersion>1.0-rc1</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>File upload component for Java servlets</shortDescription>
   <description>
@@ -16,6 +16,11 @@
   <issueTrackingUrl>http://nagoya.apache.org/bugzilla/</issueTrackingUrl>
 
   <versions>
+    <version>
+      <id>rc1</id>
+      <name>1.0-rc1</name>
+      <tag>FILEUPLOAD_1_0_RC1</tag>
+    </version>
     <version>
       <id>b1</id>
       <name>1.0-beta-1</name>
