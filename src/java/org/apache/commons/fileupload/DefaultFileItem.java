@@ -70,8 +70,8 @@ import java.io.OutputStream;
 import javax.activation.DataSource;
 
 /**
- * <p> This class represents a file that was received by Turbine using
- * <code>multipart/form-data</code> POST request.
+ * <p> The implementation of 
+ * {@link org.apache.commons.fileupload.FileItem FileItem} interface.
  *
  * <p> After retrieving an instance of this class from the {@link
  * org.apache.commons.fileupload.FileUpload FileUpload} (see
@@ -91,7 +91,7 @@ import javax.activation.DataSource;
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
- * @version $Id: DefaultFileItem.java,v 1.3 2002/04/09 17:33:53 jmcnally Exp $
+ * @version $Id: DefaultFileItem.java,v 1.4 2002/04/11 06:03:19 jmcnally Exp $
  */
 public class DefaultFileItem
     implements FileItem

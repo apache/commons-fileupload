@@ -55,10 +55,10 @@ package org.apache.commons.fileupload;
  */
 
 /**
- * The base class of all exceptions thrown by FileUpload.
+ * Exception for errors encountered processing the request.
  *
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id: FileUploadException.java,v 1.1 2002/03/24 07:05:13 jmcnally Exp $
+ * @version $Id: FileUploadException.java,v 1.2 2002/04/11 06:03:19 jmcnally Exp $
  */
 public class FileUploadException
     extends Exception
