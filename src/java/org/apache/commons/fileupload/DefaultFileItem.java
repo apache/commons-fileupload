@@ -91,7 +91,7 @@ import javax.activation.DataSource;
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
- * @version $Id: DefaultFileItem.java,v 1.2 2002/04/05 22:29:22 jmcnally Exp $
+ * @version $Id: DefaultFileItem.java,v 1.3 2002/04/09 17:33:53 jmcnally Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -392,7 +392,9 @@ public class DefaultFileItem
             String fileName = getUniqueId();
             fileName = "upload_" + fileName + ".tmp";
             fileName = path + "/" + fileName;
-            item.storeLocation = new File(fileName);
+            File f = new File(fileName);
+            f.deleteOnExit();
+            item.storeLocation = f;
         }
         else
         {
