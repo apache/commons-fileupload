@@ -54,7 +54,6 @@ package org.apache.commons.fileupload;
  * <http://www.apache.org/>.
  */
 
-import java.net.URLDecoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.BufferedInputStream;
@@ -92,7 +91,7 @@ import javax.activation.DataSource;
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
- * @version $Id: DefaultFileItem.java,v 1.5 2002/04/18 16:10:28 jmcnally Exp $
+ * @version $Id: DefaultFileItem.java,v 1.6 2002/06/06 23:59:29 jmcnally Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -250,11 +249,6 @@ public class DefaultFileItem
                 byteStream = null;
             }
         }
-        if (isFormField()) 
-        {
-            // client may have encoded the parameter
-            content = URLDecoder.decode(new String(content)).getBytes();
-        }        
 
         return content;
     }

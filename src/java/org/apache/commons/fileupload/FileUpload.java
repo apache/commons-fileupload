@@ -54,7 +54,6 @@ package org.apache.commons.fileupload;
  * <http://www.apache.org/>.
  */
 
-import java.net.URLDecoder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -88,7 +87,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id: FileUpload.java,v 1.3 2002/04/18 16:10:28 jmcnally Exp $
+ * @version $Id: FileUpload.java,v 1.4 2002/06/06 23:59:29 jmcnally Exp $
  */
 public class FileUpload
 {
@@ -115,7 +114,7 @@ public class FileUpload
     /**
      * Part of HTTP header.
      */
-    public static final String MULTIPART =
+    private static final String MULTIPART =
         "multipart/";
 
     /**
@@ -152,7 +151,8 @@ public class FileUpload
     public List parseRequest(HttpServletRequest req)
         throws FileUploadException
     {
-        return parseRequest(req, getRepositoryPath());
+        return parseRequest(req, getSizeThreshold(), getSizeMax(), 
+                            getRepositoryPath());
     }
 
     /**
@@ -160,11 +160,14 @@ public class FileUpload
      * compliant <code>multipart/form-data</code> stream.
      *
      * @param req The servlet request to be parsed.
+     * @param sizeThreshold the max size in bytes to be stored in memory
+     * @param sizeMax the maximum allowed upload size in bytes
      * @param path The location where the files should be stored.
      * @exception FileUploadException If there are problems reading/parsing
      * the request or storing files.
      */
-    public List parseRequest(HttpServletRequest req, String path)
+    public List parseRequest(HttpServletRequest req, int sizeThreshold, 
+                             int sizeMax, String path)
         throws FileUploadException
     {
         ArrayList items = new ArrayList();
@@ -183,7 +186,7 @@ public class FileUpload
                 "it's size is unknown");
         }
 
-        if(getSizeMax() >= 0 && requestSize > getSizeMax())
+        if(sizeMax >= 0 && requestSize > sizeMax)
         {
             throw new FileUploadException("the request was rejected because " +
                 "it's size exceeds allowed range");
@@ -220,8 +223,9 @@ public class FileUpload
                             headers = parseHeaders(multi.readHeaders());
                             if (getFileName(headers) != null)
                             {
-                                FileItem item = createItem(path, headers,
-                                                           requestSize);
+                                FileItem item = 
+                                    createItem(sizeThreshold, path,
+                                               headers, requestSize);
                                 OutputStream os = 
                                     ((DefaultFileItem)item).getOutputStream();
                                 try
@@ -250,7 +254,8 @@ public class FileUpload
                         if (getFileName(headers) != null)
                         {
                             // A single file.
-                            FileItem item = createItem(path, headers,
+                            FileItem item = createItem(sizeThreshold, 
+                                                       path, headers,
                                                        requestSize);
                             OutputStream os = 
                                 ((DefaultFileItem)item).getOutputStream();
@@ -268,7 +273,8 @@ public class FileUpload
                         else
                         {
                             // A form field.
-                            FileItem item = createItem(path, headers,
+                            FileItem item = createItem(sizeThreshold,
+                                                       path, headers,
                                                        requestSize);
                             OutputStream os = 
                                 ((DefaultFileItem)item).getOutputStream();
@@ -325,9 +331,9 @@ public class FileUpload
                 {
                     fileName = str;
                 }
-            }
+            }            
         }
-        return URLDecoder.decode(fileName);
+        return fileName;
     }
 
     /**
@@ -349,7 +355,7 @@ public class FileUpload
                 fieldName = cd.substring(start + 6, end);
             }
         }
-        return URLDecoder.decode(fieldName);
+        return fieldName;
     }
 
     /**
@@ -361,12 +367,13 @@ public class FileUpload
      * @param requestSize The size of the request.
      * @return A newly created <code>FileItem</code>.
      */
-    protected FileItem createItem( String path,
+    protected FileItem createItem( int sizeThreshold, 
+                                   String path,
                                    Map headers,
                                    int requestSize )
     {
         return DefaultFileItem.newInstance(path, getFileName(headers),
-            getHeader(headers, CONTENT_TYPE), requestSize, getSizeThreshold());
+            getHeader(headers, CONTENT_TYPE), requestSize, sizeThreshold);
     }
 
     /**
@@ -474,6 +481,7 @@ public class FileUpload
 
     /**
      * The threshold beyond which files are written directly to disk.
+     * Default is 1024 bytes.
      */
     public int getSizeThreshold()
     {
@@ -483,6 +491,7 @@ public class FileUpload
     
     /**
      * The threshold beyond which files are written directly to disk.
+     * Default is 1024 bytes.
      */
     public void setSizeThreshold(int  v) 
     {
