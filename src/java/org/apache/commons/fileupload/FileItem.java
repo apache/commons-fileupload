@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.4 2002/07/17 05:14:14 martinc Exp $
- * $Revision: 1.4 $
- * $Date: 2002/07/17 05:14:14 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.5 2002/07/19 03:56:51 martinc Exp $
+ * $Revision: 1.5 $
+ * $Date: 2002/07/19 03:56:51 $
  *
  * ====================================================================
  *
@@ -67,142 +67,214 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.io.OutputStream;
 
-import javax.activation.DataSource;
 
 /**
- * <p> This class represents a file that was received by Turbine using
+ * <p> This class represents a file or form item that was received within a
  * <code>multipart/form-data</code> POST request.
  *
- * <p> After retrieving an instance of this class from the {@link
- * org.apache.commons.fileupload.FileUpload FileUpload} (see
+ * <p> After retrieving an instance of this class from a {@link
+ * org.apache.commons.fileupload.FileUpload FileUpload} instance (see
  * {@link org.apache.commons.fileupload.FileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest, String)
- * You may either request all
- * contents of file at once using {@link #get()} or request an {@link
- * java.io.InputStream InputStream} with {@link #getStream()} and
- * process the file without attempting to load it into memory, which
+ * #parseRequest(javax.servlet.http.HttpServletRequest, String)), you may
+ * either request all contents of file at once using {@link #get()} or
+ * request an {@link java.io.InputStream InputStream} with {@link #getStream()}
+ * and process the file without attempting to load it into memory, which
  * may come handy with large files.
  *
- * Implements the javax.activation.DataSource interface (which allows
- * for example the adding of a FileItem as an attachment to a multipart
- * email).
+ * <p> While this interface does not extend
+ * <code>javax.activation.DataSource</code> per se (to avoid a seldom used
+ * dependency), several of the defined methods are specifically defined with
+ * the same signatures as methods in that interface. This allows an
+ * implementation of this interface to also implement
+ * <code>javax.activation.DataSource</code> with minimal additional work.
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileItem.java,v 1.4 2002/07/17 05:14:14 martinc Exp $
+ * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
+ *
+ * @version $Id: FileItem.java,v 1.5 2002/07/19 03:56:51 martinc Exp $
  */
 public interface FileItem
-    extends DataSource
 {
+
+
+    // ------------------------------- Methods from javax.activation.DataSource
+
+
+    /**
+     * Returns an {@link java.io.InputStream InputStream} that can be
+     * used to retrieve the contents of the file.
+     *
+     * @return An {@link java.io.InputStream InputStream} that can be
+     *         used to retrieve the contents of the file.
+     *
+     * @exception IOException if an error occurs.
+     */
+    InputStream getInputStream()
+        throws IOException;
+
+
+    /**
+     * Returns the content type passed by the browser or <code>null</code> if
+     * not defined.
+     *
+     * @return The content type passed by the browser or <code>null</code> if
+     *         not defined.
+     */
+    String getContentType();
+
+
+    /**
+     * Returns the original filename in the client's filesystem.
+     *
+     * @return The original filename in the client's filesystem.
+     */
+    String getName();
+
+
+    // ----------------------------------------------------- Manifest constants
+
+
     /**
      * The maximal size of request that will have it's elements stored
      * in memory.
      */
     public static final int DEFAULT_UPLOAD_SIZE_THRESHOLD = 10240;
 
-    /**
-     * Returns the original filename in the user's filesystem.
-     * (implements DataSource method)
-     *
-     * @return The original filename in the user's filesystem.
-     */
-    public String getName();
+
+    // ------------------------------------------------------- FileItem methods
+
 
     /**
-    * Returns the content type passed by the browser or
-    * <code>null</code> if not defined. (implements
-    * DataSource method).
-    *
-    * @return The content type passed by the browser or
-    * <code>null</code> if not defined.
-    */
-    public String getContentType();
-
-    /**
-     * Provides a hint if the file contents will be read from memory.
-     *
-     * @return <code>True</code> if the file contents will be read
+     * Provides a hint as to whether or not the file contents will be read
      * from memory.
+     *
+     * @return <code>true</code> if the file contents will be read
+     *         from memory.
      */
-    public boolean inMemory();
+    boolean isInMemory();
+
 
     /**
      * Returns the size of the file.
      *
-     * @return The size of the file.
+     * @return The size of the file, in bytes.
      */
-    public long getSize();
+    long getSize();
+
 
     /**
      * Returns the contents of the file as an array of bytes.  If the
-     * contents of the file were not yet cached int the memory, they
-     * will be loaded from the disk storage and chached.
+     * contents of the file were not yet cached in memory, they will be
+     * loaded from the disk storage and cached.
      *
      * @return The contents of the file as an array of bytes.
      */
-    public byte[] get();
+    byte[] get();
+
 
     /**
-     * Returns the contents of the file as a String, using specified
-     * encoding.  This method uses {@link #get()} to retireve the
-     * contents of the file.<br>
+     * Returns the contents of the file as a String, using the specified
+     * encoding.  This method uses {@link #get()} to retrieve the
+     * contents of the file.
      *
-     * @param encoding The encoding to use.
-     * @return The contents of the file.
-     * @exception UnsupportedEncodingException.
+     * @param encoding The character encoding to use.
+     *
+     * @return The contents of the file, as a string.
+     *
+     * @exception UnsupportedEncodingException if the requested character
+     *                                         encoding is not available.
      */
-    public String getString( String encoding )
+    String getString(String encoding)
         throws UnsupportedEncodingException;
 
-    public String getString();
 
     /**
-     * Returns an {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file. (implements DataSource
-     * method)
+     * Returns the contents of the file as a String, using the default
+     * character encoding.  This method uses {@link #get()} to retrieve the
+     * contents of the file.
      *
-     * @return An {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
-     * @exception Exception, a generic exception.
+     * @return The contents of the file, as a string.
      */
-    public InputStream getInputStream()
-        throws IOException;
+    String getString();
+
 
     /**
-     * Returns the {@link java.io.File} objects for the DefaultFileItems's
-     * data temporary location on the disk.  Note that for
-     * <code>DefaultFileItems</code> that have their data stored in memory
-     * this method will return <code>null</code>.  When handling large
+     * Returns the {@link java.io.File} object for the <code>FileItem</code>'s
+     * data's temporary location on the disk. Note that for
+     * <code>FileItem</code>s that have their data stored in memory,
+     * this method will return <code>null</code>. When handling large
      * files, you can use {@link java.io.File#renameTo(File)} to
      * move the file to new location without copying the data, if the
      * source and destination locations reside within the same logical
      * volume.
      *
-     * @return A File.
+     * @return The data file, or <code>null</code> if the data is stored in
+     *         memory.
      */
-    public File getStoreLocation();
+    File getStoreLocation();
+
 
     /**
-     * A convenience method to write an uploaded
-     * file to disk. The client code is not concerned
-     * whether or not the file is stored in memory,
-     * or on disk in a temporary location. They just
-     * want to write the uploaded file to disk.
+     * A convenience method to write an uploaded file to disk. The client code
+     * is not concerned whether or not the file is stored in memory, or on disk
+     * in a temporary location. They just want to write the uploaded file to
+     * disk.
      *
-     * @param String full path to location where uploaded
-     *               should be stored.
+     * @param file The full path to location where the uploaded file should
+     *             be stored.
+     *
+     * @exception Exception if an error occurs.
      */
-    public void write(String file) throws Exception;
+    void write(String file) throws Exception;
 
-    public String getFieldName();
 
-    public void setFieldName(String name);
+    /**
+     * Deletes the underlying storage for a file item, including deleting any
+     * associated temporary disk file. Although this storage will be deleted
+     * automatically when the <code>FileItem</code> instance is garbage
+     * collected, this method can be used to ensure that this is done at an
+     * earlier time, thus preserving system resources.
+     */
+    void delete();
 
-    public boolean isFormField();
-    public void setIsFormField(boolean state);
 
-    public void delete();
+    /**
+     * Returns the name of the field in the multipart form corresponding to
+     * this file item.
+     *
+     * @return The name of the form field.
+     */
+    String getFieldName();
+
+
+    /**
+     * Sets the field name used to reference this file item.
+     *
+     * @param name The name of the form field.
+     */
+    void setFieldName(String name);
+
+
+    /**
+     * Determines whether or not a <code>FileItem</code> instance represents
+     * a simple form field.
+     *
+     * @return <code>true</code> if the instance represents a simple form
+     *         field; <code>false</code> if it represents an uploaded file.
+     */
+    boolean isFormField();
+
+
+    /**
+     * Specifies whether or not a <code>FileItem</code> instance represents
+     * a simple form field.
+     *
+     * @param state <code>true</code> if the instance represents a simple form
+     *              field; <code>false</code> if it represents an uploaded file.
+     */
+    void setIsFormField(boolean state);
+
 }
