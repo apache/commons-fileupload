@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
+
 /**
  * <p>High level API for processing file uploads.</p>
  *
@@ -46,11 +48,37 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.12 2004/10/31 02:03:47 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.13 2004/10/31 05:21:43 martinc Exp $
  */
 public abstract class FileUploadBase {
 
     // ---------------------------------------------------------- Class methods
+
+
+    /**
+     * <p>Utility method that determines whether the request contains multipart
+     * content.</p>
+     *
+     * <p><strong>NOTE:</strong>This method will be moved to the
+     * <code>ServletFileUpload</code> class after the FileUpload 1.1 release.
+     * Unfortunately, since this method is static, it is not possible to
+     * provide its replacement until this method is removed.</p>
+     *
+     * @param ctx The request context to be evaluated. Must be non-null.
+     *
+     * @return <code>true</code> if the request is multipart;
+     *         <code>false</code> otherwise.
+     */
+    public static final boolean isMultipartContent(RequestContext ctx) {
+        String contentType = ctx.getContentType();
+        if (contentType == null) {
+            return false;
+        }
+        if (contentType.toLowerCase().startsWith(MULTIPART)) {
+            return true;
+        }
+        return false;
+    }
 
 
     /**
@@ -61,6 +89,8 @@ public abstract class FileUploadBase {
      *
      * @return <code>true</code> if the request is multipart;
      *         <code>false</code> otherwise.
+     *
+     * @deprecated Use the method on <code>ServletFileUpload</code> instead.
      */
     public static final boolean isMultipartContent(HttpServletRequest req) {
         if (!"post".equals(req.getMethod().toLowerCase())) {
@@ -219,8 +249,7 @@ public abstract class FileUploadBase {
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
-     * compliant <code>multipart/form-data</code> stream. If files are stored
-     * on disk, the path is given by <code>getRepository()</code>.
+     * compliant <code>multipart/form-data</code> stream.
      *
      * @param req The servlet request to be parsed.
      *
@@ -229,15 +258,34 @@ public abstract class FileUploadBase {
      *
      * @exception FileUploadException if there are problems reading/parsing
      *                                the request or storing files.
+     *
+     * @deprecated Use the method in <code>ServletFileUpload</code> instead.
      */
     public List /* FileItem */ parseRequest(HttpServletRequest req)
-        throws FileUploadException {
-        if (null == req) {
-            throw new NullPointerException("req parameter");
+            throws FileUploadException {
+        return parseRequest(new ServletRequestContext(req));
+    }
+
+    /**
+     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant <code>multipart/form-data</code> stream.
+     *
+     * @param ctx The context for the request to be parsed.
+     *
+     * @return A list of <code>FileItem</code> instances parsed from the
+     *         request, in the order that they were transmitted.
+     *
+     * @exception FileUploadException if there are problems reading/parsing
+     *                                the request or storing files.
+     */
+    public List /* FileItem */ parseRequest(RequestContext ctx)
+            throws FileUploadException {
+        if (ctx == null) {
+            throw new NullPointerException("ctx parameter");
         }
 
         ArrayList items = new ArrayList();
-        String contentType = req.getHeader(CONTENT_TYPE);
+        String contentType = ctx.getContentType();
 
         if ((null == contentType)
             || (!contentType.toLowerCase().startsWith(MULTIPART))) {
@@ -249,7 +297,7 @@ public abstract class FileUploadBase {
                 + " stream, content type header is "
                 + contentType);
         }
-        int requestSize = req.getContentLength();
+        int requestSize = ctx.getContentLength();
 
         if (requestSize == -1) {
             throw new UnknownSizeException(
@@ -270,7 +318,7 @@ public abstract class FileUploadBase {
                         + "no multipart boundary was found");
             }
 
-            InputStream input = req.getInputStream();
+            InputStream input = ctx.getInputStream();
 
             MultipartStream multi = new MultipartStream(input, boundary);
             multi.setHeaderEncoding(headerEncoding);

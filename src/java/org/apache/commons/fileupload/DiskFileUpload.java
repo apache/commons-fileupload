@@ -40,7 +40,10 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DiskFileUpload.java,v 1.6 2004/10/29 04:17:23 martinc Exp $
+ * @version $Id: DiskFileUpload.java,v 1.7 2004/10/31 05:21:43 martinc Exp $
+ *
+ * @deprecated Use <code>ServletFileUpload</code> together with
+ *             <code>DiskFileItemFactory</code> instead.
  */
 public class DiskFileUpload
     extends FileUploadBase {
@@ -62,6 +65,8 @@ public class DiskFileUpload
      * create <code>FileItem</code> instances.
      *
      * @see #DiskFileUpload(DefaultFileItemFactory fileItemFactory)
+     *
+     * @deprecated Use <code>FileUpload</code> instead.
      */
     public DiskFileUpload() {
         super();
@@ -74,6 +79,8 @@ public class DiskFileUpload
      * create <code>FileItem</code> instances.
      *
      * @see #DiskFileUpload()
+     *
+     * @deprecated Use <code>FileUpload</code> instead.
      */
     public DiskFileUpload(DefaultFileItemFactory fileItemFactory) {
         super();
@@ -88,6 +95,8 @@ public class DiskFileUpload
      * Returns the factory class used when creating file items.
      *
      * @return The factory class for new file items.
+     *
+     * @deprecated Use <code>FileUpload</code> instead.
      */
     public FileItemFactory getFileItemFactory() {
         return fileItemFactory;
@@ -100,6 +109,8 @@ public class DiskFileUpload
      * thereof, or else a <code>ClassCastException</code> will be thrown.
      *
      * @param factory The factory class for new file items.
+     *
+     * @deprecated Use <code>FileUpload</code> instead.
      */
     public void setFileItemFactory(FileItemFactory factory) {
         this.fileItemFactory = (DefaultFileItemFactory) factory;
@@ -113,6 +124,8 @@ public class DiskFileUpload
      * @return The size threshold, in bytes.
      *
      * @see #setSizeThreshold(int)
+     *
+     * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
     public int getSizeThreshold() {
         return fileItemFactory.getSizeThreshold();
@@ -125,6 +138,8 @@ public class DiskFileUpload
      * @param sizeThreshold The size threshold, in bytes.
      *
      * @see #getSizeThreshold()
+     *
+     * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
     public void setSizeThreshold(int sizeThreshold) {
         fileItemFactory.setSizeThreshold(sizeThreshold);
@@ -138,6 +153,8 @@ public class DiskFileUpload
      * @return The path to the temporary file location.
      *
      * @see #setRepositoryPath(String)
+     *
+     * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
     public String getRepositoryPath() {
         return fileItemFactory.getRepository().getPath();
@@ -151,6 +168,8 @@ public class DiskFileUpload
      * @param repositoryPath The path to the temporary file location.
      *
      * @see #getRepositoryPath()
+     *
+     * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
     public void setRepositoryPath(String repositoryPath) {
         fileItemFactory.setRepository(new File(repositoryPath));
@@ -175,6 +194,8 @@ public class DiskFileUpload
      *
      * @exception FileUploadException if there are problems reading/parsing
      *                                the request or storing files.
+     *
+     * @deprecated Use <code>ServletFileUpload</code> instead.
      */
     public List /* FileItem */ parseRequest(HttpServletRequest req,
                                             int sizeThreshold,

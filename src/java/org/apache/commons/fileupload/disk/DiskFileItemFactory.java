@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload;
+package org.apache.commons.fileupload.disk;
 
 import java.io.File;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
 
 /**
  * <p>The default {@link org.apache.commons.fileupload.FileItemFactory}
@@ -38,11 +40,35 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DefaultFileItemFactory.java,v 1.6 2004/10/31 05:21:43 martinc Exp $
+ * @since FileUpload 1.1
  *
- * @deprecated Use <code>DiskFileItemFactory</code> instead.
+ * @version $Id: DiskFileItemFactory.java,v 1.1 2004/10/31 05:21:43 martinc Exp $
  */
-public class DefaultFileItemFactory extends DiskFileItemFactory {
+public class DiskFileItemFactory implements FileItemFactory {
+
+    // ----------------------------------------------------- Manifest constants
+
+
+    /**
+     * The default threshold above which uploads will be stored on disk.
+     */
+    public static final int DEFAULT_SIZE_THRESHOLD = 10240;
+
+
+    // ----------------------------------------------------- Instance Variables
+
+
+    /**
+     * The directory in which uploaded files will be stored, if stored on disk.
+     */
+    private File repository;
+
+
+    /**
+     * The threshold above which uploads will be stored on disk.
+     */
+    private int sizeThreshold = DEFAULT_SIZE_THRESHOLD;
+
 
     // ----------------------------------------------------------- Constructors
 
@@ -50,11 +76,8 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
     /**
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
-     *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
-    public DefaultFileItemFactory() {
-        super();
+    public DiskFileItemFactory() {
     }
 
 
@@ -67,18 +90,74 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      * @param repository    The data repository, which is the directory in
      *                      which files will be created, should the item size
      *                      exceed the threshold.
-     *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
-    public DefaultFileItemFactory(int sizeThreshold, File repository) {
-        super(sizeThreshold, repository);
+    public DiskFileItemFactory(int sizeThreshold, File repository) {
+        this.sizeThreshold = sizeThreshold;
+        this.repository = repository;
+    }
+
+
+    // ------------------------------------------------------------- Properties
+
+
+    /**
+     * Returns the directory used to temporarily store files that are larger
+     * than the configured size threshold.
+     *
+     * @return The directory in which temporary files will be located.
+     *
+     * @see #setRepository(java.io.File)
+     *
+     */
+    public File getRepository() {
+        return repository;
+    }
+
+
+    /**
+     * Sets the directory used to temporarily store files that are larger
+     * than the configured size threshold.
+     *
+     * @param repository The directory in which temporary files will be located.
+     *
+     * @see #getRepository()
+     *
+     */
+    public void setRepository(File repository) {
+        this.repository = repository;
+    }
+
+
+    /**
+     * Returns the size threshold beyond which files are written directly to
+     * disk. The default value is 1024 bytes.
+     *
+     * @return The size threshold, in bytes.
+     *
+     * @see #setSizeThreshold(int)
+     */
+    public int getSizeThreshold() {
+        return sizeThreshold;
+    }
+
+
+    /**
+     * Sets the size threshold beyond which files are written directly to disk.
+     *
+     * @param sizeThreshold The size threshold, in bytes.
+     *
+     * @see #getSizeThreshold()
+     *
+     */
+    public void setSizeThreshold(int sizeThreshold) {
+        this.sizeThreshold = sizeThreshold;
     }
 
 
     // --------------------------------------------------------- Public Methods
 
     /**
-     * Create a new {@link org.apache.commons.fileupload.DefaultFileItem}
+     * Create a new {@link org.apache.commons.fileupload.disk.DiskFileItem}
      * instance from the supplied parameters and the local factory
      * configuration.
      *
@@ -90,8 +169,6 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *                    by the browser or other client.
      *
      * @return The newly created file item.
-     *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
     public FileItem createItem(
             String fieldName,
@@ -99,8 +176,8 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
             boolean isFormField,
             String fileName
             ) {
-        return new DefaultFileItem(fieldName, contentType,
-                isFormField, fileName, getSizeThreshold(), getRepository());
+        return new DiskFileItem(fieldName, contentType,
+                isFormField, fileName, sizeThreshold, repository);
     }
 
 }
