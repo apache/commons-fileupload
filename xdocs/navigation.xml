@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Betwixt">
+<project name="FileUpload">
 
   <title>FileUpload</title>
   <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
@@ -7,7 +7,8 @@
   <body>
     <menu name="FileUpload">
       <item name="Home"                href="/index.html"/>
-      <item name="Overview"            href="/overview.html"/>
+      <item name="Using"               href="/using.html"/>
+      <item name="Customizing"         href="/customizing.html"/>
       <item name="To Do List"          href="/tasks.html"/>
     </menu>
   </body>
