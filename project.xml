@@ -70,10 +70,6 @@
   
   <dependencies>
     <dependency>
-      <id>commons-beanutils</id>
-      <version>1.6</version>
-    </dependency>
-    <dependency>
       <id>servletapi</id>
       <version>2.3</version>
     </dependency>
