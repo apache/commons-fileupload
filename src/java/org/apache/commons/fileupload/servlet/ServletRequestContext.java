@@ -28,7 +28,7 @@ import org.apache.commons.fileupload.RequestContext;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: ServletRequestContext.java,v 1.1 2004/10/31 05:21:43 martinc Exp $
+ * @version $Id: ServletRequestContext.java,v 1.2 2004/12/08 03:01:46 sullis Exp $
  */
 public class ServletRequestContext implements RequestContext {
 
@@ -89,5 +89,12 @@ public class ServletRequestContext implements RequestContext {
      */
     public InputStream getInputStream() throws IOException {
         return request.getInputStream();
+    }
+    
+    public String toString() {
+    	return "ContentLength=" 
+			+ this.getContentLength()
+			+ ", ContentType="
+			+ this.getContentType();
     }
 }

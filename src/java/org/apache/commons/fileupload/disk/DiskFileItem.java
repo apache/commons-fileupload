@@ -56,7 +56,7 @@ import org.apache.commons.fileupload.ParameterParser;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: DiskFileItem.java,v 1.1 2004/10/31 05:21:43 martinc Exp $
+ * @version $Id: DiskFileItem.java,v 1.2 2004/12/08 02:59:02 sullis Exp $
  */
 public class DiskFileItem
     implements FileItem {
@@ -594,6 +594,18 @@ public class DiskFileItem
             id = ("00000000" + id).substring(id.length());
         }
         return id;
+    }
+    
+    public String toString() {
+    	return "name=" + this.getName()
+			+ ", StoreLocation=" 
+			+ String.valueOf(this.getStoreLocation())
+			+ ", size="
+			+ this.getSize()
+			+ "bytes, "
+			+ "isFormField=" + isFormField()
+			+ ", FieldName="
+			+ this.getFieldName();
     }
 
 }
