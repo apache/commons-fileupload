@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.13 2002/10/27 17:11:46 sullis Exp $
- * $Revision: 1.13 $
- * $Date: 2002/10/27 17:11:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.14 2002/11/10 06:31:10 martinc Exp $
+ * $Revision: 1.14 $
+ * $Date: 2002/11/10 06:31:10 $
  *
  * ====================================================================
  *
@@ -96,10 +96,36 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.13 2002/10/27 17:11:46 sullis Exp $
+ * @version $Id: FileUpload.java,v 1.14 2002/11/10 06:31:10 martinc Exp $
  */
 public class FileUpload
 {
+
+    // ----------------------------------------------------- Class methods
+    
+    /**
+     * Utility method that determines whether the request contains multipart
+     * content.
+     *
+     * @param req The servlet request to be evaluated. Must be non-null.
+     *
+     * @return <code>true</code> if the request is multipart;
+     *         <code>false</code> otherwise.
+     */
+    public static final boolean isMultipartContent(HttpServletRequest req) 
+    {
+        String contentType = req.getHeader(CONTENT_TYPE);
+        if (contentType == null) 
+        {
+            return false;
+        }
+        if (contentType.startsWith(MULTIPART))
+        {
+            return true;
+        }
+        return false;
+    }
+    
 
     // ----------------------------------------------------- Manifest constants
 
@@ -310,7 +336,6 @@ public class FileUpload
 
     // --------------------------------------------------------- Public methods
 
-
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant <code>multipart/form-data</code> stream. If files are stored
@@ -353,15 +378,15 @@ public class FileUpload
                                             int sizeMax, String path)
         throws FileUploadException
     {
-    	if (null == req)
-    	{
-    		throw new NullPointerException("req parameter");
-    	}
-    	
+        if (null == req)
+        {
+            throw new NullPointerException("req parameter");
+        }
+
         ArrayList items = new ArrayList();
         String contentType = req.getHeader(CONTENT_TYPE);
 
-        if ( (null == contentType) || (!contentType.startsWith(MULTIPART)) )
+        if ((null == contentType) || (!contentType.startsWith(MULTIPART)))
         {
             throw new FileUploadException("the request doesn't contain a "
                 + MULTIPART_FORM_DATA 
