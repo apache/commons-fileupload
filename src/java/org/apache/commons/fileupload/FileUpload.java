@@ -68,23 +68,26 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * <p> Files will be stored in temporary disk storage on in memory,
- * depending on request size, and will be available as {@link
- * org.apache.commons.fileupload.FileItem}s.
+ * <p>High level api for processing file uploads.
  *
  * <p>This class handles multiple
  * files per single html widget, sent using multipar/mixed encoding
- * type, as specified by RFC 1867.  Use {@link
+ * type, as specified by 
+ * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
  * #parseRequest(HttpServletRequest, String)} to
  * acquire a list of {@link
  * org.apache.commons.fileupload.FileItem}s associated with given
  * html widget.
  *
+ * <p> Files will be stored in temporary disk storage on in memory,
+ * depending on request size, and will be available as {@link
+ * org.apache.commons.fileupload.FileItem}s.
+ *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id: FileUpload.java,v 1.1 2002/03/24 07:05:13 jmcnally Exp $
+ * @version $Id: FileUpload.java,v 1.2 2002/04/11 05:57:37 jmcnally Exp $
  */
 public class FileUpload
 {
@@ -131,7 +134,7 @@ public class FileUpload
     
 
     /**
-     * <p> Processes an <a href="http://rf.cx/rfc1867.html">RFC 1867</a> 
+     * <p> Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> 
      * compliant <code>multipart/form-data</code> stream.  if files are
      * stored on disk, the path is given by getRepository()
      *
@@ -146,7 +149,7 @@ public class FileUpload
     }
 
     /**
-     * <p> Processes an <a href="http://rf.cx/rfc1867.html">RFC 1867</a> 
+     * <p> Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> 
      * compliant <code>multipart/form-data</code> stream.
      *
      * @param req The servlet request to be parsed.
@@ -173,7 +176,7 @@ public class FileUpload
                 "it's size is unknown");
         }
 
-        if(requestSize > getSizeMax())
+        if(getSizeMax() >= 0 && requestSize > getSizeMax())
         {
             throw new FileUploadException("the request was rejected because " +
                 "it's size exceeds allowed range");
@@ -212,7 +215,8 @@ public class FileUpload
                             {
                                 FileItem item = createItem(path, headers,
                                                            requestSize);
-                                OutputStream os = item.getOutputStream();
+                                OutputStream os = 
+                                    ((DefaultFileItem)item).getOutputStream();
                                 try
                                 {
                                     multi.readBodyData(os);
@@ -241,7 +245,8 @@ public class FileUpload
                             // A single file.
                             FileItem item = createItem(path, headers,
                                                        requestSize);
-                            OutputStream os = item.getOutputStream();
+                            OutputStream os = 
+                                ((DefaultFileItem)item).getOutputStream();
                             try
                             {
                                 multi.readBodyData(os);
@@ -258,7 +263,8 @@ public class FileUpload
                             // A form field.
                             FileItem item = createItem(path, headers,
                                                        requestSize);
-                            OutputStream os = item.getOutputStream();
+                            OutputStream os = 
+                                ((DefaultFileItem)item).getOutputStream();
                             try
                             {
                                 multi.readBodyData(os);
@@ -450,7 +456,8 @@ public class FileUpload
     }
     
     /**
-     * The maximum allowed upload size
+     * The maximum allowed upload size.  If negative there is no
+     * maximum.
      */
     public void setSizeMax(int  v) 
     {
