@@ -80,7 +80,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: MultipartStream.java,v 1.14 2004/02/25 21:07:12 scolebourne Exp $
+ * @version $Id: MultipartStream.java,v 1.15 2004/07/25 04:47:17 martinc Exp $
  */
 public class MultipartStream
 {
@@ -517,7 +517,7 @@ public class MultipartStream
                 // Write out the data belonging to the body-data.
                 output.write(buffer, head, tail - head - pad);
 
-                // Move the data to the beging of the buffer.
+                // Move the data to the beginning of the buffer.
                 total += tail - head - pad;
                 System.arraycopy(buffer, tail - pad, buffer, 0, pad);
 
@@ -594,7 +594,7 @@ public class MultipartStream
                 }
                 total += tail - head - pad;
 
-                // Move the data to the beging of the buffer.
+                // Move the data to the beginning of the buffer.
                 System.arraycopy(buffer, tail - pad, buffer, 0, pad);
 
                 // Refill buffer with new data.
