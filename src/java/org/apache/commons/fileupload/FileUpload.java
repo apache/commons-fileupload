@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.16 2003/03/01 21:15:49 martinc Exp $
- * $Revision: 1.16 $
- * $Date: 2003/03/01 21:15:49 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.17 2003/03/03 06:23:39 martinc Exp $
+ * $Revision: 1.17 $
+ * $Date: 2003/03/03 06:23:39 $
  *
  * ====================================================================
  *
@@ -96,7 +96,7 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.16 2003/03/01 21:15:49 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.17 2003/03/03 06:23:39 martinc Exp $
  */
 public class FileUpload
 {
@@ -388,7 +388,8 @@ public class FileUpload
 
         if ((null == contentType) || (!contentType.startsWith(MULTIPART)))
         {
-            throw new FileUploadException("the request doesn't contain a "
+            throw new InvalidContentTypeException(
+                "the request doesn't contain a "
                 + MULTIPART_FORM_DATA 
                 + " or " 
                 + MULTIPART_MIXED 
@@ -399,13 +400,14 @@ public class FileUpload
 
         if (requestSize == -1)
         {
-            throw new FileUploadException("the request was rejected because "
-                + "it's size is unknown");
+            throw new UnknownSizeException(
+                "the request was rejected because it's size is unknown");
         }
 
         if (sizeMax >= 0 && requestSize > sizeMax)
         {
-            throw new FileUploadException("the request was rejected because "
+            throw new SizeLimitExceededException(
+                "the request was rejected because "
                 + "it's size exceeds allowed range");
         }
 
@@ -767,6 +769,90 @@ public class FileUpload
                                      String name)
     {
         return (String) headers.get(name.toLowerCase());
+    }
+
+
+    /**
+     * Thrown to indicate that the request is not a multipart request.
+     */
+    public class InvalidContentTypeException
+        extends FileUploadException
+    {
+        /**
+         * Constructs a <code>InvalidContentTypeException</code> with no
+         * detail message.
+         */
+        public InvalidContentTypeException()
+        {
+            super();
+        }
+
+        /**
+         * Constructs an <code>InvalidContentTypeException</code> with
+         * the specified detail message.
+         *
+         * @param message The detail message.
+         */
+        public InvalidContentTypeException(String message)
+        {
+            super(message);
+        }
+    }
+
+
+    /**
+     * Thrown to indicate that the request size is not specified.
+     */
+    public class UnknownSizeException
+        extends FileUploadException
+    {
+        /**
+         * Constructs a <code>UnknownSizeException</code> with no
+         * detail message.
+         */
+        public UnknownSizeException()
+        {
+            super();
+        }
+
+        /**
+         * Constructs an <code>UnknownSizeException</code> with
+         * the specified detail message.
+         *
+         * @param message The detail message.
+         */
+        public UnknownSizeException(String message)
+        {
+            super(message);
+        }
+    }
+
+
+    /**
+     * Thrown to indicate that the request size exceeds the configured maximum.
+     */
+    public class SizeLimitExceededException
+        extends FileUploadException
+    {
+        /**
+         * Constructs a <code>SizeExceededException</code> with no
+         * detail message.
+         */
+        public SizeLimitExceededException()
+        {
+            super();
+        }
+
+        /**
+         * Constructs an <code>SizeExceededException</code> with
+         * the specified detail message.
+         *
+         * @param message The detail message.
+         */
+        public SizeLimitExceededException(String message)
+        {
+            super(message);
+        }
     }
 
 }
