@@ -93,7 +93,7 @@ boolean isMultipart = FileUpload.isMultipartContent(request);]]></source>
         Handling a request in this scenario couldn't be much simpler:
       </p>
 <source><![CDATA[// Create a new file upload handler
-FileUpload upload = new DiskFileUpload();
+DiskFileUpload upload = new DiskFileUpload();
 
 // Parse the request
 List /* FileItem */ items = upload.parseRequest(request);]]></source>
