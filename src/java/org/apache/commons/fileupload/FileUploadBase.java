@@ -18,6 +18,7 @@ package org.apache.commons.fileupload;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.11 2004/10/29 04:17:23 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.12 2004/10/31 02:03:47 martinc Exp $
  */
 public abstract class FileUploadBase {
 
@@ -262,13 +263,12 @@ public abstract class FileUploadBase {
         }
 
         try {
-            String boundaryStr = getBoundary(contentType);
-            if (boundaryStr == null) {
+            byte[] boundary = getBoundary(contentType);
+            if (boundary == null) {
                 throw new FileUploadException(
                         "the request was rejected because "
                         + "no multipart boundary was found");
             }
-            byte[] boundary = boundaryStr.getBytes();
 
             InputStream input = req.getInputStream();
 
@@ -284,8 +284,7 @@ public abstract class FileUploadBase {
                     if (subContentType != null && subContentType
                         .toLowerCase().startsWith(MULTIPART_MIXED)) {
                         // Multiple files.
-                        String subBoundaryStr = getBoundary(subContentType);
-                        byte[] subBoundary = subBoundaryStr.getBytes();
+                        byte[] subBoundary = getBoundary(subContentType);
                         multi.setBoundary(subBoundary);
                         boolean nextSubPart = multi.skipPreamble();
                         while (nextSubPart) {
@@ -344,14 +343,25 @@ public abstract class FileUploadBase {
      * @param contentType The value of the content type header from which to
      *                    extract the boundary value.
      *
-     * @return The boundary, without any surrounding quotes.
+     * @return The boundary, as a byte array.
      */
-    protected String getBoundary(String contentType) {
+    protected byte[] getBoundary(String contentType) {
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
         Map params = parser.parse(contentType, ';');
-        return (String) params.get("boundary");
+        String boundaryStr = (String) params.get("boundary");
+
+        if (boundaryStr == null) {
+            return null;
+        }
+        byte[] boundary;
+        try {
+            boundary = boundaryStr.getBytes("ISO-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            boundary = boundaryStr.getBytes();
+        }
+        return boundary;
     }
 
 
