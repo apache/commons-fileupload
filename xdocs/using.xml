@@ -233,6 +233,40 @@ byte[] data = item.get();
 ...]]></source>
   </section>
 
+  <section name="Interaction with virus scanners">
+    <p>
+      Virus scanners running on the same system as the web container can cause
+      some unexpected behaviours for applications using FileUpload. This section
+      describes some of the behaviours that you might encounter, and provides
+      some ideas for how to handle them.
+    </p>
+    <p>
+      The default implementation of FileUpload will cause uploaded items above
+      a certain size threshold to be written to disk. As soon as such a file is
+      closed, any virus scanner on the system will wake up and inspect it, and
+      potentially quarantine the file - that is, move it to a special location
+      where it will not cause problems. This, of course, will be a surprise to
+      the application developer, since the uploaded file item will no longer be
+      available for processing. On the other hand, uploaded items below that
+      same threshold will be held in memory, and therefore will not be seen by
+      virus scanners. This allows for the possibility of a virus being retained
+      in some form (although if it is ever written to disk, the virus scanner
+      would locate and inspect it).
+    </p>
+    <p>
+      One commonly used solution is to set aside one directory on the system
+      into which all uploaded files will be placed, and to configure the virus
+      scanner to ignore that directory. This ensures that files will not be
+      ripped out from under the application, but then leaves responsibility for
+      virus scanning up to the application developer. Scanning the uploaded
+      files for viruses can then be performed by an external process, which
+      might move clean or cleaned files to an "approved" location, or by
+      integrating a virus scanner within the application itself. The details of
+      configuring an external process or integrating virus scanning into an
+      application are outside the scope of this document.
+    </p>
+  </section>
+
   <section name="What's next">
     <p>
       Hopefully this page has provided you with a good idea of how to use
