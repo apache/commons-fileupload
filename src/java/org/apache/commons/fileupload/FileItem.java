@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.8 2002/08/22 04:26:47 martinc Exp $
- * $Revision: 1.8 $
- * $Date: 2002/08/22 04:26:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileItem.java,v 1.9 2002/08/22 04:41:29 martinc Exp $
+ * $Revision: 1.9 $
+ * $Date: 2002/08/22 04:41:29 $
  *
  * ====================================================================
  *
@@ -78,9 +78,9 @@ import java.io.UnsupportedEncodingException;
  * {@link org.apache.commons.fileupload.FileUpload
  * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
  * either request all contents of file at once using {@link #get()} or
- * request an {@link java.io.InputStream InputStream} with {@link #getInputStream()}
- * and process the file without attempting to load it into memory, which
- * may come handy with large files.
+ * request an {@link java.io.InputStream InputStream} with
+ * {@link #getInputStream()} and process the file without attempting to load
+ * it into memory, which may come handy with large files.
  *
  * <p> While this interface does not extend
  * <code>javax.activation.DataSource</code> per se (to avoid a seldom used
@@ -94,7 +94,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileItem.java,v 1.8 2002/08/22 04:26:47 martinc Exp $
+ * @version $Id: FileItem.java,v 1.9 2002/08/22 04:41:29 martinc Exp $
  */
 public interface FileItem
 {
