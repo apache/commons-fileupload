@@ -15,8 +15,11 @@
  */
 package org.apache.commons.fileupload;
 
-import junit.framework.TestCase;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import junit.framework.TestCase;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
@@ -77,22 +80,80 @@ public class FileUploadTest extends TestCase
         super(name);
     }
 
-    public void testParseRequest() throws FileUploadException
-    {
 
-    	String[] fileNames =
-    	{
-			"filename1",
-    		"filename2"
-    	};
+    public void testFileUpload() throws IOException, FileUploadException {
+        List fileItems = parseUpload("-----1234\r\n" +
+                        "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                        "Content-Type: text/whatever\r\n" +
+                        "\r\n" +
+                        "This is the content of the file\n" +
+                        "\r\n" +
+                        "-----1234\r\n" +
+                        "Content-Disposition: form-data; name=\"field\"\r\n" +
+                        "\r\n" +
+                        "fieldValue\r\n" +
+                        "-----1234\r\n" +
+                        "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                        "\r\n" +
+                        "value1\r\n" +
+                        "-----1234\r\n" +
+                        "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                        "\r\n" +
+                        "value2\r\n" +
+                        "-----1234--\r\n");
+        assertEquals(4, fileItems.size());
 
-		FileUploadBase fu = new DiskFileUpload();
+        FileItem file = (FileItem) fileItems.get(0);
+        assertEquals("file", file.getFieldName());
+        assertFalse(file.isFormField());
+        assertEquals("This is the content of the file\n", file.getString());
+        assertEquals("text/whatever", file.getContentType());
+        assertEquals("foo.tab", file.getName());
 
-		HttpServletRequest req = HttpServletRequestFactory.createValidHttpServletRequest(fileNames);
+        FileItem field = (FileItem) fileItems.get(1);
+        assertEquals("field", field.getFieldName());
+        assertTrue(field.isFormField());
+        assertEquals("fieldValue", field.getString());
 
-		// todo java.util.List lst = fu.parseRequest(req);
-		// todo assertNotNull(lst);
+        FileItem multi0 = (FileItem) fileItems.get(2);
+        assertEquals("multi", multi0.getFieldName());
+        assertTrue(multi0.isFormField());
+        assertEquals("value1", multi0.getString());
 
+        FileItem multi1 = (FileItem) fileItems.get(3);
+        assertEquals("multi", multi1.getFieldName());
+        assertTrue(multi1.isFormField());
+        assertEquals("value2", multi1.getString());
     }
+
+    /**
+     * This is what the browser does if you submit the form without choosing a file.
+     */
+    public void testEmptyFile() throws UnsupportedEncodingException, FileUploadException {
+        List fileItems = parseUpload ("-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
+                "\r\n" +
+                "\r\n" +
+                "-----1234--\r\n");
+        assertEquals(1, fileItems.size());
+
+        FileItem file = (FileItem) fileItems.get(0);
+        assertFalse(file.isFormField());
+        assertEquals("", file.getString());
+        assertEquals("", file.getName());
+    }
+
+    private List parseUpload(String content) throws UnsupportedEncodingException, FileUploadException {
+        byte[] bytes = content.getBytes("US-ASCII");
+
+        String contentType = "multipart/form-data; boundary=---1234";
+
+        FileUploadBase upload = new DiskFileUpload();
+        HttpServletRequest request = new MyHttpServletRequest(bytes, contentType);
+
+        List fileItems = upload.parseRequest(request);
+        return fileItems;
+    }
+
 }
 

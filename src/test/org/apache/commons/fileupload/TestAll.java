@@ -34,6 +34,7 @@ public class TestAll extends TestCase {
         suite.addTest(new TestSuite(MultipartStreamTest.class));
         suite.addTest(new TestSuite(FileUploadTest.class));
         suite.addTest(new TestSuite(DeferredFileOutputStreamTest.class));
+        suite.addTest(new TestSuite(DefaultFileItemTest.class));
         return suite;
     }
 
