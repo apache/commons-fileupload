@@ -1,0 +1,221 @@
+<project name="FileUpload" default="compile" basedir=".">
+
+
+<!--
+        "FileUpload" component of the Jakarta Commons Subproject
+        $Id: build.xml,v 1.1 2002/03/24 07:05:13 jmcnally Exp $
+-->
+
+
+<!-- ========== Initialize Properties ===================================== -->
+
+  <property file="${user.home}/${component.name}.build.properties" /> 
+  <property file="${user.home}/build.properties" />
+  <property file="${basedir}/build.properties" />
+  <property file="${basedir}/default.properties" />
+
+<!-- ========== Construct compile classpath =============================== -->
+
+  <path id="compile.classpath">
+    <pathelement location="${build.home}/classes"/>
+    <pathelement location="${servlet.jar}"/>
+    <pathelement location="${jaf.jar}"/>
+  </path>
+
+<!-- ========== Construct unit test classpath ============================= -->
+
+  <path id="test.classpath">
+    <pathelement location="${build.home}/classes"/>
+    <pathelement location="${servlet.jar}"/>
+    <pathelement location="${jaf.jar}"/>
+    <pathelement location="${build.home}/tests"/>
+    <pathelement location="${junit.jar}"/>
+  </path>
+
+<!-- ========== Executable Targets ======================================== -->
+
+  <target name="check-available">
+    <available
+      classname="javax.servlet.http.HttpServletRequest"
+      property="servlet.present"
+      classpathref="compile.classpath"
+    />
+
+    <available
+      classname="javax.activation.DataSource"
+      property="jaf.present"
+      classpathref="compile.classpath"
+    />
+  </target>
+
+  <target name="check-servlet" depends="check-available" 
+        unless="servlet.present">
+    <antcall target="property-warning">
+      <param name="name" value="servlet.jar"/>
+      <param name="value" value="${servlet.jar}"/>
+    </antcall>
+  </target>
+
+  <target name="check-jaf" depends="check-available" 
+        unless="jaf.present">
+    <antcall target="property-warning">
+      <param name="name" value="jaf.jar"/>
+      <param name="value" value="${jaf.jar}"/>
+    </antcall>
+  </target>
+
+  <target name="property-warning">
+    <echo>
+      +----------------------------------------------------------------+
+      + F A I L E D  R E Q U I R E M E N T                             |
+      +----------------------------------------------------------------+
+      | You must define the following property in order                |
+      | to build Turbine:                                              |
+      |                                                                |
+      | ${name} = ${value}
+      |                                                                |
+      | You can set this property in the provided build.properties     |
+      | file, or you may set this property in your                     |
+      | ${user.home}/build.properties file.
+      +----------------------------------------------------------------+
+    </echo>
+    <fail message="Failed Requirement"/>
+  </target>
+
+  <target name="init"
+   description="Initialize and evaluate conditionals">
+    <echo message="-------- ${component.name} ${component.version} --------"/>
+    <filter  token="name"                  value="${component.name}"/>
+    <filter  token="package"               value="${component.package}"/>
+    <filter  token="version"               value="${component.version}"/>
+  </target>
+
+
+  <target name="prepare" depends="init,check-servlet,check-jaf"
+   description="Prepare build directory">
+    <mkdir dir="${build.home}"/>
+    <mkdir dir="${build.home}/classes"/>
+    <mkdir dir="${build.home}/conf"/>
+    <mkdir dir="${build.home}/tests"/>
+  </target>
+
+
+  <target name="static" depends="prepare"
+   description="Copy static files to build directory">
+    <tstamp/>
+    <copy  todir="${build.home}/conf" filtering="on">
+      <fileset dir="${conf.home}" includes="*.MF"/>
+    </copy>
+  </target>
+
+
+  <target name="compile" depends="static"
+   description="Compile shareable components">
+    <javac  srcdir="${source.home}"
+           destdir="${build.home}/classes"
+             debug="${compile.debug}"
+       deprecation="${compile.deprecation}"
+          optimize="${compile.optimize}">
+      <classpath refid="compile.classpath"/>
+    </javac>
+    <copy    todir="${build.home}/classes" filtering="on">
+      <fileset dir="${source.home}" excludes="**/*.java"/>
+    </copy>
+  </target>
+
+
+  <target name="compile.tests" depends="compile"
+   description="Compile unit test cases">
+    <javac  srcdir="${test.home}"
+           destdir="${build.home}/tests"
+             debug="${compile.debug}"
+       deprecation="${compile.deprecation}"
+          optimize="${compile.optimize}">
+      <classpath refid="test.classpath"/>
+    </javac>
+    <copy    todir="${build.home}/tests" filtering="on">
+      <fileset dir="${test.home}" excludes="**/*.java"/>
+    </copy>
+  </target>
+
+
+  <target name="clean"
+   description="Clean build and distribution directories">
+    <delete    dir="${build.home}"/>
+    <delete    dir="${dist.home}"/>
+  </target>
+
+
+  <target name="all" depends="clean,compile"
+   description="Clean and compile all components"/>
+
+
+  <target name="javadoc" depends="compile"
+   description="Create component Javadoc documentation">
+    <mkdir      dir="${dist.home}"/>
+    <mkdir      dir="${dist.home}/docs"/>
+    <mkdir      dir="${dist.home}/docs/api"/>
+    <javadoc sourcepath="${source.home}"
+                destdir="${dist.home}/docs/api"
+           packagenames="org.apache.commons.*"
+                 author="true"
+                private="true"
+                version="true"
+               doctitle="&lt;h1&gt;${component.title}&lt;/h1&gt;"
+            windowtitle="${component.title} (Version ${component.version})"
+                 bottom="Copyright (c) 2001-2002 - Apache Software Foundation">
+      <classpath refid="compile.classpath"/>
+    </javadoc>
+  </target>
+
+
+  <target name="dist" depends="compile,javadoc"
+   description="Create binary distribution">
+    <mkdir      dir="${dist.home}"/>
+    <copy      file="../LICENSE"
+              todir="${dist.home}"/>
+    <copy      file="RELEASE-NOTES.txt"
+              todir="${dist.home}"/>
+    <antcall target="jar"/>
+  </target>
+
+
+  <target name="jar" depends="compile"
+   description="Create jar">
+    <mkdir      dir="${dist.home}"/>
+    <mkdir      dir="${build.home}/classes/META-INF"/>
+    <copy      file="../LICENSE"
+             tofile="${build.home}/classes/META-INF/LICENSE.txt"/>
+    <jar    jarfile="${dist.home}/${final.name}.jar"
+            basedir="${build.home}/classes"
+           manifest="${build.home}/conf/MANIFEST.MF"/>
+  </target>
+
+
+  <target name="install-jar" depends="jar"
+   description="--> Installs jar file in ${lib.repo}">
+    <copy todir="${lib.repo}" filtering="no">
+      <fileset dir="${dist.home}">
+        <include name="${final.name}.jar"/>
+      </fileset>
+    </copy>
+  </target>
+
+
+<!-- ========== Unit Test Targets ========================================= -->
+
+
+  <target name="test"  depends="compile.tests, test.fileupload"
+      description="Run all unit test cases">
+  </target>
+
+  <target name="test.fileupload" depends="compile.tests">
+    <echo message="Running FileUpload tests ..."/>
+    <java classname="${test.runner}" fork="yes"
+        failonerror="${test.failonerror}">
+      <arg value="org.apache.commons.fileupload.FileUploadTest"/>
+      <classpath refid="test.classpath"/>
+    </java>
+  </target>
+
+</project>
