@@ -56,7 +56,7 @@ import org.apache.commons.fileupload.ParameterParser;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: DiskFileItem.java,v 1.2 2004/12/08 02:59:02 sullis Exp $
+ * @version $Id$
  */
 public class DiskFileItem
     implements FileItem {

@@ -1,4 +1,4 @@
-$Id: RELEASE-NOTES.txt,v 1.4 2003/06/25 05:12:50 martinc Exp $
+$Id$
 
                          Commons FileUpload Package
                                  Version 1.0

@@ -42,7 +42,7 @@ import org.apache.commons.fileupload.FileItemFactory;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: DiskFileItemFactory.java,v 1.1 2004/10/31 05:21:43 martinc Exp $
+ * @version $Id$
  */
 public class DiskFileItemFactory implements FileItemFactory {
 

@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DiskFileUpload.java,v 1.7 2004/10/31 05:21:43 martinc Exp $
+ * @version $Id$
  *
  * @deprecated Use <code>ServletFileUpload</code> together with
  *             <code>DiskFileItemFactory</code> instead.

@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: RequestContext.java,v 1.1 2004/10/31 05:21:43 martinc Exp $
+ * @version $Id$
  */
 public interface RequestContext {
 

@@ -36,7 +36,7 @@ package org.apache.commons.fileupload;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.27 2004/10/29 04:17:23 martinc Exp $
+ * @version $Id$
  */
 public class FileUpload
     extends FileUploadBase {

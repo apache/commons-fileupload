@@ -23,7 +23,7 @@ package org.apache.commons.fileupload;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileItemFactory.java,v 1.4 2004/10/29 04:17:23 martinc Exp $
+ * @version $Id$
  */
 public interface FileItemFactory {
 
