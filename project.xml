@@ -6,13 +6,22 @@
   <id>commons-fileupload</id>
   <currentVersion>1.0</currentVersion>
   <inceptionYear>2002</inceptionYear>
+
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org</url>
+    <logo>http://jakarta.apache.org/images/jakarta-logo.gif</logo>
+  </organization>
+
   <shortDescription>File upload component for Java servlets</shortDescription>
+
+  <logo>/images/logo.png</logo>
+
   <description>
     The FileUpload component provides a simple yet flexible means of adding
     support for multipart file upload functionality to servlets and web
     applications.
   </description>
-  <logo>/images/logo.gif</logo>
   <package>org.apache.commons.fileupload</package>
 
   <url>http://jakarta.apache.org/commons/fileupload/</url>
