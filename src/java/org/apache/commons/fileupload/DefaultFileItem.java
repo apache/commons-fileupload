@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import org.apache.commons.io.FileCleaner;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
 
@@ -49,7 +50,7 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.26 2004/10/11 03:18:45 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.27 2004/10/12 04:17:27 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
@@ -600,7 +601,9 @@ public class DefaultFileItem
 
     /**
      * Creates and returns a {@link java.io.File File} representing a uniquely
-     * named temporary file in the configured repository path.
+     * named temporary file in the configured repository path. The lifetime of
+     * the file is tied to the lifetime of the <code>FileItem</code> instance;
+     * the file will be deleted when the instance is garbage collected.
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
@@ -615,7 +618,7 @@ public class DefaultFileItem
         String fileName = "upload_" + getUniqueId() + ".tmp";
 
         File f = new File(tempDir, fileName);
-        f.deleteOnExit();
+        FileCleaner.track(f, this);
         return f;
     }
 
