@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.11 2002/08/22 04:26:47 martinc Exp $
- * $Revision: 1.11 $
- * $Date: 2002/08/22 04:26:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.12 2002/10/26 22:22:29 sullis Exp $
+ * $Revision: 1.12 $
+ * $Date: 2002/10/26 22:22:29 $
  *
  * ====================================================================
  *
@@ -76,26 +76,27 @@ import org.apache.commons.beanutils.MethodUtils;
 
 
 /**
- * <p>High level API for processing file uploads.
+ * <p>High level API for processing file uploads.</p>
  *
  * <p>This class handles multiple files per single HTML widget, sent using
- * <code>multipar/mixed</code> encoding type, as specified by 
+ * <code>multipart/mixed</code> encoding type, as specified by 
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
  * #parseRequest(HttpServletRequest)} to acquire a list of {@link
  * org.apache.commons.fileupload.FileItem}s associated with a given HTML
- * widget.
+ * widget.</p>
  *
  * <p> Files will be stored in temporary disk storage or in memory,
  * depending on request size, and will be available as {@link
- * org.apache.commons.fileupload.FileItem}s.
+ * org.apache.commons.fileupload.FileItem}s.</p>
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
+ * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.11 2002/08/22 04:26:47 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.12 2002/10/26 22:22:29 sullis Exp $
  */
 public class FileUpload
 {
@@ -193,6 +194,9 @@ public class FileUpload
      * Returns the maximum allowed upload size.
      *
      * @return The maximum allowed size, in bytes.
+     * 
+     * @see #setSizeMax(int)
+     * 
      */
     public int getSizeMax() 
     {
@@ -204,6 +208,9 @@ public class FileUpload
      * Sets the maximum allowed upload size. If negative, there is no maximum.
      *
      * @param sizeMax The maximum allowed size, in bytes, or -1 for no maximum.
+     * 
+     * @see #getSizeMax()
+     * 
      */
     public void setSizeMax(int sizeMax) 
     {
@@ -216,6 +223,10 @@ public class FileUpload
      * disk. The default value is 1024 bytes.
      *
      * @return The size threshold, in bytes.
+     *
+     * @see #setSizeThreshold(int)
+     * 
+     *
      */
     public int getSizeThreshold()
     {
@@ -227,6 +238,9 @@ public class FileUpload
      * Sets the size threshold beyond which files are written directly to disk.
      *
      * @param sizeThreshold The size threshold, in bytes.
+     * 
+     * @see #getSizeThreshold()
+     * 
      */
     public void setSizeThreshold(int sizeThreshold) 
     {
@@ -239,6 +253,9 @@ public class FileUpload
      * than the configured size threshold.
      *
      * @return The path to the temporary file location.
+     * 
+     * @see #setRepositoryPath(String)
+     * 
      */
     public String getRepositoryPath()
     {
@@ -250,6 +267,9 @@ public class FileUpload
      * than the configured size threshold.
      *
      * @param repositoryPath The path to the temporary file location.
+     * 
+     * @see #getRepositoryPath()
+     * 
      */
     public void setRepositoryPath(String repositoryPath) 
     {
@@ -262,6 +282,9 @@ public class FileUpload
      * instantiate <code>FileItem</code> instances when a request is parsed.
      *
      * @return The fully qualified name of the Java class.
+     * 
+     * @see #setFileItemClassName(String)
+     * 
      */
     public String getFileItemClassName()
     {
@@ -274,6 +297,9 @@ public class FileUpload
      * instantiate <code>FileItem</code> instances when a request is parsed.
      *
      * @param fileItemClassName The fully qualified name of the Java class.
+     * 
+     * @see #getFileItemClassName()
+     * 
      */
     public void setFileItemClassName(String fileItemClassName)
     {
@@ -311,7 +337,7 @@ public class FileUpload
      * compliant <code>multipart/form-data</code> stream. If files are stored
      * on disk, the path is given by <code>getRepositoryPath()</code>.
      *
-     * @param req           The servlet request to be parsed.
+     * @param req           The servlet request to be parsed. Must be non-null.
      * @param sizeThreshold The max size in bytes to be stored in memory.
      * @param sizeMax       The maximum allowed upload size, in bytes.
      * @param path          The location where the files should be stored.
@@ -327,6 +353,11 @@ public class FileUpload
                                             int sizeMax, String path)
         throws FileUploadException
     {
+    	if (null == req)
+    	{
+    		throw new NullPointerException("req parameter");
+    	}
+    	
         ArrayList items = new ArrayList();
         String contentType = req.getHeader(CONTENT_TYPE);
 
