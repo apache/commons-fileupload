@@ -81,7 +81,9 @@ public class FileUploadTest extends TestCase
     }
 
 
-    public void testFileUpload() throws IOException, FileUploadException {
+    public void testFileUpload()
+            throws IOException, FileUploadException
+    {
         List fileItems = parseUpload("-----1234\r\n" +
                         "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                         "Content-Type: text/whatever\r\n" +
@@ -129,7 +131,9 @@ public class FileUploadTest extends TestCase
     /**
      * This is what the browser does if you submit the form without choosing a file.
      */
-    public void testEmptyFile() throws UnsupportedEncodingException, FileUploadException {
+    public void testEmptyFile()
+            throws UnsupportedEncodingException, FileUploadException
+    {
         List fileItems = parseUpload ("-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
                 "\r\n" +
@@ -143,7 +147,58 @@ public class FileUploadTest extends TestCase
         assertEquals("", file.getName());
     }
 
-    private List parseUpload(String content) throws UnsupportedEncodingException, FileUploadException {
+    /**
+     * Internet Explorer 5 for the Mac has a bug where the carriage
+     * return is missing on any boundary line immediately preceding
+     * an input with type=image. (type=submit does not have the bug.)
+     */
+    public void testIE5MacBug()
+            throws UnsupportedEncodingException, FileUploadException
+    {
+        List fileItems = parseUpload("-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"field1\"\r\n" +
+                "\r\n" +
+                "fieldValue\r\n" +
+                "-----1234\n" + // NOTE \r missing
+                "Content-Disposition: form-data; name=\"submitName.x\"\r\n" +
+                "\r\n" +
+                "42\r\n" +
+                "-----1234\n" + // NOTE \r missing
+                "Content-Disposition: form-data; name=\"submitName.y\"\r\n" +
+                "\r\n" +
+                "21\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"field2\"\r\n" +
+                "\r\n" +
+                "fieldValue2\r\n" +
+                "-----1234--\r\n");
+
+        assertEquals(4, fileItems.size());
+
+        FileItem field1 = (FileItem) fileItems.get(0);
+        assertEquals("field1", field1.getFieldName());
+        assertTrue(field1.isFormField());
+        assertEquals("fieldValue", field1.getString());
+
+        FileItem submitX = (FileItem) fileItems.get(1);
+        assertEquals("submitName.x", submitX.getFieldName());
+        assertTrue(submitX.isFormField());
+        assertEquals("42", submitX.getString());
+
+        FileItem submitY = (FileItem) fileItems.get(2);
+        assertEquals("submitName.y", submitY.getFieldName());
+        assertTrue(submitY.isFormField());
+        assertEquals("21", submitY.getString());
+
+        FileItem field2 = (FileItem) fileItems.get(3);
+        assertEquals("field2", field2.getFieldName());
+        assertTrue(field2.isFormField());
+        assertEquals("fieldValue2", field2.getString());
+    }
+
+    private List parseUpload(String content)
+            throws UnsupportedEncodingException, FileUploadException
+    {
         byte[] bytes = content.getBytes("US-ASCII");
 
         String contentType = "multipart/form-data; boundary=---1234";
@@ -156,4 +211,3 @@ public class FileUploadTest extends TestCase
     }
 
 }
-
