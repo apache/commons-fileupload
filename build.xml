@@ -9,6 +9,14 @@
   <property name="distdir" value="dist"></property>
   <property name="javadocdir" value="target/docs/apidocs"></property>
   <property name="final.name" value="commons-fileupload-1.0-dev"></property>
+
+  <!-- The test runner to execute -->
+  <property name="test.runner"             value="junit.textui.TestRunner"/>
+
+  <!-- Should all tests fail if one does? -->
+  <property name="test.failonerror"        value="true"/>
+
+
   
   <target name="init" description="o Initializes some properties">
 
@@ -56,26 +64,18 @@
  
   <target name="test" description="o Run the test cases" depends="compile-tests">
     <mkdir dir="${testreportdir}"></mkdir>
-    <junit dir="./" printSummary="yes" fork="true" haltonerror="true">
-      <sysproperty key="basedir" value="src/test"></sysproperty>
-      <formatter type="xml"></formatter>
-      <formatter usefile="true" type="plain"></formatter>
+    <java classname="${test.runner}" fork="yes"
+        failonerror="${test.failonerror}">
+          <arg value="org.apache.commons.fileupload.TestAll"/>
       <classpath>
         <fileset dir="lib">
           <include name="*.jar"></include>
         </fileset>
         <pathelement location="target/${final.name}.jar"></pathelement>
         <pathelement path="${testclassesdir}"></pathelement>
+        <pathelement path="${classesdir}"></pathelement>
       </classpath>
-      <batchtest todir="${testreportdir}">
-        <fileset dir="src/test">
-              
-                <include name="**/*Test.java"></include>
-              
-              
-        </fileset>
-      </batchtest>
-    </junit>
+    </java>
   </target>
 
   <target name="compile-tests" depends="compile">
@@ -89,17 +89,12 @@
           <include name="*.jar"></include>
         </fileset>
         <pathelement location="target/${final.name}.jar"></pathelement>
+        <pathelement path="${classesdir}"></pathelement>
       </classpath>
     </javac>
 
-    
-   
-    
- 
     <copy todir="${testclassesdir}">
       <fileset dir="src/test">
-      
-      
       </fileset>
     </copy>
     
@@ -107,9 +102,7 @@
 
   <target name="javadoc" description="o Generate javadoc" depends="jar">
  
- 
     <mkdir dir="${javadocdir}"></mkdir>
- 
     
     <tstamp>
       <format pattern="2002-yyyy" property="year"></format>
@@ -135,25 +128,13 @@
     <mkdir dir="lib"></mkdir>
     
     <get dest="lib/commons-beanutils-1.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-beanutils/jars/commons-beanutils-1.3.jar"></get>
-    <get dest="lib/junit-3.7.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.7.jar"></get>
     <get dest="lib/servletapi-2.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/servletapi/jars/servletapi-2.3.jar"></get>
-    
     <get dest="lib/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.1.jar"></get>
   
   </target>
 
   
-  
-  
-  
-  
-  
-  
-  
-
   <target name="install-maven">
-
-    
 
     <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${maven.repo.remote}/maven/maven-install-latest.jar"></get>
     
