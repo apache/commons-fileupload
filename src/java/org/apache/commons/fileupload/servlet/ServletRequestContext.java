@@ -28,17 +28,9 @@ import org.apache.commons.fileupload.RequestContext;
  *
  * @since FileUpload 1.1
  *
- * @version $Id: ServletRequestContext.java,v 1.2 2004/12/08 03:01:46 sullis Exp $
+ * @version $Id: ServletRequestContext.java,v 1.3 2004/12/12 17:21:41 martinc Exp $
  */
 public class ServletRequestContext implements RequestContext {
-
-    // ----------------------------------------------------- Manifest constants
-
-    /**
-     * HTTP content type header name.
-     */
-    public static final String CONTENT_TYPE = "Content-type";
-
 
     // ----------------------------------------------------- Instance Variables
 
@@ -68,7 +60,7 @@ public class ServletRequestContext implements RequestContext {
      * @return The content type of the request.
      */
     public String getContentType() {
-        return request.getHeader(CONTENT_TYPE);
+        return request.getContentType();
     }
 
     /**
