@@ -116,6 +116,22 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <resources>
+         <resource>
+            <directory>${pom.build.unitTestSourceDirectory}</directory>
+            <includes>
+              <include>**/*.xml</include>
+            </includes>
+         </resource>
+      </resources>
+    </unitTest>
+  </build>
+  
   <reports>
     <report>maven-changelog-plugin</report>
     <report>maven-checkstyle-plugin</report>
