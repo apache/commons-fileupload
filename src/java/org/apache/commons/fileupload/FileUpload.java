@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.15 2002/12/25 04:05:07 martinc Exp $
- * $Revision: 1.15 $
- * $Date: 2002/12/25 04:05:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.16 2003/03/01 21:15:49 martinc Exp $
+ * $Revision: 1.16 $
+ * $Date: 2003/03/01 21:15:49 $
  *
  * ====================================================================
  *
@@ -96,7 +96,7 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.15 2002/12/25 04:05:07 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.16 2003/03/01 21:15:49 martinc Exp $
  */
 public class FileUpload
 {
@@ -399,14 +399,14 @@ public class FileUpload
 
         if (requestSize == -1)
         {
-            throw new FileUploadException("the request was rejected because " +
-                "it's size is unknown");
+            throw new FileUploadException("the request was rejected because "
+                + "it's size is unknown");
         }
 
         if (sizeMax >= 0 && requestSize > sizeMax)
         {
-            throw new FileUploadException("the request was rejected because " +
-                "it's size exceeds allowed range");
+            throw new FileUploadException("the request was rejected because "
+                + "it's size exceeds allowed range");
         }
 
         try
@@ -517,8 +517,8 @@ public class FileUpload
         catch (IOException e)
         {
             throw new FileUploadException(
-                "Processing of " + MULTIPART_FORM_DATA +
-                    " request failed. " + e.getMessage());
+                "Processing of " + MULTIPART_FORM_DATA
+                    + " request failed. " + e.getMessage());
         }
 
         return items;
@@ -734,8 +734,8 @@ public class FileUpload
                         // More that one heder of that name exists,
                         // append to the list.
                         headers.put(headerName,
-                                    getHeader(headers, headerName) + ',' +
-                                    headerValue);
+                                    getHeader(headers, headerName) + ','
+                                        + headerValue);
                     }
                     else
                     {
