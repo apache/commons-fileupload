@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-
   <pomVersion>3</pomVersion>
   <name>commons-fileupload</name>
   <id>commons-fileupload</id>
   <currentVersion>1.0-dev</currentVersion>
+
   <organization>
     <name>Apache Software Foundation</name>
     <url>http://jakarta.apache.org/</url>
   </organization>
+
   <inceptionYear>2002</inceptionYear>
   <package>org.apache.commons.fileupload</package>
-  <gumpRepositoryId>jakarta</gumpRepositoryId>
   <shortDescription>Commons File Upload</shortDescription>
+
+  <gumpRepositoryId>jakarta</gumpRepositoryId>
 
   <description>
     File upload component.
   </description>
   
-  <url>http://jakarta.apache.org/commons/fileupload/</url>
+  <url>http://jakarta.apache.org/commons/sandbox/fileupload/</url>
   <issueTrackingUrl>http://issues.apache.org/scarab/servlet/scarab/</issueTrackingUrl>
   <siteAddress>jakarta.apache.org</siteAddress>
-  <siteDirectory>/www/jakarta.apache.org/commons/fileupload/</siteDirectory>
+  <siteDirectory>/www/jakarta.apache.org/commons/sandbox/fileupload/</siteDirectory>
+  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons-sandbox/fileupload/</distributionDirectory>
 
   <repository>
     <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic/jakarta-commons-sandbox/fileupload/</connection>
@@ -46,6 +49,12 @@
   
   <developers>
     <developer>
+      <name>Martin Cooper</name>
+      <id>martinc</id>
+      <email>martin.cooper@tumbleweed.com</email>
+      <organization>Tumbleweed Communications</organization>
+    </developer>
+    <developer>
       <name>John McNally</name>
       <id>jmcnally</id>
       <email>jmcnally@collab.net</email>
@@ -62,12 +71,6 @@
       <id>jvanzyl</id>
       <email>jason@zenplex.com</email>
       <organization>Zenplex</organization>
-    </developer>
-    <developer>
-      <name>Martin Cooper</name>
-      <id>martinc</id>
-      <email>martin.cooper@tumbleweed.com</email>
-      <organization>Tumbleweed Communications</organization>
     </developer>
   </developers>
   
