@@ -27,11 +27,21 @@
 
     <section name="Downloading Fileupload">
         <subsection name='Full Releases'>
-            <!-- list full releases here -->
+          <p>
+            <strong>FileUpload 1.0</strong> - 24 Jun 2003
+            <ul>
+              <li>Download the binary distribution from a mirror site
+                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
+              </li>
+              <li>Download the source distribution from a mirror site
+                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
         </subsection>
         <subsection name='Releases Candidate'>
           <p>
-            <strong>FileUpload 1.0 R.C.1</strong> - 4 Jun 2003
+            <strong>FileUpload 1.0 Release Candidate 1</strong> - 4 Jun 2003
             <ul>
               <li>Download the binary distribution from a mirror site
                 <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
