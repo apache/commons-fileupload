@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DiskFileUpload.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
- * $Revision: 1.2 $
- * $Date: 2003/05/31 22:31:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/DiskFileUpload.java,v 1.3 2003/06/01 00:18:13 martinc Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/06/01 00:18:13 $
  *
  * ====================================================================
  *
@@ -78,8 +78,8 @@ import javax.servlet.http.HttpServletRequest;
  * org.apache.commons.fileupload.FileItem}s associated with a given HTML
  * widget.</p>
  *
- * <p> Files will be stored in temporary disk storage or in memory,
- * depending on request size, and will be available as {@link
+ * <p>Individual parts will be stored in temporary disk storage or in memory,
+ * depending on their size, and will be available as {@link
  * org.apache.commons.fileupload.FileItem}s.</p>
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
@@ -89,7 +89,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DiskFileUpload.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
+ * @version $Id: DiskFileUpload.java,v 1.3 2003/06/01 00:18:13 martinc Exp $
  */
 public class DiskFileUpload
     extends FileUploadBase

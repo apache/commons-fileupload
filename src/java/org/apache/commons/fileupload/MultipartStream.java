@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.11 2003/04/27 17:30:06 martinc Exp $
- * $Revision: 1.11 $
- * $Date: 2003/04/27 17:30:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.12 2003/06/01 00:18:13 martinc Exp $
+ * $Revision: 1.12 $
+ * $Date: 2003/06/01 00:18:13 $
  *
  * ====================================================================
  *
@@ -67,6 +67,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -128,7 +129,7 @@ import java.io.OutputStream;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: MultipartStream.java,v 1.11 2003/04/27 17:30:06 martinc Exp $
+ * @version $Id: MultipartStream.java,v 1.12 2003/06/01 00:18:13 martinc Exp $
  */
 public class MultipartStream
 {
@@ -226,6 +227,12 @@ public class MultipartStream
     private int tail;
 
 
+    /**
+     * The content encoding to use when reading headers.
+     */
+    private String headerEncoding;
+
+
     // ----------------------------------------------------------- Constructors
 
 
@@ -305,6 +312,33 @@ public class MultipartStream
 
 
     // --------------------------------------------------------- Public methods
+
+
+    /**
+     * Retrieves the character encoding used when reading the headers of an
+     * individual part. When not specified, or <code>null</code>, the platform
+     * default encoding is used.
+
+     *
+     * @return The encoding used to read part headers.
+     */
+    public String getHeaderEncoding()
+    {
+        return headerEncoding;
+    }
+
+
+    /**
+     * Specifies the character encoding to be used when reading the headers of
+     * individual parts. When not specified, or <code>null</code>, the platform
+     * default encoding is used.
+     *
+     * @param encoding The encoding used to read part headers.
+     */
+    public void setHeaderEncoding(String encoding)
+    {
+        headerEncoding = encoding;
+    }
 
 
     /**
@@ -456,7 +490,27 @@ public class MultipartStream
                 baos.write(b[0]);
             }
         }
-        return baos.toString();
+
+        String headers = null;
+        if (headerEncoding != null)
+        {
+            try
+            {
+                headers = baos.toString(headerEncoding);
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                // Fall back to platform default if specified encoding is not
+                // supported.
+                headers = baos.toString();
+            }
+        }
+        else
+        {
+            headers = baos.toString();
+        }
+
+        return headers;
     }
 
 

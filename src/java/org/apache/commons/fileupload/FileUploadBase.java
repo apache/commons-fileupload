@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadBase.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
- * $Revision: 1.2 $
- * $Date: 2003/05/31 22:31:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUploadBase.java,v 1.3 2003/06/01 00:18:13 martinc Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/06/01 00:18:13 $
  *
  * ====================================================================
  *
@@ -83,9 +83,9 @@ import javax.servlet.http.HttpServletRequest;
  * org.apache.commons.fileupload.FileItem}s associated with a given HTML
  * widget.</p>
  *
- * <p> Files will be stored in temporary disk storage or in memory,
- * depending on request size, and will be available as {@link
- * org.apache.commons.fileupload.FileItem}s.</p>
+ * <p>How the data for individual parts is stored is determined by the factory
+ * used to create them; a given part may be in memory, on disk, or somewhere
+ * else.</p>
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
@@ -94,7 +94,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.2 2003/05/31 22:31:08 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.3 2003/06/01 00:18:13 martinc Exp $
  */
 public abstract class FileUploadBase
 {
@@ -188,6 +188,12 @@ public abstract class FileUploadBase
     private long sizeMax = -1;
 
 
+    /**
+     * The content encoding to use when reading part headers.
+     */
+    private String headerEncoding;
+
+
     // ----------------------------------------------------- Property accessors
 
 
@@ -232,6 +238,32 @@ public abstract class FileUploadBase
     public void setSizeMax(long sizeMax)
     {
         this.sizeMax = sizeMax;
+    }
+
+
+    /**
+     * Retrieves the character encoding used when reading the headers of an
+     * individual part. When not specified, or <code>null</code>, the platform
+     * default encoding is used.
+     *
+     * @return The encoding used to read part headers.
+     */
+    public String getHeaderEncoding()
+    {
+        return headerEncoding;
+    }
+
+
+    /**
+     * Specifies the character encoding to be used when reading the headers of
+     * individual parts. When not specified, or <code>null</code>, the platform
+     * default encoding is used.
+     *
+     * @param encoding The encoding used to read part headers.
+     */
+    public void setHeaderEncoding(String encoding)
+    {
+        headerEncoding = encoding;
     }
 
 
@@ -302,6 +334,8 @@ public abstract class FileUploadBase
             InputStream input = req.getInputStream();
 
             MultipartStream multi = new MultipartStream(input, boundary);
+            multi.setHeaderEncoding(headerEncoding);
+
             boolean nextPart = multi.skipPreamble();
             while (nextPart)
             {

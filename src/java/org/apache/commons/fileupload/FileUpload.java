@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.20 2003/05/31 22:31:08 martinc Exp $
- * $Revision: 1.20 $
- * $Date: 2003/05/31 22:31:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.21 2003/06/01 00:18:13 martinc Exp $
+ * $Revision: 1.21 $
+ * $Date: 2003/06/01 00:18:13 $
  *
  * ====================================================================
  *
@@ -78,9 +78,9 @@ import javax.servlet.http.HttpServletRequest;
  * org.apache.commons.fileupload.FileItem}s associated with a given HTML
  * widget.</p>
  *
- * <p> Files will be stored in temporary disk storage or in memory,
- * depending on request size, and will be available as {@link
- * org.apache.commons.fileupload.FileItem}s.</p>
+ * <p>How the data for individual parts is stored is determined by the factory
+ * used to create them; a given part may be in memory, on disk, or somewhere
+ * else.</p>
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
@@ -89,7 +89,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUpload.java,v 1.20 2003/05/31 22:31:08 martinc Exp $
+ * @version $Id: FileUpload.java,v 1.21 2003/06/01 00:18:13 martinc Exp $
  */
 public class FileUpload
     extends FileUploadBase
