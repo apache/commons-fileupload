@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * 
  *
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
+ *
  */
 class MyHttpServletRequest implements HttpServletRequest
 {
@@ -29,14 +29,14 @@ class MyHttpServletRequest implements HttpServletRequest
 	private byte[] m_requestData;
 	private String m_strContentType;
 	private Map m_headers = new java.util.HashMap();
-	
+
 	public MyHttpServletRequest(
 			final byte[] requestData,
 			final String strContentType)
 	{
 		m_requestData = requestData;
 		m_strContentType = strContentType;
-		m_headers.put(FileUpload.CONTENT_TYPE, strContentType);
+		m_headers.put(FileUploadBase.CONTENT_TYPE, strContentType);
 	}
 
 	/**
@@ -280,7 +280,7 @@ class MyHttpServletRequest implements HttpServletRequest
 	public int getContentLength()
 	{
 		int iLength = 0;
-		
+
 		if (null == m_requestData)
 		{
 			iLength = -1;
@@ -453,21 +453,21 @@ class MyHttpServletRequest implements HttpServletRequest
 	}
 
 	/**
-	 * 
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
+	 *
 	 */
-	private static class MyServletInputStream 
+	private static class MyServletInputStream
 		extends javax.servlet.ServletInputStream
 	{
 		private ByteArrayInputStream m_bais;
-		
+
 		public MyServletInputStream(byte[] data)
 		{
 			m_bais = new ByteArrayInputStream(data);
 		}
-		
+
 		public int read()
 		{
 			return m_bais.read();

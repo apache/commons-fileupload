@@ -58,20 +58,20 @@ import junit.framework.TestCase;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Unit tests {@link org.apache.commons.fileupload.FileUpload}.
+ * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
  *
  * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
  * @author Sean C. Sullivan
- * 
+ *
  */
 public class FileUploadTest extends TestCase
 {
 	public void testWithInvalidRequest()
     {
-    	FileUpload fu = null;
-    	
-    	fu = new FileUpload();
-    	
+    	FileUploadBase fu = null;
+
+    	fu = new DiskFileUpload();
+
     	HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
 
 
@@ -84,22 +84,22 @@ public class FileUploadTest extends TestCase
     	{
     		// this exception is expected
     	}
-    	
+
     }
 
 
 	public void testWithNullContentType()
     {
-    	FileUpload fu = new FileUpload();
-    	
+    	FileUploadBase fu = new DiskFileUpload();
+
     	HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
-    	
+
     	try
     	{
     		fu.parseRequest(req);
     		fail("testWithNullContentType: expected exception was not thrown");
     	}
-    	catch (FileUpload.InvalidContentTypeException expected)
+    	catch (DiskFileUpload.InvalidContentTypeException expected)
     	{
     		// this exception is expected
     	}
@@ -107,7 +107,7 @@ public class FileUploadTest extends TestCase
         {
     		fail("testWithNullContentType: unexpected exception was thrown");
         }
-    	
+
     }
 
 
@@ -118,20 +118,20 @@ public class FileUploadTest extends TestCase
 
     public void testParseRequest() throws FileUploadException
     {
-    	
-    	String[] fileNames = 
-    	{ 
+
+    	String[] fileNames =
+    	{
 			"filename1",
     		"filename2"
     	};
-    	
-		FileUpload fu = new FileUpload();
-    	
+
+		FileUploadBase fu = new DiskFileUpload();
+
 		HttpServletRequest req = HttpServletRequestFactory.createValidHttpServletRequest(fileNames);
-    	
+
 		// todo java.util.List lst = fu.parseRequest(req);
 		// todo assertNotNull(lst);
-		
+
     }
 }
 

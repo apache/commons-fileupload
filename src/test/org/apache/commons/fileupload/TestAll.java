@@ -7,7 +7,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 2002-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,12 +64,12 @@ package org.apache.commons.fileupload;
 import junit.framework.*;
 
 /**
- * 
+ *
  * @author Sean C. Sullivan
- * 
+ *
  */
 public class TestAll extends TestCase {
-	
+
     public TestAll(String testName) {
         super(testName);
     }
@@ -78,6 +78,7 @@ public class TestAll extends TestCase {
         TestSuite suite = new TestSuite();
         suite.addTest(new TestSuite(MultipartStreamTest.class));
         suite.addTest(new TestSuite(FileUploadTest.class));
+        suite.addTest(new TestSuite(DeferredFileOutputStreamTest.class));
         return suite;
     }
 
