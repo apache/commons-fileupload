@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.9 2004/10/11 05:06:33 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.10 2004/10/16 18:17:50 martinc Exp $
  */
 public abstract class FileUploadBase
 {
@@ -405,11 +405,23 @@ public abstract class FileUploadBase
         String cd = getHeader(headers, CONTENT_DISPOSITION);
         if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT))
         {
-            int start = cd.indexOf("filename=\"");
-            int end = cd.indexOf('"', start + 10);
-            if (start != -1 && end != -1)
+            ParameterParser parser = new ParameterParser();
+            parser.setLowerCaseNames(true);
+            // Parameter parser can handle null input
+            Map params = parser.parse(cd, ';');
+            if (params.containsKey("filename"))
             {
-                fileName = cd.substring(start + 10, end).trim();
+                fileName = (String)params.get("filename");
+                if (fileName != null)
+                {
+                    fileName = fileName.trim();
+                }
+                else
+                {
+                    // Even if there is no value, the parameter is present, so
+                    // we return an empty file name rather than no file name.
+                    fileName = "";
+                }
             }
         }
         return fileName;
@@ -430,11 +442,15 @@ public abstract class FileUploadBase
         String cd = getHeader(headers, CONTENT_DISPOSITION);
         if (cd != null && cd.startsWith(FORM_DATA))
         {
-            int start = cd.indexOf("name=\"");
-            int end = cd.indexOf('"', start + 6);
-            if (start != -1 && end != -1)
+
+            ParameterParser parser = new ParameterParser();
+            parser.setLowerCaseNames(true);
+            // Parameter parser can handle null input
+            Map params = parser.parse(cd, ';');
+            fieldName = (String)params.get("name");
+            if (fieldName != null)
             {
-                fieldName = cd.substring(start + 6, end);
+                fieldName = fieldName.trim();
             }
         }
         return fieldName;
