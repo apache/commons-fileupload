@@ -48,7 +48,7 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.13 2004/10/31 05:21:43 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.14 2004/12/12 17:21:41 martinc Exp $
  */
 public abstract class FileUploadBase {
 
@@ -96,7 +96,7 @@ public abstract class FileUploadBase {
         if (!"post".equals(req.getMethod().toLowerCase())) {
             return false;
         }
-        String contentType = req.getHeader(CONTENT_TYPE);
+        String contentType = req.getContentType();
         if (contentType == null) {
             return false;
         }
