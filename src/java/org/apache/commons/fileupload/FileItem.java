@@ -83,7 +83,7 @@ import javax.activation.DataSource;
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:sean@informage.net">Sean Legassick</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @version $Id: FileItem.java,v 1.1 2002/03/24 07:05:13 jmcnally Exp $
+ * @version $Id: FileItem.java,v 1.2 2002/04/11 05:54:55 jmcnally Exp $
  */
 public interface FileItem
     extends DataSource
@@ -193,17 +193,6 @@ public interface FileItem
      * @return A File.
      */
     public File getStoreLocation();
-
-    /**
-     * Returns an {@link java.io.OutputStream OutputStream} that can
-     * be used for storing the contents of the file.
-     * (implements DataSource method)
-     *
-     * @return an {@link java.io.OutputStream OutputStream} that can be
-     * used for storing the contensts of the file.
-     * @exception IOException.
-     */
-    public OutputStream getOutputStream() throws IOException;
 
     /**
      * A convenience method to write an uploaded
