@@ -112,4 +112,23 @@
     
   <!-- maven:end -->
 
+  <target name="dist" depends="maven:jar,maven:javadocs"
+   description="Create binary distribution">
+    <property name="dist.home" value="${basedir}/dist"/>
+    <property name="target.home" value="${basedir}/target"/>
+    <mkdir      dir="${dist.home}"/>
+    <copy      file="../LICENSE"
+              todir="${dist.home}"/>
+    <copy      file="RELEASE-NOTES.txt"
+              todir="${dist.home}"/>
+    <copy     todir="${dist.home}">
+        <fileset dir="${target.home}" includes="commons-fileupload*.jar"/> 
+    </copy>
+    <copy     todir="${dist.home}">
+        <fileset dir="${target.home}" includes="docs"/>
+    </copy>
+
+  </target>
+
 </project>
+
