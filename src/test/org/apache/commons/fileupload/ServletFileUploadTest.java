@@ -75,12 +75,6 @@ public class ServletFileUploadTest extends TestCase
     }
 
 
-    public FileUploadTest(String name)
-    {
-        super(name);
-    }
-
-
     public void testFileUpload()
             throws IOException, FileUploadException
     {
