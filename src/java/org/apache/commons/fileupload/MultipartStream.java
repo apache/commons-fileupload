@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.5 2002/07/22 07:21:54 martinc Exp $
- * $Revision: 1.5 $
- * $Date: 2002/07/22 07:21:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.6 2002/08/18 06:09:21 martinc Exp $
+ * $Revision: 1.6 $
+ * $Date: 2002/08/18 06:09:21 $
  *
  * ====================================================================
  *
@@ -126,10 +126,9 @@ import java.io.OutputStream;
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: MultipartStream.java,v 1.5 2002/07/22 07:21:54 martinc Exp $
+ * @version $Revision: 1.6 $ $Date: 2002/08/18 06:09:21 $
  */
-public class MultipartStream
-{
+public class MultipartStream {
 
     // ----------------------------------------------------- Manifest constants
 
@@ -230,8 +229,7 @@ public class MultipartStream
     /**
      * Default constructor.
      */
-    public MultipartStream()
-    {
+    public MultipartStream() {
     }
 
 
@@ -250,8 +248,7 @@ public class MultipartStream
      */
     public MultipartStream(InputStream input,
                            byte[] boundary,
-                           int bufSize)
-    {
+                           int bufSize) {
         this.input = input;
         this.bufSize = bufSize;
         this.buffer = new byte[bufSize];
@@ -281,10 +278,8 @@ public class MultipartStream
      *
      * @exception IOException when an error occurs.
      */
-    public MultipartStream(InputStream input,
-                           byte[] boundary)
-        throws IOException
-    {
+    public MultipartStream(InputStream input, byte[] boundary)
+            throws IOException {
         this(input, boundary, DEFAULT_BUFSIZE);
     }
 
@@ -300,17 +295,13 @@ public class MultipartStream
      *
      * @exception IOException if there is no more data available.
      */
-    public byte readByte()
-        throws IOException
-    {
+    public byte readByte() throws IOException {
         // Buffer depleted ?
-        if (head == tail)
-        {
+        if (head == tail) {
             head = 0;
             // Refill.
             tail = input.read(buffer, head, bufSize);
-            if (tail == -1)
-            {
+            if (tail == -1) {
                 // No more data available.
                 throw new IOException("No more data is available");
             }
@@ -329,33 +320,23 @@ public class MultipartStream
      * @exception MalformedStreamException if the stream ends unexpecetedly or
      *                                     fails to follow required syntax.
      */
-    public boolean readBoundary()
-        throws MalformedStreamException
-    {
+    public boolean readBoundary() throws MalformedStreamException {
         byte[] marker = new byte[2];
         boolean nextChunk = false;
 
         head += boundaryLength;
-        try
-        {
+        try {
             marker[0] = readByte();
             marker[1] = readByte();
-            if (arrayequals(marker, STREAM_TERMINATOR, 2))
-            {
+            if (arrayequals(marker, STREAM_TERMINATOR, 2)) {
                 nextChunk = false;
-            }
-            else if (arrayequals(marker, FIELD_SEPARATOR, 2))
-            {
+            } else if (arrayequals(marker, FIELD_SEPARATOR, 2)) {
                 nextChunk = true;
-            }
-            else
-            {
+            } else {
                 throw new MalformedStreamException(
                         "Unexpected characters follow a boundary");
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new MalformedStreamException("Stream ended unexpectedly");
         }
         return nextChunk;
@@ -381,11 +362,8 @@ public class MultipartStream
      *                                     has a different length than the one
      *                                     being currently parsed.
      */
-    public void setBoundary(byte[] boundary)
-        throws IllegalBoundaryException
-    {
-        if (boundary.length != boundaryLength - 4)
-        {
+    public void setBoundary(byte[] boundary) throws IllegalBoundaryException {
+        if (boundary.length != boundaryLength - 4) {
             throw new IllegalBoundaryException(
                     "The length of a boundary token can not be changed");
         }
@@ -408,35 +386,25 @@ public class MultipartStream
      *
      * @exception MalformedStreamException if the stream ends unexpecetedly.
      */
-    public String readHeaders()
-        throws MalformedStreamException
-    {
+    public String readHeaders() throws MalformedStreamException {
         int i = 0;
         byte b[] = new byte[1];
         StringBuffer buf = new StringBuffer();
         int sizeMax = HEADER_PART_SIZE_MAX;
         int size = 0;
-        while (i < 4)
-        {
-            try
-            {
+        while (i < 4) {
+            try {
                 b[0] = readByte();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 throw new MalformedStreamException("Stream ended unexpectedly");
             }
             size++;
-            if (b[0] == HEADER_SEPARATOR[i])
-            {
+            if (b[0] == HEADER_SEPARATOR[i]) {
                 i++;
-            }
-            else
-            {
+            } else {
                 i = 0;
             }
-            if (size <= sizeMax)
-            {
+            if (size <= sizeMax) {
                 buf.append(new String(b));
             }
         }
@@ -461,36 +429,28 @@ public class MultipartStream
      * @exception IOException              if an i/o error occurs.
      */
     public int readBodyData(OutputStream output)
-        throws MalformedStreamException,
-               IOException
-    {
+            throws MalformedStreamException, IOException {
+
         boolean done = false;
         int pad;
         int pos;
         int bytesRead;
         int total = 0;
-        while (!done)
-        {
+        while (!done) {
             // Is boundary token present somewere in the buffer?
             pos = findSeparator();
-            if (pos != -1)
-            {
+            if (pos != -1) {
                 // Write the rest of the data before the boundary.
                 output.write(buffer, head, pos - head);
                 total += pos - head;
                 head = pos;
                 done = true;
-            }
-            else
-            {
+            } else {
                 // Determine how much data should be kept in the
                 // buffer.
-                if (tail - head > keepRegion)
-                {
+                if (tail - head > keepRegion) {
                     pad = keepRegion;
-                }
-                else
-                {
+                } else {
                     pad = tail - head;
                 }
                 // Write out the data belonging to the body-data.
@@ -505,12 +465,9 @@ public class MultipartStream
                 bytesRead = input.read(buffer, pad, bufSize - pad);
 
                 // [pprrrrrrr]
-                if (bytesRead != -1)
-                {
+                if (bytesRead != -1) {
                     tail = pad + bytesRead;
-                }
-                else
-                {
+                } else {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so write out the
                     // data you have and signal an error condition.
@@ -540,35 +497,27 @@ public class MultipartStream
      * @exception IOException              if an i/o error occurs.
      */
     public int discardBodyData()
-        throws MalformedStreamException,
-               IOException
-    {
+        throws MalformedStreamException, IOException {
+
         boolean done = false;
         int pad;
         int pos;
         int bytesRead;
         int total = 0;
-        while (!done)
-        {
+        while (!done) {
             // Is boundary token present somewere in the buffer?
             pos = findSeparator();
-            if (pos != -1)
-            {
+            if (pos != -1) {
                 // Write the rest of the data before the boundary.
                 total += pos - head;
                 head = pos;
                 done = true;
-            }
-            else
-            {
+            } else {
                 // Determine how much data should be kept in the
                 // buffer.
-                if (tail - head > keepRegion)
-                {
+                if (tail - head > keepRegion) {
                     pad = keepRegion;
-                }
-                else
-                {
+                } else {
                     pad = tail - head;
                 }
                 total += tail - head - pad;
@@ -581,12 +530,9 @@ public class MultipartStream
                 bytesRead = input.read(buffer, pad, bufSize - pad);
 
                 // [pprrrrrrr]
-                if (bytesRead != -1)
-                {
+                if (bytesRead != -1) {
                     tail = pad + bytesRead;
-                }
-                else
-                {
+                } else {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so signal an error
                     // condition.
@@ -608,27 +554,20 @@ public class MultipartStream
      *
      * @exception IOException if an i/o error occurs.
      */
-    public boolean skipPreamble()
-        throws IOException
-    {
+    public boolean skipPreamble() throws IOException {
         // First delimiter may be not preceeded with a CRLF.
         System.arraycopy(boundary, 2, boundary, 0, boundary.length - 2);
         boundaryLength = boundary.length - 2;
-        try
-        {
+        try {
             // Discard all data up to the delimiter.
             discardBodyData();
 
             // Read boundary - if succeded, the stream contains an
             // encapsulation.
             return readBoundary();
-        }
-        catch (MalformedStreamException e)
-        {
+        } catch (MalformedStreamException e) {
             return false;
-        }
-        finally
-        {
+        } finally {
             // Restore delimiter.
             System.arraycopy(boundary, 0, boundary, 2, boundary.length - 2);
             boundaryLength = boundary.length;
@@ -651,12 +590,9 @@ public class MultipartStream
      */
     public static boolean arrayequals(byte[] a,
                                       byte[] b,
-                                      int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            if (a[i] != b[i])
-            {
+                                      int count) {
+        for (int i = 0; i < count; i++) {
+            if (a[i] != b[i]) {
                 return false;
             }
         }
@@ -675,12 +611,9 @@ public class MultipartStream
      *         <code>buffer</code>, or <code>-1</code> if not found.
      */
     protected int findByte(byte value,
-                           int pos)
-    {
-        for (int i = pos; i < tail; i++)
-        {
-            if (buffer[i] == value)
-            {
+                           int pos) {
+        for (int i = pos; i < tail; i++) {
+            if (buffer[i] == value) {
                 return i;
             }
         }
@@ -697,30 +630,24 @@ public class MultipartStream
      *         beginning of the <code>buffer</code>, or <code>-1</code> if
      *         not found.
      */
-    protected int findSeparator()
-    {
+    protected int findSeparator() {
         int first;
         int match = 0;
         int maxpos = tail - boundaryLength;
         for (first = head;
              (first <= maxpos) && (match != boundaryLength);
-             first++)
-        {
+             first++) {
             first = findByte(boundary[0], first);
-            if (first == -1 || (first > maxpos))
-            {
+            if (first == -1 || (first > maxpos)) {
                 return -1;
             }
-            for (match = 1; match < boundaryLength; match++)
-            {
-                if (buffer[first + match] != boundary[match])
-                {
+            for (match = 1; match < boundaryLength; match++) {
+                if (buffer[first + match] != boundary[match]) {
                     break;
                 }
             }
         }
-        if (match == boundaryLength)
-        {
+        if (match == boundaryLength) {
             return first - 1;
         }
         return -1;
@@ -731,15 +658,12 @@ public class MultipartStream
      * Thrown to indicate that the input stream fails to follow the
      * required syntax.
      */
-    public class MalformedStreamException
-        extends IOException
-    {
+    public class MalformedStreamException extends IOException {
         /**
          * Constructs a <code>MalformedStreamException</code> with no
          * detail message.
          */
-        public MalformedStreamException()
-        {
+        public MalformedStreamException() {
             super();
         }
 
@@ -749,8 +673,7 @@ public class MultipartStream
          *
          * @param message The detail message.
          */
-        public MalformedStreamException(String message)
-        {
+        public MalformedStreamException(String message) {
             super(message);
         }
     }
@@ -759,15 +682,12 @@ public class MultipartStream
     /**
      * Thrown upon attempt of setting an invalid boundary token.
      */
-    public class IllegalBoundaryException
-        extends IOException
-    {
+    public class IllegalBoundaryException extends IOException {
         /**
          * Constructs an <code>IllegalBoundaryException</code> with no
          * detail message.
          */
-        public IllegalBoundaryException()
-        {
+        public IllegalBoundaryException() {
             super();
         }
 
@@ -777,8 +697,7 @@ public class MultipartStream
          *
          * @param message The detail message.
          */
-        public IllegalBoundaryException(String message)
-        {
+        public IllegalBoundaryException(String message) {
             super(message);
         }
     }

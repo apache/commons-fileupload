@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.9 2002/08/01 07:15:57 martinc Exp $
- * $Revision: 1.9 $
- * $Date: 2002/08/01 07:15:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/FileUpload.java,v 1.10 2002/08/18 06:09:21 martinc Exp $
+ * $Revision: 1.10 $
+ * $Date: 2002/08/18 06:09:21 $
  *
  * ====================================================================
  *
@@ -95,10 +95,9 @@ import org.apache.commons.beanutils.MethodUtils;
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: FileUpload.java,v 1.9 2002/08/01 07:15:57 martinc Exp $
+ * @version $Revision: 1.10 $ $Date: 2002/08/18 06:09:21 $
  */
-public class FileUpload
-{
+public class FileUpload {
 
     // ----------------------------------------------------- Manifest constants
 
@@ -194,8 +193,7 @@ public class FileUpload
      *
      * @return The maximum allowed size, in bytes.
      */
-    public int getSizeMax() 
-    {
+    public int getSizeMax() {
         return sizeMax;
     }
 
@@ -205,8 +203,7 @@ public class FileUpload
      *
      * @param sizeMax The maximum allowed size, in bytes, or -1 for no maximum.
      */
-    public void setSizeMax(int sizeMax) 
-    {
+    public void setSizeMax(int sizeMax) {
         this.sizeMax = sizeMax;
     }
 
@@ -217,8 +214,7 @@ public class FileUpload
      *
      * @return The size threshold, in bytes.
      */
-    public int getSizeThreshold()
-    {
+    public int getSizeThreshold() {
         return sizeThreshold;
     }
 
@@ -228,8 +224,7 @@ public class FileUpload
      *
      * @param sizeThreshold The size threshold, in bytes.
      */
-    public void setSizeThreshold(int sizeThreshold) 
-    {
+    public void setSizeThreshold(int sizeThreshold) {
         this.sizeThreshold = sizeThreshold;
     }
 
@@ -240,8 +235,7 @@ public class FileUpload
      *
      * @return The path to the temporary file location.
      */
-    public String getRepositoryPath()
-    {
+    public String getRepositoryPath() {
         return repositoryPath;
     }
 
@@ -251,8 +245,7 @@ public class FileUpload
      *
      * @param repositoryPath The path to the temporary file location.
      */
-    public void setRepositoryPath(String repositoryPath) 
-    {
+    public void setRepositoryPath(String repositoryPath) {
         this.repositoryPath = repositoryPath;
     }
 
@@ -263,8 +256,7 @@ public class FileUpload
      *
      * @return The fully qualified name of the Java class.
      */
-    public String getFileItemClassName()
-    {
+    public String getFileItemClassName() {
         return fileItemClassName;
     }
 
@@ -275,8 +267,7 @@ public class FileUpload
      *
      * @param fileItemClassName The fully qualified name of the Java class.
      */
-    public void setFileItemClassName(String fileItemClassName)
-    {
+    public void setFileItemClassName(String fileItemClassName) {
         this.fileItemClassName = fileItemClassName;
         this.newInstanceMethod = null;
     }
@@ -299,8 +290,7 @@ public class FileUpload
      *                                the request or storing files.
      */
     public List /* FileItem */ parseRequest(HttpServletRequest req)
-        throws FileUploadException
-    {
+            throws FileUploadException {
         return parseRequest(req, getSizeThreshold(), getSizeMax(), 
                             getRepositoryPath());
     }
@@ -325,32 +315,28 @@ public class FileUpload
     public List /* FileItem */ parseRequest(HttpServletRequest req,
                                             int sizeThreshold, 
                                             int sizeMax, String path)
-        throws FileUploadException
-    {
+            throws FileUploadException {
+
         ArrayList items = new ArrayList();
         String contentType = req.getHeader(CONTENT_TYPE);
 
-        if (!contentType.startsWith(MULTIPART))
-        {
+        if (!contentType.startsWith(MULTIPART)) {
             throw new FileUploadException("the request doesn't contain a " +
                 MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED + " stream");
         }
         int requestSize = req.getContentLength();
 
-        if (requestSize == -1)
-        {
+        if (requestSize == -1) {
             throw new FileUploadException("the request was rejected because " +
                 "it's size is unknown");
         }
 
-        if (sizeMax >= 0 && requestSize > sizeMax)
-        {
+        if (sizeMax >= 0 && requestSize > sizeMax) {
             throw new FileUploadException("the request was rejected because " +
                 "it's size exceeds allowed range");
         }
 
-        try
-        {
+        try {
             byte[] boundary = contentType.substring(
                 contentType.indexOf("boundary=") + 9).getBytes();
 
@@ -358,16 +344,13 @@ public class FileUpload
 
             MultipartStream multi = new MultipartStream(input, boundary);
             boolean nextPart = multi.skipPreamble();
-            while (nextPart)
-            {
+            while (nextPart) {
                 Map headers = parseHeaders(multi.readHeaders());
                 String fieldName = getFieldName(headers);
-                if (fieldName != null)
-                {
+                if (fieldName != null) {
                     String subContentType = getHeader(headers, CONTENT_TYPE);
                     if (subContentType != null && subContentType
-                                                .startsWith(MULTIPART_MIXED))
-                    {
+                                                .startsWith(MULTIPART_MIXED)) {
                         // Multiple files.
                         byte[] subBoundary =
                             subContentType.substring(
@@ -375,29 +358,22 @@ public class FileUpload
                                 .indexOf("boundary=") + 9).getBytes();
                         multi.setBoundary(subBoundary);
                         boolean nextSubPart = multi.skipPreamble();
-                        while (nextSubPart)
-                        {
+                        while (nextSubPart) {
                             headers = parseHeaders(multi.readHeaders());
-                            if (getFileName(headers) != null)
-                            {
+                            if (getFileName(headers) != null) {
                                 FileItem item = 
                                     createItem(sizeThreshold, path,
                                                headers, requestSize);
                                 OutputStream os = 
                                     ((DefaultFileItem) item).getOutputStream();
-                                try
-                                {
+                                try {
                                     multi.readBodyData(os);
-                                }
-                                finally
-                                {
+                                } finally {
                                     os.close();
                                 }
                                 item.setFieldName(getFieldName(headers));
                                 items.add(item);
-                            }
-                            else
-                            {
+                            } else {
                                 // Ignore anything but files inside
                                 // multipart/mixed.
                                 multi.discardBodyData();
@@ -405,42 +381,31 @@ public class FileUpload
                             nextSubPart = multi.readBoundary();
                         }
                         multi.setBoundary(boundary);
-                    }
-                    else
-                    {
-                        if (getFileName(headers) != null)
-                        {
+                    } else {
+                        if (getFileName(headers) != null) {
                             // A single file.
                             FileItem item = createItem(sizeThreshold, 
                                                        path, headers,
                                                        requestSize);
                             OutputStream os = 
                                 ((DefaultFileItem) item).getOutputStream();
-                            try
-                            {
+                            try {
                                 multi.readBodyData(os);
-                            }
-                            finally
-                            {
+                            } finally {
                                 os.close();
                             }
                             item.setFieldName(getFieldName(headers));
                             items.add(item);
-                        }
-                        else
-                        {
+                        } else {
                             // A form field.
                             FileItem item = createItem(sizeThreshold,
                                                        path, headers,
                                                        requestSize);
                             OutputStream os = 
                                 ((DefaultFileItem) item).getOutputStream();
-                            try
-                            {
+                            try {
                                 multi.readBodyData(os);
-                            }
-                            finally
-                            {
+                            } finally {
                                 os.close();
                             }
                             item.setFieldName(getFieldName(headers));
@@ -448,17 +413,13 @@ public class FileUpload
                             items.add(item);
                         }
                     }
-                }
-                else
-                {
+                } else {
                     // Skip this part.
                     multi.discardBodyData();
                 }
                 nextPart = multi.readBoundary();
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new FileUploadException(
                 "Processing of " + MULTIPART_FORM_DATA +
                     " request failed. " + e.getMessage());
@@ -479,16 +440,13 @@ public class FileUpload
      *
      * @return The file name for the current <code>encapsulation</code>.
      */
-    protected String getFileName(Map /* String, String */ headers)
-    {
+    protected String getFileName(Map /* String, String */ headers) {
         String fileName = null;
         String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT))
-        {
+        if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT)) {
             int start = cd.indexOf("filename=\"");
             int end = cd.indexOf('"', start + 10);
-            if (start != -1 && end != -1)
-            {
+            if (start != -1 && end != -1) {
                 fileName = cd.substring(start + 10, end).trim();
             }            
         }
@@ -504,16 +462,13 @@ public class FileUpload
      *
      * @return The field name for the current <code>encapsulation</code>.
      */
-    protected String getFieldName(Map /* String, String */ headers)
-    {
+    protected String getFieldName(Map /* String, String */ headers) {
         String fieldName = null;
         String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if (cd != null && cd.startsWith(FORM_DATA))
-        {
+        if (cd != null && cd.startsWith(FORM_DATA)) {
             int start = cd.indexOf("name=\"");
             int end = cd.indexOf('"', start + 6);
-            if (start != -1 && end != -1)
-            {
+            if (start != -1 && end != -1) {
                 fieldName = cd.substring(start + 6, end);
             }
         }
@@ -538,20 +493,17 @@ public class FileUpload
                                   String path,
                                   Map /* String, String */ headers,
                                   int requestSize)
-        throws FileUploadException
-    {
+            throws FileUploadException {
+
         Method newInstanceMethod = getNewInstanceMethod();
         Object[] args = new Object[] {
                 path, getFileName(headers), getHeader(headers, CONTENT_TYPE),
                 new Integer(requestSize), new Integer(sizeThreshold) };
         FileItem fileItem = null;
 
-        try
-        {
+        try {
             fileItem = (FileItem) newInstanceMethod.invoke(null, args);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new FileUploadException(e.toString());
         }
 
@@ -572,11 +524,10 @@ public class FileUpload
      * @exception FileUploadException if an error occurs.
      */
     protected Method getNewInstanceMethod()
-        throws FileUploadException
-    {
+            throws FileUploadException {
+
         // If the method is already cached, just return it.
-        if (this.newInstanceMethod != null)
-        {
+        if (this.newInstanceMethod != null) {
             return this.newInstanceMethod;
         }
 
@@ -585,22 +536,17 @@ public class FileUpload
                 Thread.currentThread().getContextClassLoader();
         Class fileItemClass = null;
 
-        if (classLoader == null)
-        {
+        if (classLoader == null) {
             classLoader = getClass().getClassLoader();
         }
 
-        try
-        {
+        try {
             fileItemClass = classLoader.loadClass(fileItemClassName);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new FileUploadException(e.toString());
         }
 
-        if (fileItemClass == null)
-        {
+        if (fileItemClass == null) {
             throw new FileUploadException(
                     "Failed to load FileItem class: " + fileItemClassName);
         }
@@ -612,8 +558,7 @@ public class FileUpload
         Method newInstanceMethod = MethodUtils.getAccessibleMethod(
                 fileItemClass, "newInstance", parameterTypes);
 
-        if (newInstanceMethod == null)
-        {
+        if (newInstanceMethod == null) {
             throw new FileUploadException(
                     "Failed find newInstance() method in FileItem class: "
                             + fileItemClassName);
@@ -637,34 +582,27 @@ public class FileUpload
      *
      * @return A <code>Map</code> containing the parsed HTTP request headers.
      */
-    protected Map /* String, String */ parseHeaders(String headerPart)
-    {
+    protected Map /* String, String */ parseHeaders(String headerPart) {
         Map headers = new HashMap();
         char buffer[] = new char[MAX_HEADER_SIZE];
         boolean done = false;
         int j = 0;
         int i;
         String header, headerName, headerValue;
-        try
-        {
-            while (!done)
-            {
+        try {
+            while (!done) {
                 i = 0;
                 // Copy a single line of characters into the buffer,
                 // omitting trailing CRLF.
-                while (i < 2 || buffer[i - 2] != '\r' || buffer[i - 1] != '\n')
-                {
+                while (i < 2 || buffer[i - 2] != '\r'
+                        || buffer[i - 1] != '\n') {
                     buffer[i++] = headerPart.charAt(j++);
                 }
                 header = new String(buffer, 0, i - 2);
-                if (header.equals(""))
-                {
+                if (header.equals("")) {
                     done = true;
-                }
-                else
-                {
-                    if (header.indexOf(':') == -1)
-                    {
+                } else {
+                    if (header.indexOf(':') == -1) {
                         // This header line is malformed, skip it.
                         continue;
                     }
@@ -672,23 +610,18 @@ public class FileUpload
                         .trim().toLowerCase();
                     headerValue =
                         header.substring(header.indexOf(':') + 1).trim();
-                    if (getHeader(headers, headerName) != null)
-                    {
+                    if (getHeader(headers, headerName) != null) {
                         // More that one heder of that name exists,
                         // append to the list.
                         headers.put(headerName,
                                     getHeader(headers, headerName) + ',' +
                                     headerValue);
-                    }
-                    else
-                    {
+                    } else {
                         headers.put(headerName, headerValue);
                     }
                 }
             }
-        }
-        catch (IndexOutOfBoundsException e)
-        {
+        } catch (IndexOutOfBoundsException e) {
             // Headers were malformed. continue with all that was
             // parsed.
         }
@@ -707,8 +640,7 @@ public class FileUpload
      *         there were multiple headers of that name.
      */
     protected final String getHeader(Map /* String, String */ headers,
-                                     String name)
-    {
+                                     String name) {
         return (String) headers.get(name.toLowerCase());
     }
 
