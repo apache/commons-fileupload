@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.8 2002/11/24 03:14:41 jericho Exp $
- * $Revision: 1.8 $
- * $Date: 2002/11/24 03:14:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//fileupload/src/java/org/apache/commons/fileupload/MultipartStream.java,v 1.9 2002/11/26 04:13:50 jericho Exp $
+ * $Revision: 1.9 $
+ * $Date: 2002/11/26 04:13:50 $
  *
  * ====================================================================
  *
@@ -66,6 +66,7 @@ package org.apache.commons.fileupload;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -126,7 +127,7 @@ import java.io.OutputStream;
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: MultipartStream.java,v 1.8 2002/11/24 03:14:41 jericho Exp $
+ * @version $Id: MultipartStream.java,v 1.9 2002/11/26 04:13:50 jericho Exp $
  */
 public class MultipartStream
 {
@@ -413,8 +414,9 @@ public class MultipartStream
     {
         int i = 0;
         byte b[] = new byte[1];
+        // to support multi-byte characters
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int sizeMax = HEADER_PART_SIZE_MAX;
-        byte[] buf = new byte[sizeMax];
         int size = 0;
         while (i < 4)
         {
@@ -437,10 +439,10 @@ public class MultipartStream
             }
             if (size <= sizeMax)
             {
-                buf[size] = b[0];
+                baos.write(b[0]);
             }
         }
-        return new String(buf, 0, tail);
+        return baos.toString();
     }
 
 
