@@ -2,7 +2,7 @@
 
 <project>
   <pomVersion>3</pomVersion>
-  <name>commons-fileupload</name>
+  <name>FileUpload</name>
   <id>commons-fileupload</id>
   <currentVersion>1.0-dev</currentVersion>
 
@@ -11,6 +11,7 @@
     <url>http://jakarta.apache.org/</url>
     <logo>/images/jakarta-logo-blue.gif</logo>
   </organization>
+  <logo>/images/logo.gif</logo>
 
   <inceptionYear>2002</inceptionYear>
   <package>org.apache.commons.fileupload</package>
