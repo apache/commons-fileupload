@@ -16,7 +16,7 @@
 package org.apache.commons.fileupload;
 
 import junit.framework.TestCase;
-import org.apache.commons.fileupload.DeferredFileOutputStream;
+import org.apache.commons.io.output.DeferredFileOutputStream;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +29,7 @@ import java.util.Arrays;
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
- * @version $Id: DeferredFileOutputStreamTest.java,v 1.4 2004/02/25 21:07:12 scolebourne Exp $
+ * @version $Id: DeferredFileOutputStreamTest.java,v 1.5 2004/10/11 03:18:45 martinc Exp $
  */
 public class DeferredFileOutputStreamTest extends TestCase
  {

@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import org.apache.commons.io.output.DeferredFileOutputStream;
 
 
 /**
@@ -48,7 +49,7 @@ import java.util.Map;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: DefaultFileItem.java,v 1.25 2004/03/12 07:34:45 martinc Exp $
+ * @version $Id: DefaultFileItem.java,v 1.26 2004/10/11 03:18:45 martinc Exp $
  */
 public class DefaultFileItem
     implements FileItem
