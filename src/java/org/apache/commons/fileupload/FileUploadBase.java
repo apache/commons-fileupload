@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  * @author Sean C. Sullivan
  *
- * @version $Id: FileUploadBase.java,v 1.8 2004/10/11 01:59:49 martinc Exp $
+ * @version $Id: FileUploadBase.java,v 1.9 2004/10/11 05:06:33 martinc Exp $
  */
 public abstract class FileUploadBase
 {
@@ -64,6 +64,10 @@ public abstract class FileUploadBase
      */
     public static final boolean isMultipartContent(HttpServletRequest req)
     {
+        if (!"post".equals(req.getMethod().toLowerCase()))
+        {
+            return false;
+        }
         String contentType = req.getHeader(CONTENT_TYPE);
         if (contentType == null)
         {
