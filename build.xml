@@ -1,221 +1,115 @@
-<project name="FileUpload" default="compile" basedir=".">
+<?xml version="1.0"?>
 
+<project name="maven" default="maven:jar" basedir=".">
 
-<!--
-        "FileUpload" component of the Jakarta Commons Subproject
-        $Id: build.xml,v 1.1 2002/03/24 07:05:13 jmcnally Exp $
--->
+  <!-- Give user a chance to override without editing this file
+       (and without typing -D each time they invoke a target) -->
 
-
-<!-- ========== Initialize Properties ===================================== -->
-
-  <property file="${user.home}/${component.name}.build.properties" /> 
+  <!-- Allow any user specific values to override the defaults -->
   <property file="${user.home}/build.properties" />
-  <property file="${basedir}/build.properties" />
-  <property file="${basedir}/default.properties" />
+  <!-- Allow user defaults for this project -->
+  <property file="build.properties" />
+  <!-- Set default values for the build -->
+  <property file="project.properties" />
 
-<!-- ========== Construct compile classpath =============================== -->
+  <!-- maven:start -->
+  
+  <!-- ================================================================== -->
+  <!-- D E L E G A T O R S                                                -->
+  <!-- ================================================================== -->
+        
+    <target name="maven:site">
+      <ant antfile="${maven.home}/build-docs.xml" target="site"/>
+    </target>
 
-  <path id="compile.classpath">
-    <pathelement location="${build.home}/classes"/>
-    <pathelement location="${servlet.jar}"/>
-    <pathelement location="${jaf.jar}"/>
-  </path>
+    <target name="maven:fo">
+      <ant antfile="${maven.home}/build-docs.xml" target="docs:fo"/>
+    </target>
 
-<!-- ========== Construct unit test classpath ============================= -->
+    <target name="maven:pdf">
+      <ant antfile="${maven.home}/build-docs.xml" target="docs:pdf"/>
+    </target>
+        
+    <target name="maven:jar">
+      <ant antfile="${maven.home}/build-maven.xml" target="jar"/>
+    </target>
+        
+    <target name="maven:install-jar">
+      <ant antfile="${maven.home}/build-maven.xml" target="install-jar"/>
+    </target>
+        
+    <target name="maven:env">
+      <ant antfile="${maven.home}/build-maven.xml" target="env"/>
+    </target>
+        
+    <target name="maven:docs">
+      <ant antfile="${maven.home}/build-docs.xml" target="docs"/>
+    </target>
+        
+    <target name="maven:test">
+      <ant antfile="${maven.home}/build-test.xml" target="test"/>
+    </target>
 
-  <path id="test.classpath">
-    <pathelement location="${build.home}/classes"/>
-    <pathelement location="${servlet.jar}"/>
-    <pathelement location="${jaf.jar}"/>
-    <pathelement location="${build.home}/tests"/>
-    <pathelement location="${junit.jar}"/>
-  </path>
+    <target name="maven:iutest">
+      <ant antfile="${maven.home}/build-iutest.xml" target="test"/>
+    </target>
+        
+    <target name="maven:clean">
+      <ant antfile="${maven.home}/build-maven.xml" target="clean"/>
+    </target>
+        
+    <target name="maven:metrics">
+      <ant antfile="${maven.home}/build-metrics.xml" target="metrics"/>
+    </target>
+        
+    <target name="maven:dist">
+      <ant antfile="${maven.home}/build-maven.xml" target="dist"/>
+    </target>
+        
+    <target name="maven:deploy-site">
+      <ant antfile="${maven.home}/build-docs.xml" target="deploy-site"/>
+    </target>
+        
+    <target name="maven:gump-descriptor">
+      <ant antfile="${maven.home}/build-maven.xml" target="gump-descriptor"/>
+    </target>
+        
+    <target name="maven:javadocs">
+      <ant antfile="${maven.home}/build-docs.xml" target="javadocs"/>
+    </target>
+        
+    <target name="maven:compile">
+      <ant antfile="${maven.home}/build-maven.xml" target="compile"/>
+    </target>
+    
+    <target name="maven:check-source">
+      <ant antfile="${maven.home}/build-maven.xml" target="check-source"/>
+    </target>
+        
+    <target name="maven:update-jars">
+      <ant antfile="${maven.home}/build-maven.xml" target="update-jars"/>
+    </target>
 
-<!-- ========== Executable Targets ======================================== -->
+    <target name="maven:announce">
+      <ant antfile="${maven.home}/build-maven.xml" target="announce"/>
+    </target>
 
-  <target name="check-available">
-    <available
-      classname="javax.servlet.http.HttpServletRequest"
-      property="servlet.present"
-      classpathref="compile.classpath"
-    />
+    <target name="maven:update-descriptor">
+      <ant antfile="${maven.home}/build-maven.xml" target="update-descriptor"/>
+    </target>
 
-    <available
-      classname="javax.activation.DataSource"
-      property="jaf.present"
-      classpathref="compile.classpath"
-    />
-  </target>
+    <target name="maven:updates-available">
+      <ant antfile="${maven.home}/build-maven.xml" target="updates-available"/>
+    </target>
 
-  <target name="check-servlet" depends="check-available" 
-        unless="servlet.present">
-    <antcall target="property-warning">
-      <param name="name" value="servlet.jar"/>
-      <param name="value" value="${servlet.jar}"/>
-    </antcall>
-  </target>
+    <target name="maven:validate-pom">
+      <ant antfile="${maven.home}/build-maven.xml" target="validate-pom"/>
+    </target>
 
-  <target name="check-jaf" depends="check-available" 
-        unless="jaf.present">
-    <antcall target="property-warning">
-      <param name="name" value="jaf.jar"/>
-      <param name="value" value="${jaf.jar}"/>
-    </antcall>
-  </target>
-
-  <target name="property-warning">
-    <echo>
-      +----------------------------------------------------------------+
-      + F A I L E D  R E Q U I R E M E N T                             |
-      +----------------------------------------------------------------+
-      | You must define the following property in order                |
-      | to build Turbine:                                              |
-      |                                                                |
-      | ${name} = ${value}
-      |                                                                |
-      | You can set this property in the provided build.properties     |
-      | file, or you may set this property in your                     |
-      | ${user.home}/build.properties file.
-      +----------------------------------------------------------------+
-    </echo>
-    <fail message="Failed Requirement"/>
-  </target>
-
-  <target name="init"
-   description="Initialize and evaluate conditionals">
-    <echo message="-------- ${component.name} ${component.version} --------"/>
-    <filter  token="name"                  value="${component.name}"/>
-    <filter  token="package"               value="${component.package}"/>
-    <filter  token="version"               value="${component.version}"/>
-  </target>
-
-
-  <target name="prepare" depends="init,check-servlet,check-jaf"
-   description="Prepare build directory">
-    <mkdir dir="${build.home}"/>
-    <mkdir dir="${build.home}/classes"/>
-    <mkdir dir="${build.home}/conf"/>
-    <mkdir dir="${build.home}/tests"/>
-  </target>
-
-
-  <target name="static" depends="prepare"
-   description="Copy static files to build directory">
-    <tstamp/>
-    <copy  todir="${build.home}/conf" filtering="on">
-      <fileset dir="${conf.home}" includes="*.MF"/>
-    </copy>
-  </target>
-
-
-  <target name="compile" depends="static"
-   description="Compile shareable components">
-    <javac  srcdir="${source.home}"
-           destdir="${build.home}/classes"
-             debug="${compile.debug}"
-       deprecation="${compile.deprecation}"
-          optimize="${compile.optimize}">
-      <classpath refid="compile.classpath"/>
-    </javac>
-    <copy    todir="${build.home}/classes" filtering="on">
-      <fileset dir="${source.home}" excludes="**/*.java"/>
-    </copy>
-  </target>
-
-
-  <target name="compile.tests" depends="compile"
-   description="Compile unit test cases">
-    <javac  srcdir="${test.home}"
-           destdir="${build.home}/tests"
-             debug="${compile.debug}"
-       deprecation="${compile.deprecation}"
-          optimize="${compile.optimize}">
-      <classpath refid="test.classpath"/>
-    </javac>
-    <copy    todir="${build.home}/tests" filtering="on">
-      <fileset dir="${test.home}" excludes="**/*.java"/>
-    </copy>
-  </target>
-
-
-  <target name="clean"
-   description="Clean build and distribution directories">
-    <delete    dir="${build.home}"/>
-    <delete    dir="${dist.home}"/>
-  </target>
-
-
-  <target name="all" depends="clean,compile"
-   description="Clean and compile all components"/>
-
-
-  <target name="javadoc" depends="compile"
-   description="Create component Javadoc documentation">
-    <mkdir      dir="${dist.home}"/>
-    <mkdir      dir="${dist.home}/docs"/>
-    <mkdir      dir="${dist.home}/docs/api"/>
-    <javadoc sourcepath="${source.home}"
-                destdir="${dist.home}/docs/api"
-           packagenames="org.apache.commons.*"
-                 author="true"
-                private="true"
-                version="true"
-               doctitle="&lt;h1&gt;${component.title}&lt;/h1&gt;"
-            windowtitle="${component.title} (Version ${component.version})"
-                 bottom="Copyright (c) 2001-2002 - Apache Software Foundation">
-      <classpath refid="compile.classpath"/>
-    </javadoc>
-  </target>
-
-
-  <target name="dist" depends="compile,javadoc"
-   description="Create binary distribution">
-    <mkdir      dir="${dist.home}"/>
-    <copy      file="../LICENSE"
-              todir="${dist.home}"/>
-    <copy      file="RELEASE-NOTES.txt"
-              todir="${dist.home}"/>
-    <antcall target="jar"/>
-  </target>
-
-
-  <target name="jar" depends="compile"
-   description="Create jar">
-    <mkdir      dir="${dist.home}"/>
-    <mkdir      dir="${build.home}/classes/META-INF"/>
-    <copy      file="../LICENSE"
-             tofile="${build.home}/classes/META-INF/LICENSE.txt"/>
-    <jar    jarfile="${dist.home}/${final.name}.jar"
-            basedir="${build.home}/classes"
-           manifest="${build.home}/conf/MANIFEST.MF"/>
-  </target>
-
-
-  <target name="install-jar" depends="jar"
-   description="--> Installs jar file in ${lib.repo}">
-    <copy todir="${lib.repo}" filtering="no">
-      <fileset dir="${dist.home}">
-        <include name="${final.name}.jar"/>
-      </fileset>
-    </copy>
-  </target>
-
-
-<!-- ========== Unit Test Targets ========================================= -->
-
-
-  <target name="test"  depends="compile.tests, test.fileupload"
-      description="Run all unit test cases">
-  </target>
-
-  <target name="test.fileupload" depends="compile.tests">
-    <echo message="Running FileUpload tests ..."/>
-    <java classname="${test.runner}" fork="yes"
-        failonerror="${test.failonerror}">
-      <arg value="org.apache.commons.fileupload.FileUploadTest"/>
-      <classpath refid="test.classpath"/>
-    </java>
-  </target>
+    <target name="maven:maven-update">
+      <ant antfile="${maven.home}/build-maven.xml" target="maven-update"/>
+    </target>
+    
+  <!-- maven:end -->
 
 </project>
