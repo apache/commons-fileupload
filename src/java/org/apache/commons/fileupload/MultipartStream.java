@@ -53,13 +53,13 @@ import java.io.UnsupportedEncodingException;
  * boundary token of the same length as the parent stream (see {@link
  * #setBoundary(byte[])}).
  *
- * <p>Here is an exaple of usage of this class.<br>
+ * <p>Here is an example of usage of this class.<br>
  *
  * <pre>
  *    try {
  *        MultipartStream multipartStream = new MultipartStream(input,
  *                                                              boundary);
- *        boolean nextPart = malitPartStream.skipPreamble();
+ *        boolean nextPart = multipartStream.skipPreamble();
  *        OutputStream output;
  *        while(nextPart) {
  *            header = chunks.readHeader();
