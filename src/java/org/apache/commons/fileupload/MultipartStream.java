@@ -427,7 +427,7 @@ public class MultipartStream {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int sizeMax = HEADER_PART_SIZE_MAX;
         int size = 0;
-        while (i < 4) {
+        while (i < HEADER_SEPARATOR.length) {
             try {
                 b[0] = readByte();
             } catch (IOException e) {
