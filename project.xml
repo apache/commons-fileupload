@@ -20,7 +20,7 @@
   
   <name>FileUpload</name>
   <id>commons-fileupload</id>
-  <currentVersion>1.1-dev</currentVersion>
+  <currentVersion>1.1-SNAPSHOT</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>File upload component for Java servlets</shortDescription>
   <description>
