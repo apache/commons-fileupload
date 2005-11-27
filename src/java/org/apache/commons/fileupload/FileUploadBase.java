@@ -222,8 +222,9 @@ public abstract class FileUploadBase {
 
     /**
      * Retrieves the character encoding used when reading the headers of an
-     * individual part. When not specified, or <code>null</code>, the platform
-     * default encoding is used.
+     * individual part. When not specified, or <code>null</code>, the request
+     * encoding is used. If that is also not specified, or <code>null</code>,
+     * the platform default encoding is used.
      *
      * @return The encoding used to read part headers.
      */
@@ -234,8 +235,9 @@ public abstract class FileUploadBase {
 
     /**
      * Specifies the character encoding to be used when reading the headers of
-     * individual parts. When not specified, or <code>null</code>, the platform
-     * default encoding is used.
+     * individual part. When not specified, or <code>null</code>, the request
+     * encoding is used. If that is also not specified, or <code>null</code>,
+     * the platform default encoding is used.
      *
      * @param encoding The encoding used to read part headers.
      */
