@@ -424,19 +424,22 @@ public abstract class FileUploadBase {
     protected String getFileName(Map /* String, String */ headers) {
         String fileName = null;
         String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT)) {
-            ParameterParser parser = new ParameterParser();
-            parser.setLowerCaseNames(true);
-            // Parameter parser can handle null input
-            Map params = parser.parse(cd, ';');
-            if (params.containsKey("filename")) {
-                fileName = (String) params.get("filename");
-                if (fileName != null) {
-                    fileName = fileName.trim();
-                } else {
-                    // Even if there is no value, the parameter is present, so
-                    // we return an empty file name rather than no file name.
-                    fileName = "";
+        if (cd != null) {
+            cd = cd.toLowerCase();
+            if (cd.startsWith(FORM_DATA) || cd.startsWith(ATTACHMENT)) {
+                ParameterParser parser = new ParameterParser();
+                parser.setLowerCaseNames(true);
+                // Parameter parser can handle null input
+                Map params = parser.parse(cd, ';');
+                if (params.containsKey("filename")) {
+                    fileName = (String) params.get("filename");
+                    if (fileName != null) {
+                        fileName = fileName.trim();
+                    } else {
+                        // Even if there is no value, the parameter is present, so
+                        // we return an empty file name rather than no file name.
+                        fileName = "";
+                    }
                 }
             }
         }
@@ -455,7 +458,7 @@ public abstract class FileUploadBase {
     protected String getFieldName(Map /* String, String */ headers) {
         String fieldName = null;
         String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if (cd != null && cd.startsWith(FORM_DATA)) {
+        if (cd != null && cd.toLowerCase().startsWith(FORM_DATA)) {
 
             ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
