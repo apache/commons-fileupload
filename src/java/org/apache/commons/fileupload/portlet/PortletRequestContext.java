@@ -53,6 +53,15 @@ public class PortletRequestContext implements RequestContext {
     // --------------------------------------------------------- Public Methods
 
     /**
+     * Retrieve the character encoding for the request.
+     *
+     * @return The character encoding for the request.
+     */
+    public String getCharacterEncoding() {
+        return request.getCharacterEncoding();
+    }
+
+    /**
      * Retrieve the content type of the request.
      *
      * @return The content type of the request.
