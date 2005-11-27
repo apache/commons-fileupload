@@ -40,7 +40,19 @@
       </p>
     </section>
 
-    <section name="Downloading Fileupload">
+    <section name="Documentation">
+      <p>
+        The following documentation is available:
+        <ul>
+          <li><a href="using.html">User Guide</a></li>
+          <li><a href="apidocs/index.html">JavaDoc API</a></li>
+          <li><a href="maven-reports.html">Project Reports</a></li>
+        </ul>
+        You can also <a href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/fileupload/trunk/">browse</a> the Subversion repository.
+      </p>
+    </section>
+
+    <section name="Downloading">
         <subsection name='Full Releases'>
           <p>
             <strong>FileUpload 1.0</strong> - 24 Jun 2003
@@ -54,35 +66,14 @@
             </ul>
           </p>
         </subsection>
-        <subsection name='Releases Candidate'>
+        <subsection name='Releases Candidates'>
           <p>
-            <strong>FileUpload 1.0 Release Candidate 1</strong> - 4 Jun 2003
-            <ul>
-              <li>Download the binary distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
-              </li>
-              <li>Download the source distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
-              </li>
-            </ul>
-          </p>
-        </subsection>
-        <subsection name='Beta Releases'>
-          <p>
-            <strong>FileUpload 1.0 Beta 1</strong> - 15 Feb 2003
-            <ul>
-              <li>Download the binary distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
-              </li>
-              <li>Download the source distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
-              </li>
-            </ul>
+            None available.
           </p>
         </subsection>
         <subsection name='Nightly Builds'>	
             <p>
-            Nightly builds are built every day from the current CVS HEAD. This is 
+            Nightly builds are built every day from the current SVN HEAD. This is 
             the latest code and so should be treated with caution!
             </p>
             <p>
@@ -90,6 +81,21 @@
             <a href='http://cvs.apache.org/builds/jakarta-commons/nightly/commons-fileupload/'>here</a>.
             </p>
         </subsection>
+    </section>
+
+    <section name="Support">
+      <p>
+        The <a href="mail-lists.html">Jakarta Commons mailing lists</a> act as
+        the main support forum. The <em>user</em> list is suitable for most library
+        usage queries. The <em>dev</em> list is intended for development discussion.
+        Please remember that the lists are shared between all commons components,
+        so prefix your e-mail subject line with <em>[fileupload]</em>.
+      </p>
+      <p>
+        Issues may be reported via <a href="issue-tracking.html">ASF Bugzilla</a>.
+        Please remember that Bugzilla is shared between all Jakarta Commons
+        components, so prefix your issue summary with <em>[fileupload]</em>.
+      </p>
     </section>
   </body>
 
