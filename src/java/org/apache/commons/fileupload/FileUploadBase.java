@@ -310,6 +310,11 @@ public abstract class FileUploadBase {
                 + "its size exceeds allowed range");
         }
 
+        String charEncoding = headerEncoding;
+        if (charEncoding == null) {
+            charEncoding = ctx.getCharacterEncoding();
+        }
+
         try {
             byte[] boundary = getBoundary(contentType);
             if (boundary == null) {
@@ -321,7 +326,7 @@ public abstract class FileUploadBase {
             InputStream input = ctx.getInputStream();
 
             MultipartStream multi = new MultipartStream(input, boundary);
-            multi.setHeaderEncoding(headerEncoding);
+            multi.setHeaderEncoding(charEncoding);
 
             boolean nextPart = multi.skipPreamble();
             while (nextPart) {
