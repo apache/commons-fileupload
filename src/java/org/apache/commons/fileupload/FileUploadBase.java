@@ -308,8 +308,9 @@ public abstract class FileUploadBase {
 
         if (sizeMax >= 0 && requestSize > sizeMax) {
             throw new SizeLimitExceededException(
-                "the request was rejected because "
-                + "its size exceeds allowed range");
+                "the request was rejected because its size (" + requestSize
+                + ") exceeds the configured maximum (" + sizeMax + ")",
+                requestSize, sizeMax);
         }
 
         String charEncoding = headerEncoding;
@@ -633,6 +634,16 @@ public abstract class FileUploadBase {
     public static class SizeLimitExceededException
         extends FileUploadException {
         /**
+         * The actual size of the request.
+         */
+        private long actual;
+
+        /**
+         * The maximum permitted size of the request.
+         */
+        private long permitted;
+
+        /**
          * Constructs a <code>SizeExceededException</code> with no
          * detail message.
          */
@@ -641,13 +652,46 @@ public abstract class FileUploadBase {
         }
 
         /**
-         * Constructs an <code>SizeExceededException</code> with
+         * Constructs a <code>SizeExceededException</code> with
          * the specified detail message.
          *
          * @param message The detail message.
          */
         public SizeLimitExceededException(String message) {
             super(message);
+        }
+
+        /**
+         * Constructs a <code>SizeExceededException</code> with
+         * the specified detail message, and actual and permitted sizes.
+         *
+         * @param message   The detail message.
+         * @param actual    The actual request size.
+         * @param permitted The maximum permitted request size.
+         */
+        public SizeLimitExceededException(String message, long actual,
+                long permitted) {
+            super(message);
+            this.actual = actual;
+            this.permitted = permitted;
+        }
+
+        /**
+         * Retrieves the actual size of the request.
+         *
+         * @return The actual size of the request.
+         */
+        public long getActualSize() {
+            return actual;
+        }
+
+        /**
+         * Retrieves the permitted size of the request.
+         *
+         * @return The permitted size of the request.
+         */
+        public long getPermittedSize() {
+            return permitted;
         }
     }
 
