@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2004 The Apache Software Foundation
+ * Copyright 2001-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -258,8 +258,8 @@ public abstract class FileUploadBase {
      * @return A list of <code>FileItem</code> instances parsed from the
      *         request, in the order that they were transmitted.
      *
-     * @exception FileUploadException if there are problems reading/parsing
-     *                                the request or storing files.
+     * @throws FileUploadException if there are problems reading/parsing
+     *                             the request or storing files.
      *
      * @deprecated Use the method in <code>ServletFileUpload</code> instead.
      */
@@ -277,8 +277,8 @@ public abstract class FileUploadBase {
      * @return A list of <code>FileItem</code> instances parsed from the
      *         request, in the order that they were transmitted.
      *
-     * @exception FileUploadException if there are problems reading/parsing
-     *                                the request or storing files.
+     * @throws FileUploadException if there are problems reading/parsing
+     *                             the request or storing files.
      */
     public List /* FileItem */ parseRequest(RequestContext ctx)
             throws FileUploadException {
@@ -491,7 +491,7 @@ public abstract class FileUploadBase {
      *
      * @return A newly created <code>FileItem</code> instance.
      *
-     * @exception FileUploadException if an error occurs.
+     * @throws FileUploadException if an error occurs.
      */
     protected FileItem createItem(Map /* String, String */ headers,
                                   boolean isFormField)

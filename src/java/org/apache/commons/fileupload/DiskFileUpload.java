@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2004 The Apache Software Foundation
+ * Copyright 2001-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -192,8 +192,8 @@ public class DiskFileUpload
      * @return A list of <code>FileItem</code> instances parsed from the
      *         request, in the order that they were transmitted.
      *
-     * @exception FileUploadException if there are problems reading/parsing
-     *                                the request or storing files.
+     * @throws FileUploadException if there are problems reading/parsing
+     *                             the request or storing files.
      *
      * @deprecated Use <code>ServletFileUpload</code> instead.
      */
