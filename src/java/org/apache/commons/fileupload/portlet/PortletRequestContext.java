@@ -44,6 +44,8 @@ public class PortletRequestContext implements RequestContext {
 
     /**
      * Construct a context for this request.
+     *
+     * @param request The request to which this context applies.
      */
     public PortletRequestContext(ActionRequest request) {
         this.request = request;
@@ -89,9 +91,14 @@ public class PortletRequestContext implements RequestContext {
     public InputStream getInputStream() throws IOException {
         return request.getPortletInputStream();
     }
-    
+
+    /**
+     * Returns a string representation of this object.
+     *
+     * @return a string representation of this object.
+     */
     public String toString() {
-        return "ContentLength=" 
+        return "ContentLength="
             + this.getContentLength()
             + ", ContentType="
             + this.getContentType();

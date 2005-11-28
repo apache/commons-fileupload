@@ -91,9 +91,14 @@ public class ServletRequestContext implements RequestContext {
     public InputStream getInputStream() throws IOException {
         return request.getInputStream();
     }
-    
+
+    /**
+     * Returns a string representation of this object.
+     *
+     * @return a string representation of this object.
+     */
     public String toString() {
-        return "ContentLength=" 
+        return "ContentLength="
             + this.getContentLength()
             + ", ContentType="
             + this.getContentType();

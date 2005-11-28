@@ -96,6 +96,18 @@ public class PortletFileUpload extends FileUpload {
     // --------------------------------------------------------- Public methods
 
 
+    /**
+     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant <code>multipart/form-data</code> stream.
+     *
+     * @param request The portlet request to be parsed.
+     *
+     * @return A list of <code>FileItem</code> instances parsed from the
+     *         request, in the order that they were transmitted.
+     *
+     * @throws FileUploadException if there are problems reading/parsing
+     *                             the request or storing files.
+     */
     public List /* FileItem */ parseRequest(ActionRequest request)
             throws FileUploadException {
         return parseRequest(new PortletRequestContext(request));
