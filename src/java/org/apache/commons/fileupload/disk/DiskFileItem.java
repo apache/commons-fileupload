@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.rmi.server.UID;
 import java.util.Map;
 import org.apache.commons.io.FileCleaner;
 import org.apache.commons.io.output.DeferredFileOutputStream;
@@ -81,6 +82,12 @@ public class DiskFileItem
 
     // ----------------------------------------------------------- Data members
 
+
+    /**
+     * UID used in unique file name generation.
+     */
+    private static final String uid =
+            new UID().toString().replace(':', '_').replace('-', '_');
 
     /**
      * Counter used in unique identifier generation.
@@ -564,7 +571,7 @@ public class DiskFileItem
             tempDir = new File(System.getProperty("java.io.tmpdir"));
         }
 
-        String fileName = "upload_" + getUniqueId() + ".tmp";
+        String fileName = "upload_" + uid + "_" + getUniqueId() + ".tmp";
 
         File f = new File(tempDir, fileName);
         FileCleaner.track(f, this);
