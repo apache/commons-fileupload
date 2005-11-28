@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2004 The Apache Software Foundation
+ * Copyright 2001-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
 import java.rmi.server.UID;
 import java.util.Map;
+import org.apache.commons.io.CopyUtils;
 import org.apache.commons.io.FileCleaner;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -141,7 +144,12 @@ public class DiskFileItem
     /**
      * Output stream for this item.
      */
-    private DeferredFileOutputStream dfos;
+    private transient DeferredFileOutputStream dfos;
+
+    /**
+     * File to allow for serialization of the content of this item.
+     */
+    private File dfosFile;
 
 
     // ----------------------------------------------------------- Constructors
@@ -190,7 +198,7 @@ public class DiskFileItem
      */
     public InputStream getInputStream()
         throws IOException {
-        if (!dfos.isInMemory()) {
+        if (!isInMemory()) {
             return new FileInputStream(dfos.getFile());
         }
 
@@ -250,7 +258,11 @@ public class DiskFileItem
      *         from memory; <code>false</code> otherwise.
      */
     public boolean isInMemory() {
-        return (dfos.isInMemory());
+        if (cachedContent != null) {
+            return true;
+        } else {
+            return dfos.isInMemory();
+        }
     }
 
 
@@ -278,7 +290,7 @@ public class DiskFileItem
      * @return The contents of the file as an array of bytes.
      */
     public byte[] get() {
-        if (dfos.isInMemory()) {
+        if (isInMemory()) {
             if (cachedContent == null) {
                 cachedContent = dfos.getData();
             }
@@ -602,7 +614,15 @@ public class DiskFileItem
         }
         return id;
     }
-    
+
+
+
+
+    /**
+
+     * Returns a string representation of this object.
+
+     */
     public String toString() {
     	return "name=" + this.getName()
 			+ ", StoreLocation=" 
@@ -613,6 +633,69 @@ public class DiskFileItem
 			+ "isFormField=" + isFormField()
 			+ ", FieldName="
 			+ this.getFieldName();
+    }
+
+
+
+    // -------------------------------------------------- Serialization methods
+
+
+
+
+    /**
+     * Writes the state of this object during serialization.
+
+     *
+
+     * @param out The stream to which the state should be written.
+
+     *
+
+     * @throws IOException if an error occurs.
+     */
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        // Read the data
+        if (dfos.isInMemory()) {
+            cachedContent = get();
+        } else {
+            cachedContent = null;
+            dfosFile = dfos.getFile();
+        }
+
+        // write out values
+        out.defaultWriteObject();
+    }
+
+    /**
+     * Reads the state of this object during deserialization.
+
+     *
+
+     * @param in The stream from which the state should be read.
+     *
+
+     * @throws IOException if an error occurs.
+     * @throws ClassNotFoundException if class cannot be found.
+     */
+    private void readObject(ObjectInputStream in)
+
+            throws IOException, ClassNotFoundException {
+        // read values
+        in.defaultReadObject();
+        
+        OutputStream output = getOutputStream();
+        if (cachedContent != null) {
+            output.write(cachedContent);
+        } else {
+            FileInputStream input = new FileInputStream(dfosFile);
+
+            CopyUtils.copy(input, output);
+            dfosFile.delete();
+            dfosFile = null;
+        }
+        output.close();
+
+        cachedContent = null;
     }
 
 }
