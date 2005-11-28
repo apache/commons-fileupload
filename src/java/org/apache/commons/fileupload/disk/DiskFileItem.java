@@ -614,15 +614,15 @@ public class DiskFileItem
 
      */
     public String toString() {
-    	return "name=" + this.getName()
-			+ ", StoreLocation=" 
-			+ String.valueOf(this.getStoreLocation())
-			+ ", size="
-			+ this.getSize()
-			+ "bytes, "
-			+ "isFormField=" + isFormField()
-			+ ", FieldName="
-			+ this.getFieldName();
+        return "name=" + this.getName()
+            + ", StoreLocation=" 
+            + String.valueOf(this.getStoreLocation())
+            + ", size="
+            + this.getSize()
+            + "bytes, "
+            + "isFormField=" + isFormField()
+            + ", FieldName="
+            + this.getFieldName();
     }
 
 
