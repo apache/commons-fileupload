@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2004 The Apache Software Foundation
+ * Copyright 2001-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -266,7 +266,7 @@ public class MultipartStream {
      * @param boundary The token used for dividing the stream into
      *                 <code>encapsulations</code>.
      *
-     * @exception IOException when an error occurs.
+     * @throws IOException when an error occurs.
      *
      * @see #MultipartStream()
      * @see #MultipartStream(InputStream, byte[], int)
@@ -313,7 +313,7 @@ public class MultipartStream {
      *
      * @return The next byte from the input stream.
      *
-     * @exception IOException if there is no more data available.
+     * @throws IOException if there is no more data available.
      */
     public byte readByte()
         throws IOException {
@@ -338,8 +338,8 @@ public class MultipartStream {
      * @return <code>true</code> if there are more encapsulations in
      *         this stream; <code>false</code> otherwise.
      *
-     * @exception MalformedStreamException if the stream ends unexpecetedly or
-     *                                     fails to follow required syntax.
+     * @throws MalformedStreamException if the stream ends unexpecetedly or
+     *                                  fails to follow required syntax.
      */
     public boolean readBoundary()
         throws MalformedStreamException {
@@ -390,9 +390,9 @@ public class MultipartStream {
      * @param boundary The boundary to be used for parsing of the nested
      *                 stream.
      *
-     * @exception IllegalBoundaryException if the <code>boundary</code>
-     *                                     has a different length than the one
-     *                                     being currently parsed.
+     * @throws IllegalBoundaryException if the <code>boundary</code>
+     *                                  has a different length than the one
+     *                                  being currently parsed.
      */
     public void setBoundary(byte[] boundary)
         throws IllegalBoundaryException {
@@ -417,7 +417,7 @@ public class MultipartStream {
      *
      * @return The <code>header-part</code> of the current encapsulation.
      *
-     * @exception MalformedStreamException if the stream ends unexpecetedly.
+     * @throws MalformedStreamException if the stream ends unexpecetedly.
      */
     public String readHeaders()
         throws MalformedStreamException {
@@ -474,8 +474,8 @@ public class MultipartStream {
      *
      * @return the amount of data written.
      *
-     * @exception MalformedStreamException if the stream ends unexpectedly.
-     * @exception IOException              if an i/o error occurs.
+     * @throws MalformedStreamException if the stream ends unexpectedly.
+     * @throws IOException              if an i/o error occurs.
      */
     public int readBodyData(OutputStream output)
         throws MalformedStreamException,
@@ -542,8 +542,8 @@ public class MultipartStream {
      *
      * @return The amount of data discarded.
      *
-     * @exception MalformedStreamException if the stream ends unexpectedly.
-     * @exception IOException              if an i/o error occurs.
+     * @throws MalformedStreamException if the stream ends unexpectedly.
+     * @throws IOException              if an i/o error occurs.
      */
     public int discardBodyData()
         throws MalformedStreamException,
@@ -601,7 +601,7 @@ public class MultipartStream {
      * @return <code>true</code> if an <code>encapsulation</code> was found in
      *         the stream.
      *
-     * @exception IOException if an i/o error occurs.
+     * @throws IOException if an i/o error occurs.
      */
     public boolean skipPreamble()
         throws IOException {
@@ -804,7 +804,7 @@ public class MultipartStream {
     // Main routine, for testing purposes only.
     //
     // @param args A String[] with the command line arguments.
-    // @exception Exception, a generic exception.
+    // @throws Exception, a generic exception.
     public static void main( String[] args )
         throws Exception
     {

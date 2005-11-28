@@ -188,7 +188,7 @@ public class DiskFileItem
      * @return An {@link java.io.InputStream InputStream} that can be
      *         used to retrieve the contents of the file.
      *
-     * @exception IOException if an error occurs.
+     * @throws IOException if an error occurs.
      */
     public InputStream getInputStream()
         throws IOException {
@@ -322,8 +322,8 @@ public class DiskFileItem
      *
      * @return The contents of the file, as a string.
      *
-     * @exception UnsupportedEncodingException if the requested character
-     *                                         encoding is not available.
+     * @throws UnsupportedEncodingException if the requested character
+     *                                      encoding is not available.
      */
     public String getString(final String charset)
         throws UnsupportedEncodingException {
@@ -372,7 +372,7 @@ public class DiskFileItem
      * @param file The <code>File</code> into which the uploaded item should
      *             be stored.
      *
-     * @exception Exception if an error occurs.
+     * @throws Exception if an error occurs.
      */
     public void write(File file) throws Exception {
         if (isInMemory()) {
@@ -511,7 +511,7 @@ public class DiskFileItem
      * @return An {@link java.io.OutputStream OutputStream} that can be used
      *         for storing the contensts of the file.
      *
-     * @exception IOException if an error occurs.
+     * @throws IOException if an error occurs.
      */
     public OutputStream getOutputStream()
         throws IOException {

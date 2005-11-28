@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2004 The Apache Software Foundation
+ * Copyright 2001-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public interface FileItem
      * @return An {@link java.io.InputStream InputStream} that can be
      *         used to retrieve the contents of the file.
      *
-     * @exception IOException if an error occurs.
+     * @throws IOException if an error occurs.
      */
     InputStream getInputStream()
         throws IOException;
@@ -128,8 +128,8 @@ public interface FileItem
      *
      * @return The contents of the item, as a string.
      *
-     * @exception UnsupportedEncodingException if the requested character
-     *                                         encoding is not available.
+     * @throws UnsupportedEncodingException if the requested character
+     *                                      encoding is not available.
      */
     String getString(String encoding)
         throws UnsupportedEncodingException;
@@ -159,7 +159,7 @@ public interface FileItem
      * @param file The <code>File</code> into which the uploaded item should
      *             be stored.
      *
-     * @exception Exception if an error occurs.
+     * @throws Exception if an error occurs.
      */
     void write(File file) throws Exception;
 
@@ -218,7 +218,7 @@ public interface FileItem
      * @return An {@link java.io.OutputStream OutputStream} that can be used
      *         for storing the contensts of the file.
      *
-     * @exception IOException if an error occurs.
+     * @throws IOException if an error occurs.
      */
     OutputStream getOutputStream() throws IOException;
 
