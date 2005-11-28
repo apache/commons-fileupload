@@ -609,13 +609,11 @@ public class DiskFileItem
 
 
     /**
-
      * Returns a string representation of this object.
-
      */
     public String toString() {
         return "name=" + this.getName()
-            + ", StoreLocation=" 
+            + ", StoreLocation="
             + String.valueOf(this.getStoreLocation())
             + ", size="
             + this.getSize()
@@ -626,21 +624,14 @@ public class DiskFileItem
     }
 
 
-
     // -------------------------------------------------- Serialization methods
-
-
 
 
     /**
      * Writes the state of this object during serialization.
-
      *
-
      * @param out The stream to which the state should be written.
-
      *
-
      * @throws IOException if an error occurs.
      */
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -658,21 +649,17 @@ public class DiskFileItem
 
     /**
      * Reads the state of this object during deserialization.
-
      *
-
      * @param in The stream from which the state should be read.
      *
-
      * @throws IOException if an error occurs.
      * @throws ClassNotFoundException if class cannot be found.
      */
     private void readObject(ObjectInputStream in)
-
             throws IOException, ClassNotFoundException {
         // read values
         in.defaultReadObject();
-        
+
         OutputStream output = getOutputStream();
         if (cachedContent != null) {
             output.write(cachedContent);
