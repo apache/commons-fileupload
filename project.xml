@@ -155,6 +155,11 @@
       <artifactId>portlet-api</artifactId>
       <version>1.0</version>
       <url>http://portals.apache.org/pluto</url>
+      <properties>
+          <comment>
+              Required only when using FileUpload in a portlet environment.
+          </comment>
+      </properties>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -165,7 +170,7 @@
           <scope>test</scope>
           <comment>
               &lt;strong&gt;Test Only&lt;/strong&gt; - required only for
-              running the Validator unit tests.
+              running the FileUpload unit tests.
           </comment>
       </properties>
     </dependency>
