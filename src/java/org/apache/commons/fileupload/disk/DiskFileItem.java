@@ -77,12 +77,6 @@ public class DiskFileItem
     public static final String DEFAULT_CHARSET = "ISO-8859-1";
 
 
-    /**
-     * Size of buffer to use when writing an item to disk.
-     */
-    private static final int WRITE_BUFFER_SIZE = 2048;
-
-
     // ----------------------------------------------------------- Data members
 
 
@@ -407,11 +401,7 @@ public class DiskFileItem
                             new FileInputStream(outputFile));
                         out = new BufferedOutputStream(
                                 new FileOutputStream(file));
-                        byte[] bytes = new byte[WRITE_BUFFER_SIZE];
-                        int s = 0;
-                        while ((s = in.read(bytes)) != -1) {
-                            out.write(bytes, 0, s);
-                        }
+                        CopyUtils.copy(in, out);
                     } finally {
                         if (in != null) {
                             try {
