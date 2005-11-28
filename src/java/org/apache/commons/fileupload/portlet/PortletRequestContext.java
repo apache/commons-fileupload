@@ -91,10 +91,10 @@ public class PortletRequestContext implements RequestContext {
     }
     
     public String toString() {
-    	return "ContentLength=" 
-			+ this.getContentLength()
-			+ ", ContentType="
-			+ this.getContentType();
+        return "ContentLength=" 
+            + this.getContentLength()
+            + ", ContentType="
+            + this.getContentType();
     }
 
 }
