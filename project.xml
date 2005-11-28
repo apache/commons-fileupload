@@ -143,21 +143,31 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>1.0</version>
+      <url>http://jakarta.apache.org/commons/io/</url>
     </dependency>
     <dependency>
-      <groupId>servletapi</groupId>
-      <artifactId>servletapi</artifactId>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
       <version>2.3</version>
     </dependency>
     <dependency>
-      <groupId>portlet-api</groupId>
+      <groupId>javax.portlet</groupId>
       <artifactId>portlet-api</artifactId>
       <version>1.0</version>
+      <url>http://portals.apache.org/pluto</url>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
+      <url>http://www.junit.org/</url>
+      <properties>
+          <scope>test</scope>
+          <comment>
+              &lt;strong&gt;Test Only&lt;/strong&gt; - required only for
+              running the Validator unit tests.
+          </comment>
+      </properties>
     </dependency>
   </dependencies>
 
