@@ -149,6 +149,10 @@
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.3</version>
+      <url>http://java.sun.com/products/servlet/</url>
+      <properties>
+        <scope>provided</scope>
+      </properties>
     </dependency>
     <dependency>
       <groupId>javax.portlet</groupId>
@@ -156,9 +160,10 @@
       <version>1.0</version>
       <url>http://portals.apache.org/pluto</url>
       <properties>
-          <comment>
-              Required only when using FileUpload in a portlet environment.
-          </comment>
+        <scope>provided</scope>
+        <comment>
+          Required only when using FileUpload in a portlet environment.
+        </comment>
       </properties>
     </dependency>
     <dependency>
@@ -167,11 +172,11 @@
       <version>3.8.1</version>
       <url>http://www.junit.org/</url>
       <properties>
-          <scope>test</scope>
-          <comment>
-              &lt;strong&gt;Test Only&lt;/strong&gt; - required only for
-              running the FileUpload unit tests.
-          </comment>
+        <scope>test</scope>
+        <comment>
+          &lt;strong&gt;Test Only&lt;/strong&gt; - required only for
+          running the FileUpload unit tests.
+        </comment>
       </properties>
     </dependency>
   </dependencies>
