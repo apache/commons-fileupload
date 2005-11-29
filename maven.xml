@@ -1,5 +1,5 @@
 <!--
-   Copyright 2001-2004 The Apache Software Foundation
+   Copyright 2001-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -13,8 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<project default="jar:jar"
-  xmlns:j="jelly:core">
+
+<project default="java:jar"
+  xmlns:ant="jelly:ant">
 
   <!-- ================================================================== -->
   <!-- START : C O M M O N S - B U I L D                                  -->
@@ -22,10 +23,10 @@
   <!-- Required: Look and Feel for documentation within distributions     -->
   <!-- ================================================================== -->
   <postGoal name="xdoc:copy-resources">  
-    <copy todir="${basedir}/target/docs/style/" failonerror="false">
+    <copy todir="${maven.build.dir}/docs/style/" failonerror="false">
       <fileset dir="${basedir}/../commons-build/xdocs/style">
-      	<include name='**/*'/>
-      	<exclude name='**/CVS/**'/>
+        <include name='**/*'/>
+        <exclude name='**/CVS/**'/>
       </fileset>
     </copy>
   </postGoal>
@@ -33,4 +34,66 @@
   <!-- END: C O M M O N S - B U I L D                                     -->
   <!-- ================================================================== -->
   
+  <!-- ================================================================== -->
+  <!-- Copy into the binary distribution                                  -->
+  <!-- ================================================================== -->
+  <postGoal name="dist:prepare-bin-filesystem">
+
+    <!-- Copy the NOTICE -->
+    <copy todir="${maven.dist.bin.assembly.dir}">
+      <fileset file='${basedir}/NOTICE.txt'/>
+    </copy>
+
+  </postGoal>
+
+  <!-- ================================================================== -->
+  <!-- Copy into the source distribution                                  -->
+  <!-- ================================================================== -->
+  <postGoal name="dist:prepare-src-filesystem">
+
+    <!-- Copy the NOTICE -->
+    <copy todir="${maven.dist.src.assembly.dir}">
+      <fileset file='${basedir}/NOTICE.txt'/>
+      <!-- fileset file="${basedir}/RELEASE-NOTES.readme"/ -->
+    </copy>
+
+    <!-- Copy xdoc files -->
+    <copy todir="${maven.dist.src.assembly.dir}/xdocs">
+      <fileset dir="${basedir}/xdocs"/>
+    </copy>
+
+  </postGoal>
+
+  <!-- ================================================================== -->
+  <!-- Create MD5 Check Sums                                              -->
+  <!-- ================================================================== -->
+  <postGoal name="dist">
+
+    <!-- create checksum for jar -->
+    <ant:checksum file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar" property="md5"/>
+    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}.jar" 
+              file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.md5" />
+
+    <!-- create checksum for binary zip -->
+    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.zip" property="md5"/>
+    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}.zip" 
+              file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.zip.md5" />
+
+    <!-- create checksum for binary tar.gz -->
+    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.tar.gz" property="md5"/>
+    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}.tar.gz" 
+              file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.tar.gz.md5" />
+
+    <!-- create checksum for source zip -->
+    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.zip" property="md5"/>
+    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}-src.zip" 
+              file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.zip.md5" />
+
+    <!-- create checksum for source tar.gz -->
+    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.tar.gz" property="md5"/>
+    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}-src.tar.gz" 
+              file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.tar.gz.md5" />
+
+  </postGoal>
+
 </project>
