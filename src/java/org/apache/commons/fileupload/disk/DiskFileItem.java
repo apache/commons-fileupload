@@ -83,7 +83,7 @@ public class DiskFileItem
     /**
      * UID used in unique file name generation.
      */
-    private static final String uid =
+    private static final String UID =
             new UID().toString().replace(':', '_').replace('-', '_');
 
     /**
@@ -573,7 +573,7 @@ public class DiskFileItem
             tempDir = new File(System.getProperty("java.io.tmpdir"));
         }
 
-        String fileName = "upload_" + uid + "_" + getUniqueId() + ".tmp";
+        String fileName = "upload_" + UID + "_" + getUniqueId() + ".tmp";
 
         File f = new File(tempDir, fileName);
         FileCleaner.track(f, this);
@@ -591,6 +591,7 @@ public class DiskFileItem
      * @return A String with the non-random looking instance identifier.
      */
     private static String getUniqueId() {
+        final int limit = 100000000;
         int current;
         synchronized (DiskFileItem.class) {
             current = counter++;
@@ -599,7 +600,7 @@ public class DiskFileItem
 
         // If you manage to get more than 100 million of ids, you'll
         // start getting ids longer than 8 characters.
-        if (current < 100000000) {
+        if (current < limit) {
             id = ("00000000" + id).substring(id.length());
         }
         return id;
@@ -610,6 +611,8 @@ public class DiskFileItem
 
     /**
      * Returns a string representation of this object.
+     *
+     * @return a string representation of this object.
      */
     public String toString() {
         return "name=" + this.getName()
