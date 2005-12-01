@@ -444,8 +444,9 @@ public abstract class FileUploadBase {
                     if (fileName != null) {
                         fileName = fileName.trim();
                     } else {
-                        // Even if there is no value, the parameter is present, so
-                        // we return an empty file name rather than no file name.
+                        // Even if there is no value, the parameter is present,
+                        // so we return an empty file name rather than no file
+                        // name.
                         fileName = "";
                     }
                 }
