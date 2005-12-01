@@ -75,7 +75,7 @@ public class PortletFileUpload extends FileUpload {
      * configured, using <code>setFileItemFactory()</code>, before attempting
      * to parse requests.
      *
-     * @see #FileUpload(FileItemFactory)
+     * @see FileUpload#FileUpload(FileItemFactory)
      */
     public PortletFileUpload() {
         super();
@@ -86,7 +86,7 @@ public class PortletFileUpload extends FileUpload {
      * Constructs an instance of this class which uses the supplied factory to
      * create <code>FileItem</code> instances.
      *
-     * @see #FileUpload()
+     * @see FileUpload#FileUpload()
      */
     public PortletFileUpload(FileItemFactory fileItemFactory) {
         super(fileItemFactory);
