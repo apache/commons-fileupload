@@ -78,7 +78,7 @@ public class ServletFileUpload extends FileUpload {
      * configured, using <code>setFileItemFactory()</code>, before attempting
      * to parse requests.
      *
-     * @see #FileUpload(FileItemFactory)
+     * @see FileUpload#FileUpload(FileItemFactory)
      */
     public ServletFileUpload() {
         super();
@@ -89,7 +89,7 @@ public class ServletFileUpload extends FileUpload {
      * Constructs an instance of this class which uses the supplied factory to
      * create <code>FileItem</code> instances.
      *
-     * @see #FileUpload()
+     * @see FileUpload#FileUpload()
      */
     public ServletFileUpload(FileItemFactory fileItemFactory) {
         super(fileItemFactory);
