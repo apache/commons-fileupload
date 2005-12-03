@@ -721,7 +721,7 @@ public class MultipartStream {
      * Thrown to indicate that the input stream fails to follow the
      * required syntax.
      */
-    public class MalformedStreamException
+    public static class MalformedStreamException
         extends IOException {
         /**
          * Constructs a <code>MalformedStreamException</code> with no
@@ -746,7 +746,7 @@ public class MultipartStream {
     /**
      * Thrown upon attempt of setting an invalid boundary token.
      */
-    public class IllegalBoundaryException
+    public static class IllegalBoundaryException
         extends IOException {
         /**
          * Constructs an <code>IllegalBoundaryException</code> with no
