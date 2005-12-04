@@ -142,6 +142,20 @@ public class MultipartStream {
             DASH, DASH};
 
 
+    /**
+     * A byte sequence that precedes a boundary (<code>CRLF--</code>).
+     */
+    protected static final byte[] BOUNDARY_PREFIX = {
+            CR, LF, DASH, DASH};
+
+
+    /**
+     * The number of bytes, over and above the boundary size, to use for the
+     * keep region.
+     */
+    private static final int KEEP_REGION_PAD = 3;
+
+
     // ----------------------------------------------------------- Data members
 
 
@@ -245,14 +259,13 @@ public class MultipartStream {
 
         // We prepend CR/LF to the boundary to chop trailng CR/LF from
         // body-data tokens.
-        this.boundary = new byte[boundary.length + 4];
-        this.boundaryLength = boundary.length + 4;
-        this.keepRegion = boundary.length + 3;
-        this.boundary[0] = CR;
-        this.boundary[1] = LF;
-        this.boundary[2] = DASH;
-        this.boundary[3] = DASH;
-        System.arraycopy(boundary, 0, this.boundary, 4, boundary.length);
+        this.boundary = new byte[boundary.length + BOUNDARY_PREFIX.length];
+        this.boundaryLength = boundary.length + BOUNDARY_PREFIX.length;
+        this.keepRegion = boundary.length + KEEP_REGION_PAD;
+        System.arraycopy(BOUNDARY_PREFIX, 0, this.boundary, 0,
+                BOUNDARY_PREFIX.length);
+        System.arraycopy(boundary, 0, this.boundary, BOUNDARY_PREFIX.length,
+                boundary.length);
 
         head = 0;
         tail = 0;
@@ -396,11 +409,12 @@ public class MultipartStream {
      */
     public void setBoundary(byte[] boundary)
         throws IllegalBoundaryException {
-        if (boundary.length != boundaryLength - 4) {
+        if (boundary.length != boundaryLength - BOUNDARY_PREFIX.length) {
             throw new IllegalBoundaryException(
                     "The length of a boundary token can not be changed");
         }
-        System.arraycopy(boundary, 0, this.boundary, 4, boundary.length);
+        System.arraycopy(boundary, 0, this.boundary, BOUNDARY_PREFIX.length,
+                boundary.length);
     }
 
 
