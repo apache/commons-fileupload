@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<ruleset name="FileUpload Basic Rules">
+  <description>PMD Basic Ruleset minus the EmptyCatchBlock rule.</description>
+
+  <rule ref="rulesets/basic.xml">
+    <exclude name="EmptyCatchBlock"/>
+  </rule>
+</ruleset>

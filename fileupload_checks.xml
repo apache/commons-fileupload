@@ -138,7 +138,11 @@
         <!-- Checks for Size Violations.                    -->
         <!-- See http://checkstyle.sf.net/config_sizes.html -->
         <module name="FileLength"/>
-        <module name="LineLength"/>
+        <!-- Begin Custom for FileUpload -->
+        <module name="LineLength">
+          <property name="ignorePattern" value="^ \* @version .*$"/>
+        </module>
+        <!-- End Custom for FileUpload -->
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
 
@@ -165,7 +169,11 @@
         <!-- Checks for blocks. You know, those {}'s         -->
         <!-- See http://checkstyle.sf.net/config_blocks.html -->
         <module name="AvoidNestedBlocks"/>
-        <!-- Disabled for FileUpload: module name="EmptyBlock"/ -->
+        <!-- Begin Custom for FileUpload -->
+        <module name="EmptyBlock">
+          <property name="option" value="text"/>
+        </module>
+        <!-- End Custom for FileUpload -->
         <module name="LeftCurly"/>
         <module name="NeedBraces"/>
         <module name="RightCurly"/>
