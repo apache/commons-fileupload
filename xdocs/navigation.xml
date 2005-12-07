@@ -37,8 +37,7 @@
       <item name="Mailing lists"            href="/mail-lists.html"/>
       <item name="Team"                     href="/team-list.html"/>
       <item name="Tasks"                    href="/tasks.html"/>
-      <item name="CVS" href="http://cvs.apache.org/viewcvs/jakarta-commons/fileupload/"/>
-      <!--item name="Javadoc (CVS latest)"     href="apidocs/index.html"/-->
+      <item name="SVN repository"           href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/fileupload/trunk/"/>
     </menu>
     
     &common-menus;
