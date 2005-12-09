@@ -64,10 +64,33 @@
     <p>
       FileUpload creates new file items using a <code>FileItemFactory</code>.
       This is what gives FileUpload most of its flexibility. The factory has
-      ultimate control over how each item is created. The default factory
-      stores the item's data in memory or on disk, depending on the size of
-      the item (i.e. bytes of data). However, this behavior can be customized
-      to suit your application.
+      ultimate control over how each item is created. The factory implementation
+      that currently ships with FileUpload stores the item's data in memory or
+      on disk, depending on the size of the item (i.e. bytes of data). However,
+      this behavior can be customized to suit your application.
+    </p>
+  </section>
+
+  <section name="Servlets and Portlets">
+    <p>
+      Starting with version 1.1, FileUpload supports file upload requests in
+      both servlet and portlet environments. The usage is almost identical in
+      the two environments, so the remainder of this document refers only to
+      the servlet environment.
+    </p>
+    <p>
+      If you are building a portlet application, the following are the two
+      distinctions you should make as you read this document:
+      <ul>
+        <li>
+          Where you see references to the <code>ServletFileUpload</code> class,
+          substitute the <code>PortletFileUpload</code> class.
+        </li>
+        <li>
+          Where you see references to the <code>HttpServletRequest</code> class,
+          substitute the <code>ActionRequest</code> class.
+        </li>
+      </ul>
     </p>
   </section>
 
@@ -107,8 +130,11 @@ boolean isMultipart = FileUpload.isMultipartContent(request);]]></source>
       <p>
         Handling a request in this scenario couldn't be much simpler:
       </p>
-<source><![CDATA[// Create a new file upload handler
-DiskFileUpload upload = new DiskFileUpload();
+<source><![CDATA[// Create a factory for disk-based file items
+FileItemFactory factory = new DiskFileItemFactory();
+
+// Create a new file upload handler
+ServletFileUpload upload = new ServletFileUpload(factory);
 
 // Parse the request
 List /* FileItem */ items = upload.parseRequest(request);]]></source>
@@ -122,34 +148,36 @@ List /* FileItem */ items = upload.parseRequest(request);]]></source>
       </p>
     </subsection>
 
-    <subsection name="Exercising more control">
+    <subsection name="Exercising more control"> 
       <p>
         If your usage scenario is close to the simplest case, described above,
-        but you need a little more control over the size thresholds or the
-        location of temporary files, you can customize the behavior using the
-        methods of the <code>DiskFileUpload</code> class, like this:
+        but you need a little more control, you can easily customize the
+        behavior of the upload handler or the file item factory or both. The
+        following example shows several configuration options:
       </p>
-<source><![CDATA[// Create a new file upload handler
-DiskFileUpload upload = new DiskFileUpload();
+<source><![CDATA[// Create a factory for disk-based file items
+DiskFileItemFactory factory = new DiskFileItemFactory();
 
-// Set upload parameters
-upload.setSizeThreshold(yourMaxMemorySize);
+// Set factory constraints
+factory.setSizeThreshold(yourMaxMemorySize);
+factory.setRepositoryPath(yourTempDirectory);
+
+// Create a new file upload handler
+ServletFileUpload upload = new ServletFileUpload(factory);
+
+// Set overall request size constraint
 upload.setSizeMax(yourMaxRequestSize);
-upload.setRepositoryPath(yourTempDirectory);
 
 // Parse the request
 List /* FileItem */ items = upload.parseRequest(request);]]></source>
       <p>
         Of course, each of the configuration methods is independent of the
-        others, but if you want to configure them all at once, you can do that
-        with an alternate <code>parseRequest()</code> method, like this:
+        others, but if you want to configure the factory all at once, you can
+        do that with an alternative constructor, like this:
       </p>
-<source><![CDATA[// Create a new file upload handler
-DiskFileUpload upload = new DiskFileUpload();
-
-// Parse the request
-List /* FileItem */ items = upload.parseRequest(request,
-        yourMaxMemorySize, yourMaxRequestSize, yourTempDirectory);]]></source>
+<source><![CDATA[// Create a factory for disk-based file items
+DiskFileItemFactory factory = new DiskFileItemFactory(
+        yourMaxMemorySize, yourTempDirectory);]]></source>
       <p>
         Should you need further control over the parsing of the request, such
         as storing the items elsewhere - for example, in a database - you will
