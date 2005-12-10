@@ -1,7 +1,7 @@
 $Id$
 
                          Commons FileUpload Package
-                                 Version 1.0
+                                 Version 1.1
                                 Release Notes
 
 
@@ -11,21 +11,58 @@ INTRODUCTION
 This document contains the release notes for this version of the Commons
 FileUpload component, and highlights changes since the previous version.
 
-This is the first major release of Commons FileUpload. Documentation for this
-release is available on the FileUpload web site:
+Documentation for this release is available on the FileUpload web site:
 
     http://jakarta.apache.org/commons/fileupload/
 	
-There have been no functional changes since FileUpload 1.0 Release Candidate 1.
+
+UPGRADING
+=========
+
+Upgrading from FileUpload 1.0 can be as simple as recompiling your application
+with the new version. However, it is likely that you will get deprecation
+warnings when you do so, since changes have been made to the exposed API of
+FileUpload to make it more suitable for use in both Servlet and Portlet
+environments. You can, of course, elect to ignore those deprecations, and
+leave your code changes until a subsequent version of FileUpload in which those
+deprecated methods are removed. To upgrade your code and remove references to
+the deprecated methods, please see the FileUpload User Guide.
 
 
 NEW FEATURES
 ============
 
-Not applicable. This is the first release of this component.
+* Support for Portlet environments is now available. Some restructuring was
+  necessary in order to accomplish this, which is the major cause of the
+  deprecations mentioned above.
+
+* If a character encoding is specified in the request, that is used instead
+  of the system default encoding.
+
+* The character set to be used when parsing individual parts can now be
+  specified.
+
+* Actual and maximum request sizes are specified when an exception is thrown
+  due to exceeding the maximum.
+
+* Temporary file names are now unique across class loaders.
+
+* DiskFileItem is now serializable.
 
 
 BUG FIXES
 =========
 
-Not applicable. This is the first release of this component.
+Many bugs in the code and documentation have been fixed in this release. Please
+see the Changes report for full details.
+
+http://jakarta.apache.org/commons/fileupload/changes-report.html
+
+The following are some of the more important bug fixes:
+
+* A new mechanism for deleting temporary files has been added, to ensure that
+  deletions happen in a timely manner in long-running applications.
+
+* Quoted multipart boundaries are now handled correctly.
+
+* Header values are now compared case-independently.
