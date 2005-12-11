@@ -57,6 +57,7 @@
       <fileset file="${basedir}/RELEASE-NOTES.txt"/>
       <fileset file="${basedir}/fileupload_basic.xml"/>
       <fileset file="${basedir}/fileupload_checks.xml"/>
+      <fileset file="${basedir}/license-header.xml"/>
     </copy>
 
     <!-- Copy xdoc files -->
