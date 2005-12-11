@@ -43,6 +43,20 @@ The <action> type attribute can be add,update,fix,remove.
 
     <release version="1.1" date="Pending" description="Nearing completion">
 
+      <action dev="martinc" type="update">
+        Updates for FileUpload 1.1-RC1.
+      </action>
+
+      <action dev="martinc" type="add">
+        Added release notes for FileUpload 1.1.
+      </action>
+
+      <action dev="martinc" type="update">
+        Update the User Guide to document the "right" way of using FileUpload
+        1.1, rather than the older, and thus deprecated, ways that are
+        compatible with FileUpload 1.0.
+      </action>
+
       <action dev="martinc" type="add">
         Add this change log, including all changes since the Commons FileUpload
         1.0 release.
