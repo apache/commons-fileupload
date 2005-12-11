@@ -54,7 +54,9 @@
     <!-- Copy the NOTICE -->
     <copy todir="${maven.dist.src.assembly.dir}">
       <fileset file='${basedir}/NOTICE.txt'/>
-      <!-- fileset file="${basedir}/RELEASE-NOTES.readme"/ -->
+      <fileset file="${basedir}/RELEASE-NOTES.txt"/>
+      <fileset file="${basedir}/fileupload_basic.xml"/>
+      <fileset file="${basedir}/fileupload_checks.xml"/>
     </copy>
 
     <!-- Copy xdoc files -->
