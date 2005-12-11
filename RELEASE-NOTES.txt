@@ -14,6 +14,8 @@ FileUpload component, and highlights changes since the previous version.
 Documentation for this release is available on the FileUpload web site:
 
     http://jakarta.apache.org/commons/fileupload/
+
+NOTE: This release of FileUpload requires Commons IO 1.1.
 	
 
 UPGRADING
