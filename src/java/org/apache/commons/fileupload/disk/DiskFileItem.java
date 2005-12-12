@@ -29,7 +29,7 @@ import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
 import java.rmi.server.UID;
 import java.util.Map;
-import org.apache.commons.io.CopyUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.FileCleaner;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -401,7 +401,7 @@ public class DiskFileItem
                             new FileInputStream(outputFile));
                         out = new BufferedOutputStream(
                                 new FileOutputStream(file));
-                        CopyUtils.copy(in, out);
+                        IOUtils.copy(in, out);
                     } finally {
                         if (in != null) {
                             try {
@@ -669,7 +669,7 @@ public class DiskFileItem
         } else {
             FileInputStream input = new FileInputStream(dfosFile);
 
-            CopyUtils.copy(input, output);
+            IOUtils.copy(input, output);
             dfosFile.delete();
             dfosFile = null;
         }
