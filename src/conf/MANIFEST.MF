@@ -1,6 +1,5 @@
-Extension-Name: @name@
 Specification-Vendor: Apache Software Foundation
-Specification-Version: 1.0
+Specification-Title: Commons FileUpload
 Implementation-Vendor: Apache Software Foundation
-Implementation-Title: commons-fileupload
-Implementation-Version: @version@
+Implementation-Vendor-Id: org.apache
+Implementation-Title: Commons FileUpload
