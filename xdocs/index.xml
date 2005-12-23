@@ -56,6 +56,17 @@
     <section name="Downloading">
         <subsection name='Full Releases'>
           <p>
+            <strong>FileUpload 1.1</strong> - 22 Dec 2005
+            <ul>
+              <li>Download the binary distribution from a mirror site
+                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
+              </li>
+              <li>Download the source distribution from a mirror site
+                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
+          <p>
             <strong>FileUpload 1.0</strong> - 24 Jun 2003
             <ul>
               <li>Download the binary distribution from a mirror site
