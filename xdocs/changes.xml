@@ -41,7 +41,15 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
 
-    <release version="1.1" date="Pending" description="Nearing completion">
+    <release version="1.2" date="Pending" description="In development">
+
+      <action dev="martinc" type="fix">
+        File names were being inadvertently converted to lower case.
+      </action>
+
+    </release>
+
+    <release version="1.1" date="2005-12-24" description="Portlet support, substantial refactoring and numerous bug fixes">
 
       <action dev="martinc" type="update">
         Updates for FileUpload 1.1-RC1.
@@ -320,6 +328,9 @@ The <action> type attribute can be add,update,fix,remove.
         Correction to sample code in the docs.
       </action>
 
+    </release>
+
+    <release version="1.0" date="2003-06-26" description="Initial release">
     </release>
   
     
