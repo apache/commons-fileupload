@@ -42,7 +42,7 @@
 		bug in earlier versions of that component that caused problems with
 		multipart requests. The bug was fixed some time ago, so you probably
 		just need to pick up a newer version. See the
-		<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=15278">Tomcat bug report</a>
+		<a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=15278">Tomcat bug report</a>
 		for full details.
 	  </answer>
 	</faq>
