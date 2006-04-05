@@ -122,6 +122,23 @@ public class ServletFileUploadTest extends TestCase
         assertEquals("value2", multi1.getString());
     }
 
+    public void testFilenameCaseSensitivity() 
+            throws IOException, FileUploadException
+    {
+        List fileItems = parseUpload("-----1234\r\n" +
+                        "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
+                        "Content-Type: text/whatever\r\n" +
+                        "\r\n" +
+                        "This is the content of the file\n" +
+                        "\r\n" +
+                        "-----1234--\r\n");
+        assertEquals(1, fileItems.size());
+
+        FileItem file = (FileItem) fileItems.get(0);
+        assertEquals("FiLe", file.getFieldName());
+        assertEquals("FOO.tab", file.getName());
+    }
+
     /**
      * This is what the browser does if you submit the form without choosing a file.
      */
