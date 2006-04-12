@@ -160,7 +160,7 @@ DiskFileItemFactory factory = new DiskFileItemFactory();
 
 // Set factory constraints
 factory.setSizeThreshold(yourMaxMemorySize);
-factory.setRepositoryPath(yourTempDirectory);
+factory.setRepository(yourTempDirectory);
 
 // Create a new file upload handler
 ServletFileUpload upload = new ServletFileUpload(factory);
