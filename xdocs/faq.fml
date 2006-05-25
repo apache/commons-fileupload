@@ -58,6 +58,23 @@
 		web application, instead of relying on the container.
 	  </answer>
 	</faq>
+
+        <faq id="whole-path-from-IE">
+          <question>
+            FileItem.getName() returns the whole path. 
+          </question>
+          <answer>
+            Internet Explorer returns the entire path to the uploaded file and 
+            not just the expected filename. Currently, FileUpload does not attempt 
+            to hide this from the user and so a work-around is required: 
+            <pre>
+    String fileName = item.getName();
+    if(fileName != null) {
+      fileName = new java.io.File(fileName).getName();
+    }
+            </pre>
+          </answer>
+        </faq>
   </part>
 
   <part id="struts">
