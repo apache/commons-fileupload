@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   Copyright 2005 The Apache Software Foundation
+   Copyright 2005-06 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -59,22 +59,25 @@
       </answer>
     </faq>
 
-        <faq id="whole-path-from-IE">
-          <question>
-            Why does FileItem.getName() returns the whole path, and not just the filename?
-          </question>
-          <answer>
-            Internet Explorer returns the entire path to the uploaded file and 
-            not just the expected filename. Currently, FileUpload does not attempt 
-            to hide this from the user and so a work-around is required: 
-            <pre>
+    <faq id="whole-path-from-IE">
+      <question>
+        Why does FileItem.getName() return the whole path, and not just the file name?
+      </question>
+      <answer>
+        Internet Explorer provides the entire path to the uploaded file and not
+        just the base file name. Since FileUpload provides exactly what was
+        supplied by the client (browser), you may want to remove this path
+        information in your application. You can do that using the following
+        method from Commons IO (which you already have, since it is used by
+        FileUpload).
+        <pre>
     String fileName = item.getName();
-    if(fileName != null) {
-      fileName = new java.io.File(fileName).getName();
+    if (fileName != null) {
+        filename = FilenameUtils.getName(filename);
     }
-            </pre>
-          </answer>
-        </faq>
+        </pre>
+      </answer>
+    </faq>
   </part>
 
   <part id="struts">
