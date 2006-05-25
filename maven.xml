@@ -73,28 +73,28 @@
   <postGoal name="dist">
 
     <!-- create checksum for jar -->
-    <ant:checksum file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar" property="md5"/>
-    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}.jar" 
+    <ant:checksum file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar" property="jar.md5"/>
+    <ant:echo message="${jar.md5} *${pom.artifactId}-${pom.currentVersion}.jar" 
               file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.md5" />
 
     <!-- create checksum for binary zip -->
-    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.zip" property="md5"/>
-    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}.zip" 
+    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.zip" property="zip.md5"/>
+    <ant:echo message="${zip.md5} *${pom.artifactId}-${pom.currentVersion}.zip" 
               file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.zip.md5" />
 
     <!-- create checksum for binary tar.gz -->
-    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.tar.gz" property="md5"/>
-    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}.tar.gz" 
+    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.tar.gz" property="tar.gz.md5"/>
+    <ant:echo message="${tar.gz.md5} *${pom.artifactId}-${pom.currentVersion}.tar.gz" 
               file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}.tar.gz.md5" />
 
     <!-- create checksum for source zip -->
-    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.zip" property="md5"/>
-    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}-src.zip" 
+    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.zip" property="src.zip.md5"/>
+    <ant:echo message="${src.zip.md5} *${pom.artifactId}-${pom.currentVersion}-src.zip" 
               file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.zip.md5" />
 
     <!-- create checksum for source tar.gz -->
-    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.tar.gz" property="md5"/>
-    <ant:echo message="${md5} *${pom.artifactId}-${pom.currentVersion}-src.tar.gz" 
+    <ant:checksum file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.tar.gz" property="src.tar.gz.md5"/>
+    <ant:echo message="${src.tar.gz.md5} *${pom.artifactId}-${pom.currentVersion}-src.tar.gz" 
               file="${maven.dist.dir}/${pom.artifactId}-${pom.currentVersion}-src.tar.gz.md5" />
 
   </postGoal>
