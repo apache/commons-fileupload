@@ -41,13 +41,13 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
 
-    <release version="1.2" date="Pending" description="In development">
+    <release version="1.1.1" date="2006-05-??" description="Bugfix release">
 
       <action dev="martinc" type="fix" issue="39160">
         Cache disk file item size when it is moved to a new location.
       </action>
 
-      <action dev="martinc" type="fix">
+      <action dev="martinc" type="fix" issue="38490">
         File names were being inadvertently converted to lower case.
       </action>
 
