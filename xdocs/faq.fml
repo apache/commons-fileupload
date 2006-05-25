@@ -61,7 +61,7 @@
 
         <faq id="whole-path-from-IE">
           <question>
-            FileItem.getName() returns the whole path. 
+            Why does FileItem.getName() returns the whole path, and not just the filename?
           </question>
           <answer>
             Internet Explorer returns the entire path to the uploaded file and 
