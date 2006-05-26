@@ -49,7 +49,7 @@
           <li><a href="apidocs/index.html">JavaDoc API</a></li>
           <li><a href="maven-reports.html">Project Reports</a></li>
         </ul>
-        You can also <a href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/fileupload/trunk/">browse</a> the Subversion repository.
+        You can also <a href="cvs-usage.html">browse</a> the Subversion repository.
       </p>
     </section>
 
@@ -90,7 +90,7 @@
             </p>
             <p>
             Download nightly builds from 
-            <a href='http://cvs.apache.org/builds/jakarta-commons/nightly/commons-fileupload/'>here</a>.
+            <a href='http://people.apache.org/builds/jakarta-commons/nightly/commons-fileupload/'>here</a>.
             </p>
         </subsection>
     </section>

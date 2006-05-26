@@ -18,23 +18,6 @@
   xmlns:ant="jelly:ant">
 
   <!-- ================================================================== -->
-  <!-- START : C O M M O N S - B U I L D                                  -->
-  <!-- ================================================================== -->
-  <!-- Required: Look and Feel for documentation within distributions     -->
-  <!-- ================================================================== -->
-  <postGoal name="xdoc:copy-resources">  
-    <copy todir="${maven.build.dir}/docs/style/" failonerror="false">
-      <fileset dir="${basedir}/../commons-build/xdocs/style">
-        <include name='**/*'/>
-        <exclude name='**/CVS/**'/>
-      </fileset>
-    </copy>
-  </postGoal>
-  <!-- ================================================================== -->
-  <!-- END: C O M M O N S - B U I L D                                     -->
-  <!-- ================================================================== -->
-  
-  <!-- ================================================================== -->
   <!-- Copy into the binary distribution                                  -->
   <!-- ================================================================== -->
   <postGoal name="dist:prepare-bin-filesystem">
