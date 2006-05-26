@@ -14,7 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<!DOCTYPE org.apache.commons.menus SYSTEM '../../commons-build/menus/menus.dtd'>
+<!DOCTYPE org.apache.commons.menus SYSTEM 'http://jakarta.apache.org/commons/build/maven-build.dtd'>
 <project name="FileUpload">
 
   <title>FileUpload</title>
@@ -37,10 +37,10 @@
       <item name="Mailing lists"            href="/mail-lists.html"/>
       <item name="Team"                     href="/team-list.html"/>
       <item name="Tasks"                    href="/tasks.html"/>
-      <item name="SVN repository"           href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/fileupload/trunk/"/>
+      <item name="SVN repository"           href="/cvs-usage.html"/>
     </menu>
     
-    &common-menus;
+    &commons;
 
   </body>
 </project>

@@ -204,7 +204,7 @@
       <properties>
           <comment>
               &lt;strong&gt;Site Only&lt;/strong&gt; - v1.9.2 (minimum)
-              required for building the BeanUtils Site documentation.
+              required for building the FileUpload Site documentation.
           </comment>
       </properties>
     </dependency>
