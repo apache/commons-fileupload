@@ -56,6 +56,17 @@
     <section name="Downloading">
         <subsection name='Full Releases'>
           <p>
+            <strong>FileUpload 1.1.1</strong> - ?? May 2006
+            <ul>
+              <li>Download the binary distribution from a mirror site
+                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
+              </li>
+              <li>Download the source distribution from a mirror site
+                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
+          <p>
             <strong>FileUpload 1.1</strong> - 22 Dec 2005
             <ul>
               <li>Download the binary distribution from a mirror site
@@ -104,9 +115,7 @@
         so prefix your e-mail subject line with <em>[fileupload]</em>.
       </p>
       <p>
-        Issues may be reported via <a href="issue-tracking.html">ASF Bugzilla</a>.
-        Please remember that Bugzilla is shared between all Jakarta Commons
-        components, so prefix your issue summary with <em>[fileupload]</em>.
+        Issues may be reported via <a href="issue-tracking.html">ASF Jira</a>.
       </p>
     </section>
   </body>
