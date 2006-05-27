@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   Copyright 2003-2004 The Apache Software Foundation
+   Copyright 2003-2006 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -58,33 +58,24 @@
           <p>
             <strong>FileUpload 1.1.1</strong> - ?? May 2006
             <ul>
-              <li>Download the binary distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
-              </li>
-              <li>Download the source distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://jakarta.apache.org/site/downloads/downloads_commons-fileupload.cgi'>here</a>
               </li>
             </ul>
           </p>
           <p>
             <strong>FileUpload 1.1</strong> - 22 Dec 2005
             <ul>
-              <li>Download the binary distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
-              </li>
-              <li>Download the source distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://jakarta.apache.org/site/downloads/downloads_commons-fileupload.cgi'>here</a>
               </li>
             </ul>
           </p>
           <p>
             <strong>FileUpload 1.0</strong> - 24 Jun 2003
             <ul>
-              <li>Download the binary distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/binindex.cgi'>here</a>
-              </li>
-              <li>Download the source distribution from a mirror site
-                <a href='http://jakarta.apache.org/site/sourceindex.cgi'>here</a>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://jakarta.apache.org/site/downloads/downloads_commons-fileupload.cgi'>here</a>
               </li>
             </ul>
           </p>
