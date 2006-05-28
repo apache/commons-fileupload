@@ -1,7 +1,7 @@
 $Id$
 
                          Commons FileUpload Package
-                                 Version 1.1
+                                 Version 1.1.1
                                 Release Notes
 
 
@@ -18,8 +18,13 @@ Documentation for this release is available on the FileUpload web site:
 NOTE: This release of FileUpload requires Commons IO 1.1.
 	
 
-UPGRADING
-=========
+UPGRADING FROM 1.1
+==================
+
+This version of FileUpload is a drop-in replacement for FileUpload 1.1.
+
+UPGRADING FROM 1.0
+==================
 
 Upgrading from FileUpload 1.0 can be as simple as recompiling your application
 with the new version. However, it is likely that you will get deprecation
@@ -31,40 +36,17 @@ deprecated methods are removed. To upgrade your code and remove references to
 the deprecated methods, please see the FileUpload User Guide.
 
 
-NEW FEATURES
-============
-
-* Support for Portlet environments is now available. Some restructuring was
-  necessary in order to accomplish this, which is the major cause of the
-  deprecations mentioned above.
-
-* If a character encoding is specified in the request, that is used instead
-  of the system default encoding.
-
-* The character set to be used when parsing individual parts can now be
-  specified.
-
-* Actual and maximum request sizes are specified when an exception is thrown
-  due to exceeding the maximum.
-
-* Temporary file names are now unique across class loaders.
-
-* DiskFileItem is now serializable.
-
-
 BUG FIXES
 =========
 
-Many bugs in the code and documentation have been fixed in this release. Please
-see the Changes report for full details.
+Please see the Changes report for a full history of bugfixes. 
 
 http://jakarta.apache.org/commons/fileupload/changes-report.html
 
-The following are some of the more important bug fixes:
+The following are the two bug fixes in this release:
 
-* A new mechanism for deleting temporary files has been added, to ensure that
-  deletions happen in a timely manner in long-running applications.
+* FILEUPLOAD-20
+      Cache disk file item size when it is moved to a new location.
 
-* Quoted multipart boundaries are now handled correctly.
-
-* Header values are now compared case-independently.
+* FILEUPLOAD-30
+      File names were being inadvertently converted to lower case.
