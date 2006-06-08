@@ -24,6 +24,11 @@
     <release>
       <revision>
         <name>commons-fileupload</name>
+        <created>2006-06-08</created>
+        <version>1.1.1</version>
+      </revision>
+      <revision>
+        <name>commons-fileupload</name>
         <created>2005-12-23</created>
         <version>1.1</version>
       </revision>
