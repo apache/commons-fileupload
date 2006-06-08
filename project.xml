@@ -21,7 +21,7 @@
   <name>FileUpload</name>
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <currentVersion>1.1.1-RC1</currentVersion>
+  <currentVersion>1.1.1</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>File upload component for Java servlets</shortDescription>
   <description>
