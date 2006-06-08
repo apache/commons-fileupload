@@ -41,7 +41,7 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
 
-    <release version="1.1.1" date="In SVN" description="Bugfix release">
+    <release version="1.1.1" date="2006-06-08" description="Bugfix release">
 
       <action dev="martinc" type="fix" issue="FILEUPLOAD-20">
         Cache disk file item size when it is moved to a new location.
