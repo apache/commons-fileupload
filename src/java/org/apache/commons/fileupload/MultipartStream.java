@@ -484,7 +484,9 @@ public class MultipartStream {
      * method using a constant size buffer. (see {@link
      * #MultipartStream(InputStream,byte[],int) constructor}).
      *
-     * @param output The <code>Stream</code> to write data into.
+     * @param output The <code>Stream</code> to write data into. May
+     *               be null, in which case this method is equivalent
+     *               to {@link #discardBodyData()}.
      *
      * @return the amount of data written.
      *
@@ -504,7 +506,9 @@ public class MultipartStream {
             pos = findSeparator();
             if (pos != -1) {
                 // Write the rest of the data before the boundary.
-                output.write(buffer, head, pos - head);
+                if (output != null) {
+                    output.write(buffer, head, pos - head);
+                }
                 total += pos - head;
                 head = pos;
                 done = true;
@@ -517,7 +521,9 @@ public class MultipartStream {
                     pad = tail - head;
                 }
                 // Write out the data belonging to the body-data.
-                output.write(buffer, head, tail - head - pad);
+                if (output != null) {
+                    output.write(buffer, head, tail - head - pad);
+                }
 
                 // Move the data to the beginning of the buffer.
                 total += tail - head - pad;
@@ -534,15 +540,19 @@ public class MultipartStream {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so write out the
                     // data you have and signal an error condition.
-                    output.write(buffer, 0, pad);
-                    output.flush();
+                    if (output != null) {
+                        output.write(buffer, 0, pad);
+                        output.flush();
+                    }
                     total += pad;
                     throw new MalformedStreamException(
                             "Stream ended unexpectedly");
                 }
             }
         }
-        output.flush();
+        if (output != null) {
+            output.flush();
+        }
         return total;
     }
 
@@ -562,50 +572,7 @@ public class MultipartStream {
     public int discardBodyData()
         throws MalformedStreamException,
                IOException {
-        boolean done = false;
-        int pad;
-        int pos;
-        int bytesRead;
-        int total = 0;
-        while (!done) {
-            // Is boundary token present somewere in the buffer?
-            pos = findSeparator();
-            if (pos != -1) {
-                // Write the rest of the data before the boundary.
-                total += pos - head;
-                head = pos;
-                done = true;
-            } else {
-                // Determine how much data should be kept in the
-                // buffer.
-                if (tail - head > keepRegion) {
-                    pad = keepRegion;
-                } else {
-                    pad = tail - head;
-                }
-                total += tail - head - pad;
-
-                // Move the data to the beginning of the buffer.
-                System.arraycopy(buffer, tail - pad, buffer, 0, pad);
-
-                // Refill buffer with new data.
-                head = 0;
-                bytesRead = input.read(buffer, pad, bufSize - pad);
-
-                // [pprrrrrrr]
-                if (bytesRead != -1) {
-                    tail = pad + bytesRead;
-                } else {
-                    // The last pad amount is left in the buffer.
-                    // Boundary can't be in there so signal an error
-                    // condition.
-                    total += pad;
-                    throw new MalformedStreamException(
-                            "Stream ended unexpectedly");
-                }
-            }
-        }
-        return total;
+        return readBodyData(null);
     }
 
 

@@ -40,6 +40,13 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
+	<release version="1.2" date="Not yet released">
+
+	  <action dev="jochen" type="update" issue="FILEUPLOAD-109">
+	    Eliminated duplicate code.
+	  </action>
+
+	</release>
 
     <release version="1.1.1" date="2006-06-08" description="Bugfix release">
 
