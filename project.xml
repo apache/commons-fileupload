@@ -156,6 +156,12 @@
       <email>sean |at| seansullivan |dot| com</email>
       <organization></organization>
     </developer>
+    <developer>
+      <name>Jochen Wiedmann</name>
+      <id>jochen</id>
+      <email>jochen.wiedmann@gmail.com</email>
+      <organization/>
+    </developer>
   </developers>
   
   <dependencies>
