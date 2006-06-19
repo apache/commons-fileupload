@@ -18,11 +18,9 @@ package org.apache.commons.fileupload;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -285,7 +283,7 @@ public abstract class FileUploadBase {
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */
-    public FileItemIterator getItemRequest(RequestContext ctx)
+    public FileItemIterator getItemIterator(RequestContext ctx)
             throws FileUploadException {
         return new FileItemIteratorImpl(ctx);
     }
@@ -304,7 +302,7 @@ public abstract class FileUploadBase {
      */
     public List /* FileItem */ parseRequest(RequestContext ctx)
             throws FileUploadException {
-        FileItemIterator iter = getItemRequest(ctx);
+        FileItemIterator iter = getItemIterator(ctx);
         List items = new ArrayList();
         FileItemFactory fac = getFileItemFactory();
         final byte[] buffer = new byte[8192];
@@ -497,7 +495,7 @@ public abstract class FileUploadBase {
 
     /**
      * The iterator, which is returned by
-     * {@link FileUploadBase#getRequestIterator(RequestContext)}.
+     * {@link FileUploadBase#getItemIterator(RequestContext)}.
      */
     private class FileItemIteratorImpl implements FileItemIterator {
         private class FileItemStreamImpl implements FileItemStream {
@@ -773,6 +771,8 @@ public abstract class FileUploadBase {
      */
     public static class InvalidContentTypeException
         extends FileUploadException {
+        private static final long serialVersionUID = -9073026332015646668L;
+
         /**
          * Constructs a <code>InvalidContentTypeException</code> with no
          * detail message.
@@ -798,6 +798,8 @@ public abstract class FileUploadBase {
      */
     public static class SizeLimitExceededException
         extends FileUploadException {
+        private static final long serialVersionUID = -2474893167098052828L;
+
         /**
          * The actual size of the request.
          */

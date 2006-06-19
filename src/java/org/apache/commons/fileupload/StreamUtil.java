@@ -1,5 +1,6 @@
 package org.apache.commons.fileupload;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -96,5 +97,32 @@ public class StreamUtil {
                 }
             }
         }
+    }
+
+    /**
+     * This convenience method allows to read a {@link FileItemStream}'s
+     * content into a string. The platform's default character encoding
+     * is used for converting bytes into characters.
+     * @param pStream The input stream to read.
+     * @see #asString(InputStream, String)
+     */
+    public String asString(InputStream pStream) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        copy(pStream, baos, true);
+        return baos.toString();
+    }
+
+    /**
+     * This convenience method allows to read a {@link FileItemStream}'s
+     * content into a string, using the given character encoding.
+     * @param pStream The input stream to read.
+     * @param pEncoding The character encoding, typically "UTF-8".
+     * @see #asString(InputStream)
+     */
+    public String asString(InputStream pStream, String pEncoding)
+            throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        copy(pStream, baos, true);
+        return baos.toString(pEncoding);
     }
 }

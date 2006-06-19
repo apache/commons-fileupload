@@ -26,7 +26,7 @@ import java.util.Iterator;
  * The items contents are retrieved by calling {@link #openStream()}.</p>
  * <p>Instances of this class are created by accessing the
  * iterator, returned by
- * {@link FileUploadBase#getRequestIterator(RequestContext)}.</p>
+ * {@link FileUploadBase#getItemIterator(RequestContext)}.</p>
  * <em>Note</em>: There is an interaction between the iterator and
  * its associated instances of {@link FileItemStream}: By invoking
  * {@link Iterator#hasNext()} on the iterator, you discard all data,

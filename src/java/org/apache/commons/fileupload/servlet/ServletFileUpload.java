@@ -16,8 +16,11 @@
 package org.apache.commons.fileupload.servlet;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
 
@@ -114,5 +117,23 @@ public class ServletFileUpload extends FileUpload {
     public List /* FileItem */ parseRequest(HttpServletRequest request)
             throws FileUploadException {
         return parseRequest(new ServletRequestContext(request));
+    }
+
+
+    /**
+     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant <code>multipart/form-data</code> stream.
+     *
+     * @param request The servlet request to be parsed.
+     *
+     * @return An iterator to instances of <code>FileItemStream</code>
+     *         parsed from the request, in the order that they were
+     *         transmitted.
+     *
+     * @throws FileUploadException if there are problems reading/parsing
+     *                             the request or storing files.
+     */
+    public FileItemIterator getItemIterator(HttpServletRequest request) throws FileUploadException {
+        return super.getItemIterator(new ServletRequestContext(request));
     }
 }

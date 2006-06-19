@@ -45,6 +45,12 @@ The <action> type attribute can be add,update,fix,remove.
 	  <action dev="jochen" type="update" issue="FILEUPLOAD-109">
 	    Eliminated duplicate code.
 	  </action>
+	  <action dev="jochen" type="add" issue="FILEUPLOAD-112">
+	    Added a streaming API.
+	  </action>
+	  <action dev="jochen" type="fix" issue="FILEUPLOAD-93">
+	    Eliminated the necessity of a content-length header.
+	  </action>
 
 	</release>
 

@@ -15,10 +15,12 @@
  */
 package org.apache.commons.fileupload;
 
+import java.util.NoSuchElementException;
+
 
 /** 
  * An iterator, as returned by
- * {@link FileUploadBase#getItemRequest(RequestContext)}
+ * {@link FileUploadBase#getItemIterator(RequestContext)}
  */
 public interface FileItemIterator {
     /** 

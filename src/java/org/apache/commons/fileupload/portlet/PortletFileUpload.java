@@ -16,8 +16,12 @@
 package org.apache.commons.fileupload.portlet;
 
 import java.util.List;
+
 import javax.portlet.ActionRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
@@ -111,5 +115,22 @@ public class PortletFileUpload extends FileUpload {
     public List /* FileItem */ parseRequest(ActionRequest request)
             throws FileUploadException {
         return parseRequest(new PortletRequestContext(request));
+    }
+
+    /**
+     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant <code>multipart/form-data</code> stream.
+     *
+     * @param request The portlet request to be parsed.
+     *
+     * @return An iterator to instances of <code>FileItemStream</code>
+     *         parsed from the request, in the order that they were
+     *         transmitted.
+     *
+     * @throws FileUploadException if there are problems reading/parsing
+     *                             the request or storing files.
+     */
+    public FileItemIterator getItemIterator(ActionRequest request) throws FileUploadException {
+        return super.getItemIterator(new PortletRequestContext(request));
     }
 }

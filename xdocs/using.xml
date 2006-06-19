@@ -52,6 +52,12 @@
       regardless of its underlying implementation.
     </p>
     <p>
+      This page describes the traditional API of the commons fileupload
+      library. The traditional API is a convenient approach. However, for
+      ultimate performance, you might prefer the faster
+      <a href="streaming.html">Streaming API</a>.
+    </p>
+    <p>
       Each file item has a number of properties that might be of interest for
       your application. For example, every item has a name and a content type,
       and can provide an <code>InputStream</code> to access its data. On the
