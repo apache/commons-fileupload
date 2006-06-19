@@ -130,7 +130,7 @@ public class DiskFileItemFactory implements FileItemFactory {
 
     /**
      * Returns the size threshold beyond which files are written directly to
-     * disk. The default value is 1024 bytes.
+     * disk. The default value is 10240 bytes.
      *
      * @return The size threshold, in bytes.
      *
