@@ -496,66 +496,13 @@ public class MultipartStream {
     public int readBodyData(OutputStream output)
         throws MalformedStreamException,
                IOException {
-        boolean done = false;
-        int pad;
-        int pos;
-        int bytesRead;
-        int total = 0;
-        while (!done) {
-            // Is boundary token present somewere in the buffer?
-            pos = findSeparator();
-            if (pos != -1) {
-                // Write the rest of the data before the boundary.
-                if (output != null) {
-                    output.write(buffer, head, pos - head);
-                }
-                total += pos - head;
-                head = pos;
-                done = true;
-            } else {
-                // Determine how much data should be kept in the
-                // buffer.
-                if (tail - head > keepRegion) {
-                    pad = keepRegion;
-                } else {
-                    pad = tail - head;
-                }
-                // Write out the data belonging to the body-data.
-                if (output != null) {
-                    output.write(buffer, head, tail - head - pad);
-                }
-
-                // Move the data to the beginning of the buffer.
-                total += tail - head - pad;
-                System.arraycopy(buffer, tail - pad, buffer, 0, pad);
-
-                // Refill buffer with new data.
-                head = 0;
-                bytesRead = input.read(buffer, pad, bufSize - pad);
-
-                // [pprrrrrrr]
-                if (bytesRead != -1) {
-                    tail = pad + bytesRead;
-                } else {
-                    // The last pad amount is left in the buffer.
-                    // Boundary can't be in there so write out the
-                    // data you have and signal an error condition.
-                    if (output != null) {
-                        output.write(buffer, 0, pad);
-                        output.flush();
-                    }
-                    total += pad;
-                    throw new MalformedStreamException(
-                            "Stream ended unexpectedly");
-                }
-            }
-        }
-        if (output != null) {
-            output.flush();
-        }
-        return total;
+        final InputStream istream = newInputStream();
+        return (int) StreamUtil.copy(istream, output, false);
     }
 
+    ItemInputStream newInputStream() {
+        return new ItemInputStream();
+    }
 
     /**
      * <p> Reads <code>body-data</code> from the current
@@ -748,6 +695,142 @@ public class MultipartStream {
         }
     }
 
+    /**
+     * An {@link InputStream} for reading an items contents.
+     */
+    public class ItemInputStream extends InputStream {
+        private long total;
+        private int pad, pos;
+        private boolean closed;
+
+        ItemInputStream() {
+            findSeparator();
+        }
+
+        private void findSeparator() {
+            pos = MultipartStream.this.findSeparator();
+            if (pos == -1) {
+                if (tail - head > keepRegion) {
+                    pad = keepRegion;
+                } else {
+                    pad = tail - head;
+                }
+            }
+        }
+
+        /** Returns the number of bytes, which have been read
+         * by the stream.
+         */
+        public long getBytesRead() {
+            return total;
+        }
+
+        public int available() throws IOException {
+            if (pos == -1) {
+                return tail - head - pad;
+            } else {
+                return pos - head;
+            }
+        }
+
+        public int read() throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
+            if (available() == 0) {
+                if (makeAvailable() == 0) {
+                    return -1;
+                }
+            }
+            ++total;
+            int b = buffer[head++];
+            return b >= 0 ? b : b + 256;
+        }
+
+        public int read(byte[] b, int off, int len) throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
+            if (len == 0) {
+                return 0;
+            }
+            int res = available();
+            if (res == 0) {
+                res = makeAvailable();
+                if (res == 0) {
+                    return -1;
+                }
+            }
+            res = Math.min(res, len);
+            System.arraycopy(buffer, head, b, off, res);
+            head += res;
+            total += res;
+            return res;
+        }
+
+        public void close() throws IOException {
+            if (closed) {
+                return;
+            }
+            for (;;) {
+                int av = available();
+                if (av == 0) {
+                    av = makeAvailable();
+                    if (av == 0) {
+                        break;
+                    }
+                }
+                skip(av);
+            }
+            closed = true;
+        }
+
+        public long skip(long bytes) throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
+            int av = available();
+            if (av == 0) {
+                av = makeAvailable();
+                if (av == 0) {
+                    return 0;
+                }
+            }
+            long res = Math.min(av, bytes);
+            head += res;
+            return res;
+        }
+
+        private int makeAvailable() throws IOException {
+            if (pos != -1) {
+                return 0;
+            }
+
+            // Move the data to the beginning of the buffer.
+            total += tail - head - pad;
+            System.arraycopy(buffer, tail - pad, buffer, 0, pad);
+
+            // Refill buffer with new data.
+            head = 0;
+            int bytesRead = input.read(buffer, pad, bufSize - pad);
+            if (bytesRead == -1) {
+                // The last pad amount is left in the buffer.
+                // Boundary can't be in there so signal an error
+                // condition.
+                throw new MalformedStreamException(
+                        "Stream ended unexpectedly");
+            }
+            tail = pad + bytesRead;
+            findSeparator();
+            return available();
+        }
+
+        /** Returns, whether the stream is closed.
+         */
+        public boolean isClosed() {
+            return closed;
+        }
+    }
 
     // ------------------------------------------------------ Debugging methods
 

@@ -15,14 +15,18 @@
  */
 package org.apache.commons.fileupload;
 
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
@@ -274,6 +278,24 @@ public abstract class FileUploadBase {
      *
      * @param ctx The context for the request to be parsed.
      *
+     * @return An iterator to instances of <code>FileItemStream</code>
+     *         parsed from the request, in the order that they were
+     *         transmitted.
+     *
+     * @throws FileUploadException if there are problems reading/parsing
+     *                             the request or storing files.
+     */
+    public FileItemIterator getItemRequest(RequestContext ctx)
+            throws FileUploadException {
+        return new FileItemIteratorImpl(ctx);
+    }
+
+    /**
+     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant <code>multipart/form-data</code> stream.
+     *
+     * @param ctx The context for the request to be parsed.
+     *
      * @return A list of <code>FileItem</code> instances parsed from the
      *         request, in the order that they were transmitted.
      *
@@ -282,110 +304,27 @@ public abstract class FileUploadBase {
      */
     public List /* FileItem */ parseRequest(RequestContext ctx)
             throws FileUploadException {
-        if (ctx == null) {
-            throw new NullPointerException("ctx parameter");
-        }
-
-        ArrayList items = new ArrayList();
-        String contentType = ctx.getContentType();
-
-        if ((null == contentType)
-            || (!contentType.toLowerCase().startsWith(MULTIPART))) {
-            throw new InvalidContentTypeException(
-                "the request doesn't contain a "
-                + MULTIPART_FORM_DATA
-                + " or "
-                + MULTIPART_MIXED
-                + " stream, content type header is "
-                + contentType);
-        }
-        int requestSize = ctx.getContentLength();
-
-        if (requestSize == -1) {
-            throw new UnknownSizeException(
-                "the request was rejected because its size is unknown");
-        }
-
-        if (sizeMax >= 0 && requestSize > sizeMax) {
-            throw new SizeLimitExceededException(
-                "the request was rejected because its size (" + requestSize
-                + ") exceeds the configured maximum (" + sizeMax + ")",
-                requestSize, sizeMax);
-        }
-
-        String charEncoding = headerEncoding;
-        if (charEncoding == null) {
-            charEncoding = ctx.getCharacterEncoding();
-        }
-
-        try {
-            byte[] boundary = getBoundary(contentType);
-            if (boundary == null) {
+        FileItemIterator iter = getItemRequest(ctx);
+        List items = new ArrayList();
+        FileItemFactory fac = getFileItemFactory();
+        final byte[] buffer = new byte[8192];
+        while (iter.hasNext()) {
+            FileItemStream item = iter.next();
+            FileItem fileItem = fac.createItem(item.getFieldName(),
+                    item.getContentType(), item.isFormField(),
+                    item.getName());
+            try {
+                StreamUtil.copy(item.openStream(), fileItem.getOutputStream(),
+                            true, buffer);
+            } catch (FileUploadIOException e) {
+                throw (FileUploadException) e.getCause();
+            } catch (IOException e) {
                 throw new FileUploadException(
-                        "the request was rejected because "
-                        + "no multipart boundary was found");
+                    "Processing of " + MULTIPART_FORM_DATA
+                        + " request failed. " + e.getMessage());
             }
-
-            InputStream input = ctx.getInputStream();
-
-            MultipartStream multi = new MultipartStream(input, boundary);
-            multi.setHeaderEncoding(charEncoding);
-
-            boolean nextPart = multi.skipPreamble();
-            while (nextPart) {
-                Map headers = parseHeaders(multi.readHeaders());
-                String fieldName = getFieldName(headers);
-                if (fieldName != null) {
-                    String subContentType = getHeader(headers, CONTENT_TYPE);
-                    if (subContentType != null && subContentType
-                        .toLowerCase().startsWith(MULTIPART_MIXED)) {
-                        // Multiple files.
-                        byte[] subBoundary = getBoundary(subContentType);
-                        multi.setBoundary(subBoundary);
-                        boolean nextSubPart = multi.skipPreamble();
-                        while (nextSubPart) {
-                            headers = parseHeaders(multi.readHeaders());
-                            if (getFileName(headers) != null) {
-                                FileItem item =
-                                        createItem(headers, false);
-                                OutputStream os = item.getOutputStream();
-                                try {
-                                    multi.readBodyData(os);
-                                } finally {
-                                    os.close();
-                                }
-                                items.add(item);
-                            } else {
-                                // Ignore anything but files inside
-                                // multipart/mixed.
-                                multi.discardBodyData();
-                            }
-                            nextSubPart = multi.readBoundary();
-                        }
-                        multi.setBoundary(boundary);
-                    } else {
-                        FileItem item = createItem(headers,
-                                getFileName(headers) == null);
-                        OutputStream os = item.getOutputStream();
-                        try {
-                            multi.readBodyData(os);
-                        } finally {
-                            os.close();
-                        }
-                        items.add(item);
-                    }
-                } else {
-                    // Skip this part.
-                    multi.discardBodyData();
-                }
-                nextPart = multi.readBoundary();
-            }
-        } catch (IOException e) {
-            throw new FileUploadException(
-                "Processing of " + MULTIPART_FORM_DATA
-                    + " request failed. " + e.getMessage());
+            items.add(fileItem);
         }
-
         return items;
     }
 
@@ -483,28 +422,6 @@ public abstract class FileUploadBase {
 
 
     /**
-     * Creates a new {@link FileItem} instance.
-     *
-     * @param headers       A <code>Map</code> containing the HTTP request
-     *                      headers.
-     * @param isFormField   Whether or not this item is a form field, as
-     *                      opposed to a file.
-     *
-     * @return A newly created <code>FileItem</code> instance.
-     *
-     * @throws FileUploadException if an error occurs.
-     */
-    protected FileItem createItem(Map /* String, String */ headers,
-                                  boolean isFormField)
-        throws FileUploadException {
-        return getFileItemFactory().createItem(getFieldName(headers),
-                getHeader(headers, CONTENT_TYPE),
-                isFormField,
-                getFileName(headers));
-    }
-
-
-    /**
      * <p> Parses the <code>header-part</code> and returns as key/value
      * pairs.
      *
@@ -578,6 +495,278 @@ public abstract class FileUploadBase {
         return (String) headers.get(name.toLowerCase());
     }
 
+    /**
+     * The iterator, which is returned by
+     * {@link FileUploadBase#getRequestIterator(RequestContext)}.
+     */
+    private class FileItemIteratorImpl implements FileItemIterator {
+        private class FileItemStreamImpl implements FileItemStream {
+            private final String contentType, fieldName, name;
+            private final boolean formField;
+            private final MultipartStream.ItemInputStream stream;
+            private boolean opened;
+
+            FileItemStreamImpl(String pName, String pFieldName,
+                    String pContentType, boolean pFormField) {
+                name = pName;
+                fieldName = pFieldName;
+                contentType = pContentType;
+                formField = pFormField;
+                stream = multi.newInputStream();
+            }
+
+            public String getContentType() {
+                return contentType;
+            }
+
+            public String getFieldName() {
+                return fieldName;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public boolean isFormField() {
+                return formField;
+            }
+
+            public InputStream openStream() throws IOException {
+                if (opened) {
+                    throw new IllegalStateException("The stream was already opened.");
+                }
+                if (stream.isClosed()) {
+                    throw new FileItemStream.ItemSkippedException();
+                }
+                return stream;
+            }
+
+            void close() throws IOException {
+                stream.close();
+            }
+        }
+
+        private final MultipartStream multi;
+        private final byte[] boundary;
+        private FileItemStreamImpl currentItem;
+        private String currentFieldName;
+        private boolean skipPreamble;
+        private boolean itemValid;
+        private boolean eof;
+
+        FileItemIteratorImpl(RequestContext ctx) throws FileUploadException {
+            if (ctx == null) {
+                throw new NullPointerException("ctx parameter");
+            }
+
+            String contentType = ctx.getContentType();
+            if ((null == contentType)
+                || (!contentType.toLowerCase().startsWith(MULTIPART))) {
+                throw new InvalidContentTypeException(
+                    "the request doesn't contain a "
+                    + MULTIPART_FORM_DATA
+                    + " or "
+                    + MULTIPART_MIXED
+                    + " stream, content type header is "
+                    + contentType);
+            }
+
+            try {
+                InputStream input = ctx.getInputStream();
+
+                if (sizeMax >= 0) {
+                    int requestSize = ctx.getContentLength();
+                    if (requestSize == -1) {
+                        input = new LimitedInputStream(input, sizeMax);
+                    } else {
+                        if (sizeMax >= 0 && requestSize > sizeMax) {
+                            throw new SizeLimitExceededException(
+                                    "the request was rejected because its size (" + requestSize
+                                    + ") exceeds the configured maximum (" + sizeMax + ")",
+                                    requestSize, sizeMax);
+                        }
+                    }
+                }
+
+                String charEncoding = headerEncoding;
+                if (charEncoding == null) {
+                    charEncoding = ctx.getCharacterEncoding();
+                }
+
+                boundary = getBoundary(contentType);
+                if (boundary == null) {
+                    throw new FileUploadException(
+                            "the request was rejected because "
+                            + "no multipart boundary was found");
+                }
+
+                multi = new MultipartStream(input, boundary);
+                multi.setHeaderEncoding(charEncoding);
+
+                skipPreamble = true;
+                findNextItem();
+            } catch (FileUploadIOException e) {
+                throw (FileUploadException) e.getCause();
+            } catch (IOException e) {
+                throw new FileUploadException(
+                    "Processing of " + MULTIPART_FORM_DATA
+                        + " request failed. " + e.getMessage());
+            }
+        }
+
+        private boolean findNextItem() throws IOException {
+            if (eof) {
+                return false;
+            }
+            if (currentItem != null) {
+                currentItem.close();
+                currentItem = null;
+            }
+            for (;;) {
+                boolean nextPart;
+                if (skipPreamble) {
+                    nextPart = multi.skipPreamble();
+                } else {
+                    nextPart = multi.readBoundary();
+                }
+                if (!nextPart) {
+                    if (currentFieldName == null) {
+                        // Outer multipart terminated -> No more data
+                        eof = true;
+                        return false;
+                    }
+                    // Inner multipart terminated -> Return to parsing the outer
+                    multi.setBoundary(boundary);
+                    currentFieldName = null;
+                    continue;
+                }
+                Map headers = parseHeaders(multi.readHeaders());
+                if (currentFieldName == null) {
+                    // We're parsing the outer multipart
+                    String fieldName = getFieldName(headers);
+                    if (fieldName != null) {
+                        String subContentType = getHeader(headers, CONTENT_TYPE);
+                        if (subContentType != null  &&
+                            subContentType.toLowerCase().startsWith(MULTIPART_MIXED)) {
+                            currentFieldName = fieldName;
+                            // Multiple files associated with this field name
+                            byte[] subBoundary = getBoundary(subContentType);
+                            multi.setBoundary(subBoundary);
+                            skipPreamble = true;
+                            continue;
+                        } else {
+                            String fileName = getFileName(headers);
+                            currentItem = new FileItemStreamImpl(fileName,
+                                    fieldName, getHeader(headers, CONTENT_TYPE),
+                                    fileName == null);
+                            itemValid = true;
+                            return true;
+                        }
+                    }
+                } else {
+                    String fileName = getFileName(headers);
+                    if (fileName != null) {
+                        currentItem = new FileItemStreamImpl(fileName,
+                                currentFieldName, getHeader(headers, CONTENT_TYPE),
+                                false);
+                        itemValid = true;
+                        return true;
+                    }
+                }
+                multi.discardBodyData();
+            }
+        }
+
+        public boolean hasNext() throws FileUploadException {
+            if (eof) {
+                return false;
+            }
+            if (itemValid) {
+                return true;
+            }
+            try {
+                return findNextItem();
+            } catch (FileUploadIOException e) {
+                throw (FileUploadException) e.getCause();
+            } catch (IOException e) {
+                throw new FileUploadException(
+                    "Processing of " + MULTIPART_FORM_DATA
+                        + " request failed. " + e.getMessage());
+            }
+        }
+
+        public FileItemStream next() throws FileUploadException {
+            if (eof  ||  (!itemValid && !hasNext())) {
+                throw new NoSuchElementException();
+            }
+            itemValid = false;
+            return currentItem;
+        }
+    }
+
+    /**
+     * An input stream, which limits its data size. This stream is
+     * used, if the content length is unknown.
+     */
+    private static class LimitedInputStream extends FilterInputStream {
+        private long sizeMax;
+        private long count;
+
+        private void checkLimit() throws IOException {
+            if (count > sizeMax) {
+                FileUploadException ex = new SizeLimitExceededException(
+                        "the request was rejected because its size (" + count
+                        + ") exceeds the configured maximum (" + sizeMax + ")",
+                        count, sizeMax);
+                throw new FileUploadIOException(ex);
+            }
+        }
+
+        public int read() throws IOException {
+            int res = super.read();
+            if (res != -1) {
+                count++;
+                checkLimit();
+            }
+            return res;
+        }
+
+        public int read(byte[] b, int off, int len) throws IOException {
+            int res = super.read(b, off, len);
+            if (res > 0) {
+                count += res;
+                checkLimit();
+            }
+            return res;
+        }
+
+        LimitedInputStream(InputStream pIn, long pSizeMax) {
+            super(pIn);
+            sizeMax = pSizeMax;
+        }
+    }
+
+    /**
+     * This exception is thrown for hiding an inner 
+     * {@link FileUploadException} in an {@link IOException}.
+     */
+    public static class FileUploadIOException extends IOException {
+        private static final long serialVersionUID = -7047616958165584154L;
+        private final FileUploadException cause;
+
+        /**
+         * Creates a <code>FileUploadIOException</code> with the
+         * given cause.
+         */
+        public FileUploadIOException(FileUploadException pCause) {
+            // We're not doing super(pCause) cause of 1.3 compatibility.
+            cause = pCause;
+        }
+
+        public Throwable getCause() {
+            return cause;
+        }
+    }
 
     /**
      * Thrown to indicate that the request is not a multipart request.
@@ -599,31 +788,6 @@ public abstract class FileUploadBase {
          * @param message The detail message.
          */
         public InvalidContentTypeException(String message) {
-            super(message);
-        }
-    }
-
-
-    /**
-     * Thrown to indicate that the request size is not specified.
-     */
-    public static class UnknownSizeException
-        extends FileUploadException {
-        /**
-         * Constructs a <code>UnknownSizeException</code> with no
-         * detail message.
-         */
-        public UnknownSizeException() {
-            super();
-        }
-
-        /**
-         * Constructs an <code>UnknownSizeException</code> with
-         * the specified detail message.
-         *
-         * @param message The detail message.
-         */
-        public UnknownSizeException(String message) {
             super(message);
         }
     }
