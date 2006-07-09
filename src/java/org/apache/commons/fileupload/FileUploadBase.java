@@ -317,9 +317,9 @@ public abstract class FileUploadBase {
             } catch (FileUploadIOException e) {
                 throw (FileUploadException) e.getCause();
             } catch (IOException e) {
-                throw new FileUploadException(
+                throw new IOFileUploadException(
                     "Processing of " + MULTIPART_FORM_DATA
-                        + " request failed. " + e.getMessage());
+                        + " request failed. " + e.getMessage(), e);
             }
             items.add(fileItem);
         }
@@ -792,6 +792,25 @@ public abstract class FileUploadBase {
         }
     }
 
+    /**
+     * Thrown to indicate an IOException.
+     */
+    public static class IOFileUploadException extends FileUploadException {
+		private static final long serialVersionUID = 1749796615868477269L;
+		private final IOException cause;
+
+    	/**
+    	 * Creates a new instance with the given cause.
+    	 */
+    	public IOFileUploadException(String pMsg, IOException pException) {
+    		super(pMsg);
+    		cause = pException;
+    	}
+
+    	public Throwable getCause() {
+    		return cause;
+    	}
+    }
 
     /**
      * Thrown to indicate that the request size exceeds the configured maximum.

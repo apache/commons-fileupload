@@ -23,20 +23,30 @@ import junit.framework.*;
  *
  */
 public class TestAll extends TestCase {
-
+	/**
+	 * Creates a new instance.
+	 */
     public TestAll(String testName) {
         super(testName);
     }
 
+    /**
+     * Runs the test suite (all other test cases).
+     */
     public static Test suite() {
         TestSuite suite = new TestSuite();
+        suite.addTest(new TestSuite(DefaultFileItemTest.class));
+        suite.addTest(new TestSuite(DiskFileItemSerializeTest.class));
         suite.addTest(new TestSuite(ParameterParserTest.class));
         suite.addTest(new TestSuite(MultipartStreamTest.class));
         suite.addTest(new TestSuite(ServletFileUploadTest.class));
-        suite.addTest(new TestSuite(DefaultFileItemTest.class));
+        suite.addTest(new TestSuite(StreamingTest.class));
         return suite;
     }
 
+    /**
+     * Command line interface, which invokes all tests.
+     */
     public static void main(String args[]) {
         String[] testCaseName = { TestAll.class.getName() };
         junit.textui.TestRunner.main(testCaseName);

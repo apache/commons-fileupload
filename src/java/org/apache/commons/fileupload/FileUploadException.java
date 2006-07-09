@@ -23,7 +23,7 @@ package org.apache.commons.fileupload;
  */
 public class FileUploadException
     extends Exception {
-
+	
     /**
      * Constructs a new <code>FileUploadException</code> without message.
      */
@@ -39,4 +39,6 @@ public class FileUploadException
     public FileUploadException(final String msg) {
         super(msg);
     }
+
+
 }

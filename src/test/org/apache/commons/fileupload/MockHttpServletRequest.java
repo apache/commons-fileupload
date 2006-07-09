@@ -18,6 +18,7 @@ package org.apache.commons.fileupload;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.Enumeration;
@@ -41,15 +42,34 @@ import javax.servlet.http.HttpSession;
 class MockHttpServletRequest implements HttpServletRequest
 {
 
-	private byte[] m_requestData;
+	private final InputStream m_requestData;
+	private final int length;
 	private String m_strContentType;
 	private Map m_headers = new java.util.HashMap();
 
+	/**
+	 * Creates a new instance with the given request data
+	 * and content type.
+	 */
 	public MockHttpServletRequest(
 			final byte[] requestData,
 			final String strContentType)
 	{
+		this(new ByteArrayInputStream(requestData),
+				requestData.length, strContentType);
+	}
+
+	/**
+	 * Creates a new instance with the given request data
+	 * and content type.
+	 */
+	public MockHttpServletRequest(
+			final InputStream requestData,
+			final int requestLength,
+			final String strContentType)
+	{
 		m_requestData = requestData;
+		length = requestLength;
 		m_strContentType = strContentType;
 		m_headers.put(FileUploadBase.CONTENT_TYPE, strContentType);
 	}
@@ -302,7 +322,7 @@ class MockHttpServletRequest implements HttpServletRequest
 		}
 		else
 		{
-			iLength = m_requestData.length;
+			iLength = length;
 		}
 		return iLength;
 	}
@@ -476,16 +496,20 @@ class MockHttpServletRequest implements HttpServletRequest
 	private static class MyServletInputStream
 		extends javax.servlet.ServletInputStream
 	{
-		private ByteArrayInputStream m_bais;
+		private final InputStream in;
 
-		public MyServletInputStream(byte[] data)
+		/**
+		 * Creates a new instance, which returns the given
+		 * streams data.
+		 */
+		public MyServletInputStream(InputStream pStream)
 		{
-			m_bais = new ByteArrayInputStream(data);
+			in = pStream;
 		}
 
-		public int read()
+		public int read() throws IOException
 		{
-			return m_bais.read();
+			return in.read();
 		}
 	}
 }
