@@ -31,7 +31,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 
 /**
  * Serialization Unit tests for 
- *  {@link org.apache.commons.fileupload.disk.DiskFileItemTest}.
+ *  {@link org.apache.commons.fileupload.disk.DiskFileItem}.
  */
 public class DiskFileItemSerializeTest extends TestCase
  {

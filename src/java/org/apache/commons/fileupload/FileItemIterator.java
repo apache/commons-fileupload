@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2004 The Apache Software Foundation
+ * Copyright 2001-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,24 @@
  */
 package org.apache.commons.fileupload;
 
-/**
- * Exception for errors encountered while processing the request.
- *
- * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @version $Id$
+import java.util.NoSuchElementException;
+
+
+/** 
+ * An iterator, as returned by
+ * {@link FileUploadBase#getItemIterator(RequestContext)}
  */
-public class FileUploadException
-    extends Exception {
-	
-    /**
-     * Constructs a new <code>FileUploadException</code> without message.
+public interface FileItemIterator {
+    /** 
+     * Returns, whether another instance of {@link FileItemStream}
+     * is available.
      */
-    public FileUploadException() {
-    }
+    boolean hasNext() throws FileUploadException;
 
-    /**
-     * Constructs a new <code>FileUploadException</code> with specified detail
-     * message.
-     *
-     * @param msg the error message.
+    /** 
+     * Returns the next available {@link FileItemStream}.
+     * @throws NoSuchElementException No more items are available. Use
+     * {@link #hasNext()} to prevent this exception.
      */
-    public FileUploadException(final String msg) {
-        super(msg);
-    }
-
-
+    FileItemStream next() throws FileUploadException;
 }

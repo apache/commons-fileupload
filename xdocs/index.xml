@@ -45,6 +45,7 @@
         The following documentation is available:
         <ul>
           <li><a href="using.html">User Guide</a></li>
+          <li><a href="streaming.html">Streaming API</a></li>
           <li><a href="faq.html">Frequently Asked Questions</a></li>
           <li><a href="apidocs/index.html">JavaDoc API</a></li>
           <li><a href="maven-reports.html">Project Reports</a></li>
