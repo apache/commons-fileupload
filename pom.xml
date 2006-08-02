@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-fileupload</artifactId>
+  <version>1.2-SNAPSHOT</version>
+  <name>FileUpload</name>
+  <!-- The description must currently be a single line. See MJAR-4. -->
+  <description>The FileUpload component provides a simple yet flexible means of adding support for multipart file upload functionality to servlets and web applications. </description>
+  <url>http://jakarta.apache.org/commons/fileupload/</url>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://issues.apache.org/jira/BrowseProject.jspa?pid=10465</url>
+  </issueManagement>
+  <inceptionYear>2002</inceptionYear>
+
+  <mailingLists>
+    <mailingList>
+      <name>Commons Dev List</name>
+      <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
+      <post>commons-dev@jakarta.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-dev/</archive>
+      <otherArchives>
+        <otherArchive>http://marc.theaimsgroup.com/?l=jakarta-commons-dev</otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>Commons User List</name>
+      <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
+      <post>commons-user@jakarta.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-user/</archive>
+      <otherArchives>
+        <otherArchive>http://marc.theaimsgroup.com/?l=jakarta-commons-user</otherArchive>
+      </otherArchives>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Martin Cooper</name>
+      <id>martinc</id>
+      <email>martinc@apache.org</email>
+      <organization>Informatica</organization>
+    </developer>
+    <developer>
+      <name>dIon Gillard</name>
+      <id>dion</id>
+      <email>dion@apache.org</email>
+      <organization>Multitask Consulting</organization>
+    </developer>
+    <developer>
+      <name>John McNally</name>
+      <id>jmcnally</id>
+      <email>jmcnally@collab.net</email>
+      <organization>CollabNet</organization>
+    </developer>
+    <developer>
+      <name>Daniel Rall</name>
+      <id>dlr</id>
+      <email>dlr@finemaltcoding.com</email>
+      <organization>CollabNet</organization>
+    </developer>
+    <developer>
+      <name>Jason van Zyl</name>
+      <id>jvanzyl</id>
+      <email>jason@zenplex.com</email>
+      <organization>Zenplex</organization>
+    </developer>
+    <developer>
+      <name>Robert Burrell Donkin</name>
+      <id>rdonkin</id>
+      <email>rdonkin@apache.org</email>
+      <organization/>
+    </developer>
+    <developer>
+      <name>Sean C. Sullivan</name>
+      <id>sullis</id>
+      <email>sean |at| seansullivan |dot| com</email>
+      <organization/>
+    </developer>
+    <developer>
+      <name>Jochen Wiedmann</name>
+      <id>jochen</id>
+      <email>jochen.wiedmann@gmail.com</email>
+      <organization/>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:svn:scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload/trunk</connection>
+    <developerConnection>scm:svn:scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload/trunk</developerConnection>
+    <url>scm:svn:https://svn.apache.org/repos/asf/webservices/xmlrpc/tags/XMLRPC_3_0rc1</url>
+  </scm>
+
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org/</url>
+  </organization>
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <testSourceDirectory>src/test</testSourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.3</source>
+          <target>1.3</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>src/conf/MANIFEST.MF</manifestFile>
+            <manifestEntries>
+              <Specification-Version>${project.version}</Specification-Version>
+              <X-Compile-Source-JDK>1.3</X-Compile-Source-JDK>
+              <X-Compile-Target-JDK>1.3</X-Compile-Target-JDK>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>portlet-api</groupId>
+      <artifactId>portlet-api</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.1</version>
+    </dependency>
+  </dependencies>
+</project>
