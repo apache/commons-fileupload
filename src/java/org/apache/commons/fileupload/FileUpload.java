@@ -15,6 +15,8 @@
  */
 package org.apache.commons.fileupload;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * <p>High level API for processing file uploads.</p>
  *

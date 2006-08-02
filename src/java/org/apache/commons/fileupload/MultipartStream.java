@@ -496,24 +496,13 @@ public class MultipartStream {
     public int readBodyData(OutputStream output)
         throws MalformedStreamException,
                IOException {
-        final ItemInputStream istream = new ItemInputStream();
-        final byte[] bytes = new byte[8192];
-        for (;;) {
-            int res = istream.read(bytes);
-            if (res == -1) {
-                if (output != null) {
-                    output.flush();
-                }
-                return (int) istream.getBytesRead();
-            }
-            if (res > 0  &&  output != null) {
-                if (output != null) {
-                    output.write(bytes, 0, res);
-                }
-            }
-        }
+        final InputStream istream = newInputStream();
+        return (int) StreamUtil.copy(istream, output, false);
     }
 
+    ItemInputStream newInputStream() {
+        return new ItemInputStream();
+    }
 
     /**
      * <p> Reads <code>body-data</code> from the current
@@ -712,6 +701,7 @@ public class MultipartStream {
     public class ItemInputStream extends InputStream {
         private long total;
         private int pad, pos;
+        private boolean closed;
 
         ItemInputStream() {
             findSeparator();
@@ -744,6 +734,9 @@ public class MultipartStream {
         }
 
         public int read() throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
             if (available() == 0) {
                 if (makeAvailable() == 0) {
                     return -1;
@@ -755,6 +748,9 @@ public class MultipartStream {
         }
 
         public int read(byte[] b, int off, int len) throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
             if (len == 0) {
                 return 0;
             }
@@ -773,6 +769,9 @@ public class MultipartStream {
         }
 
         public void close() throws IOException {
+            if (closed) {
+                return;
+            }
             for (;;) {
                 int av = available();
                 if (av == 0) {
@@ -783,9 +782,13 @@ public class MultipartStream {
                 }
                 skip(av);
             }
+            closed = true;
         }
 
         public long skip(long bytes) throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
             int av = available();
             if (av == 0) {
                 av = makeAvailable();
@@ -820,6 +823,12 @@ public class MultipartStream {
             tail = pad + bytesRead;
             findSeparator();
             return available();
+        }
+
+        /** Returns, whether the stream is closed.
+         */
+        public boolean isClosed() {
+            return closed;
         }
     }
 

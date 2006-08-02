@@ -31,6 +31,7 @@
     <menu name="Commons FileUpload">
       <item name="Overview"                 href="/index.html"/>
       <item name="User guide"               href="/using.html"/>
+      <item name="Streaming API"            href="/streaming.html"/>
       <!--item name="Customization"            href="/customizing.html"/-->
       <item name="FAQ"                      href="/faq.html"/>
       <item name="Javadoc"                  href="apidocs/index.html"/>
