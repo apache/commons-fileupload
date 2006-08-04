@@ -45,13 +45,21 @@ The <action> type attribute can be add,update,fix,remove.
 	  <action dev="jochen" type="update" issue="FILEUPLOAD-109">
 	    Eliminated duplicate code.
 	  </action>
+
 	  <action dev="jochen" type="add" issue="FILEUPLOAD-112">
 	    Added a streaming API.
 	  </action>
+
 	  <action dev="jochen" type="fix" issue="FILEUPLOAD-93">
 	    Eliminated the necessity of a content-length header.
 	  </action>
 
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-108"
+          due-to="Amichai Rothman" due-to-email="amichai2@amichais.net">
+        Eliminated the limitation of a maximum size for a single
+        header line. (The total size of all headers is already
+        limited, so there's no need for another limit.)      
+      </action>
 	</release>
 
     <release version="1.1.1" date="2006-06-08" description="Bugfix release">

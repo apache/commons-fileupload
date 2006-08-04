@@ -91,6 +91,13 @@
     </developer>
   </developers>
 
+  <contributors>
+    <contributor>
+      <name>Amichai Rothman</name>
+      <email>amichai2@amichais.net</email>
+    </contributor>
+  </contributors>
+
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>

@@ -154,13 +154,6 @@ public abstract class FileUploadBase {
     public static final String MULTIPART_MIXED = "multipart/mixed";
 
 
-    /**
-     * The maximum length of a single header line that will be parsed
-     * (1024 bytes).
-     */
-    public static final int MAX_HEADER_SIZE = 1024;
-
-
     // ----------------------------------------------------------- Data members
 
 
@@ -433,46 +426,38 @@ public abstract class FileUploadBase {
      */
     protected Map /* String, String */ parseHeaders(String headerPart) {
         Map headers = new HashMap();
-        char[] buffer = new char[MAX_HEADER_SIZE];
-        boolean done = false;
-        int j = 0;
-        int i;
-        String header, headerName, headerValue;
-        try {
-            while (!done) {
-                i = 0;
-                // Copy a single line of characters into the buffer,
-                // omitting trailing CRLF.
-                while (i < 2
-                        || buffer[i - 2] != '\r' || buffer[i - 1] != '\n') {
-                    buffer[i++] = headerPart.charAt(j++);
+        int start = 0;
+        int end = 0;
+        for(;;) {
+        	int offset = headerPart.indexOf('\r', end);
+        	if (offset == -1  ||  offset+1 >= headerPart.length()) {
+        		throw new IllegalStateException("Expected headers to be terminated by an empty line.");
+        	}
+        	if (headerPart.charAt(offset+1) != '\n') {
+        		end = offset+1;
+        	} else if (offset == start) {
+        		break;
+        	} else {
+            	String header = headerPart.substring(start, offset);
+            	start = end = offset+2;
+                if (header.indexOf(':') == -1) {
+                    // This header line is malformed, skip it.
+                    continue;
                 }
-                header = new String(buffer, 0, i - 2);
-                if (header.equals("")) {
-                    done = true;
+                String headerName = header.substring(0, header.indexOf(':'))
+                    .trim().toLowerCase();
+                String headerValue =
+                    header.substring(header.indexOf(':') + 1).trim();
+                if (getHeader(headers, headerName) != null) {
+                    // More that one heder of that name exists,
+                    // append to the list.
+                    headers.put(headerName,
+                                getHeader(headers, headerName) + ','
+                                    + headerValue);
                 } else {
-                    if (header.indexOf(':') == -1) {
-                        // This header line is malformed, skip it.
-                        continue;
-                    }
-                    headerName = header.substring(0, header.indexOf(':'))
-                        .trim().toLowerCase();
-                    headerValue =
-                        header.substring(header.indexOf(':') + 1).trim();
-                    if (getHeader(headers, headerName) != null) {
-                        // More that one heder of that name exists,
-                        // append to the list.
-                        headers.put(headerName,
-                                    getHeader(headers, headerName) + ','
-                                        + headerValue);
-                    } else {
-                        headers.put(headerName, headerValue);
-                    }
+                    headers.put(headerName, headerValue);
                 }
-            }
-        } catch (IndexOutOfBoundsException e) {
-            // Headers were malformed. continue with all that was
-            // parsed.
+        	}
         }
         return headers;
     }
