@@ -39,6 +39,11 @@
       some of the simpler - and most common - usage patterns. Customization of
       FileUpload is described <a href="customizing.html">elsewhere</a>.
     </p>
+    <p>
+       FileUpload depends on Commons IO, so make sure you have the version 
+       mentioned on the <a href="dependencies.html">dependencies page</a> in 
+       your classpath before continuing.
+    </p>
   </section>
 
   <section name="How it works">
