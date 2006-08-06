@@ -15,19 +15,24 @@
  */
 package org.apache.commons.fileupload;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
 /**
  * Exception for errors encountered while processing the request.
  *
  * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
  * @version $Id$
  */
-public class FileUploadException
-    extends Exception {
-	
+public class FileUploadException extends Exception {
+	private static final long serialVersionUID = 8881893724388807504L;
+	private final Throwable cause;
+
     /**
      * Constructs a new <code>FileUploadException</code> without message.
      */
     public FileUploadException() {
+    	this(null, null);
     }
 
     /**
@@ -37,8 +42,31 @@ public class FileUploadException
      * @param msg the error message.
      */
     public FileUploadException(final String msg) {
-        super(msg);
+    	this(msg, null);
     }
 
+    /**
+     * Creates a new <code>FileUploadException</code> with the given
+     * detail message and cause.
+     */
+    public FileUploadException(String msg, Throwable cause) {
+    	super(msg);
+    	this.cause = cause;
+    }
 
+    public void printStackTrace(PrintStream stream) {
+    	super.printStackTrace(stream);
+    	if (cause != null) {
+    		stream.println("Caused by:");
+    		cause.printStackTrace(stream);
+    	}
+    }
+
+    public void printStackTrace(PrintWriter writer) {
+    	super.printStackTrace(writer);
+    	if (cause != null) {
+    		writer.println("Caused by:");
+    		cause.printStackTrace(writer);
+    	}
+    }
 }

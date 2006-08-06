@@ -15,6 +15,7 @@
  */
 package org.apache.commons.fileupload;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 
@@ -27,12 +28,12 @@ public interface FileItemIterator {
      * Returns, whether another instance of {@link FileItemStream}
      * is available.
      */
-    boolean hasNext() throws FileUploadException;
+    boolean hasNext() throws FileUploadException, IOException;
 
     /** 
      * Returns the next available {@link FileItemStream}.
      * @throws NoSuchElementException No more items are available. Use
      * {@link #hasNext()} to prevent this exception.
      */
-    FileItemStream next() throws FileUploadException;
+    FileItemStream next() throws FileUploadException, IOException;
 }
