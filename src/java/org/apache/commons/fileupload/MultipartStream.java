@@ -82,8 +82,33 @@ import java.io.UnsupportedEncodingException;
  *
  * @version $Id$
  */
-public class MultipartStream {
-
+class MultipartStream {
+	static class ProgressNotifier {
+		private final ProgressListener listener;
+		private final long contentLength;
+		private long bytesRead;
+		private int items;
+		ProgressNotifier(ProgressListener pListener, long pContentLength) {
+			listener = pListener;
+			contentLength = pContentLength;
+		}
+		void noteBytesRead(int pBytes) {
+			/* Indicates, that the given number of bytes have been read from
+			 * the input stream.
+			 */
+			bytesRead += pBytes;
+			notifyListener();
+		}
+		void noteItem() {
+			++items;
+		}
+		private void notifyListener() {
+			if (listener != null) {
+				listener.update(bytesRead, contentLength, items);
+			}
+		}
+	}
+	
     // ----------------------------------------------------- Manifest constants
 
 
@@ -162,7 +187,7 @@ public class MultipartStream {
     /**
      * The input stream from which data is read.
      */
-    private InputStream input;
+    private final InputStream input;
 
 
     /**
@@ -187,13 +212,13 @@ public class MultipartStream {
     /**
      * The length of the buffer used for processing the request.
      */
-    private int bufSize;
+    private final int bufSize;
 
 
     /**
      * The buffer used for processing the request.
      */
-    private byte[] buffer;
+    private final byte[] buffer;
 
 
     /**
@@ -217,19 +242,13 @@ public class MultipartStream {
      */
     private String headerEncoding;
 
+    
+    /**
+     * The progress notifier, if any, or null.
+     */
+    private final ProgressNotifier notifier;
 
     // ----------------------------------------------------------- Constructors
-
-
-    /**
-     * Default constructor.
-     *
-     * @see #MultipartStream(InputStream, byte[], int)
-     * @see #MultipartStream(InputStream, byte[])
-     *
-     */
-    public MultipartStream() {
-    }
 
 
     /**
@@ -246,16 +265,16 @@ public class MultipartStream {
      * @param bufSize  The size of the buffer to be used, in bytes.
      *
      *
-     * @see #MultipartStream()
-     * @see #MultipartStream(InputStream, byte[])
-     *
+     * @see #MultipartStream(InputStream, byte[], ProgressNotifier)
      */
     public MultipartStream(InputStream input,
                            byte[] boundary,
-                           int bufSize) {
+                           int bufSize,
+                           ProgressNotifier pNotifier) {
         this.input = input;
         this.bufSize = bufSize;
         this.buffer = new byte[bufSize];
+        this.notifier = pNotifier;
 
         // We prepend CR/LF to the boundary to chop trailng CR/LF from
         // body-data tokens.
@@ -281,14 +300,13 @@ public class MultipartStream {
      *
      * @throws IOException when an error occurs.
      *
-     * @see #MultipartStream()
-     * @see #MultipartStream(InputStream, byte[], int)
-     *
+     * @see #MultipartStream(InputStream, byte[], int, ProgressNotifier)
      */
     public MultipartStream(InputStream input,
-                           byte[] boundary)
+                           byte[] boundary,
+                           ProgressNotifier pNotifier)
         throws IOException {
-        this(input, boundary, DEFAULT_BUFSIZE);
+        this(input, boundary, DEFAULT_BUFSIZE, pNotifier);
     }
 
 
@@ -338,6 +356,8 @@ public class MultipartStream {
             if (tail == -1) {
                 // No more data available.
                 throw new IOException("No more data is available");
+            } else {
+            	notifier.noteBytesRead(tail);
             }
         }
         return buffer[head++];
@@ -482,7 +502,7 @@ public class MultipartStream {
      *
      * <p>Arbitrary large amounts of data can be processed by this
      * method using a constant size buffer. (see {@link
-     * #MultipartStream(InputStream,byte[],int) constructor}).
+     * #MultipartStream(InputStream,byte[],int, ProgressNotifier) constructor}).
      *
      * @param output The <code>Stream</code> to write data into. May
      *               be null, in which case this method is equivalent
@@ -629,20 +649,6 @@ public class MultipartStream {
             return first - 1;
         }
         return -1;
-    }
-
-    /**
-     * Returns a string representation of this object.
-     *
-     * @return The string representation of this object.
-     */
-    public String toString() {
-        StringBuffer sbTemp = new StringBuffer();
-        sbTemp.append("boundary='");
-        sbTemp.append(String.valueOf(boundary));
-        sbTemp.append("'\nbufSize=");
-        sbTemp.append(bufSize);
-        return sbTemp.toString();
     }
 
     /**
@@ -819,6 +825,8 @@ public class MultipartStream {
                 // condition.
                 throw new MalformedStreamException(
                         "Stream ended unexpectedly");
+            } else {
+            	notifier.noteBytesRead(bytesRead);
             }
             tail = pad + bytesRead;
             findSeparator();

@@ -30,33 +30,27 @@ public class MultipartStreamTest extends TestCase
 {
 	static private final String BOUNDARY_TEXT = "myboundary";
 
-    public void testDefaultConstructor() throws Exception {
-    	MultipartStream ms = new MultipartStream();
-    	// todo - ms.setBoundary(BOUNDARY_TEXT.getBytes());
-    }
-
     public void testThreeParamConstructor() throws Exception {
 		final String strData = "foobar";
-		InputStream input = new ByteArrayInputStream(strData.getBytes());
+		final byte[] contents = strData.getBytes();
+		InputStream input = new ByteArrayInputStream(contents);
     	byte[] boundary = BOUNDARY_TEXT.getBytes();
     	int iBufSize = boundary.length;
     	MultipartStream ms = new MultipartStream(
     			input,
     			boundary,
-    			iBufSize);
+    			iBufSize,
+    			new MultipartStream.ProgressNotifier(null, contents.length));
     }
 
 	public void testTwoParamConstructor() throws Exception {
 		final String strData = "foobar";
-		InputStream input = new ByteArrayInputStream(strData.getBytes());
+		final byte[] contents = strData.getBytes();
+		InputStream input = new ByteArrayInputStream(contents);
 		byte[] boundary = BOUNDARY_TEXT.getBytes();
 		MultipartStream ms = new MultipartStream(
 				input,
-				boundary);
-	}
-
-	public void testToString() {
-		MultipartStream ms = new MultipartStream();
-		assertNotNull(ms.toString());
+				boundary,
+				new MultipartStream.ProgressNotifier(null, contents.length));
 	}
 }

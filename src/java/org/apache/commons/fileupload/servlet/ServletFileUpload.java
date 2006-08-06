@@ -56,21 +56,25 @@ public class ServletFileUpload extends FileUpload {
      * Utility method that determines whether the request contains multipart
      * content.
      *
-     * @param req The servlet request to be evaluated. Must be non-null.
+     * @param request The servlet request to be evaluated. Must be non-null.
      *
      * @return <code>true</code> if the request is multipart;
      *         <code>false</code> otherwise.
      */
-    //NOTE: This method cannot be enabled until the one in FileUploadBase is
-    //      removed, since it is not possible to override a static method.
-    //public static final boolean isMultipartContent(
-    //        HttpServletRequest request) {
-    //    if (!"post".equals(request.getMethod().toLowerCase())) {
-    //        return false;
-    //    }
-    //    return FileUploadBase.isMultipartContent(
-    //            new ServletRequestContext(request));
-    //}
+	public static final boolean isMultipartContent(
+            HttpServletRequest request) {
+        if (!"post".equals(request.getMethod().toLowerCase())) {
+            return false;
+        }
+        String contentType = request.getContentType();
+        if (contentType == null) {
+            return false;
+        }
+        if (contentType.toLowerCase().startsWith(MULTIPART)) {
+            return true;
+        }
+        return false;
+    }
 
 
     // ----------------------------------------------------------- Constructors
