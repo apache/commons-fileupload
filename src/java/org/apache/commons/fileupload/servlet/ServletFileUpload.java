@@ -15,6 +15,7 @@
  */
 package org.apache.commons.fileupload.servlet;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -136,8 +137,12 @@ public class ServletFileUpload extends FileUpload {
      *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
+     * @throws IOException An I/O error occurred. This may be a network
+     *   error while communicating with the client or a problem while
+     *   storing the uploaded content.
      */
-    public FileItemIterator getItemIterator(HttpServletRequest request) throws FileUploadException {
+    public FileItemIterator getItemIterator(HttpServletRequest request)
+    		throws FileUploadException, IOException {
         return super.getItemIterator(new ServletRequestContext(request));
     }
 }

@@ -271,9 +271,12 @@ public abstract class FileUploadBase {
      *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
+     * @throws IOException An I/O error occurred. This may be a network
+     *   error while communicating with the client or a problem while
+     *   storing the uploaded content.
      */
     public FileItemIterator getItemIterator(RequestContext ctx)
-            throws FileUploadException {
+            throws FileUploadException, IOException {
         return new FileItemIteratorImpl(ctx);
     }
 
@@ -291,28 +294,34 @@ public abstract class FileUploadBase {
      */
     public List /* FileItem */ parseRequest(RequestContext ctx)
             throws FileUploadException {
-        FileItemIterator iter = getItemIterator(ctx);
-        List items = new ArrayList();
-        FileItemFactory fac = getFileItemFactory();
-        final byte[] buffer = new byte[8192];
-        while (iter.hasNext()) {
-            FileItemStream item = iter.next();
-            FileItem fileItem = fac.createItem(item.getFieldName(),
-                    item.getContentType(), item.isFormField(),
-                    item.getName());
-            try {
-                StreamUtil.copy(item.openStream(), fileItem.getOutputStream(),
-                            true, buffer);
-            } catch (FileUploadIOException e) {
-                throw (FileUploadException) e.getCause();
-            } catch (IOException e) {
-                throw new IOFileUploadException(
-                    "Processing of " + MULTIPART_FORM_DATA
-                        + " request failed. " + e.getMessage(), e);
+        try {
+            FileItemIterator iter = getItemIterator(ctx);
+            List items = new ArrayList();
+            FileItemFactory fac = getFileItemFactory();
+            final byte[] buffer = new byte[8192];
+            while (iter.hasNext()) {
+                FileItemStream item = iter.next();
+                FileItem fileItem = fac.createItem(item.getFieldName(),
+                        item.getContentType(), item.isFormField(),
+                        item.getName());
+                try {
+                    StreamUtil.copy(item.openStream(), fileItem.getOutputStream(),
+                                true, buffer);
+                } catch (FileUploadIOException e) {
+                    throw (FileUploadException) e.getCause();
+                } catch (IOException e) {
+                    throw new IOFileUploadException(
+                        "Processing of " + MULTIPART_FORM_DATA
+                            + " request failed. " + e.getMessage(), e);
+                }
+                items.add(fileItem);
             }
-            items.add(fileItem);
+            return items;
+        } catch (FileUploadIOException e) {
+        	throw (FileUploadException) e.getCause();
+        } catch (IOException e) {
+        	throw new FileUploadException(e.getMessage(), e);
         }
-        return items;
     }
 
 
@@ -534,7 +543,7 @@ public abstract class FileUploadBase {
         private boolean itemValid;
         private boolean eof;
 
-        FileItemIteratorImpl(RequestContext ctx) throws FileUploadException {
+        FileItemIteratorImpl(RequestContext ctx) throws FileUploadException, IOException {
             if (ctx == null) {
                 throw new NullPointerException("ctx parameter");
             }
@@ -551,48 +560,40 @@ public abstract class FileUploadBase {
                     + contentType);
             }
 
-            try {
-                InputStream input = ctx.getInputStream();
+            InputStream input = ctx.getInputStream();
 
-                if (sizeMax >= 0) {
-                    int requestSize = ctx.getContentLength();
-                    if (requestSize == -1) {
-                        input = new LimitedInputStream(input, sizeMax);
-                    } else {
-                        if (sizeMax >= 0 && requestSize > sizeMax) {
-                            throw new SizeLimitExceededException(
-                                    "the request was rejected because its size (" + requestSize
-                                    + ") exceeds the configured maximum (" + sizeMax + ")",
-                                    requestSize, sizeMax);
-                        }
-                    }
-                }
-
-                String charEncoding = headerEncoding;
-                if (charEncoding == null) {
-                    charEncoding = ctx.getCharacterEncoding();
-                }
-
-                boundary = getBoundary(contentType);
-                if (boundary == null) {
-                    throw new FileUploadException(
-                            "the request was rejected because "
-                            + "no multipart boundary was found");
-                }
-
-                notifier = new MultipartStream.ProgressNotifier(listener, ctx.getContentLength());
-                multi = new MultipartStream(input, boundary, notifier);
-                multi.setHeaderEncoding(charEncoding);
-
-                skipPreamble = true;
-                findNextItem();
-            } catch (FileUploadIOException e) {
-                throw (FileUploadException) e.getCause();
-            } catch (IOException e) {
-                throw new FileUploadException(
-                    "Processing of " + MULTIPART_FORM_DATA
-                        + " request failed. " + e.getMessage());
+            if (sizeMax >= 0) {
+            	int requestSize = ctx.getContentLength();
+            	if (requestSize == -1) {
+            		input = new LimitedInputStream(input, sizeMax);
+            	} else {
+            		if (sizeMax >= 0 && requestSize > sizeMax) {
+            			throw new SizeLimitExceededException(
+            					"the request was rejected because its size (" + requestSize
+            					+ ") exceeds the configured maximum (" + sizeMax + ")",
+            					requestSize, sizeMax);
+            		}
+            	}
             }
+
+            String charEncoding = headerEncoding;
+            if (charEncoding == null) {
+            	charEncoding = ctx.getCharacterEncoding();
+            }
+
+            boundary = getBoundary(contentType);
+            if (boundary == null) {
+            	throw new FileUploadException(
+            			"the request was rejected because "
+            			+ "no multipart boundary was found");
+            }
+
+            notifier = new MultipartStream.ProgressNotifier(listener, ctx.getContentLength());
+            multi = new MultipartStream(input, boundary, notifier);
+            multi.setHeaderEncoding(charEncoding);
+
+            skipPreamble = true;
+            findNextItem();
         }
 
         private boolean findNextItem() throws IOException {
@@ -635,15 +636,14 @@ public abstract class FileUploadBase {
                             multi.setBoundary(subBoundary);
                             skipPreamble = true;
                             continue;
-                        } else {
-                            String fileName = getFileName(headers);
-                            currentItem = new FileItemStreamImpl(fileName,
-                                    fieldName, getHeader(headers, CONTENT_TYPE),
-                                    fileName == null);
-                            notifier.noteItem();
-                            itemValid = true;
-                            return true;
                         }
+                        String fileName = getFileName(headers);
+                        currentItem = new FileItemStreamImpl(fileName,
+                        		fieldName, getHeader(headers, CONTENT_TYPE),
+                        		fileName == null);
+                        notifier.noteItem();
+                        itemValid = true;
+                        return true;
                     }
                 } else {
                     String fileName = getFileName(headers);
@@ -660,25 +660,17 @@ public abstract class FileUploadBase {
             }
         }
 
-        public boolean hasNext() throws FileUploadException {
+        public boolean hasNext() throws FileUploadException, IOException {
             if (eof) {
                 return false;
             }
             if (itemValid) {
                 return true;
             }
-            try {
-                return findNextItem();
-            } catch (FileUploadIOException e) {
-                throw (FileUploadException) e.getCause();
-            } catch (IOException e) {
-                throw new FileUploadException(
-                    "Processing of " + MULTIPART_FORM_DATA
-                        + " request failed. " + e.getMessage());
-            }
+            return findNextItem();
         }
 
-        public FileItemStream next() throws FileUploadException {
+        public FileItemStream next() throws FileUploadException, IOException {
             if (eof  ||  (!itemValid && !hasNext())) {
                 throw new NoSuchElementException();
             }
@@ -879,5 +871,4 @@ public abstract class FileUploadBase {
 	public void setProgressListener(ProgressListener pListener) {
 		listener = pListener;
 	}
-
 }
