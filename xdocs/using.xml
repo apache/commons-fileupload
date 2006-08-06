@@ -306,6 +306,61 @@ byte[] data = item.get();
     </p>
   </section>
 
+  <section name="Watching progress">
+    <p>
+      If you expect really large file uploads, then it would be nice to report
+      to your users, how much is already received. Even HTML pages allow to
+      implement a progress bar by returning a multipart/replace response,
+      or something like that.
+    </p>
+    <p>
+      Watching the upload progress may be done by supplying a progress listener:
+    </p>
+<source><![CDATA[//Create a progress listener
+ProgressListener progressListener = new ProgressListener(){
+   public void update(long pBytesRead, long pContentLength, int pItems) {
+       System.out.println("We are currently reading item " + pItems);
+       if (pContentLength == -1) {
+           System.out.println("So far, " + pBytesRead + " bytes have been read.");
+       } else {
+           System.out.println("So far, " + pBytesRead + " of " + pContentLength
+                              + " bytes have been read.");
+       }
+   }
+};
+upload.setProgressListener(progressListener);
+]]></source>
+    <p>
+      Do yourself a favour and implement your first progress listener just
+      like the above, because it shows you a pitfall: The progress listener
+      is called quite frequently. Depending on the servlet engine and other
+      environment factory, it may be called for any network packet! In
+      other words, your progress listener may become a performance problem!
+      A typical solution might be, to reduce the progress listeners activity.
+      For example, you might emit a message only, if the number of megabytes
+      has changed:
+    </p>
+<source><![CDATA[//Create a progress listener
+ProgressListener progressListener = new ProgressListener(){
+   private long megaBytes = -1;
+   public void update(long pBytesRead, long pContentLength, int pItems) {
+       long mBytes = pBytesRead / 1000000;
+       if (megaBytes == mBytes) {
+           return;
+       }
+       megaBytes = mBytes;
+       System.out.println("We are currently reading item " + pItems);
+       if (pContentLength == -1) {
+           System.out.println("So far, " + pBytesRead + " bytes have been read.");
+       } else {
+           System.out.println("So far, " + pBytesRead + " of " + pContentLength
+                              + " bytes have been read.");
+       }
+   }
+};
+]]></source>
+  </section>
+
   <section name="What's next">
     <p>
       Hopefully this page has provided you with a good idea of how to use
