@@ -41,6 +41,7 @@ public class TestAll extends TestCase {
         suite.addTest(new TestSuite(MultipartStreamTest.class));
         suite.addTest(new TestSuite(ServletFileUploadTest.class));
         suite.addTest(new TestSuite(StreamingTest.class));
+        suite.addTest(new TestSuite(ProgressListenerTest.class));
         return suite;
     }
 

@@ -18,8 +18,8 @@ package org.apache.commons.fileupload;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
-import junit.framework.TestCase;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * @author Sean C. Sullivan
  *
  */
-public class ServletFileUploadTest extends TestCase
+public class ServletFileUploadTest extends FileUploadTestCase
 {
 	public void testWithInvalidRequest()
     {
@@ -207,18 +207,46 @@ public class ServletFileUploadTest extends TestCase
         assertEquals("fieldValue2", field2.getString());
     }
 
-    private List parseUpload(String content)
-            throws UnsupportedEncodingException, FileUploadException
-    {
-        byte[] bytes = content.getBytes("US-ASCII");
-
-        String contentType = "multipart/form-data; boundary=---1234";
-
-        FileUploadBase upload = new DiskFileUpload();
-        HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
-
-        List fileItems = upload.parseRequest(request);
-        return fileItems;
+    /**
+     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD</a>
+     */
+    public void testFILEUPLOAD62() throws Exception {
+    	final String contentType = "multipart/form-data; boundary=AaB03x";
+    	final String request =
+    		"--AaB03x\r\n" +
+    		"content-disposition: form-data; name=\"field1\"\r\n" +
+    		"\r\n" +
+    		"Joe Blow\r\n" +
+    		"--AaB03x\r\n" +
+    		"content-disposition: form-data; name=\"pics\"\r\n" +
+    		"Content-type: multipart/mixed; boundary=BbC04y\r\n" +
+    		"\r\n" +
+    		"--BbC04y\r\n" +
+    		"Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
+    		"Content-Type: text/plain\r\n" +
+    		"\r\n" +
+    		"... contents of file1.txt ...\r\n" +
+    		"--BbC04y\r\n" +
+    		"Content-disposition: attachment; filename=\"file2.gif\"\r\n" +
+    		"Content-type: image/gif\r\n" +
+    		"Content-Transfer-Encoding: binary\r\n" +
+    		"\r\n" +
+    		"...contents of file2.gif...\r\n" +
+    		"--BbC04y--\r\n" +
+    		"--AaB03x--";
+    	List fileItems = parseUpload(request.getBytes("US-ASCII"), contentType);
+        assertEquals(3, fileItems.size());
+        FileItem item0 = (FileItem) fileItems.get(0);
+        assertEquals("field1", item0.getFieldName());
+        assertNull(item0.getName());
+        assertEquals("Joe Blow", new String(item0.get()));
+        FileItem item1 = (FileItem) fileItems.get(1);
+        assertEquals("pics", item1.getFieldName());
+        assertEquals("file1.txt", item1.getName());
+        assertEquals("... contents of file1.txt ...", new String(item1.get()));
+        FileItem item2 = (FileItem) fileItems.get(2);
+        assertEquals("pics", item2.getFieldName());
+        assertEquals("file2.gif", item2.getName());
+        assertEquals("...contents of file2.gif...", new String(item2.get()));
     }
-
 }

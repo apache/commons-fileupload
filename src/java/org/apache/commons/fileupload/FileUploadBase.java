@@ -28,6 +28,8 @@ import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 
 /**
  * <p>High level API for processing file uploads.</p>
@@ -94,18 +96,8 @@ public abstract class FileUploadBase {
      *
      * @deprecated Use the method on <code>ServletFileUpload</code> instead.
      */
-    public static final boolean isMultipartContent(HttpServletRequest req) {
-        if (!"post".equals(req.getMethod().toLowerCase())) {
-            return false;
-        }
-        String contentType = req.getContentType();
-        if (contentType == null) {
-            return false;
-        }
-        if (contentType.toLowerCase().startsWith(MULTIPART)) {
-            return true;
-        }
-        return false;
+    public static boolean isMultipartContent(HttpServletRequest req) {
+    	return ServletFileUpload.isMultipartContent(req);
     }
 
 
@@ -169,6 +161,10 @@ public abstract class FileUploadBase {
      */
     private String headerEncoding;
 
+    /**
+     * The progress listener
+     */
+    private ProgressListener listener;
 
     // ----------------------------------------------------- Property accessors
 
@@ -530,6 +526,7 @@ public abstract class FileUploadBase {
         }
 
         private final MultipartStream multi;
+        private final MultipartStream.ProgressNotifier notifier;
         private final byte[] boundary;
         private FileItemStreamImpl currentItem;
         private String currentFieldName;
@@ -583,7 +580,8 @@ public abstract class FileUploadBase {
                             + "no multipart boundary was found");
                 }
 
-                multi = new MultipartStream(input, boundary);
+                notifier = new MultipartStream.ProgressNotifier(listener, ctx.getContentLength());
+                multi = new MultipartStream(input, boundary, notifier);
                 multi.setHeaderEncoding(charEncoding);
 
                 skipPreamble = true;
@@ -642,6 +640,7 @@ public abstract class FileUploadBase {
                             currentItem = new FileItemStreamImpl(fileName,
                                     fieldName, getHeader(headers, CONTENT_TYPE),
                                     fileName == null);
+                            notifier.noteItem();
                             itemValid = true;
                             return true;
                         }
@@ -652,6 +651,7 @@ public abstract class FileUploadBase {
                         currentItem = new FileItemStreamImpl(fileName,
                                 currentFieldName, getHeader(headers, CONTENT_TYPE),
                                 false);
+                        notifier.noteItem();
                         itemValid = true;
                         return true;
                     }
@@ -865,5 +865,19 @@ public abstract class FileUploadBase {
             return permitted;
         }
     }
+
+    /**
+     * Returns the progress listener, if any. Defaults to null.
+     */
+	public ProgressListener getProgressListener() {
+		return listener;
+	}
+
+    /**
+     * Sets the progress listener, if any. Defaults to null.
+     */
+	public void setProgressListener(ProgressListener pListener) {
+		listener = pListener;
+	}
 
 }

@@ -19,16 +19,21 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
-import junit.framework.TestCase;
+
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 
 /**
  * Unit test for items with varying sizes.
  */
-public class SizesTest extends TestCase
+public class SizesTest extends FileUploadTestCase
 {
-    public void testFileUpload()
+	/** Runs a test with varying file sizes.
+	 */
+	public void testFileUpload()
             throws IOException, FileUploadException
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -67,15 +72,4 @@ public class SizesTest extends TestCase
         }
         assertTrue(!fileIter.hasNext());
     }
-
-    private List parseUpload(byte[] bytes) throws FileUploadException {
-        String contentType = "multipart/form-data; boundary=---1234";
-
-        FileUploadBase upload = new DiskFileUpload();
-        HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
-
-        List fileItems = upload.parseRequest(request);
-        return fileItems;
-    }
-
 }
