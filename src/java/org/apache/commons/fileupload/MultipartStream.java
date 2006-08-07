@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.fileupload.util.Closeable;
+import org.apache.commons.fileupload.util.Streams;
 
 /**
  * <p> Low level API for processing file uploads.
@@ -519,7 +520,7 @@ class MultipartStream {
         throws MalformedStreamException,
                IOException {
         final InputStream istream = newInputStream();
-        return (int) StreamUtil.copy(istream, output, false);
+        return (int) Streams.copy(istream, output, false);
     }
 
     ItemInputStream newInputStream() {

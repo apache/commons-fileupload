@@ -1,14 +1,16 @@
-package org.apache.commons.fileupload;
+package org.apache.commons.fileupload.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.fileupload.FileItemStream;
+
 
 /** Utility class for working with streams.
  */
-public class StreamUtil {
+public class Streams {
     /**
      * Copies the contents of the given {@link InputStream}
      * to the given {@link OutputStream}. Shortcut for
@@ -39,59 +41,61 @@ public class StreamUtil {
      * <pre>
      *   copy(pInputStream, pOutputStream, new byte[8192]);
      * </pre>
-     * @param pInputStream The input stream, which is being read.
-     * It is guaranteed, that {@link InputStream#close()} is called
-     * on the stream.
-     * @param pOutputStream The output stream, to which data should
-     * be written. May be null, in which case the input streams
-     * contents are simply discarded.
+     * @param pIn The input stream, which is being read.
+     *   It is guaranteed, that {@link InputStream#close()} is called
+     *   on the stream.
+     * @param pOut The output stream, to which data should
+     *   be written. May be null, in which case the input streams
+     *   contents are simply discarded.
      * @param pClose True guarantees, that {@link OutputStream#close()}
-     * is called on the stream. False indicates, that only
-     * {@link OutputStream#flush()} should be called finally.
+     *   is called on the stream. False indicates, that only
+     *   {@link OutputStream#flush()} should be called finally.
      * @param pBuffer Temporary buffer, which is to be used for
-     * copying data.
+     *   copying data.
      * @return Number of bytes, which have been copied.
      */
-    public static long copy(InputStream pInputStream,
-                OutputStream pOutputStream, boolean pClose,
+    public static long copy(InputStream pIn,
+                OutputStream pOut, boolean pClose,
                 byte[] pBuffer)
             throws IOException {
-        try {
+    	OutputStream out = pOut;
+    	InputStream in = pIn;
+    	try {
             long total = 0;
             for (;;) {
-                int res = pInputStream.read(pBuffer);
+                int res = in.read(pBuffer);
                 if (res == -1) {
                     break;
                 }
                 if (res > 0) {
                     total += res;
-                    if (pOutputStream != null) {
-                        pOutputStream.write(pBuffer, 0, res);
+                    if (out != null) {
+                        out.write(pBuffer, 0, res);
                     }
                 }
             }
-            if (pOutputStream != null) {
+            if (out != null) {
                 if (pClose) {
-                    pOutputStream.close();
+                    out.close();
                 } else {
-                    pOutputStream.flush();
+                    out.flush();
                 }
-                pOutputStream = null;
+                out = null;
             }
-            pInputStream.close();
-            pInputStream = null;
+            in.close();
+            in = null;
             return total;
         } finally {
-            if (pInputStream != null) {
+            if (in != null) {
                 try {
-                    pInputStream.close();
+                    in.close();
                 } catch (Throwable t) {
                     /* Ignore me */
                 }
             }
-            if (pClose  &&  pOutputStream != null) {
+            if (pClose  &&  out != null) {
                 try {
-                    pOutputStream.close();
+                    out.close();
                 } catch (Throwable t) {
                     /* Ignore me */
                 }

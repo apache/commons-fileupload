@@ -30,6 +30,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.fileupload.util.Closeable;
 import org.apache.commons.fileupload.util.LimitedInputStream;
+import org.apache.commons.fileupload.util.Streams;
 
 
 /**
@@ -334,7 +335,7 @@ public abstract class FileUploadBase {
                         item.getContentType(), item.isFormField(),
                         item.getName());
                 try {
-                    StreamUtil.copy(item.openStream(), fileItem.getOutputStream(),
+                    Streams.copy(item.openStream(), fileItem.getOutputStream(),
                                 true, buffer);
                 } catch (FileUploadIOException e) {
                     throw (FileUploadException) e.getCause();
