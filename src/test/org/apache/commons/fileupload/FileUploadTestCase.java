@@ -15,9 +15,10 @@ import junit.framework.TestCase;
  * Base class for deriving test cases.
  */
 public abstract class FileUploadTestCase extends TestCase {
-    protected List parseUpload(byte[] bytes) throws FileUploadException {
-        String contentType = "multipart/form-data; boundary=---1234";
-        return parseUpload(bytes, contentType);
+	protected static final String CONTENT_TYPE = "multipart/form-data; boundary=---1234";
+
+	protected List parseUpload(byte[] bytes) throws FileUploadException {
+        return parseUpload(bytes, CONTENT_TYPE);
     }
 
 	protected List parseUpload(byte[] bytes, String contentType) throws FileUploadException {
@@ -32,6 +33,6 @@ public abstract class FileUploadTestCase extends TestCase {
     	throws UnsupportedEncodingException, FileUploadException
     {
 		byte[] bytes = content.getBytes("US-ASCII");
-		return parseUpload(bytes, "multipart/form-data; boundary=---1234");
+		return parseUpload(bytes, CONTENT_TYPE);
     }
 }

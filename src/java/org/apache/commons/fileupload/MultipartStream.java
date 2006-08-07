@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.fileupload.util.Closeable;
+
 /**
  * <p> Low level API for processing file uploads.
  *
@@ -704,7 +706,7 @@ class MultipartStream {
     /**
      * An {@link InputStream} for reading an items contents.
      */
-    public class ItemInputStream extends InputStream {
+    public class ItemInputStream extends InputStream implements Closeable {
         private long total;
         private int pad, pos;
         private boolean closed;
@@ -734,9 +736,8 @@ class MultipartStream {
         public int available() throws IOException {
             if (pos == -1) {
                 return tail - head - pad;
-            } else {
-                return pos - head;
             }
+            return pos - head;
         }
 
         public int read() throws IOException {
