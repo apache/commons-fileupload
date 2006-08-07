@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2005 The Apache Software Foundation
+ * Copyright 2001-2006 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package org.apache.commons.fileupload;
 
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -27,8 +26,10 @@ import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.apache.commons.fileupload.util.Closeable;
+import org.apache.commons.fileupload.util.LimitedInputStream;
 
 
 /**
@@ -150,11 +151,16 @@ public abstract class FileUploadBase {
 
 
     /**
-     * The maximum size permitted for an uploaded file. A value of -1 indicates
-     * no maximum.
+     * The maximum size permitted for the complete request, as opposed to
+     * {@link #fileSizeMax}. A value of -1 indicates no maximum.
      */
     private long sizeMax = -1;
 
+    /**
+     * The maximum size permitted for a single uploaded file, as opposed
+     * to {@link #sizeMax}. A value of -1 indicates no maximum.
+     */
+    private long fileSizeMax = -1;
 
     /**
      * The content encoding to use when reading part headers.
@@ -186,9 +192,11 @@ public abstract class FileUploadBase {
 
 
     /**
-     * Returns the maximum allowed upload size.
+     * Returns the maximum allowed size of a complete request, as opposed
+     * to {@link #getFileSizeMax()}.
      *
-     * @return The maximum allowed size, in bytes.
+     * @return The maximum allowed size, in bytes. The default value of
+     *   -1 indicates, that there is no limit.
      *
      * @see #setSizeMax(long)
      *
@@ -199,9 +207,11 @@ public abstract class FileUploadBase {
 
 
     /**
-     * Sets the maximum allowed upload size. If negative, there is no maximum.
+     * Sets the maximum allowed size of a complete request, as opposed
+     * to {@link #setFileSizeMax(long)}.
      *
-     * @param sizeMax The maximum allowed size, in bytes, or -1 for no maximum.
+     * @param sizeMax The maximum allowed size, in bytes. The default value of
+     *   -1 indicates, that there is no limit.
      *
      * @see #getSizeMax()
      *
@@ -210,6 +220,25 @@ public abstract class FileUploadBase {
         this.sizeMax = sizeMax;
     }
 
+    /**
+     * Returns the maximum allowed size of a single uploaded file,
+     * as opposed to {@link #getSizeMax()}.
+     *
+     * @see #setFileSizeMax(long)
+     */
+    public long getFileSizeMax() {
+    	return fileSizeMax;
+    }
+
+    /**
+     * Sets the maximum allowed size of a single uploaded file,
+     * as opposed to {@link #getSizeMax()}.
+     *
+     * @see #getFileSizeMax()
+     */
+    public void setFileSizeMax(long fileSizeMax) {
+    	this.fileSizeMax = fileSizeMax;
+    }
 
     /**
      * Retrieves the character encoding used when reading the headers of an
@@ -520,7 +549,7 @@ public abstract class FileUploadBase {
         private class FileItemStreamImpl implements FileItemStream {
             private final String contentType, fieldName, name;
             private final boolean formField;
-            private final MultipartStream.ItemInputStream stream;
+            private final InputStream stream;
             private boolean opened;
 
             FileItemStreamImpl(String pName, String pFieldName,
@@ -529,7 +558,20 @@ public abstract class FileUploadBase {
                 fieldName = pFieldName;
                 contentType = pContentType;
                 formField = pFormField;
-                stream = multi.newInputStream();
+                InputStream istream = multi.newInputStream();
+                if (fileSizeMax != -1) {
+                	istream = new LimitedInputStream(istream, fileSizeMax){
+                		protected void raiseError(long pSizeMax, long pCount) throws IOException {
+                			FileUploadException e = new FileSizeLimitExceededException(
+                					"The field " + fieldName + " exceeds its maximum permitted "
+                					+ " size of " + pSizeMax + " characters.",
+                					pCount, pSizeMax);
+                			throw new FileUploadIOException(e);
+                					
+                		}
+                	};
+                }
+                stream = istream;
             }
 
             public String getContentType() {
@@ -552,7 +594,7 @@ public abstract class FileUploadBase {
                 if (opened) {
                     throw new IllegalStateException("The stream was already opened.");
                 }
-                if (stream.isClosed()) {
+                if (((Closeable) stream).isClosed()) {
                     throw new FileItemStream.ItemSkippedException();
                 }
                 return stream;
@@ -594,7 +636,15 @@ public abstract class FileUploadBase {
             if (sizeMax >= 0) {
             	int requestSize = ctx.getContentLength();
             	if (requestSize == -1) {
-            		input = new LimitedInputStream(input, sizeMax);
+            		input = new LimitedInputStream(input, sizeMax){
+						protected void raiseError(long pSizeMax, long pCount) throws IOException {
+			                FileUploadException ex = new SizeLimitExceededException(
+			                        "the request was rejected because its size (" + pCount
+			                        + ") exceeds the configured maximum (" + pSizeMax + ")",
+			                        pCount, pSizeMax);
+			                throw new FileUploadIOException(ex);
+						}
+            		};
             	} else {
             		if (sizeMax >= 0 && requestSize > sizeMax) {
             			throw new SizeLimitExceededException(
@@ -709,48 +759,6 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * An input stream, which limits its data size. This stream is
-     * used, if the content length is unknown.
-     */
-    private static class LimitedInputStream extends FilterInputStream {
-        private long sizeMax;
-        private long count;
-
-        private void checkLimit() throws IOException {
-            if (count > sizeMax) {
-                FileUploadException ex = new SizeLimitExceededException(
-                        "the request was rejected because its size (" + count
-                        + ") exceeds the configured maximum (" + sizeMax + ")",
-                        count, sizeMax);
-                throw new FileUploadIOException(ex);
-            }
-        }
-
-        public int read() throws IOException {
-            int res = super.read();
-            if (res != -1) {
-                count++;
-                checkLimit();
-            }
-            return res;
-        }
-
-        public int read(byte[] b, int off, int len) throws IOException {
-            int res = super.read(b, off, len);
-            if (res > 0) {
-                count += res;
-                checkLimit();
-            }
-            return res;
-        }
-
-        LimitedInputStream(InputStream pIn, long pSizeMax) {
-            super(pIn);
-            sizeMax = pSizeMax;
-        }
-    }
-
-    /**
      * This exception is thrown for hiding an inner 
      * {@link FileUploadException} in an {@link IOException}.
      */
@@ -818,51 +826,18 @@ public abstract class FileUploadBase {
     	}
     }
 
-    /**
-     * Thrown to indicate that the request size exceeds the configured maximum.
-     */
-    public static class SizeLimitExceededException
-        extends FileUploadException {
-        private static final long serialVersionUID = -2474893167098052828L;
-
+    protected abstract static class SizeException extends FileUploadException {
         /**
          * The actual size of the request.
          */
-        private long actual;
+        private final long actual;
 
         /**
          * The maximum permitted size of the request.
          */
-        private long permitted;
+        private final long permitted;
 
-        /**
-         * Constructs a <code>SizeExceededException</code> with no
-         * detail message.
-         */
-        public SizeLimitExceededException() {
-            super();
-        }
-
-        /**
-         * Constructs a <code>SizeExceededException</code> with
-         * the specified detail message.
-         *
-         * @param message The detail message.
-         */
-        public SizeLimitExceededException(String message) {
-            super(message);
-        }
-
-        /**
-         * Constructs a <code>SizeExceededException</code> with
-         * the specified detail message, and actual and permitted sizes.
-         *
-         * @param message   The detail message.
-         * @param actual    The actual request size.
-         * @param permitted The maximum permitted request size.
-         */
-        public SizeLimitExceededException(String message, long actual,
-                long permitted) {
+        protected SizeException(String message, long actual, long permitted) {
             super(message);
             this.actual = actual;
             this.permitted = permitted;
@@ -884,6 +859,48 @@ public abstract class FileUploadBase {
          */
         public long getPermittedSize() {
             return permitted;
+        }
+    }
+
+    /**
+     * Thrown to indicate that the request size exceeds the configured maximum.
+     */
+    public static class SizeLimitExceededException
+        extends SizeException {
+        private static final long serialVersionUID = -2474893167098052828L;
+
+        /**
+         * Constructs a <code>SizeExceededException</code> with
+         * the specified detail message, and actual and permitted sizes.
+         *
+         * @param message   The detail message.
+         * @param actual    The actual request size.
+         * @param permitted The maximum permitted request size.
+         */
+        public SizeLimitExceededException(String message, long actual,
+                long permitted) {
+        	super(message, actual, permitted);
+        }
+    }
+
+    /**
+     * Thrown to indicate that A files size exceeds the configured maximum.
+     */
+    public static class FileSizeLimitExceededException
+        extends SizeException {
+		private static final long serialVersionUID = 8150776562029630058L;
+
+		/**
+         * Constructs a <code>SizeExceededException</code> with
+         * the specified detail message, and actual and permitted sizes.
+         *
+         * @param message   The detail message.
+         * @param actual    The actual request size.
+         * @param permitted The maximum permitted request size.
+         */
+        public FileSizeLimitExceededException(String message, long actual,
+                long permitted) {
+            super(message, actual, permitted);
         }
     }
 

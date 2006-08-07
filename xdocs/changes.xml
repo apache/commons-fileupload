@@ -71,6 +71,11 @@ The <action> type attribute can be add,update,fix,remove.
         Added support for header continuation lines.
       </action>
 
+      <action dev="jochen" type="add" issue="FILEUPLOAD-88"
+          due-to="Andrey Aristarkhov" due-to-email="aristarkhov@bitechnology.ru">
+        It is now possible to limit the actual file size and not
+        the request size.
+      </action>
 	</release>
 
     <release version="1.1.1" date="2006-06-08" description="Bugfix release">
