@@ -66,6 +66,11 @@ The <action> type attribute can be add,update,fix,remove.
         progress bar.
       </action>
 
+      <action dev="jochen" type="add" issue="FILEUPLOAD-111"
+          due-to="Amichai Rothman" due-to-email="amichai2@amichais.net">
+        Added support for header continuation lines.
+      </action>
+
 	</release>
 
     <release version="1.1.1" date="2006-06-08" description="Bugfix release">

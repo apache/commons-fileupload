@@ -430,43 +430,72 @@ public abstract class FileUploadBase {
      * @return A <code>Map</code> containing the parsed HTTP request headers.
      */
     protected Map /* String, String */ parseHeaders(String headerPart) {
-        Map headers = new HashMap();
+    	final int len = headerPart.length();
+    	Map headers = new HashMap();
         int start = 0;
-        int end = 0;
         for(;;) {
-        	int offset = headerPart.indexOf('\r', end);
-        	if (offset == -1  ||  offset+1 >= headerPart.length()) {
-        		throw new IllegalStateException("Expected headers to be terminated by an empty line.");
-        	}
-        	if (headerPart.charAt(offset+1) != '\n') {
-        		end = offset+1;
-        	} else if (offset == start) {
+        	int end = parseEndOfLine(headerPart, start);
+        	if (start == end) {
         		break;
-        	} else {
-            	String header = headerPart.substring(start, offset);
-            	start = end = offset+2;
-                if (header.indexOf(':') == -1) {
-                    // This header line is malformed, skip it.
-                    continue;
-                }
-                String headerName = header.substring(0, header.indexOf(':'))
-                    .trim().toLowerCase();
-                String headerValue =
-                    header.substring(header.indexOf(':') + 1).trim();
-                if (getHeader(headers, headerName) != null) {
-                    // More that one heder of that name exists,
-                    // append to the list.
-                    headers.put(headerName,
-                                getHeader(headers, headerName) + ','
-                                    + headerValue);
-                } else {
-                    headers.put(headerName, headerValue);
-                }
         	}
+        	String header = headerPart.substring(start, end);
+        	start = end+2;
+        	while (start < len) {
+        		int nonWs = start;
+        		while (nonWs < len) {
+        			char c = headerPart.charAt(nonWs);
+        			if (c != ' '  &&  c != '\t') {
+        				break;
+        			}
+        			++nonWs;
+        		}
+        		if (nonWs == start) {
+        			break;
+        		}
+        		// Continuation line found
+        		end = parseEndOfLine(headerPart, nonWs);
+        		header += " " + headerPart.substring(nonWs, end);
+        		start = end+2;
+        	}
+        	parseHeaderLine(headers, header);
         }
         return headers;
     }
 
+    private int parseEndOfLine(String headerPart, int end) {
+    	int index = end;
+    	for (;;) {
+	    	int offset = headerPart.indexOf('\r', index);
+	    	if (offset == -1  ||  offset+1 >= headerPart.length()) {
+	    		throw new IllegalStateException("Expected headers to be terminated by an empty line.");
+	    	}
+	    	if (headerPart.charAt(offset+1) == '\n') {
+	    		return offset;
+	    	}
+	    	index = offset+1;
+    	}
+    }
+    
+    private void parseHeaderLine(Map headers, String header) {
+    	final int colonOffset = header.indexOf(':');
+    	if (colonOffset == -1) {
+            // This header line is malformed, skip it.
+            return;
+        }
+        String headerName = header.substring(0, colonOffset)
+            .trim().toLowerCase();
+        String headerValue =
+            header.substring(header.indexOf(':') + 1).trim();
+        if (getHeader(headers, headerName) != null) {
+            // More that one heder of that name exists,
+            // append to the list.
+            headers.put(headerName,
+                        getHeader(headers, headerName) + ','
+                            + headerValue);
+        } else {
+            headers.put(headerName, headerValue);
+        }
+    }
 
     /**
      * Returns the header with the specified name from the supplied map. The
