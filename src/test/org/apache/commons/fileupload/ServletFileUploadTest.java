@@ -249,4 +249,52 @@ public class ServletFileUploadTest extends FileUploadTestCase
         assertEquals("file2.gif", item2.getName());
         assertEquals("...contents of file2.gif...", new String(item2.get()));
     }
+
+    public void testFoldedHeaders()
+    		throws IOException, FileUploadException {
+    	List fileItems = parseUpload("-----1234\r\n" +
+    			"Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+    			"Content-Type: text/whatever\r\n" +
+    			"\r\n" +
+    			"This is the content of the file\n" +
+    			"\r\n" +
+    			"-----1234\r\n" +
+    			"Content-Disposition: form-data; \r\n" +
+    			"\tname=\"field\"\r\n" +
+    			"\r\n" +
+    			"fieldValue\r\n" +
+    			"-----1234\r\n" +
+    			"Content-Disposition: form-data;\r\n" +
+    			"     name=\"multi\"\r\n" +
+    			"\r\n" +
+    			"value1\r\n" +
+    			"-----1234\r\n" +
+    			"Content-Disposition: form-data; name=\"multi\"\r\n" +
+    			"\r\n" +
+    			"value2\r\n" +
+    			"-----1234--\r\n");
+    	assertEquals(4, fileItems.size());
+
+    	FileItem file = (FileItem) fileItems.get(0);
+    	assertEquals("file", file.getFieldName());
+    	assertFalse(file.isFormField());
+    	assertEquals("This is the content of the file\n", file.getString());
+    	assertEquals("text/whatever", file.getContentType());
+    	assertEquals("foo.tab", file.getName());
+
+    	FileItem field = (FileItem) fileItems.get(1);
+    	assertEquals("field", field.getFieldName());
+    	assertTrue(field.isFormField());
+    	assertEquals("fieldValue", field.getString());
+
+    	FileItem multi0 = (FileItem) fileItems.get(2);
+    	assertEquals("multi", multi0.getFieldName());
+    	assertTrue(multi0.isFormField());
+    	assertEquals("value1", multi0.getString());
+
+    	FileItem multi1 = (FileItem) fileItems.get(3);
+    	assertEquals("multi", multi1.getFieldName());
+    	assertTrue(multi1.isFormField());
+    	assertEquals("value2", multi1.getString());
+    }
 }
