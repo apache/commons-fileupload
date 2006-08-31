@@ -1,0 +1,34 @@
+<assembly>
+  <id>src</id>
+  <formats>
+    <format>tar.gz</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <includes>
+		<include>build-gump.xml</include>
+		<include>build.xml</include>
+		<include>doap_fileupload.rdf</include>
+		<include>fileupload_basic.xml</include>
+		<include>fileupload_checks.xml</include>
+		<include>gump.xml</include>
+		<include>license-header.txt</include>
+		<include>LICENSE.txt</include>
+        <include>maven.xml</include>
+        <include>NOTICE.txt</include>
+        <include>pom.xml</include>
+        <include>project.properties</include>
+        <include>project.xml</include>
+        <include>PROPOSAL.html</include>
+        <include>RELEASE-NOTES.txt</include>
+        <include>STATUS.html</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>src</directory>
+    </fileSet>
+    <fileSet>
+      <directory>xdocs</directory>
+    </fileSet>
+  </fileSets>
+</assembly>
