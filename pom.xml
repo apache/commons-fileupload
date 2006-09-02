@@ -4,9 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>3</version>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons</artifactId>
+    <version>1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
@@ -23,28 +23,6 @@
     <url>http://issues.apache.org/jira/browse/FILEUPLOAD</url>
   </issueManagement>
   <inceptionYear>2002</inceptionYear>
-  <mailingLists>
-    <mailingList>
-      <name>Commons Dev List</name>
-      <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
-      <post>commons-dev@jakarta.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-dev/</archive>
-      <otherArchives>
-        <otherArchive>http://marc.theaimsgroup.com/?l=jakarta-commons-dev</otherArchive>
-      </otherArchives>
-    </mailingList>
-    <mailingList>
-      <name>Commons User List</name>
-      <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
-      <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
-      <post>commons-user@jakarta.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-user/</archive>
-      <otherArchives>
-        <otherArchive>http://marc.theaimsgroup.com/?l=jakarta-commons-user</otherArchive>
-      </otherArchives>
-    </mailingList>
-  </mailingLists>
 
   <developers>
     <developer>
@@ -184,13 +162,13 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
         <configuration>
-          <xmlPath>src/xdocs/changes.xml</xmlPath>
           <issueLinkTemplate>%URL%/../%ISSUE%</issueLinkTemplate>
         </configuration>
         <reportSets>
           <reportSet>
             <reports>
               <report>changes-report</report>
+              <report>jira-report</report>
             </reports>
           </reportSet>
         </reportSets>
