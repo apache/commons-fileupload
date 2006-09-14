@@ -49,13 +49,22 @@
 
     <faq id="class-not-found">
       <question>
-        Why is NoClassDefFoundError being thrown while parsing?
+        Why is NoClassDefFoundError being thrown?
       </question>
       <answer>
-        This most commonly happens when attempting to rely on a shared copy of
+        <p>There are two common causes for this error. </p>
+        
+        <p>Firstly, it might simply mean that you do not have the Commons IO 
+        jar in your classpath. FileUpload depends on IO (see 
+        <a href="dependencies.html">dependencies</a>) - you can tell if 
+        this is the case if the missing class is within the 
+        <code>org.apache.commons.io</code> package. </p>
+
+        <p>Secondly this happens when attempting to rely on a shared copy of
         the Commons FileUpload jar file provided by your web container. The
         solution is to include the FileUpload jar file as part of your own
-        web application, instead of relying on the container.
+        web application, instead of relying on the container. The same may 
+        hold for FileUpload's IO dependency. </p>
       </answer>
     </faq>
 
