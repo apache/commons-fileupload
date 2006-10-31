@@ -125,7 +125,7 @@ public class Streams {
      * @param pStream The input stream to read.
      * @see #asString(InputStream, String)
      */
-    public String asString(InputStream pStream) throws IOException {
+    public static String asString(InputStream pStream) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         copy(pStream, baos, true);
         return baos.toString();
@@ -138,7 +138,7 @@ public class Streams {
      * @param pEncoding The character encoding, typically "UTF-8".
      * @see #asString(InputStream)
      */
-    public String asString(InputStream pStream, String pEncoding)
+    public static String asString(InputStream pStream, String pEncoding)
             throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         copy(pStream, baos, true);
