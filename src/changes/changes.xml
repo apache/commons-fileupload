@@ -42,6 +42,11 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
 	<release version="1.2" date="Not yet released">
 
+      <action dev="jochen" type="fix" due-to="Aaron Freeman"
+           due-to-email="aaron@sendthisfile.com">
+        Made Streams.asString static.
+      </action>
+
 	  <action dev="jochen" type="update" issue="FILEUPLOAD-109">
 	    Eliminated duplicate code.
 	  </action>
