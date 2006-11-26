@@ -1,9 +1,10 @@
 /\*\s*
- \*\s*Copyright \d{4}(-\d{4}|,\d{4})* The Apache Software Foundation
- \*\s*
- \*\s*Licensed under the Apache License, Version 2\.0 \(the "License"\);
- \*\s*you may not use this file except in compliance with the License\.
- \*\s*You may obtain a copy of the License at
+ \*\s*Licensed to the Apache Software Foundation \(ASF\) under one or more
+ \*\s*contributor license agreements.  See the NOTICE file distributed with
+ \*\s*this work for additional information regarding copyright ownership\.
+ \*\s*The ASF licenses this file to You under the Apache License, Version 2\.0
+ \*\s*\(the "License"\); you may not use this file except in compliance with
+ \*\s*the License\.  You may obtain a copy of the License at
  \*\s*
  \*\s*http://www\.apache\.org/licenses/LICENSE\-2\.0
  \*\s*
