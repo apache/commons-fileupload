@@ -18,6 +18,7 @@
   <id>bin</id>
   <formats>
     <format>tar.gz</format>
+    <format>zip</format>
   </formats>
   <includeSiteDirectory>true</includeSiteDirectory>
   <fileSets>
