@@ -28,7 +28,6 @@ import java.io.OutputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
-import java.rmi.server.UID;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.FileCleaner;
@@ -85,7 +84,8 @@ public class DiskFileItem
      * UID used in unique file name generation.
      */
     private static final String UID =
-            new UID().toString().replace(':', '_').replace('-', '_');
+            new java.rmi.server.UID().toString()
+                .replace(':', '_').replace('-', '_');
 
     /**
      * Counter used in unique identifier generation.

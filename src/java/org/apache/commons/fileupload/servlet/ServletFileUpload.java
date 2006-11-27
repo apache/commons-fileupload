@@ -63,7 +63,7 @@ public class ServletFileUpload extends FileUpload {
      * @return <code>true</code> if the request is multipart;
      *         <code>false</code> otherwise.
      */
-	public static final boolean isMultipartContent(
+    public static final boolean isMultipartContent(
             HttpServletRequest request) {
         if (!"post".equals(request.getMethod().toLowerCase())) {
             return false;
@@ -99,6 +99,7 @@ public class ServletFileUpload extends FileUpload {
      * create <code>FileItem</code> instances.
      *
      * @see FileUpload#FileUpload()
+     * @param fileItemFactory The factory to use for creating file items.
      */
     public ServletFileUpload(FileItemFactory fileItemFactory) {
         super(fileItemFactory);
@@ -121,7 +122,7 @@ public class ServletFileUpload extends FileUpload {
      *                             the request or storing files.
      */
     public List /* FileItem */ parseRequest(HttpServletRequest request)
-            throws FileUploadException {
+    throws FileUploadException {
         return parseRequest(new ServletRequestContext(request));
     }
 
@@ -143,7 +144,7 @@ public class ServletFileUpload extends FileUpload {
      *   storing the uploaded content.
      */
     public FileItemIterator getItemIterator(HttpServletRequest request)
-    		throws FileUploadException, IOException {
+    throws FileUploadException, IOException {
         return super.getItemIterator(new ServletRequestContext(request));
     }
 }
