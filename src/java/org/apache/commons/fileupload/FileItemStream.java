@@ -18,7 +18,6 @@ package org.apache.commons.fileupload;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 
 
 /**
@@ -28,27 +27,34 @@ import java.util.Iterator;
  * <p>Instances of this class are created by accessing the
  * iterator, returned by
  * {@link FileUploadBase#getItemIterator(RequestContext)}.</p>
- * <em>Note</em>: There is an interaction between the iterator and
+ * <p><em>Note</em>: There is an interaction between the iterator and
  * its associated instances of {@link FileItemStream}: By invoking
- * {@link Iterator#hasNext()} on the iterator, you discard all data,
- * which hasn't been read so far from the previous data.</p> 
+ * {@link java.util.Iterator#hasNext()} on the iterator, you discard all data,
+ * which hasn't been read so far from the previous data.</p>
  */
 public interface FileItemStream {
     /**
      * This exception is thrown, if an attempt is made to read
      * data from the {@link InputStream}, which has been returned
      * by {@link FileItemStream#openStream()}, after
-     * {@link Iterator#hasNext()} has been invoked on the
+     * {@link java.util.Iterator#hasNext()} has been invoked on the
      * iterator, which created the {@link FileItemStream}.
      */
     public static class ItemSkippedException extends IOException {
+        /**
+         * The exceptions serial version UID, which is being used
+         * when serializing an exception instance.
+         */
         private static final long serialVersionUID = -7280778431581963740L;
     }
 
     /** Creates an {@link InputStream}, which allows to read the
      * items contents.
+     * @return The input stream, from which the items data may
+     *   be read.
      * @throws IllegalStateException The method was already invoked on
      * this item. It is not possible to recreate the data stream.
+     * @throws IOException An I/O error occurred.
      * @see ItemSkippedException
      */
     InputStream openStream() throws IOException;

@@ -80,6 +80,7 @@ public class DiskFileUpload
      * create <code>FileItem</code> instances.
      *
      * @see #DiskFileUpload()
+     * @param fileItemFactory The file item factory to use.
      *
      * @deprecated Use <code>FileUpload</code> instead.
      */

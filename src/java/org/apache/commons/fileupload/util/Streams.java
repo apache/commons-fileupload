@@ -21,12 +21,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.fileupload.FileItemStream;
-
 
 /** Utility class for working with streams.
  */
-public class Streams {
+public final class Streams {
+    /**
+     * Private constructor, to prevent instantiation.
+     * This class has only static methods.
+     */
+    private Streams() {
+        // Does nothing
+    }
+
+    /**
+     * Default buffer size for use in
+     * {@link #copy(InputStream, OutputStream, boolean)}.
+     */
+    private static final int DEFAULT_BUFFER_SIZE = 8192;
+
     /**
      * Copies the contents of the given {@link InputStream}
      * to the given {@link OutputStream}. Shortcut for
@@ -42,21 +54,20 @@ public class Streams {
      * @param pClose True guarantees, that {@link OutputStream#close()}
      * is called on the stream. False indicates, that only
      * {@link OutputStream#flush()} should be called finally.
-     * 
+     *
      * @return Number of bytes, which have been copied.
+     * @throws IOException An I/O error occurred.
      */
     public static long copy(InputStream pInputStream,
-                OutputStream pOutputStream, boolean pClose)
+            OutputStream pOutputStream, boolean pClose)
             throws IOException {
-        return copy(pInputStream, pOutputStream, pClose, new byte[8192]);
+        return copy(pInputStream, pOutputStream, pClose,
+                new byte[DEFAULT_BUFFER_SIZE]);
     }
 
     /**
      * Copies the contents of the given {@link InputStream}
-     * to the given {@link OutputStream}. Shortcut for
-     * <pre>
-     *   copy(pInputStream, pOutputStream, new byte[8192]);
-     * </pre>
+     * to the given {@link OutputStream}.
      * @param pIn The input stream, which is being read.
      *   It is guaranteed, that {@link InputStream#close()} is called
      *   on the stream.
@@ -69,14 +80,15 @@ public class Streams {
      * @param pBuffer Temporary buffer, which is to be used for
      *   copying data.
      * @return Number of bytes, which have been copied.
+     * @throws IOException An I/O error occurred.
      */
     public static long copy(InputStream pIn,
-                OutputStream pOut, boolean pClose,
-                byte[] pBuffer)
-            throws IOException {
-    	OutputStream out = pOut;
-    	InputStream in = pIn;
-    	try {
+            OutputStream pOut, boolean pClose,
+            byte[] pBuffer)
+    throws IOException {
+        OutputStream out = pOut;
+        InputStream in = pIn;
+        try {
             long total = 0;
             for (;;) {
                 int res = in.read(pBuffer);
@@ -120,11 +132,14 @@ public class Streams {
     }
 
     /**
-     * This convenience method allows to read a {@link FileItemStream}'s
+     * This convenience method allows to read a
+     * {@link org.apache.commons.fileupload.FileItemStream}'s
      * content into a string. The platform's default character encoding
      * is used for converting bytes into characters.
      * @param pStream The input stream to read.
      * @see #asString(InputStream, String)
+     * @return The streams contents, as a string.
+     * @throws IOException An I/O error occurred.
      */
     public static String asString(InputStream pStream) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -133,11 +148,14 @@ public class Streams {
     }
 
     /**
-     * This convenience method allows to read a {@link FileItemStream}'s
+     * This convenience method allows to read a
+     * {@link org.apache.commons.fileupload.FileItemStream}'s
      * content into a string, using the given character encoding.
      * @param pStream The input stream to read.
      * @param pEncoding The character encoding, typically "UTF-8".
      * @see #asString(InputStream)
+     * @return The streams contents, as a string.
+     * @throws IOException An I/O error occurred.
      */
     public static String asString(InputStream pStream, String pEncoding)
             throws IOException {
