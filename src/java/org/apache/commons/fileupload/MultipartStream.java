@@ -86,7 +86,7 @@ import org.apache.commons.fileupload.util.Streams;
  *
  * @version $Id$
  */
-class MultipartStream {
+public class MultipartStream {
     /**
      * Internal class, which is used to invoke the
      * {@link ProgressListener}.
