@@ -149,6 +149,16 @@ public abstract class FileUploadBase {
     public static final String MULTIPART_MIXED = "multipart/mixed";
 
 
+    /**
+     * The maximum length of a single header line that will be parsed
+     * (1024 bytes).
+     * @deprecated This constant is no longer used. As of commons-fileupload
+     *   1.2, the only applicable limit is the total size of a parts headers,
+     *   {@link MultipartStream#HEADER_PART_SIZE_MAX}.
+     */
+    public static final int MAX_HEADER_SIZE = 1024;
+
+    
     // ----------------------------------------------------------- Data members
 
 
@@ -449,6 +459,30 @@ public abstract class FileUploadBase {
     }
 
 
+    /**
+     * Creates a new {@link FileItem} instance.
+     *
+     * @param headers       A <code>Map</code> containing the HTTP request
+     *                      headers.
+     * @param isFormField   Whether or not this item is a form field, as
+     *                      opposed to a file.
+     *
+     * @return A newly created <code>FileItem</code> instance.
+     *
+     * @throws FileUploadException if an error occurs.
+     * @deprecated This method is no longer used in favour of
+     *   internally created instances of {@link FileItem}.
+     */
+    protected FileItem createItem(Map /* String, String */ headers,
+                                  boolean isFormField)
+        throws FileUploadException {
+        return getFileItemFactory().createItem(getFieldName(headers),
+                getHeader(headers, CONTENT_TYPE),
+                isFormField,
+                getFileName(headers));
+    }
+
+    
     /**
      * <p> Parses the <code>header-part</code> and returns as key/value
      * pairs.
@@ -1036,6 +1070,38 @@ public abstract class FileUploadBase {
     }
 
     /**
+     * Thrown to indicate that the request size is not specified. In other
+     * words, it is thrown, if the content-length header is missing or
+     * contains the value -1.
+     * @deprecated As of commons-fileupload 1.2, the presence of a
+     *   content-length header is no longer required.
+     */
+    public static class UnknownSizeException
+        extends FileUploadException {
+        /** The exceptions UID, for serializing an instance.
+         */
+        private static final long serialVersionUID = 7062279004812015273L;
+
+        /**
+         * Constructs a <code>UnknownSizeException</code> with no
+         * detail message.
+         */
+        public UnknownSizeException() {
+            super();
+        }
+
+        /**
+         * Constructs an <code>UnknownSizeException</code> with
+         * the specified detail message.
+         *
+         * @param message The detail message.
+         */
+        public UnknownSizeException(String message) {
+            super(message);
+        }
+    }
+
+    /**
      * Thrown to indicate that the request size exceeds the configured maximum.
      */
     public static class SizeLimitExceededException
@@ -1043,6 +1109,20 @@ public abstract class FileUploadBase {
         /** The exceptions UID, for serializing an instance.
          */
         private static final long serialVersionUID = -2474893167098052828L;
+
+        /**
+         * @deprecated Replaced by {@link #SizeLimitExceededException(String, long, long)} 
+         */
+        public SizeLimitExceededException() {
+            this(null, 0, 0);
+        }
+
+        /**
+         * @deprecated Replaced by {@link #SizeLimitExceededException(String, long, long)} 
+         */
+        public SizeLimitExceededException(String message) {
+            this(message, 0, 0);
+        }
 
         /**
          * Constructs a <code>SizeExceededException</code> with
