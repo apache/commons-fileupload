@@ -262,9 +262,8 @@ public class DiskFileItem
     public boolean isInMemory() {
         if (cachedContent != null) {
             return true;
-        } else {
-            return dfos.isInMemory();
         }
+        return dfos.isInMemory();
     }
 
 
@@ -585,9 +584,9 @@ public class DiskFileItem
             tempDir = new File(System.getProperty("java.io.tmpdir"));
         }
 
-        String fileName = "upload_" + UID + "_" + getUniqueId() + ".tmp";
+        String tempFileName = "upload_" + UID + "_" + getUniqueId() + ".tmp";
 
-        File f = new File(tempDir, fileName);
+        File f = new File(tempDir, tempFileName);
         FileCleaner.track(f, this);
         return f;
     }
