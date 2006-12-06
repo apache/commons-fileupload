@@ -20,6 +20,7 @@ import java.io.File;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.io.FileCleaner;
 
 /**
  * <p>The default {@link org.apache.commons.fileupload.FileItemFactory}
@@ -39,6 +40,16 @@ import org.apache.commons.fileupload.FileItemFactory;
  * </ul>
  * </p>
  *
+ * <p>When using the <code>DiskFileItemFactory</code>, then you should
+ * consider the following: Temporary files are automatically deleted as
+ * soon as they are no longer needed. (More precisely, when the
+ * corresponding instance of {@link java.io.File} is garbage collected.)
+ * This is done by the so-called reaper thread, which is started
+ * automatically when the class {@link FileCleaner} is loaded.
+ * It might make sense to terminate that thread, for example, if
+ * your web application ends. See the section on "Resource cleanup"
+ * in the users guide of commons-fileupload.</p>
+ * 
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
  * @since FileUpload 1.1
