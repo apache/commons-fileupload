@@ -84,7 +84,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
 
       <action dev="jochen" type="add" issue="FILEUPLOAD-120"
-          due-to="Henry Yandell" due-to-email="bayard@apache.org"/>
+          due-to="Henry Yandell" due-to-email="bayard@apache.org">
         Added the FileCleanerCleanup as an example for how to close
         down the FileCleaner's reaper thread nicely.
       </action>
