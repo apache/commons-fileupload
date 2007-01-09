@@ -88,6 +88,11 @@ The <action> type attribute can be add,update,fix,remove.
         Added the FileCleanerCleanup as an example for how to close
         down the FileCleaner's reaper thread nicely.
       </action>
+
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-123">
+        A descriptive NPE is now thrown, if the FileItemFactory
+        has not been set.
+      </action>
 	</release>
 
     <release version="1.1.1" date="2006-06-08" description="Bugfix release">
