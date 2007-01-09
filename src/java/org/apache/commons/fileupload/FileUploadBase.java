@@ -341,6 +341,9 @@ public abstract class FileUploadBase {
             FileItemIterator iter = getItemIterator(ctx);
             List items = new ArrayList();
             FileItemFactory fac = getFileItemFactory();
+            if (fac == null) {
+                throw new NullPointerException("No FileItemFactory has been set.");
+            }
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 FileItem fileItem = fac.createItem(item.getFieldName(),
