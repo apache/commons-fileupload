@@ -37,7 +37,7 @@
   <property name="proxy.password" value="">
   </property>
   <path id="build.classpath">
-    <pathelement location="${libdir}/commons-io/jars/commons-io-1.1.jar">
+    <pathelement location="${libdir}/commons-io/jars/commons-io-1.3.jar">
     </pathelement>
     <pathelement location="${libdir}/javax.servlet/jars/servlet-api-2.3.jar">
     </pathelement>
@@ -188,13 +188,13 @@
   <target name="get-dep-commons-io.jar" description="o Download the dependency : commons-io.jar" unless="commons-io.jar" depends="init,setProxy,noProxy,get-custom-dep-commons-io.jar">
     <mkdir dir="${libdir}/commons-io/jars/">
     </mkdir>
-    <get dest="${libdir}/commons-io/jars/commons-io-1.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-io/jars/commons-io-1.1.jar">
+    <get dest="${libdir}/commons-io/jars/commons-io-1.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-io/jars/commons-io-1.3.jar">
     </get>
   </target>
   <target name="get-custom-dep-commons-io.jar" if="commons-io.jar" depends="init,setProxy,noProxy">
     <mkdir dir="${libdir}/commons-io/jars/">
     </mkdir>
-    <get dest="${libdir}/commons-io/jars/commons-io-1.1.jar" usetimestamp="true" ignoreerrors="true" src="${commons-io.jar}">
+    <get dest="${libdir}/commons-io/jars/commons-io-1.3.jar" usetimestamp="true" ignoreerrors="true" src="${commons-io.jar}">
     </get>
   </target>
   <target name="get-dep-servlet-api.jar" description="o Download the dependency : servlet-api.jar" unless="servlet-api.jar" depends="init,setProxy,noProxy,get-custom-dep-servlet-api.jar">
