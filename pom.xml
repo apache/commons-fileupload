@@ -147,6 +147,58 @@
           <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>addLicenseAndNotice</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <delete dir="${project.build.directory}/zipDir"/>
+                <mkdir dir="${project.build.directory}/zipDir"/>
+                <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-sources.jar" dest="${project.build.directory}/zipDir"/>
+                <copy todir="${project.build.directory}/zipDir/META-INF">
+                  <fileset dir="${basedir}">
+                    <include name="LICENSE.txt"/>
+                    <include name="NOTICE.txt"/>
+                  </fileset>
+                </copy>
+                <zip destfile="${project.build.directory}/${project.artifactId}-${project.version}-sources.jar">
+                  <fileset dir="${project.build.directory}/zipDir"/>
+                </zip>
+                <delete dir="${project.build.directory}/zipDir"/>
+                <mkdir dir="${project.build.directory}/zipDir"/>
+                <unzip src="${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar" dest="${project.build.directory}/zipDir"/>
+                <copy todir="${project.build.directory}/zipDir/META-INF">
+                  <fileset dir="${basedir}">
+                    <include name="LICENSE.txt"/>
+                    <include name="NOTICE.txt"/>
+                  </fileset>
+                </copy>
+                <zip destfile="${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar">
+                  <fileset dir="${project.build.directory}/zipDir"/>
+                </zip>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -233,6 +285,14 @@
           <rulesets>
             <ruleset>src/checkstyle/fileupload_basic.xml</ruleset>
           </rulesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <configuration>
+          <comparisonVersion>1.1</comparisonVersion>
+          <minSeverity>info</minSeverity>
         </configuration>
       </plugin>
     </plugins>
