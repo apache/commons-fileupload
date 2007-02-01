@@ -158,7 +158,7 @@ public abstract class FileUploadBase {
      */
     public static final int MAX_HEADER_SIZE = 1024;
 
-    
+
     // ----------------------------------------------------------- Data members
 
 
@@ -342,7 +342,8 @@ public abstract class FileUploadBase {
             List items = new ArrayList();
             FileItemFactory fac = getFileItemFactory();
             if (fac == null) {
-                throw new NullPointerException("No FileItemFactory has been set.");
+                throw new NullPointerException(
+                    "No FileItemFactory has been set.");
             }
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
@@ -485,7 +486,7 @@ public abstract class FileUploadBase {
                 getFileName(headers));
     }
 
-    
+
     /**
      * <p> Parses the <code>header-part</code> and returns as key/value
      * pairs.
@@ -1114,14 +1115,17 @@ public abstract class FileUploadBase {
         private static final long serialVersionUID = -2474893167098052828L;
 
         /**
-         * @deprecated Replaced by {@link #SizeLimitExceededException(String, long, long)} 
+         * @deprecated Replaced by
+         * {@link #SizeLimitExceededException(String, long, long)}
          */
         public SizeLimitExceededException() {
             this(null, 0, 0);
         }
 
         /**
-         * @deprecated Replaced by {@link #SizeLimitExceededException(String, long, long)} 
+         * @deprecated Replaced by
+         * {@link #SizeLimitExceededException(String, long, long)}
+         * @param message The exceptions detail message.
          */
         public SizeLimitExceededException(String message) {
             this(message, 0, 0);
