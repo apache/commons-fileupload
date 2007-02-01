@@ -22,12 +22,12 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>2-SNAPSHOT</version>
+    <version>1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2rc2</version>
   <name>FileUpload</name>
   <description>
     The FileUpload component provides a simple yet flexible means of adding support for multipart
