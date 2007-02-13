@@ -41,7 +41,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-	<release version="1.2" date="Not yet released">
+	<release version="1.2" date="2007-02-13">
 
       <action dev="jochen" type="fix" due-to="Aaron Freeman"
            due-to-email="aaron@sendthisfile.com">

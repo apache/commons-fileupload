@@ -27,7 +27,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.2rc3</version>
+  <version>1.2</version>
   <name>FileUpload</name>
   <description>
     The FileUpload component provides a simple yet flexible means of adding support for multipart

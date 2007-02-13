@@ -58,6 +58,14 @@
     <section name="Downloading">
         <subsection name='Full Releases'>
           <p>
+            <strong>FileUpload 2</strong> - 13 February 2007
+            <ul>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://jakarta.apache.org/site/downloads/downloads_commons-fileupload.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
+          <p>
             <strong>FileUpload 1.1.1</strong> - 08 June 2006
             <ul>
               <li>Download the binary and source distributions from a mirror site
