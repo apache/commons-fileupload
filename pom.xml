@@ -249,6 +249,25 @@
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
               <execution>
+                <id>copySiteResources</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <mkdir dir="${project.build.directory}/site"/>
+                    <copy todir="${project.build.directory}/site">
+                      <fileset dir="xdocs">
+                        <include name="**/*.css"/>
+                        <include name="**/*.gif"/>
+                        <include name="**/*.png"/>
+                      </fileset>
+                    </copy>
+                  </tasks>
+                </configuration>
+              </execution>
+              <execution>
                 <id>addLicenseAndNotice</id>
                 <phase>verify</phase>
                 <goals>
