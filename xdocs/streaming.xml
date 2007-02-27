@@ -72,7 +72,7 @@ while (iter.hasNext()) {
     InputStream stream = item.openStream();
     if (item.isFormField()) {
         System.out.println("Form field " + name + " with value "
-            + StreamUtil.asString(stream) + " detected.");
+            + Streams.asString(stream) + " detected.");
     } else {
         System.out.println("File field " + name + " with file name "
             + item.getName() + " detected.");
