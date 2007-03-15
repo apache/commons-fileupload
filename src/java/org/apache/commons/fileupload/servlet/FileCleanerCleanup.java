@@ -16,10 +16,11 @@
  */
 package org.apache.commons.fileupload.servlet;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
 
-import org.apache.commons.io.FileCleaner;
+import org.apache.commons.io.FileCleaningTracker;
 
 
 /**
@@ -29,20 +30,45 @@ import org.apache.commons.io.FileCleaner;
  */
 public class FileCleanerCleanup implements ServletContextListener {
     /**
+     * Attribute name, which is used for storing an instance of
+     * {@link FileCleaningTracker} in the web application.
+     */
+    public static final String FILE_CLEANING_TRACKER_ATTRIBUTE
+        = FileCleanerCleanup.class.getName() + ".FileCleaningTracker";
+
+    /**
+     * Returns the instance of {@link FileCleaningTracker}, which is
+     * associated with the given {@link ServletContext}.
+     */
+    public static FileCleaningTracker getFileCleaningTracker(ServletContext pServletContext) {
+        return (FileCleaningTracker) pServletContext.getAttribute(FILE_CLEANING_TRACKER_ATTRIBUTE);
+    }
+
+    /**
+     * Sets the instance of {@link FileCleaningTracker}, which is
+     * associated with the given {@link ServletContext}.
+     */
+    public static void setFileCleaningTracker(ServletContext pServletContext, FileCleaningTracker pTracker) {
+        pServletContext.setAttribute(FILE_CLEANING_TRACKER_ATTRIBUTE, pTracker);
+    }
+
+    /**
      * Called when the web application is initialized. Does
      * nothing.
-     * @param sce The servlet context (ignored).
+     * @param sce The servlet context, used for calling
+     *   {@link #setFileCleaningTracker(ServletContext, FileCleaningTracker)}.
      */
     public void contextInitialized(ServletContextEvent sce) {
-        // Does nothing.
+        setFileCleaningTracker(sce.getServletContext(), new FileCleaningTracker());
     }
 
     /**
      * Called when the web application is being destroyed.
-     * Calls {@link FileCleaner#exitWhenFinished()}.
-     * @param sce The servlet context (ignored).
+     * Calls {@link FileCleaningTracker#exitWhenFinished()}.
+     * @param sce The servlet context, used for calling
+     *     {@link #getFileCleaningTracker(ServletContext)}.
      */
     public void contextDestroyed(ServletContextEvent sce) {
-        FileCleaner.exitWhenFinished();
+        getFileCleaningTracker(sce.getServletContext()).exitWhenFinished();
     }
 }

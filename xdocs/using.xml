@@ -283,15 +283,23 @@ byte[] data = item.get();
     <p>
       Such temporary files are deleted automatically, if they are no longer
       used (more precisely, if the corresponding instance of <code>java.io.File</code>
-      is garbage collected. This is done silently by the <code>org.apache.commons.io.FileCleaner</code>
-      class, which starts a reaper thread.
+      is garbage collected. This is done silently by an instance of
+      <code>org.apache.commons.io.FileCleaningTracker</code>, which starts a
+      reaper thread.
     </p>
     <p>
-      This reaper thread should be stopped, if it is no longer needed. In
-      a servlet environment, this is done by using a special servlet
-      context listener, called
-      <a href="apidocs/org/apache/commons/fileupload/servlet/FileCleanerCleanup.html">FileCleanerCleanup</a>.
-      To do so, add a section like the following to your <code>web.xml</code>:
+      In what follows, we assume that you are writing a web application. In
+      a web application, resource cleanup is controlled by an instance of
+      <code>javax.servlet.ServletContextListener</code>. In other environments,
+      similar ideas must be applied.
+    </p>
+
+    <subsection name="The FileCleanerCleanup">
+      <p>
+        Your web application should use an instance of
+        <code>org.apache.commons.fileupload.FileCleanerCleanup</code>.
+        That's very easy, you've simply got to add it to your <code>web.xml</code>:
+      </p>
 <source><![CDATA[
 <web-app>
   ...
@@ -303,32 +311,27 @@ byte[] data = item.get();
   ...
 </web-app>
 ]]></source>
-    </p>
-    <p>
-      Unfortunately, this is not the whole story. The above applies only, if
-    </p>
-    <ol>
-      <li>You are using commons-io 1.3, or later.</li>
-      <li>You are loading commons-io from your web applications
-        WEB-INF/lib and not from another location, for example the
-        common/lib directory of Tomcat. This is not unlikely, because
-        there are quite a few applications, which do ship commons-io.</li>
-    </ol>
-    <p>
-      If commons-io 1.3 is loaded from your containers class path, then
-      the following might occur: Suggest that you have two applications,
-      called A and B running. (It might as well be the same application
-      with two names aka servlet contexts.) Both applications are using
-      the <code>FileCleanerCleanup</code>. Now, if you terminate application
-      A, but B is still running, then A terminates B's reaper thread as
-      well.
-    </p>
-    <p>
-      In other words, you should consider carefully, whether to use
-      the <code>FileCleanerCleanup</code>, or not. When unsure, or if you
-      are happy with commons-fileupload 1.1.1, or before, then you
-      possibly would like to avoid it.
-    </p>
+    </subsection>
+
+    <subsection name="Creating a DiskFileItemFactory">
+      <p>
+        The FileCleanerCleanup provides an instance of
+        <code>org.apache.commons.io.FileCleaningTracker</code>. This
+        instance must be used when creating a
+        <code>org.apache.commons.fileupload.disk.DiskFileItemFactory</code>.
+        This should be done by calling a method like the following:
+      </p>
+<source><![CDATA[
+    public static DiskFileItemFactory newDiskFileItemFactory(ServletContext context,
+                                                             File repository) {
+        FileCleaningTracker fileCleaningTracker
+            = FileCleanerCleanup.getFileCleaningTracker(context);
+        return new DiskFileItemFactory(fileCleaningTracker,
+                                       DiskFileItemFactory.DEFAULT_SIZE_THRESHOLD,
+                                       repository);
+    }
+]]></source>
+    </subsection>
   </section>
 
   <section name="Interaction with virus scanners">
