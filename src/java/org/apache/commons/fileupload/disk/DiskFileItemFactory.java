@@ -21,6 +21,7 @@ import java.io.File;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.io.FileCleaner;
+import org.apache.commons.io.FileCleaningTracker;
 
 /**
  * <p>The default {@link org.apache.commons.fileupload.FileItemFactory}
@@ -44,10 +45,11 @@ import org.apache.commons.io.FileCleaner;
  * consider the following: Temporary files are automatically deleted as
  * soon as they are no longer needed. (More precisely, when the
  * corresponding instance of {@link java.io.File} is garbage collected.)
- * This is done by the so-called reaper thread, which is started
- * automatically when the class {@link FileCleaner} is loaded.
- * It might make sense to terminate that thread, for example, if
- * your web application ends. See the section on "Resource cleanup"
+ * Cleaning up those files is done by an instance of
+ * {@link FileCleaningTracker}, and an associated thread. In a complex
+ * environment, for example in a web application, you should consider
+ * terminating this thread, for example, when your web application
+ * ends. See the section on "Resource cleanup"
  * in the users guide of commons-fileupload.</p>
  * 
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
@@ -82,14 +84,22 @@ public class DiskFileItemFactory implements FileItemFactory {
     private int sizeThreshold = DEFAULT_SIZE_THRESHOLD;
 
 
+    /**
+     * The instance of {@link FileCleaningTracker}, which is responsible
+     * for deleting temporary files.
+     */
+    private FileCleaningTracker fileCleaningTracker;
+
     // ----------------------------------------------------------- Constructors
 
 
     /**
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
+     * @deprecated Use {@link #DiskFileItemFactory(FileCleaningTracker, int, File)}.
      */
     public DiskFileItemFactory() {
+        this(FileCleaner.getInstance(), DEFAULT_SIZE_THRESHOLD, null);
     }
 
 
@@ -102,12 +112,28 @@ public class DiskFileItemFactory implements FileItemFactory {
      * @param repository    The data repository, which is the directory in
      *                      which files will be created, should the item size
      *                      exceed the threshold.
+     * @deprecated Use {@link #DiskFileItemFactory(FileCleaningTracker, int, File)}.
      */
     public DiskFileItemFactory(int sizeThreshold, File repository) {
-        this.sizeThreshold = sizeThreshold;
-        this.repository = repository;
+        this(FileCleaner.getInstance(), sizeThreshold, repository);
     }
 
+    /**
+     * Constructs a preconfigured instance of this class.
+     *
+     * @param sizeThreshold The threshold, in bytes, below which items will be
+     *                      retained in memory and above which they will be
+     *                      stored as a file.
+     * @param repository    The data repository, which is the directory in
+     *                      which files will be created, should the item size
+     *                      exceed the threshold.
+     * @param tracker       The tracker, which is responsible to delete temporary files.
+     */
+    public DiskFileItemFactory(FileCleaningTracker tracker, int sizeThreshold, File repository) {
+        this.sizeThreshold = sizeThreshold;
+        this.repository = repository;
+        this.fileCleaningTracker = tracker;
+    }
 
     // ------------------------------------------------------------- Properties
 
@@ -188,8 +214,28 @@ public class DiskFileItemFactory implements FileItemFactory {
             boolean isFormField,
             String fileName
             ) {
-        return new DiskFileItem(fieldName, contentType,
-                isFormField, fileName, sizeThreshold, repository);
+        return new DiskFileItem(this, fieldName, contentType,
+                isFormField, fileName);
+    }
+
+    /**
+     * Returns the tracker, which is responsible for deleting temporary
+     * files.
+     * @return An instance of {@link FileCleaningTracker}, defaults to
+     *   {@link FileCleaner#getInstance()}.
+     */
+    public FileCleaningTracker getFileCleaningTracker() {
+        return fileCleaningTracker;
+    }
+
+    /**
+     * Returns the tracker, which is responsible for deleting temporary
+     * files.
+     * @param pFileCleaningTracker An instance of {@link FileCleaningTracker},
+     *   which will from now on track the created files.
+     */
+    public void setFileCleaningTracker(FileCleaningTracker pFileCleaningTracker) {
+        fileCleaningTracker = pFileCleaningTracker;
     }
 
 }
