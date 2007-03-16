@@ -78,6 +78,11 @@
 
   <versions>
     <version>
+      <id>1.2</id>
+      <name>1.1.1</name>
+      <tag>commons-fileupload-1.2</tag>
+    </version>
+    <version>
       <id>1.1.1</id>
       <name>1.1.1</name>
       <tag>FILEUPLOAD_1_1_1</tag>
