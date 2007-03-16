@@ -90,7 +90,17 @@ public class ProgressListenerTest extends FileUploadTestCase {
         	FileItemStream stream = iter.next();
         	InputStream istream = stream.openStream();
         	for (int j = 0;  j < 16384+i;  j++) {
-        		assertEquals((byte) j, (byte) istream.read());
+        	    /**
+                 * This used to be
+                 *     assertEquals((byte) j, (byte) istream.read());
+                 * but this seems to trigger a bug in JRockit, so
+                 * we express the same like this:
+        	     */
+                byte b1 = (byte) j;
+                byte b2 = (byte) istream.read();
+                if (b1 != b2) {
+                    fail("Expected " + b1 + ", got " + b2);
+                }
         	}
         	assertEquals(-1, istream.read());
         }

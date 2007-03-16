@@ -235,6 +235,14 @@
           </rulesets>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <configuration>
+          <comparisonVersion>1.1</comparisonVersion>
+          <minSeverity>info</minSeverity>
+        </configuration>
+      </plugin>
     </plugins>
   </reporting>
 </project>

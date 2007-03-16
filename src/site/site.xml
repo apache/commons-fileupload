@@ -17,10 +17,16 @@
 -->
 <project name="FileUpload">
   <bannerLeft>
-    <name>Commons FileUpload</name>
-    <src>http://jakarta.apache.org/images/jakarta-logo-blue.gif</src>
-    <href>http://jakarta.apache.org/commons/fileupload</href>
+    <name>Jakarta Commons</name>
+    <src>http://jakarta.apache.org/commons/fileupload/images/jakarta-logo-blue.gif</src>
+    <href>http://jakarta.apache.org/commons</href>
   </bannerLeft>
+
+  <bannerRight>
+    <name>Commons FileUpload</name>
+    <src>http://jakarta.apache.org/commons/fileupload/images/logo.png</src>
+    <href>http://jakarta.apache.org/commons/fileupload</href>
+  </bannerRight>
 
   <skin>
     <groupId>org.apache.commons</groupId>
