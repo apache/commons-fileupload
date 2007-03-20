@@ -402,6 +402,14 @@ class MockHttpServletRequest implements HttpServletRequest
 	}
 
 	/**
+	 * @see javax.servlet.ServletRequest#getLocalName()
+	 */
+	public String getLocalName()
+	{
+	    return null;
+	}
+
+    /**
 	 * @see javax.servlet.ServletRequest#getServerPort()
 	 */
 	public int getServerPort()
@@ -410,6 +418,22 @@ class MockHttpServletRequest implements HttpServletRequest
 	}
 
 	/**
+	 * @see javax.servlet.ServletRequest#getLocalPort()
+	 */
+	public int getLocalPort()
+	{
+	    return 0;
+	}
+
+	/**
+	 * @see javax.servlet.ServletRequest#getRemotePort()
+	 */
+	public int getRemotePort()
+	{
+	    return 0;
+	}
+
+    /**
 	 * @see javax.servlet.ServletRequest#getReader()
 	 */
 	public BufferedReader getReader() throws IOException
@@ -426,6 +450,14 @@ class MockHttpServletRequest implements HttpServletRequest
 	}
 
 	/**
+	 * @see javax.servlet.ServletRequest#getLocalAddr()
+	 */
+	public String getLocalAddr()
+	{
+	    return null;
+	}
+
+    /**
 	 * @see javax.servlet.ServletRequest#getRemoteHost()
 	 */
 	public String getRemoteHost()

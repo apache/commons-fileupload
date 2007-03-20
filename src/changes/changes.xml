@@ -46,6 +46,11 @@ The <action> type attribute can be add,update,fix,remove.
         Upgrade to commons-io-1.4-SNAPSHOT, in order to use the new
         FileCleaningTracker and fix issues with FileCleaner.
       </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-129">
+        Made the MockHttpServletRequest comply to the servlet 2.4 specification
+        by applying
+        http://www.sourcelabs.com/dashboards/sash-1.2/patches/commons-fileupload-1.1-1/SUP-520.diff
+      </action>
     </release>
 
 	<release version="1.2" date="2007-02-13">
