@@ -36,6 +36,8 @@ import org.apache.commons.io.FileCleaner;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemHeaders;
+import org.apache.commons.fileupload.FileItemHeadersSupport;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
 
@@ -75,7 +77,7 @@ import org.apache.commons.fileupload.ParameterParser;
  * @version $Id$
  */
 public class DiskFileItem
-    implements FileItem {
+    implements FileItem, FileItemHeadersSupport {
 
     // ----------------------------------------------------- Manifest constants
 
@@ -174,6 +176,11 @@ public class DiskFileItem
      * The tracker, which is responsible for deleting the temporary file.
      */
     private FileCleaningTracker fileCleaningTracker;
+
+    /**
+     * The file items headers.
+     */
+    private FileItemHeaders headers;
 
     // ----------------------------------------------------------- Constructors
 
@@ -762,4 +769,17 @@ public class DiskFileItem
         cachedContent = null;
     }
 
+    /**
+     * Returns the file item headers.
+     */
+    public FileItemHeaders getHeaders() {
+        return headers;
+    }
+
+    /**
+     * Sets the file item headers.
+     */
+    public void setHeaders(FileItemHeaders pHeaders) {
+        headers = pHeaders;
+    }
 }
