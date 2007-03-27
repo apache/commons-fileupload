@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.fileupload.util.Closeable;
+import org.apache.commons.fileupload.util.FileItemHeadersImpl;
 import org.apache.commons.fileupload.util.LimitedInputStream;
 import org.apache.commons.fileupload.util.Streams;
 
@@ -360,6 +362,9 @@ public abstract class FileUploadBase {
                             "Processing of " + MULTIPART_FORM_DATA
                             + " request failed. " + e.getMessage(), e);
                 }
+                if (fileItem instanceof FileItemHeadersSupport) {
+                    ((FileItemHeadersSupport) fileItem).setHeaders(item.getHeaders());
+                }
                 items.add(fileItem);
             }
             return items;
@@ -409,17 +414,33 @@ public abstract class FileUploadBase {
      * @param headers A <code>Map</code> containing the HTTP request headers.
      *
      * @return The file name for the current <code>encapsulation</code>.
+     * @deprecated Use {@link #getFileName(FileItemHeaders)}.
      */
     protected String getFileName(Map /* String, String */ headers) {
+        return getFileName(getHeader(headers, CONTENT_DISPOSITION));
+    }
+
+    /**
+     * Retrieves the file name from the <code>Content-disposition</code>
+     * header.
+     *
+     * @param headers The HTTP headers object.
+     *
+     * @return The file name for the current <code>encapsulation</code>.
+     */
+    protected String getFileName(FileItemHeaders headers) {
+        return getFileName(headers.getHeader(CONTENT_DISPOSITION));
+    }
+
+    private String getFileName(String pContentDisposition) {
         String fileName = null;
-        String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if (cd != null) {
-            String cdl = cd.toLowerCase();
+        if (pContentDisposition != null) {
+            String cdl = pContentDisposition.toLowerCase();
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
                 ParameterParser parser = new ParameterParser();
                 parser.setLowerCaseNames(true);
                 // Parameter parser can handle null input
-                Map params = parser.parse(cd, ';');
+                Map params = parser.parse(pContentDisposition, ';');
                 if (params.containsKey("filename")) {
                     fileName = (String) params.get("filename");
                     if (fileName != null) {
@@ -445,21 +466,36 @@ public abstract class FileUploadBase {
      *
      * @return The field name for the current <code>encapsulation</code>.
      */
-    protected String getFieldName(Map /* String, String */ headers) {
-        String fieldName = null;
-        String cd = getHeader(headers, CONTENT_DISPOSITION);
-        if (cd != null && cd.toLowerCase().startsWith(FORM_DATA)) {
+    protected String getFieldName(FileItemHeaders headers) {
+        return getFieldName(headers.getHeader(CONTENT_DISPOSITION));
+    }
 
+    private String getFieldName(String pContentDisposition) {
+        String fieldName = null;
+        if (pContentDisposition != null && pContentDisposition.toLowerCase().startsWith(FORM_DATA)) {
             ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
-            Map params = parser.parse(cd, ';');
+            Map params = parser.parse(pContentDisposition, ';');
             fieldName = (String) params.get("name");
             if (fieldName != null) {
                 fieldName = fieldName.trim();
             }
         }
         return fieldName;
+    }
+
+    /**
+     * Retrieves the field name from the <code>Content-disposition</code>
+     * header.
+     *
+     * @param headers A <code>Map</code> containing the HTTP request headers.
+     *
+     * @return The field name for the current <code>encapsulation</code>.
+     * @deprecated Use {@link #getFieldName(FileItemHeaders)}.
+     */
+    protected String getFieldName(Map /* String, String */ headers) {
+        return getFieldName(getHeader(headers, CONTENT_DISPOSITION));
     }
 
 
@@ -486,7 +522,6 @@ public abstract class FileUploadBase {
                 getFileName(headers));
     }
 
-    
     /**
      * <p> Parses the <code>header-part</code> and returns as key/value
      * pairs.
@@ -499,9 +534,9 @@ public abstract class FileUploadBase {
      *
      * @return A <code>Map</code> containing the parsed HTTP request headers.
      */
-    protected Map /* String, String */ parseHeaders(String headerPart) {
+    protected FileItemHeaders getParsedHeaders(String headerPart) {
         final int len = headerPart.length();
-        Map headers = new HashMap();
+        FileItemHeadersImpl headers = newFileItemHeaders();
         int start = 0;
         for (;;) {
             int end = parseEndOfLine(headerPart, start);
@@ -533,6 +568,42 @@ public abstract class FileUploadBase {
     }
 
     /**
+     * Creates a new instance of {@link FileItemHeaders}.
+     * @return The new instance.
+     */
+    protected FileItemHeadersImpl newFileItemHeaders() {
+        return new FileItemHeadersImpl();
+    }
+    
+    /**
+     * <p> Parses the <code>header-part</code> and returns as key/value
+     * pairs.
+     *
+     * <p> If there are multiple headers of the same names, the name
+     * will map to a comma-separated list containing the values.
+     *
+     * @param headerPart The <code>header-part</code> of the current
+     *                   <code>encapsulation</code>.
+     *
+     * @return A <code>Map</code> containing the parsed HTTP request headers.
+     * @deprecated Use {@link #getParsedHeaders(String)}
+     */
+    protected Map /* String, String */ parseHeaders(String headerPart) {
+        FileItemHeaders headers = getParsedHeaders(headerPart);
+        Map result = new HashMap();
+        for (Iterator iter = headers.getHeaderNames();  iter.hasNext();  ) {
+            String headerName = (String) iter.next();
+            Iterator iter2 = headers.getHeaders(headerName);
+            String headerValue = (String) iter2.next();
+            while (iter2.hasNext()) {
+                headerValue += "," + iter2.next();
+            }
+            result.put(headerName, headerValue);
+        }
+        return result;
+    }
+
+    /**
      * Skips bytes until the end of the current line.
      * @param headerPart The headers, which are being parsed.
      * @param end Index of the last byte, which has yet been
@@ -560,25 +631,16 @@ public abstract class FileUploadBase {
      * @param headers String with all headers.
      * @param header Map where to store the current header.
      */
-    private void parseHeaderLine(Map headers, String header) {
+    private void parseHeaderLine(FileItemHeadersImpl headers, String header) {
         final int colonOffset = header.indexOf(':');
         if (colonOffset == -1) {
             // This header line is malformed, skip it.
             return;
         }
-        String headerName = header.substring(0, colonOffset)
-            .trim().toLowerCase();
+        String headerName = header.substring(0, colonOffset).trim();
         String headerValue =
             header.substring(header.indexOf(':') + 1).trim();
-        if (getHeader(headers, headerName) != null) {
-            // More that one heder of that name exists,
-            // append to the list.
-            headers.put(headerName,
-                    getHeader(headers, headerName) + ','
-                    + headerValue);
-        } else {
-            headers.put(headerName, headerValue);
-        }
+        headers.addHeader(headerName, headerValue);
     }
 
     /**
@@ -590,6 +652,7 @@ public abstract class FileUploadBase {
      *
      * @return The value of specified header, or a comma-separated list if
      *         there were multiple headers of that name.
+     * @deprecated Use {@link FileItemHeaders#getHeader(String)}.
      */
     protected final String getHeader(Map /* String, String */ headers,
             String name) {
@@ -623,6 +686,9 @@ public abstract class FileUploadBase {
             /** Whether the file item was already opened.
              */
             private boolean opened;
+            /** The headers, if any.
+             */
+            private FileItemHeaders headers;
 
             /**
              * CReates a new instance.
@@ -712,6 +778,14 @@ public abstract class FileUploadBase {
              */
             void close() throws IOException {
                 stream.close();
+            }
+
+            public FileItemHeaders getHeaders() {
+                return headers;
+            }
+
+            public void setHeaders(FileItemHeaders pHeaders) {
+                headers = pHeaders;
             }
         }
 
@@ -856,13 +930,12 @@ public abstract class FileUploadBase {
                     currentFieldName = null;
                     continue;
                 }
-                Map headers = parseHeaders(multi.readHeaders());
+                FileItemHeaders headers = getParsedHeaders(multi.readHeaders());
                 if (currentFieldName == null) {
                     // We're parsing the outer multipart
                     String fieldName = getFieldName(headers);
                     if (fieldName != null) {
-                        String subContentType
-                            = getHeader(headers, CONTENT_TYPE);
+                        String subContentType = headers.getHeader(CONTENT_TYPE);
                         if (subContentType != null
                                 &&  subContentType.toLowerCase()
                                         .startsWith(MULTIPART_MIXED)) {
@@ -875,7 +948,7 @@ public abstract class FileUploadBase {
                         }
                         String fileName = getFileName(headers);
                         currentItem = new FileItemStreamImpl(fileName,
-                                fieldName, getHeader(headers, CONTENT_TYPE),
+                                fieldName, headers.getHeader(CONTENT_TYPE),
                                 fileName == null);
                         notifier.noteItem();
                         itemValid = true;
@@ -886,7 +959,7 @@ public abstract class FileUploadBase {
                     if (fileName != null) {
                         currentItem = new FileItemStreamImpl(fileName,
                                 currentFieldName,
-                                getHeader(headers, CONTENT_TYPE),
+                                headers.getHeader(CONTENT_TYPE),
                                 false);
                         notifier.noteItem();
                         itemValid = true;
