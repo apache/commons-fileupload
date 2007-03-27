@@ -201,7 +201,8 @@ public class DiskFileItem
      * @param repository    The data repository, which is the directory in
      *                      which files will be created, should the item size
      *                      exceed the threshold.
-     * @deprecated Use {@link #DiskFileItem(FileCleaningTracker, String, String, boolean, String, int, File)}.
+     * @deprecated Use {@link #DiskFileItem(FileCleaningTracker, String, String,
+     *                                      boolean, String, int, File)}.
      */
     public DiskFileItem(String fieldName, String contentType,
             boolean isFormField, String fileName, int sizeThreshold,
@@ -230,8 +231,9 @@ public class DiskFileItem
      *                      which files will be created, should the item size
      *                      exceed the threshold.
      */
-    private DiskFileItem(FileCleaningTracker tracker, String fieldName, String contentType,
-            boolean isFormField, String fileName, int sizeThreshold, File repository) {
+    private DiskFileItem(FileCleaningTracker tracker, String fieldName,
+            String contentType, boolean isFormField, String fileName,
+            int sizeThreshold, File repository) {
         this.fileCleaningTracker = tracker;
         this.fieldName = fieldName;
         this.contentType = contentType;
@@ -253,8 +255,8 @@ public class DiskFileItem
      * @param fileName      The original filename in the user's filesystem, or
      *                      <code>null</code> if not specified.
      */
-    public DiskFileItem(DiskFileItemFactory factory, String fieldName, String contentType,
-            boolean isFormField, String fileName) {
+    public DiskFileItem(DiskFileItemFactory factory, String fieldName,
+            String contentType, boolean isFormField, String fileName) {
         this(factory.getFileCleaningTracker(), fieldName, contentType,
                 isFormField, fileName, factory.getSizeThreshold(),
                 factory.getRepository());
@@ -771,6 +773,7 @@ public class DiskFileItem
 
     /**
      * Returns the file item headers.
+     * @return The file items headers.
      */
     public FileItemHeaders getHeaders() {
         return headers;
@@ -778,6 +781,7 @@ public class DiskFileItem
 
     /**
      * Sets the file item headers.
+     * @param pHeaders The file items headers.
      */
     public void setHeaders(FileItemHeaders pHeaders) {
         headers = pHeaders;
