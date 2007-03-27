@@ -51,7 +51,7 @@ import org.apache.commons.io.FileCleaningTracker;
  * terminating this thread, for example, when your web application
  * ends. See the section on "Resource cleanup"
  * in the users guide of commons-fileupload.</p>
- * 
+ *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  *
  * @since FileUpload 1.1
@@ -96,7 +96,8 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
-     * @deprecated Use {@link #DiskFileItemFactory(FileCleaningTracker, int, File)}.
+     * @deprecated Use
+     *     {@link #DiskFileItemFactory(FileCleaningTracker, int, File)}.
      */
     public DiskFileItemFactory() {
         this(FileCleaner.getInstance(), DEFAULT_SIZE_THRESHOLD, null);
@@ -112,7 +113,8 @@ public class DiskFileItemFactory implements FileItemFactory {
      * @param repository    The data repository, which is the directory in
      *                      which files will be created, should the item size
      *                      exceed the threshold.
-     * @deprecated Use {@link #DiskFileItemFactory(FileCleaningTracker, int, File)}.
+     * @deprecated Use
+     *     {@link #DiskFileItemFactory(FileCleaningTracker, int, File)}.
      */
     public DiskFileItemFactory(int sizeThreshold, File repository) {
         this(FileCleaner.getInstance(), sizeThreshold, repository);
@@ -127,9 +129,11 @@ public class DiskFileItemFactory implements FileItemFactory {
      * @param repository    The data repository, which is the directory in
      *                      which files will be created, should the item size
      *                      exceed the threshold.
-     * @param tracker       The tracker, which is responsible to delete temporary files.
+     * @param tracker       The tracker, which is responsible to delete
+     *                      temporary files.
      */
-    public DiskFileItemFactory(FileCleaningTracker tracker, int sizeThreshold, File repository) {
+    public DiskFileItemFactory(FileCleaningTracker tracker, int sizeThreshold,
+            File repository) {
         this.sizeThreshold = sizeThreshold;
         this.repository = repository;
         this.fileCleaningTracker = tracker;
@@ -231,11 +235,11 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * Returns the tracker, which is responsible for deleting temporary
      * files.
-     * @param pFileCleaningTracker An instance of {@link FileCleaningTracker},
+     * @param pTracker An instance of {@link FileCleaningTracker},
      *   which will from now on track the created files.
      */
-    public void setFileCleaningTracker(FileCleaningTracker pFileCleaningTracker) {
-        fileCleaningTracker = pFileCleaningTracker;
+    public void setFileCleaningTracker(FileCleaningTracker pTracker) {
+        fileCleaningTracker = pTracker;
     }
 
 }

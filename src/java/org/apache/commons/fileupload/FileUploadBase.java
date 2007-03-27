@@ -432,6 +432,11 @@ public abstract class FileUploadBase {
         return getFileName(headers.getHeader(CONTENT_DISPOSITION));
     }
 
+    /**
+     * Returns the given content-disposition headers file name.
+     * @param pContentDisposition The content-disposition headers value.
+     * @return The file name
+     */
     private String getFileName(String pContentDisposition) {
         String fileName = null;
         if (pContentDisposition != null) {
@@ -470,9 +475,16 @@ public abstract class FileUploadBase {
         return getFieldName(headers.getHeader(CONTENT_DISPOSITION));
     }
 
+    /**
+     * Returns the field name, which is given by the content-disposition
+     * header.
+     * @param pContentDisposition The content-dispositions header value.
+     * @return The field jake
+     */
     private String getFieldName(String pContentDisposition) {
         String fieldName = null;
-        if (pContentDisposition != null && pContentDisposition.toLowerCase().startsWith(FORM_DATA)) {
+        if (pContentDisposition != null
+                && pContentDisposition.toLowerCase().startsWith(FORM_DATA)) {
             ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
@@ -574,7 +586,7 @@ public abstract class FileUploadBase {
     protected FileItemHeadersImpl newFileItemHeaders() {
         return new FileItemHeadersImpl();
     }
-    
+
     /**
      * <p> Parses the <code>header-part</code> and returns as key/value
      * pairs.
@@ -780,10 +792,18 @@ public abstract class FileUploadBase {
                 stream.close();
             }
 
+            /**
+             * Returns the file item headers.
+             * @return The items header object
+             */
             public FileItemHeaders getHeaders() {
                 return headers;
             }
 
+            /**
+             * Sets the file item headers.
+             * @param pHeaders The items header object
+             */
             public void setHeaders(FileItemHeaders pHeaders) {
                 headers = pHeaders;
             }

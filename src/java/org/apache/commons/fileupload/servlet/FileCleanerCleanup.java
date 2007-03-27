@@ -25,7 +25,8 @@ import org.apache.commons.io.FileCleaningTracker;
 
 /**
  * A servlet context listener, which ensures that the
- * {@link org.apache.commons.io.FileCleaner FileCleaner's} reaper thread is terminated,
+ * {@link org.apache.commons.io.FileCleaner FileCleaner's}
+ * reaper thread is terminated,
  * when the web application is destroyed.
  */
 public class FileCleanerCleanup implements ServletContextListener {
@@ -39,16 +40,23 @@ public class FileCleanerCleanup implements ServletContextListener {
     /**
      * Returns the instance of {@link FileCleaningTracker}, which is
      * associated with the given {@link ServletContext}.
+     * @param pServletContext The servlet context to query
+     * @return The contexts tracker
      */
-    public static FileCleaningTracker getFileCleaningTracker(ServletContext pServletContext) {
-        return (FileCleaningTracker) pServletContext.getAttribute(FILE_CLEANING_TRACKER_ATTRIBUTE);
+    public static FileCleaningTracker
+            getFileCleaningTracker(ServletContext pServletContext) {
+        return (FileCleaningTracker)
+            pServletContext.getAttribute(FILE_CLEANING_TRACKER_ATTRIBUTE);
     }
 
     /**
      * Sets the instance of {@link FileCleaningTracker}, which is
      * associated with the given {@link ServletContext}.
+     * @param pServletContext The servlet context to modify
+     * @param pTracker The tracker to set
      */
-    public static void setFileCleaningTracker(ServletContext pServletContext, FileCleaningTracker pTracker) {
+    public static void setFileCleaningTracker(ServletContext pServletContext,
+            FileCleaningTracker pTracker) {
         pServletContext.setAttribute(FILE_CLEANING_TRACKER_ATTRIBUTE, pTracker);
     }
 
@@ -59,7 +67,8 @@ public class FileCleanerCleanup implements ServletContextListener {
      *   {@link #setFileCleaningTracker(ServletContext, FileCleaningTracker)}.
      */
     public void contextInitialized(ServletContextEvent sce) {
-        setFileCleaningTracker(sce.getServletContext(), new FileCleaningTracker());
+        setFileCleaningTracker(sce.getServletContext(),
+                new FileCleaningTracker());
     }
 
     /**

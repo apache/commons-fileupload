@@ -31,19 +31,17 @@ public interface FileItemHeadersSupport {
      * Returns the collection of headers defined locally within this item.
      *
      * @return the {@link FileItemHeaders} present for this item.
-     * @since 1.3
      */
     FileItemHeaders getHeaders();
 
     /**
-	 * Sets the headers read from within an item.  Implementations of
-	 * {@link FileItem} or {@link FileItemStream} should implement this
-	 * interface to be able to get the raw headers found within the item
-	 * header block.
-	 *
-	 * @param headers the instance that holds onto the headers
-	 *         for this instance.
-	 * @since 1.3
-	 */
-	void setHeaders(FileItemHeaders headers);
+     * Sets the headers read from within an item.  Implementations of
+     * {@link FileItem} or {@link FileItemStream} should implement this
+     * interface to be able to get the raw headers found within the item
+     * header block.
+     *
+     * @param headers the instance that holds onto the headers
+     *         for this instance.
+     */
+    void setHeaders(FileItemHeaders headers);
 }

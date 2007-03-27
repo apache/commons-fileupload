@@ -53,8 +53,7 @@ public class FileItemHeadersImpl implements FileItemHeaders {
     public String getHeader(String name) {
         String nameLower = name.toLowerCase();
         List headerValueList = (List) headerNameToValueListMap.get(nameLower);
-        if (null == headerValueList)
-        {
+        if (null == headerValueList) {
             return null;
         }
         return (String) headerValueList.get(0);
@@ -73,8 +72,7 @@ public class FileItemHeadersImpl implements FileItemHeaders {
     public Iterator getHeaders(String name) {
         String nameLower = name.toLowerCase();
         List headerValueList = (List) headerNameToValueListMap.get(nameLower);
-        if (null == headerValueList)
-        {
+        if (null == headerValueList) {
             return Collections.EMPTY_LIST.iterator();
         }
         return headerValueList.iterator();
@@ -89,8 +87,7 @@ public class FileItemHeadersImpl implements FileItemHeaders {
     public synchronized void addHeader(String name, String value) {
         String nameLower = name.toLowerCase();
         List headerValueList = (List) headerNameToValueListMap.get(nameLower);
-        if (null == headerValueList)
-        {
+        if (null == headerValueList) {
             headerValueList = new ArrayList();
             headerNameToValueListMap.put(nameLower, headerValueList);
             headerNameList.add(nameLower);
