@@ -55,6 +55,11 @@ The <action> type attribute can be add,update,fix,remove.
           due-to="Michael Macaluso" due-to-email="michael.public@wavecorp.com">
         Added support for accessing the file item headers.
       </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-116"
+          due-to="Amichai Rothman" due-to-email="amichai2@amichais.net">
+        A MalformedStreamException is now thrown, if the size of an items
+        headers exceeds HEADER_PART_SIZE_MAX;
+      </action>
     </release>
 
 	<release version="1.2" date="2007-02-13">
