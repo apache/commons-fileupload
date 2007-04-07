@@ -530,26 +530,27 @@ public class MultipartStream {
     public String readHeaders()
     throws MalformedStreamException {
         int i = 0;
-        byte[] b = new byte[1];
+        byte b;
         // to support multi-byte characters
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int sizeMax = HEADER_PART_SIZE_MAX;
         int size = 0;
         while (i < HEADER_SEPARATOR.length) {
             try {
-                b[0] = readByte();
+                b = readByte();
             } catch (IOException e) {
                 throw new MalformedStreamException("Stream ended unexpectedly");
             }
-            size++;
-            if (b[0] == HEADER_SEPARATOR[i]) {
+            if (++size > HEADER_PART_SIZE_MAX) {
+                throw new MalformedStreamException(
+                        "Header section has more than " + HEADER_PART_SIZE_MAX
+                        + " bytes (maybe it is not properly terminated)");
+            }
+            if (b == HEADER_SEPARATOR[i]) {
                 i++;
             } else {
                 i = 0;
             }
-            if (size <= sizeMax) {
-                baos.write(b[0]);
-            }
+            baos.write(b);
         }
 
         String headers = null;
