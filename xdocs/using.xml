@@ -332,6 +332,14 @@ byte[] data = item.get();
     }
 ]]></source>
     </subsection>
+
+    <subsection name="Disabling cleanup of temporary files">
+      <p>
+        To disable tracking of temporary files, you may set the
+        <code>FileCleaningTracker</code> to null. Consequently,
+        created files will no longer be tracked. In particular,
+        they will no longer be deleted automatically.</p>
+    </subsection>
   </section>
 
   <section name="Interaction with virus scanners">
