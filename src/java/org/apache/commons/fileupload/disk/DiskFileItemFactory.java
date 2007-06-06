@@ -85,8 +85,9 @@ public class DiskFileItemFactory implements FileItemFactory {
 
 
     /**
-     * The instance of {@link FileCleaningTracker}, which is responsible
-     * for deleting temporary files.
+     * <p>The instance of {@link FileCleaningTracker}, which is responsible
+     * for deleting temporary files.</p>
+     * <p>May be null, if tracking files is not required.</p>
      */
     private FileCleaningTracker fileCleaningTracker;
 
@@ -130,7 +131,8 @@ public class DiskFileItemFactory implements FileItemFactory {
      *                      which files will be created, should the item size
      *                      exceed the threshold.
      * @param tracker       The tracker, which is responsible to delete
-     *                      temporary files.
+     *                      temporary files. May be null, if files don't need
+     *                      to be tracked.
      */
     public DiskFileItemFactory(FileCleaningTracker tracker, int sizeThreshold,
             File repository) {
@@ -226,7 +228,8 @@ public class DiskFileItemFactory implements FileItemFactory {
      * Returns the tracker, which is responsible for deleting temporary
      * files.
      * @return An instance of {@link FileCleaningTracker}, defaults to
-     *   {@link FileCleaner#getInstance()}.
+     *   {@link FileCleaner#getInstance()}. Null, if temporary files
+     *   aren't tracked.
      */
     public FileCleaningTracker getFileCleaningTracker() {
         return fileCleaningTracker;
@@ -236,7 +239,8 @@ public class DiskFileItemFactory implements FileItemFactory {
      * Returns the tracker, which is responsible for deleting temporary
      * files.
      * @param pTracker An instance of {@link FileCleaningTracker},
-     *   which will from now on track the created files.
+     *   which will from now on track the created files. May be null
+     *   to disable tracking.
      */
     public void setFileCleaningTracker(FileCleaningTracker pTracker) {
         fileCleaningTracker = pTracker;

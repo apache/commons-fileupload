@@ -216,7 +216,8 @@ public class DiskFileItem
      * Constructs a new <code>DiskFileItem</code> instance.
      *
      * @param tracker       The tracker, which is responsible for deleting
-     *                      the temporary file.
+     *                      the temporary file. May be null, if the file
+     *                      doesn't need to be tracked.
      * @param fieldName     The name of the form field.
      * @param contentType   The content type passed by the browser or
      *                      <code>null</code> if not specified.
@@ -648,10 +649,11 @@ public class DiskFileItem
 
 
     /**
-     * Creates and returns a {@link java.io.File File} representing a uniquely
-     * named temporary file in the configured repository path. The lifetime of
-     * the file is tied to the lifetime of the <code>FileItem</code> instance;
-     * the file will be deleted when the instance is garbage collected.
+     * <p>Creates and returns a {@link java.io.File File} representing a uniquely
+     * named temporary file in the configured repository path.</p>
+     * <p>If the file item factory has an associated {@link FileCleaningTracker},
+     * then the lifetime of the file is tied to the lifetime of the <code>FileItem</code>
+     * instance: The file will be deleted when the instance is garbage collected.</p>
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
