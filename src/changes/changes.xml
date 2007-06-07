@@ -60,6 +60,10 @@ The <action> type attribute can be add,update,fix,remove.
         A MalformedStreamException is now thrown, if the size of an items
         headers exceeds HEADER_PART_SIZE_MAX;
       </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-134"
+          due-to="Thomas Vandahl" due-to-email="tv@apache.org">
+        DiskFileItem.toString() could throw an NPE.
+      </action>
     </release>
 
 	<release version="1.2" date="2007-02-13">
