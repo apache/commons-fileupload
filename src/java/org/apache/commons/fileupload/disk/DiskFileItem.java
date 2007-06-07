@@ -629,7 +629,7 @@ public class DiskFileItem
      *         memory.
      */
     public File getStoreLocation() {
-        return dfos.getFile();
+        return dfos == null ? null : dfos.getFile();
     }
 
 

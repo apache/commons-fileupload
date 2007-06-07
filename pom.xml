@@ -97,16 +97,20 @@
       <email>aaron@sendthisfile.com</email>
     </contributor>
     <contributor>
+      <name>Michael Macaluso</name>
+      <email>michael.public@wavecorp.com</email>
+    </contributor>
+    <contributor>
       <name>Amichai Rothman</name>
       <email>amichai2@amichais.net</email>
     </contributor>
     <contributor>
-      <name>Henry Yandell</name>
-      <email>bayard@apache.org</email>
+      <name>Thomas Vandahl</name>
+      <email>tv@apache.org</email>
     </contributor>
     <contributor>
-      <name>Michael Macaluso</name>
-      <email>michael.public@wavecorp.com</email>
+      <name>Henry Yandell</name>
+      <email>bayard@apache.org</email>
     </contributor>
   </contributors>
 
