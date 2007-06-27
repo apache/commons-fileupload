@@ -92,4 +92,8 @@ public class FileUploadException extends Exception {
             cause.printStackTrace(writer);
         }
     }
+
+    public Throwable getCause() {
+        return cause;
+    }
 }

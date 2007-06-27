@@ -21,11 +21,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.FileUploadBase.FileUploadIOException;
 import org.apache.commons.fileupload.FileUploadBase.IOFileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -87,7 +87,7 @@ public class StreamingTest extends TestCase
      * Tests, whether an IOException is properly delegated.
      */
     public void testIOException()
-    		throws IOException, FileUploadException {
+    		throws IOException {
     	byte[] request = newRequest();
     	InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
     		private int num;
@@ -111,10 +111,43 @@ public class StreamingTest extends TestCase
     	};
     	try {
     		parseUpload(stream, request.length);
-    	} catch (IOFileUploadException e) {
+    		fail("Expected IOException");
+    	} catch (FileUploadException e) {
     		assertTrue(e.getCause() instanceof IOException);
     		assertEquals("123", e.getCause().getMessage());
-    	}
+        }     
+    }         
+
+    /**
+     * Test for FILEUPLOAD-135
+     */
+    public void testFILEUPLOAD135()
+            throws IOException, FileUploadException
+    {
+        byte[] request = newShortRequest();
+        final ByteArrayInputStream bais = new ByteArrayInputStream(request);
+        List fileItems = parseUpload(new InputStream() {
+            public int read()
+            throws IOException
+            {
+                return bais.read();
+            }
+            public int read(byte b[], int off, int len) throws IOException 
+            {
+                return bais.read(b, off, Math.min(len, 3));
+            }
+
+        }, request.length);
+        Iterator fileIter = fileItems.iterator();
+        assertTrue(fileIter.hasNext());
+        FileItem item = (FileItem) fileIter.next();
+        assertEquals("field", item.getFieldName());
+        byte[] bytes = item.get();
+        assertEquals(3, bytes.length);
+        assertEquals((byte)'1', bytes[0]);
+        assertEquals((byte)'2', bytes[1]);
+        assertEquals((byte)'3', bytes[2]);
+        assertTrue(!fileIter.hasNext());
     }
 
     private List parseUpload(byte[] bytes) throws FileUploadException {
@@ -134,24 +167,46 @@ public class StreamingTest extends TestCase
         return fileItems;
     }
 
+    private String getHeader(String pField) {
+        return "-----1234\r\n"
+            + "Content-Disposition: form-data; name=\"" + pField + "\"\r\n"
+            + "\r\n";
+
+    }
+
+    private String getFooter() {
+        return "-----1234--\r\n";
+    }
+
+    private byte[] newShortRequest() throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII");
+        osw.write(getHeader("field"));
+        osw.write("123");
+        osw.write("\r\n");
+        osw.write(getFooter());
+        osw.close();
+        return baos.toByteArray();
+    }
+
     private byte[] newRequest() throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII");
         int add = 16;
         int num = 0;
         for (int i = 0;  i < 16384;  i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            String header = "-----1234\r\n"
-                + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n"
-                + "\r\n";
-            baos.write(header.getBytes("US-ASCII"));
+            osw.write(getHeader("field" + (num++)));
+            osw.flush();
             for (int j = 0;  j < i;  j++) {
                 baos.write((byte) j);
             }
-            baos.write("\r\n".getBytes("US-ASCII"));
+            osw.write("\r\n");
         }
-        baos.write("-----1234--\r\n".getBytes("US-ASCII"));
+        osw.write(getFooter());
+        osw.close();
         return baos.toByteArray();
     }
 }
