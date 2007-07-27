@@ -119,8 +119,8 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload/trunk</connection>
-    <developerConnection>scm:svn:scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload/trunk</developerConnection>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload/trunk</developerConnection>
     <url>http://svn.apache.org/viewvc/jakarta/commons/proper/fileupload/trunk</url>
   </scm>
   <properties>
