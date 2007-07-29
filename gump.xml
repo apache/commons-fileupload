@@ -48,7 +48,7 @@
     <javadoc nested="docs/apidocs"/>
 
     <nag from="Maven Developers &lt;turbine-maven-dev@jakarta.apache.org&gt;"
-         to="commons-dev@jakarta.apache.org"/>
+         to="dev@commons.apache.org"/>
 
 
   </project>
