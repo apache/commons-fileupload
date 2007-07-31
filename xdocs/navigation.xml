@@ -19,14 +19,13 @@
 <project name="FileUpload">
 
   <title>FileUpload</title>
-  <organizationLogo href="/images/jakarta-logo-blue.gif">
-   Jakarta
+  <organizationLogo href="http://commons.apache.org/images/logo.png">
+   Commons
   </organizationLogo>
 
   <body>
     <links>
-      <item name="Apache Commons"                   
-            href="http://commons.apache.org/"/>
+      <item name="Commons" href="http://commons.apache.org/"/>
     </links>
 
     <menu name="Commons FileUpload">
