@@ -17,15 +17,15 @@
 -->
 <project name="FileUpload">
   <bannerLeft>
-    <name>Jakarta Commons</name>
-    <src>http://jakarta.apache.org/commons/fileupload/images/jakarta-logo-blue.gif</src>
-    <href>http://jakarta.apache.org/commons</href>
+    <name>Apache Commons</name>
+    <src>http://commons.apache.org/fileupload/images/jakarta-logo-blue.gif</src>
+    <href>http://commons.apache.org</href>
   </bannerLeft>
 
   <bannerRight>
     <name>Commons FileUpload</name>
-    <src>http://jakarta.apache.org/commons/fileupload/images/logo.png</src>
-    <href>http://jakarta.apache.org/commons/fileupload</href>
+    <src>http://commons.apache.org/fileupload/images/logo.png</src>
+    <href>http://commons.apache.org/fileupload</href>
   </bannerRight>
 
   <skin>
@@ -38,8 +38,8 @@
     <links>
       <item name="Apache" href="http://www.apache.org/"/>
       <item name="Jakarta" href="http://jakarta.apache.org/"/>
-      <item name="Commons" href="http://jakarta.apache.org/commons/"/>
-      <item name="FileUpload" href="http://jakarta.apache.org/commons/fileupload"/>
+      <item name="Commons" href="http://commons.apache.org/"/>
+      <item name="FileUpload" href="http://commons.apache.org/fileupload"/>
     </links>
 
     <menu name="Commons FileUpload">
