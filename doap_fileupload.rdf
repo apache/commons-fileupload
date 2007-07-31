@@ -18,7 +18,7 @@
     <repository>
       <SVNRepository>
         <browse rdf:resource="http://svn.apache.org/repos/asf"/>
-        <location rdf:resource="http://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload"/>
+        <location rdf:resource="http://svn.apache.org/repos/asf/commons/proper/fileupload"/>
       </SVNRepository>
     </repository>
     <release>
