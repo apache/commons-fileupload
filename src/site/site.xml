@@ -31,7 +31,7 @@
   <skin>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-skin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </skin>
 
   <body>
@@ -53,6 +53,6 @@
       <item name="SVN repository"           href="/source-repository.html"/>
     </menu>
 
-    ${reports}
+    <menu ref="reports" />
   </body>
 </project>
