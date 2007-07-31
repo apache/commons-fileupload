@@ -15,7 +15,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE org.apache.commons.menus SYSTEM 'http://jakarta.apache.org/commons/build/maven-build.dtd'>
+<!DOCTYPE org.apache.commons.menus SYSTEM 'http://commons.apache.org/build/maven-build.dtd'>
 <project name="FileUpload">
 
   <title>FileUpload</title>
@@ -25,8 +25,8 @@
 
   <body>
     <links>
-      <item name="Jakarta Commons"                   
-            href="http://jakarta.apache.org/commons/"/>
+      <item name="Apache Commons"                   
+            href="http://commons.apache.org/"/>
     </links>
 
     <menu name="Commons FileUpload">

@@ -18,7 +18,7 @@
 
 
   <description>File upload component.</description>
-  <url href="http://jakarta.apache.org/commons/fileupload/"/>
+  <url href="http://commons.apache.org/fileupload/"/>
 
   <cvs repository="jakarta"/>
 

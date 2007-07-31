@@ -24,20 +24,20 @@
 <!-- ================================================== -->
 <section name="Source repository">
 <p>
-  Jakarta Commons FileUpload is hosted on the Apache
+  Apache Commons FileUpload is hosted on the Apache
   <a href="http://subversion.tigris.org/">Subversion</a> repository.
 </p>
 <p>
   The project URL is:<br />
-  <code>http://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload/trunk</code>
+  <code>http://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</code>
 </p>
 <p>
   The best way to view the repository in a browser is via the
-  <a href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/fileupload/trunk/">Subversion viewer</a>.
+  <a href="http://svn.apache.org/viewvc/commons/proper/fileupload/trunk/">Subversion viewer</a>.
 </p>
 <p>
   The alternative is to use the
-  <a href="http://svn.apache.org/repos/asf/jakarta/commons/proper/fileupload/trunk/">native Subversion</a> display.
+  <a href="http://svn.apache.org/repos/asf/commons/proper/fileupload/trunk/">native Subversion</a> display.
 </p>
 </section>
 <!-- ================================================== -->
