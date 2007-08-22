@@ -119,7 +119,7 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</connection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</developerConnection>
     <url>http://svn.apache.org/viewvc/commons/proper/fileupload/trunk</url>
   </scm>
