@@ -391,7 +391,7 @@ public abstract class FileUploadBase {
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
-        Map params = parser.parse(contentType, ';');
+        Map params = parser.parse(contentType, new char[] {';', ','});
         String boundaryStr = (String) params.get("boundary");
 
         if (boundaryStr == null) {

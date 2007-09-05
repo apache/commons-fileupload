@@ -216,6 +216,36 @@ public class ParameterParser {
 
     /**
      * Extracts a map of name/value pairs from the given string. Names are
+     * expected to be unique. Multiple separators may be specified and 
+     * the earliest found in the input string is used.
+     *
+     * @param str the string that contains a sequence of name/value pairs
+     * @param separator the name/value pairs separators
+     *
+     * @return a map of name/value pairs
+     */
+    public Map parse(final String str, char[] separators) {
+        if (separators == null || separators.length == 0) {
+            return new HashMap();
+        }
+        char separator = separators[0];
+        if (str != null) {
+            int idx = str.length();
+            for (int i=0; i<separators.length; i++) {
+                int tmp = str.indexOf(separators[i]);
+                if (tmp != -1) {
+                    if (tmp < idx) {
+                        idx = tmp;
+                        separator = separators[i];
+                    }
+                }
+            }
+        }
+        return parse(str, separator);
+    }
+
+    /**
+     * Extracts a map of name/value pairs from the given string. Names are
      * expected to be unique.
      *
      * @param str the string that contains a sequence of name/value pairs
