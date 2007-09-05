@@ -60,6 +60,12 @@ public class ParameterParserTest extends TestCase
         assertEquals("stuff; stuff", params.get("test2"));
         assertEquals("\"stuff", params.get("test3"));
 
+        params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals(null, params.get("test"));
+        assertEquals("stuff", params.get("test1"));
+        assertEquals("stuff; stuff", params.get("test2"));
+        assertEquals("\"stuff", params.get("test3"));
+
         s = "  test  , test1=stuff   ,  , test2=, test3, ";
         params = parser.parse(s, ',');
         assertEquals(null, params.get("test"));
@@ -102,5 +108,22 @@ public class ParameterParserTest extends TestCase
         assertEquals(2, params.size());
         assertEquals("stuff\\\\", params.get("param"));
         assertNull(params.get("anotherparam"));
+    }
+
+    // See: http://issues.apache.org/jira/browse/FILEUPLOAD-139
+    public void testFileUpload139() 
+    {
+        ParameterParser parser = new ParameterParser();
+        String s = "Content-type: multipart/form-data , boundary=AaB03x";
+        Map params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals("AaB03x", params.get("boundary"));
+
+        s = "Content-type: multipart/form-data, boundary=AaB03x";
+        params = parser.parse(s, new char[] { ';', ',' });
+        assertEquals("AaB03x", params.get("boundary"));
+
+        s = "Content-type: multipart/mixed, boundary=BbC04y";
+        params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals("BbC04y", params.get("boundary"));
     }
 }
