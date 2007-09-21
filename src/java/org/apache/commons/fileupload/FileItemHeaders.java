@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload;
 
-import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -27,7 +26,7 @@ import java.util.Iterator;
  * @author Michael C. Macaluso
  * @since 1.3
  */
-public interface FileItemHeaders extends Serializable {
+public interface FileItemHeaders {
     /**
      * Returns the value of the specified part header as a <code>String</code>.
      * If the part did not include a header of the specified name, this method

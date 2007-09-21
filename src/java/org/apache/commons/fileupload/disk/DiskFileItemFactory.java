@@ -97,11 +97,9 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
-     * @deprecated Use
-     *     {@link #DiskFileItemFactory(FileCleaningTracker, int, File)}.
      */
     public DiskFileItemFactory() {
-        this(FileCleaner.getInstance(), DEFAULT_SIZE_THRESHOLD, null);
+        this(DEFAULT_SIZE_THRESHOLD, null);
     }
 
 
@@ -114,31 +112,10 @@ public class DiskFileItemFactory implements FileItemFactory {
      * @param repository    The data repository, which is the directory in
      *                      which files will be created, should the item size
      *                      exceed the threshold.
-     * @deprecated Use
-     *     {@link #DiskFileItemFactory(FileCleaningTracker, int, File)}.
      */
     public DiskFileItemFactory(int sizeThreshold, File repository) {
-        this(FileCleaner.getInstance(), sizeThreshold, repository);
-    }
-
-    /**
-     * Constructs a preconfigured instance of this class.
-     *
-     * @param sizeThreshold The threshold, in bytes, below which items will be
-     *                      retained in memory and above which they will be
-     *                      stored as a file.
-     * @param repository    The data repository, which is the directory in
-     *                      which files will be created, should the item size
-     *                      exceed the threshold.
-     * @param tracker       The tracker, which is responsible to delete
-     *                      temporary files. May be null, if files don't need
-     *                      to be tracked.
-     */
-    public DiskFileItemFactory(FileCleaningTracker tracker, int sizeThreshold,
-            File repository) {
         this.sizeThreshold = sizeThreshold;
         this.repository = repository;
-        this.fileCleaningTracker = tracker;
     }
 
     // ------------------------------------------------------------- Properties
@@ -214,15 +191,17 @@ public class DiskFileItemFactory implements FileItemFactory {
      *
      * @return The newly created file item.
      */
-    public FileItem createItem(
-            String fieldName,
-            String contentType,
-            boolean isFormField,
-            String fileName
-            ) {
-        return new DiskFileItem(this, fieldName, contentType,
-                isFormField, fileName);
+    public FileItem createItem(String fieldName, String contentType,
+            boolean isFormField, String fileName) {
+        DiskFileItem result = new DiskFileItem(fieldName, contentType,
+                isFormField, fileName, sizeThreshold, repository);
+        FileCleaningTracker tracker = getFileCleaningTracker();
+        if (tracker != null) {
+            tracker.track(result.getTempFile(), this);
+        }
+        return result;
     }
+
 
     /**
      * Returns the tracker, which is responsible for deleting temporary
@@ -245,5 +224,4 @@ public class DiskFileItemFactory implements FileItemFactory {
     public void setFileCleaningTracker(FileCleaningTracker pTracker) {
         fileCleaningTracker = pTracker;
     }
-
 }

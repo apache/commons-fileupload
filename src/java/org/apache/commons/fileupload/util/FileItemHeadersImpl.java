@@ -16,6 +16,7 @@
  */
 package org.apache.commons.fileupload.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ import org.apache.commons.fileupload.FileItemHeaders;
  * @author Michael C. Macaluso
  * @since 1.3
  */
-public class FileItemHeadersImpl implements FileItemHeaders {
+public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
     private static final long serialVersionUID = -4455695752627032559L;
 
     /**

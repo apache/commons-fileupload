@@ -283,23 +283,15 @@ byte[] data = item.get();
     <p>
       Such temporary files are deleted automatically, if they are no longer
       used (more precisely, if the corresponding instance of <code>java.io.File</code>
-      is garbage collected. This is done silently by an instance of
-      <code>org.apache.commons.io.FileCleaningTracker</code>, which starts a
-      reaper thread.
+      is garbage collected. This is done silently by the <code>org.apache.commons.io.FileCleaner</code>
+      class, which starts a reaper thread.
     </p>
     <p>
-      In what follows, we assume that you are writing a web application. In
-      a web application, resource cleanup is controlled by an instance of
-      <code>javax.servlet.ServletContextListener</code>. In other environments,
-      similar ideas must be applied.
-    </p>
-
-    <subsection name="The FileCleanerCleanup">
-      <p>
-        Your web application should use an instance of
-        <code>org.apache.commons.fileupload.FileCleanerCleanup</code>.
-        That's very easy, you've simply got to add it to your <code>web.xml</code>:
-      </p>
+      This reaper thread should be stopped, if it is no longer needed. In
+      a servlet environment, this is done by using a special servlet
+      context listener, called
+      <a href="apidocs/org/apache/commons/fileupload/servlet/FileCleanerCleanup.html">FileCleanerCleanup</a>.
+      To do so, add a section like the following to your <code>web.xml</code>:
 <source><![CDATA[
 <web-app>
   ...

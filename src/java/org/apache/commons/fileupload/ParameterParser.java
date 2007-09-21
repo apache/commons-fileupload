@@ -220,7 +220,7 @@ public class ParameterParser {
      * the earliest found in the input string is used.
      *
      * @param str the string that contains a sequence of name/value pairs
-     * @param separator the name/value pairs separators
+     * @param separators the name/value pairs separators
      *
      * @return a map of name/value pairs
      */

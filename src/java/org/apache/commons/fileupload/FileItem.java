@@ -50,8 +50,7 @@ import java.io.UnsupportedEncodingException;
  *
  * @version $Id$
  */
-public interface FileItem
-    extends Serializable {
+public interface FileItem extends Serializable {
 
 
     // ------------------------------- Methods from javax.activation.DataSource
@@ -66,8 +65,7 @@ public interface FileItem
      *
      * @throws IOException if an error occurs.
      */
-    InputStream getInputStream()
-        throws IOException;
+    InputStream getInputStream() throws IOException;
 
 
     /**
@@ -132,8 +130,7 @@ public interface FileItem
      * @throws UnsupportedEncodingException if the requested character
      *                                      encoding is not available.
      */
-    String getString(String encoding)
-        throws UnsupportedEncodingException;
+    String getString(String encoding) throws UnsupportedEncodingException;
 
 
     /**
