@@ -24,22 +24,20 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
-
-import org.apache.commons.io.FileCleaningTracker;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.FileCleaner;
-import org.apache.commons.io.output.DeferredFileOutputStream;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileItemHeadersSupport;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
+import org.apache.commons.io.FileCleaner;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.DeferredFileOutputStream;
 
 
 /**
@@ -168,14 +166,14 @@ public class DiskFileItem
     private transient DeferredFileOutputStream dfos;
 
     /**
+     * The temporary file to use.
+     */
+    private File tempFile;
+
+    /**
      * File to allow for serialization of the content of this item.
      */
     private File dfosFile;
-
-    /**
-     * The tracker, which is responsible for deleting the temporary file.
-     */
-    private FileCleaningTracker fileCleaningTracker;
 
     /**
      * The file items headers.
@@ -201,66 +199,16 @@ public class DiskFileItem
      * @param repository    The data repository, which is the directory in
      *                      which files will be created, should the item size
      *                      exceed the threshold.
-     * @deprecated Use {@link #DiskFileItem(FileCleaningTracker, String, String,
-     *                                      boolean, String, int, File)}.
      */
-    public DiskFileItem(String fieldName, String contentType,
-            boolean isFormField, String fileName, int sizeThreshold,
-            File repository) {
-        this(FileCleaner.getInstance(), fieldName, contentType,
-                isFormField, fileName, sizeThreshold,
-                repository);
-    }
-
-    /**
-     * Constructs a new <code>DiskFileItem</code> instance.
-     *
-     * @param tracker       The tracker, which is responsible for deleting
-     *                      the temporary file. May be null, if the file
-     *                      doesn't need to be tracked.
-     * @param fieldName     The name of the form field.
-     * @param contentType   The content type passed by the browser or
-     *                      <code>null</code> if not specified.
-     * @param isFormField   Whether or not this item is a plain form field, as
-     *                      opposed to a file upload.
-     * @param fileName      The original filename in the user's filesystem, or
-     *                      <code>null</code> if not specified.
-     * @param sizeThreshold The threshold, in bytes, below which items will be
-     *                      retained in memory and above which they will be
-     *                      stored as a file.
-     * @param repository    The data repository, which is the directory in
-     *                      which files will be created, should the item size
-     *                      exceed the threshold.
-     */
-    private DiskFileItem(FileCleaningTracker tracker, String fieldName,
+    public DiskFileItem(String fieldName,
             String contentType, boolean isFormField, String fileName,
             int sizeThreshold, File repository) {
-        this.fileCleaningTracker = tracker;
         this.fieldName = fieldName;
         this.contentType = contentType;
         this.isFormField = isFormField;
         this.fileName = fileName;
         this.sizeThreshold = sizeThreshold;
         this.repository = repository;
-    }
-
-    /**
-     * Constructs a new <code>DiskFileItem</code> instance.
-     *
-     * @param factory       The factory, which is creating this instance.
-     * @param fieldName     The name of the form field.
-     * @param contentType   The content type passed by the browser or
-     *                      <code>null</code> if not specified.
-     * @param isFormField   Whether or not this item is a plain form field, as
-     *                      opposed to a file upload.
-     * @param fileName      The original filename in the user's filesystem, or
-     *                      <code>null</code> if not specified.
-     */
-    public DiskFileItem(DiskFileItemFactory factory, String fieldName,
-            String contentType, boolean isFormField, String fileName) {
-        this(factory.getFileCleaningTracker(), fieldName, contentType,
-                isFormField, fileName, factory.getSizeThreshold(),
-                factory.getRepository());
     }
 
 
@@ -649,30 +597,25 @@ public class DiskFileItem
 
 
     /**
-     * <p>Creates and returns a {@link java.io.File File} representing a uniquely
-     * named temporary file in the configured repository path.</p>
-     * <p>If the file item factory has an associated {@link FileCleaningTracker},
-     * then the lifetime of the file is tied to the lifetime of the <code>FileItem</code>
-     * instance: The file will be deleted when the instance is garbage collected.</p>
+     * Creates and returns a {@link java.io.File File} representing a uniquely
+     * named temporary file in the configured repository path. The lifetime of
+     * the file is tied to the lifetime of the <code>FileItem</code> instance;
+     * the file will be deleted when the instance is garbage collected.
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
     protected File getTempFile() {
-        File tempDir = repository;
-        if (tempDir == null) {
-            tempDir = new File(System.getProperty("java.io.tmpdir"));
+        if (tempFile == null) {
+            File tempDir = repository;
+            if (tempDir == null) {
+                tempDir = new File(System.getProperty("java.io.tmpdir"));
+            }
+    
+            String tempFileName = "upload_" + UID + "_" + getUniqueId() + ".tmp";
+    
+            tempFile = new File(tempDir, tempFileName);
         }
-
-        String tempFileName = "upload_" + UID + "_" + getUniqueId() + ".tmp";
-
-        File f = new File(tempDir, tempFileName);
-        if (fileCleaningTracker != null) {
-            /* If a tracker is present, use it. Otherwise, we've got to trust
-             * in the {@link #finalize()} method.
-             */
-            fileCleaningTracker.track(f, this);
-        }
-        return f;
+        return tempFile;
     }
 
 
