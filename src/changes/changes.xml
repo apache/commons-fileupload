@@ -68,6 +68,10 @@ The <action> type attribute can be add,update,fix,remove.
           due-to="Alexander Sova" due-to-email="bird@noir.crocodile.org">
         Short files could cause an unexpected end of the item stream.
       </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-145">
+        A FileSizeLimitExceededException was deferred until the complete
+        file has been uploaded.
+      </action>
     </release>
 
 	<release version="1.2" date="2007-02-13">
