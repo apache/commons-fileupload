@@ -121,6 +121,11 @@ public abstract class FileUploadBase {
      */
     public static final String CONTENT_DISPOSITION = "Content-disposition";
 
+    /**
+     * HTTP content length header name.
+     */
+    public static final String CONTENT_LENGTH = "Content-length";
+
 
     /**
      * Content-disposition value for form data.
@@ -711,7 +716,8 @@ public abstract class FileUploadBase {
              * @param pFormField Whether the item is a form field.
              */
             FileItemStreamImpl(String pName, String pFieldName,
-                    String pContentType, boolean pFormField) {
+                    String pContentType, boolean pFormField,
+                    long contentLength) throws IOException {
                 name = pName;
                 fieldName = pFieldName;
                 contentType = pContentType;
@@ -719,6 +725,15 @@ public abstract class FileUploadBase {
                 final ItemInputStream itemStream = multi.newInputStream();
                 InputStream istream = itemStream;
                 if (fileSizeMax != -1) {
+                    if (contentLength != -1  &&  contentLength > fileSizeMax) {
+                        FileUploadException e = new FileSizeLimitExceededException(
+                                "The field " + fieldName
+                                + " exceeds its maximum permitted "
+                                + " size of " + fileSizeMax
+                                + " characters.",
+                                contentLength, fileSizeMax);
+                        throw new FileUploadIOException(e);
+                    }
                     istream = new LimitedInputStream(istream, fileSizeMax) {
                         protected void raiseError(long pSizeMax, long pCount)
                                 throws IOException {
@@ -972,7 +987,7 @@ public abstract class FileUploadBase {
                         String fileName = getFileName(headers);
                         currentItem = new FileItemStreamImpl(fileName,
                                 fieldName, headers.getHeader(CONTENT_TYPE),
-                                fileName == null);
+                                fileName == null, getContentLength(headers));
                         notifier.noteItem();
                         itemValid = true;
                         return true;
@@ -983,13 +998,21 @@ public abstract class FileUploadBase {
                         currentItem = new FileItemStreamImpl(fileName,
                                 currentFieldName,
                                 headers.getHeader(CONTENT_TYPE),
-                                false);
+                                false, getContentLength(headers));
                         notifier.noteItem();
                         itemValid = true;
                         return true;
                     }
                 }
                 multi.discardBodyData();
+            }
+        }
+
+        private long getContentLength(FileItemHeaders pHeaders) {
+            try {
+                return Long.parseLong(pHeaders.getHeader(CONTENT_LENGTH));
+            } catch (Exception e) {
+                return -1;
             }
         }
 
