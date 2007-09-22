@@ -28,6 +28,7 @@ import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.MultipartStream.ItemInputStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.fileupload.util.Closeable;
@@ -715,11 +716,13 @@ public abstract class FileUploadBase {
                 fieldName = pFieldName;
                 contentType = pContentType;
                 formField = pFormField;
-                InputStream istream = multi.newInputStream();
+                final ItemInputStream itemStream = multi.newInputStream();
+                InputStream istream = itemStream;
                 if (fileSizeMax != -1) {
                     istream = new LimitedInputStream(istream, fileSizeMax) {
                         protected void raiseError(long pSizeMax, long pCount)
                                 throws IOException {
+                            itemStream.close(true);
                             FileUploadException e =
                                 new FileSizeLimitExceededException(
                                     "The field " + fieldName
