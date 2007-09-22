@@ -70,7 +70,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="jochen" type="fix" issue="FILEUPLOAD-145">
         A FileSizeLimitExceededException was deferred until the complete
-        file has been uploaded.
+        file has been uploaded. Additionally, the FileSizeLimitException
+        is now thrown immediately, if the attachments headers contain
+        a content-length value, which exceeds the configured limit.
       </action>
     </release>
 
