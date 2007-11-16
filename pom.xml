@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>4</version>
+    <version>5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons.fileupload</groupId>
@@ -131,24 +131,17 @@
   <build>
     <sourceDirectory>src/java</sourceDirectory>
     <testSourceDirectory>src/test</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>.</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>NOTICE.txt</include>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
-      <!--
-       TODO: remove the following when commons-parent is released
-             or switch to commons-parent 2-SNAPSHOT version
-       -->
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestFile>src/conf/MANIFEST.MF</manifestFile>
-            <manifestEntries>
-              <Specification-Version>${project.version}</Specification-Version>
-              <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
-              <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
@@ -193,10 +186,6 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
         <configuration>
           <issueLinkTemplate>%URL%/../%ISSUE%</issueLinkTemplate>
@@ -216,27 +205,6 @@
         <configuration>
           <configLocation>src/checkstyle/fileupload_checks.xml</configLocation>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <moduleExcludes>
-            <xdoc>**/navigation.xml</xdoc>
-          </moduleExcludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

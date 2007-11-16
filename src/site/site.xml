@@ -16,30 +16,14 @@
  limitations under the License.
 -->
 <project name="FileUpload">
-  <bannerLeft>
-    <name>Apache Commons</name>
-    <src>http://commons.apache.org/images/logo.png</src>
-    <href>http://commons.apache.org/</href>
-  </bannerLeft>
 
   <bannerRight>
     <name>Commons FileUpload</name>
-    <src>http://commons.apache.org/fileupload/images/logo.png</src>
-    <href>http://commons.apache.org/fileupload</href>
+    <src>/images/logo.png</src>
+    <href>/index.html</href>
   </bannerRight>
 
-  <skin>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-skin</artifactId>
-    <version>1.0</version>
-  </skin>
-
   <body>
-    <links>
-      <item name="Apache" href="http://www.apache.org/"/>
-      <item name="Commons" href="http://commons.apache.org/"/>
-      <item name="FileUpload" href="http://commons.apache.org/fileupload"/>
-    </links>
 
     <menu name="Commons FileUpload">
       <item name="Overview"                 href="/index.html"/>
@@ -53,6 +37,5 @@
       <item name="SVN repository"           href="/source-repository.html"/>
     </menu>
 
-    <menu ref="reports" />
   </body>
 </project>
