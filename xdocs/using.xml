@@ -292,6 +292,7 @@ byte[] data = item.get();
       context listener, called
       <a href="apidocs/org/apache/commons/fileupload/servlet/FileCleanerCleanup.html">FileCleanerCleanup</a>.
       To do so, add a section like the following to your <code>web.xml</code>:
+    </p>
 <source><![CDATA[
 <web-app>
   ...
@@ -303,7 +304,6 @@ byte[] data = item.get();
   ...
 </web-app>
 ]]></source>
-    </subsection>
 
     <subsection name="Creating a DiskFileItemFactory">
       <p>
