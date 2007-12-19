@@ -297,7 +297,7 @@ public class MultipartStream {
      *                 <code>encapsulations</code>.
      * @param bufSize  The size of the buffer to be used, in bytes.
      *
-     * @see #MultipartStream(InputStream, byte[], ProgressNotifier)
+     * @see #MultipartStream(InputStream, byte[], MultipartStream.ProgressNotifier)
      * @deprecated Use {@link #MultipartStream(InputStream, byte[], int,
      *  org.apache.commons.fileupload.MultipartStream.ProgressNotifier)}.
      */
@@ -320,7 +320,7 @@ public class MultipartStream {
      * @param pNotifier The notifier, which is used for calling the
      *                  progress listener, if any.
      *
-     * @see #MultipartStream(InputStream, byte[], ProgressNotifier)
+     * @see #MultipartStream(InputStream, byte[], MultipartStream.ProgressNotifier)
      */
     MultipartStream(InputStream input,
             byte[] boundary,
@@ -355,7 +355,7 @@ public class MultipartStream {
      * @param pNotifier An object for calling the progress listener, if any.
      *
      *
-     * @see #MultipartStream(InputStream, byte[], int, ProgressNotifier)
+     * @see #MultipartStream(InputStream, byte[], int, MultipartStream.ProgressNotifier)
      */
     MultipartStream(InputStream input,
             byte[] boundary,
@@ -371,8 +371,8 @@ public class MultipartStream {
      *                 <code>encapsulations</code>.
      *
      * @deprecated Use {@link #MultipartStream(InputStream, byte[],
-     *  ProgressNotifier)}.
-     * @see #MultipartStream(InputStream, byte[], int, ProgressNotifier)
+     *  MultipartStream.ProgressNotifier)}.
+     * @see #MultipartStream(InputStream, byte[], int, MultipartStream.ProgressNotifier)
      */
     public MultipartStream(InputStream input,
             byte[] boundary) {
@@ -572,7 +572,7 @@ public class MultipartStream {
      *
      * <p>Arbitrary large amounts of data can be processed by this
      * method using a constant size buffer. (see {@link
-     * #MultipartStream(InputStream,byte[],int, ProgressNotifier) constructor}).
+     * #MultipartStream(InputStream,byte[],int, MultipartStream.ProgressNotifier) constructor}).
      *
      * @param output The <code>Stream</code> to write data into. May
      *               be null, in which case this method is equivalent
