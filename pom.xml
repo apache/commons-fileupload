@@ -148,7 +148,7 @@
         <configuration>
           <tagBase>https://svn.apache.org/repos/asf/commons/proper/fileupload/tags</tagBase>
           <useReleaseProfile>false</useReleaseProfile>
-          <goals>deploy</goals>
+          <goals>site assembly:attached deploy</goals>
           <arguments>-Prelease</arguments>
         </configuration>
       </plugin>
