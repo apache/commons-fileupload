@@ -168,7 +168,7 @@ public class DiskFileItem
     /**
      * The temporary file to use.
      */
-    private File tempFile;
+    private transient File tempFile;
 
     /**
      * File to allow for serialization of the content of this item.
@@ -706,7 +706,6 @@ public class DiskFileItem
             output.write(cachedContent);
         } else {
             FileInputStream input = new FileInputStream(dfosFile);
-
             IOUtils.copy(input, output);
             dfosFile.delete();
             dfosFile = null;
