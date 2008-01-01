@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 
 import org.apache.commons.fileupload.util.Closeable;
 import org.apache.commons.fileupload.util.Streams;
@@ -297,7 +296,8 @@ public class MultipartStream {
      *                 <code>encapsulations</code>.
      * @param bufSize  The size of the buffer to be used, in bytes.
      *
-     * @see #MultipartStream(InputStream, byte[], MultipartStream.ProgressNotifier)
+     * @see #MultipartStream(InputStream, byte[],
+     *   MultipartStream.ProgressNotifier)
      * @deprecated Use {@link #MultipartStream(InputStream, byte[], int,
      *  org.apache.commons.fileupload.MultipartStream.ProgressNotifier)}.
      */
@@ -320,7 +320,8 @@ public class MultipartStream {
      * @param pNotifier The notifier, which is used for calling the
      *                  progress listener, if any.
      *
-     * @see #MultipartStream(InputStream, byte[], MultipartStream.ProgressNotifier)
+     * @see #MultipartStream(InputStream, byte[],
+     *     MultipartStream.ProgressNotifier)
      */
     MultipartStream(InputStream input,
             byte[] boundary,
@@ -355,7 +356,8 @@ public class MultipartStream {
      * @param pNotifier An object for calling the progress listener, if any.
      *
      *
-     * @see #MultipartStream(InputStream, byte[], int, MultipartStream.ProgressNotifier)
+     * @see #MultipartStream(InputStream, byte[], int,
+     *     MultipartStream.ProgressNotifier)
      */
     MultipartStream(InputStream input,
             byte[] boundary,
@@ -372,7 +374,8 @@ public class MultipartStream {
      *
      * @deprecated Use {@link #MultipartStream(InputStream, byte[],
      *  MultipartStream.ProgressNotifier)}.
-     * @see #MultipartStream(InputStream, byte[], int, MultipartStream.ProgressNotifier)
+     * @see #MultipartStream(InputStream, byte[], int,
+     *  MultipartStream.ProgressNotifier)
      */
     public MultipartStream(InputStream input,
             byte[] boundary) {
@@ -425,7 +428,7 @@ public class MultipartStream {
                 // No more data available.
                 throw new IOException("No more data is available");
             }
-            if(notifier != null) {
+            if (notifier != null) {
                 notifier.noteBytesRead(tail);
             }
         }
@@ -572,7 +575,8 @@ public class MultipartStream {
      *
      * <p>Arbitrary large amounts of data can be processed by this
      * method using a constant size buffer. (see {@link
-     * #MultipartStream(InputStream,byte[],int, MultipartStream.ProgressNotifier) constructor}).
+     * #MultipartStream(InputStream,byte[],int,
+     *   MultipartStream.ProgressNotifier) constructor}).
      *
      * @param output The <code>Stream</code> to write data into. May
      *               be null, in which case this method is equivalent
@@ -850,7 +854,7 @@ public class MultipartStream {
                 throw new FileItemStream.ItemSkippedException();
             }
             if (available() == 0) {
-                if (makeAvailable() == 0) {                         
+                if (makeAvailable() == 0) {
                     return -1;
                 }
             }
@@ -902,7 +906,8 @@ public class MultipartStream {
 
         /**
          * Closes the input stream.
-         * @param pCloseUnderlying Whether to close the underlying stream (hard close)
+         * @param pCloseUnderlying Whether to close the underlying stream
+         *   (hard close)
          * @throws IOException An I/O error occurred.
          */
         public void close(boolean pCloseUnderlying) throws IOException {
@@ -968,15 +973,16 @@ public class MultipartStream {
             head = 0;
             tail = pad;
 
-            for(;;) {
+            for (;;) {
                 int bytesRead = input.read(buffer, tail, bufSize - tail);
                 if (bytesRead == -1) {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so signal an error
                     // condition.
-                    throw new MalformedStreamException("Stream ended unexpectedly");
+                    final String msg = "Stream ended unexpectedly";
+                    throw new MalformedStreamException(msg);
                 }
-                if(notifier != null) {
+                if (notifier != null) {
                     notifier.noteBytesRead(bytesRead);
                 }
                 tail += bytesRead;

@@ -35,7 +35,6 @@ import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileItemHeadersSupport;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
-import org.apache.commons.io.FileCleaner;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -58,7 +57,8 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * soon as they are no longer needed. (More precisely, when the
  * corresponding instance of {@link java.io.File} is garbage collected.)
  * This is done by the so-called reaper thread, which is started
- * automatically when the class {@link FileCleaner} is loaded.
+ * automatically when the class {@link org.apache.commons.io.FileCleaner}
+ * is loaded.
  * It might make sense to terminate that thread, for example, if
  * your web application ends. See the section on "Resource cleanup"
  * in the users guide of commons-fileupload.</p>
@@ -610,9 +610,10 @@ public class DiskFileItem
             if (tempDir == null) {
                 tempDir = new File(System.getProperty("java.io.tmpdir"));
             }
-    
-            String tempFileName = "upload_" + UID + "_" + getUniqueId() + ".tmp";
-    
+
+            String tempFileName =
+                "upload_" + UID + "_" + getUniqueId() + ".tmp";
+
             tempFile = new File(tempDir, tempFileName);
         }
         return tempFile;
