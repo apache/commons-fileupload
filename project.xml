@@ -177,7 +177,7 @@
   
   <dependencies>
     <dependency>
-      <groupId>commons-io</groupId>
+      <groupId>org.apache.commons</groupId>
       <artifactId>commons-io</artifactId>
       <version>1.3.2</version>
       <url>http://commons.apache.org/io/</url>
