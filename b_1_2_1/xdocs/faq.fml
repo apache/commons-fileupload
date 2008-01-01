@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<faqs title="FileUpload FAQ">
+
+  <part id="general">
+    <title>General</title>
+
+    <faq id="empty-parse">
+      <question>
+        Why is parseRequest() returning no items?
+      </question>
+      <answer>
+        This most commonly happens when the request has already been parsed, or
+        processed in some other way. Since the input stream has aleady been
+        consumed by that earlier process, it is no longer available for parsing
+        by Commons FileUpload.
+      </answer>
+    </faq>
+
+    <faq id="read-timeout">
+      <question>
+        Why am I getting "Read timed out" exceptions while parsing?
+      </question>
+      <answer>
+        The most common cause of these exceptions is when FileUpload is being
+        used on a site that is using the Tomcat ISAPI redirector. There was a
+        bug in earlier versions of that component that caused problems with
+        multipart requests. The bug was fixed some time ago, so you probably
+        just need to pick up a newer version. See the
+        <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=15278">Tomcat bug report</a>
+        for full details.
+      </answer>
+    </faq>
+
+    <faq id="class-not-found">
+      <question>
+        Why is NoClassDefFoundError being thrown?
+      </question>
+      <answer>
+        <p>There are two common causes for this error. </p>
+        
+        <p>Firstly, it might simply mean that you do not have the Commons IO 
+        jar in your classpath. FileUpload depends on IO (see 
+        <a href="dependencies.html">dependencies</a>) - you can tell if 
+        this is the case if the missing class is within the 
+        <code>org.apache.commons.io</code> package. </p>
+
+        <p>Secondly this happens when attempting to rely on a shared copy of
+        the Commons FileUpload jar file provided by your web container. The
+        solution is to include the FileUpload jar file as part of your own
+        web application, instead of relying on the container. The same may 
+        hold for FileUpload's IO dependency. </p>
+      </answer>
+    </faq>
+
+    <faq id="whole-path-from-IE">
+      <question>
+        Why does FileItem.getName() return the whole path, and not just the file name?
+      </question>
+      <answer>
+        Internet Explorer provides the entire path to the uploaded file and not
+        just the base file name. Since FileUpload provides exactly what was
+        supplied by the client (browser), you may want to remove this path
+        information in your application. You can do that using the following
+        method from Commons IO (which you already have, since it is used by
+        FileUpload).
+        <pre>
+    String fileName = item.getName();
+    if (fileName != null) {
+        filename = FilenameUtils.getName(filename);
+    }
+        </pre>
+      </answer>
+    </faq>
+  </part>
+
+  <part id="struts">
+    <title>FileUpload and Struts</title>
+
+    <faq id="parse-in-action-fails">
+      <question>
+        I'm using FileUpload in an Action, but it's not working. Why?
+      </question>
+      <answer>
+        Struts recognises multipart requests, and parses them automatically,
+        presenting the request parameters to your code in the same manner as
+        if they were regular request parameters. Since Struts has already
+        processed the request, and made it available in your form bean, the
+        input stream is no longer available for parsing, so attempting to do
+        so with FileUpload will fail.
+      </answer>
+    </faq>
+
+    <faq id="howto-parse-in-action">
+      <question>
+        But I need to parse the request myself. How can I do that?
+      </question>
+      <answer>
+        Struts parses multipart a request as a part of the process of populating
+        your form bean from that request. If, for some reason, you need to have
+        full control over the multipart parsing, you can do so by configuring
+        your action mapping without an associated form bean. (A better way of
+        doing this, however, is to replace the default multipart handler with
+        your own. See the Struts documentation for details.)
+      </answer>
+    </faq>
+  </part>
+
+</faqs>

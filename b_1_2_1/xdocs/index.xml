@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <title>Home</title>
+    <author email="martinc@apache.org">Martin Cooper</author>
+  </properties>
+
+  <body>
+
+    <section name="Commons FileUpload">
+      <p>
+        The Commons <strong>FileUpload</strong> package makes it easy to add
+        robust, high-performance, file upload capability to your servlets and
+        web applications.
+      </p>
+      <p>
+        FileUpload parses HTTP requests which conform to
+        <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>,
+        "Form-based File Upload in HTML". That is, if an HTTP request is
+        submitted using the POST method, and with a content type of
+        "multipart/form-data", then FileUpload can parse that request, and
+        make the results available in a manner easily used by the caller.
+      </p>
+    </section>
+
+    <section name="Documentation">
+      <p>
+        The following documentation is available:
+        <ul>
+          <li><a href="using.html">User Guide</a></li>
+          <li><a href="streaming.html">Streaming API</a></li>
+          <li><a href="faq.html">Frequently Asked Questions</a></li>
+          <li><a href="apidocs/index.html">JavaDoc API</a></li>
+          <li><a href="maven-reports.html">Project Reports</a></li>
+        </ul>
+        You can also <a href="cvs-usage.html">browse</a> the Subversion repository.
+      </p>
+    </section>
+
+    <section name="Downloading">
+        <subsection name='Full Releases'>
+          <p>
+            <strong>FileUpload 1.2.1</strong> - 01 January 2008
+            <ul>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://commons.apache.org/downloads/download_fileupload.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
+          <p>
+            <strong>FileUpload 1.2</strong> - 13 February 2007
+            <ul>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://commons.apache.org/downloads/download_fileupload.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
+          <p>
+            <strong>FileUpload 1.1.1</strong> - 08 June 2006
+            <ul>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://commons.apache.org/downloads/download_fileupload.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
+          <p>
+            <strong>FileUpload 1.1</strong> - 22 Dec 2005
+            <ul>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://commons.apache.org/downloads/download_fileupload.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
+          <p>
+            <strong>FileUpload 1.0</strong> - 24 Jun 2003
+            <ul>
+              <li>Download the binary and source distributions from a mirror site
+                <a href='http://commons.apache.org/downloads/download_fileupload.cgi'>here</a>
+              </li>
+            </ul>
+          </p>
+        </subsection>
+        <subsection name='Releases Candidates'>
+          <p>
+            None available.
+          </p>
+        </subsection>
+        <subsection name='Nightly Builds'>	
+            <p>
+            Nightly builds are built every day from the current SVN HEAD. This is 
+            the latest code and so should be treated with caution!
+            </p>
+            <p>
+            Download nightly builds from 
+            <a href='http://people.apache.org/builds/commons/nightly/commons-fileupload/'>here</a>.
+            </p>
+        </subsection>
+    </section>
+
+    <section name="Support">
+      <p>
+        The <a href="mail-lists.html">Apache Commons mailing lists</a> act as
+        the main support forum. The <em>user</em> list is suitable for most library
+        usage queries. The <em>dev</em> list is intended for development discussion.
+        Please remember that the lists are shared between all commons components,
+        so prefix your e-mail subject line with <em>[fileupload]</em>.
+      </p>
+      <p>
+        Issues may be reported via <a href="issue-tracking.html">ASF JIRA</a>.
+      </p>
+    </section>
+  </body>
+
+</document>
