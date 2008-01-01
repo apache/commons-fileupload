@@ -27,7 +27,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons.fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.2.1</version>
   <name>Commons FileUpload</name>
   <description>
     The FileUpload component provides a simple yet flexible means of adding support for multipart
@@ -167,7 +167,7 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <version>1.3.2</version>
       <optional>true</optional>
     </dependency>
   </dependencies>
