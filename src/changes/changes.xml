@@ -41,7 +41,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.2.1" date="2008-01-01">
+    <release version="1.2.1" date="2008-01-10">
       <action dev="jochen" type="fix">
         Upgrade to commons-io-1.4-SNAPSHOT, in order to use the new
         FileCleaningTracker and fix issues with FileCleaner.
