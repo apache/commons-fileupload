@@ -20,7 +20,7 @@
   <pomVersion>3</pomVersion>
   
   <name>FileUpload</name>
-  <groupId>org.apache.commons.fileupload</groupId>
+  <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
   <currentVersion>1.2.1</currentVersion>
   <inceptionYear>2002</inceptionYear>
