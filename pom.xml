@@ -22,10 +22,10 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>6</version>
+    <version>5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.apache.commons.fileupload</groupId>
+  <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
   <version>1.2.1</version>
   <name>Commons FileUpload</name>
@@ -95,6 +95,10 @@
     <contributor>
       <name>Aaron Freeman</name>
       <email>aaron@sendthisfile.com</email>
+    </contributor>
+    <contributor>
+      <name>Gary Gregory</name>
+      <email>ggregory@seagullsw.com</email>
     </contributor>
     <contributor>
       <name>Michael Macaluso</name>

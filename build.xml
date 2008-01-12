@@ -131,6 +131,7 @@
       <classpath>
         <path refid="build.classpath">
         </path>
+        <pathelement path="${ant.home}/lib/xml-apis.jar:${ant.home}/lib/xercesImpl.jar"/>
         <pathelement path="${testclassesdir}">
         </pathelement>
         <pathelement path="${classesdir}">
