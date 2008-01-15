@@ -146,6 +146,44 @@
           <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <!--
+                 Configure OSGi bundle information
+                 (remove when maven bundle plugin is added to commons-parent pom)
+             -->
+            <manifestEntries>
+              <Bundle-SymbolicName>org.apache.commons.fileupload</Bundle-SymbolicName>
+              <Bundle-License>http://www.apache.org/licenses/LICENSE-2.0.txt</Bundle-License>
+              <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+              <Bundle-Name>Apache Commons FileUpload Bundle</Bundle-Name>
+              <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+              <Bundle-Version>${project.version}</Bundle-Version>
+              <Export-Package>
+org.apache.commons.fileupload;version=${project.version},
+org.apache.commons.fileupload.disk;version=${project.version},
+org.apache.commons.fileupload.portlet;version=${project.version},
+org.apache.commons.fileupload.servlet;version=${project.version},
+org.apache.commons.fileupload.util;version=${project.version}
+              </Export-Package>
+              <Import-Package>
+org.apache.commons.fileupload;version=${project.version},
+org.apache.commons.fileupload.disk;version=${project.version},
+org.apache.commons.fileupload.portlet;version=${project.version},
+org.apache.commons.fileupload.servlet;version=${project.version},
+org.apache.commons.fileupload.util;version=${project.version},
+org.apache.commons.io,
+org.apache.commons.io.output,
+javax.portlet,
+javax.servlet,
+javax.servlet.http
+              </Import-Package>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
