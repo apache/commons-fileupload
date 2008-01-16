@@ -176,10 +176,10 @@ org.apache.commons.fileupload.servlet;version=${project.version},
 org.apache.commons.fileupload.util;version=${project.version},
 org.apache.commons.io,
 org.apache.commons.io.output,
-javax.portlet,
 javax.servlet,
 javax.servlet.http
               </Import-Package>
+              <DynamicImport-Package>javax.portlet</DynamicImport-Package>
             </manifestEntries>
           </archive>
         </configuration>
