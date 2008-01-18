@@ -184,6 +184,12 @@ javax.servlet.http
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <bottom>Copyright &amp;copy; {inceptionYear}-{currentYear} {organizationName}. All Rights Reserved.</bottom>
+        </configuration>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
