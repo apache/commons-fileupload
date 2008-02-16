@@ -20,8 +20,8 @@ import java.io.File;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.io.FileCleaner;
 import org.apache.commons.io.FileCleaningTracker;
+
 
 /**
  * <p>The default {@link org.apache.commons.fileupload.FileItemFactory}
@@ -207,8 +207,8 @@ public class DiskFileItemFactory implements FileItemFactory {
      * Returns the tracker, which is responsible for deleting temporary
      * files.
      * @return An instance of {@link FileCleaningTracker}, defaults to
-     *   {@link FileCleaner#getInstance()}. Null, if temporary files
-     *   aren't tracked.
+     *   {@link org.apache.commons.io.FileCleaner#getInstance()}. Null,
+     *   if temporary files aren't tracked.
      */
     public FileCleaningTracker getFileCleaningTracker() {
         return fileCleaningTracker;

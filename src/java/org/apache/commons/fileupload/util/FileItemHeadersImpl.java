@@ -48,9 +48,6 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
      */
     private final List headerNameList = new ArrayList();
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItemHeaders#getHeader(java.lang.String)
-     */
     public String getHeader(String name) {
         String nameLower = name.toLowerCase();
         List headerValueList = (List) headerNameToValueListMap.get(nameLower);
@@ -60,16 +57,10 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
         return (String) headerValueList.get(0);
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItemHeaders#getHeaderNames()
-     */
     public Iterator getHeaderNames() {
         return headerNameList.iterator();
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.fileupload.FileItemHeaders#getHeaders(java.lang.String)
-     */
     public Iterator getHeaders(String name) {
         String nameLower = name.toLowerCase();
         List headerValueList = (List) headerNameToValueListMap.get(nameLower);
