@@ -216,7 +216,7 @@ public class ParameterParser {
 
     /**
      * Extracts a map of name/value pairs from the given string. Names are
-     * expected to be unique. Multiple separators may be specified and 
+     * expected to be unique. Multiple separators may be specified and
      * the earliest found in the input string is used.
      *
      * @param str the string that contains a sequence of name/value pairs
@@ -231,7 +231,7 @@ public class ParameterParser {
         char separator = separators[0];
         if (str != null) {
             int idx = str.length();
-            for (int i=0; i<separators.length; i++) {
+            for (int i = 0;  i < separators.length;  i++) {
                 int tmp = str.indexOf(separators[i]);
                 if (tmp != -1) {
                     if (tmp < idx) {

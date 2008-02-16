@@ -166,7 +166,7 @@ public abstract class FileUploadBase {
      */
     public static final int MAX_HEADER_SIZE = 1024;
 
-    
+
     // ----------------------------------------------------------- Data members
 
 
@@ -369,7 +369,8 @@ public abstract class FileUploadBase {
                             + " request failed. " + e.getMessage(), e);
                 }
                 if (fileItem instanceof FileItemHeadersSupport) {
-                    ((FileItemHeadersSupport) fileItem).setHeaders(item.getHeaders());
+                    final FileItemHeaders fih = item.getHeaders();
+                    ((FileItemHeadersSupport) fileItem).setHeaders(fih);
                 }
                 items.add(fileItem);
             }
@@ -609,7 +610,7 @@ public abstract class FileUploadBase {
     protected Map /* String, String */ parseHeaders(String headerPart) {
         FileItemHeaders headers = getParsedHeaders(headerPart);
         Map result = new HashMap();
-        for (Iterator iter = headers.getHeaderNames();  iter.hasNext();  ) {
+        for (Iterator iter = headers.getHeaderNames();  iter.hasNext();) {
             String headerName = (String) iter.next();
             Iterator iter2 = headers.getHeaders(headerName);
             String headerValue = (String) iter2.next();
@@ -709,15 +710,17 @@ public abstract class FileUploadBase {
             private FileItemHeaders headers;
 
             /**
-             * CReates a new instance.
+             * Creates a new instance.
              * @param pName The items file name, or null.
              * @param pFieldName The items field name.
              * @param pContentType The items content type, or null.
              * @param pFormField Whether the item is a form field.
+             * @param pContentLength The items content length, if known, or -1
+             * @throws IOException Creating the file item failed.
              */
             FileItemStreamImpl(String pName, String pFieldName,
                     String pContentType, boolean pFormField,
-                    long contentLength) throws IOException {
+                    long pContentLength) throws IOException {
                 name = pName;
                 fieldName = pFieldName;
                 contentType = pContentType;
@@ -725,13 +728,15 @@ public abstract class FileUploadBase {
                 final ItemInputStream itemStream = multi.newInputStream();
                 InputStream istream = itemStream;
                 if (fileSizeMax != -1) {
-                    if (contentLength != -1  &&  contentLength > fileSizeMax) {
-                        FileUploadException e = new FileSizeLimitExceededException(
+                    if (pContentLength != -1
+                            &&  pContentLength > fileSizeMax) {
+                        FileUploadException e =
+                            new FileSizeLimitExceededException(
                                 "The field " + fieldName
                                 + " exceeds its maximum permitted "
                                 + " size of " + fileSizeMax
                                 + " characters.",
-                                contentLength, fileSizeMax);
+                                pContentLength, fileSizeMax);
                         throw new FileUploadIOException(e);
                     }
                     istream = new LimitedInputStream(istream, fileSizeMax) {

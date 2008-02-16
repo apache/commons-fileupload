@@ -20,7 +20,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
 
-import org.apache.commons.io.FileCleaner;
 import org.apache.commons.io.FileCleaningTracker;
 
 
