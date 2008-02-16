@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>7</version>
+    <version>8-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>commons-fileupload</groupId>
@@ -185,9 +185,11 @@ javax.servlet.http
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <bottom>Copyright &amp;copy; {inceptionYear}-{currentYear} {organizationName}. All Rights Reserved.</bottom>
+          <encoding>iso-8858-1</encoding>
+          <docencoding>iso-8859-1</docencoding>
         </configuration>
       </plugin>
     </plugins>
@@ -268,6 +270,14 @@ javax.servlet.http
         <configuration>
           <comparisonVersion>1.2</comparisonVersion>
           <minSeverity>info</minSeverity>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <encoding>iso-8859-1</encoding>
+          <docencoding>iso-8859-1</docencoding>
         </configuration>
       </plugin>
     </plugins>
