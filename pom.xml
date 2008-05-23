@@ -197,6 +197,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
+        <version>2.0</version>
         <configuration>
           <issueLinkTemplate>%URL%/../%ISSUE%</issueLinkTemplate>
         </configuration>
@@ -212,13 +213,17 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.1</version>
         <configuration>
-          <configLocation>src/checkstyle/fileupload_checks.xml</configLocation>
+          <configLocation>${basedir}/src/checkstyle/fileupload_checks.xml</configLocation>
+          <enableRulesSummary>false</enableRulesSummary>
+          <headerFile>${basedir}/src/checkstyle/license-header.txt</headerFile>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.3</version>
         <configuration>
           <rulesets>
             <ruleset>src/checkstyle/fileupload_basic.xml</ruleset>
@@ -228,9 +233,15 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
+        <version>2.2</version>
         <configuration>
-          <comparisonVersion>1.2</comparisonVersion>
-          <minSeverity>info</minSeverity>
+          <comparisonArtifacts>
+            <comparisonArtifact>
+              <groupId>commons-fileupload</groupId>
+              <artifactId>commons-fileupload</artifactId>
+              <version>1.2</version>
+            </comparisonArtifact>
+          </comparisonArtifacts>
         </configuration>
       </plugin>
     </plugins>
