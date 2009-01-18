@@ -51,6 +51,11 @@ The <action> type attribute can be add,update,fix,remove.
           due-to="Stepan Koltsov" due-to-email="yozh@mx1.ru">
         Fixed example in MultipartStream Javadocs.
       </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-157"
+          due-to="Paul Spurr" due-to-email="pspurr@gmail.com">
+        Ensured, that the ProgressListener is called for all
+        items.
+      </action>
     </release>
 
     <release version="1.2.1" date="2008-01-18">
