@@ -35,6 +35,7 @@ import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileItemHeadersSupport;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
+import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -52,9 +53,12 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * {@link #getInputStream()} and process the file without attempting to load
  * it into memory, which may come handy with large files.
  *
- * <p>When using the <code>DiskFileItemFactory</code>, then you should
- * consider the following: Temporary files are automatically deleted as
- * soon as they are no longer needed. (More precisely, when the
+ * <p>Temporary files, which are created for file items, should be
+ * deleted later on. The best way to do this is using a
+ * {@link FileCleaningTracker}, which you can set on the
+ * {@link DiskFileItemFactory}. However, if you do use such a tracker,
+ * then you must consider the following: Temporary files are automatically
+ * deleted as soon as they are no longer needed. (More precisely, when the
  * corresponding instance of {@link java.io.File} is garbage collected.)
  * This is done by the so-called reaper thread, which is started
  * automatically when the class {@link org.apache.commons.io.FileCleaner}

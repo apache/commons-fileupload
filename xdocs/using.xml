@@ -318,9 +318,11 @@ byte[] data = item.get();
                                                              File repository) {
         FileCleaningTracker fileCleaningTracker
             = FileCleanerCleanup.getFileCleaningTracker(context);
-        return new DiskFileItemFactory(fileCleaningTracker,
-                                       DiskFileItemFactory.DEFAULT_SIZE_THRESHOLD,
-                                       repository);
+        DiskFileItemFactory factory
+            = new DiskFileItemFactory(DiskFileItemFactory.DEFAULT_SIZE_THRESHOLD,
+                                      repository);
+        factory.setFileCleaningTracker(fileCleaningTracker);
+        return factory;
     }
 ]]></source>
     </subsection>
