@@ -748,7 +748,7 @@ public abstract class FileUploadBase {
                                 "The field " + fieldName
                                 + " exceeds its maximum permitted "
                                 + " size of " + fileSizeMax
-                                + " characters.",
+                                + " bytes.",
                                 pContentLength, fileSizeMax);
                         throw new FileUploadIOException(e);
                     }
@@ -761,7 +761,7 @@ public abstract class FileUploadBase {
                                     "The field " + fieldName
                                     + " exceeds its maximum permitted "
                                     + " size of " + pSizeMax
-                                    + " characters.",
+                                    + " bytes.",
                                     pCount, pSizeMax);
                             throw new FileUploadIOException(e);
                         }
