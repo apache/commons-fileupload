@@ -345,9 +345,10 @@ public abstract class FileUploadBase {
      */
     public List /* FileItem */ parseRequest(RequestContext ctx)
             throws FileUploadException {
+        List items = new ArrayList();
+        boolean successful = false;
         try {
             FileItemIterator iter = getItemIterator(ctx);
-            List items = new ArrayList();
             FileItemFactory fac = getFileItemFactory();
             if (fac == null) {
                 throw new NullPointerException(
@@ -358,6 +359,7 @@ public abstract class FileUploadBase {
                 FileItem fileItem = fac.createItem(item.getFieldName(),
                         item.getContentType(), item.isFormField(),
                         item.getName());
+                items.add(fileItem);
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(),
                             true);
@@ -372,13 +374,24 @@ public abstract class FileUploadBase {
                     final FileItemHeaders fih = item.getHeaders();
                     ((FileItemHeadersSupport) fileItem).setHeaders(fih);
                 }
-                items.add(fileItem);
             }
+            successful = true;
             return items;
         } catch (FileUploadIOException e) {
             throw (FileUploadException) e.getCause();
         } catch (IOException e) {
             throw new FileUploadException(e.getMessage(), e);
+        } finally {
+            if (!successful) {
+                for (Iterator iterator = items.iterator(); iterator.hasNext();) {
+                    FileItem fileItem = (FileItem) iterator.next();
+                    try {
+                        fileItem.delete();
+                    } catch (Throwable e) {
+                        // ignore it
+                    }
+                }
+            }
         }
     }
 
