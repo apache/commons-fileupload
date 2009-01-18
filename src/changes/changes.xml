@@ -63,6 +63,11 @@ The <action> type attribute can be add,update,fix,remove.
           due-to="J&#246;rg Heinicke" due-to-email="joerg.heinicke@gmx.de">
         Multiple documentation fixes.
       </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-152"
+          due-to="Duzakropka" due-to-email="duzakropka.@gmail.com">
+        Fixed the error message for FileSizeLimitExceededException
+        from "too many characters" to "too many bytes".
+      </action>
     </release>
 
     <release version="1.2.1" date="2008-01-18">
