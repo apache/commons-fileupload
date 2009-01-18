@@ -125,6 +125,7 @@ public class MultipartStream {
          */
         void noteItem() {
             ++items;
+            notifyListener();
         }
         /** Called for notifying the listener.
          */
