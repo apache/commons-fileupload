@@ -47,6 +47,10 @@ The <action> type attribute can be add,update,fix,remove.
         Temporary files have not been deleted, if an error
         occurred in FileUploadBase.parseRequest();
       </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-158"
+          due-to="Stepan Koltsov" due-to-email="yozh@mx1.ru">
+        Fixed example in MultipartStream Javadocs.
+      </action>
     </release>
 
     <release version="1.2.1" date="2008-01-18">
