@@ -68,6 +68,10 @@ The <action> type attribute can be add,update,fix,remove.
         Fixed the error message for FileSizeLimitExceededException
         from "too many characters" to "too many bytes".
       </action>
+      <action dev="jochen" type="add" issue="FILEUPLOAD-154">
+        A FileSizeLimitExceededException does now contain the
+        file and field name of the item, which caused the problem.
+      </action>
     </release>
 
     <release version="1.2.1" date="2008-01-18">

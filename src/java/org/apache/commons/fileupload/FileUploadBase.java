@@ -743,27 +743,31 @@ public abstract class FileUploadBase {
                 if (fileSizeMax != -1) {
                     if (pContentLength != -1
                             &&  pContentLength > fileSizeMax) {
-                        FileUploadException e =
+                    	FileSizeLimitExceededException e =
                             new FileSizeLimitExceededException(
                                 "The field " + fieldName
                                 + " exceeds its maximum permitted "
                                 + " size of " + fileSizeMax
                                 + " bytes.",
                                 pContentLength, fileSizeMax);
+                        e.setFileName(pName);
+                        e.setFieldName(pFieldName);
                         throw new FileUploadIOException(e);
                     }
                     istream = new LimitedInputStream(istream, fileSizeMax) {
                         protected void raiseError(long pSizeMax, long pCount)
                                 throws IOException {
                             itemStream.close(true);
-                            FileUploadException e =
+                            FileSizeLimitExceededException e =
                                 new FileSizeLimitExceededException(
                                     "The field " + fieldName
                                     + " exceeds its maximum permitted "
                                     + " size of " + pSizeMax
                                     + " bytes.",
                                     pCount, pSizeMax);
-                            throw new FileUploadIOException(e);
+                            e.setFieldName(getFieldName());
+                            e.setFieldName(getName());
+                    		throw new FileUploadIOException(e);
                         }
                     };
                 }
@@ -1292,6 +1296,16 @@ public abstract class FileUploadBase {
         private static final long serialVersionUID = 8150776562029630058L;
 
         /**
+         * File name of the item, which caused the exception.
+         */
+        private String fileName;
+
+        /**
+         * Field name of the item, which caused the exception.
+         */
+        private String fieldName;
+
+        /**
          * Constructs a <code>SizeExceededException</code> with
          * the specified detail message, and actual and permitted sizes.
          *
@@ -1302,6 +1316,40 @@ public abstract class FileUploadBase {
         public FileSizeLimitExceededException(String message, long actual,
                 long permitted) {
             super(message, actual, permitted);
+        }
+
+        /**
+         * Returns the file name of the item, which caused the
+         * exception.
+         * @return File name, if known, or null.
+         */
+        public String getFileName() {
+        	return fileName;
+        }
+
+        /**
+         * Sets the file name of the item, which caused the
+         * exception.
+         */
+        public void setFileName(String pFileName) {
+        	fileName = pFileName;
+        }
+
+        /**
+         * Returns the field name of the item, which caused the
+         * exception.
+         * @return Field name, if known, or null.
+         */
+        public String getFieldName() {
+        	return fieldName;
+        }
+
+        /**
+         * Sets the field name of the item, which caused the
+         * exception.
+         */
+        public void setFieldName(String pFieldName) {
+        	fieldName = pFieldName;
         }
     }
 
