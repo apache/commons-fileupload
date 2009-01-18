@@ -56,6 +56,13 @@ The <action> type attribute can be add,update,fix,remove.
         Ensured, that the ProgressListener is called for all
         items.
       </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-156">
+        Made the ProgressNotifier public.
+      </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-155"
+          due-to="J&#246;rg Heinicke" due-to-email="joerg.heinicke@gmx.de">
+        Multiple documentation fixes.
+      </action>
     </release>
 
     <release version="1.2.1" date="2008-01-18">
