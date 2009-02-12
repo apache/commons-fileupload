@@ -49,7 +49,7 @@
           <li><a href="streaming.html">Streaming API</a></li>
           <li><a href="faq.html">Frequently Asked Questions</a></li>
           <li><a href="apidocs/index.html">JavaDoc API</a></li>
-          <li><a href="maven-reports.html">Project Reports</a></li>
+          <li><a href="project-reports.html">Project Reports</a></li>
         </ul>
         You can also <a href="cvs-usage.html">browse</a> the Subversion repository.
       </p>
