@@ -209,7 +209,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD</a>
+     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>
      */
     public void testFILEUPLOAD62() throws Exception {
     	final String contentType = "multipart/form-data; boundary=AaB03x";
@@ -251,6 +251,9 @@ public class ServletFileUploadTest extends FileUploadTestCase
         assertEquals("...contents of file2.gif...", new String(item2.get()));
     }
 
+    /**
+     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>
+     */
     public void testFoldedHeaders()
     		throws IOException, FileUploadException {
     	List fileItems = parseUpload("-----1234\r\n" +
