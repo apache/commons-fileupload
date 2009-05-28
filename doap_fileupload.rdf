@@ -22,16 +22,16 @@
       </SVNRepository>
     </repository>
     <release>
-      <revision>
+      <Version>
         <name>commons-fileupload</name>
         <created>2006-06-08</created>
-        <version>1.1.1</version>
-      </revision>
-      <revision>
+        <revision>1.1.1</revision>
+      </Version>
+      <Version>
         <name>commons-fileupload</name>
         <created>2005-12-23</created>
-        <version>1.1</version>
-      </revision>
+        <revision>1.1</revision>
+      </Version>
     </release>
     <mailing-list rdf:resource="http://commons.apache.org/mail-lists.html"/>
   </Project>
