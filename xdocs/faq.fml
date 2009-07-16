@@ -91,14 +91,14 @@
   </part>
 
   <part id="struts">
-    <title>FileUpload and Struts</title>
+    <title>FileUpload and Struts 1</title>
 
     <faq id="parse-in-action-fails">
       <question>
         I'm using FileUpload in an Action, but it's not working. Why?
       </question>
       <answer>
-        Struts recognises multipart requests, and parses them automatically,
+        Struts 1 recognises multipart requests, and parses them automatically,
         presenting the request parameters to your code in the same manner as
         if they were regular request parameters. Since Struts has already
         processed the request, and made it available in your form bean, the
@@ -112,12 +112,12 @@
         But I need to parse the request myself. How can I do that?
       </question>
       <answer>
-        Struts parses multipart a request as a part of the process of populating
+        Struts 1 parses multipart a request as a part of the process of populating
         your form bean from that request. If, for some reason, you need to have
         full control over the multipart parsing, you can do so by configuring
         your action mapping without an associated form bean. (A better way of
         doing this, however, is to replace the default multipart handler with
-        your own. See the Struts documentation for details.)
+        your own. See the Struts 1 documentation for details.)
       </answer>
     </faq>
   </part>
