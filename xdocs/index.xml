@@ -51,7 +51,7 @@
           <li><a href="apidocs/index.html">JavaDoc API</a></li>
           <li><a href="project-reports.html">Project Reports</a></li>
         </ul>
-        You can also <a href="cvs-usage.html">browse</a> the Subversion repository.
+        You can also <a href="source-repository.html">browse</a> the Subversion repository.
       </p>
     </section>
 
