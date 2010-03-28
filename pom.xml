@@ -217,7 +217,7 @@
           <reportSet>
             <reports>
               <report>changes-report</report>
-              <report>jira-report</report>
+              <!--<report>jira-report</report>  throws NPE -->
             </reports>
           </reportSet>
         </reportSets>
