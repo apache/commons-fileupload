@@ -41,7 +41,14 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.3-SNAPSHOT" date="Not yet released">
+    <release version="1.2.2" date="Not yet released">
+      <action dev="jochen" type="fix"
+          due-to="Daniel Fabian" due-to-email="dfabian@google.com">
+        Added a check for file names containing a NUL characters.
+        Such file names are now triggering an InvalidFileNameException,
+        due to a security problem. (A file name like "foo.exe\0.png"
+        might lead to the unintended creation of "foo.exe".)
+      </action>
       <action dev="jochen" type="fix" issue="FILEUPLOAD-160"
           due-to="Stepan Koltsov" due-to-email="yozh@mx1.ru">
         Temporary files have not been deleted, if an error
