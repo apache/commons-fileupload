@@ -177,8 +177,21 @@ public final class Streams {
      */
     public static String checkFileName(String pFileName) {
         if (pFileName != null  &&  pFileName.indexOf('\u0000') != -1) {
+            // pFileName.replace("\u0000", "\\0")
+            final StringBuffer sb = new StringBuffer();
+            for (int i = 0;  i < pFileName.length();  i++) {
+                char c = pFileName.charAt(i);
+                switch (c) {
+                    case 0:
+                        sb.append("\\0");
+                        break;
+                    default:
+                        sb.append(c);
+                        break;
+                }
+            }
             throw new InvalidFileNameException(pFileName,
-                    "Invalid file name: " + pFileName.replace("\u0000", "\\0"));
+                    "Invalid file name: " + sb);
         }
         return pFileName;
     }

@@ -25,7 +25,6 @@ import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.fileupload.FileUploadBase.IOFileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -257,8 +256,8 @@ public class StreamingTest extends TestCase
             fail("Expected exception");
         } catch (InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
-            assertFalse(e.getMessage().contains(fileName));
-            assertTrue(e.getMessage().contains("foo.exe\\0.png"));
+            assertTrue(e.getMessage().indexOf(fileName) == -1);
+            assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
         }
 
         List fileItems = parseUpload(reqBytes);
@@ -268,8 +267,8 @@ public class StreamingTest extends TestCase
             fail("Expected exception");
         } catch (InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
-            assertFalse(e.getMessage().contains(fileName));
-            assertTrue(e.getMessage().contains("foo.exe\\0.png"));
+            assertTrue(e.getMessage().indexOf(fileName) == -1);
+            assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
         }
     }
 }
