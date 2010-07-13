@@ -25,6 +25,7 @@ import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.fileupload.FileUploadBase.IOFileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -154,6 +155,18 @@ public class StreamingTest extends TestCase
     	return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
     }
 
+    private FileItemIterator parseUpload(int pLength, InputStream pStream)
+            throws FileUploadException, IOException {
+        String contentType = "multipart/form-data; boundary=---1234";
+
+        FileUploadBase upload = new ServletFileUpload();
+        upload.setFileItemFactory(new DiskFileItemFactory());
+        HttpServletRequest request = new MockHttpServletRequest(pStream,
+                pLength, contentType);
+
+        return upload.getItemIterator(new ServletRequestContext(request));
+    }
+
     private List parseUpload(InputStream pStream, int pLength)
     		throws FileUploadException {
         String contentType = "multipart/form-data; boundary=---1234";
@@ -208,5 +221,55 @@ public class StreamingTest extends TestCase
         osw.write(getFooter());
         osw.close();
         return baos.toByteArray();
+    }
+
+    /**
+     * Tests, whether an {@link InvalidFileNameException} is thrown. 
+     */
+    public void testInvalidFileNameException() throws Exception {
+        final String fileName = "foo.exe\u0000.png";
+        final String request =
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"field\"\r\n" +
+            "\r\n" +
+            "fieldValue\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"multi\"\r\n" +
+            "\r\n" +
+            "value1\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"multi\"\r\n" +
+            "\r\n" +
+            "value2\r\n" +
+            "-----1234--\r\n";
+        final byte[] reqBytes = request.getBytes("US-ASCII");
+        
+        FileItemIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
+        final FileItemStream fileItemStream = fileItemIter.next();
+        try {
+            fileItemStream.getName();
+            fail("Expected exception");
+        } catch (InvalidFileNameException e) {
+            assertEquals(fileName, e.getName());
+            assertFalse(e.getMessage().contains(fileName));
+            assertTrue(e.getMessage().contains("foo.exe\\0.png"));
+        }
+
+        List fileItems = parseUpload(reqBytes);
+        final FileItem fileItem = (FileItem) fileItems.get(0);
+        try {
+            fileItem.getName();
+            fail("Expected exception");
+        } catch (InvalidFileNameException e) {
+            assertEquals(fileName, e.getName());
+            assertFalse(e.getMessage().contains(fileName));
+            assertTrue(e.getMessage().contains("foo.exe\\0.png"));
+        }
     }
 }

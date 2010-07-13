@@ -26,7 +26,7 @@
   </property>
   <property name="javadocdir" value="${basedir}/dist/docs/api">
   </property>
-  <property name="final.name" value="commons-fileupload-1.3-SNAPSHOT">
+  <property name="final.name" value="commons-fileupload-1.2.2-SNAPSHOT">
   </property>
   <property name="proxy.host" value="">
   </property>
@@ -181,7 +181,7 @@
     </tstamp>
     <property name="copyright" value="Copyright &amp;copy;  The Apache Software Foundation. All Rights Reserved.">
     </property>
-    <property name="title" value="FileUpload 1.3-SNAPSHOT API">
+    <property name="title" value="FileUpload 1.2.2-SNAPSHOT API">
     </property>
     <javadoc use="true" private="true" destdir="${javadocdir}" author="true" version="true" sourcepath="${basedir}/src/java" packagenames="org.apache.commons.fileupload.*">
       <classpath>

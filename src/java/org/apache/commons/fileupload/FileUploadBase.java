@@ -355,10 +355,12 @@ public abstract class FileUploadBase {
                     "No FileItemFactory has been set.");
             }
             while (iter.hasNext()) {
-                FileItemStream item = iter.next();
+                final FileItemStream item = iter.next();
+                // Don't use getName() here to prevent an InvalidFileNameException.
+                final String fileName = ((org.apache.commons.fileupload.FileUploadBase.FileItemIteratorImpl.FileItemStreamImpl) item).name;
                 FileItem fileItem = fac.createItem(item.getFieldName(),
                         item.getContentType(), item.isFormField(),
-                        item.getName());
+                        fileName);
                 items.add(fileItem);
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(),
@@ -699,7 +701,7 @@ public abstract class FileUploadBase {
         /**
          * Default implementation of {@link FileItemStream}.
          */
-        private class FileItemStreamImpl implements FileItemStream {
+        class FileItemStreamImpl implements FileItemStream {
             /** The file items content type.
              */
             private final String contentType;
@@ -765,8 +767,8 @@ public abstract class FileUploadBase {
                                     + " size of " + pSizeMax
                                     + " bytes.",
                                     pCount, pSizeMax);
-                            e.setFieldName(getFieldName());
-                            e.setFieldName(getName());
+                            e.setFieldName(fieldName);
+                            e.setFileName(name);
                     		throw new FileUploadIOException(e);
                         }
                     };
@@ -793,9 +795,13 @@ public abstract class FileUploadBase {
             /**
              * Returns the items file name.
              * @return File name, if known, or null.
+             * @throws InvalidFileNameException The file name contains a NUL character,
+             *   which might be an indicator of a security attack. If you intend to
+             *   use the file name anyways, catch the exception and use
+             *   InvalidFileNameException#getName().
              */
             public String getName() {
-                return name;
+                return Streams.checkFileName(name);
             }
 
             /**
@@ -1173,6 +1179,8 @@ public abstract class FileUploadBase {
      * is exceeded.
      */
     protected abstract static class SizeException extends FileUploadException {
+        private static final long serialVersionUID = -8776225574705254126L;
+
         /**
          * The actual size of the request.
          */
