@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <title>TODO</title>
+    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+  </properties>
+
+  <body>
+    <section name="TODO list">
+      <p>
+        The following is a list of items that need to be completed in
+        Fileupload.  Contributions are welcome! 
+      </p>
+
+      <subsection name="High priority"> 
+      </subsection>
+
+      <subsection name="Medium priority"> 
+        <ul>
+          <li>
+            <strong>Additional unit tests</strong> to increase code coverage.
+          </li>
+          <li>
+            <strong>Documentation</strong> for the customization capabilities.
+          </li>
+         </ul>
+      </subsection>
+
+      <subsection name="Low priority"> 
+      </subsection>
+
+    </section>
+
+    <section name='Completed'>
+      <subsection name="Since 1.0 Beta 1 Release">
+        <ul>
+          <li>
+            Split the <code>FileUpload</code> class into an abstract base class
+            and two concrete classes, one of which is specific to a disk-based
+            repository and the other a more generic implementation.
+          </li>
+          <li>
+            Replaced the ad hoc <code>newInstance()</code> means of creating
+            <code>FileItem</code> instances with a factory-based scheme for
+            much greater flexibility and simpler customization. This change
+            also eliminates a dependency on Commons BeanUtils.
+          </li>
+          <li>
+            Change the semantics of the size threshold to apply to the size of
+            individual items, instead of the size of the overall request. This
+            is in line with the original documentation, and better meets user
+            expectations.
+          </li>
+          <li>
+            Added unit tests for exceptional conditions, and to test new
+            functionality.
+          </li>
+        </ul>
+      </subsection>
+    </section>
+
+    <section name="Deprecated">
+      <subsection name="Since 1.0 Beta 1 Release">
+        <ul>
+          <li>
+            In the <code>FileItem</code> interface, the <code>setIsFormField()</code>
+            method has been replaced by the <code>setFormField()</code> method.
+          </li>
+          <li>
+            In the <code>FileItem</code> interface, the <code>write(String)</code>
+            method has been replaced by the <code>write(File)</code> method.
+          </li>
+          <li>
+            The <code>sizeThreshold</code> property of the <code>FileUpload</code>
+            class has been moved to the <code>DiskFileUpload</code> class.
+          </li>
+          <li>
+            The <code>repositoryPath</code> property of the <code>FileUpload</code>
+            class has been moved to the <code>DiskFileUpload</code> class.
+          </li>
+          <li>
+            The disk-specific <code>parseRequest()</code> method of the
+            <code>FileUpload</code> class has been moved to the
+            <code>DiskFileUpload</code> class.
+          </li>
+        </ul>
+      </subsection>
+    </section>
+
+    <section name="Backwards Incompatible Changes">
+      <subsection name="Since 1.0 Beta 1">
+        <ul>
+          <li>
+            <code>FileItem.newInstance()</code> has been replaced by the use of
+            factories to create new <code>FileItem</code> instances.
+          </li>
+          <li>
+            The <code>storeLocation</code> property of the <code>FileItem</code>
+            interface has been removed, since it is (disk-based) implementation
+            specific.
+          </li>
+        </ul>
+      </subsection>
+    </section>
+
+    <section name="Semantic Changes">
+      <subsection name="Since 1.0 Beta 1">
+        <ul>
+          <li>
+            The <code>sizeThreshold</code> property now applies to the size of
+            each item, rather than the size of the request as a whole. This is
+            more in keeping which user expectations, as well as matching the
+            original documentation.
+          </li>
+        </ul>
+      </subsection>
+    </section>
+  </body>
+</document>
+
