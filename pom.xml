@@ -22,7 +22,7 @@
     <version>16</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.apache.commons.fileupload</groupId>
+  <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
   <version>1.2.2</version>
   <name>Commons FileUpload</name>
