@@ -1,0 +1,5 @@
+Specification-Vendor: Apache Software Foundation
+Specification-Title: Commons FileUpload
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Implementation-Title: Commons FileUpload
