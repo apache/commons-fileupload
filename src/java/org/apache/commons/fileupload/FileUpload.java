@@ -23,7 +23,7 @@ package org.apache.commons.fileupload;
  * <p>This class handles multiple files per single HTML widget, sent using
  * <code>multipart/mixed</code> encoding type, as specified by
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
- * #parseRequest(javax.servlet.http.HttpServletRequest)} to acquire a list
+ * #parseRequest(RequestContext)} to acquire a list
  * of {@link org.apache.commons.fileupload.FileItem FileItems} associated
  * with a given HTML widget.</p>
  *
