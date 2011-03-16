@@ -41,6 +41,12 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
+    <release version="1.2.3-SNAPSHOT">
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-130"
+          due-to="Guillaume Cottenceau" due-to-email="cottenc@gmail.com">
+        The FileItemHeader stuff hasn't been actually working.
+      </action>
+    </release>
     <release version="1.2.2" date="2010-07-29">
       <action dev="jochen" type="fix"
           due-to="Daniel Fabian" due-to-email="dfabian@google.com">

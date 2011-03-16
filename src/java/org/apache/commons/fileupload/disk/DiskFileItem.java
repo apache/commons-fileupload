@@ -81,7 +81,7 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * @version $Id$
  */
 public class DiskFileItem
-    implements FileItem, FileItemHeadersSupport {
+    implements FileItem {
 
     // ----------------------------------------------------- Manifest constants
 

@@ -301,4 +301,76 @@ public class ServletFileUploadTest extends FileUploadTestCase
     	assertTrue(multi1.isFormField());
     	assertEquals("value2", multi1.getString());
     }
+
+
+    /**
+     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-130">
+     */
+    public void testFileUpload130()
+            throws Exception
+    {
+        final String[] headerNames = new String[]
+        {
+            "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader"
+        };
+        final String[] headerValues = new String[]
+        {
+            "present", "Is there", "Here", "Is That"
+        };
+        List fileItems = parseUpload("-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                "Content-Type: text/whatever\r\n" +
+                headerNames[0] + ": " + headerValues[0] + "\r\n" +
+                "\r\n" +
+                "This is the content of the file\n" +
+                "\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; \r\n" +
+                "\tname=\"field\"\r\n" +
+                headerNames[1] + ": " + headerValues[1] + "\r\n" +
+                "\r\n" +
+                "fieldValue\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data;\r\n" +
+                "     name=\"multi\"\r\n" +
+                headerNames[2] + ": " + headerValues[2] + "\r\n" +
+                "\r\n" +
+                "value1\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                headerNames[3] + ": " + headerValues[3] + "\r\n" +
+                "\r\n" +
+                "value2\r\n" +
+                "-----1234--\r\n");
+        assertEquals(4, fileItems.size());
+
+        FileItem file = (FileItem) fileItems.get(0);
+        assertHeaders(headerNames, headerValues, file, 0);
+
+        FileItem field = (FileItem) fileItems.get(1);
+        assertHeaders(headerNames, headerValues, field, 1);
+
+        FileItem multi0 = (FileItem) fileItems.get(2);
+        assertHeaders(headerNames, headerValues, multi0, 2);
+
+        FileItem multi1 = (FileItem) fileItems.get(3);
+        assertHeaders(headerNames, headerValues, multi1, 3);
+    }
+
+    private void assertHeaders(String[] pHeaderNames, String[] pHeaderValues,
+                               FileItem pItem, int pIndex)
+    {
+        for (int i = 0;  i < pHeaderNames.length;  i++)
+        {
+            final String value = pItem.getHeaders().getHeader(pHeaderNames[i]);
+            if (i == pIndex)
+            {
+                assertEquals(pHeaderValues[i], value);
+            }
+            else
+            {
+                assertNull(value);
+            }
+        }
+    }
 }
