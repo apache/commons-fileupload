@@ -1016,6 +1016,7 @@ public abstract class FileUploadBase {
                         currentItem = new FileItemStreamImpl(fileName,
                                 fieldName, headers.getHeader(CONTENT_TYPE),
                                 fileName == null, getContentLength(headers));
+                        currentItem.setHeaders(headers);
                         notifier.noteItem();
                         itemValid = true;
                         return true;
@@ -1027,6 +1028,7 @@ public abstract class FileUploadBase {
                                 currentFieldName,
                                 headers.getHeader(CONTENT_TYPE),
                                 false, getContentLength(headers));
+                        currentItem.setHeaders(headers);
                         notifier.noteItem();
                         itemValid = true;
                         return true;
