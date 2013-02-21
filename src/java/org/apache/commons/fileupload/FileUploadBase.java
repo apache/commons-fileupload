@@ -1039,8 +1039,15 @@ public abstract class FileUploadBase {
         }
 
         private long getContentLength(FileItemHeaders pHeaders) {
+            String contentLength = pHeaders.getHeader(CONTENT_LENGTH);
+            if (contentLength == null) {
+                // do not use the exception mechanism to
+                // handle null values in such critical path
+                // it's incredibly inefficient
+                return -1;
+            }
             try {
-                return Long.parseLong(pHeaders.getHeader(CONTENT_LENGTH));
+                return Long.parseLong(contentLength);
             } catch (Exception e) {
                 return -1;
             }
