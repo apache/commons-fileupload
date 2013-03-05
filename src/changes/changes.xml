@@ -41,7 +41,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.2.3-SNAPSHOT">
+    <release version="2.0.0-SNAPSHOT">
+      <action dev="simonetripodi" issue="FILEUPLOAD-216">
+        Update the project tree dirs according to default Maven conventions
+      </action>
       <action dev="jochen" type="fix" issue="FILEUPLOAD-130"
           due-to="Guillaume Cottenceau" due-to-email="cottenc@gmail.com">
         The FileItemHeader stuff hasn't been actually working.
