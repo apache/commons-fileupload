@@ -44,7 +44,7 @@ class MockHttpServletRequest implements HttpServletRequest
 {
 
 	private final InputStream m_requestData;
-	private final int length;
+	private final long length;
 	private String m_strContentType;
 	private Map m_headers = new java.util.HashMap();
 
@@ -66,13 +66,15 @@ class MockHttpServletRequest implements HttpServletRequest
 	 */
 	public MockHttpServletRequest(
 			final InputStream requestData,
-			final int requestLength,
+			final long requestLength,
 			final String strContentType)
 	{
 		m_requestData = requestData;
 		length = requestLength;
+		m_headers.put(FileUploadBase.CONTENT_LENGTH, "" + length);
 		m_strContentType = strContentType;
 		m_headers.put(FileUploadBase.CONTENT_TYPE, strContentType);
+
 	}
 
 	/**
@@ -323,7 +325,7 @@ class MockHttpServletRequest implements HttpServletRequest
 		}
 		else
 		{
-			iLength = length;
+			iLength = (int) length; // FIXME
 		}
 		return iLength;
 	}
@@ -545,7 +547,7 @@ class MockHttpServletRequest implements HttpServletRequest
 			return in.read();
 		}
 
-		public int read(byte b[], int off, int len) throws IOException 
+		public int read(byte b[], int off, int len) throws IOException
 		{
 		    return in.read(b, off, len);
 		}

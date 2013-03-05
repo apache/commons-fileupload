@@ -78,8 +78,8 @@ public class PortletRequestContext implements RequestContext {
      *
      * @return The content length of the request.
      */
-    public int getContentLength() {
-        return request.getContentLength();
+    public long getContentLength() {
+        return request.getContentLength(); // TODO get as long somehow
     }
 
     /**

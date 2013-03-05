@@ -917,7 +917,7 @@ public abstract class FileUploadBase {
             InputStream input = ctx.getInputStream();
 
             if (sizeMax >= 0) {
-                int requestSize = ctx.getContentLength();
+                long requestSize = ctx.getContentLength();
                 if (requestSize == -1) {
                     input = new LimitedInputStream(input, sizeMax) {
                         protected void raiseError(long pSizeMax, long pCount)
