@@ -28,39 +28,39 @@ import javax.servlet.http.HttpServletRequest;
  */
 final class HttpServletRequestFactory
 {
-	static public HttpServletRequest createHttpServletRequestWithNullContentType()
-	{
-		byte[] requestData = "foobar".getBytes();
-		return new MockHttpServletRequest(
-							requestData,
-							null);
-	}
+    static public HttpServletRequest createHttpServletRequestWithNullContentType()
+    {
+        byte[] requestData = "foobar".getBytes();
+        return new MockHttpServletRequest(
+                            requestData,
+                            null);
+    }
 
-	static public HttpServletRequest createValidHttpServletRequest(
-			final String[] strFileNames)
-	{
-		// todo - provide a real implementation
+    static public HttpServletRequest createValidHttpServletRequest(
+            final String[] strFileNames)
+    {
+        // todo - provide a real implementation
 
-		StringBuffer sbRequestData = new StringBuffer();
+        StringBuffer sbRequestData = new StringBuffer();
 
-		for (int i = 0; i < strFileNames.length; i++)
-		{
-			sbRequestData.append(strFileNames[i]);
-		}
+        for (int i = 0; i < strFileNames.length; i++)
+        {
+            sbRequestData.append(strFileNames[i]);
+        }
 
-		byte[] requestData = null;
-		requestData = sbRequestData.toString().getBytes();
+        byte[] requestData = null;
+        requestData = sbRequestData.toString().getBytes();
 
-		return new MockHttpServletRequest(
-							requestData,
-							FileUploadBase.MULTIPART_FORM_DATA);
-	}
+        return new MockHttpServletRequest(
+                            requestData,
+                            FileUploadBase.MULTIPART_FORM_DATA);
+    }
 
-	static public HttpServletRequest createInvalidHttpServletRequest()
-	{
-		byte[] requestData = "foobar".getBytes();
-		return new MockHttpServletRequest(
-							requestData,
-							FileUploadBase.MULTIPART_FORM_DATA);
-	}
+    static public HttpServletRequest createInvalidHttpServletRequest()
+    {
+        byte[] requestData = "foobar".getBytes();
+        return new MockHttpServletRequest(
+                            requestData,
+                            FileUploadBase.MULTIPART_FORM_DATA);
+    }
 }

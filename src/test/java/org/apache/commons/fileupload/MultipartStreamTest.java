@@ -29,29 +29,29 @@ import java.io.*;
  */
 public class MultipartStreamTest extends TestCase
 {
-	static private final String BOUNDARY_TEXT = "myboundary";
+    static private final String BOUNDARY_TEXT = "myboundary";
 
     public void testThreeParamConstructor() throws Exception {
-		final String strData = "foobar";
-		final byte[] contents = strData.getBytes();
-		InputStream input = new ByteArrayInputStream(contents);
-    	byte[] boundary = BOUNDARY_TEXT.getBytes();
-    	int iBufSize = boundary.length;
-    	MultipartStream ms = new MultipartStream(
-    			input,
-    			boundary,
-    			iBufSize,
-    			new MultipartStream.ProgressNotifier(null, contents.length));
+        final String strData = "foobar";
+        final byte[] contents = strData.getBytes();
+        InputStream input = new ByteArrayInputStream(contents);
+        byte[] boundary = BOUNDARY_TEXT.getBytes();
+        int iBufSize = boundary.length;
+        MultipartStream ms = new MultipartStream(
+                input,
+                boundary,
+                iBufSize,
+                new MultipartStream.ProgressNotifier(null, contents.length));
     }
 
-	public void testTwoParamConstructor() throws Exception {
-		final String strData = "foobar";
-		final byte[] contents = strData.getBytes();
-		InputStream input = new ByteArrayInputStream(contents);
-		byte[] boundary = BOUNDARY_TEXT.getBytes();
-		MultipartStream ms = new MultipartStream(
-				input,
-				boundary,
-				new MultipartStream.ProgressNotifier(null, contents.length));
-	}
+    public void testTwoParamConstructor() throws Exception {
+        final String strData = "foobar";
+        final byte[] contents = strData.getBytes();
+        InputStream input = new ByteArrayInputStream(contents);
+        byte[] boundary = BOUNDARY_TEXT.getBytes();
+        MultipartStream ms = new MultipartStream(
+                input,
+                boundary,
+                new MultipartStream.ProgressNotifier(null, contents.length));
+    }
 }
