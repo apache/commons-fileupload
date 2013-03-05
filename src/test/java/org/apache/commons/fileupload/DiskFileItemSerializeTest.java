@@ -16,23 +16,27 @@
  */
 package org.apache.commons.fileupload;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
-import junit.framework.TestCase;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-
+import org.junit.Test;
 
 /**
  * Serialization Unit tests for
  *  {@link org.apache.commons.fileupload.disk.DiskFileItem}.
  */
-public class DiskFileItemSerializeTest extends TestCase
- {
+public class DiskFileItemSerializeTest
+{
 
     /**
      * Content type for regular form items.
@@ -45,19 +49,10 @@ public class DiskFileItemSerializeTest extends TestCase
     private static final int threshold = 16;
 
     /**
-     * Standard JUnit test case constructor.
-     *
-     * @param name The name of the test case.
-     */
-    public DiskFileItemSerializeTest(String name)
-    {
-        super(name);
-    }
-
-    /**
      * Test creation of a field for which the amount of data falls below the
      * configured threshold.
      */
+    @Test
     public void testBelowThreshold()
     {
 
@@ -95,6 +90,7 @@ public class DiskFileItemSerializeTest extends TestCase
      * Test creation of a field for which the amount of data equals the
      * configured threshold.
      */
+    @Test
     public void testThreshold() {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold);
@@ -129,6 +125,7 @@ public class DiskFileItemSerializeTest extends TestCase
      * Test creation of a field for which the amount of data falls above the
      * configured threshold.
      */
+    @Test
     public void testAboveThreshold() {
 
         // Create the FileItem

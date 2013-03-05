@@ -16,12 +16,16 @@
  */
 package org.apache.commons.fileupload;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.junit.Test;
 
 
 /** Tests the progress listener.
@@ -55,6 +59,7 @@ public class ProgressListenerTest extends FileUploadTestCase {
     /**
      * Parse a very long file upload by using a progress listener.
      */
+    @Test
     public void testProgressListener() throws Exception {
         final int NUM_ITEMS = 512;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -76,7 +81,7 @@ public class ProgressListenerTest extends FileUploadTestCase {
         request = new MockHttpServletRequest(contents, "multipart/form-data; boundary=---1234"){
             public int getContentLength() {
                 return -1;
-            }            
+            }
         };
         runTest(NUM_ITEMS, contents.length, request);
     }

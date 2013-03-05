@@ -16,11 +16,15 @@
  */
 package org.apache.commons.fileupload;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Iterator;
 
 import org.apache.commons.fileupload.util.FileItemHeadersImpl;
-
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Unit tests {@link FileItemHeaders} and
@@ -28,10 +32,11 @@ import junit.framework.TestCase;
  *
  * @author Michael C. Macaluso
  */
-public class FileItemHeadersTest extends TestCase {
+public class FileItemHeadersTest {
     /**
      * @throws Exception
      */
+    @Test
     public void testFileItemHeaders() throws Exception {
         FileItemHeadersImpl aMutableFileItemHeaders = new FileItemHeadersImpl();
         aMutableFileItemHeaders.addHeader("Content-Disposition", "form-data; name=\"FileItem\"; filename=\"file1.txt\"");

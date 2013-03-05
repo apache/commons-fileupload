@@ -16,11 +16,19 @@
  */
 package org.apache.commons.fileupload;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.junit.Test;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
@@ -31,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ServletFileUploadTest extends FileUploadTestCase
 {
+    @Test
     public void testWithInvalidRequest()
     {
         FileUploadBase fu = null;
@@ -52,7 +61,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
 
     }
 
-
+    @Test
     public void testWithNullContentType()
     {
         FileUploadBase fu = new DiskFileUpload();
@@ -75,7 +84,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
 
     }
 
-
+    @Test
     public void testFileUpload()
             throws IOException, FileUploadException
     {
@@ -123,6 +132,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
         assertEquals("value2", multi1.getString());
     }
 
+    @Test
     public void testFilenameCaseSensitivity()
             throws IOException, FileUploadException
     {
@@ -143,6 +153,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
     /**
      * This is what the browser does if you submit the form without choosing a file.
      */
+    @Test
     public void testEmptyFile()
             throws UnsupportedEncodingException, FileUploadException
     {
@@ -164,6 +175,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
      * return is missing on any boundary line immediately preceding
      * an input with type=image. (type=submit does not have the bug.)
      */
+    @Test
     public void testIE5MacBug()
             throws UnsupportedEncodingException, FileUploadException
     {
@@ -211,6 +223,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
     /**
      * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>
      */
+    @Test
     public void testFILEUPLOAD62() throws Exception {
         final String contentType = "multipart/form-data; boundary=AaB03x";
         final String request =
@@ -254,6 +267,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
     /**
      * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>
      */
+    @Test
     public void testFoldedHeaders()
             throws IOException, FileUploadException {
         List<FileItem> fileItems = parseUpload("-----1234\r\n" +
@@ -306,6 +320,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
     /**
      * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-130">
      */
+    @Test
     public void testFileUpload130()
             throws Exception
     {

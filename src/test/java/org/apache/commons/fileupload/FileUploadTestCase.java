@@ -24,13 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import junit.framework.TestCase;
-
-
 /**
  * Base class for deriving test cases.
  */
-public abstract class FileUploadTestCase extends TestCase {
+public abstract class FileUploadTestCase {
     protected static final String CONTENT_TYPE = "multipart/form-data; boundary=---1234";
 
     protected List<FileItem> parseUpload(byte[] bytes) throws FileUploadException {
