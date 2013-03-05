@@ -19,7 +19,6 @@ package org.apache.commons.fileupload;
 import java.io.File;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 
-
 /**
  * <p> The default implementation of the
  * {@link org.apache.commons.fileupload.FileItem FileItem} interface.
@@ -49,7 +48,6 @@ public class DefaultFileItem
 
     // ----------------------------------------------------------- Constructors
 
-
     /**
      * Constructs a new <code>DefaultFileItem</code> instance.
      *
@@ -75,6 +73,5 @@ public class DefaultFileItem
         super(fieldName, contentType, isFormField, fileName, sizeThreshold,
                 repository);
     }
-
 
 }
