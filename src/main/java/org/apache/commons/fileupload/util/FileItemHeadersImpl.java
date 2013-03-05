@@ -19,8 +19,8 @@ package org.apache.commons.fileupload.util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,14 +39,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
      * Map of <code>String</code> keys to a <code>List</code> of
      * <code>String</code> instances.
      */
-    private final Map<String, List<String>> headerNameToValueListMap = new HashMap<String, List<String>>();
-
-    /**
-     * List to preserve order of headers as added.  This would not be
-     * needed if a <code>LinkedHashMap</code> could be used, but don't
-     * want to depend on 1.4.
-     */
-    private final List<String> headerNameList = new ArrayList<String>();
+    private final Map<String, List<String>> headerNameToValueListMap = new LinkedHashMap<String, List<String>>();
 
     public String getHeader(String name) {
         String nameLower = name.toLowerCase();
@@ -58,7 +51,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
     }
 
     public Iterator<String> getHeaderNames() {
-        return headerNameList.iterator();
+        return headerNameToValueListMap.keySet().iterator();
     }
 
     public Iterator<String> getHeaders(String name) {
@@ -82,7 +75,6 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
         if (null == headerValueList) {
             headerValueList = new ArrayList<String>();
             headerNameToValueListMap.put(nameLower, headerValueList);
-            headerNameList.add(nameLower);
         }
         headerValueList.add(value);
     }
