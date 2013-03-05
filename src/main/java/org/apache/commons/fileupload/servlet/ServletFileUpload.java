@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileUpload;
@@ -121,7 +122,7 @@ public class ServletFileUpload extends FileUpload {
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */
-    public List /* FileItem */ parseRequest(HttpServletRequest request)
+    public List<FileItem> parseRequest(HttpServletRequest request)
     throws FileUploadException {
         return parseRequest(new ServletRequestContext(request));
     }

@@ -199,7 +199,7 @@ public class DiskFileUpload
      *
      * @deprecated Use <code>ServletFileUpload</code> instead.
      */
-    public List /* FileItem */ parseRequest(HttpServletRequest req,
+    public List<FileItem> parseRequest(HttpServletRequest req,
                                             int sizeThreshold,
                                             long sizeMax, String path)
         throws FileUploadException {

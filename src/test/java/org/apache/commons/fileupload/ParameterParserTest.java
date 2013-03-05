@@ -54,7 +54,7 @@ public class ParameterParserTest extends TestCase
         String s =
             "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
         ParameterParser parser = new ParameterParser();
-        Map params = parser.parse(s, ';');
+        Map<String, String> params = parser.parse(s, ';');
         assertEquals(null, params.get("test"));
         assertEquals("stuff", params.get("test1"));
         assertEquals("stuff; stuff", params.get("test2"));
@@ -91,7 +91,7 @@ public class ParameterParserTest extends TestCase
         String s = "text/plain; Charset=UTF-8";
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
-        Map params = parser.parse(s, ';');
+        Map<String, String> params = parser.parse(s, ';');
         assertEquals("UTF-8", params.get("charset"));
     }
 
@@ -99,7 +99,7 @@ public class ParameterParserTest extends TestCase
     {
         String s = "param = \"stuff\\\"; more stuff\"";
         ParameterParser parser = new ParameterParser();
-        Map params = parser.parse(s, ';');
+        Map<String, String> params = parser.parse(s, ';');
         assertEquals(1, params.size());
         assertEquals("stuff\\\"; more stuff", params.get("param"));
 
@@ -111,11 +111,11 @@ public class ParameterParserTest extends TestCase
     }
 
     // See: http://issues.apache.org/jira/browse/FILEUPLOAD-139
-    public void testFileUpload139() 
+    public void testFileUpload139()
     {
         ParameterParser parser = new ParameterParser();
         String s = "Content-type: multipart/form-data , boundary=AaB03x";
-        Map params = parser.parse(s, new char[] { ',', ';' });
+        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("AaB03x", params.get("boundary"));
 
         s = "Content-type: multipart/form-data, boundary=AaB03x";

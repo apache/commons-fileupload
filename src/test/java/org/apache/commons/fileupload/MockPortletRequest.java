@@ -30,19 +30,19 @@ import javax.portlet.WindowState;
 
 /**
  * A mock portlet request, useful for unit testing and offline utilities
- * 
+ *
  * @author <a href="mailto:taylor@apache.org">David Sean Taylor</a>
  * @version $Id$
  */
 public class MockPortletRequest implements PortletRequest
 {
     MockPortletSession session = null;
-    
+
     public MockPortletRequest()
     {
-        session = new MockPortletSession();     
+        session = new MockPortletSession();
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletRequest#isWindowStateAllowed(javax.portlet.WindowState)
      */
@@ -112,7 +112,7 @@ public class MockPortletRequest implements PortletRequest
     /* (non-Javadoc)
      * @see javax.portlet.PortletRequest#getProperties(java.lang.String)
      */
-    public Enumeration getProperties(String name)
+    public Enumeration<String> getProperties(String name)
     {
         // TODO Auto-generated method stub
         return null;
@@ -120,7 +120,7 @@ public class MockPortletRequest implements PortletRequest
     /* (non-Javadoc)
      * @see javax.portlet.PortletRequest#getPropertyNames()
      */
-    public Enumeration getPropertyNames()
+    public Enumeration<String> getPropertyNames()
     {
         // TODO Auto-generated method stub
         return null;
@@ -184,7 +184,7 @@ public class MockPortletRequest implements PortletRequest
     /* (non-Javadoc)
      * @see javax.portlet.PortletRequest#getAttributeNames()
      */
-    public Enumeration getAttributeNames()
+    public Enumeration<String> getAttributeNames()
     {
         // TODO Auto-generated method stub
         return null;
@@ -200,7 +200,7 @@ public class MockPortletRequest implements PortletRequest
     /* (non-Javadoc)
      * @see javax.portlet.PortletRequest#getParameterNames()
      */
-    public Enumeration getParameterNames()
+    public Enumeration<String> getParameterNames()
     {
         // TODO Auto-generated method stub
         return null;
@@ -216,7 +216,7 @@ public class MockPortletRequest implements PortletRequest
     /* (non-Javadoc)
      * @see javax.portlet.PortletRequest#getParameterMap()
      */
-    public Map getParameterMap()
+    public Map<String, String[]> getParameterMap()
     {
         // TODO Auto-generated method stub
         return null;
@@ -270,7 +270,7 @@ public class MockPortletRequest implements PortletRequest
     /* (non-Javadoc)
      * @see javax.portlet.PortletRequest#getResponseContentTypes()
      */
-    public Enumeration getResponseContentTypes()
+    public Enumeration<String> getResponseContentTypes()
     {
         // TODO Auto-generated method stub
         return null;
@@ -307,10 +307,10 @@ public class MockPortletRequest implements PortletRequest
         // TODO Auto-generated method stub
         return 0;
     }
-    
-    public Enumeration getLocales()
+
+    public Enumeration<Locale> getLocales()
     {
         return null;
     }
-    
+
 }

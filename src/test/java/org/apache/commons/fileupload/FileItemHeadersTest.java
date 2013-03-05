@@ -42,7 +42,7 @@ public class FileItemHeadersTest extends TestCase {
     	aMutableFileItemHeaders.addHeader("TestHeader", "headerValue3");
     	aMutableFileItemHeaders.addHeader("testheader", "headerValue4");
 
-    	Iterator headerNameEnumeration = aMutableFileItemHeaders.getHeaderNames();
+    	Iterator<String> headerNameEnumeration = aMutableFileItemHeaders.getHeaderNames();
     	assertEquals("content-disposition", (String) headerNameEnumeration.next());
     	assertEquals("content-type", (String) headerNameEnumeration.next());
     	assertEquals("testheader", (String) headerNameEnumeration.next());
@@ -54,7 +54,7 @@ public class FileItemHeadersTest extends TestCase {
     	assertEquals(aMutableFileItemHeaders.getHeader("TestHeader"), "headerValue1");
     	assertNull(aMutableFileItemHeaders.getHeader("DummyHeader"));
 
-    	Iterator headerValueEnumeration;
+    	Iterator<String> headerValueEnumeration;
 
     	headerValueEnumeration = aMutableFileItemHeaders.getHeaders("Content-Type");
     	assertTrue(headerValueEnumeration.hasNext());

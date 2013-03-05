@@ -57,7 +57,7 @@ public interface FileItemHeaders {
      *         requested header. If the item does not have any headers of
      *         that name, return an empty <code>Iterator</code>
      */
-    Iterator getHeaders(String name);
+    Iterator<String> getHeaders(String name);
 
     /**
      * <p>
@@ -68,5 +68,5 @@ public interface FileItemHeaders {
      *         headers provided with this file item. If the item does not have
      *         any headers return an empty <code>Iterator</code>
      */
-    Iterator getHeaderNames();
+    Iterator<String> getHeaderNames();
 }

@@ -305,7 +305,7 @@ public abstract class FileUploadBase {
      *
      * @deprecated Use the method in <code>ServletFileUpload</code> instead.
      */
-    public List /* FileItem */ parseRequest(HttpServletRequest req)
+    public List<FileItem> parseRequest(HttpServletRequest req)
     throws FileUploadException {
         return parseRequest(new ServletRequestContext(req));
     }
@@ -343,9 +343,9 @@ public abstract class FileUploadBase {
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */
-    public List /* FileItem */ parseRequest(RequestContext ctx)
+    public List<FileItem> parseRequest(RequestContext ctx)
             throws FileUploadException {
-        List items = new ArrayList();
+        List<FileItem> items = new ArrayList<FileItem>();
         boolean successful = false;
         try {
             FileItemIterator iter = getItemIterator(ctx);
@@ -385,8 +385,7 @@ public abstract class FileUploadBase {
             throw new FileUploadException(e.getMessage(), e);
         } finally {
             if (!successful) {
-                for (Iterator iterator = items.iterator(); iterator.hasNext();) {
-                    FileItem fileItem = (FileItem) iterator.next();
+                for (FileItem fileItem : items) {
                     try {
                         fileItem.delete();
                     } catch (Throwable e) {
@@ -413,7 +412,7 @@ public abstract class FileUploadBase {
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
-        Map params = parser.parse(contentType, new char[] {';', ','});
+        Map<String, String> params = parser.parse(contentType, new char[] {';', ','});
         String boundaryStr = (String) params.get("boundary");
 
         if (boundaryStr == null) {
@@ -438,7 +437,7 @@ public abstract class FileUploadBase {
      * @return The file name for the current <code>encapsulation</code>.
      * @deprecated Use {@link #getFileName(FileItemHeaders)}.
      */
-    protected String getFileName(Map /* String, String */ headers) {
+    protected String getFileName(Map<String, String> headers) {
         return getFileName(getHeader(headers, CONTENT_DISPOSITION));
     }
 
@@ -467,7 +466,7 @@ public abstract class FileUploadBase {
                 ParameterParser parser = new ParameterParser();
                 parser.setLowerCaseNames(true);
                 // Parameter parser can handle null input
-                Map params = parser.parse(pContentDisposition, ';');
+                Map<String, String> params = parser.parse(pContentDisposition, ';');
                 if (params.containsKey("filename")) {
                     fileName = (String) params.get("filename");
                     if (fileName != null) {
@@ -510,7 +509,7 @@ public abstract class FileUploadBase {
             ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
-            Map params = parser.parse(pContentDisposition, ';');
+            Map<String, String> params = parser.parse(pContentDisposition, ';');
             fieldName = (String) params.get("name");
             if (fieldName != null) {
                 fieldName = fieldName.trim();
@@ -528,7 +527,7 @@ public abstract class FileUploadBase {
      * @return The field name for the current <code>encapsulation</code>.
      * @deprecated Use {@link #getFieldName(FileItemHeaders)}.
      */
-    protected String getFieldName(Map /* String, String */ headers) {
+    protected String getFieldName(Map<String, String> headers) {
         return getFieldName(getHeader(headers, CONTENT_DISPOSITION));
     }
 
@@ -547,7 +546,7 @@ public abstract class FileUploadBase {
      * @deprecated This method is no longer used in favour of
      *   internally created instances of {@link FileItem}.
      */
-    protected FileItem createItem(Map /* String, String */ headers,
+    protected FileItem createItem(Map<String, String> headers,
                                   boolean isFormField)
         throws FileUploadException {
         return getFileItemFactory().createItem(getFieldName(headers),
@@ -622,12 +621,12 @@ public abstract class FileUploadBase {
      * @return A <code>Map</code> containing the parsed HTTP request headers.
      * @deprecated Use {@link #getParsedHeaders(String)}
      */
-    protected Map /* String, String */ parseHeaders(String headerPart) {
+    protected Map<String, String> parseHeaders(String headerPart) {
         FileItemHeaders headers = getParsedHeaders(headerPart);
-        Map result = new HashMap();
-        for (Iterator iter = headers.getHeaderNames();  iter.hasNext();) {
-            String headerName = (String) iter.next();
-            Iterator iter2 = headers.getHeaders(headerName);
+        Map<String, String> result = new HashMap<String, String>();
+        for (Iterator<String> iter = headers.getHeaderNames();  iter.hasNext();) {
+            String headerName = iter.next();
+            Iterator<String> iter2 = headers.getHeaders(headerName);
             String headerValue = (String) iter2.next();
             while (iter2.hasNext()) {
                 headerValue += "," + iter2.next();
@@ -688,7 +687,7 @@ public abstract class FileUploadBase {
      *         there were multiple headers of that name.
      * @deprecated Use {@link FileItemHeaders#getHeader(String)}.
      */
-    protected final String getHeader(Map /* String, String */ headers,
+    protected final String getHeader(Map<String, String> headers,
             String name) {
         return (String) headers.get(name.toLowerCase());
     }

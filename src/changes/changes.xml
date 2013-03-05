@@ -47,6 +47,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="simonetripodi" type="add" issue="FILEUPLOAD-218">
         Update version in POM
       </action>
+      <action dev="simonetripodi" type="add" issue="FILEUPLOAD-217">
+        drop JDK1.3 support and update to Java5
+      </action>
       <action dev="simonetripodi" type="add" issue="FILEUPLOAD-216">
         Update the project tree dirs according to default Maven conventions
       </action>

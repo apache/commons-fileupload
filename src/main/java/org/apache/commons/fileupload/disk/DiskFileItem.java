@@ -266,7 +266,7 @@ public class DiskFileItem
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
-        Map params = parser.parse(getContentType(), ';');
+        Map<String, String> params = parser.parse(getContentType(), ';');
         return (String) params.get("charset");
     }
 
