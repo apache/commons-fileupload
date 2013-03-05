@@ -42,10 +42,10 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="2.0.0-SNAPSHOT">
-      <action dev="simonetripodi" issue="FILEUPLOAD-218">
+      <action dev="simonetripodi" type="add" issue="FILEUPLOAD-218">
         Update version in POM
       </action>
-      <action dev="simonetripodi" issue="FILEUPLOAD-216">
+      <action dev="simonetripodi" type="add" issue="FILEUPLOAD-216">
         Update the project tree dirs according to default Maven conventions
       </action>
       <action dev="jochen" type="fix" issue="FILEUPLOAD-130"
