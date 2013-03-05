@@ -85,6 +85,12 @@
       <email>jochen.wiedmann@gmail.com</email>
       <organization />
     </developer>
+    <developer>
+      <name>Simone Tripodi</name>
+      <id>simonetripodi</id>
+      <email>simonetripodi@apache.org</email>
+      <organization />
+    </developer>
   </developers>
 
   <contributors>
