@@ -58,7 +58,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
         String nameLower = name.toLowerCase();
         List<String> headerValueList = headerNameToValueListMap.get(nameLower);
         if (null == headerValueList) {
-            return Collections.EMPTY_LIST.iterator();
+            headerValueList = Collections.emptyList();
         }
         return headerValueList.iterator();
     }
