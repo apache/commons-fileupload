@@ -28,7 +28,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 
 
 /**
- * Serialization Unit tests for 
+ * Serialization Unit tests for
  *  {@link org.apache.commons.fileupload.disk.DiskFileItem}.
  */
 public class DiskFileItemSerializeTest extends TestCase
@@ -38,11 +38,6 @@ public class DiskFileItemSerializeTest extends TestCase
      * Content type for regular form items.
      */
     private static final String textContentType = "text/plain";
-
-    /**
-     * Content type for file uploads.
-     */
-    private static final String fileContentType = "application/octet-stream";
 
     /**
      * Very low threshold for testing memory versus disk options.
