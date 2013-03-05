@@ -50,6 +50,11 @@ public class DefaultFileItem
     // ----------------------------------------------------------- Constructors
 
     /**
+     * The UID to use when serializing this instance.
+     */
+    private static final long serialVersionUID = 4088572813833518255L;
+
+    /**
      * Constructs a new <code>DefaultFileItem</code> instance.
      *
      * @param fieldName     The name of the form field.
