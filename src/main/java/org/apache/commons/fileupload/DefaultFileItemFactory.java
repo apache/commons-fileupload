@@ -43,6 +43,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
  *
  * @deprecated Use <code>DiskFileItemFactory</code> instead.
  */
+@Deprecated
 public class DefaultFileItemFactory extends DiskFileItemFactory {
 
     // ----------------------------------------------------------- Constructors
@@ -54,6 +55,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *
      * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
+    @Deprecated
     public DefaultFileItemFactory() {
         super();
     }
@@ -71,6 +73,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *
      * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
+    @Deprecated
     public DefaultFileItemFactory(int sizeThreshold, File repository) {
         super(sizeThreshold, repository);
     }
@@ -94,6 +97,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *
      * @deprecated Use <code>DiskFileItemFactory</code> instead.
      */
+    @Deprecated
     public FileItem createItem(
             String fieldName,
             String contentType,

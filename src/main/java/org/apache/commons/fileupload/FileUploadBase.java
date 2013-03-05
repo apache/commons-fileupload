@@ -102,6 +102,7 @@ public abstract class FileUploadBase {
      *
      * @deprecated Use the method on <code>ServletFileUpload</code> instead.
      */
+    @Deprecated
     public static boolean isMultipartContent(HttpServletRequest req) {
         return ServletFileUpload.isMultipartContent(req);
     }
@@ -164,6 +165,7 @@ public abstract class FileUploadBase {
      *   1.2, the only applicable limit is the total size of a parts headers,
      *   {@link MultipartStream#HEADER_PART_SIZE_MAX}.
      */
+    @Deprecated
     public static final int MAX_HEADER_SIZE = 1024;
 
 
@@ -305,6 +307,7 @@ public abstract class FileUploadBase {
      *
      * @deprecated Use the method in <code>ServletFileUpload</code> instead.
      */
+    @Deprecated
     public List<FileItem> parseRequest(HttpServletRequest req)
     throws FileUploadException {
         return parseRequest(new ServletRequestContext(req));
@@ -437,6 +440,7 @@ public abstract class FileUploadBase {
      * @return The file name for the current <code>encapsulation</code>.
      * @deprecated Use {@link #getFileName(FileItemHeaders)}.
      */
+    @Deprecated
     protected String getFileName(Map<String, String> headers) {
         return getFileName(getHeader(headers, CONTENT_DISPOSITION));
     }
@@ -527,6 +531,7 @@ public abstract class FileUploadBase {
      * @return The field name for the current <code>encapsulation</code>.
      * @deprecated Use {@link #getFieldName(FileItemHeaders)}.
      */
+    @Deprecated
     protected String getFieldName(Map<String, String> headers) {
         return getFieldName(getHeader(headers, CONTENT_DISPOSITION));
     }
@@ -546,6 +551,7 @@ public abstract class FileUploadBase {
      * @deprecated This method is no longer used in favour of
      *   internally created instances of {@link FileItem}.
      */
+    @Deprecated
     protected FileItem createItem(Map<String, String> headers,
                                   boolean isFormField)
         throws FileUploadException {
@@ -621,6 +627,7 @@ public abstract class FileUploadBase {
      * @return A <code>Map</code> containing the parsed HTTP request headers.
      * @deprecated Use {@link #getParsedHeaders(String)}
      */
+    @Deprecated
     protected Map<String, String> parseHeaders(String headerPart) {
         FileItemHeaders headers = getParsedHeaders(headerPart);
         Map<String, String> result = new HashMap<String, String>();
@@ -687,6 +694,7 @@ public abstract class FileUploadBase {
      *         there were multiple headers of that name.
      * @deprecated Use {@link FileItemHeaders#getHeader(String)}.
      */
+    @Deprecated
     protected final String getHeader(Map<String, String> headers,
             String name) {
         return (String) headers.get(name.toLowerCase());
@@ -1230,6 +1238,7 @@ public abstract class FileUploadBase {
      * @deprecated As of commons-fileupload 1.2, the presence of a
      *   content-length header is no longer required.
      */
+    @Deprecated
     public static class UnknownSizeException
         extends FileUploadException {
         /** The exceptions UID, for serializing an instance.
@@ -1268,6 +1277,7 @@ public abstract class FileUploadBase {
          * @deprecated Replaced by
          * {@link #SizeLimitExceededException(String, long, long)}
          */
+        @Deprecated
         public SizeLimitExceededException() {
             this(null, 0, 0);
         }
@@ -1277,6 +1287,7 @@ public abstract class FileUploadBase {
          * {@link #SizeLimitExceededException(String, long, long)}
          * @param message The exceptions detail message.
          */
+        @Deprecated
         public SizeLimitExceededException(String message) {
             this(message, 0, 0);
         }

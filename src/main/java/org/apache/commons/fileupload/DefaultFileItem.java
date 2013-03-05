@@ -43,6 +43,7 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
  *
  * @deprecated Use <code>DiskFileItem</code> instead.
  */
+@Deprecated
 public class DefaultFileItem
     extends DiskFileItem {
 
@@ -67,6 +68,7 @@ public class DefaultFileItem
      *
      * @deprecated Use <code>DiskFileItem</code> instead.
      */
+    @Deprecated
     public DefaultFileItem(String fieldName, String contentType,
             boolean isFormField, String fileName, int sizeThreshold,
             File repository) {
