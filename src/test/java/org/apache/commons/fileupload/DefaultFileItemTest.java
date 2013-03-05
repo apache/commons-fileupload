@@ -16,20 +16,26 @@
  */
 package org.apache.commons.fileupload;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 
 /**
  * Unit tests for {@link org.apache.commons.fileupload.DefaultFileItem}.
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  */
-public class DefaultFileItemTest extends TestCase
+public class DefaultFileItemTest
  {
 
     /**
@@ -48,18 +54,9 @@ public class DefaultFileItemTest extends TestCase
     private static final int threshold = 16;
 
     /**
-     * Standard JUnit test case constructor.
-     *
-     * @param name The name of the test case.
-     */
-    public DefaultFileItemTest(String name)
-    {
-        super(name);
-    }
-
-    /**
      * Test construction of a regular text field.
      */
+    @Test
     public void testTextFieldConstruction()
     {
         FileItemFactory factory = createFactory(null);
@@ -81,6 +78,7 @@ public class DefaultFileItemTest extends TestCase
     /**
      * Test construction of a file field.
      */
+    @Test
     public void testFileFieldConstruction()
     {
         FileItemFactory factory = createFactory(null);
@@ -104,6 +102,7 @@ public class DefaultFileItemTest extends TestCase
      * Test creation of a field for which the amount of data falls below the
      * configured threshold.
      */
+    @Test
     public void testBelowThreshold()
     {
         FileItemFactory factory = createFactory(null);
@@ -139,6 +138,7 @@ public class DefaultFileItemTest extends TestCase
      * Test creation of a field for which the amount of data falls above the
      * configured threshold, where no specific repository is configured.
      */
+    @Test
     public void testAboveThresholdDefaultRepository()
     {
         doTestAboveThreshold(null);
@@ -148,6 +148,7 @@ public class DefaultFileItemTest extends TestCase
      * Test creation of a field for which the amount of data falls above the
      * configured threshold, where a specific repository is configured.
      */
+    @Test
     public void testAboveThresholdSpecifiedRepository()
     {
         String tempPath = System.getProperty("java.io.tmpdir");

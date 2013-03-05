@@ -16,6 +16,10 @@
  */
 package org.apache.commons.fileupload;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
@@ -25,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.junit.Test;
 
 
 /**
@@ -34,6 +39,7 @@ public class SizesTest extends FileUploadTestCase
 {
     /** Runs a test with varying file sizes.
      */
+    @Test
     public void testFileUpload()
             throws IOException, FileUploadException
     {
@@ -76,6 +82,7 @@ public class SizesTest extends FileUploadTestCase
 
     /** Checks, whether limiting the file size works.
      */
+    @Test
     public void testFileSizeLimit()
             throws IOException, FileUploadException
     {
