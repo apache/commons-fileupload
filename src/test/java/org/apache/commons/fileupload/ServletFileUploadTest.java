@@ -31,46 +31,46 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ServletFileUploadTest extends FileUploadTestCase
 {
-	public void testWithInvalidRequest()
+    public void testWithInvalidRequest()
     {
-    	FileUploadBase fu = null;
+        FileUploadBase fu = null;
 
-    	fu = new DiskFileUpload();
+        fu = new DiskFileUpload();
 
-    	HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
+        HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
 
 
-    	try
-    	{
-    		fu.parseRequest(req);
-    		fail("testWithInvalidRequest: expected exception was not thrown");
-    	}
-    	catch (FileUploadException expected)
-    	{
-    		// this exception is expected
-    	}
+        try
+        {
+            fu.parseRequest(req);
+            fail("testWithInvalidRequest: expected exception was not thrown");
+        }
+        catch (FileUploadException expected)
+        {
+            // this exception is expected
+        }
 
     }
 
 
-	public void testWithNullContentType()
+    public void testWithNullContentType()
     {
-    	FileUploadBase fu = new DiskFileUpload();
+        FileUploadBase fu = new DiskFileUpload();
 
-    	HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
+        HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
 
-    	try
-    	{
-    		fu.parseRequest(req);
-    		fail("testWithNullContentType: expected exception was not thrown");
-    	}
-    	catch (DiskFileUpload.InvalidContentTypeException expected)
-    	{
-    		// this exception is expected
-    	}
+        try
+        {
+            fu.parseRequest(req);
+            fail("testWithNullContentType: expected exception was not thrown");
+        }
+        catch (DiskFileUpload.InvalidContentTypeException expected)
+        {
+            // this exception is expected
+        }
         catch (FileUploadException unexpected)
         {
-    		fail("testWithNullContentType: unexpected exception was thrown");
+            fail("testWithNullContentType: unexpected exception was thrown");
         }
 
     }
@@ -212,30 +212,30 @@ public class ServletFileUploadTest extends FileUploadTestCase
      * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>
      */
     public void testFILEUPLOAD62() throws Exception {
-    	final String contentType = "multipart/form-data; boundary=AaB03x";
-    	final String request =
-    		"--AaB03x\r\n" +
-    		"content-disposition: form-data; name=\"field1\"\r\n" +
-    		"\r\n" +
-    		"Joe Blow\r\n" +
-    		"--AaB03x\r\n" +
-    		"content-disposition: form-data; name=\"pics\"\r\n" +
-    		"Content-type: multipart/mixed; boundary=BbC04y\r\n" +
-    		"\r\n" +
-    		"--BbC04y\r\n" +
-    		"Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
-    		"Content-Type: text/plain\r\n" +
-    		"\r\n" +
-    		"... contents of file1.txt ...\r\n" +
-    		"--BbC04y\r\n" +
-    		"Content-disposition: attachment; filename=\"file2.gif\"\r\n" +
-    		"Content-type: image/gif\r\n" +
-    		"Content-Transfer-Encoding: binary\r\n" +
-    		"\r\n" +
-    		"...contents of file2.gif...\r\n" +
-    		"--BbC04y--\r\n" +
-    		"--AaB03x--";
-    	List<FileItem> fileItems = parseUpload(request.getBytes("US-ASCII"), contentType);
+        final String contentType = "multipart/form-data; boundary=AaB03x";
+        final String request =
+            "--AaB03x\r\n" +
+            "content-disposition: form-data; name=\"field1\"\r\n" +
+            "\r\n" +
+            "Joe Blow\r\n" +
+            "--AaB03x\r\n" +
+            "content-disposition: form-data; name=\"pics\"\r\n" +
+            "Content-type: multipart/mixed; boundary=BbC04y\r\n" +
+            "\r\n" +
+            "--BbC04y\r\n" +
+            "Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
+            "Content-Type: text/plain\r\n" +
+            "\r\n" +
+            "... contents of file1.txt ...\r\n" +
+            "--BbC04y\r\n" +
+            "Content-disposition: attachment; filename=\"file2.gif\"\r\n" +
+            "Content-type: image/gif\r\n" +
+            "Content-Transfer-Encoding: binary\r\n" +
+            "\r\n" +
+            "...contents of file2.gif...\r\n" +
+            "--BbC04y--\r\n" +
+            "--AaB03x--";
+        List<FileItem> fileItems = parseUpload(request.getBytes("US-ASCII"), contentType);
         assertEquals(3, fileItems.size());
         FileItem item0 = (FileItem) fileItems.get(0);
         assertEquals("field1", item0.getFieldName());
@@ -255,51 +255,51 @@ public class ServletFileUploadTest extends FileUploadTestCase
      * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>
      */
     public void testFoldedHeaders()
-    		throws IOException, FileUploadException {
-    	List<FileItem> fileItems = parseUpload("-----1234\r\n" +
-    			"Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-    			"Content-Type: text/whatever\r\n" +
-    			"\r\n" +
-    			"This is the content of the file\n" +
-    			"\r\n" +
-    			"-----1234\r\n" +
-    			"Content-Disposition: form-data; \r\n" +
-    			"\tname=\"field\"\r\n" +
-    			"\r\n" +
-    			"fieldValue\r\n" +
-    			"-----1234\r\n" +
-    			"Content-Disposition: form-data;\r\n" +
-    			"     name=\"multi\"\r\n" +
-    			"\r\n" +
-    			"value1\r\n" +
-    			"-----1234\r\n" +
-    			"Content-Disposition: form-data; name=\"multi\"\r\n" +
-    			"\r\n" +
-    			"value2\r\n" +
-    			"-----1234--\r\n");
-    	assertEquals(4, fileItems.size());
+            throws IOException, FileUploadException {
+        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                "Content-Type: text/whatever\r\n" +
+                "\r\n" +
+                "This is the content of the file\n" +
+                "\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; \r\n" +
+                "\tname=\"field\"\r\n" +
+                "\r\n" +
+                "fieldValue\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data;\r\n" +
+                "     name=\"multi\"\r\n" +
+                "\r\n" +
+                "value1\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                "\r\n" +
+                "value2\r\n" +
+                "-----1234--\r\n");
+        assertEquals(4, fileItems.size());
 
-    	FileItem file = (FileItem) fileItems.get(0);
-    	assertEquals("file", file.getFieldName());
-    	assertFalse(file.isFormField());
-    	assertEquals("This is the content of the file\n", file.getString());
-    	assertEquals("text/whatever", file.getContentType());
-    	assertEquals("foo.tab", file.getName());
+        FileItem file = (FileItem) fileItems.get(0);
+        assertEquals("file", file.getFieldName());
+        assertFalse(file.isFormField());
+        assertEquals("This is the content of the file\n", file.getString());
+        assertEquals("text/whatever", file.getContentType());
+        assertEquals("foo.tab", file.getName());
 
-    	FileItem field = (FileItem) fileItems.get(1);
-    	assertEquals("field", field.getFieldName());
-    	assertTrue(field.isFormField());
-    	assertEquals("fieldValue", field.getString());
+        FileItem field = (FileItem) fileItems.get(1);
+        assertEquals("field", field.getFieldName());
+        assertTrue(field.isFormField());
+        assertEquals("fieldValue", field.getString());
 
-    	FileItem multi0 = (FileItem) fileItems.get(2);
-    	assertEquals("multi", multi0.getFieldName());
-    	assertTrue(multi0.isFormField());
-    	assertEquals("value1", multi0.getString());
+        FileItem multi0 = (FileItem) fileItems.get(2);
+        assertEquals("multi", multi0.getFieldName());
+        assertTrue(multi0.isFormField());
+        assertEquals("value1", multi0.getString());
 
-    	FileItem multi1 = (FileItem) fileItems.get(3);
-    	assertEquals("multi", multi1.getFieldName());
-    	assertTrue(multi1.isFormField());
-    	assertEquals("value2", multi1.getString());
+        FileItem multi1 = (FileItem) fileItems.get(3);
+        assertEquals("multi", multi1.getFieldName());
+        assertTrue(multi1.isFormField());
+        assertEquals("value2", multi1.getString());
     }
 
 

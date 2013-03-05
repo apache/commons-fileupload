@@ -31,24 +31,24 @@ import junit.framework.TestCase;
  * Base class for deriving test cases.
  */
 public abstract class FileUploadTestCase extends TestCase {
-	protected static final String CONTENT_TYPE = "multipart/form-data; boundary=---1234";
+    protected static final String CONTENT_TYPE = "multipart/form-data; boundary=---1234";
 
-	protected List<FileItem> parseUpload(byte[] bytes) throws FileUploadException {
+    protected List<FileItem> parseUpload(byte[] bytes) throws FileUploadException {
         return parseUpload(bytes, CONTENT_TYPE);
     }
 
-	protected List<FileItem> parseUpload(byte[] bytes, String contentType) throws FileUploadException {
-		ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+    protected List<FileItem> parseUpload(byte[] bytes, String contentType) throws FileUploadException {
+        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
 
         List<FileItem> fileItems = upload.parseRequest(request);
         return fileItems;
-	}
+    }
 
-	protected List<FileItem> parseUpload(String content)
-    	throws UnsupportedEncodingException, FileUploadException
+    protected List<FileItem> parseUpload(String content)
+        throws UnsupportedEncodingException, FileUploadException
     {
-		byte[] bytes = content.getBytes("US-ASCII");
-		return parseUpload(bytes, CONTENT_TYPE);
+        byte[] bytes = content.getBytes("US-ASCII");
+        return parseUpload(bytes, CONTENT_TYPE);
     }
 }

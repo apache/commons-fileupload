@@ -45,7 +45,7 @@ public class StreamingTest extends TestCase
     public void testFileUpload()
             throws IOException, FileUploadException
     {
-    	byte[] request = newRequest();
+        byte[] request = newRequest();
         List<FileItem> fileItems = parseUpload(request);
         Iterator<FileItem> fileIter = fileItems.iterator();
         int add = 16;
@@ -71,50 +71,50 @@ public class StreamingTest extends TestCase
      * exception.
      */
     public void testFileUploadException()
-    		throws IOException, FileUploadException {
-    	byte[] request = newRequest();
-    	byte[] invalidRequest = new byte[request.length-11];
-    	System.arraycopy(request, 0, invalidRequest, 0, request.length-11);
-    	try {
-    		parseUpload(invalidRequest);
-	        fail("Expected EndOfStreamException");
-    	} catch (IOFileUploadException e) {
-    		assertTrue(e.getCause() instanceof MultipartStream.MalformedStreamException);
-    	}
+            throws IOException, FileUploadException {
+        byte[] request = newRequest();
+        byte[] invalidRequest = new byte[request.length-11];
+        System.arraycopy(request, 0, invalidRequest, 0, request.length-11);
+        try {
+            parseUpload(invalidRequest);
+            fail("Expected EndOfStreamException");
+        } catch (IOFileUploadException e) {
+            assertTrue(e.getCause() instanceof MultipartStream.MalformedStreamException);
+        }
     }
 
     /**
      * Tests, whether an IOException is properly delegated.
      */
     public void testIOException()
-    		throws IOException {
-    	byte[] request = newRequest();
-    	InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
-    		private int num;
-    		public int read() throws IOException {
-    			if (++num > 123) {
-    				throw new IOException("123");
-    			}
-    			return super.read();
-    		}
-			public int read(byte[] pB, int pOff, int pLen)
-					throws IOException {
-				for (int i = 0;  i < pLen;  i++) {
-					int res = read();
-					if (res == -1) {
-						return i == 0 ? -1 : i;
-					}
-					pB[pOff+i] = (byte) res;
-				}
-				return pLen;
-			}
-    	};
-    	try {
-    		parseUpload(stream, request.length);
-    		fail("Expected IOException");
-    	} catch (FileUploadException e) {
-    		assertTrue(e.getCause() instanceof IOException);
-    		assertEquals("123", e.getCause().getMessage());
+            throws IOException {
+        byte[] request = newRequest();
+        InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
+            private int num;
+            public int read() throws IOException {
+                if (++num > 123) {
+                    throw new IOException("123");
+                }
+                return super.read();
+            }
+            public int read(byte[] pB, int pOff, int pLen)
+                    throws IOException {
+                for (int i = 0;  i < pLen;  i++) {
+                    int res = read();
+                    if (res == -1) {
+                        return i == 0 ? -1 : i;
+                    }
+                    pB[pOff+i] = (byte) res;
+                }
+                return pLen;
+            }
+        };
+        try {
+            parseUpload(stream, request.length);
+            fail("Expected IOException");
+        } catch (FileUploadException e) {
+            assertTrue(e.getCause() instanceof IOException);
+            assertEquals("123", e.getCause().getMessage());
         }
     }
 
@@ -151,7 +151,7 @@ public class StreamingTest extends TestCase
     }
 
     private List<FileItem> parseUpload(byte[] bytes) throws FileUploadException {
-    	return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
+        return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
     }
 
     private FileItemIterator parseUpload(int pLength, InputStream pStream)
@@ -167,13 +167,13 @@ public class StreamingTest extends TestCase
     }
 
     private List<FileItem> parseUpload(InputStream pStream, int pLength)
-    		throws FileUploadException {
+            throws FileUploadException {
         String contentType = "multipart/form-data; boundary=---1234";
 
         FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
         HttpServletRequest request = new MockHttpServletRequest(pStream,
-        		pLength, contentType);
+                pLength, contentType);
 
         List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
         return fileItems;

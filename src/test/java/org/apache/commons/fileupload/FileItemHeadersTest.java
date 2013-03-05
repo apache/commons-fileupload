@@ -33,52 +33,52 @@ public class FileItemHeadersTest extends TestCase {
      * @throws Exception
      */
     public void testFileItemHeaders() throws Exception {
-    	FileItemHeadersImpl aMutableFileItemHeaders = new FileItemHeadersImpl();
-    	aMutableFileItemHeaders.addHeader("Content-Disposition", "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
-    	aMutableFileItemHeaders.addHeader("Content-Type", "text/plain");
+        FileItemHeadersImpl aMutableFileItemHeaders = new FileItemHeadersImpl();
+        aMutableFileItemHeaders.addHeader("Content-Disposition", "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
+        aMutableFileItemHeaders.addHeader("Content-Type", "text/plain");
 
-    	aMutableFileItemHeaders.addHeader("TestHeader", "headerValue1");
-    	aMutableFileItemHeaders.addHeader("TestHeader", "headerValue2");
-    	aMutableFileItemHeaders.addHeader("TestHeader", "headerValue3");
-    	aMutableFileItemHeaders.addHeader("testheader", "headerValue4");
+        aMutableFileItemHeaders.addHeader("TestHeader", "headerValue1");
+        aMutableFileItemHeaders.addHeader("TestHeader", "headerValue2");
+        aMutableFileItemHeaders.addHeader("TestHeader", "headerValue3");
+        aMutableFileItemHeaders.addHeader("testheader", "headerValue4");
 
-    	Iterator<String> headerNameEnumeration = aMutableFileItemHeaders.getHeaderNames();
-    	assertEquals("content-disposition", (String) headerNameEnumeration.next());
-    	assertEquals("content-type", (String) headerNameEnumeration.next());
-    	assertEquals("testheader", (String) headerNameEnumeration.next());
-    	assertFalse(headerNameEnumeration.hasNext());
+        Iterator<String> headerNameEnumeration = aMutableFileItemHeaders.getHeaderNames();
+        assertEquals("content-disposition", (String) headerNameEnumeration.next());
+        assertEquals("content-type", (String) headerNameEnumeration.next());
+        assertEquals("testheader", (String) headerNameEnumeration.next());
+        assertFalse(headerNameEnumeration.hasNext());
 
-    	assertEquals(aMutableFileItemHeaders.getHeader("Content-Disposition"), "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
-    	assertEquals(aMutableFileItemHeaders.getHeader("Content-Type"), "text/plain");
-    	assertEquals(aMutableFileItemHeaders.getHeader("content-type"), "text/plain");
-    	assertEquals(aMutableFileItemHeaders.getHeader("TestHeader"), "headerValue1");
-    	assertNull(aMutableFileItemHeaders.getHeader("DummyHeader"));
+        assertEquals(aMutableFileItemHeaders.getHeader("Content-Disposition"), "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
+        assertEquals(aMutableFileItemHeaders.getHeader("Content-Type"), "text/plain");
+        assertEquals(aMutableFileItemHeaders.getHeader("content-type"), "text/plain");
+        assertEquals(aMutableFileItemHeaders.getHeader("TestHeader"), "headerValue1");
+        assertNull(aMutableFileItemHeaders.getHeader("DummyHeader"));
 
-    	Iterator<String> headerValueEnumeration;
+        Iterator<String> headerValueEnumeration;
 
-    	headerValueEnumeration = aMutableFileItemHeaders.getHeaders("Content-Type");
-    	assertTrue(headerValueEnumeration.hasNext());
-    	assertEquals(headerValueEnumeration.next(), "text/plain");
-    	assertFalse(headerValueEnumeration.hasNext());
+        headerValueEnumeration = aMutableFileItemHeaders.getHeaders("Content-Type");
+        assertTrue(headerValueEnumeration.hasNext());
+        assertEquals(headerValueEnumeration.next(), "text/plain");
+        assertFalse(headerValueEnumeration.hasNext());
 
-    	headerValueEnumeration = aMutableFileItemHeaders.getHeaders("content-type");
-    	assertTrue(headerValueEnumeration.hasNext());
-    	assertEquals(headerValueEnumeration.next(), "text/plain");
-    	assertFalse(headerValueEnumeration.hasNext());
+        headerValueEnumeration = aMutableFileItemHeaders.getHeaders("content-type");
+        assertTrue(headerValueEnumeration.hasNext());
+        assertEquals(headerValueEnumeration.next(), "text/plain");
+        assertFalse(headerValueEnumeration.hasNext());
 
-    	headerValueEnumeration = aMutableFileItemHeaders.getHeaders("TestHeader");
-    	assertTrue(headerValueEnumeration.hasNext());
-    	assertEquals(headerValueEnumeration.next(), "headerValue1");
-    	assertTrue(headerValueEnumeration.hasNext());
-    	assertEquals(headerValueEnumeration.next(), "headerValue2");
-    	assertTrue(headerValueEnumeration.hasNext());
-    	assertEquals(headerValueEnumeration.next(), "headerValue3");
-    	assertTrue(headerValueEnumeration.hasNext());
-    	assertEquals(headerValueEnumeration.next(), "headerValue4");
-    	assertFalse(headerValueEnumeration.hasNext());
+        headerValueEnumeration = aMutableFileItemHeaders.getHeaders("TestHeader");
+        assertTrue(headerValueEnumeration.hasNext());
+        assertEquals(headerValueEnumeration.next(), "headerValue1");
+        assertTrue(headerValueEnumeration.hasNext());
+        assertEquals(headerValueEnumeration.next(), "headerValue2");
+        assertTrue(headerValueEnumeration.hasNext());
+        assertEquals(headerValueEnumeration.next(), "headerValue3");
+        assertTrue(headerValueEnumeration.hasNext());
+        assertEquals(headerValueEnumeration.next(), "headerValue4");
+        assertFalse(headerValueEnumeration.hasNext());
 
-    	headerValueEnumeration = aMutableFileItemHeaders.getHeaders("DummyHeader");
-    	assertFalse(headerValueEnumeration.hasNext());
+        headerValueEnumeration = aMutableFileItemHeaders.getHeaders("DummyHeader");
+        assertFalse(headerValueEnumeration.hasNext());
     }
 
 }

@@ -32,9 +32,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class SizesTest extends FileUploadTestCase
 {
-	/** Runs a test with varying file sizes.
-	 */
-	public void testFileUpload()
+    /** Runs a test with varying file sizes.
+     */
+    public void testFileUpload()
             throws IOException, FileUploadException
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -74,44 +74,44 @@ public class SizesTest extends FileUploadTestCase
         assertTrue(!fileIter.hasNext());
     }
 
-	/** Checks, whether limiting the file size works.
-	 */
-	public void testFileSizeLimit()
+    /** Checks, whether limiting the file size works.
+     */
+    public void testFileSizeLimit()
             throws IOException, FileUploadException
     {
-		final String request =
-			"-----1234\r\n" +
-			"Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-			"Content-Type: text/whatever\r\n" +
-			"\r\n" +
-			"This is the content of the file\n" +
-			"\r\n" +
-			"-----1234--\r\n";
+        final String request =
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234--\r\n";
 
-		ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-		upload.setFileSizeMax(-1);
+        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        upload.setFileSizeMax(-1);
         HttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
         List<FileItem> fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         FileItem item = (FileItem) fileItems.get(0);
         assertEquals("This is the content of the file\n", new String(item.get()));
 
-		upload = new ServletFileUpload(new DiskFileItemFactory());
-		upload.setFileSizeMax(40);
+        upload = new ServletFileUpload(new DiskFileItemFactory());
+        upload.setFileSizeMax(40);
         req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         item = (FileItem) fileItems.get(0);
         assertEquals("This is the content of the file\n", new String(item.get()));
 
-		upload = new ServletFileUpload(new DiskFileItemFactory());
-		upload.setFileSizeMax(30);
+        upload = new ServletFileUpload(new DiskFileItemFactory());
+        upload.setFileSizeMax(30);
         req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
         try {
-        	upload.parseRequest(req);
-        	fail("Expected exception.");
+            upload.parseRequest(req);
+            fail("Expected exception.");
         } catch (FileUploadBase.FileSizeLimitExceededException e) {
-        	assertEquals(30, e.getPermittedSize());
+            assertEquals(30, e.getPermittedSize());
         }
     }
 }
