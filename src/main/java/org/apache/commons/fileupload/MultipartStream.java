@@ -277,6 +277,7 @@ public class MultipartStream {
      * or {@link #MultipartStream(InputStream, byte[], int,
      * org.apache.commons.fileupload.MultipartStream.ProgressNotifier)}
      */
+    @Deprecated
     public MultipartStream() {
         this(null, null, null);
     }
@@ -300,6 +301,7 @@ public class MultipartStream {
      * @deprecated Use {@link #MultipartStream(InputStream, byte[], int,
      *  org.apache.commons.fileupload.MultipartStream.ProgressNotifier)}.
      */
+    @Deprecated
     public MultipartStream(InputStream input, byte[] boundary, int bufSize) {
         this(input, boundary, bufSize, null);
     }
@@ -376,6 +378,7 @@ public class MultipartStream {
      * @see #MultipartStream(InputStream, byte[], int,
      *  MultipartStream.ProgressNotifier)
      */
+    @Deprecated
     public MultipartStream(InputStream input,
             byte[] boundary) {
         this(input, boundary, DEFAULT_BUFSIZE, null);
