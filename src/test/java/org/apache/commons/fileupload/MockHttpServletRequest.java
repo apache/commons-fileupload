@@ -46,7 +46,7 @@ class MockHttpServletRequest implements HttpServletRequest
 	private final InputStream m_requestData;
 	private final int length;
 	private String m_strContentType;
-	private Map m_headers = new java.util.HashMap();
+	private Map<String, String> m_headers = new java.util.HashMap<String, String>();
 
 	/**
 	 * Creates a new instance with the given request data
@@ -110,7 +110,7 @@ class MockHttpServletRequest implements HttpServletRequest
 	/**
 	 * @see javax.servlet.http.HttpServletRequest#getHeaders(String)
 	 */
-	public Enumeration getHeaders(String arg0)
+	public Enumeration<String> getHeaders(String arg0)
 	{
 		// todo - implement
 		return null;
@@ -119,7 +119,7 @@ class MockHttpServletRequest implements HttpServletRequest
 	/**
 	 * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
 	 */
-	public Enumeration getHeaderNames()
+	public Enumeration<String> getHeaderNames()
 	{
 		// todo - implement
 		return null;
@@ -289,7 +289,7 @@ class MockHttpServletRequest implements HttpServletRequest
 	/**
 	 * @see javax.servlet.ServletRequest#getAttributeNames()
 	 */
-	public Enumeration getAttributeNames()
+	public Enumeration<String> getAttributeNames()
 	{
 		return null;
 	}
@@ -356,7 +356,7 @@ class MockHttpServletRequest implements HttpServletRequest
 	/**
 	 * @see javax.servlet.ServletRequest#getParameterNames()
 	 */
-	public Enumeration getParameterNames()
+	public Enumeration<String> getParameterNames()
 	{
 		return null;
 	}
@@ -372,7 +372,7 @@ class MockHttpServletRequest implements HttpServletRequest
 	/**
 	 * @see javax.servlet.ServletRequest#getParameterMap()
 	 */
-	public Map getParameterMap()
+	public Map<String, String[]> getParameterMap()
 	{
 		return null;
 	}
@@ -490,7 +490,7 @@ class MockHttpServletRequest implements HttpServletRequest
 	/**
 	 * @see javax.servlet.ServletRequest#getLocales()
 	 */
-	public Enumeration getLocales()
+	public Enumeration<Locale> getLocales()
 	{
 		return null;
 	}
@@ -545,7 +545,7 @@ class MockHttpServletRequest implements HttpServletRequest
 			return in.read();
 		}
 
-		public int read(byte b[], int off, int len) throws IOException 
+		public int read(byte b[], int off, int len) throws IOException
 		{
 		    return in.read(b, off, len);
 		}

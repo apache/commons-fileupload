@@ -24,20 +24,20 @@ import javax.portlet.PortletSession;
 /**
  * A mock portlet session, useful for unit testing and offline utilities
  * Note: currently doesn't support scoping
- * 
+ *
  * @author <a href="mailto:taylor@apache.org">David Sean Taylor</a>
  * @version $Id$
  */
 public class MockPortletSession implements PortletSession
 {
     // Hashtable (not HashMap) makes enumerations easier to work with
-    Hashtable attributes = new Hashtable();
+    Hashtable<String, Object> attributes = new Hashtable<String, Object>();
 
     public MockPortletSession()
-    {     
+    {
     }
-    
-    
+
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#getAttribute(java.lang.String)
      */
@@ -45,7 +45,7 @@ public class MockPortletSession implements PortletSession
     {
         return attributes.get(name);
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#getAttribute(java.lang.String, int)
      */
@@ -53,15 +53,15 @@ public class MockPortletSession implements PortletSession
     {
         return attributes.get(name);
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#getAttributeNames(int)
      */
-    public Enumeration getAttributeNames(int scope)
+    public Enumeration<String> getAttributeNames(int scope)
     {
         return attributes.keys();
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#getCreationTime()
      */
@@ -70,7 +70,7 @@ public class MockPortletSession implements PortletSession
         // TODO Auto-generated method stub
         return 0;
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#getId()
      */
@@ -79,7 +79,7 @@ public class MockPortletSession implements PortletSession
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#getLastAccessedTime()
      */
@@ -88,7 +88,7 @@ public class MockPortletSession implements PortletSession
         // TODO Auto-generated method stub
         return 0;
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#getMaxInactiveInterval()
      */
@@ -97,7 +97,7 @@ public class MockPortletSession implements PortletSession
         // TODO Auto-generated method stub
         return 0;
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#invalidate()
      */
@@ -105,7 +105,7 @@ public class MockPortletSession implements PortletSession
     {
         // TODO Auto-generated method stub
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#isNew()
      */
@@ -114,7 +114,7 @@ public class MockPortletSession implements PortletSession
         // TODO Auto-generated method stub
         return false;
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#removeAttribute(java.lang.String)
      */
@@ -122,7 +122,7 @@ public class MockPortletSession implements PortletSession
     {
         attributes.remove(name);
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#removeAttribute(java.lang.String, int)
      */
@@ -130,7 +130,7 @@ public class MockPortletSession implements PortletSession
     {
         attributes.remove(name);
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#setAttribute(java.lang.String, java.lang.Object)
      */
@@ -139,12 +139,12 @@ public class MockPortletSession implements PortletSession
         attributes.put(name, value);
     }
 
-    public Enumeration getAttributeNames()
+    public Enumeration<String> getAttributeNames()
     {
         return this.getAttributeNames(PortletSession.PORTLET_SCOPE);
-    }    
-    
-    
+    }
+
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#setAttribute(java.lang.String, java.lang.Object, int)
      */
@@ -152,7 +152,7 @@ public class MockPortletSession implements PortletSession
     {
         attributes.put(name, value);
     }
-    
+
     /* (non-Javadoc)
      * @see javax.portlet.PortletSession#setMaxInactiveInterval(int)
      */

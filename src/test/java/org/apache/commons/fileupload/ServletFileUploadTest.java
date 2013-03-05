@@ -79,25 +79,25 @@ public class ServletFileUploadTest extends FileUploadTestCase
     public void testFileUpload()
             throws IOException, FileUploadException
     {
-        List fileItems = parseUpload("-----1234\r\n" +
-                        "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                        "Content-Type: text/whatever\r\n" +
-                        "\r\n" +
-                        "This is the content of the file\n" +
-                        "\r\n" +
-                        "-----1234\r\n" +
-                        "Content-Disposition: form-data; name=\"field\"\r\n" +
-                        "\r\n" +
-                        "fieldValue\r\n" +
-                        "-----1234\r\n" +
-                        "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                        "\r\n" +
-                        "value1\r\n" +
-                        "-----1234\r\n" +
-                        "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                        "\r\n" +
-                        "value2\r\n" +
-                        "-----1234--\r\n");
+        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                                               "Content-Type: text/whatever\r\n" +
+                                               "\r\n" +
+                                               "This is the content of the file\n" +
+                                               "\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"field\"\r\n" +
+                                               "\r\n" +
+                                               "fieldValue\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                               "\r\n" +
+                                               "value1\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                               "\r\n" +
+                                               "value2\r\n" +
+                                               "-----1234--\r\n");
         assertEquals(4, fileItems.size());
 
         FileItem file = (FileItem) fileItems.get(0);
@@ -123,16 +123,16 @@ public class ServletFileUploadTest extends FileUploadTestCase
         assertEquals("value2", multi1.getString());
     }
 
-    public void testFilenameCaseSensitivity() 
+    public void testFilenameCaseSensitivity()
             throws IOException, FileUploadException
     {
-        List fileItems = parseUpload("-----1234\r\n" +
-                        "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
-                        "Content-Type: text/whatever\r\n" +
-                        "\r\n" +
-                        "This is the content of the file\n" +
-                        "\r\n" +
-                        "-----1234--\r\n");
+        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
+                                               "Content-Type: text/whatever\r\n" +
+                                               "\r\n" +
+                                               "This is the content of the file\n" +
+                                               "\r\n" +
+                                               "-----1234--\r\n");
         assertEquals(1, fileItems.size());
 
         FileItem file = (FileItem) fileItems.get(0);
@@ -146,11 +146,11 @@ public class ServletFileUploadTest extends FileUploadTestCase
     public void testEmptyFile()
             throws UnsupportedEncodingException, FileUploadException
     {
-        List fileItems = parseUpload ("-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
-                "\r\n" +
-                "\r\n" +
-                "-----1234--\r\n");
+        List<FileItem> fileItems = parseUpload ("-----1234\r\n" +
+                                                "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
+                                                "\r\n" +
+                                                "\r\n" +
+                                                "-----1234--\r\n");
         assertEquals(1, fileItems.size());
 
         FileItem file = (FileItem) fileItems.get(0);
@@ -167,23 +167,23 @@ public class ServletFileUploadTest extends FileUploadTestCase
     public void testIE5MacBug()
             throws UnsupportedEncodingException, FileUploadException
     {
-        List fileItems = parseUpload("-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"field1\"\r\n" +
-                "\r\n" +
-                "fieldValue\r\n" +
-                "-----1234\n" + // NOTE \r missing
-                "Content-Disposition: form-data; name=\"submitName.x\"\r\n" +
-                "\r\n" +
-                "42\r\n" +
-                "-----1234\n" + // NOTE \r missing
-                "Content-Disposition: form-data; name=\"submitName.y\"\r\n" +
-                "\r\n" +
-                "21\r\n" +
-                "-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"field2\"\r\n" +
-                "\r\n" +
-                "fieldValue2\r\n" +
-                "-----1234--\r\n");
+        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"field1\"\r\n" +
+                                               "\r\n" +
+                                               "fieldValue\r\n" +
+                                               "-----1234\n" + // NOTE \r missing
+                                               "Content-Disposition: form-data; name=\"submitName.x\"\r\n" +
+                                               "\r\n" +
+                                               "42\r\n" +
+                                               "-----1234\n" + // NOTE \r missing
+                                               "Content-Disposition: form-data; name=\"submitName.y\"\r\n" +
+                                               "\r\n" +
+                                               "21\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"field2\"\r\n" +
+                                               "\r\n" +
+                                               "fieldValue2\r\n" +
+                                               "-----1234--\r\n");
 
         assertEquals(4, fileItems.size());
 
@@ -235,7 +235,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
     		"...contents of file2.gif...\r\n" +
     		"--BbC04y--\r\n" +
     		"--AaB03x--";
-    	List fileItems = parseUpload(request.getBytes("US-ASCII"), contentType);
+    	List<FileItem> fileItems = parseUpload(request.getBytes("US-ASCII"), contentType);
         assertEquals(3, fileItems.size());
         FileItem item0 = (FileItem) fileItems.get(0);
         assertEquals("field1", item0.getFieldName());
@@ -256,7 +256,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
      */
     public void testFoldedHeaders()
     		throws IOException, FileUploadException {
-    	List fileItems = parseUpload("-----1234\r\n" +
+    	List<FileItem> fileItems = parseUpload("-----1234\r\n" +
     			"Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
     			"Content-Type: text/whatever\r\n" +
     			"\r\n" +
@@ -317,31 +317,31 @@ public class ServletFileUploadTest extends FileUploadTestCase
         {
             "present", "Is there", "Here", "Is That"
         };
-        List fileItems = parseUpload("-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                "Content-Type: text/whatever\r\n" +
-                headerNames[0] + ": " + headerValues[0] + "\r\n" +
-                "\r\n" +
-                "This is the content of the file\n" +
-                "\r\n" +
-                "-----1234\r\n" +
-                "Content-Disposition: form-data; \r\n" +
-                "\tname=\"field\"\r\n" +
-                headerNames[1] + ": " + headerValues[1] + "\r\n" +
-                "\r\n" +
-                "fieldValue\r\n" +
-                "-----1234\r\n" +
-                "Content-Disposition: form-data;\r\n" +
-                "     name=\"multi\"\r\n" +
-                headerNames[2] + ": " + headerValues[2] + "\r\n" +
-                "\r\n" +
-                "value1\r\n" +
-                "-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                headerNames[3] + ": " + headerValues[3] + "\r\n" +
-                "\r\n" +
-                "value2\r\n" +
-                "-----1234--\r\n");
+        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                                               "Content-Type: text/whatever\r\n" +
+                                               headerNames[0] + ": " + headerValues[0] + "\r\n" +
+                                               "\r\n" +
+                                               "This is the content of the file\n" +
+                                               "\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; \r\n" +
+                                               "\tname=\"field\"\r\n" +
+                                               headerNames[1] + ": " + headerValues[1] + "\r\n" +
+                                               "\r\n" +
+                                               "fieldValue\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data;\r\n" +
+                                               "     name=\"multi\"\r\n" +
+                                               headerNames[2] + ": " + headerValues[2] + "\r\n" +
+                                               "\r\n" +
+                                               "value1\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                               headerNames[3] + ": " + headerValues[3] + "\r\n" +
+                                               "\r\n" +
+                                               "value2\r\n" +
+                                               "-----1234--\r\n");
         assertEquals(4, fileItems.size());
 
         FileItem file = (FileItem) fileItems.get(0);
