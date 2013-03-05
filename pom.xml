@@ -154,7 +154,7 @@
     <maven.compile.source>1.5</maven.compile.source>
     <maven.compile.target>1.5</maven.compile.target>
     <commons.componentid>fileupload</commons.componentid>
-    <commons.release.version>1.2.2</commons.release.version>
+    <commons.release.version>1.2.3</commons.release.version>
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
     <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
