@@ -271,7 +271,7 @@ public class MultipartStream {
     /**
      * Creates a new instance.
      *
-     * @deprecated Use {@link #MultipartStream(InputStream, byte[],
+     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[],
      * org.apache.commons.fileupload.MultipartStream.ProgressNotifier)},
      * or {@link #MultipartStream(InputStream, byte[], int,
      * org.apache.commons.fileupload.MultipartStream.ProgressNotifier)}
@@ -297,7 +297,7 @@ public class MultipartStream {
      *
      * @see #MultipartStream(InputStream, byte[],
      *   MultipartStream.ProgressNotifier)
-     * @deprecated Use {@link #MultipartStream(InputStream, byte[], int,
+     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int,
      *  org.apache.commons.fileupload.MultipartStream.ProgressNotifier)}.
      */
     @Deprecated
@@ -371,7 +371,7 @@ public class MultipartStream {
      * @param boundary The token used for dividing the stream into
      *                 <code>encapsulations</code>.
      *
-     * @deprecated Use {@link #MultipartStream(InputStream, byte[],
+     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[],
      *  MultipartStream.ProgressNotifier)}.
      * @see #MultipartStream(InputStream, byte[], int,
      *  MultipartStream.ProgressNotifier)

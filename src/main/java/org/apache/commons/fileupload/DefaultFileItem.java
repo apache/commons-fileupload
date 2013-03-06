@@ -41,7 +41,7 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
  *
  * @version $Id$
  *
- * @deprecated Use <code>DiskFileItem</code> instead.
+ * @deprecated 1.1 Use <code>DiskFileItem</code> instead.
  */
 @Deprecated
 public class DefaultFileItem
@@ -71,7 +71,7 @@ public class DefaultFileItem
      *                      which files will be created, should the item size
      *                      exceed the threshold.
      *
-     * @deprecated Use <code>DiskFileItem</code> instead.
+     * @deprecated 1.1 Use <code>DiskFileItem</code> instead.
      */
     @Deprecated
     public DefaultFileItem(String fieldName, String contentType,
