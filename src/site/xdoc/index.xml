@@ -99,18 +99,6 @@
         </p>
       </subsection>
 
-      <subsection name="Nightly Builds">
-          <p>
-          Nightly builds are built every day from the current SVN HEAD. This is 
-          the latest code and so should be treated with caution!
-          </p>
-          <p>
-          Download nightly builds from 
-          <a href="http://people.apache.org/builds/commons/nightly/commons-fileupload/">here</a>.
-          </p>
-      </subsection>
-    </section>
-
     <section name="Support">
       <p>
         The <a href="mail-lists.html">Apache Commons mailing lists</a> act as
