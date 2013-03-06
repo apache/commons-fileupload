@@ -1206,6 +1206,7 @@ public abstract class FileUploadBase {
          * Retrieves the actual size of the request.
          *
          * @return The actual size of the request.
+         * @since 1.3
          */
         public long getActualSize() {
             return actual;
@@ -1215,6 +1216,7 @@ public abstract class FileUploadBase {
          * Retrieves the permitted size of the request.
          *
          * @return The permitted size of the request.
+         * @since 1.3
          */
         public long getPermittedSize() {
             return permitted;
