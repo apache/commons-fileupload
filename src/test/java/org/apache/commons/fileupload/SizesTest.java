@@ -69,7 +69,7 @@ public class SizesTest extends FileUploadTestCase
             if (++add == 32) {
                 add = 16;
             }
-            FileItem item = (FileItem) fileIter.next();
+            FileItem item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
             byte[] bytes = item.get();
             assertEquals(i, bytes.length);
@@ -100,7 +100,7 @@ public class SizesTest extends FileUploadTestCase
         HttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
         List<FileItem> fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
-        FileItem item = (FileItem) fileItems.get(0);
+        FileItem item = fileItems.get(0);
         assertEquals("This is the content of the file\n", new String(item.get()));
 
         upload = new ServletFileUpload(new DiskFileItemFactory());
@@ -108,7 +108,7 @@ public class SizesTest extends FileUploadTestCase
         req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
-        item = (FileItem) fileItems.get(0);
+        item = fileItems.get(0);
         assertEquals("This is the content of the file\n", new String(item.get()));
 
         upload = new ServletFileUpload(new DiskFileItemFactory());

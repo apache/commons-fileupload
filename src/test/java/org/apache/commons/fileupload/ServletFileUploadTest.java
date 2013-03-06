@@ -109,24 +109,24 @@ public class ServletFileUploadTest extends FileUploadTestCase
                                                "-----1234--\r\n");
         assertEquals(4, fileItems.size());
 
-        FileItem file = (FileItem) fileItems.get(0);
+        FileItem file = fileItems.get(0);
         assertEquals("file", file.getFieldName());
         assertFalse(file.isFormField());
         assertEquals("This is the content of the file\n", file.getString());
         assertEquals("text/whatever", file.getContentType());
         assertEquals("foo.tab", file.getName());
 
-        FileItem field = (FileItem) fileItems.get(1);
+        FileItem field = fileItems.get(1);
         assertEquals("field", field.getFieldName());
         assertTrue(field.isFormField());
         assertEquals("fieldValue", field.getString());
 
-        FileItem multi0 = (FileItem) fileItems.get(2);
+        FileItem multi0 = fileItems.get(2);
         assertEquals("multi", multi0.getFieldName());
         assertTrue(multi0.isFormField());
         assertEquals("value1", multi0.getString());
 
-        FileItem multi1 = (FileItem) fileItems.get(3);
+        FileItem multi1 = fileItems.get(3);
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
@@ -145,7 +145,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
                                                "-----1234--\r\n");
         assertEquals(1, fileItems.size());
 
-        FileItem file = (FileItem) fileItems.get(0);
+        FileItem file = fileItems.get(0);
         assertEquals("FiLe", file.getFieldName());
         assertEquals("FOO.tab", file.getName());
     }
@@ -164,7 +164,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
                                                 "-----1234--\r\n");
         assertEquals(1, fileItems.size());
 
-        FileItem file = (FileItem) fileItems.get(0);
+        FileItem file = fileItems.get(0);
         assertFalse(file.isFormField());
         assertEquals("", file.getString());
         assertEquals("", file.getName());
@@ -199,22 +199,22 @@ public class ServletFileUploadTest extends FileUploadTestCase
 
         assertEquals(4, fileItems.size());
 
-        FileItem field1 = (FileItem) fileItems.get(0);
+        FileItem field1 = fileItems.get(0);
         assertEquals("field1", field1.getFieldName());
         assertTrue(field1.isFormField());
         assertEquals("fieldValue", field1.getString());
 
-        FileItem submitX = (FileItem) fileItems.get(1);
+        FileItem submitX = fileItems.get(1);
         assertEquals("submitName.x", submitX.getFieldName());
         assertTrue(submitX.isFormField());
         assertEquals("42", submitX.getString());
 
-        FileItem submitY = (FileItem) fileItems.get(2);
+        FileItem submitY = fileItems.get(2);
         assertEquals("submitName.y", submitY.getFieldName());
         assertTrue(submitY.isFormField());
         assertEquals("21", submitY.getString());
 
-        FileItem field2 = (FileItem) fileItems.get(3);
+        FileItem field2 = fileItems.get(3);
         assertEquals("field2", field2.getFieldName());
         assertTrue(field2.isFormField());
         assertEquals("fieldValue2", field2.getString());
@@ -250,15 +250,15 @@ public class ServletFileUploadTest extends FileUploadTestCase
             "--AaB03x--";
         List<FileItem> fileItems = parseUpload(request.getBytes("US-ASCII"), contentType);
         assertEquals(3, fileItems.size());
-        FileItem item0 = (FileItem) fileItems.get(0);
+        FileItem item0 = fileItems.get(0);
         assertEquals("field1", item0.getFieldName());
         assertNull(item0.getName());
         assertEquals("Joe Blow", new String(item0.get()));
-        FileItem item1 = (FileItem) fileItems.get(1);
+        FileItem item1 = fileItems.get(1);
         assertEquals("pics", item1.getFieldName());
         assertEquals("file1.txt", item1.getName());
         assertEquals("... contents of file1.txt ...", new String(item1.get()));
-        FileItem item2 = (FileItem) fileItems.get(2);
+        FileItem item2 = fileItems.get(2);
         assertEquals("pics", item2.getFieldName());
         assertEquals("file2.gif", item2.getName());
         assertEquals("...contents of file2.gif...", new String(item2.get()));
@@ -293,24 +293,24 @@ public class ServletFileUploadTest extends FileUploadTestCase
                 "-----1234--\r\n");
         assertEquals(4, fileItems.size());
 
-        FileItem file = (FileItem) fileItems.get(0);
+        FileItem file = fileItems.get(0);
         assertEquals("file", file.getFieldName());
         assertFalse(file.isFormField());
         assertEquals("This is the content of the file\n", file.getString());
         assertEquals("text/whatever", file.getContentType());
         assertEquals("foo.tab", file.getName());
 
-        FileItem field = (FileItem) fileItems.get(1);
+        FileItem field = fileItems.get(1);
         assertEquals("field", field.getFieldName());
         assertTrue(field.isFormField());
         assertEquals("fieldValue", field.getString());
 
-        FileItem multi0 = (FileItem) fileItems.get(2);
+        FileItem multi0 = fileItems.get(2);
         assertEquals("multi", multi0.getFieldName());
         assertTrue(multi0.isFormField());
         assertEquals("value1", multi0.getString());
 
-        FileItem multi1 = (FileItem) fileItems.get(3);
+        FileItem multi1 = fileItems.get(3);
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
@@ -359,16 +359,16 @@ public class ServletFileUploadTest extends FileUploadTestCase
                                                "-----1234--\r\n");
         assertEquals(4, fileItems.size());
 
-        FileItem file = (FileItem) fileItems.get(0);
+        FileItem file = fileItems.get(0);
         assertHeaders(headerNames, headerValues, file, 0);
 
-        FileItem field = (FileItem) fileItems.get(1);
+        FileItem field = fileItems.get(1);
         assertHeaders(headerNames, headerValues, field, 1);
 
-        FileItem multi0 = (FileItem) fileItems.get(2);
+        FileItem multi0 = fileItems.get(2);
         assertHeaders(headerNames, headerValues, multi0, 2);
 
-        FileItem multi1 = (FileItem) fileItems.get(3);
+        FileItem multi1 = fileItems.get(3);
         assertHeaders(headerNames, headerValues, multi1, 3);
     }
 

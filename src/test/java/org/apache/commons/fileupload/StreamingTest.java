@@ -54,7 +54,7 @@ public class StreamingTest extends TestCase
             if (++add == 32) {
                 add = 16;
             }
-            FileItem item = (FileItem) fileIter.next();
+            FileItem item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
             byte[] bytes = item.get();
             assertEquals(i, bytes.length);
@@ -91,12 +91,14 @@ public class StreamingTest extends TestCase
         byte[] request = newRequest();
         InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
             private int num;
+            @Override
             public int read() throws IOException {
                 if (++num > 123) {
                     throw new IOException("123");
                 }
                 return super.read();
             }
+            @Override
             public int read(byte[] pB, int pOff, int pLen)
                     throws IOException {
                 for (int i = 0;  i < pLen;  i++) {
@@ -127,11 +129,13 @@ public class StreamingTest extends TestCase
         byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
         List<FileItem> fileItems = parseUpload(new InputStream() {
+            @Override
             public int read()
             throws IOException
             {
                 return bais.read();
             }
+            @Override
             public int read(byte b[], int off, int len) throws IOException
             {
                 return bais.read(b, off, Math.min(len, 3));
@@ -140,7 +144,7 @@ public class StreamingTest extends TestCase
         }, request.length);
         Iterator<FileItem> fileIter = fileItems.iterator();
         assertTrue(fileIter.hasNext());
-        FileItem item = (FileItem) fileIter.next();
+        FileItem item = fileIter.next();
         assertEquals("field", item.getFieldName());
         byte[] bytes = item.get();
         assertEquals(3, bytes.length);
@@ -261,7 +265,7 @@ public class StreamingTest extends TestCase
         }
 
         List<FileItem> fileItems = parseUpload(reqBytes);
-        final FileItem fileItem = (FileItem) fileItems.get(0);
+        final FileItem fileItem = fileItems.get(0);
         try {
             fileItem.getName();
             fail("Expected exception");
