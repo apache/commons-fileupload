@@ -42,6 +42,7 @@ public class MultipartStreamTest extends TestCase
                 boundary,
                 iBufSize,
                 new MultipartStream.ProgressNotifier(null, contents.length));
+        assertNotNull(ms);
     }
 
     public void testTwoParamConstructor() throws Exception {
@@ -53,5 +54,6 @@ public class MultipartStreamTest extends TestCase
                 input,
                 boundary,
                 new MultipartStream.ProgressNotifier(null, contents.length));
+        assertNotNull(ms);
     }
 }
