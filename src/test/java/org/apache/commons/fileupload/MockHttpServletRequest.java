@@ -104,7 +104,7 @@ class MockHttpServletRequest implements HttpServletRequest
      */
     public String getHeader(String headerName)
     {
-        return (String) m_headers.get(headerName);
+        return m_headers.get(headerName);
     }
 
     /**
@@ -273,6 +273,7 @@ class MockHttpServletRequest implements HttpServletRequest
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl()
      * @deprecated
      */
+    @Deprecated
     public boolean isRequestedSessionIdFromUrl()
     {
         return false;
@@ -515,6 +516,7 @@ class MockHttpServletRequest implements HttpServletRequest
      * @see javax.servlet.ServletRequest#getRealPath(String)
      * @deprecated
      */
+    @Deprecated
     public String getRealPath(String arg0)
     {
         return null;
@@ -540,11 +542,13 @@ class MockHttpServletRequest implements HttpServletRequest
             in = pStream;
         }
 
+        @Override
         public int read() throws IOException
         {
             return in.read();
         }
 
+        @Override
         public int read(byte b[], int off, int len) throws IOException
         {
             return in.read(b, off, len);
