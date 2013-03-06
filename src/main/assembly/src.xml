@@ -24,11 +24,11 @@
   <fileSets>
     <fileSet>
       <includes>
-		<include>build-gump.xml</include>
-		<include>build.xml</include>
-		<include>doap_fileupload.rdf</include>
-		<include>gump.xml</include>
-		<include>LICENSE.txt</include>
+        <include>build-gump.xml</include>
+        <include>build.xml</include>
+        <include>doap_fileupload.rdf</include>
+        <include>gump.xml</include>
+        <include>LICENSE.txt</include>
         <include>NOTICE.txt</include>
         <include>pom.xml</include>
       </includes>
