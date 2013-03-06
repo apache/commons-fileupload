@@ -24,7 +24,7 @@ import java.util.Iterator;
  * request.</p>
  *
  * @author Michael C. Macaluso
- * @since 1.3
+ * @since 1.2.1
  */
 public interface FileItemHeaders {
 
