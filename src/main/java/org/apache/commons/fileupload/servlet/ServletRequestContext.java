@@ -40,7 +40,6 @@ public class ServletRequestContext implements RequestContext {
      */
     private HttpServletRequest request;
 
-
     // ----------------------------------------------------------- Constructors
 
     /**
@@ -51,7 +50,6 @@ public class ServletRequestContext implements RequestContext {
     public ServletRequestContext(HttpServletRequest request) {
         this.request = request;
     }
-
 
     // --------------------------------------------------------- Public Methods
 
@@ -105,4 +103,5 @@ public class ServletRequestContext implements RequestContext {
             + ", ContentType="
             + this.getContentType();
     }
+
 }
