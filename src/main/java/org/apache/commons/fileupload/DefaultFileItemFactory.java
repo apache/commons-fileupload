@@ -41,7 +41,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
  *
  * @version $Id$
  *
- * @deprecated Use <code>DiskFileItemFactory</code> instead.
+ * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
  */
 @Deprecated
 public class DefaultFileItemFactory extends DiskFileItemFactory {
@@ -52,7 +52,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
      *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
      */
     @Deprecated
     public DefaultFileItemFactory() {
@@ -69,7 +69,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *                      which files will be created, should the item size
      *                      exceed the threshold.
      *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
      */
     @Deprecated
     public DefaultFileItemFactory(int sizeThreshold, File repository) {
@@ -92,7 +92,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *
      * @return The newly created file item.
      *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
      */
     @Override
     @Deprecated

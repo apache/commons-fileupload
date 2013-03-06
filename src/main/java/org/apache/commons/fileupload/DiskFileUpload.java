@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @version $Id$
  *
- * @deprecated Use <code>ServletFileUpload</code> together with
+ * @deprecated 1.1 Use <code>ServletFileUpload</code> together with
  *             <code>DiskFileItemFactory</code> instead.
  */
 @Deprecated
@@ -65,7 +65,7 @@ public class DiskFileUpload
      *
      * @see #DiskFileUpload(DefaultFileItemFactory fileItemFactory)
      *
-     * @deprecated Use <code>FileUpload</code> instead.
+     * @deprecated 1.1 Use <code>FileUpload</code> instead.
      */
     @Deprecated
     public DiskFileUpload() {
@@ -80,7 +80,7 @@ public class DiskFileUpload
      * @see #DiskFileUpload()
      * @param fileItemFactory The file item factory to use.
      *
-     * @deprecated Use <code>FileUpload</code> instead.
+     * @deprecated 1.1 Use <code>FileUpload</code> instead.
      */
     @Deprecated
     public DiskFileUpload(DefaultFileItemFactory fileItemFactory) {
@@ -95,7 +95,7 @@ public class DiskFileUpload
      *
      * @return The factory class for new file items.
      *
-     * @deprecated Use <code>FileUpload</code> instead.
+     * @deprecated 1.1 Use <code>FileUpload</code> instead.
      */
     @Override
     @Deprecated
@@ -110,7 +110,7 @@ public class DiskFileUpload
      *
      * @param factory The factory class for new file items.
      *
-     * @deprecated Use <code>FileUpload</code> instead.
+     * @deprecated 1.1 Use <code>FileUpload</code> instead.
      */
     @Override
     @Deprecated
@@ -126,7 +126,7 @@ public class DiskFileUpload
      *
      * @see #setSizeThreshold(int)
      *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
      */
     @Deprecated
     public int getSizeThreshold() {
@@ -140,7 +140,7 @@ public class DiskFileUpload
      *
      * @see #getSizeThreshold()
      *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
      */
     @Deprecated
     public void setSizeThreshold(int sizeThreshold) {
@@ -155,7 +155,7 @@ public class DiskFileUpload
      *
      * @see #setRepositoryPath(String)
      *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
      */
     @Deprecated
     public String getRepositoryPath() {
@@ -170,7 +170,7 @@ public class DiskFileUpload
      *
      * @see #getRepositoryPath()
      *
-     * @deprecated Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
      */
     @Deprecated
     public void setRepositoryPath(String repositoryPath) {
@@ -195,7 +195,7 @@ public class DiskFileUpload
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      *
-     * @deprecated Use <code>ServletFileUpload</code> instead.
+     * @deprecated 1.1 Use <code>ServletFileUpload</code> instead.
      */
     @Deprecated
     public List<FileItem> parseRequest(HttpServletRequest req,
