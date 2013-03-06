@@ -194,8 +194,8 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptors>
-            <descriptor>src/main/assembly/bin.xml</descriptor>
-            <descriptor>src/main/assembly/src.xml</descriptor>
+            <descriptor>${basedir}/src/main/assembly/bin.xml</descriptor>
+            <descriptor>${basedir}/src/main/assembly/src.xml</descriptor>
           </descriptors>
           <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
@@ -244,7 +244,7 @@
         <version>2.3</version>
         <configuration>
           <rulesets>
-            <ruleset>src/checkstyle/fileupload_basic.xml</ruleset>
+            <ruleset>${basedir}/src/checkstyle/fileupload_basic.xml</ruleset>
           </rulesets>
         </configuration>
       </plugin>
