@@ -58,7 +58,6 @@ public class PortletFileUpload extends FileUpload {
 
     // ---------------------------------------------------------- Class methods
 
-
     /**
      * Utility method that determines whether the request contains multipart
      * content.
@@ -73,9 +72,7 @@ public class PortletFileUpload extends FileUpload {
                 new PortletRequestContext(request));
     }
 
-
     // ----------------------------------------------------------- Constructors
-
 
     /**
      * Constructs an uninitialised instance of this class. A factory must be
@@ -88,7 +85,6 @@ public class PortletFileUpload extends FileUpload {
         super();
     }
 
-
     /**
      * Constructs an instance of this class which uses the supplied factory to
      * create <code>FileItem</code> instances.
@@ -100,9 +96,7 @@ public class PortletFileUpload extends FileUpload {
         super(fileItemFactory);
     }
 
-
     // --------------------------------------------------------- Public methods
-
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
@@ -141,4 +135,5 @@ public class PortletFileUpload extends FileUpload {
             throws FileUploadException, IOException {
         return super.getItemIterator(new PortletRequestContext(request));
     }
+
 }
