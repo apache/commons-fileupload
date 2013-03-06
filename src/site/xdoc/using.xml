@@ -209,41 +209,41 @@ List /* FileItem */ items = upload.parseRequest(request);]]></source>
         the list like this:
       </p>
   <source><![CDATA[// Process the uploaded items
-  Iterator iter = items.iterator();
-  while (iter.hasNext()) {
-      FileItem item = (FileItem) iter.next();
+Iterator iter = items.iterator();
+while (iter.hasNext()) {
+    FileItem item = (FileItem) iter.next();
 
-      if (item.isFormField()) {
-          processFormField(item);
-      } else {
-          processUploadedFile(item);
-      }
-  }]]></source>
+    if (item.isFormField()) {
+        processFormField(item);
+    } else {
+        processUploadedFile(item);
+    }
+}]]></source>
       <p>
         For a regular form field, you will most likely be interested only in the
         name of the item, and its <code>String</code> value. As you might expect,
         accessing these is very simple.
       </p>
   <source><![CDATA[// Process a regular form field
-  if (item.isFormField()) {
-      String name = item.getFieldName();
-      String value = item.getString();
-      ...
-  }]]></source>
+if (item.isFormField()) {
+    String name = item.getFieldName();
+    String value = item.getString();
+    ...
+}]]></source>
       <p>
         For a file upload, there are several different things you might want to
         know before you process the content. Here is an example of some of the
         methods you might be interested in.
       </p>
   <source><![CDATA[// Process a file upload
-  if (!item.isFormField()) {
-      String fieldName = item.getFieldName();
-      String fileName = item.getName();
-      String contentType = item.getContentType();
-      boolean isInMemory = item.isInMemory();
-      long sizeInBytes = item.getSize();
-      ...
-  }]]></source>
+if (!item.isFormField()) {
+    String fieldName = item.getFieldName();
+    String fileName = item.getName();
+    String contentType = item.getContentType();
+    boolean isInMemory = item.isInMemory();
+    long sizeInBytes = item.getSize();
+    ...
+}]]></source>
       <p>
         With uploaded files, you generally will not want to access them via
         memory, unless they are small, or unless you have no other alternative.
@@ -252,14 +252,14 @@ List /* FileItem */ items = upload.parseRequest(request);]]></source>
         accomplishing both of these.
       </p>
   <source><![CDATA[// Process a file upload
-  if (writeToFile) {
-      File uploadedFile = new File(...);
-      item.write(uploadedFile);
-  } else {
-      InputStream uploadedStream = item.getInputStream();
-      ...
-      uploadedStream.close();
-  }]]></source>
+if (writeToFile) {
+    File uploadedFile = new File(...);
+    item.write(uploadedFile);
+} else {
+    InputStream uploadedStream = item.getInputStream();
+    ...
+    uploadedStream.close();
+}]]></source>
       <p>
         Note that, in the default implementation of FileUpload, <code>write()</code>
         will attempt to rename the file to the specified destination, if the data
@@ -272,8 +272,8 @@ List /* FileItem */ items = upload.parseRequest(request);]]></source>
         bytes.
       </p>
   <source><![CDATA[// Process a file upload in memory
-  byte[] data = item.get();
-  ...]]></source>
+byte[] data = item.get();
+...]]></source>
     </section>
 
     <section name="Resource cleanup">
