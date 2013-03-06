@@ -16,7 +16,9 @@
  limitations under the License.
 -->
 
-<document>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
     <title>Home</title>
@@ -42,69 +44,55 @@
     </section>
 
     <section name="Documentation">
-      <p>
-        The following documentation is available:
-        <ul>
-          <li><a href="./using.html">User Guide</a></li>
-          <li><a href="./streaming.html">Streaming API</a></li>
-          <li><a href="./faq.html">Frequently Asked Questions</a></li>
-          <li><a href="./apidocs/index.html">JavaDoc API</a></li>
-          <li><a href="./project-reports.html">Project Reports</a></li>
-        </ul>
-        You can also <a href="./source-repository.html">browse</a> the Subversion repository.
-      </p>
+      <p>The following documentation is available:</p>
+      <ul>
+        <li><a href="./using.html">User Guide</a></li>
+        <li><a href="./streaming.html">Streaming API</a></li>
+        <li><a href="./faq.html">Frequently Asked Questions</a></li>
+        <li><a href="./apidocs/index.html">JavaDoc API</a></li>
+        <li><a href="./project-reports.html">Project Reports</a></li>
+      </ul>
+      <p>You can also <a href="./source-repository.html">browse</a> the Subversion repository.</p>
     </section>
 
     <section name="Downloading">
         <subsection name="Full Releases">
-          <p>
-            <strong>FileUpload 1.2.2</strong> - 29 July 2010
-            <ul>
-              <li>Download the binary and source distributions from a mirror site
-                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-              </li>
-            </ul>
-          </p>
-          <p>
-            <strong>FileUpload 1.2.1</strong> - 18 January 2008
-            <ul>
-              <li>Download the binary and source distributions from a mirror site
-                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-              </li>
-            </ul>
-          </p>
-          <p>
-            <strong>FileUpload 1.2</strong> - 13 February 2007
-            <ul>
-              <li>Download the binary and source distributions from a mirror site
-                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-              </li>
-            </ul>
-          </p>
-          <p>
-            <strong>FileUpload 1.1.1</strong> - 08 June 2006
-            <ul>
-              <li>Download the binary and source distributions from a mirror site
-                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-              </li>
-            </ul>
-          </p>
-          <p>
-            <strong>FileUpload 1.1</strong> - 22 Dec 2005
-            <ul>
-              <li>Download the binary and source distributions from a mirror site
-                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-              </li>
-            </ul>
-          </p>
-          <p>
-            <strong>FileUpload 1.0</strong> - 24 Jun 2003
-            <ul>
-              <li>Download the binary and source distributions from a mirror site
-                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-              </li>
-            </ul>
-          </p>
+          <p><strong>FileUpload 1.2.2</strong> - 29 July 2010</p>
+          <ul>
+            <li>Download the binary and source distributions from a mirror site
+              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+            </li>
+          </ul>
+          <p><strong>FileUpload 1.2.1</strong> - 18 January 2008</p>
+          <ul>
+            <li>Download the binary and source distributions from a mirror site
+              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+            </li>
+          </ul>
+          <p><strong>FileUpload 1.2</strong> - 13 February 2007</p>
+          <ul>
+            <li>Download the binary and source distributions from a mirror site
+              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+            </li>
+          </ul>
+          <p><strong>FileUpload 1.1.1</strong> - 08 June 2006</p>
+          <ul>
+            <li>Download the binary and source distributions from a mirror site
+              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+            </li>
+          </ul>
+          <p><strong>FileUpload 1.1</strong> - 22 Dec 2005</p>
+          <ul>
+            <li>Download the binary and source distributions from a mirror site
+              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+            </li>
+          </ul>
+          <p><strong>FileUpload 1.0</strong> - 24 Jun 2003</p>
+          <ul>
+            <li>Download the binary and source distributions from a mirror site
+              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+            </li>
+          </ul>
         </subsection>
         <subsection name="Releases Candidates">
           <p>
