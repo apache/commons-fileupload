@@ -46,7 +46,7 @@ class MockHttpServletRequest implements HttpServletRequest
     private final InputStream m_requestData;
     private final int length;
     private String m_strContentType;
-    private Map<String, String> m_headers = new java.util.HashMap<String, String>();
+    private final Map<String, String> m_headers = new java.util.HashMap<String, String>();
 
     /**
      * Creates a new instance with the given request data
