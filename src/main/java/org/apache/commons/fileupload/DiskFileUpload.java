@@ -52,15 +52,12 @@ public class DiskFileUpload
 
     // ----------------------------------------------------------- Data members
 
-
     /**
      * The factory to use to create new form items.
      */
     private DefaultFileItemFactory fileItemFactory;
 
-
     // ----------------------------------------------------------- Constructors
-
 
     /**
      * Constructs an instance of this class which uses the default factory to
@@ -75,7 +72,6 @@ public class DiskFileUpload
         super();
         this.fileItemFactory = new DefaultFileItemFactory();
     }
-
 
     /**
      * Constructs an instance of this class which uses the supplied factory to
@@ -92,9 +88,7 @@ public class DiskFileUpload
         this.fileItemFactory = fileItemFactory;
     }
 
-
     // ----------------------------------------------------- Property accessors
-
 
     /**
      * Returns the factory class used when creating file items.
@@ -108,7 +102,6 @@ public class DiskFileUpload
     public FileItemFactory getFileItemFactory() {
         return fileItemFactory;
     }
-
 
     /**
      * Sets the factory class to use when creating file items. The factory must
@@ -125,7 +118,6 @@ public class DiskFileUpload
         this.fileItemFactory = (DefaultFileItemFactory) factory;
     }
 
-
     /**
      * Returns the size threshold beyond which files are written directly to
      * disk.
@@ -141,7 +133,6 @@ public class DiskFileUpload
         return fileItemFactory.getSizeThreshold();
     }
 
-
     /**
      * Sets the size threshold beyond which files are written directly to disk.
      *
@@ -155,7 +146,6 @@ public class DiskFileUpload
     public void setSizeThreshold(int sizeThreshold) {
         fileItemFactory.setSizeThreshold(sizeThreshold);
     }
-
 
     /**
      * Returns the location used to temporarily store files that are larger
@@ -172,7 +162,6 @@ public class DiskFileUpload
         return fileItemFactory.getRepository().getPath();
     }
 
-
     /**
      * Sets the location used to temporarily store files that are larger
      * than the configured size threshold.
@@ -188,9 +177,7 @@ public class DiskFileUpload
         fileItemFactory.setRepository(new File(repositoryPath));
     }
 
-
     // --------------------------------------------------------- Public methods
-
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
