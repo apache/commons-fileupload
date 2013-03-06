@@ -48,7 +48,6 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
 
     // ----------------------------------------------------------- Constructors
 
-
     /**
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
@@ -59,7 +58,6 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
     public DefaultFileItemFactory() {
         super();
     }
-
 
     /**
      * Constructs a preconfigured instance of this class.
@@ -77,7 +75,6 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
     public DefaultFileItemFactory(int sizeThreshold, File repository) {
         super(sizeThreshold, repository);
     }
-
 
     // --------------------------------------------------------- Public Methods
 
