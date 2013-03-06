@@ -145,6 +145,12 @@ boolean isMultipart = ServletFileUpload.isMultipartContent(request);]]></source>
 <source><![CDATA[// Create a factory for disk-based file items
 FileItemFactory factory = new DiskFileItemFactory();
 
+// Configure a repository (to ensure a secure temp location is used)
+ServletContext servletContext = this.getServletConfig().getServletContext();
+File repository = (File) servletContext.getAttribute(
+        "javax.servlet.context.tempdir");
+factory.setRepository(repository);
+
 // Create a new file upload handler
 ServletFileUpload upload = new ServletFileUpload(factory);
 
