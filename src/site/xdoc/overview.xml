@@ -15,18 +15,16 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
 <document xmlns="http://maven.apache.org/XDOC/2.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
- <properties>
-  <title>Fileupload Overview</title>
-  <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
- </properties>
+  <properties>
+    <title>Fileupload Overview</title>
+    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+  </properties>
 
-<body>
-
+  <body>
     <section name="Using FileUpload">
       <p>
         Your application should detect whether or not FileUpload should be
@@ -61,6 +59,6 @@ while (iter.hasNext()) {
 ]]></source>
       </p>
     </section>
+  </body>
 
-</body>
 </document>
