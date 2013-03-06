@@ -19,7 +19,6 @@ package org.apache.commons.fileupload;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
-
 /**
  * Exception for errors encountered while processing the request.
  *
@@ -27,11 +26,13 @@ import java.io.PrintWriter;
  * @version $Id$
  */
 public class FileUploadException extends Exception {
+
     /**
      * Serial version UID, being used, if the exception
      * is serialized.
      */
     private static final long serialVersionUID = 8881893724388807504L;
+
     /**
      * The exceptions cause. We overwrite the cause of
      * the super class, which isn't available in Java 1.3.
@@ -58,6 +59,7 @@ public class FileUploadException extends Exception {
     /**
      * Creates a new <code>FileUploadException</code> with the given
      * detail message and cause.
+     *
      * @param msg The exceptions detail message.
      * @param cause The exceptions cause.
      */
@@ -99,4 +101,5 @@ public class FileUploadException extends Exception {
     public Throwable getCause() {
         return cause;
     }
+
 }
