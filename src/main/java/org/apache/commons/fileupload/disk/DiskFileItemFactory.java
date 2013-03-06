@@ -22,7 +22,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.io.FileCleaningTracker;
 
-
 /**
  * <p>The default {@link org.apache.commons.fileupload.FileItemFactory}
  * implementation. This implementation creates
@@ -65,27 +64,22 @@ public class DiskFileItemFactory implements FileItemFactory {
 
     // ----------------------------------------------------- Manifest constants
 
-
     /**
      * The default threshold above which uploads will be stored on disk.
      */
     public static final int DEFAULT_SIZE_THRESHOLD = 10240;
 
-
     // ----------------------------------------------------- Instance Variables
-
 
     /**
      * The directory in which uploaded files will be stored, if stored on disk.
      */
     private File repository;
 
-
     /**
      * The threshold above which uploads will be stored on disk.
      */
     private int sizeThreshold = DEFAULT_SIZE_THRESHOLD;
-
 
     /**
      * <p>The instance of {@link FileCleaningTracker}, which is responsible
@@ -96,7 +90,6 @@ public class DiskFileItemFactory implements FileItemFactory {
 
     // ----------------------------------------------------------- Constructors
 
-
     /**
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
@@ -104,7 +97,6 @@ public class DiskFileItemFactory implements FileItemFactory {
     public DiskFileItemFactory() {
         this(DEFAULT_SIZE_THRESHOLD, null);
     }
-
 
     /**
      * Constructs a preconfigured instance of this class.
@@ -123,7 +115,6 @@ public class DiskFileItemFactory implements FileItemFactory {
 
     // ------------------------------------------------------------- Properties
 
-
     /**
      * Returns the directory used to temporarily store files that are larger
      * than the configured size threshold.
@@ -136,7 +127,6 @@ public class DiskFileItemFactory implements FileItemFactory {
     public File getRepository() {
         return repository;
     }
-
 
     /**
      * Sets the directory used to temporarily store files that are larger
@@ -151,7 +141,6 @@ public class DiskFileItemFactory implements FileItemFactory {
         this.repository = repository;
     }
 
-
     /**
      * Returns the size threshold beyond which files are written directly to
      * disk. The default value is 10240 bytes.
@@ -164,7 +153,6 @@ public class DiskFileItemFactory implements FileItemFactory {
         return sizeThreshold;
     }
 
-
     /**
      * Sets the size threshold beyond which files are written directly to disk.
      *
@@ -176,7 +164,6 @@ public class DiskFileItemFactory implements FileItemFactory {
     public void setSizeThreshold(int sizeThreshold) {
         this.sizeThreshold = sizeThreshold;
     }
-
 
     // --------------------------------------------------------- Public Methods
 
@@ -205,7 +192,6 @@ public class DiskFileItemFactory implements FileItemFactory {
         return result;
     }
 
-
     /**
      * Returns the tracker, which is responsible for deleting temporary
      * files.
@@ -226,4 +212,5 @@ public class DiskFileItemFactory implements FileItemFactory {
     public void setFileCleaningTracker(FileCleaningTracker pTracker) {
         fileCleaningTracker = pTracker;
     }
+
 }
