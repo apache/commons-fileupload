@@ -57,6 +57,11 @@ The <action> type attribute can be add,update,fix,remove.
           due-to="Guillaume Cottenceau" due-to-email="cottenc@gmail.com">
         The FileItemHeader stuff hasn't been actually working.
       </action>
+      <action dev="markt" type="fix">
+        SECURITY - CVE-2013-0248. Update the Javadoc and documentation to make
+        it clear that setting a repository is required for a secure
+        configuration if there are local, untrusted users.
+      </action>
     </release>
     <release version="1.2.2" date="2010-07-29">
       <action dev="jochen" type="fix"
