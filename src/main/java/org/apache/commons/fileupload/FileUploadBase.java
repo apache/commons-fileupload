@@ -16,6 +16,8 @@
  */
 package org.apache.commons.fileupload;
 
+import static java.lang.String.format;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -371,9 +373,8 @@ public abstract class FileUploadBase {
                 } catch (FileUploadIOException e) {
                     throw (FileUploadException) e.getCause();
                 } catch (IOException e) {
-                    throw new IOFileUploadException(
-                            "Processing of " + MULTIPART_FORM_DATA
-                            + " request failed. " + e.getMessage(), e);
+                    throw new IOFileUploadException(format("Processing of %s request failed. ",
+                                                           MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
                 if (fileItem instanceof FileItemHeadersSupport) {
                     final FileItemHeaders fih = item.getHeaders();
@@ -582,7 +583,7 @@ public abstract class FileUploadBase {
             if (start == end) {
                 break;
             }
-            String header = headerPart.substring(start, end);
+            StringBuilder header = new StringBuilder(headerPart.substring(start, end));
             start = end + 2;
             while (start < len) {
                 int nonWs = start;
@@ -598,10 +599,10 @@ public abstract class FileUploadBase {
                 }
                 // Continuation line found
                 end = parseEndOfLine(headerPart, nonWs);
-                header += " " + headerPart.substring(nonWs, end);
+                header.append(" ").append(headerPart.substring(nonWs, end));
                 start = end + 2;
             }
-            parseHeaderLine(headers, header);
+            parseHeaderLine(headers, header.toString());
         }
         return headers;
     }
@@ -634,11 +635,11 @@ public abstract class FileUploadBase {
         for (Iterator<String> iter = headers.getHeaderNames();  iter.hasNext();) {
             String headerName = iter.next();
             Iterator<String> iter2 = headers.getHeaders(headerName);
-            String headerValue = iter2.next();
+            StringBuilder headerValue = new StringBuilder(iter2.next());
             while (iter2.hasNext()) {
-                headerValue += "," + iter2.next();
+                headerValue.append(",").append(iter2.next());
             }
-            result.put(headerName, headerValue);
+            result.put(headerName, headerValue.toString());
         }
         return result;
     }
@@ -754,10 +755,8 @@ public abstract class FileUploadBase {
                             &&  pContentLength > fileSizeMax) {
                     	FileSizeLimitExceededException e =
                             new FileSizeLimitExceededException(
-                                "The field " + fieldName
-                                + " exceeds its maximum permitted "
-                                + " size of " + fileSizeMax
-                                + " bytes.",
+                                format("The field %s exceeds its maximum permitted size of %s bytes.",
+                                       fieldName, fileSizeMax ),
                                 pContentLength, fileSizeMax);
                         e.setFileName(pName);
                         e.setFieldName(pFieldName);
@@ -770,10 +769,8 @@ public abstract class FileUploadBase {
                             itemStream.close(true);
                             FileSizeLimitExceededException e =
                                 new FileSizeLimitExceededException(
-                                    "The field " + fieldName
-                                    + " exceeds its maximum permitted "
-                                    + " size of " + pSizeMax
-                                    + " bytes.",
+                                    format("The field %s exceeds its maximum permitted size of %s bytes.",
+                                           fieldName, pSizeMax ),
                                     pCount, pSizeMax);
                             e.setFieldName(fieldName);
                             e.setFileName(name);
@@ -914,12 +911,8 @@ public abstract class FileUploadBase {
             if ((null == contentType)
                     || (!contentType.toLowerCase().startsWith(MULTIPART))) {
                 throw new InvalidContentTypeException(
-                        "the request doesn't contain a "
-                        + MULTIPART_FORM_DATA
-                        + " or "
-                        + MULTIPART_MIXED
-                        + " stream, content type header is "
-                        + contentType);
+                        format("the request doesn't contain a %s or %s stream, content type header is %s",
+                               MULTIPART_FORM_DATA, MULTIPART_FORM_DATA, contentType));
             }
 
             InputStream input = ctx.getInputStream();
@@ -931,24 +924,19 @@ public abstract class FileUploadBase {
                         @Override
                         protected void raiseError(long pSizeMax, long pCount)
                                 throws IOException {
-                            FileUploadException ex =
-                                new SizeLimitExceededException(
-                                    "the request was rejected because"
-                                    + " its size (" + pCount
-                                    + ") exceeds the configured maximum"
-                                    + " (" + pSizeMax + ")",
-                                    pCount, pSizeMax);
+                            FileUploadException ex = new SizeLimitExceededException(
+                            format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
+                                   pCount, pSizeMax),
+                                   pCount, pSizeMax);
                             throw new FileUploadIOException(ex);
                         }
                     };
                 } else {
                     if (sizeMax >= 0 && requestSize > sizeMax) {
                         throw new SizeLimitExceededException(
-                                "the request was rejected because its size ("
-                                + requestSize
-                                + ") exceeds the configured maximum ("
-                                + sizeMax + ")",
-                                requestSize, sizeMax);
+                            format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
+                                   requestSize, sizeMax),
+                                   requestSize, sizeMax);
                     }
                 }
             }
@@ -960,9 +948,7 @@ public abstract class FileUploadBase {
 
             boundary = getBoundary(contentType);
             if (boundary == null) {
-                throw new FileUploadException(
-                        "the request was rejected because "
-                        + "no multipart boundary was found");
+                throw new FileUploadException("the request was rejected because no multipart boundary was found");
             }
 
             notifier = new MultipartStream.ProgressNotifier(listener,
