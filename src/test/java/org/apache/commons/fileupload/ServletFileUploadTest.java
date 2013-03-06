@@ -30,6 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 
+@SuppressWarnings("deprecation") // unit tests for deprecated class
+
 /**
  * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
  *

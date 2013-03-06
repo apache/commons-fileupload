@@ -30,6 +30,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+@SuppressWarnings("deprecation") // unit tests for deprecated class
+
 /**
  * Unit tests for {@link org.apache.commons.fileupload.DefaultFileItem}.
  *
