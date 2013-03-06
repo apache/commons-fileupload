@@ -184,7 +184,7 @@ ServletFileUpload upload = new ServletFileUpload(factory);
 upload.setSizeMax(yourMaxRequestSize);
 
 // Parse the request
-List /* FileItem */ items = upload.parseRequest(request);]]></source>
+List<FileItem> items = upload.parseRequest(request);]]></source>
         <p>
           Of course, each of the configuration methods is independent of the
           others, but if you want to configure the factory all at once, you can
@@ -209,9 +209,9 @@ List /* FileItem */ items = upload.parseRequest(request);]]></source>
         the list like this:
       </p>
   <source><![CDATA[// Process the uploaded items
-Iterator iter = items.iterator();
+Iterator<FileItem> iter = items.iterator();
 while (iter.hasNext()) {
-    FileItem item = (FileItem) iter.next();
+    FileItem item = iter.next();
 
     if (item.isFormField()) {
         processFormField(item);
