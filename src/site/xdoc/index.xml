@@ -15,7 +15,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
 <document xmlns="http://maven.apache.org/XDOC/2.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
@@ -26,7 +25,6 @@
   </properties>
 
   <body>
-
     <section name="Commons FileUpload">
       <p>
         The Commons <strong>FileUpload</strong> package makes it easy to add
@@ -56,59 +54,61 @@
     </section>
 
     <section name="Downloading">
-        <subsection name="Full Releases">
-          <p><strong>FileUpload 1.2.2</strong> - 29 July 2010</p>
-          <ul>
-            <li>Download the binary and source distributions from a mirror site
-              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-            </li>
-          </ul>
-          <p><strong>FileUpload 1.2.1</strong> - 18 January 2008</p>
-          <ul>
-            <li>Download the binary and source distributions from a mirror site
-              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-            </li>
-          </ul>
-          <p><strong>FileUpload 1.2</strong> - 13 February 2007</p>
-          <ul>
-            <li>Download the binary and source distributions from a mirror site
-              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-            </li>
-          </ul>
-          <p><strong>FileUpload 1.1.1</strong> - 08 June 2006</p>
-          <ul>
-            <li>Download the binary and source distributions from a mirror site
-              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-            </li>
-          </ul>
-          <p><strong>FileUpload 1.1</strong> - 22 Dec 2005</p>
-          <ul>
-            <li>Download the binary and source distributions from a mirror site
-              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-            </li>
-          </ul>
-          <p><strong>FileUpload 1.0</strong> - 24 Jun 2003</p>
-          <ul>
-            <li>Download the binary and source distributions from a mirror site
-              <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-            </li>
-          </ul>
-        </subsection>
-        <subsection name="Releases Candidates">
+      <subsection name="Full Releases">
+        <p><strong>FileUpload 1.2.2</strong> - 29 July 2010</p>
+        <ul>
+          <li>Download the binary and source distributions from a mirror site
+            <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+          </li>
+        </ul>
+        <p><strong>FileUpload 1.2.1</strong> - 18 January 2008</p>
+        <ul>
+          <li>Download the binary and source distributions from a mirror site
+            <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+          </li>
+        </ul>
+        <p><strong>FileUpload 1.2</strong> - 13 February 2007</p>
+        <ul>
+          <li>Download the binary and source distributions from a mirror site
+            <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+          </li>
+        </ul>
+        <p><strong>FileUpload 1.1.1</strong> - 08 June 2006</p>
+        <ul>
+          <li>Download the binary and source distributions from a mirror site
+            <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+          </li>
+        </ul>
+        <p><strong>FileUpload 1.1</strong> - 22 Dec 2005</p>
+        <ul>
+          <li>Download the binary and source distributions from a mirror site
+            <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+          </li>
+        </ul>
+        <p><strong>FileUpload 1.0</strong> - 24 Jun 2003</p>
+        <ul>
+          <li>Download the binary and source distributions from a mirror site
+            <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
+          </li>
+        </ul>
+      </subsection>
+
+      <subsection name="Releases Candidates">
+        <p>
+          None available.
+        </p>
+      </subsection>
+
+      <subsection name="Nightly Builds">
           <p>
-            None available.
+          Nightly builds are built every day from the current SVN HEAD. This is 
+          the latest code and so should be treated with caution!
           </p>
-        </subsection>
-        <subsection name="Nightly Builds">	
-            <p>
-            Nightly builds are built every day from the current SVN HEAD. This is 
-            the latest code and so should be treated with caution!
-            </p>
-            <p>
-            Download nightly builds from 
-            <a href="http://people.apache.org/builds/commons/nightly/commons-fileupload/">here</a>.
-            </p>
-        </subsection>
+          <p>
+          Download nightly builds from 
+          <a href="http://people.apache.org/builds/commons/nightly/commons-fileupload/">here</a>.
+          </p>
+      </subsection>
     </section>
 
     <section name="Support">
