@@ -80,8 +80,7 @@ public class ServletRequestContext implements RequestContext {
      * Retrieve the content length of the request.
      *
      * @return The content length of the request.
-     * @deprecated
-     * @see #contentLength()
+     * @deprecated 1.3 Use {@link #contentLength()} instead
      */
     @Deprecated
     public int getContentLength() {
