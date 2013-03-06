@@ -103,6 +103,7 @@ public class DiskFileUpload
      *
      * @deprecated Use <code>FileUpload</code> instead.
      */
+    @Override
     @Deprecated
     public FileItemFactory getFileItemFactory() {
         return fileItemFactory;
@@ -118,6 +119,7 @@ public class DiskFileUpload
      *
      * @deprecated Use <code>FileUpload</code> instead.
      */
+    @Override
     @Deprecated
     public void setFileItemFactory(FileItemFactory factory) {
         this.fileItemFactory = (DefaultFileItemFactory) factory;

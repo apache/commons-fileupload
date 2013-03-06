@@ -79,6 +79,7 @@ public class ProgressListenerTest extends FileUploadTestCase {
         MockHttpServletRequest request = new MockHttpServletRequest(contents, "multipart/form-data; boundary=---1234");
         runTest(NUM_ITEMS, contents.length, request);
         request = new MockHttpServletRequest(contents, "multipart/form-data; boundary=---1234"){
+            @Override
             public int getContentLength() {
                 return -1;
             }

@@ -596,6 +596,7 @@ public class DiskFileItem
     /**
      * Removes the file contents from the temporary storage.
      */
+    @Override
     protected void finalize() {
         File outputFile = dfos.getFile();
 
@@ -662,6 +663,7 @@ public class DiskFileItem
      *
      * @return a string representation of this object.
      */
+    @Override
     public String toString() {
         return "name=" + this.getName()
             + ", StoreLocation="
