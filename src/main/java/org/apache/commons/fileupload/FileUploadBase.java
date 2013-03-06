@@ -305,7 +305,7 @@ public abstract class FileUploadBase {
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      *
-     * @deprecated Use the method in <code>ServletFileUpload</code> instead.
+     * @deprecated Use {@link ServletFileUpload#parseRequest(HttpServletRequest)} instead.
      */
     @Deprecated
     public List<FileItem> parseRequest(HttpServletRequest req)
