@@ -147,15 +147,14 @@ FileItemFactory factory = new DiskFileItemFactory();
 
 // Configure a repository (to ensure a secure temp location is used)
 ServletContext servletContext = this.getServletConfig().getServletContext();
-File repository = (File) servletContext.getAttribute(
-        "javax.servlet.context.tempdir");
+File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
 factory.setRepository(repository);
 
 // Create a new file upload handler
 ServletFileUpload upload = new ServletFileUpload(factory);
 
 // Parse the request
-List /* FileItem */ items = upload.parseRequest(request);]]></source>
+List<FileItem> items = upload.parseRequest(request);]]></source>
       <p>
         That's all that's needed. Really!
       </p>
