@@ -44,7 +44,7 @@ class MockHttpServletRequest implements HttpServletRequest
 {
 
     private final InputStream m_requestData;
-    private final int length;
+    private final long length;
     private String m_strContentType;
     private final Map<String, String> m_headers = new java.util.HashMap<String, String>();
 
@@ -66,7 +66,7 @@ class MockHttpServletRequest implements HttpServletRequest
      */
     public MockHttpServletRequest(
             final InputStream requestData,
-            final int requestLength,
+            final long requestLength,
             final String strContentType)
     {
         m_requestData = requestData;
@@ -324,7 +324,10 @@ class MockHttpServletRequest implements HttpServletRequest
         }
         else
         {
-            iLength = length;
+            if (length > Integer.MAX_VALUE) {
+                throw new RuntimeException("Value '" + length + "' is too large to be converted to int");
+            }
+            iLength = (int) length;
         }
         return iLength;
     }

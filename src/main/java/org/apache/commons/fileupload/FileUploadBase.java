@@ -918,7 +918,7 @@ public abstract class FileUploadBase {
             InputStream input = ctx.getInputStream();
 
             if (sizeMax >= 0) {
-                int requestSize = ctx.getContentLength();
+                long requestSize = ctx.contentLength();
                 if (requestSize == -1) {
                     input = new LimitedInputStream(input, sizeMax) {
                         @Override
@@ -952,7 +952,7 @@ public abstract class FileUploadBase {
             }
 
             notifier = new MultipartStream.ProgressNotifier(listener,
-                    ctx.getContentLength());
+                    ctx.contentLength());
             multi = new MultipartStream(input, boundary, notifier);
             multi.setHeaderEncoding(charEncoding);
 

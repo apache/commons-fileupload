@@ -43,7 +43,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.2.3-SNAPSHOT">
+    <release version="1.3-SNAPSHOT">
       <action dev="simonetripodi" type="add" issue="FILEUPLOAD-218">
         Update version in POM
       </action>

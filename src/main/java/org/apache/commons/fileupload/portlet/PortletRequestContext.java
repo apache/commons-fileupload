@@ -21,6 +21,8 @@ import static java.lang.String.format;
 import java.io.InputStream;
 import java.io.IOException;
 import javax.portlet.ActionRequest;
+
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.RequestContext;
 
 /**
@@ -79,9 +81,28 @@ public class PortletRequestContext implements RequestContext {
      * Retrieve the content length of the request.
      *
      * @return The content length of the request.
+     * @deprecated
+     * @see #contentLength()
      */
+    @Deprecated
     public int getContentLength() {
         return request.getContentLength();
+    }
+
+    /**
+     * Retrieve the content length of the request.
+     *
+     * @return The content length of the request.
+     * @since 1.3
+     */
+    public long contentLength() {
+        long size;
+        try {
+            size = Long.parseLong(request.getProperty(FileUploadBase.CONTENT_LENGTH));
+        } catch (NumberFormatException e) {
+            size = -1;
+        }
+        return size;
     }
 
     /**
