@@ -31,6 +31,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.fileupload.FileItem;
@@ -105,8 +106,7 @@ public class DiskFileItem
      * UID used in unique file name generation.
      */
     private static final String UID =
-            new java.rmi.server.UID().toString()
-                .replace(':', '_').replace('-', '_');
+            UUID.randomUUID().toString().replace('-', '_');
 
     /**
      * Counter used in unique identifier generation.
