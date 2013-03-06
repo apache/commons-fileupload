@@ -248,7 +248,7 @@ public class MultipartStream {
     private int head;
 
     /**
-     * The index of last valid characer in the buffer + 1.
+     * The index of last valid character in the buffer + 1.
      * <br>
      * 0 <= tail <= bufSize
      */
