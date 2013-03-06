@@ -16,6 +16,8 @@
  */
 package org.apache.commons.fileupload.portlet;
 
+import static java.lang.String.format;
+
 import java.io.InputStream;
 import java.io.IOException;
 import javax.portlet.ActionRequest;
@@ -100,10 +102,9 @@ public class PortletRequestContext implements RequestContext {
      */
     @Override
     public String toString() {
-        return "ContentLength="
-            + this.getContentLength()
-            + ", ContentType="
-            + this.getContentType();
+        return format("ContentLength=%s, ContentType=%s",
+                      this.getContentLength(),
+                      this.getContentType());
     }
 
 }

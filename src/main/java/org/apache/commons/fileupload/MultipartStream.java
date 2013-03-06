@@ -16,6 +16,8 @@
  */
 package org.apache.commons.fileupload;
 
+import static java.lang.String.format;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -530,8 +532,8 @@ public class MultipartStream {
             }
             if (++size > HEADER_PART_SIZE_MAX) {
                 throw new MalformedStreamException(
-                        "Header section has more than " + HEADER_PART_SIZE_MAX
-                        + " bytes (maybe it is not properly terminated)");
+                        format("Header section has more than %s bytes (maybe it is not properly terminated)",
+                               HEADER_PART_SIZE_MAX));
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++;
