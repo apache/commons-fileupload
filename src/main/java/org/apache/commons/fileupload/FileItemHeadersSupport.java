@@ -27,6 +27,7 @@ package org.apache.commons.fileupload;
  * @see FileItemStream
  */
 public interface FileItemHeadersSupport {
+
     /**
      * Returns the collection of headers defined locally within this item.
      *
@@ -44,4 +45,5 @@ public interface FileItemHeadersSupport {
      *         for this instance.
      */
     void setHeaders(FileItemHeaders headers);
+
 }
