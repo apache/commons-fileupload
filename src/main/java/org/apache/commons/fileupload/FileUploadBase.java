@@ -416,7 +416,7 @@ public abstract class FileUploadBase {
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
         Map<String, String> params = parser.parse(contentType, new char[] {';', ','});
-        String boundaryStr = (String) params.get("boundary");
+        String boundaryStr = params.get("boundary");
 
         if (boundaryStr == null) {
             return null;
@@ -472,7 +472,7 @@ public abstract class FileUploadBase {
                 // Parameter parser can handle null input
                 Map<String, String> params = parser.parse(pContentDisposition, ';');
                 if (params.containsKey("filename")) {
-                    fileName = (String) params.get("filename");
+                    fileName = params.get("filename");
                     if (fileName != null) {
                         fileName = fileName.trim();
                     } else {
@@ -514,7 +514,7 @@ public abstract class FileUploadBase {
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
             Map<String, String> params = parser.parse(pContentDisposition, ';');
-            fieldName = (String) params.get("name");
+            fieldName = params.get("name");
             if (fieldName != null) {
                 fieldName = fieldName.trim();
             }
@@ -634,7 +634,7 @@ public abstract class FileUploadBase {
         for (Iterator<String> iter = headers.getHeaderNames();  iter.hasNext();) {
             String headerName = iter.next();
             Iterator<String> iter2 = headers.getHeaders(headerName);
-            String headerValue = (String) iter2.next();
+            String headerValue = iter2.next();
             while (iter2.hasNext()) {
                 headerValue += "," + iter2.next();
             }
@@ -697,7 +697,7 @@ public abstract class FileUploadBase {
     @Deprecated
     protected final String getHeader(Map<String, String> headers,
             String name) {
-        return (String) headers.get(name.toLowerCase());
+        return headers.get(name.toLowerCase());
     }
 
     /**

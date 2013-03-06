@@ -47,7 +47,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
         if (null == headerValueList) {
             return null;
         }
-        return (String) headerValueList.get(0);
+        return headerValueList.get(0);
     }
 
     public Iterator<String> getHeaderNames() {
