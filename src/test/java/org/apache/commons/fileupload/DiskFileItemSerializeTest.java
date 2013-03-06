@@ -54,7 +54,7 @@ public class DiskFileItemSerializeTest
      * configured threshold.
      */
     @Test
-    public void testBelowThreshold()
+    public void testBelowThreshold() throws Exception
     {
 
         // Create the FileItem
@@ -67,23 +67,14 @@ public class DiskFileItemSerializeTest
         compareBytes("Initial", item.get(), testFieldValueBytes);
 
         // Serialize & Deserialize
-        try
-        {
-            FileItem newItem = (FileItem)serializeDeserialize(item);
+        FileItem newItem = (FileItem)serializeDeserialize(item);
 
-            // Test deserialized content is as expected
-            assertTrue("Check in memory", newItem.isInMemory());
-            compareBytes("Check", testFieldValueBytes, newItem.get());
+        // Test deserialized content is as expected
+        assertTrue("Check in memory", newItem.isInMemory());
+        compareBytes("Check", testFieldValueBytes, newItem.get());
 
-            // Compare FileItem's (except byte[])
-            compareFileItems(item, newItem);
-
-        }
-        catch(Exception e)
-        {
-            fail("Error Serializing/Deserializing: " + e);
-        }
-
+        // Compare FileItem's (except byte[])
+        compareFileItems(item, newItem);
 
     }
 
@@ -92,7 +83,7 @@ public class DiskFileItemSerializeTest
      * configured threshold.
      */
     @Test
-    public void testThreshold() {
+    public void testThreshold() throws Exception {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold);
         FileItem item = createFileItem(testFieldValueBytes);
@@ -104,22 +95,15 @@ public class DiskFileItemSerializeTest
 
 
         // Serialize & Deserialize
-        try
-        {
-            FileItem newItem = (FileItem)serializeDeserialize(item);
+        FileItem newItem = (FileItem)serializeDeserialize(item);
 
-            // Test deserialized content is as expected
-            assertTrue("Check in memory", newItem.isInMemory());
-            compareBytes("Check", testFieldValueBytes, newItem.get());
+        // Test deserialized content is as expected
+        assertTrue("Check in memory", newItem.isInMemory());
+        compareBytes("Check", testFieldValueBytes, newItem.get());
 
-            // Compare FileItem's (except byte[])
-            compareFileItems(item, newItem);
+        // Compare FileItem's (except byte[])
+        compareFileItems(item, newItem);
 
-        }
-        catch(Exception e)
-        {
-            fail("Error Serializing/Deserializing: " + e);
-        }
     }
 
     /**
@@ -127,7 +111,7 @@ public class DiskFileItemSerializeTest
      * configured threshold.
      */
     @Test
-    public void testAboveThreshold() {
+    public void testAboveThreshold() throws Exception {
 
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold + 1);
@@ -139,22 +123,14 @@ public class DiskFileItemSerializeTest
         compareBytes("Initial", item.get(), testFieldValueBytes);
 
         // Serialize & Deserialize
-        try
-        {
-            FileItem newItem = (FileItem)serializeDeserialize(item);
+        FileItem newItem = (FileItem)serializeDeserialize(item);
 
-            // Test deserialized content is as expected
-            assertFalse("Check in memory", newItem.isInMemory());
-            compareBytes("Check", testFieldValueBytes, newItem.get());
+        // Test deserialized content is as expected
+        assertFalse("Check in memory", newItem.isInMemory());
+        compareBytes("Check", testFieldValueBytes, newItem.get());
 
-            // Compare FileItem's (except byte[])
-            compareFileItems(item, newItem);
-
-        }
-        catch(Exception e)
-        {
-            fail("Error Serializing/Deserializing: " + e);
-        }
+        // Compare FileItem's (except byte[])
+        compareFileItems(item, newItem);
     }
 
     /**
