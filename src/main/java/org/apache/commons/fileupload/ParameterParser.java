@@ -21,7 +21,8 @@ import java.util.Map;
 
 /**
  * A simple parser intended to parse sequences of name/value pairs.
- * Parameter values are exptected to be enclosed in quotes if they
+ *
+ * Parameter values are expected to be enclosed in quotes if they
  * contain unsafe characters, such as '=' characters or separators.
  * Parameter values are optional and can be omitted.
  *
@@ -31,8 +32,8 @@ import java.util.Map;
  *
  * @author <a href="mailto:oleg@ural.ru">Oleg Kalnichevski</a>
  */
-
 public class ParameterParser {
+
     /**
      * String to be parsed.
      */
@@ -326,4 +327,5 @@ public class ParameterParser {
         }
         return params;
     }
+
 }
