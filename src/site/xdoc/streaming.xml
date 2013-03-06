@@ -60,8 +60,7 @@ boolean isMultipart = ServletFileUpload.isMultipartContent(request);]]></source>
       Now we are ready to parse the request into its constituent items. Here's
       how we do it:
     </p>
-<source><![CDATA[
-// Create a new file upload handler
+<source><![CDATA[// Create a new file upload handler
 ServletFileUpload upload = new ServletFileUpload();
 
 // Parse the request

@@ -33,30 +33,30 @@
       <p>
         Assuming that you have decided that FileUpload should be invoked, you
         might write the following code to handle a file upload request:
-<pre>
-    // Create a new file upload handler
-    DiskFileUpload upload = new DiskFileUpload();
+<source><![CDATA[DiskFileItemFactory factory = new DiskFileItemFactory();
+// Set upload parameters
+factory.setSizeThreshold(MAX_MEMORY_SIZE);
+factory.setRepository(new File(TEMP_DIR));
 
-    // Set upload parameters
-    upload.setSizeMax(MAX_UPLOAD_SIZE);
-    upload.setSizeThreshold(MAX_MEMORY_SIZE);
-    upload.setRepositoryPath(TEMP_DIR);
+// Create a new file upload handler
+ServletFileUpload upload = new ServletFileUpload( factory );
+upload.setSizeMax(MAX_UPLOAD_SIZE);
 
-    // Parse the request
-    List items = upload.parseRequest(request);
+// Parse the request
+List<FileItem> items = upload.parseRequest(request);
 
-    // Process the uploaded fields
-    Iterator iter = items.iterator();
-    while (iter.hasNext()) {
-        FileItem item = (FileItem) iter.next();
+// Process the uploaded fields
+Iterator<FileItem> iter = items.iterator();
+while (iter.hasNext()) {
+    FileItem item = iter.next();
 
-        if (item.isFormField()) {
-            processTextParameter(request, item);
-        } else {
-            processFileParameter(request, item);
-        }
+    if (item.isFormField()) {
+        processTextParameter(request, item);
+    } else {
+        processFileParameter(request, item);
     }
-</pre>
+}
+]]></source>
       </p>
     </section>
 
