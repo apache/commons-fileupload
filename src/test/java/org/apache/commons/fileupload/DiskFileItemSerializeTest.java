@@ -18,6 +18,7 @@ package org.apache.commons.fileupload;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -171,12 +172,8 @@ public class DiskFileItemSerializeTest
      * Compare content bytes.
      */
     private void compareBytes(String text, byte[] origBytes, byte[] newBytes) {
-        if (origBytes == null) {
-            fail(text + " origBytes are null");
-        }
-        if (newBytes == null) {
-            fail(text + " newBytes are null");
-        }
+        assertNotNull("origBytes must not be null", origBytes);
+        assertNotNull("newBytes must not be null", newBytes);
         assertEquals(text + " byte[] length", origBytes.length, newBytes.length);
         for (int i = 0; i < origBytes.length; i++) {
             assertEquals(text + " byte[" + i + "]", origBytes[i], newBytes[i]);
