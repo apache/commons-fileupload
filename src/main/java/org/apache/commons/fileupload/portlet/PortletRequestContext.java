@@ -42,7 +42,7 @@ public class PortletRequestContext implements RequestContext {
     /**
      * The request for which the context is being provided.
      */
-    private ActionRequest request;
+    private final ActionRequest request;
 
 
     // ----------------------------------------------------------- Constructors

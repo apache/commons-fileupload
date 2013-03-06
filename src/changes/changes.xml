@@ -44,6 +44,9 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="1.3-SNAPSHOT">
+      <action dev="sebb" type="update" issue="FILEUPLOAD-227">
+        Private immutable fields which could be final
+      </action>
       <action dev="sebb" type="update" issue="FILEUPLOAD-226">
         DiskFileItem.counter could be converted to AtomicInteger
       </action>
