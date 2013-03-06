@@ -278,7 +278,7 @@ byte[] data = item.get();
     <section name="Resource cleanup">
       <p>
         This section applies only, if you are using the
-        <a href="apidocs/org/apache/commons/fileupload/disk/DiskFileItem.html">DiskFileItem</a>.
+        <a href="./apidocs/org/apache/commons/fileupload/disk/DiskFileItem.html">DiskFileItem</a>.
         In other words, it applies, if your uploaded files are written to
         temporary files before processing them.
       </p>
@@ -292,7 +292,7 @@ byte[] data = item.get();
         This reaper thread should be stopped, if it is no longer needed. In
         a servlet environment, this is done by using a special servlet
         context listener, called
-        <a href="apidocs/org/apache/commons/fileupload/servlet/FileCleanerCleanup.html">FileCleanerCleanup</a>.
+        <a href="./apidocs/org/apache/commons/fileupload/servlet/FileCleanerCleanup.html">FileCleanerCleanup</a>.
         To do so, add a section like the following to your <code>web.xml</code>:
       </p>
   <source><![CDATA[<web-app>
@@ -426,13 +426,13 @@ ProgressListener progressListener = new ProgressListener(){
         Hopefully this page has provided you with a good idea of how to use
         FileUpload in your own applications. For more detail on the methods
         introduced here, as well as other available methods, you should refer
-        to the <a href="apidocs/index.html">JavaDocs</a>.
+        to the <a href="./apidocs/index.html">JavaDocs</a>.
       </p>
       <p>
         The usage described here should satisfy a large majority of file upload
         needs. However, should you have more complex requirements, FileUpload
         should still be able to help you, with it's flexible
-        <a href="customizing.html">customization</a> capabilities.
+        <a href="./customizing.html">customization</a> capabilities.
       </p>
     </section>
   </body>
