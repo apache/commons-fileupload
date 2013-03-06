@@ -56,12 +56,12 @@
     </section>
 
     <section name="Downloading">
-        <subsection name='Full Releases'>
+        <subsection name="Full Releases">
           <p>
             <strong>FileUpload 1.2.2</strong> - 29 July 2010
             <ul>
               <li>Download the binary and source distributions from a mirror site
-                <a href='http://commons.apache.org/fileupload/download_fileupload.cgi'>here</a>
+                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
               </li>
             </ul>
           </p>
@@ -69,7 +69,7 @@
             <strong>FileUpload 1.2.1</strong> - 18 January 2008
             <ul>
               <li>Download the binary and source distributions from a mirror site
-                <a href='http://commons.apache.org/fileupload/download_fileupload.cgi'>here</a>
+                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
               </li>
             </ul>
           </p>
@@ -77,7 +77,7 @@
             <strong>FileUpload 1.2</strong> - 13 February 2007
             <ul>
               <li>Download the binary and source distributions from a mirror site
-                <a href='http://commons.apache.org/fileupload/download_fileupload.cgi'>here</a>
+                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
               </li>
             </ul>
           </p>
@@ -85,7 +85,7 @@
             <strong>FileUpload 1.1.1</strong> - 08 June 2006
             <ul>
               <li>Download the binary and source distributions from a mirror site
-                <a href='http://commons.apache.org/fileupload/download_fileupload.cgi'>here</a>
+                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
               </li>
             </ul>
           </p>
@@ -93,7 +93,7 @@
             <strong>FileUpload 1.1</strong> - 22 Dec 2005
             <ul>
               <li>Download the binary and source distributions from a mirror site
-                <a href='http://commons.apache.org/fileupload/download_fileupload.cgi'>here</a>
+                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
               </li>
             </ul>
           </p>
@@ -101,24 +101,24 @@
             <strong>FileUpload 1.0</strong> - 24 Jun 2003
             <ul>
               <li>Download the binary and source distributions from a mirror site
-                <a href='http://commons.apache.org/fileupload/download_fileupload.cgi'>here</a>
+                <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
               </li>
             </ul>
           </p>
         </subsection>
-        <subsection name='Releases Candidates'>
+        <subsection name="Releases Candidates">
           <p>
             None available.
           </p>
         </subsection>
-        <subsection name='Nightly Builds'>	
+        <subsection name="Nightly Builds">	
             <p>
             Nightly builds are built every day from the current SVN HEAD. This is 
             the latest code and so should be treated with caution!
             </p>
             <p>
             Download nightly builds from 
-            <a href='http://people.apache.org/builds/commons/nightly/commons-fileupload/'>here</a>.
+            <a href="http://people.apache.org/builds/commons/nightly/commons-fileupload/">here</a>.
             </p>
         </subsection>
     </section>
