@@ -31,6 +31,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemHeaders;
@@ -110,7 +111,7 @@ public class DiskFileItem
     /**
      * Counter used in unique identifier generation.
      */
-    private static int counter = 0;
+    private static final AtomicInteger counter = new AtomicInteger(0);
 
     /**
      * The name of the form field as provided by the browser.
@@ -604,10 +605,7 @@ public class DiskFileItem
      */
     private static String getUniqueId() {
         final int limit = 100000000;
-        int current;
-        synchronized (DiskFileItem.class) {
-            current = counter++;
-        }
+        int current = counter.getAndIncrement();
         String id = Integer.toString(current);
 
         // If you manage to get more than 100 million of ids, you'll
