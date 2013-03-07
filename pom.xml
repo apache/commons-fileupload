@@ -266,7 +266,7 @@
             <comparisonArtifact>
               <groupId>commons-fileupload</groupId>
               <artifactId>commons-fileupload</artifactId>
-              <version>1.2.1</version>
+              <version>1.2.2</version>
             </comparisonArtifact>
           </comparisonArtifacts>
         </configuration>
