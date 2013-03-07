@@ -86,7 +86,7 @@ The <action> type attribute can be add,update,fix,remove.
         http://commons.apache.org/fileupload/index.html should not mention nightly builds
       </action>
       <action issue="FILEUPLOAD-189" dev="simonetripodi" type="fix" due-to="Gregor K">
-        DiskFileItemFactory use of FileCleaningTracker is documented or coded wrong
+        DiskFileItemFactory use of FileCleaningTracker is documented or coded wrong - proposal submitted by Jan Novotný
       </action>
       <action issue="FILEUPLOAD-195" dev="simonetripodi" type="fix" due-to="Juliano Alves">
         Error reading the file size larger than 2 gb - pull request from Gergely
