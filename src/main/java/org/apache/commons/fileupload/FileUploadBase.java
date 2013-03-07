@@ -746,7 +746,7 @@ public abstract class FileUploadBase {
                     	FileSizeLimitExceededException e =
                             new FileSizeLimitExceededException(
                                 format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                       fieldName, fileSizeMax ),
+                                       fieldName, fileSizeMax),
                                 pContentLength, fileSizeMax);
                         e.setFileName(pName);
                         e.setFieldName(pFieldName);
@@ -760,7 +760,7 @@ public abstract class FileUploadBase {
                             FileSizeLimitExceededException e =
                                 new FileSizeLimitExceededException(
                                     format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                           fieldName, pSizeMax ),
+                                           fieldName, pSizeMax),
                                     pCount, pSizeMax);
                             e.setFieldName(fieldName);
                             e.setFileName(name);
