@@ -34,6 +34,9 @@ import org.apache.commons.fileupload.FileItemHeaders;
  */
 public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
 
+    /**
+     * Serial version UID, being used, if serialized.
+     */
     private static final long serialVersionUID = -4455695752627032559L;
 
     /**
