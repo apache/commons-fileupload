@@ -317,10 +317,10 @@ public class DiskFileItem
         }
 
         byte[] fileData = new byte[(int) getSize()];
-        FileInputStream fis = null;
+        InputStream fis = null;
 
         try {
-            fis = new FileInputStream(dfos.getFile());
+            fis = new BufferedInputStream(new FileInputStream(dfos.getFile()));
             fis.read(fileData);
         } catch (IOException e) {
             fileData = null;
