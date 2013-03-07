@@ -341,7 +341,7 @@ public abstract class FileUploadBase {
             while (iter.hasNext()) {
                 final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
-                final String fileName = ((org.apache.commons.fileupload.FileUploadBase.FileItemIteratorImpl.FileItemStreamImpl) item).name;
+                final String fileName = ((FileItemIteratorImpl.FileItemStreamImpl) item).name;
                 FileItem fileItem = fac.createItem(item.getFieldName(),
                         item.getContentType(), item.isFormField(),
                         fileName);
