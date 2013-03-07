@@ -233,11 +233,9 @@ public class ParameterParser {
             int idx = str.length();
             for (int i = 0;  i < separators.length;  i++) {
                 int tmp = str.indexOf(separators[i]);
-                if (tmp != -1) {
-                    if (tmp < idx) {
-                        idx = tmp;
-                        separator = separators[i];
-                    }
+                if (tmp != -1 && tmp < idx) {
+                    idx = tmp;
+                    separator = separators[i];
                 }
             }
         }
