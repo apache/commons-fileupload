@@ -1208,6 +1208,9 @@ public abstract class FileUploadBase {
      */
     protected abstract static class SizeException extends FileUploadException {
 
+        /**
+         * Serial version UID, being used, if serialized.
+         */
         private static final long serialVersionUID = -8776225574705254126L;
 
         /**
