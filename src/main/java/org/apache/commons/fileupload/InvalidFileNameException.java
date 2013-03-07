@@ -52,6 +52,8 @@ public class InvalidFileNameException extends RuntimeException {
 
     /**
      * Returns the invalid file name.
+     *
+     * @return the invalid file name.
      */
     public String getName() {
         return name;
