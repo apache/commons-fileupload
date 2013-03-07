@@ -257,7 +257,7 @@ public class DiskFileItem
      * Returns the original filename in the client's filesystem.
      *
      * @return The original filename in the client's filesystem.
-     * @throws {@link org.apache.commons.fileupload.InvalidFileNameException} The file name contains a NUL character,
+     * @throws org.apache.commons.fileupload.InvalidFileNameException The file name contains a NUL character,
      *   which might be an indicator of a security attack. If you intend to
      *   use the file name anyways, catch the exception and use
      *   {@link org.apache.commons.fileupload.InvalidFileNameException#getName()}.
