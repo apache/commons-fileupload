@@ -32,6 +32,7 @@
         <exclude>**/.project</exclude>
         <exclude>**/.settings/</exclude>
         <exclude>**/bin/</exclude>
+        <exclude>**/.externalToolBuilders/</exclude>
         <exclude>**/target/</exclude>
       </excludes>
     </fileSet>
