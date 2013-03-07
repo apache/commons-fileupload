@@ -94,26 +94,26 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-197" dev="simonetripodi" type="fix" due-to="David Wolverton">
         ServletFileUpload isMultipartContent method does not support HTTP PUT - thanks Roy T. Fielding and Jochen  Wiedmann
       </action>
-      <action issue="FILEUPLOAD-204" dev="simonetripodi" type="fix">
+      <action issue="FILEUPLOAD-204" dev="jochen" type="fix" due-to="Hakju Oh">
         FileItem.getHeaders() returns always null.
       </action>
-      <action issue="FILEUPLOAD-214" dev="simonetripodi" type="fix">
+      <action issue="FILEUPLOAD-214" dev="simonetripodi" type="fix" due-to="Matthew Runo">
         ServletFileUpload only accepts POST requests
       </action>
       <!-- Improvement -->
-      <action issue="FILEUPLOAD-182">
+      <action issue="FILEUPLOAD-182" dev="simonetripodi" type="add" due-to="Chris Lott">
         Documentation: add simple HTML form example to fileupload user guide
       </action>
-      <action issue="FILEUPLOAD-207">
-        enhance file read/write performance
+      <action issue="FILEUPLOAD-207" dev="simonetripodi" type="add" due-to="frank">
+        enhance file read/write performance - patch provided by frank
       </action>
-      <action issue="FILEUPLOAD-209">
+      <action issue="FILEUPLOAD-209" dev="simonetripodi" type="add" due-to="Fernando Ribeiro">
         Add Support for Generic Types
       </action>
-      <action issue="FILEUPLOAD-223">
+      <action issue="FILEUPLOAD-223" dev="simonetripodi" type="update" due-to="">
         Update commons-io dependency to latest version that supports JDK1.5
       </action>
-      <action issue="FILEUPLOAD-224">
+      <action issue="FILEUPLOAD-224" dev="simonetripodi" type="update">
         Avoid string concatenations while parsing headers, use buffers instead
       </action>
       <action issue="FILEUPLOAD-225" dev="simonetripodi" type="update">
@@ -122,14 +122,14 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-226" dev="sebb" type="update">
         DiskFileItem.counter could be converted to AtomicInteger (or AtomicLong?)
       </action>
-      <action issue="FILEUPLOAD-227">
+      <action issue="FILEUPLOAD-227" dev="sebb" type="update">
         Private immutable fields which could be final
       </action>
       <!-- Task -->
-      <action issue="FILEUPLOAD-201">
+      <action issue="FILEUPLOAD-201" dev="simonetripodi" type="update">
         Update to JDK 1.5 and bump IO dependency to 2.0.1
       </action>
-      <action issue="FILEUPLOAD-215">
+      <action issue="FILEUPLOAD-215" dev="simonetripodi" type="update">
         version 1.2.3 improvement tasks
       </action>
     </release>
