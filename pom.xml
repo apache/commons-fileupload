@@ -251,6 +251,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>2.7.1</version>
         <configuration>
+          <targetJdk>${maven.compile.target}</targetJdk>
           <rulesets>
             <ruleset>${basedir}/src/checkstyle/fileupload_basic.xml</ruleset>
           </rulesets>
