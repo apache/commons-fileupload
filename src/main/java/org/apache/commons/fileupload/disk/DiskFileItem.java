@@ -554,7 +554,10 @@ public class DiskFileItem
      *         memory.
      */
     public File getStoreLocation() {
-        return dfos == null ? null : dfos.getFile();
+        if (dfos == null) {
+            return null;
+        }
+        return dfos.getFile();
     }
 
     // ------------------------------------------------------ Protected methods
