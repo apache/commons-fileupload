@@ -1404,6 +1404,9 @@ public abstract class FileUploadBase {
         /**
          * Sets the field name of the item, which caused the
          * exception.
+         *
+         * @param pFieldName the field name of the item,
+         *        which caused the exception.
          */
         public void setFieldName(String pFieldName) {
             fieldName = pFieldName;
