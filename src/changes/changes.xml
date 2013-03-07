@@ -43,32 +43,97 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.3-SNAPSHOT">
-      <action dev="sebb" type="update" issue="FILEUPLOAD-227">
-        Private immutable fields which could be final
-      </action>
-      <action dev="sebb" type="update" issue="FILEUPLOAD-226">
-        DiskFileItem.counter could be converted to AtomicInteger
-      </action>
-      <action dev="simonetripodi" type="add" issue="FILEUPLOAD-218">
-        Update version in POM
-      </action>
-      <action dev="simonetripodi" type="add" issue="FILEUPLOAD-217">
-        drop JDK1.3 support and update to Java5
-      </action>
-      <action dev="simonetripodi" type="add" issue="FILEUPLOAD-216">
-        Update the project tree dirs according to default Maven conventions
-      </action>
-      <action dev="jochen" type="fix" issue="FILEUPLOAD-130"
-          due-to="Guillaume Cottenceau" due-to-email="cottenc@gmail.com">
-        The FileItemHeader stuff hasn't been actually working.
-      </action>
+    <release version="1.3">
+      <!-- important notes -->
       <action dev="markt" type="fix">
         SECURITY - CVE-2013-0248. Update the Javadoc and documentation to make
         it clear that setting a repository is required for a secure
         configuration if there are local, untrusted users.
       </action>
+      <!-- Sub-task -->
+      <action issue="FILEUPLOAD-216" dev="simonetripodi" type="update">
+        Update the project tree dirs according to default Maven conventions
+      </action>
+      <action issue="FILEUPLOAD-217" dev="simonetripodi" type="update">
+        drop JDK1.3 support and update to Java5
+      </action>
+      <action issue="FILEUPLOAD-218" dev="simonetripodi" type="update">
+        Update version in POM
+      </action>
+      <action issue="FILEUPLOAD-219" dev="simonetripodi" type="update">
+        upgrade tests to JUnit 4
+      </action>
+      <action issue="FILEUPLOAD-220" dev="simonetripodi" type="update">
+        replace package.html with package-info.java
+      </action>
+      <action issue="FILEUPLOAD-221" dev="simonetripodi" type="update">
+        FileItemHeadersImpl can now use LinkedHashMap
+      </action>
+      <action issue="FILEUPLOAD-222" dev="simonetripodi" type="update">
+        Mark @deprecated classes/methods with @Deprecated annotation
+      </action>
+      <!-- Bug -->
+      <action issue="FILEUPLOAD-173">
+        Manifest for OSGi has invalid syntax
+      </action>
+      <action issue="FILEUPLOAD-183">
+        commons-io dependency does not get loaded by maven if only dependency to commons-fileupload is specified
+      </action>
+      <action issue="FILEUPLOAD-185">
+        http://commons.apache.org/fileupload/index.html is out of date
+      </action>
+      <action issue="FILEUPLOAD-186">
+        http://commons.apache.org/fileupload/index.html should not mention nightly builds
+      </action>
+      <action issue="FILEUPLOAD-189">
+        DiskFileItemFactory use of FileCleaningTracker is documated or coded wrong
+      </action>
+      <action issue="FILEUPLOAD-195">
+        Error reading the file size larger than 2 gb
+      </action>
+      <action issue="FILEUPLOAD-197">
+        ServletFileUpload isMultipartContent method does not support HTTP PUT
+      </action>
+      <action issue="FILEUPLOAD-204">
+        FileItem.getHeaders() returns always null.
+      </action>
+      <action issue="FILEUPLOAD-214">
+        ServletFileUpload only accepts POST requests
+      </action>
+      <!-- Improvement -->
+      <action issue="FILEUPLOAD-182">
+        Documentation: add simple HTML form example to fileupload user guide
+      </action>
+      <action issue="FILEUPLOAD-207">
+        enhance file read/write performance
+      </action>
+      <action issue="FILEUPLOAD-209">
+        Add Support for Generic Types
+      </action>
+      <action issue="FILEUPLOAD-223">
+        Update commons-io dependency to latest version that supports JDK1.5
+      </action>
+      <action issue="FILEUPLOAD-224">
+        Avoid string concatenations while parsing headers, use buffers instead
+      </action>
+      <action issue="FILEUPLOAD-225" dev="simonetripodi" type="update">
+        Replace java.rmi.server.UID() with java.util.UUID
+      </action>
+      <action issue="FILEUPLOAD-226" dev="sebb" type="update">
+        DiskFileItem.counter could be converted to AtomicInteger (or AtomicLong?)
+      </action>
+      <action issue="FILEUPLOAD-227">
+        Private immutable fields which could be final
+      </action>
+      <!-- Task -->
+      <action issue="FILEUPLOAD-201">
+        Update to JDK 1.5 and bump IO dependency to 2.0.1
+      </action>
+      <action issue="FILEUPLOAD-215">
+        version 1.2.3 improvement tasks
+      </action>
     </release>
+
     <release version="1.2.2" date="2010-07-29">
       <action dev="jochen" type="fix"
           due-to="Daniel Fabian" due-to-email="dfabian@google.com">
@@ -107,6 +172,10 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="jochen" type="add" issue="FILEUPLOAD-154">
         A FileSizeLimitExceededException does now contain the
         file and field name of the item, which caused the problem.
+      </action>
+      <action dev="jochen" type="fix" issue="FILEUPLOAD-130"
+          due-to="Guillaume Cottenceau" due-to-email="cottenc@gmail.com">
+        The FileItemHeader stuff hasn't been actually working.
       </action>
     </release>
 

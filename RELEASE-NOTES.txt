@@ -57,61 +57,27 @@ Sub-task
 Bug
 =============
 
- * [FILEUPLOAD-131] - MultipartStream always assumes transfer encoding to be BINARY
- * [FILEUPLOAD-144] - Parameters values are lost
- * [FILEUPLOAD-145] - setFileSizeMax validation is happening after ENTIRE file gets uploaded
- * [FILEUPLOAD-147] - Incorrect Information in documentation.
- * [FILEUPLOAD-152] - Unit incompatibility betweenFileUpload.setFileSizeMax and FileUploadBase$FileItemIteratorImpl
- * [FILEUPLOAD-156] - MultipartStream constructor requires package access to avoid deprecation warnings
- * [FILEUPLOAD-157] - The ProgressListener isn't always notified about the total number of Items found in a MultipartStream.
- * [FILEUPLOAD-158] - MultipartStream javadoc example cannot be compiled
- * [FILEUPLOAD-160] - disk leak if multipart parse error
- * [FILEUPLOAD-169] - FileItemStreamImpl closes underlying stream on LimitedInputStream exception
  * [FILEUPLOAD-173] - Manifest for OSGi has invalid syntax
- * [FILEUPLOAD-179] - ProgressListener doesn't work on Streaming API
- * [FILEUPLOAD-180] - If ServletFileUpload.setSizeMax() is set the values "bytesRead" and "contentLength" of the ProgressListeners update()-method are ZERO
  * [FILEUPLOAD-183] - commons-io dependency does not get loaded by maven if only dependency to commons-fileupload is specified
  * [FILEUPLOAD-185] - http://commons.apache.org/fileupload/index.html is out of date
  * [FILEUPLOAD-186] - http://commons.apache.org/fileupload/index.html should not mention nightly builds
- * [FILEUPLOAD-187] - MultipartStream throw ArrayIndexOutOfBoundsException
- * [FILEUPLOAD-188] - Cannot upload files much larger than 2gb
  * [FILEUPLOAD-189] - DiskFileItemFactory use of FileCleaningTracker is documated or coded wrong
- * [FILEUPLOAD-190] - NPE in DiskFileItem#getStoreLocation()
- * [FILEUPLOAD-193] - FileNotFoundException thrown by DiskFileItem.write
- * [FILEUPLOAD-194] - conceptual error throwing FileUploadException when upload size or file size exeeds limits
  * [FILEUPLOAD-195] - Error reading the file size larger than 2 gb
- * [FILEUPLOAD-196] - FileSizeLimitExceededException wrong
  * [FILEUPLOAD-197] - ServletFileUpload isMultipartContent method does not support HTTP PUT
- * [FILEUPLOAD-199] - Uploads have unexpected results for files with non-ASCII names - support RFC2047
- * [FILEUPLOAD-202] - org.apache.commons.fileupload.FileUploadBase$IOFileUploadException: Processing of multipart/form-data request failed. Stream ended unexpectedly
- * [FILEUPLOAD-203] - Processing of multipart/form-data request failed. Async operation timed out
  * [FILEUPLOAD-204] - FileItem.getHeaders() returns always null.
- * [FILEUPLOAD-205] - FileCleaningTracker Reaper thread not ended
- * [FILEUPLOAD-206] - Encoding of parts incorrectly determined and assumed to be
- * [FILEUPLOAD-211] - [fileupload] fails with transfer-encoding: chunked when multi-part file section includes chunked data
- * [FILEUPLOAD-212] - Insecure request size checking
  * [FILEUPLOAD-214] - ServletFileUpload only accepts POST requests
 
 Improvement
 =============
 
- * [FILEUPLOAD-130] - Add ability to get any header from the FileItem and FileItemStream interfaces
- * [FILEUPLOAD-142] - ProgressListener and Streaming API improvement
- * [FILEUPLOAD-154] - improve FileUploadLimitExceededException metadata
- * [FILEUPLOAD-155] - Fix documentation on resource clean up in conjunction with DiskFileItemFactory
- * [FILEUPLOAD-159] - MultipartStream.position method
- * [FILEUPLOAD-181] - finalize method substitution
  * [FILEUPLOAD-182] - Documentation: add simple HTML form example to fileupload user guide
- * [FILEUPLOAD-184] - Generic exception thrown in FileItem#write method
- * [FILEUPLOAD-198] - Add two optional parameters to FileUploadBase.getItemIterator() to pass temporary buffers similar to Streams.copy()
- * [FILEUPLOAD-207] - enhance file write performance
- * [FILEUPLOAD-208] - CLONE - [fileupload] Use the ServletRequest encoding as default
+ * [FILEUPLOAD-207] - enhance file read/write performance
  * [FILEUPLOAD-209] - Add Support for Generic Types
- * [FILEUPLOAD-210] - Process HTTP Requests Into Maps
  * [FILEUPLOAD-223] - Update commons-io dependency to latest version that supports JDK1.5
  * [FILEUPLOAD-224] - Avoid string concatenations while parsing headers, use buffers instead
  * [FILEUPLOAD-225] - Replace java.rmi.server.UID() with java.util.UUID
  * [FILEUPLOAD-226] - DiskFileItem.counter could be converted to AtomicInteger (or AtomicLong?)
+ * [FILEUPLOAD-227] - Private immutable fields which could be final
 
 Task
 =============
