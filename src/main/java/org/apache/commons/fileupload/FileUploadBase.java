@@ -1384,6 +1384,8 @@ public abstract class FileUploadBase {
         /**
          * Sets the file name of the item, which caused the
          * exception.
+         *
+         * @param pFileName the file name of the item, which caused the exception.
          */
         public void setFileName(String pFileName) {
             fileName = pFileName;
