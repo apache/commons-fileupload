@@ -61,7 +61,7 @@ Bug
  * [FILEUPLOAD-183] - commons-io dependency does not get loaded by maven if only dependency to commons-fileupload is specified
  * [FILEUPLOAD-185] - http://commons.apache.org/fileupload/index.html is out of date
  * [FILEUPLOAD-186] - http://commons.apache.org/fileupload/index.html should not mention nightly builds
- * [FILEUPLOAD-189] - DiskFileItemFactory use of FileCleaningTracker is documated or coded wrong
+ * [FILEUPLOAD-189] - DiskFileItemFactory use of FileCleaningTracker is documented or coded wrong
  * [FILEUPLOAD-195] - Error reading the file size larger than 2 gb
  * [FILEUPLOAD-197] - ServletFileUpload isMultipartContent method does not support HTTP PUT
  * [FILEUPLOAD-204] - FileItem.getHeaders() returns always null.

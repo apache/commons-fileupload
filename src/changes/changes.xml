@@ -73,31 +73,31 @@ The <action> type attribute can be add,update,fix,remove.
         Mark @deprecated classes/methods with @Deprecated annotation
       </action>
       <!-- Bug -->
-      <action issue="FILEUPLOAD-173">
+      <action issue="FILEUPLOAD-173" dev="simonetripodi" type="fix" due-to="Bjorn Harvold">
         Manifest for OSGi has invalid syntax
       </action>
-      <action issue="FILEUPLOAD-183">
+      <action issue="FILEUPLOAD-183" dev="simonetripodi" type="fix" due-to="Roman Arkadijovych Muntyanu">
         commons-io dependency does not get loaded by maven if only dependency to commons-fileupload is specified
       </action>
-      <action issue="FILEUPLOAD-185">
+      <action issue="FILEUPLOAD-185" dev="simonetripodi" type="fix" due-to="Sebb">
         http://commons.apache.org/fileupload/index.html is out of date
       </action>
-      <action issue="FILEUPLOAD-186">
+      <action issue="FILEUPLOAD-186" dev="simonetripodi" type="fix" due-to="Sebb">
         http://commons.apache.org/fileupload/index.html should not mention nightly builds
       </action>
-      <action issue="FILEUPLOAD-189">
-        DiskFileItemFactory use of FileCleaningTracker is documated or coded wrong
+      <action issue="FILEUPLOAD-189" dev="simonetripodi" type="fix" due-to="Gregor K">
+        DiskFileItemFactory use of FileCleaningTracker is documented or coded wrong
       </action>
-      <action issue="FILEUPLOAD-195">
-        Error reading the file size larger than 2 gb
+      <action issue="FILEUPLOAD-195" dev="simonetripodi" type="fix" due-to="Juliano Alves">
+        Error reading the file size larger than 2 gb - pull request from Gergely
       </action>
-      <action issue="FILEUPLOAD-197">
-        ServletFileUpload isMultipartContent method does not support HTTP PUT
+      <action issue="FILEUPLOAD-197" dev="simonetripodi" type="fix" due-to="David Wolverton">
+        ServletFileUpload isMultipartContent method does not support HTTP PUT - thanks Roy T. Fielding and Jochen  Wiedmann
       </action>
-      <action issue="FILEUPLOAD-204">
+      <action issue="FILEUPLOAD-204" dev="simonetripodi" type="fix">
         FileItem.getHeaders() returns always null.
       </action>
-      <action issue="FILEUPLOAD-214">
+      <action issue="FILEUPLOAD-214" dev="simonetripodi" type="fix">
         ServletFileUpload only accepts POST requests
       </action>
       <!-- Improvement -->
