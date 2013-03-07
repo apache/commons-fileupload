@@ -37,10 +37,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.InvalidFileNameException;
 import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.fileupload.util.Streams;
-import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -59,7 +57,7 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  *
  * <p>Temporary files, which are created for file items, should be
  * deleted later on. The best way to do this is using a
- * {@link FileCleaningTracker}, which you can set on the
+ * {@link org.apache.commons.io.FileCleaningTracker}, which you can set on the
  * {@link DiskFileItemFactory}. However, if you do use such a tracker,
  * then you must consider the following: Temporary files are automatically
  * deleted as soon as they are no longer needed. (More precisely, when the
@@ -259,10 +257,10 @@ public class DiskFileItem
      * Returns the original filename in the client's filesystem.
      *
      * @return The original filename in the client's filesystem.
-     * @throws InvalidFileNameException The file name contains a NUL character,
+     * @throws {@link org.apache.commons.fileupload.InvalidFileNameException} The file name contains a NUL character,
      *   which might be an indicator of a security attack. If you intend to
      *   use the file name anyways, catch the exception and use
-     *   InvalidFileNameException#getName().
+     *   {@link org.apache.commons.fileupload.InvalidFileNameException#getName()}.
      */
     public String getName() {
         return Streams.checkFileName(fileName);
