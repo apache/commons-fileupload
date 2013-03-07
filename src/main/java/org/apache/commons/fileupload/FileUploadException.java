@@ -97,6 +97,9 @@ public class FileUploadException extends Exception {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Throwable getCause() {
         return cause;
