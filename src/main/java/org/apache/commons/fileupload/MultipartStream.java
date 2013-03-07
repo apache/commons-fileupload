@@ -862,10 +862,8 @@ public class MultipartStream {
             if (closed) {
                 throw new FileItemStream.ItemSkippedException();
             }
-            if (available() == 0) {
-                if (makeAvailable() == 0) {
-                    return -1;
-                }
+            if (available() == 0 && makeAvailable() == 0) {
+                return -1;
             }
             ++total;
             int b = buffer[head++];
