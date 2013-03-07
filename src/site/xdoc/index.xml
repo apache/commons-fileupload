@@ -39,6 +39,14 @@
         "multipart/form-data", then FileUpload can parse that request, and
         make the results available in a manner easily used by the caller.
       </p>
+
+      <p>The simplest way to send a <i>multipart/form-data</i> request to a server is via a web form, i.e.</p>
+      <source><![CDATA[<form method="POST" enctype="multipart/form-data" action="fup.cgi">
+  File to upload: <input type="file" name="upfile"><br/>
+  Notes about the file: <input type="text" name="note"><br/>
+  <br/>
+  <input type="submit" value="Press"> to upload the file!
+</form>]]></source>
     </section>
 
     <section name="Documentation">
