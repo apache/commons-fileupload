@@ -1261,7 +1261,8 @@ public abstract class FileUploadBase {
      */
     public static class SizeLimitExceededException
             extends SizeException {
-        /** The exceptions UID, for serializing an instance.
+        /**
+         * The exceptions UID, for serializing an instance.
          */
         private static final long serialVersionUID = -2474893167098052828L;
 
