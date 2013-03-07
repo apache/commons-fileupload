@@ -143,6 +143,7 @@
         <module name="FileLength"/>
         <!-- Begin Custom for FileUpload -->
         <module name="LineLength">
+          <property name="max" value="120"/>
           <property name="ignorePattern" value="^ \* @version .*$"/>
         </module>
         <!-- End Custom for FileUpload -->
