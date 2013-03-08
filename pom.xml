@@ -33,7 +33,7 @@
     The FileUpload component provides a simple yet flexible means of adding support for multipart
     file upload functionality to servlets and web applications.
   </description>
-  <url>http://commons.apache.org/proper/fileupload/</url>
+  <url>http://commons.apache.org/proper/commons-fileupload/</url>
   <inceptionYear>2002</inceptionYear>
 
   <developers>
