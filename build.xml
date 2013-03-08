@@ -252,7 +252,7 @@
     <jar jarfile="${maven.build.dir}/${maven.build.finalName}.jar" 
          compress="true" 
          index="false" 
-         manifest="/Users/stripodi/Documents/apache-workspace/commons-fileupload/target/osgi/MANIFEST.MF" 
+         manifest="${commons.manifestfile}" 
          basedir="${maven.build.outputDir}" 
          excludes="**/package.html">
       <manifest>
