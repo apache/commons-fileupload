@@ -30,6 +30,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * @version $Id$
  */
 public abstract class FileUploadTestCase {
+
     protected static final String CONTENT_TYPE = "multipart/form-data; boundary=---1234";
 
     protected List<FileItem> parseUpload(byte[] bytes) throws FileUploadException {
@@ -45,9 +46,9 @@ public abstract class FileUploadTestCase {
     }
 
     protected List<FileItem> parseUpload(String content)
-        throws UnsupportedEncodingException, FileUploadException
-    {
+        throws UnsupportedEncodingException, FileUploadException {
         byte[] bytes = content.getBytes("US-ASCII");
         return parseUpload(bytes, CONTENT_TYPE);
     }
+
 }

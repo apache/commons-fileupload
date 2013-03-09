@@ -38,8 +38,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class DiskFileItemSerializeTest
-{
+public class DiskFileItemSerializeTest {
 
     /**
      * Content type for regular form items.
@@ -56,9 +55,7 @@ public class DiskFileItemSerializeTest
      * configured threshold.
      */
     @Test
-    public void testBelowThreshold() throws Exception
-    {
-
+    public void testBelowThreshold() throws Exception {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold - 1);
         FileItem item = createFileItem(testFieldValueBytes);
@@ -77,7 +74,6 @@ public class DiskFileItemSerializeTest
 
         // Compare FileItem's (except byte[])
         compareFileItems(item, newItem);
-
     }
 
     /**
@@ -105,7 +101,6 @@ public class DiskFileItemSerializeTest
 
         // Compare FileItem's (except byte[])
         compareFileItems(item, newItem);
-
     }
 
     /**
@@ -114,7 +109,6 @@ public class DiskFileItemSerializeTest
      */
     @Test
     public void testAboveThreshold() throws Exception {
-
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold + 1);
         FileItem item = createFileItem(testFieldValueBytes);
@@ -187,14 +181,11 @@ public class DiskFileItemSerializeTest
                 true,
                 "My File Name"
         );
-        try
-        {
+        try {
             OutputStream os = item.getOutputStream();
             os.write(contentBytes);
             os.close();
-        }
-        catch(IOException e)
-        {
+        } catch(IOException e) {
             fail("Unexpected IOException" + e);
         }
 
@@ -206,7 +197,6 @@ public class DiskFileItemSerializeTest
      * Do serialization and deserialization.
      */
     private Object serializeDeserialize(Object target) {
-
         // Serialize the test object
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
@@ -230,7 +220,6 @@ public class DiskFileItemSerializeTest
             fail("Exception during deserialization: " + e);
         }
         return result;
-
     }
 
 }

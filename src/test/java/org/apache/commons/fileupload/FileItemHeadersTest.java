@@ -33,6 +33,7 @@ import org.junit.Test;
  * @version $Id$
  */
 public class FileItemHeadersTest {
+
     /**
      * @throws Exception
      */
