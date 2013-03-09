@@ -43,13 +43,6 @@ import org.apache.commons.fileupload.FileUploadException;
  * used to create them; a given part may be in memory, on disk, or somewhere
  * else.</p>
  *
- * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
- * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
- * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @author <a href="mailto:jmcnally@collab.net">John McNally</a>
- * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
- * @author Sean C. Sullivan
- *
  * @since FileUpload 1.1
  *
  * @version $Id$

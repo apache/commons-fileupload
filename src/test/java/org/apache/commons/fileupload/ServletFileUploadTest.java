@@ -34,10 +34,6 @@ import org.junit.Test;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
- *
- * @author <a href="mailto:jmcnally@apache.org">John McNally</a>
- * @author Sean C. Sullivan
- *
  */
 public class ServletFileUploadTest extends FileUploadTestCase
 {

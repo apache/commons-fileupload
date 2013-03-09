@@ -20,7 +20,6 @@ package org.apache.commons.fileupload;
  * Interface that will indicate that {@link FileItem} or {@link FileItemStream}
  * implementations will accept the headers read for the item.
  *
- * @author Michael C. Macaluso
  * @since 1.2.1
  *
  * @see FileItem
