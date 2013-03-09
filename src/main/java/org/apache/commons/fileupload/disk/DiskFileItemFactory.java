@@ -65,8 +65,6 @@ import org.apache.commons.io.FileCleaningTracker;
  * your web application ends. See the section on "Resource cleanup"
  * in the users guide of commons-fileupload.</p>
  *
- * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
- *
  * @since FileUpload 1.1
  *
  * @version $Id$

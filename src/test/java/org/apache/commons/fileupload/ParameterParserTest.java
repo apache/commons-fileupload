@@ -26,14 +26,12 @@ import org.junit.Test;
 /**
  * Unit tests for {@link ParameterParser}.
  *
- * @author <a href="mailto:oleg@ural.ru">Oleg Kalnichevski</a>
+ * @version $Id$
  */
-public class ParameterParserTest
-{
+public class ParameterParserTest {
 
     @Test
-    public void testParsing()
-    {
+    public void testParsing() {
         String s =
             "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
         ParameterParser parser = new ParameterParser();
@@ -70,8 +68,7 @@ public class ParameterParserTest
     }
 
     @Test
-    public void testContentTypeParsing()
-    {
+    public void testContentTypeParsing() {
         String s = "text/plain; Charset=UTF-8";
         ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
@@ -80,8 +77,7 @@ public class ParameterParserTest
     }
 
     @Test
-    public void testParsingEscapedChars()
-    {
+    public void testParsingEscapedChars() {
         String s = "param = \"stuff\\\"; more stuff\"";
         ParameterParser parser = new ParameterParser();
         Map<String, String> params = parser.parse(s, ';');
@@ -97,8 +93,7 @@ public class ParameterParserTest
 
     // See: http://issues.apache.org/jira/browse/FILEUPLOAD-139
     @Test
-    public void testFileUpload139()
-    {
+    public void testFileUpload139() {
         ParameterParser parser = new ParameterParser();
         String s = "Content-type: multipart/form-data , boundary=AaB03x";
         Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
@@ -112,4 +107,5 @@ public class ParameterParserTest
         params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("BbC04y", params.get("boundary"));
     }
+
 }

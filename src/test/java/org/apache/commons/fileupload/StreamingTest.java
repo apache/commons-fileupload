@@ -33,18 +33,18 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
 
 import junit.framework.TestCase;
 
-
 /**
  * Unit test for items with varying sizes.
+ *
+ * @version $Id$
  */
-public class StreamingTest extends TestCase
-{
+public class StreamingTest extends TestCase {
+
     /**
      * Tests a file upload with varying file sizes.
      */
     public void testFileUpload()
-            throws IOException, FileUploadException
-    {
+            throws IOException, FileUploadException {
         byte[] request = newRequest();
         List<FileItem> fileItems = parseUpload(request);
         Iterator<FileItem> fileIter = fileItems.iterator();
@@ -64,7 +64,6 @@ public class StreamingTest extends TestCase
         }
         assertTrue(!fileIter.hasNext());
     }
-
 
     /**
      * Tests, whether an invalid request throws a proper
@@ -124,8 +123,7 @@ public class StreamingTest extends TestCase
      * Test for FILEUPLOAD-135
      */
     public void testFILEUPLOAD135()
-            throws IOException, FileUploadException
-    {
+            throws IOException, FileUploadException {
         byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
         List<FileItem> fileItems = parseUpload(new InputStream() {
@@ -275,4 +273,5 @@ public class StreamingTest extends TestCase
             assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
         }
     }
+
 }

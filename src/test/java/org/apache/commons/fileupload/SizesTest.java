@@ -31,18 +31,19 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.junit.Test;
 
-
 /**
  * Unit test for items with varying sizes.
+ *
+ * @version $Id$
  */
-public class SizesTest extends FileUploadTestCase
-{
-    /** Runs a test with varying file sizes.
+public class SizesTest extends FileUploadTestCase {
+
+    /**
+     * Runs a test with varying file sizes.
      */
     @Test
     public void testFileUpload()
-            throws IOException, FileUploadException
-    {
+            throws IOException, FileUploadException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int add = 16;
         int num = 0;
@@ -84,8 +85,7 @@ public class SizesTest extends FileUploadTestCase
      */
     @Test
     public void testFileSizeLimit()
-            throws IOException, FileUploadException
-    {
+            throws IOException, FileUploadException {
         final String request =
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
@@ -121,4 +121,5 @@ public class SizesTest extends FileUploadTestCase
             assertEquals(30, e.getPermittedSize());
         }
     }
+
 }

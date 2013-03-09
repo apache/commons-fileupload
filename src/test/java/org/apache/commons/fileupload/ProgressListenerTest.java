@@ -27,19 +27,28 @@ import java.io.InputStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.junit.Test;
 
-
-/** Tests the progress listener.
+/**
+ * Tests the progress listener.
+ *
+ * @version $Id$
  */
 public class ProgressListenerTest extends FileUploadTestCase {
+
     private class ProgressListenerImpl implements ProgressListener {
+
         private final long expectedContentLength;
+
         private final int expectedItems;
+
         private Long bytesRead;
+
         private Integer items;
+
         ProgressListenerImpl(long pContentLength, int pItems) {
             expectedContentLength = pContentLength;
             expectedItems = pItems;
         }
+
         public void update(long pBytesRead, long pContentLength, int pItems) {
             assertTrue(pBytesRead >= 0  &&  pBytesRead <= expectedContentLength);
             assertTrue(pContentLength == -1  ||  pContentLength == expectedContentLength);
@@ -50,10 +59,12 @@ public class ProgressListenerTest extends FileUploadTestCase {
             assertTrue(items == null  ||  pItems >= items.intValue());
             items = new Integer(pItems);
         }
+
         void checkFinished(){
             assertEquals(expectedContentLength, bytesRead.longValue());
             assertEquals(expectedItems, items.intValue());
         }
+
     }
 
     /**
@@ -113,4 +124,5 @@ public class ProgressListenerTest extends FileUploadTestCase {
         assertTrue(!iter.hasNext());
         listener.checkFinished();
     }
+
 }

@@ -33,19 +33,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- *
- *
- *
- *
- *
+ * @version $Id$
  */
-class MockHttpServletRequest implements HttpServletRequest
-{
+class MockHttpServletRequest implements HttpServletRequest {
 
     private final InputStream m_requestData;
+
     private final long length;
+
     private String m_strContentType;
+
     private final Map<String, String> m_headers = new java.util.HashMap<String, String>();
 
     /**
@@ -54,8 +51,7 @@ class MockHttpServletRequest implements HttpServletRequest
      */
     public MockHttpServletRequest(
             final byte[] requestData,
-            final String strContentType)
-    {
+            final String strContentType) {
         this(new ByteArrayInputStream(requestData),
                 requestData.length, strContentType);
     }
@@ -67,8 +63,7 @@ class MockHttpServletRequest implements HttpServletRequest
     public MockHttpServletRequest(
             final InputStream requestData,
             final long requestLength,
-            final String strContentType)
-    {
+            final String strContentType) {
         m_requestData = requestData;
         length = requestLength;
         m_strContentType = strContentType;
@@ -78,40 +73,35 @@ class MockHttpServletRequest implements HttpServletRequest
     /**
      * @see javax.servlet.http.HttpServletRequest#getAuthType()
      */
-    public String getAuthType()
-    {
+    public String getAuthType() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getCookies()
      */
-    public Cookie[] getCookies()
-    {
+    public Cookie[] getCookies() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getDateHeader(String)
      */
-    public long getDateHeader(String arg0)
-    {
+    public long getDateHeader(String arg0) {
         return 0;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getHeader(String)
      */
-    public String getHeader(String headerName)
-    {
+    public String getHeader(String headerName) {
         return m_headers.get(headerName);
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getHeaders(String)
      */
-    public Enumeration<String> getHeaders(String arg0)
-    {
+    public Enumeration<String> getHeaders(String arg0) {
         // todo - implement
         return null;
     }
@@ -119,8 +109,7 @@ class MockHttpServletRequest implements HttpServletRequest
     /**
      * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
      */
-    public Enumeration<String> getHeaderNames()
-    {
+    public Enumeration<String> getHeaderNames() {
         // todo - implement
         return null;
     }
@@ -128,144 +117,126 @@ class MockHttpServletRequest implements HttpServletRequest
     /**
      * @see javax.servlet.http.HttpServletRequest#getIntHeader(String)
      */
-    public int getIntHeader(String arg0)
-    {
+    public int getIntHeader(String arg0) {
         return 0;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getMethod()
      */
-    public String getMethod()
-    {
+    public String getMethod() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getPathInfo()
      */
-    public String getPathInfo()
-    {
+    public String getPathInfo() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getPathTranslated()
      */
-    public String getPathTranslated()
-    {
+    public String getPathTranslated() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getContextPath()
      */
-    public String getContextPath()
-    {
+    public String getContextPath() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getQueryString()
      */
-    public String getQueryString()
-    {
+    public String getQueryString() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getRemoteUser()
      */
-    public String getRemoteUser()
-    {
+    public String getRemoteUser() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#isUserInRole(String)
      */
-    public boolean isUserInRole(String arg0)
-    {
+    public boolean isUserInRole(String arg0) {
         return false;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getUserPrincipal()
      */
-    public Principal getUserPrincipal()
-    {
+    public Principal getUserPrincipal() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getRequestedSessionId()
      */
-    public String getRequestedSessionId()
-    {
+    public String getRequestedSessionId() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getRequestURI()
      */
-    public String getRequestURI()
-    {
+    public String getRequestURI() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getRequestURL()
      */
-    public StringBuffer getRequestURL()
-    {
+    public StringBuffer getRequestURL() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getServletPath()
      */
-    public String getServletPath()
-    {
+    public String getServletPath() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getSession(boolean)
      */
-    public HttpSession getSession(boolean arg0)
-    {
+    public HttpSession getSession(boolean arg0) {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#getSession()
      */
-    public HttpSession getSession()
-    {
+    public HttpSession getSession() {
         return null;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid()
      */
-    public boolean isRequestedSessionIdValid()
-    {
+    public boolean isRequestedSessionIdValid() {
         return false;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie()
      */
-    public boolean isRequestedSessionIdFromCookie()
-    {
+    public boolean isRequestedSessionIdFromCookie() {
         return false;
     }
 
     /**
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL()
      */
-    public boolean isRequestedSessionIdFromURL()
-    {
+    public boolean isRequestedSessionIdFromURL() {
         return false;
     }
 
@@ -274,32 +245,28 @@ class MockHttpServletRequest implements HttpServletRequest
      * @deprecated
      */
     @Deprecated
-    public boolean isRequestedSessionIdFromUrl()
-    {
+    public boolean isRequestedSessionIdFromUrl() {
         return false;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getAttribute(String)
      */
-    public Object getAttribute(String arg0)
-    {
+    public Object getAttribute(String arg0) {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getAttributeNames()
      */
-    public Enumeration<String> getAttributeNames()
-    {
+    public Enumeration<String> getAttributeNames() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getCharacterEncoding()
      */
-    public String getCharacterEncoding()
-    {
+    public String getCharacterEncoding() {
         return null;
     }
 
@@ -307,23 +274,18 @@ class MockHttpServletRequest implements HttpServletRequest
      * @see javax.servlet.ServletRequest#setCharacterEncoding(String)
      */
     public void setCharacterEncoding(String arg0)
-        throws UnsupportedEncodingException
-    {
+        throws UnsupportedEncodingException {
     }
 
     /**
      * @see javax.servlet.ServletRequest#getContentLength()
      */
-    public int getContentLength()
-    {
+    public int getContentLength() {
         int iLength = 0;
 
-        if (null == m_requestData)
-        {
+        if (null == m_requestData) {
             iLength = -1;
-        }
-        else
-        {
+        } else {
             if (length > Integer.MAX_VALUE) {
                 throw new RuntimeException("Value '" + length + "' is too large to be converted to int");
             }
@@ -335,16 +297,14 @@ class MockHttpServletRequest implements HttpServletRequest
     /**
      * @see javax.servlet.ServletRequest#getContentType()
      */
-    public String getContentType()
-    {
+    public String getContentType() {
         return m_strContentType;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getInputStream()
      */
-    public ServletInputStream getInputStream() throws IOException
-    {
+    public ServletInputStream getInputStream() throws IOException {
         ServletInputStream sis = new MyServletInputStream(m_requestData);
         return sis;
     }
@@ -352,166 +312,145 @@ class MockHttpServletRequest implements HttpServletRequest
     /**
      * @see javax.servlet.ServletRequest#getParameter(String)
      */
-    public String getParameter(String arg0)
-    {
+    public String getParameter(String arg0) {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getParameterNames()
      */
-    public Enumeration<String> getParameterNames()
-    {
+    public Enumeration<String> getParameterNames() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getParameterValues(String)
      */
-    public String[] getParameterValues(String arg0)
-    {
+    public String[] getParameterValues(String arg0) {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getParameterMap()
      */
-    public Map<String, String[]> getParameterMap()
-    {
+    public Map<String, String[]> getParameterMap() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getProtocol()
      */
-    public String getProtocol()
-    {
+    public String getProtocol() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getScheme()
      */
-    public String getScheme()
-    {
+    public String getScheme() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getServerName()
      */
-    public String getServerName()
-    {
+    public String getServerName() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getLocalName()
      */
-    public String getLocalName()
-    {
+    public String getLocalName() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getServerPort()
      */
-    public int getServerPort()
-    {
+    public int getServerPort() {
         return 0;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getLocalPort()
      */
-    public int getLocalPort()
-    {
+    public int getLocalPort() {
         return 0;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getRemotePort()
      */
-    public int getRemotePort()
-    {
+    public int getRemotePort() {
         return 0;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getReader()
      */
-    public BufferedReader getReader() throws IOException
-    {
+    public BufferedReader getReader() throws IOException {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getRemoteAddr()
      */
-    public String getRemoteAddr()
-    {
+    public String getRemoteAddr() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getLocalAddr()
      */
-    public String getLocalAddr()
-    {
+    public String getLocalAddr() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getRemoteHost()
      */
-    public String getRemoteHost()
-    {
+    public String getRemoteHost() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#setAttribute(String, Object)
      */
-    public void setAttribute(String arg0, Object arg1)
-    {
+    public void setAttribute(String arg0, Object arg1) {
     }
 
     /**
      * @see javax.servlet.ServletRequest#removeAttribute(String)
      */
-    public void removeAttribute(String arg0)
-    {
+    public void removeAttribute(String arg0) {
     }
 
     /**
      * @see javax.servlet.ServletRequest#getLocale()
      */
-    public Locale getLocale()
-    {
+    public Locale getLocale() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getLocales()
      */
-    public Enumeration<Locale> getLocales()
-    {
+    public Enumeration<Locale> getLocales() {
         return null;
     }
 
     /**
      * @see javax.servlet.ServletRequest#isSecure()
      */
-    public boolean isSecure()
-    {
+    public boolean isSecure() {
         return false;
     }
 
     /**
      * @see javax.servlet.ServletRequest#getRequestDispatcher(String)
      */
-    public RequestDispatcher getRequestDispatcher(String arg0)
-    {
+    public RequestDispatcher getRequestDispatcher(String arg0) {
         return null;
     }
 
@@ -520,8 +459,7 @@ class MockHttpServletRequest implements HttpServletRequest
      * @deprecated
      */
     @Deprecated
-    public String getRealPath(String arg0)
-    {
+    public String getRealPath(String arg0) {
         return null;
     }
 
@@ -532,29 +470,28 @@ class MockHttpServletRequest implements HttpServletRequest
      *
      */
     private static class MyServletInputStream
-        extends javax.servlet.ServletInputStream
-    {
+        extends javax.servlet.ServletInputStream {
+
         private final InputStream in;
 
         /**
          * Creates a new instance, which returns the given
          * streams data.
          */
-        public MyServletInputStream(InputStream pStream)
-        {
+        public MyServletInputStream(InputStream pStream) {
             in = pStream;
         }
 
         @Override
-        public int read() throws IOException
-        {
+        public int read() throws IOException {
             return in.read();
         }
 
         @Override
-        public int read(byte b[], int off, int len) throws IOException
-        {
+        public int read(byte b[], int off, int len) throws IOException {
             return in.read(b, off, len);
         }
+
     }
+
 }

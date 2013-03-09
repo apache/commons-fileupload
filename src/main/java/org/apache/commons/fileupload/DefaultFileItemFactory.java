@@ -37,8 +37,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
  * </ul>
  * </p>
  *
- * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
- *
  * @version $Id$
  *
  * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.

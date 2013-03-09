@@ -34,6 +34,7 @@
         <exclude>**/bin/</exclude>
         <exclude>**/.externalToolBuilders/</exclude>
         <exclude>**/target/</exclude>
+        <exclude>**/download*.cgi</exclude>
       </excludes>
     </fileSet>
   </fileSets>

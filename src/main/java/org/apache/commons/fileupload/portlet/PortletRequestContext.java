@@ -29,8 +29,6 @@ import org.apache.commons.fileupload.RequestContext;
  * <p>Provides access to the request information needed for a request made to
  * a portlet.</p>
  *
- * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
- *
  * @since FileUpload 1.1
  *
  * @version $Id$

@@ -19,17 +19,11 @@ package org.apache.commons.fileupload;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- *
- *
- *
- *
- *
- *
+ * @version $Id$
  */
-final class HttpServletRequestFactory
-{
-    static public HttpServletRequest createHttpServletRequestWithNullContentType()
-    {
+final class HttpServletRequestFactory {
+
+    static public HttpServletRequest createHttpServletRequestWithNullContentType() {
         byte[] requestData = "foobar".getBytes();
         return new MockHttpServletRequest(
                             requestData,
@@ -37,8 +31,7 @@ final class HttpServletRequestFactory
     }
 
     static public HttpServletRequest createValidHttpServletRequest(
-            final String[] strFileNames)
-    {
+            final String[] strFileNames) {
         // todo - provide a real implementation
 
         StringBuffer sbRequestData = new StringBuffer();
@@ -56,11 +49,11 @@ final class HttpServletRequestFactory
                             FileUploadBase.MULTIPART_FORM_DATA);
     }
 
-    static public HttpServletRequest createInvalidHttpServletRequest()
-    {
+    static public HttpServletRequest createInvalidHttpServletRequest() {
         byte[] requestData = "foobar".getBytes();
         return new MockHttpServletRequest(
                             requestData,
                             FileUploadBase.MULTIPART_FORM_DATA);
     }
+
 }

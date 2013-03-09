@@ -30,9 +30,10 @@ import org.junit.Test;
  * Unit tests {@link FileItemHeaders} and
  * {@link FileItemHeadersImpl}.
  *
- * @author Michael C. Macaluso
+ * @version $Id$
  */
 public class FileItemHeadersTest {
+
     /**
      * @throws Exception
      */

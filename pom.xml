@@ -146,6 +146,22 @@
       <name>frank</name>
       <email>mailsurfie@gmail.com</email>
     </contributor>
+    <contributor>
+      <name>Rafal Krzewski</name>
+      <email>Rafal.Krzewski@e-point.pl</email>
+    </contributor>
+    <contributor>
+      <name>Sean Legassick</name>
+      <email>sean@informage.net</email>
+    </contributor>
+    <contributor>
+      <name>Oleg Kalnichevski</name>
+      <email>oleg@ural.ru</email>
+    </contributor>
+    <contributor>
+      <name>David Sean Taylor</name>
+      <email>taylor@apache.org</email>
+    </contributor>
   </contributors>
 
   <scm>
@@ -273,19 +289,5 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <profiles>
-    <profile>
-      <id>rc</id>
-      <distributionManagement>
-        <!-- Cannot define in parent ATM, see COMMONSSITE-26 -->
-        <site>
-          <id>apache.website</id>
-          <name>Apache Commons Release Candidate Staging Site</name>
-          <url>${commons.deployment.protocol}://people.apache.org/www/people.apache.org/builds/commons/${commons.componentid}/${commons.release.version}/${commons.rc.version}/site</url>
-        </site>
-      </distributionManagement>
-    </profile>
-  </profiles>
 
 </project>

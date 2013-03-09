@@ -16,19 +16,16 @@
  */
 package org.apache.commons.fileupload;
 
-
 import junit.framework.TestCase;
 import java.io.*;
-
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.MultipartStream}.
  *
- * @author Sean C. Sullivan
- * 
+ * @version $Id$
  */
-public class MultipartStreamTest extends TestCase
-{
+public class MultipartStreamTest extends TestCase {
+
     static private final String BOUNDARY_TEXT = "myboundary";
 
     public void testThreeParamConstructor() throws Exception {
@@ -56,4 +53,5 @@ public class MultipartStreamTest extends TestCase
                 new MultipartStream.ProgressNotifier(null, contents.length));
         assertNotNull(ms);
     }
+
 }
