@@ -23,9 +23,6 @@ import java.io.*;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.MultipartStream}.
- *
- * @author Sean C. Sullivan
- * 
  */
 public class MultipartStreamTest extends TestCase
 {

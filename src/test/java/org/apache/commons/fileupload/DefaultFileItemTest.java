@@ -34,8 +34,6 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link org.apache.commons.fileupload.DefaultFileItem}.
- *
- * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
  */
 public class DefaultFileItemTest
  {

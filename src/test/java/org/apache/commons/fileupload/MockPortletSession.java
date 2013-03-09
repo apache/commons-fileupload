@@ -25,7 +25,6 @@ import javax.portlet.PortletSession;
  * A mock portlet session, useful for unit testing and offline utilities
  * Note: currently doesn't support scoping
  *
- * @author <a href="mailto:taylor@apache.org">David Sean Taylor</a>
  * @version $Id$
  */
 public class MockPortletSession implements PortletSession

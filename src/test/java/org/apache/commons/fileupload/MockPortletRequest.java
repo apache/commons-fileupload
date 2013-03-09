@@ -31,7 +31,6 @@ import javax.portlet.WindowState;
 /**
  * A mock portlet request, useful for unit testing and offline utilities
  *
- * @author <a href="mailto:taylor@apache.org">David Sean Taylor</a>
  * @version $Id$
  */
 public class MockPortletRequest implements PortletRequest

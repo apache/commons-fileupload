@@ -146,6 +146,22 @@
       <name>frank</name>
       <email>mailsurfie@gmail.com</email>
     </contributor>
+    <contributor>
+      <name>Rafal Krzewski</name>
+      <email>Rafal.Krzewski@e-point.pl</email>
+    </contributor>
+    <contributor>
+      <name>Sean Legassick</name>
+      <email>sean@informage.net</email>
+    </contributor>
+    <contributor>
+      <name>Oleg Kalnichevski</name>
+      <email>oleg@ural.ru</email>
+    </contributor>
+    <contributor>
+      <name>David Sean Taylor</name>
+      <email>taylor@apache.org</email>
+    </contributor>
   </contributors>
 
   <scm>

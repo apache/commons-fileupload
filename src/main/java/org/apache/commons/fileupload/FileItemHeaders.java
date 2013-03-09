@@ -23,7 +23,6 @@ import java.util.Iterator;
  * item that was received within a <code>multipart/form-data</code> POST
  * request.</p>
  *
- * @author Michael C. Macaluso
  * @since 1.2.1
  */
 public interface FileItemHeaders {

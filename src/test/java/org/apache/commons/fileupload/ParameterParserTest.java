@@ -25,8 +25,6 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link ParameterParser}.
- *
- * @author <a href="mailto:oleg@ural.ru">Oleg Kalnichevski</a>
  */
 public class ParameterParserTest
 {
