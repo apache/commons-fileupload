@@ -30,6 +30,8 @@ import org.apache.commons.fileupload.FileItemHeaders;
  * Default implementation of the {@link FileItemHeaders} interface.
  *
  * @since 1.2.1
+ *
+ * @version $Id$
  */
 public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
 

@@ -26,6 +26,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * Base class for deriving test cases.
+ *
+ * @version $Id$
  */
 public abstract class FileUploadTestCase {
     protected static final String CONTENT_TYPE = "multipart/form-data; boundary=---1234";

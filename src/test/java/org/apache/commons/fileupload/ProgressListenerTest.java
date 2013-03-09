@@ -28,7 +28,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.junit.Test;
 
 
-/** Tests the progress listener.
+/**
+ * Tests the progress listener.
+ *
+ * @version $Id$
  */
 public class ProgressListenerTest extends FileUploadTestCase {
     private class ProgressListenerImpl implements ProgressListener {

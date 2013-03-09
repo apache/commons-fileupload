@@ -29,6 +29,8 @@ import org.junit.Test;
 /**
  * Unit tests {@link FileItemHeaders} and
  * {@link FileItemHeadersImpl}.
+ *
+ * @version $Id$
  */
 public class FileItemHeadersTest {
     /**

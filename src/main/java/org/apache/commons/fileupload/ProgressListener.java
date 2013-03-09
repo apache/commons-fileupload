@@ -19,6 +19,8 @@ package org.apache.commons.fileupload;
 /**
  * The {@link ProgressListener} may be used to display a progress bar
  * or do stuff like that.
+ *
+ * @version $Id$
  */
 public interface ProgressListener {
 
