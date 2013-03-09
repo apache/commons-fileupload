@@ -24,6 +24,8 @@ import java.util.Iterator;
  * request.</p>
  *
  * @since 1.2.1
+ *
+ * @version $Id$
  */
 public interface FileItemHeaders {
 

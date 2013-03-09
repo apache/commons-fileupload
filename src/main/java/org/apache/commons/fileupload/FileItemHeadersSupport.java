@@ -24,6 +24,8 @@ package org.apache.commons.fileupload;
  *
  * @see FileItem
  * @see FileItemStream
+ *
+ * @version $Id$
  */
 public interface FileItemHeadersSupport {
 

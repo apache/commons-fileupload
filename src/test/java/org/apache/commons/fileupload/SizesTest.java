@@ -34,6 +34,8 @@ import org.junit.Test;
 
 /**
  * Unit test for items with varying sizes.
+ *
+ * @version $Id$
  */
 public class SizesTest extends FileUploadTestCase
 {

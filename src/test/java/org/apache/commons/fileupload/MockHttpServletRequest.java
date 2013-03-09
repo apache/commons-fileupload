@@ -33,12 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- *
- *
- *
- *
- *
+ * @version $Id$
  */
 class MockHttpServletRequest implements HttpServletRequest
 {
