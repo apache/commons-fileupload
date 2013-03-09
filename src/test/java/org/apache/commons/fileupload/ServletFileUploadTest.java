@@ -30,18 +30,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 
-@SuppressWarnings("deprecation") // unit tests for deprecated class
-
 /**
  * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
  *
  * @version $Id$
  */
-public class ServletFileUploadTest extends FileUploadTestCase
-{
+@SuppressWarnings("deprecation") // unit tests for deprecated class
+public class ServletFileUploadTest extends FileUploadTestCase {
+
     @Test
-    public void testWithInvalidRequest()
-    {
+    public void testWithInvalidRequest() {
         FileUploadBase fu = null;
 
         fu = new DiskFileUpload();
@@ -58,36 +56,27 @@ public class ServletFileUploadTest extends FileUploadTestCase
         {
             // this exception is expected
         }
-
     }
 
     @Test
-    public void testWithNullContentType()
-    {
+    public void testWithNullContentType() {
         FileUploadBase fu = new DiskFileUpload();
 
         HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
 
-        try
-        {
+        try {
             fu.parseRequest(req);
             fail("testWithNullContentType: expected exception was not thrown");
-        }
-        catch (DiskFileUpload.InvalidContentTypeException expected)
-        {
+        } catch (DiskFileUpload.InvalidContentTypeException expected) {
             // this exception is expected
-        }
-        catch (FileUploadException unexpected)
-        {
+        } catch (FileUploadException unexpected) {
             fail("testWithNullContentType: unexpected exception was thrown");
         }
-
     }
 
     @Test
     public void testFileUpload()
-            throws IOException, FileUploadException
-    {
+            throws IOException, FileUploadException {
         List<FileItem> fileItems = parseUpload("-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
@@ -134,8 +123,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
 
     @Test
     public void testFilenameCaseSensitivity()
-            throws IOException, FileUploadException
-    {
+            throws IOException, FileUploadException {
         List<FileItem> fileItems = parseUpload("-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
@@ -155,8 +143,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
      */
     @Test
     public void testEmptyFile()
-            throws UnsupportedEncodingException, FileUploadException
-    {
+            throws UnsupportedEncodingException, FileUploadException {
         List<FileItem> fileItems = parseUpload ("-----1234\r\n" +
                                                 "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
                                                 "\r\n" +
@@ -177,8 +164,7 @@ public class ServletFileUploadTest extends FileUploadTestCase
      */
     @Test
     public void testIE5MacBug()
-            throws UnsupportedEncodingException, FileUploadException
-    {
+            throws UnsupportedEncodingException, FileUploadException {
         List<FileItem> fileItems = parseUpload("-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"field1\"\r\n" +
                                                "\r\n" +
@@ -316,14 +302,12 @@ public class ServletFileUploadTest extends FileUploadTestCase
         assertEquals("value2", multi1.getString());
     }
 
-
     /**
      * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-130">
      */
     @Test
     public void testFileUpload130()
-            throws Exception
-    {
+            throws Exception {
         final String[] headerNames = new String[]
         {
             "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader"
@@ -373,19 +357,15 @@ public class ServletFileUploadTest extends FileUploadTestCase
     }
 
     private void assertHeaders(String[] pHeaderNames, String[] pHeaderValues,
-                               FileItem pItem, int pIndex)
-    {
-        for (int i = 0;  i < pHeaderNames.length;  i++)
-        {
+                               FileItem pItem, int pIndex) {
+        for (int i = 0;  i < pHeaderNames.length;  i++) {
             final String value = pItem.getHeaders().getHeader(pHeaderNames[i]);
-            if (i == pIndex)
-            {
+            if (i == pIndex) {
                 assertEquals(pHeaderValues[i], value);
-            }
-            else
-            {
+            } else {
                 assertNull(value);
             }
         }
     }
+
 }
