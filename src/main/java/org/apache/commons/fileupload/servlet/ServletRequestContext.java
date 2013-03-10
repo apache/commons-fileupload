@@ -96,7 +96,7 @@ public class ServletRequestContext implements RequestContext {
         try {
             size = Long.parseLong(request.getHeader(FileUploadBase.CONTENT_LENGTH));
         } catch (NumberFormatException e) {
-            size = -1;
+            size = request.getContentLength();
         }
         return size;
     }
