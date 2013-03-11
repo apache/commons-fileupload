@@ -919,26 +919,25 @@ public abstract class FileUploadBase {
 
             if (sizeMax >= 0) {
                 long requestSize = ctx.contentLength();
-                if (requestSize == -1) {
-                    input = new LimitedInputStream(input, sizeMax) {
-                        @Override
-                        protected void raiseError(long pSizeMax, long pCount)
-                                throws IOException {
-                            FileUploadException ex = new SizeLimitExceededException(
-                            format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                                   pCount, pSizeMax),
-                                   pCount, pSizeMax);
-                            throw new FileUploadIOException(ex);
-                        }
-                    };
-                } else {
-                    if (sizeMax >= 0 && requestSize > sizeMax) {
+                if (requestSize != -1) {
+                    if (requestSize > sizeMax) {
                         throw new SizeLimitExceededException(
                             format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
                                    requestSize, sizeMax),
                                    requestSize, sizeMax);
                     }
                 }
+                input = new LimitedInputStream(input, sizeMax) {
+                    @Override
+                    protected void raiseError(long pSizeMax, long pCount)
+                            throws IOException {
+                        FileUploadException ex = new SizeLimitExceededException(
+                        format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
+                               pCount, pSizeMax),
+                               pCount, pSizeMax);
+                        throw new FileUploadIOException(ex);
+                    }
+                };
             }
 
             String charEncoding = headerEncoding;
