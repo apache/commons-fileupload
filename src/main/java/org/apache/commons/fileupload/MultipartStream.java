@@ -328,7 +328,7 @@ public class MultipartStream {
         this.buffer = new byte[bufSize];
         this.notifier = pNotifier;
 
-        // We prepend CR/LF to the boundary to chop trailng CR/LF from
+        // We prepend CR/LF to the boundary to chop trailing CR/LF from
         // body-data tokens.
         this.boundary = new byte[boundary.length + BOUNDARY_PREFIX.length];
         this.boundaryLength = boundary.length + BOUNDARY_PREFIX.length;
