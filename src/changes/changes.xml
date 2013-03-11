@@ -103,6 +103,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-214" dev="simonetripodi" type="fix" due-to="Matthew Runo">
         ServletFileUpload only accepts POST requests
       </action>
+      <action issue="FILEUPLOAD-228" dev="simonetripodi" type="fix" due-to="Thomas Neidhart"
+        (Servlet|Portlet)RequestContext#contentLength() must return request.getContentLength() if Content-length header is not available
+      </action>
       <!-- Improvement -->
       <action issue="FILEUPLOAD-182" dev="simonetripodi" type="add" due-to="Chris Lott">
         Documentation: add simple HTML form example to fileupload user guide
