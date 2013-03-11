@@ -63,6 +63,7 @@ Bug
  * [FILEUPLOAD-195] - Error reading the file size larger than 2 gb
  * [FILEUPLOAD-197] - ServletFileUpload isMultipartContent method does not support HTTP PUT
  * [FILEUPLOAD-204] - FileItem.getHeaders() returns always null.
+ * [FILEUPLOAD-212] - Insecure request size checking
  * [FILEUPLOAD-214] - ServletFileUpload only accepts POST requests
 
 Improvement
