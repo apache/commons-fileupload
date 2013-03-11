@@ -73,6 +73,9 @@ The <action> type attribute can be add,update,fix,remove.
         Mark @deprecated classes/methods with @Deprecated annotation
       </action>
       <!-- Bug -->
+      <action issue="FILEUPLOAD-143" dev="jochen" type="fix" due-to="Luke Scott">
+        Stream ended unexpectedly" when posting from a Flash client
+      </action>
       <action issue="FILEUPLOAD-173" dev="simonetripodi" type="fix" due-to="Bjorn Harvold">
         Manifest for OSGi has invalid syntax
       </action>
