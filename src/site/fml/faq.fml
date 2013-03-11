@@ -122,4 +122,56 @@
     </faq>
   </part>
 
+  <part id="flash">
+    <title>FileUpload and Flash</title>
+
+    <faq id="missing-boundary-terminator">
+      <question>
+        I'm using FileUpload to receive an upload from flash, but
+        FileUpload will always throw an Exception "Stream ended unexpectedly".
+        What can I do?
+      </question>
+      <answer>
+        <p>
+          At least as of version 8, Flash contains a known bug: The multipart
+          stream it produces is broken, because the final boundary doesn't
+          contain the suffix "--", which ought to indicate, that no more
+          items are following. Consequently, FileUpload waits for the next
+          item (which it doesn't get) and throws an exception.
+        </p>
+        <p>
+          The problems details and a possible workaround are outlined in
+          <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-143">
+            Bug 143
+          </a>
+          . The workaround suggests to use the streaming API
+          and catch the exception. The resulting code could look like
+          this:
+        </p>
+        <pre><![CDATA[final List<FileItem> items = new ArrayList<FileItem>();
+
+HttpServletRequest servletRequest = [...];
+RequestContext ctx = new ServletRequestContext(servletRequest);
+
+FileItemFactory fileItemFactory = new DiskFileItemFactory();
+
+ServletFileUpload upload = new ServletFileUpload();
+FileItemIterator iter = upload.getItemIterator(ctx);
+try {
+    while (iter.hasNext()) {
+        FileItemStream item = iter.next();
+        FileItem fileItem = fileItemFactory.createItem(item.getFieldName(),
+                                                       item.getContentType(),
+                                                       item.isFormField(),
+                                                       item.getName());
+        Streams.copy(item.openStream(), fileItem.getOutputStream(), true);
+        items.add(fileItem);
+    }
+} catch (MalformedStreamException e) {
+    // Ignore this
+}]]></pre>
+      </answer>
+    </faq>
+  </part>
+
 </faqs>
