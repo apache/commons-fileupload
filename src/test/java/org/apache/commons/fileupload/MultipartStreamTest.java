@@ -16,18 +16,23 @@
  */
 package org.apache.commons.fileupload;
 
-import junit.framework.TestCase;
-import java.io.*;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
+import org.junit.Test;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.MultipartStream}.
  *
  * @version $Id$
  */
-public class MultipartStreamTest extends TestCase {
+public class MultipartStreamTest {
 
     static private final String BOUNDARY_TEXT = "myboundary";
 
+    @Test
     public void testThreeParamConstructor() throws Exception {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
@@ -42,6 +47,7 @@ public class MultipartStreamTest extends TestCase {
         assertNotNull(ms);
     }
 
+    @Test
     public void testTwoParamConstructor() throws Exception {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
