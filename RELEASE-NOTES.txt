@@ -55,6 +55,7 @@ Sub-task
 Bug
 =============
 
+ * [FILEUPLOAD-143] - "Stream ended unexpectedly" when posting from a Flash client
  * [FILEUPLOAD-173] - Manifest for OSGi has invalid syntax
  * [FILEUPLOAD-183] - commons-io dependency does not get loaded by maven if only dependency to commons-fileupload is specified
  * [FILEUPLOAD-185] - http://commons.apache.org/fileupload/index.html is out of date
