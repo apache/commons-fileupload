@@ -16,8 +16,11 @@
  */
 package org.apache.commons.fileupload;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.mail.internet.MimeUtility;
 
 /**
  * A simple parser intended to parse sequences of name/value pairs.
@@ -311,6 +314,14 @@ public class ParameterParser {
                 pos++; // skip '='
                 paramValue = parseQuotedToken(new char[] {
                         separator });
+
+                if (paramValue != null) {
+                    try {
+                        paramValue = MimeUtility.decodeText(paramValue);
+                    } catch (UnsupportedEncodingException e) {
+                        // let's keep the original value in this case
+                    }
+                }
             }
             if (hasChar() && (chars[pos] == separator)) {
                 pos++; // skip separator
@@ -319,6 +330,7 @@ public class ParameterParser {
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase();
                 }
+
                 params.put(paramName, paramValue);
             }
         }
