@@ -45,6 +45,8 @@ import org.apache.commons.fileupload.FileUploadException;
  */
 public class ServletFileUpload extends FileUpload {
 
+    private static final String POST_METHOD = "post";
+
     // ---------------------------------------------------------- Class methods
 
     /**
@@ -58,7 +60,7 @@ public class ServletFileUpload extends FileUpload {
      */
     public static final boolean isMultipartContent(
             HttpServletRequest request) {
-        if (!"post".equals(request.getMethod().toLowerCase())) {
+        if (!POST_METHOD.equals(request.getMethod().toLowerCase())) {
             return false;
         }
         String contentType = request.getContentType();
