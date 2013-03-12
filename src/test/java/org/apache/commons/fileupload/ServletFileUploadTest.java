@@ -25,9 +25,13 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.junit.Test;
 
 /**
@@ -354,6 +358,46 @@ public class ServletFileUploadTest extends FileUploadTestCase {
 
         FileItem multi1 = fileItems.get(3);
         assertHeaders(headerNames, headerValues, multi1, 3);
+    }
+
+    /**
+     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-210">
+     */
+    @Test
+    public void parseParameterMap()
+            throws Exception {
+        String text = "-----1234\r\n" +
+                      "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                      "Content-Type: text/whatever\r\n" +
+                      "\r\n" +
+                      "This is the content of the file\n" +
+                      "\r\n" +
+                      "-----1234\r\n" +
+                      "Content-Disposition: form-data; name=\"field\"\r\n" +
+                      "\r\n" +
+                      "fieldValue\r\n" +
+                      "-----1234\r\n" +
+                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                      "\r\n" +
+                      "value1\r\n" +
+                      "-----1234\r\n" +
+                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                      "\r\n" +
+                      "value2\r\n" +
+                      "-----1234--\r\n";
+        byte[] bytes = text.getBytes("US-ASCII");
+        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        HttpServletRequest request = new MockHttpServletRequest(bytes, CONTENT_TYPE);
+
+        Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(new ServletRequestContext(request));
+        assertTrue(mappedParameters.containsKey("file"));
+        assertEquals(1, mappedParameters.get("file").size());
+
+        assertTrue(mappedParameters.containsKey("field"));
+        assertEquals(1, mappedParameters.get("field").size());
+
+        assertTrue(mappedParameters.containsKey("multi"));
+        assertEquals(2, mappedParameters.get("multi").size());
     }
 
     private void assertHeaders(String[] pHeaderNames, String[] pHeaderValues,
