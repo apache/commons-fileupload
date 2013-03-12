@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.junit.Test;
 
 /**
@@ -389,7 +388,7 @@ public class ServletFileUploadTest extends FileUploadTestCase {
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         HttpServletRequest request = new MockHttpServletRequest(bytes, CONTENT_TYPE);
 
-        Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(new ServletRequestContext(request));
+        Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
 
