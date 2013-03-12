@@ -429,7 +429,7 @@ public abstract class FileUploadBase {
         try {
             boundary = boundaryStr.getBytes("ISO-8859-1");
         } catch (UnsupportedEncodingException e) {
-            boundary = boundaryStr.getBytes();
+            boundary = boundaryStr.getBytes(); // Intentionally falls back to default charset
         }
         return boundary;
     }
