@@ -114,9 +114,9 @@ public class ParameterParserTest {
     @Test
     public void fileUpload199() {
         ParameterParser parser = new ParameterParser();
-        String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?UTF-8?Q?=D1=82=D0=B5=D1=81=D1=82.txt?=\"\r\n";
+        String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
         Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
-        assertEquals("тест.txt", params.get("filename"));
+        assertEquals("If you can read this you understand the example.", params.get("filename"));
     }
 
 }
