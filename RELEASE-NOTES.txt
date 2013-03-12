@@ -75,6 +75,7 @@ Improvement
  * [FILEUPLOAD-182] - Documentation: add simple HTML form example to fileupload user guide
  * [FILEUPLOAD-207] - enhance file read/write performance
  * [FILEUPLOAD-209] - Add Support for Generic Types
+ * [FILEUPLOAD-210] - Process HTTP Requests Into Maps
  * [FILEUPLOAD-223] - Update commons-io dependency to latest version that supports JDK1.5
  * [FILEUPLOAD-224] - Avoid string concatenations while parsing headers, use buffers instead
  * [FILEUPLOAD-225] - Replace java.rmi.server.UID() with java.util.UUID

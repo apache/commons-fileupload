@@ -122,6 +122,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-209" dev="simonetripodi" type="add" due-to="Fernando Ribeiro">
         Add Support for Generic Types
       </action>
+      <action issue="FILEUPLOAD-210" dev="simonetripodi" type="add" due-to="Fernando Ribeiro">
+        Process HTTP Requests Into Maps
+      </action>
       <action issue="FILEUPLOAD-223" dev="simonetripodi" type="update" due-to="">
         Update commons-io dependency to latest version that supports JDK1.5
       </action>
