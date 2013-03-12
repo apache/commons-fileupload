@@ -18,6 +18,7 @@ package org.apache.commons.fileupload.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -115,6 +116,24 @@ public class ServletFileUpload extends FileUpload {
     public List<FileItem> parseRequest(HttpServletRequest request)
     throws FileUploadException {
         return parseRequest(new ServletRequestContext(request));
+    }
+
+    /**
+     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant <code>multipart/form-data</code> stream.
+     *
+     * @param request The servlet request to be parsed.
+     *
+     * @return A map of <code>FileItem</code> instances parsed from the request.
+     *
+     * @throws FileUploadException if there are problems reading/parsing
+     *                             the request or storing files.
+     *
+     * @since 1.3
+     */
+    public Map<String, List<FileItem>> parseParameterMap(HttpServletRequest request)
+            throws FileUploadException {
+        return parseParameterMap(new ServletRequestContext(request));
     }
 
     /**
