@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.fileupload.FileUploadBase.FileUploadIOException;
 import org.apache.commons.fileupload.util.Closeable;
 import org.apache.commons.fileupload.util.Streams;
 
@@ -438,7 +439,7 @@ public class MultipartStream {
      *                                  fails to follow required syntax.
      */
     public boolean readBoundary()
-            throws MalformedStreamException {
+            throws FileUploadIOException, MalformedStreamException {
         byte[] marker = new byte[2];
         boolean nextChunk = false;
 
@@ -464,6 +465,9 @@ public class MultipartStream {
                 throw new MalformedStreamException(
                 "Unexpected characters follow a boundary");
             }
+        } catch (FileUploadIOException e) {
+            // wraps a SizeException, re-throw as it will be unwrapped later
+            throw e;
         } catch (IOException e) {
             throw new MalformedStreamException("Stream ended unexpectedly");
         }
@@ -514,7 +518,7 @@ public class MultipartStream {
      *
      * @throws MalformedStreamException if the stream ends unexpecetedly.
      */
-    public String readHeaders() throws MalformedStreamException {
+    public String readHeaders() throws FileUploadIOException, MalformedStreamException {
         int i = 0;
         byte b;
         // to support multi-byte characters
@@ -523,6 +527,9 @@ public class MultipartStream {
         while (i < HEADER_SEPARATOR.length) {
             try {
                 b = readByte();
+            } catch (FileUploadIOException e) {
+                // wraps a SizeException, re-throw as it will be unwrapped later
+                throw e;
             } catch (IOException e) {
                 throw new MalformedStreamException("Stream ended unexpectedly");
             }

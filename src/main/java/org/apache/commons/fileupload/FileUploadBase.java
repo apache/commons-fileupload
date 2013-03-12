@@ -305,7 +305,12 @@ public abstract class FileUploadBase {
      */
     public FileItemIterator getItemIterator(RequestContext ctx)
     throws FileUploadException, IOException {
-        return new FileItemIteratorImpl(ctx);
+        try {
+            return new FileItemIteratorImpl(ctx);
+        } catch (FileUploadIOException e) {
+            // unwrap encapsulated SizeException
+            throw (FileUploadException) e.getCause();
+        }
     }
 
     /**
@@ -328,20 +333,17 @@ public abstract class FileUploadBase {
             FileItemIterator iter = getItemIterator(ctx);
             FileItemFactory fac = getFileItemFactory();
             if (fac == null) {
-                throw new NullPointerException(
-                    "No FileItemFactory has been set.");
+                throw new NullPointerException("No FileItemFactory has been set.");
             }
             while (iter.hasNext()) {
                 final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = ((FileItemIteratorImpl.FileItemStreamImpl) item).name;
-                FileItem fileItem = fac.createItem(item.getFieldName(),
-                        item.getContentType(), item.isFormField(),
-                        fileName);
+                FileItem fileItem = fac.createItem(item.getFieldName(), item.getContentType(),
+                                                   item.isFormField(), fileName);
                 items.add(fileItem);
                 try {
-                    Streams.copy(item.openStream(), fileItem.getOutputStream(),
-                            true);
+                    Streams.copy(item.openStream(), fileItem.getOutputStream(), true);
                 } catch (FileUploadIOException e) {
                     throw (FileUploadException) e.getCause();
                 } catch (IOException e) {
@@ -1091,7 +1093,12 @@ public abstract class FileUploadBase {
             if (itemValid) {
                 return true;
             }
-            return findNextItem();
+            try {
+                return findNextItem();
+            } catch (FileUploadIOException e) {
+                // unwrap encapsulated SizeException
+                throw (FileUploadException) e.getCause();
+            }
         }
 
         /**
