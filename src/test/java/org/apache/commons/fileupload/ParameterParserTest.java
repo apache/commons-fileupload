@@ -108,4 +108,15 @@ public class ParameterParserTest {
         assertEquals("BbC04y", params.get("boundary"));
     }
 
+    /**
+     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>
+     */
+    @Test
+    public void fileUpload199() {
+        ParameterParser parser = new ParameterParser();
+        String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?UTF-8?Q?=D1=82=D0=B5=D1=81=D1=82.txt?=\"\r\n";
+        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals("тест.txt", params.get("filename"));
+    }
+
 }

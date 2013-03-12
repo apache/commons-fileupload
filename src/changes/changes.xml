@@ -97,6 +97,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-197" dev="simonetripodi" type="fix" due-to="David Wolverton">
         ServletFileUpload isMultipartContent method does not support HTTP PUT - thanks Roy T. Fielding and Jochen  Wiedmann
       </action>
+      <action issue="FILEUPLOAD-199" dev="simonetripodi" type="fix" due-to="Mark Thomas">
+        Uploads have unexpected results for files with non-ASCII names - support RFC2047 - thanks Thomas Neidhart
+      </action>
       <action issue="FILEUPLOAD-204" dev="jochen" type="fix" due-to="Hakju Oh">
         FileItem.getHeaders() returns always null.
       </action>
