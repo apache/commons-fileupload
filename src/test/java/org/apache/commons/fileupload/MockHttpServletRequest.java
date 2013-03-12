@@ -39,9 +39,11 @@ class MockHttpServletRequest implements HttpServletRequest {
 
     private final InputStream m_requestData;
 
-    private final long length;
+    private long length;
 
     private String m_strContentType;
+    
+    private int readLimit = -1;
 
     private final Map<String, String> m_headers = new java.util.HashMap<String, String>();
 
@@ -295,6 +297,13 @@ class MockHttpServletRequest implements HttpServletRequest {
     }
 
     /**
+     * For testing attack scenarios in SizesTest.
+     */
+    public void setContentLength(long length) {
+        this.length = length;
+    }
+    
+    /**
      * @see javax.servlet.ServletRequest#getContentType()
      */
     public String getContentType() {
@@ -305,8 +314,17 @@ class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getInputStream()
      */
     public ServletInputStream getInputStream() throws IOException {
-        ServletInputStream sis = new MyServletInputStream(m_requestData);
+        ServletInputStream sis = new MyServletInputStream(m_requestData, readLimit);
         return sis;
+    }
+
+    /**
+     * Sets the read limit. This can be used to limit the number of bytes to read ahead.
+     *
+     * @param readLimit the read limit to use
+     */
+    public void setReadLimit(int readLimit) {
+        this.readLimit = readLimit;
     }
 
     /**
@@ -463,23 +481,19 @@ class MockHttpServletRequest implements HttpServletRequest {
         return null;
     }
 
-    /**
-     *
-     *
-     *
-     *
-     */
     private static class MyServletInputStream
         extends javax.servlet.ServletInputStream {
 
         private final InputStream in;
+        private final int readLimit;
 
         /**
          * Creates a new instance, which returns the given
          * streams data.
          */
-        public MyServletInputStream(InputStream pStream) {
+        public MyServletInputStream(InputStream pStream, int readLimit) {
             in = pStream;
+            this.readLimit = readLimit;
         }
 
         @Override
@@ -489,7 +503,11 @@ class MockHttpServletRequest implements HttpServletRequest {
 
         @Override
         public int read(byte b[], int off, int len) throws IOException {
-            return in.read(b, off, len);
+            if (readLimit > 0) {
+                return in.read(b, off, Math.min(readLimit, len));
+            } else {
+                return in.read(b, off, len);
+            }
         }
 
     }
