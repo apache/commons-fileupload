@@ -51,6 +51,15 @@ The <action> type attribute can be add,update,fix,remove.
         configuration if there are local, untrusted users.
       </action>
       <!-- Sub-task -->
+      <action issue="FILEUPLOAD-202" dev="tn" type="fix">
+        Exceptions resulting from upload size limitations (fileSizeMax, sizeMax)
+        are now correctly propagated to the caller (these could be encountered
+        formerly as MalformedStreamException: "Stream ended unexpectedly"). 
+      </action>
+      <action issue="FILEUPLOAD-212" dev="tn" type="fix" due-to="Damian Kolasa">
+        The sizeMax parameter within FileUpload is now correctly enforced if
+        no content length header is provided. 
+      </action>
       <action issue="FILEUPLOAD-216" dev="simonetripodi" type="update">
         Update the project tree dirs according to default Maven conventions
       </action>
@@ -74,7 +83,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <!-- Bug -->
       <action issue="FILEUPLOAD-143" dev="jochen" type="fix" due-to="Luke Scott">
-        Stream ended unexpectedly" when posting from a Flash client
+        "Stream ended unexpectedly" when posting from a Flash client
       </action>
       <action issue="FILEUPLOAD-173" dev="simonetripodi" type="fix" due-to="Bjorn Harvold">
         Manifest for OSGi has invalid syntax
