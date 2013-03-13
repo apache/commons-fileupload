@@ -64,6 +64,7 @@ Bug
  * [FILEUPLOAD-195] - Error reading the file size larger than 2 gb
  * [FILEUPLOAD-197] - ServletFileUpload isMultipartContent method does not support HTTP PUT
  * [FILEUPLOAD-199] - Uploads have unexpected results for files with non-ASCII names - support RFC2047
+ * [FILEUPLOAD-202] - org.apache.commons.fileupload.FileUploadBase$IOFileUploadException: Processing of multipart/form-data request failed. Stream ended unexpectedly
  * [FILEUPLOAD-204] - FileItem.getHeaders() returns always null.
  * [FILEUPLOAD-212] - Insecure request size checking
  * [FILEUPLOAD-214] - ServletFileUpload only accepts POST requests
