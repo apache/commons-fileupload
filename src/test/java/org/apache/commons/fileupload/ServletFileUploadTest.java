@@ -50,13 +50,10 @@ public class ServletFileUploadTest extends FileUploadTestCase {
         HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
 
 
-        try
-        {
+        try {
             fu.parseRequest(req);
             fail("testWithInvalidRequest: expected exception was not thrown");
-        }
-        catch (FileUploadException expected)
-        {
+        } catch (FileUploadException expected) {
             // this exception is expected
         }
     }
