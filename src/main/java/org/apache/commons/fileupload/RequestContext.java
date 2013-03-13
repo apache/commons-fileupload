@@ -21,7 +21,7 @@ import java.io.IOException;
 
 /**
  * <p>Abstracts access to the request information needed for file uploads. This
- * interfsace should be implemented for each type of request that may be
+ * interface should be implemented for each type of request that may be
  * handled by FileUpload, such as servlets and portlets.</p>
  *
  * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
