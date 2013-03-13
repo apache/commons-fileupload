@@ -46,7 +46,9 @@ import org.apache.commons.fileupload.FileUploadException;
  */
 public class ServletFileUpload extends FileUpload {
 
-    /** Constant for HTTP POST method. */
+    /**
+     * Constant for HTTP POST method.
+     */
     private static final String POST_METHOD = "post";
 
     // ---------------------------------------------------------- Class methods
