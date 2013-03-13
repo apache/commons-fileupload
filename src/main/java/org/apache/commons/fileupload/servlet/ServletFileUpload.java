@@ -49,7 +49,7 @@ public class ServletFileUpload extends FileUpload {
     /**
      * Constant for HTTP POST method.
      */
-    private static final String POST_METHOD = "post";
+    private static final String POST_METHOD = "POST";
 
     // ---------------------------------------------------------- Class methods
 
@@ -64,7 +64,7 @@ public class ServletFileUpload extends FileUpload {
      */
     public static final boolean isMultipartContent(
             HttpServletRequest request) {
-        if (!POST_METHOD.equals(request.getMethod().toLowerCase())) {
+        if (!POST_METHOD.equals(request.getMethod())) {
             return false;
         }
         String contentType = request.getContentType();
