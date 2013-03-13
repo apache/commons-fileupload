@@ -118,6 +118,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-228" dev="simonetripodi" type="fix" due-to="Thomas Neidhart">
         (Servlet|Portlet)RequestContext#contentLength() must return request.getContentLength() if Content-length header is not available
       </action>
+      <action issue="FILEUPLOAD-229" dev="simonetripodi" type="fix" due-to="seb">
+        toLowerCase() is Locale-dependent; should use toLowerCase(Locale.ENGLISH) instead
+      </action>
       <!-- Improvement -->
       <action issue="FILEUPLOAD-182" dev="simonetripodi" type="add" due-to="Chris Lott">
         Documentation: add simple HTML form example to fileupload user guide

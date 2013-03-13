@@ -69,6 +69,7 @@ Bug
  * [FILEUPLOAD-212] - Insecure request size checking
  * [FILEUPLOAD-214] - ServletFileUpload only accepts POST requests
  * [FILEUPLOAD-228] - (Servlet|Portlet)RequestContext#contentLength() must return request.getContentLength() if Content-length header is not available
+ * [FILEUPLOAD-229] - toLowerCase() is Locale-dependent; should use toLowerCase(Locale.ENGLISH) instead
 
 Improvement
 =============
