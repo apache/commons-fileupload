@@ -187,24 +187,24 @@ public class MultipartStream {
      * A byte sequence that marks the end of <code>header-part</code>
      * (<code>CRLFCRLF</code>).
      */
-    protected static final byte[] HEADER_SEPARATOR = { CR, LF, CR, LF };
+    protected static final byte[] HEADER_SEPARATOR = {CR, LF, CR, LF};
 
     /**
      * A byte sequence that that follows a delimiter that will be
      * followed by an encapsulation (<code>CRLF</code>).
      */
-    protected static final byte[] FIELD_SEPARATOR = { CR, LF };
+    protected static final byte[] FIELD_SEPARATOR = {CR, LF};
 
     /**
      * A byte sequence that that follows a delimiter of the last
      * encapsulation in the stream (<code>--</code>).
      */
-    protected static final byte[] STREAM_TERMINATOR = { DASH, DASH };
+    protected static final byte[] STREAM_TERMINATOR = {DASH, DASH};
 
     /**
      * A byte sequence that precedes a boundary (<code>CRLF--</code>).
      */
-    protected static final byte[] BOUNDARY_PREFIX = { CR, LF, DASH, DASH };
+    protected static final byte[] BOUNDARY_PREFIX = {CR, LF, DASH, DASH};
 
     // ----------------------------------------------------------- Data members
 
@@ -435,7 +435,8 @@ public class MultipartStream {
      * @return <code>true</code> if there are more encapsulations in
      *         this stream; <code>false</code> otherwise.
      *
-     * @throws MalformedStreamException if the stream ends unexpecetedly or
+     * @throws FileUploadIOException if the bytes read from the stream exceeded the size limits
+     * @throws MalformedStreamException if the stream ends unexpectedly or
      *                                  fails to follow required syntax.
      */
     public boolean readBoundary()
@@ -516,7 +517,8 @@ public class MultipartStream {
      *
      * @return The <code>header-part</code> of the current encapsulation.
      *
-     * @throws MalformedStreamException if the stream ends unexpecetedly.
+     * @throws FileUploadIOException if the bytes read from the stream exceeded the size limits.
+     * @throws MalformedStreamException if the stream ends unexpectedly.
      */
     public String readHeaders() throws FileUploadIOException, MalformedStreamException {
         int i = 0;
