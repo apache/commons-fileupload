@@ -24,7 +24,7 @@ import java.io.InputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileUploadBase;
-import org.apache.commons.fileupload.RequestContext;
+import org.apache.commons.fileupload.UploadContext;
 
 /**
  * <p>Provides access to the request information needed for a request made to
@@ -34,7 +34,7 @@ import org.apache.commons.fileupload.RequestContext;
  *
  * @version $Id$
  */
-public class ServletRequestContext implements RequestContext {
+public class ServletRequestContext implements UploadContext {
 
     // ----------------------------------------------------- Instance Variables
 

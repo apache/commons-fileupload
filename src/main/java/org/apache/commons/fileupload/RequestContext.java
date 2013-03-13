@@ -50,18 +50,10 @@ public interface RequestContext {
      * Retrieve the content length of the request.
      *
      * @return The content length of the request.
-     * @deprecated 1.3 Use {@link #contentLength()} instead
+     * @deprecated 1.3 Use {@link UploadContext#contentLength()} instead
      */
     @Deprecated
     int getContentLength();
-
-    /**
-     * Retrieve the content length of the request.
-     *
-     * @return The content length of the request.
-     * @since 1.3
-     */
-    long contentLength();
 
     /**
      * Retrieve the input stream for the request.

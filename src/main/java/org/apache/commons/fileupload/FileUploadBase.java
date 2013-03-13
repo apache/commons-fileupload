@@ -952,8 +952,12 @@ public abstract class FileUploadBase {
 
             InputStream input = ctx.getInputStream();
 
+            @SuppressWarnings("deprecation") // still has to be backward compatible
+            final long requestSize = UploadContext.class.isAssignableFrom(ctx.getClass())
+                                     ? ((UploadContext) ctx).contentLength()
+                                     : ctx.getContentLength();
+
             if (sizeMax >= 0) {
-                long requestSize = ctx.contentLength();
                 if (requestSize != -1) {
                     if (requestSize > sizeMax) {
                         throw new SizeLimitExceededException(
@@ -985,8 +989,7 @@ public abstract class FileUploadBase {
                 throw new FileUploadException("the request was rejected because no multipart boundary was found");
             }
 
-            notifier = new MultipartStream.ProgressNotifier(listener,
-                    ctx.contentLength());
+            notifier = new MultipartStream.ProgressNotifier(listener, requestSize);
             multi = new MultipartStream(input, boundary, notifier);
             multi.setHeaderEncoding(charEncoding);
 
