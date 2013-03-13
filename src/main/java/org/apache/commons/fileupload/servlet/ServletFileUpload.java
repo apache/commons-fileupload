@@ -26,6 +26,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileUpload;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
 
 /**
@@ -67,14 +68,7 @@ public class ServletFileUpload extends FileUpload {
         if (!POST_METHOD.equals(request.getMethod())) {
             return false;
         }
-        String contentType = request.getContentType();
-        if (contentType == null) {
-            return false;
-        }
-        if (contentType.toLowerCase().startsWith(MULTIPART)) {
-            return true;
-        }
-        return false;
+        return FileUploadBase.isMultipartContent(new ServletRequestContext(request));
     }
 
     // ----------------------------------------------------------- Constructors
