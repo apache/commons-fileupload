@@ -51,15 +51,6 @@ The <action> type attribute can be add,update,fix,remove.
         configuration if there are local, untrusted users.
       </action>
       <!-- Sub-task -->
-      <action issue="FILEUPLOAD-202" dev="tn" type="fix" due-to="tina">
-        Exceptions resulting from upload size limitations (fileSizeMax, sizeMax)
-        are now correctly propagated to the caller (these could be encountered
-        formerly as MalformedStreamException: "Stream ended unexpectedly"). 
-      </action>
-      <action issue="FILEUPLOAD-212" dev="tn" type="fix" due-to="Damian Kolasa">
-        The sizeMax parameter within FileUpload is now correctly enforced if
-        no content length header is provided. 
-      </action>
       <action issue="FILEUPLOAD-216" dev="simonetripodi" type="update">
         Update the project tree dirs according to default Maven conventions
       </action>
@@ -109,11 +100,17 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-199" dev="simonetripodi" type="fix" due-to="Mark Thomas">
         Uploads have unexpected results for files with non-ASCII names - support RFC2047 - thanks Thomas Neidhart
       </action>
+      <action issue="FILEUPLOAD-202" dev="tn" type="fix" due-to="tina">
+        Exceptions resulting from upload size limitations (fileSizeMax, sizeMax)
+        are now correctly propagated to the caller (these could be encountered
+        formerly as MalformedStreamException: "Stream ended unexpectedly"). 
+      </action>
       <action issue="FILEUPLOAD-204" dev="jochen" type="fix" due-to="Hakju Oh">
         FileItem.getHeaders() returns always null.
       </action>
-      <action issue="FILEUPLOAD-204" dev="tn" type="fix" due-to="Damian Kolasa">
-        Insecure request size checking
+      <action issue="FILEUPLOAD-212" dev="tn" type="fix" due-to="Damian Kolasa">
+        The sizeMax parameter within FileUpload is now correctly enforced if
+        no content length header is provided. 
       </action>
       <action issue="FILEUPLOAD-214" dev="simonetripodi" type="fix" due-to="Matthew Runo">
         ServletFileUpload only accepts POST requests
