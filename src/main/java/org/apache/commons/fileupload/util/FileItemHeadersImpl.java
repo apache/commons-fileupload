@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.fileupload.FileItemHeaders;
@@ -50,7 +51,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
      * {@inheritDoc}
      */
     public String getHeader(String name) {
-        String nameLower = name.toLowerCase();
+        String nameLower = name.toLowerCase(Locale.ENGLISH);
         List<String> headerValueList = headerNameToValueListMap.get(nameLower);
         if (null == headerValueList) {
             return null;

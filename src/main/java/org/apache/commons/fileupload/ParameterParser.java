@@ -18,6 +18,7 @@ package org.apache.commons.fileupload;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.internet.MimeUtility;
@@ -328,7 +329,7 @@ public class ParameterParser {
             }
             if ((paramName != null) && (paramName.length() > 0)) {
                 if (this.lowerCaseNames) {
-                    paramName = paramName.toLowerCase();
+                    paramName = paramName.toLowerCase(Locale.ENGLISH);
                 }
 
                 params.put(paramName, paramValue);
