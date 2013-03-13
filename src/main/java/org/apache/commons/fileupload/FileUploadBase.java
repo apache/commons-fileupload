@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -77,7 +78,7 @@ public abstract class FileUploadBase {
         if (contentType == null) {
             return false;
         }
-        if (contentType.toLowerCase().startsWith(MULTIPART)) {
+        if (contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART)) {
             return true;
         }
         return false;
