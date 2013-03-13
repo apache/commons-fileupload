@@ -51,7 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
         configuration if there are local, untrusted users.
       </action>
       <!-- Sub-task -->
-      <action issue="FILEUPLOAD-202" dev="tn" type="fix">
+      <action issue="FILEUPLOAD-202" dev="tn" type="fix" due-to="tina">
         Exceptions resulting from upload size limitations (fileSizeMax, sizeMax)
         are now correctly propagated to the caller (these could be encountered
         formerly as MalformedStreamException: "Stream ended unexpectedly"). 
