@@ -18,12 +18,13 @@ package org.apache.commons.fileupload.portlet;
 
 import static java.lang.String.format;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
 import javax.portlet.ActionRequest;
 
 import org.apache.commons.fileupload.FileUploadBase;
-import org.apache.commons.fileupload.RequestContext;
+import org.apache.commons.fileupload.UploadContext;
 
 /**
  * <p>Provides access to the request information needed for a request made to
@@ -33,7 +34,7 @@ import org.apache.commons.fileupload.RequestContext;
  *
  * @version $Id$
  */
-public class PortletRequestContext implements RequestContext {
+public class PortletRequestContext implements UploadContext {
 
     // ----------------------------------------------------- Instance Variables
 
