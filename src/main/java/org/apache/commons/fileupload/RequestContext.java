@@ -24,8 +24,6 @@ import java.io.IOException;
  * interface should be implemented for each type of request that may be
  * handled by FileUpload, such as servlets and portlets.</p>
  *
- * @author <a href="mailto:martinc@apache.org">Martin Cooper</a>
- *
  * @since FileUpload 1.1
  *
  * @version $Id$
