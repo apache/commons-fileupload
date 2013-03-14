@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.mail.internet.MimeUtility;
+import org.apache.commons.fileupload.util.mime.MimeUtility;
 
 /**
  * A simple parser intended to parse sequences of name/value pairs.

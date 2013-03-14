@@ -210,12 +210,6 @@
       <artifactId>commons-io</artifactId>
       <version>2.2</version>
     </dependency>
-    <dependency>
-      <groupId>javax.mail</groupId>
-      <artifactId>mail</artifactId>
-      <version>1.4.5</version>
-      <optional>true</optional>
-    </dependency>
   </dependencies>
 
   <build>
@@ -236,41 +230,6 @@
           <prepatationGoals>clean site verify</prepatationGoals>
           <goals>deploy</goals>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.0</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <artifactSet>
-                <includes>
-                  <include>javax.mail:mail</include>
-                </includes>
-              </artifactSet>
-              <filters>
-                <filter>
-                  <artifact>javax.mail:mail</artifact>
-                  <includes>
-                    <include>javax/mail/MessagingException*</include>
-                    <include>javax/mail/internet/MimeUtility*</include>
-                  </includes>
-                </filter>
-              </filters>
-              <relocations>
-                <relocation>
-                  <pattern>javax.mail</pattern>
-                  <shadedPattern>org.apache.commons.fileupload.util.javax.mail</shadedPattern>
-                </relocation>
-              </relocations>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
