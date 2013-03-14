@@ -44,7 +44,7 @@ final class Base64Decoder {
     /*
      * set up the decoding table.
      */
-    protected final byte[] decodingTable = new byte[256];
+    private final byte[] decodingTable = new byte[256];
 
     protected void initialiseDecodingTable() {
         for (int i = 0; i < encodingTable.length; i++) {
