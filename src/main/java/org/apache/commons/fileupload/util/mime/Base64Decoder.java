@@ -39,7 +39,7 @@ final class Base64Decoder {
         (byte) '+', (byte) '/'
     };
 
-    protected byte    padding = (byte) '=';
+    private byte padding = (byte) '=';
 
     /*
      * set up the decoding table.
