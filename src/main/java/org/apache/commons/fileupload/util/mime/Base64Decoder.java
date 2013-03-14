@@ -24,7 +24,7 @@ import java.io.OutputStream;
  */
 final class Base64Decoder {
 
-    protected final byte[] ENCODING_TABLE = {
+    private final byte[] encodingTable = {
         (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', (byte) 'G',
         (byte) 'H', (byte) 'I', (byte) 'J', (byte) 'K', (byte) 'L', (byte) 'M', (byte) 'N',
         (byte) 'O', (byte) 'P', (byte) 'Q', (byte) 'R', (byte) 'S', (byte) 'T', (byte) 'U',
@@ -47,8 +47,8 @@ final class Base64Decoder {
     protected final byte[] decodingTable = new byte[256];
 
     protected void initialiseDecodingTable() {
-        for (int i = 0; i < ENCODING_TABLE.length; i++) {
-            decodingTable[ENCODING_TABLE[i]] = (byte) i;
+        for (int i = 0; i < encodingTable.length; i++) {
+            decodingTable[encodingTable[i]] = (byte) i;
         }
     }
 
