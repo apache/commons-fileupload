@@ -58,7 +58,7 @@ final class Base64Decoder {
 
     private boolean ignore(
         char    c) {
-        return (c == '\n' || c =='\r' || c == '\t' || c == ' ');
+        return (c == '\n' || c == '\r' || c == '\t' || c == ' ');
     }
 
     /**
