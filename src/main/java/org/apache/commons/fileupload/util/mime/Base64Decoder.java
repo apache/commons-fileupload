@@ -76,8 +76,7 @@ final class Base64Decoder {
      * @param c the char has to be checked.
      * @return true, if the input char has to be checked, false otherwise.
      */
-    private static boolean ignore(
-        char    c) {
+    private static boolean ignore(char c) {
         return (c == '\n' || c == '\r' || c == '\t' || c == ' ');
     }
 
@@ -87,12 +86,7 @@ final class Base64Decoder {
      *
      * @return the number of bytes produced.
      */
-    public static int decode(
-        byte[]                data,
-        int                    off,
-        int                    length,
-        OutputStream    out)
-        throws IOException {
+    public static int decode(byte[] data, int off, int length, OutputStream out) throws IOException {
         byte    b1, b2, b3, b4;
         int        outLen = 0;
 
