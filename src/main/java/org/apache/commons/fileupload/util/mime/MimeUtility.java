@@ -26,8 +26,6 @@ import java.util.Map;
 /**
  * Utility class to decode MIME texts.
  *
- * Imported and retailed from <a href="http://svn.apache.org/repos/asf/geronimo/specs/tags/geronimo-javamail_1.4_spec-1.4/src/main/java/javax/mail/internet/MimeUtility.java">Apache Geronimo</a>
- *
  * @since 1.3
  */
 public final class MimeUtility {
