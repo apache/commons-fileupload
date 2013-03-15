@@ -24,6 +24,9 @@ import java.io.OutputStream;
  */
 final class Base64Decoder {
 
+    /**
+     * set up the encoding table.
+     */
     private static final byte[] ENCODING_TABLE = {
         (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', (byte) 'G',
         (byte) 'H', (byte) 'I', (byte) 'J', (byte) 'K', (byte) 'L', (byte) 'M', (byte) 'N',
@@ -39,9 +42,12 @@ final class Base64Decoder {
         (byte) '+', (byte) '/'
     };
 
+    /**
+     * The padding byte.
+     */
     private static final byte PADDING = (byte) '=';
 
-    /*
+    /**
      * set up the decoding table.
      */
     private static final byte[] DECODING_TABLE = new byte[256];
@@ -52,10 +58,19 @@ final class Base64Decoder {
         }
     }
 
+    /**
+     * Hidden constructor, this class must not be instantiated.
+     */
     private Base64Decoder() {
         // do nothing
     }
 
+    /**
+     * Checks if the input char must be skipped from the decode.
+     *
+     * @param c the char has to be checked.
+     * @return true, if the input char has to be checked, false otherwise.
+     */
     private static boolean ignore(
         char    c) {
         return (c == '\n' || c == '\r' || c == '\t' || c == ' ');
