@@ -46,7 +46,7 @@ final class QuotedPrintableDecoder {
     }
 
     // default number of characters we will write per line.
-    static private final int DEFAULT_CHARS_PER_LINE = 76;
+    private static final int DEFAULT_CHARS_PER_LINE = 76;
 
     // the output stream we're wrapped around
     protected OutputStream out;
