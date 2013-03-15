@@ -25,7 +25,7 @@ import java.io.OutputStream;
 final class Base64Decoder {
 
     /**
-     * set up the encoding table.
+     * Set up the encoding table.
      */
     private static final byte[] ENCODING_TABLE = {
         (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', (byte) 'G',
@@ -48,12 +48,12 @@ final class Base64Decoder {
     private static final byte PADDING = (byte) '=';
 
     /**
-     * the decoding table size.
+     * The decoding table size.
      */
     private static final int DECODING_TABLE_SIZE = 256;
 
     /**
-     * set up the decoding table.
+     * Set up the decoding table.
      */
     private static final byte[] DECODING_TABLE = new byte[DECODING_TABLE_SIZE];
 
@@ -82,7 +82,7 @@ final class Base64Decoder {
     }
 
     /**
-     * decode the base 64 encoded byte data writing it to the given output stream,
+     * Decode the base 64 encoded byte data writing it to the given output stream,
      * whitespace characters will be ignored.
      *
      * @return the number of bytes produced.
