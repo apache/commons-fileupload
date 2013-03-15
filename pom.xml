@@ -182,6 +182,7 @@
     <commons.rc.version>RC2</commons.rc.version>
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
+    <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version};-noimport:=true</commons.osgi.export>
     <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
   </properties>
