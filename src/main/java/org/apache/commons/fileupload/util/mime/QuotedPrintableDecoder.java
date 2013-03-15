@@ -25,7 +25,7 @@ import java.io.OutputStream;
 final class QuotedPrintableDecoder {
 
     /**
-     * set up the encoding table.
+     * Set up the encoding table.
      */
     private static final byte[] ENCODING_TABLE = {
         (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6', (byte) '7',
@@ -38,12 +38,12 @@ final class QuotedPrintableDecoder {
     private static final int OUT_SHIFT = 4;
 
     /**
-     * the decoding table size.
+     * The decoding table size.
      */
     private static final int DECODING_TABLE_SIZE = 128;
 
     /**
-     * set up the decoding table.
+     * Set up the decoding table.
      */
     private static final byte[] DECODING_TABLE = new byte[DECODING_TABLE_SIZE];
 
@@ -62,7 +62,7 @@ final class QuotedPrintableDecoder {
     }
 
     /**
-     * decode the uuencoded byte data writing it to the given output stream.
+     * Decode the uuencoded byte data writing it to the given output stream.
      *
      * @param data   The array of byte data to decode.
      * @param off    Starting offset within the array.
