@@ -148,6 +148,7 @@ public final class MimeUtility {
                         continue;
 
                     } catch (ParseException e) {
+                        // just ignore it, skip to next word
                     }
                 }
                 // this is a normal token, so it doesn't matter what the previous token was.  Add the white space
