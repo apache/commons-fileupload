@@ -48,9 +48,14 @@ final class Base64Decoder {
     private static final byte PADDING = (byte) '=';
 
     /**
+     * the decoding table size.
+     */
+    private static final int DECODING_TABLE_SIZE = 256;
+
+    /**
      * set up the decoding table.
      */
-    private static final byte[] DECODING_TABLE = new byte[256];
+    private static final byte[] DECODING_TABLE = new byte[DECODING_TABLE_SIZE];
 
     static {
         for (int i = 0; i < ENCODING_TABLE.length; i++) {
