@@ -29,8 +29,8 @@ final class QuotedPrintableDecoder {
      */
     private static final byte[] ENCODING_TABLE =
     {
-        (byte)'0', (byte)'1', (byte)'2', (byte)'3', (byte)'4', (byte)'5', (byte)'6', (byte)'7',
-        (byte)'8', (byte)'9', (byte)'A', (byte)'B', (byte)'C', (byte)'D', (byte)'E', (byte)'F'
+        (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6', (byte) '7',
+        (byte) '8', (byte) '9', (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F'
     };
 
     /**
@@ -41,7 +41,7 @@ final class QuotedPrintableDecoder {
     static {
         // initialize the decoding table
         for (int i = 0; i < ENCODING_TABLE.length; i++) {
-            DECODING_TABLE[ENCODING_TABLE[i]] = (byte)i;
+            DECODING_TABLE[ENCODING_TABLE[i]] = (byte) i;
         }
     }
 
