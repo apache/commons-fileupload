@@ -255,7 +255,10 @@ public final class MimeUtility {
         String mappedCharset = MIME2JAVA.get(charset.toLowerCase(Locale.ENGLISH));
         // if there is no mapping, then the original name is used.  Many of the MIME character set
         // names map directly back into Java.  The reverse isn't necessarily true.
-        return mappedCharset == null ? charset : mappedCharset;
+        if (mappedCharset == null) {
+            return charset;
+        }
+        return mappedCharset;
     }
 
 }
