@@ -45,30 +45,49 @@ final class QuotedPrintableDecoder {
         }
     }
 
-    // default number of characters we will write per line.
+    /**
+     * default number of characters we will write per line.
+     */
     private static final int DEFAULT_CHARS_PER_LINE = 76;
 
-    // the output stream we're wrapped around
+    /**
+     * the output stream we're wrapped around
+     */
     protected OutputStream out;
 
-    // the number of bytes written;
+    /**
+     * the number of bytes written;
+     */
     protected int bytesWritten = 0;
 
-    // number of bytes written on the current line
+    /**
+     * number of bytes written on the current line
+     */
     protected int lineCount = 0;
 
-    // line length we're dealing with
+    /**
+     * line length we're dealing with
+     */
     protected int lineLength;
 
-    // number of deferred whitespace characters in decode mode.
+    /**
+     * number of deferred whitespace characters in decode mode.
+     */
     protected int deferredWhitespace = 0;
 
+    /**
+     * internal parsed character cache.
+     */
     protected int cachedCharacter = -1;
 
-    // indicates whether the last character was a '\r', potentially part of a CRLF sequence.
+    /**
+     * indicates whether the last character was a '\r', potentially part of a CRLF sequence.
+     */
     protected boolean lastCR = false;
 
-    // remember whether last character was a white space.
+    /**
+     * remember whether last character was a white space.
+     */
     protected boolean lastWhitespace = false;
 
     public QuotedPrintableDecoder() {
