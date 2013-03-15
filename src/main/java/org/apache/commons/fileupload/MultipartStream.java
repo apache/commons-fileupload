@@ -43,7 +43,7 @@ import org.apache.commons.fileupload.util.Streams;
  *   multipart-body := preamble 1*encapsulation close-delimiter epilogue<br>
  *   encapsulation := delimiter body CRLF<br>
  *   delimiter := "--" boundary CRLF<br>
- *   close-delimiter := "--" boudary "--"<br>
+ *   close-delimiter := "--" boundary "--"<br>
  *   preamble := &lt;ignore&gt;<br>
  *   epilogue := &lt;ignore&gt;<br>
  *   body := header-part CRLF body-part<br>
@@ -629,7 +629,7 @@ public class MultipartStream {
             // Discard all data up to the delimiter.
             discardBodyData();
 
-            // Read boundary - if succeded, the stream contains an
+            // Read boundary - if succeeded, the stream contains an
             // encapsulation.
             return readBoundary();
         } catch (MalformedStreamException e) {
