@@ -34,6 +34,11 @@ final class QuotedPrintableDecoder {
     };
 
     /**
+     * The default number of byte shift for decode.
+     */
+    private static final int OUT_SHIFT = 4;
+
+    /**
      * the decoding table size.
      */
     private static final int DECODING_TABLE_SIZE = 128;
@@ -99,7 +104,7 @@ final class QuotedPrintableDecoder {
                     // this is a hex pair we need to convert back to a single byte.
                     byte c1 = DECODING_TABLE[b1];
                     byte c2 = DECODING_TABLE[b2];
-                    out.write((c1 << 4) | c2);
+                    out.write((c1 << OUT_SHIFT) | c2);
                     // 3 bytes in, one byte out
                     bytesWritten++;
                 }
