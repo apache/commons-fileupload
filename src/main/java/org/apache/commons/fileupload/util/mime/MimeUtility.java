@@ -84,7 +84,7 @@ public final class MimeUtility {
         int startWhiteSpace = -1;
         int endWhiteSpace = -1;
 
-        StringBuffer decodedText = new StringBuffer(text.length());
+        StringBuilder decodedText = new StringBuilder(text.length());
 
         boolean previousTokenEncoded = false;
 
