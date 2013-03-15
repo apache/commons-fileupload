@@ -46,64 +46,6 @@ final class QuotedPrintableDecoder {
     }
 
     /**
-     * default number of characters we will write per line.
-     */
-    private static final int DEFAULT_CHARS_PER_LINE = 76;
-
-    /**
-     * the output stream we're wrapped around
-     */
-    protected OutputStream out;
-
-    /**
-     * the number of bytes written;
-     */
-    protected int bytesWritten = 0;
-
-    /**
-     * number of bytes written on the current line
-     */
-    protected int lineCount = 0;
-
-    /**
-     * line length we're dealing with
-     */
-    protected int lineLength;
-
-    /**
-     * number of deferred whitespace characters in decode mode.
-     */
-    protected int deferredWhitespace = 0;
-
-    /**
-     * internal parsed character cache.
-     */
-    protected int cachedCharacter = -1;
-
-    /**
-     * indicates whether the last character was a '\r', potentially part of a CRLF sequence.
-     */
-    protected boolean lastCR = false;
-
-    /**
-     * remember whether last character was a white space.
-     */
-    protected boolean lastWhitespace = false;
-
-    public QuotedPrintableDecoder() {
-        this(null, DEFAULT_CHARS_PER_LINE);
-    }
-
-    public QuotedPrintableDecoder(OutputStream out) {
-        this(out, DEFAULT_CHARS_PER_LINE);
-    }
-
-    public QuotedPrintableDecoder(OutputStream out, int lineLength) {
-        this.out = out;
-        this.lineLength = lineLength;
-    }
-
-    /**
      * decode the uuencoded byte data writing it to the given output stream
      *
      * @param data   The array of byte data to decode.
@@ -114,10 +56,7 @@ final class QuotedPrintableDecoder {
      * @return the number of bytes produced.
      * @exception IOException
      */
-    public int decodeWord(byte[] data, int off, int length, OutputStream out) throws IOException {
-        // make sure we're writing to the correct stream
-        this.out = out;
-
+    public static int decodeWord(byte[] data, int off, int length, OutputStream out) throws IOException {
         int endOffset = off + length;
         int bytesWritten = 0;
 
