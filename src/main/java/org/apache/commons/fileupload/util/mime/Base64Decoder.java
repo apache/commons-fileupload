@@ -24,7 +24,7 @@ import java.io.OutputStream;
  */
 final class Base64Decoder {
 
-    private final byte[] encodingTable = {
+    private static final byte[] ENCODING_TABLE = {
         (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', (byte) 'G',
         (byte) 'H', (byte) 'I', (byte) 'J', (byte) 'K', (byte) 'L', (byte) 'M', (byte) 'N',
         (byte) 'O', (byte) 'P', (byte) 'Q', (byte) 'R', (byte) 'S', (byte) 'T', (byte) 'U',
@@ -39,24 +39,24 @@ final class Base64Decoder {
         (byte) '+', (byte) '/'
     };
 
-    private byte padding = (byte) '=';
+    private static final byte PADDING = (byte) '=';
 
     /*
      * set up the decoding table.
      */
-    private final byte[] decodingTable = new byte[256];
+    private static final byte[] DECODING_TABLE = new byte[256];
 
-    protected void initialiseDecodingTable() {
-        for (int i = 0; i < encodingTable.length; i++) {
-            decodingTable[encodingTable[i]] = (byte) i;
+    static {
+        for (int i = 0; i < ENCODING_TABLE.length; i++) {
+            DECODING_TABLE[ENCODING_TABLE[i]] = (byte) i;
         }
     }
 
-    public Base64Decoder() {
-        initialiseDecodingTable();
+    private Base64Decoder() {
+        // do nothing
     }
 
-    private boolean ignore(
+    private static boolean ignore(
         char    c) {
         return (c == '\n' || c == '\r' || c == '\t' || c == ' ');
     }
@@ -67,7 +67,7 @@ final class Base64Decoder {
      *
      * @return the number of bytes produced.
      */
-    public int decode(
+    public static int decode(
         byte[]                data,
         int                    off,
         int                    length,
@@ -94,25 +94,25 @@ final class Base64Decoder {
                 i++;
             }
 
-            b1 = decodingTable[data[i++]];
+            b1 = DECODING_TABLE[data[i++]];
 
             while ((i < finish) && ignore((char) data[i])) {
                 i++;
             }
 
-            b2 = decodingTable[data[i++]];
+            b2 = DECODING_TABLE[data[i++]];
 
             while ((i < finish) && ignore((char) data[i])) {
                 i++;
             }
 
-            b3 = decodingTable[data[i++]];
+            b3 = DECODING_TABLE[data[i++]];
 
             while ((i < finish) && ignore((char) data[i])) {
                 i++;
             }
 
-            b4 = decodingTable[data[i++]];
+            b4 = DECODING_TABLE[data[i++]];
 
             out.write((b1 << 2) | (b2 >> 4));
             out.write((b2 << 4) | (b3 >> 2));
@@ -121,27 +121,27 @@ final class Base64Decoder {
             outLen += 3;
         }
 
-        if (data[end - 2] == padding) {
-            b1 = decodingTable[data[end - 4]];
-            b2 = decodingTable[data[end - 3]];
+        if (data[end - 2] == PADDING) {
+            b1 = DECODING_TABLE[data[end - 4]];
+            b2 = DECODING_TABLE[data[end - 3]];
 
             out.write((b1 << 2) | (b2 >> 4));
 
             outLen += 1;
-        } else if (data[end - 1] == padding) {
-            b1 = decodingTable[data[end - 4]];
-            b2 = decodingTable[data[end - 3]];
-            b3 = decodingTable[data[end - 2]];
+        } else if (data[end - 1] == PADDING) {
+            b1 = DECODING_TABLE[data[end - 4]];
+            b2 = DECODING_TABLE[data[end - 3]];
+            b3 = DECODING_TABLE[data[end - 2]];
 
             out.write((b1 << 2) | (b2 >> 4));
             out.write((b2 << 4) | (b3 >> 2));
 
             outLen += 2;
         } else {
-            b1 = decodingTable[data[end - 4]];
-            b2 = decodingTable[data[end - 3]];
-            b3 = decodingTable[data[end - 2]];
-            b4 = decodingTable[data[end - 1]];
+            b1 = DECODING_TABLE[data[end - 4]];
+            b2 = DECODING_TABLE[data[end - 3]];
+            b3 = DECODING_TABLE[data[end - 2]];
+            b4 = DECODING_TABLE[data[end - 1]];
 
             out.write((b1 << 2) | (b2 >> 4));
             out.write((b2 << 4) | (b3 >> 2));

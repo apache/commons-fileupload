@@ -40,11 +40,6 @@ public final class MimeUtility {
      */
     private static final Map<String, String> MIME2JAVA = new HashMap<String, String>();
 
-    /**
-     * The Base64 decoder.
-     */
-    private static final Base64Decoder BASE64_DECODER = new Base64Decoder();
-
     static {
         MIME2JAVA.put("iso-2022-cn", "ISO2022CN");
         MIME2JAVA.put("iso-2022-kr", "ISO2022KR");
@@ -223,7 +218,7 @@ public final class MimeUtility {
 
             // Base64 encoded?
             if (encoding.equals("B")) {
-                BASE64_DECODER.decode(encodedData, 0, encodedData.length, out);
+                Base64Decoder.decode(encodedData, 0, encodedData.length, out);
             } else if (encoding.equals("Q")) { // maybe quoted printable.
                 QuotedPrintableDecoder.decodeWord(encodedData, 0, encodedData.length, out);
             } else {
