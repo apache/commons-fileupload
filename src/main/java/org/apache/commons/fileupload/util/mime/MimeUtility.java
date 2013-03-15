@@ -30,10 +30,19 @@ import java.util.Map;
  */
 public final class MimeUtility {
 
+    /**
+     * The linear whitespace chars sequence.
+     */
     private static final String LINEAR_WHITESPACE = " \t\r\n";
 
+    /**
+     * Mappings between MIME and Java charset.
+     */
     private static final Map<String, String> MIME2JAVA = new HashMap<String, String>();
 
+    /**
+     * The Base64 decoder.
+     */
     private static final Base64Decoder BASE64_DECODER = new Base64Decoder();
 
     static {
