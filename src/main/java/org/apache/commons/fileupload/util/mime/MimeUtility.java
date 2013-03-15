@@ -104,8 +104,7 @@ public final class MimeUtility {
                     ch = text.charAt(offset);
                     if (LINEAR_WHITESPACE.indexOf(ch) != -1) {
                         offset++;
-                    }
-                    else {
+                    } else {
                         // record the location of the first non lwsp and drop down to process the
                         // token characters.
                         endWhiteSpace = offset;
@@ -121,8 +120,7 @@ public final class MimeUtility {
                     ch = text.charAt(offset);
                     if (LINEAR_WHITESPACE.indexOf(ch) == -1) {
                         offset++;
-                    }
-                    else {
+                    } else {
                         break;
                     }
 
