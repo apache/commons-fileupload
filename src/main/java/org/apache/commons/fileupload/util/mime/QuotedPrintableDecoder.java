@@ -46,6 +46,13 @@ final class QuotedPrintableDecoder {
     }
 
     /**
+     * Hidden constructor, this class must not be instantiated.
+     */
+    private QuotedPrintableDecoder() {
+        // do nothing
+    }
+
+    /**
      * decode the uuencoded byte data writing it to the given output stream
      *
      * @param data   The array of byte data to decode.
