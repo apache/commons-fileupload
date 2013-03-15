@@ -137,11 +137,9 @@ public final class MimeUtility {
                         String decodedWord = decodeWord(word);
 
                         // are any whitespace characters significant?  Append 'em if we've got 'em.
-                        if (!previousTokenEncoded) {
-                            if (startWhiteSpace != -1) {
-                                decodedText.append(text.substring(startWhiteSpace, endWhiteSpace));
-                                startWhiteSpace = -1;
-                            }
+                        if (!previousTokenEncoded && startWhiteSpace != -1) {
+                            decodedText.append(text.substring(startWhiteSpace, endWhiteSpace));
+                            startWhiteSpace = -1;
                         }
                         // this is definitely a decoded token.
                         previousTokenEncoded = true;
