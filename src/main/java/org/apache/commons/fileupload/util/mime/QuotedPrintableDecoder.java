@@ -34,9 +34,14 @@ final class QuotedPrintableDecoder {
     };
 
     /**
+     * the decoding table size.
+     */
+    private static final int DECODING_TABLE_SIZE = 128;
+
+    /**
      * set up the decoding table.
      */
-    private static final byte[] DECODING_TABLE = new byte[128];
+    private static final byte[] DECODING_TABLE = new byte[DECODING_TABLE_SIZE];
 
     static {
         // initialize the decoding table
