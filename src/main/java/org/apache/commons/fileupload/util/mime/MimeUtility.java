@@ -31,7 +31,7 @@ import java.util.Map;
 public final class MimeUtility {
 
     /**
-     * If the text contains any encoded tokens, those tokens will be marked with "=?"
+     * If the text contains any encoded tokens, those tokens will be marked with "=?".
      */
     private static final String ENCODED_TOKEN_MARKER = "=?";
 
