@@ -74,7 +74,7 @@ public final class MimeUtility {
      * @param text   The text to decode.
      *
      * @return The decoded test string.
-     * @exception UnsupportedEncodingException
+     * @throws UnsupportedEncodingException
      */
     public static String decodeText(String text) throws UnsupportedEncodingException {
         // if the text contains any encoded tokens, those tokens will be marked with "=?".  If the
@@ -178,8 +178,8 @@ public final class MimeUtility {
      * @param word   The possibly encoded word value.
      *
      * @return The decoded word.
-     * @exception ParseException
-     * @exception UnsupportedEncodingException
+     * @throws ParseException
+     * @throws UnsupportedEncodingException
      */
     private static String decodeWord(String word) throws ParseException, UnsupportedEncodingException {
         // encoded words start with the characters "=?".  If this not an encoded word, we throw a
