@@ -959,13 +959,11 @@ public abstract class FileUploadBase {
                                      : ctx.getContentLength();
 
             if (sizeMax >= 0) {
-                if (requestSize != -1) {
-                    if (requestSize > sizeMax) {
-                        throw new SizeLimitExceededException(
-                            format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                                   requestSize, sizeMax),
-                                   requestSize, sizeMax);
-                    }
+                if (requestSize != -1 && requestSize > sizeMax) {
+                    throw new SizeLimitExceededException(
+                        format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
+                               requestSize, sizeMax),
+                               requestSize, sizeMax);
                 }
                 input = new LimitedInputStream(input, sizeMax) {
                     @Override
