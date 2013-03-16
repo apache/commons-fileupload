@@ -469,7 +469,7 @@ public abstract class FileUploadBase {
     private String getFileName(String pContentDisposition) {
         String fileName = null;
         if (pContentDisposition != null) {
-            String cdl = pContentDisposition.toLowerCase();
+            String cdl = pContentDisposition.toLowerCase(Locale.ENGLISH);
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
                 ParameterParser parser = new ParameterParser();
                 parser.setLowerCaseNames(true);
@@ -512,7 +512,7 @@ public abstract class FileUploadBase {
     private String getFieldName(String pContentDisposition) {
         String fieldName = null;
         if (pContentDisposition != null
-                && pContentDisposition.toLowerCase().startsWith(FORM_DATA)) {
+                && pContentDisposition.toLowerCase(Locale.ENGLISH).startsWith(FORM_DATA)) {
             ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
@@ -699,7 +699,7 @@ public abstract class FileUploadBase {
     @Deprecated
     protected final String getHeader(Map<String, String> headers,
             String name) {
-        return headers.get(name.toLowerCase());
+        return headers.get(name.toLowerCase(Locale.ENGLISH));
     }
 
     /**
@@ -943,7 +943,7 @@ public abstract class FileUploadBase {
 
             String contentType = ctx.getContentType();
             if ((null == contentType)
-                    || (!contentType.toLowerCase().startsWith(MULTIPART))) {
+                    || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART))) {
                 throw new InvalidContentTypeException(
                         format("the request doesn't contain a %s or %s stream, content type header is %s",
                                MULTIPART_FORM_DATA, MULTIPART_FORM_DATA, contentType));
@@ -1033,7 +1033,7 @@ public abstract class FileUploadBase {
                     if (fieldName != null) {
                         String subContentType = headers.getHeader(CONTENT_TYPE);
                         if (subContentType != null
-                                &&  subContentType.toLowerCase()
+                                &&  subContentType.toLowerCase(Locale.ENGLISH)
                                         .startsWith(MULTIPART_MIXED)) {
                             currentFieldName = fieldName;
                             // Multiple files associated with this field name
