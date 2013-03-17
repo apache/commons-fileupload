@@ -952,9 +952,10 @@ public abstract class FileUploadBase {
             InputStream input = ctx.getInputStream();
 
             @SuppressWarnings("deprecation") // still has to be backward compatible
+            final int contentLengthInt = ctx.getContentLength();
             final long requestSize = UploadContext.class.isAssignableFrom(ctx.getClass())
                                      ? ((UploadContext) ctx).contentLength()
-                                     : ctx.getContentLength();
+                                     : contentLengthInt;
 
             if (sizeMax >= 0) {
                 if (requestSize != -1 && requestSize > sizeMax) {
