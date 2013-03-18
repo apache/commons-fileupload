@@ -18,6 +18,8 @@ package org.apache.commons.fileupload.util.mime;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.UnsupportedEncodingException;
+
 import org.apache.commons.fileupload.util.mime.MimeUtility;
 import org.junit.Test;
 
@@ -54,4 +56,8 @@ public final class MimeUtilityTestCase {
         assertEquals(expected, MimeUtility.decodeText(encoded));
     }
 
+    @Test(expected=UnsupportedEncodingException.class)
+    public void decodeInvalidEncoding() throws Exception {
+        MimeUtility.decodeText("=?invalid?B?xyz-?=");
+    }
 }
