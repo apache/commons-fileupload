@@ -261,7 +261,7 @@
           <configLocation>${basedir}/src/checkstyle/fileupload_checks.xml</configLocation>
           <suppressionsLocation>${basedir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
           <enableRulesSummary>false</enableRulesSummary>
-          <headerFile>${basedir}/src/checkstyle/license-header.txt</headerFile>
+          <headerLocation>${basedir}/src/checkstyle/license-header.txt</headerLocation>
         </configuration>
       </plugin>
       <plugin>
