@@ -22,6 +22,9 @@ import org.apache.commons.fileupload.util.mime.MimeUtility;
 import org.junit.Test;
 
 /**
+ * Use the online <a href="http://dogmamix.com/MimeHeadersDecoder/">MimeHeadersDecoder</a>
+ * to validate expected values.
+ *
  * @since 1.3
  */
 public final class MimeUtilityTestCase {
