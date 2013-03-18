@@ -39,9 +39,11 @@ final class QuotedPrintableDecoder {
     private static final int UPPER_NIBBLE_SHIFT = Byte.SIZE / 2;
 
     /**
-     * Set up the decoding table.
+     * Set up the decoding table; this is indexed by a byte converted to an int,
+     * so must be at least as large as the number of different byte values,
+     * positive and negative and zero.
      */
-    private static final byte[] DECODING_TABLE = new byte[128];
+    private static final byte[] DECODING_TABLE = new byte[Byte.MAX_VALUE - Byte.MIN_VALUE + 1];
 
     static {
         // initialize the decoding table
