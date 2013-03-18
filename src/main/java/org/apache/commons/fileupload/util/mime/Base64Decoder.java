@@ -48,9 +48,10 @@ final class Base64Decoder {
 
     /**
      * Set up the decoding table; this is indexed by a byte converted to an int,
-     * so must be at least as large as the number of different byte values.
+     * so must be at least as large as the number of different byte values,
+     * positive and negative and zero.
      */
-    private static final byte[] DECODING_TABLE = new byte[256];
+    private static final byte[] DECODING_TABLE = new byte[Byte.MAX_VALUE - Byte.MIN_VALUE + 1];
 
     static {
         for (int i = 0; i < ENCODING_TABLE.length; i++) {
@@ -129,9 +130,11 @@ final class Base64Decoder {
 
             b4 = DECODING_TABLE[data[i++]];
 
+            // CHECKSTYLE:OFF
             out.write((b1 << 2) | (b2 >> 4));
             out.write((b2 << 4) | (b3 >> 2));
             out.write((b3 << 6) | b4);
+            // CHECKSTYLE:ON
 
             outLen += 3;
         }
