@@ -19,6 +19,8 @@
    limitations under the License.
 -->
 <suppressions>
-  <suppress checks="MagicNumber" files="(Base64|QuotedPrintable)Decoder.java" lines="0-9999"/>
+  <suppress checks="MagicNumber" files="Base64Decoder.java" lines="0-9999"/>
+  <!-- This inline conditional is easier to read than the alternative -->
+  <suppress checks="AvoidInlineConditionals" files="FileUploadBase.java" lines="950-960"/>
   <suppress checks="[a-zA-Z0-9]*" files=".+\.properties" />
 </suppressions>
