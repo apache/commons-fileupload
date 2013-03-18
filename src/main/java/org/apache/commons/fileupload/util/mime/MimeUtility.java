@@ -73,7 +73,7 @@ public final class MimeUtility {
      *
      * @param text   The text to decode.
      *
-     * @return The decoded test string.
+     * @return The decoded text string.
      * @throws UnsupportedEncodingException if the detected encoding in the input text is not supported.
      */
     public static String decodeText(String text) throws UnsupportedEncodingException {
