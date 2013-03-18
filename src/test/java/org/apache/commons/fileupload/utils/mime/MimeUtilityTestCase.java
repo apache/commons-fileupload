@@ -27,11 +27,17 @@ import org.junit.Test;
 public final class MimeUtilityTestCase {
 
     @Test
-    public void testEncodeText() throws Exception {
+    public void noNeedToDecode() throws Exception {
         assertEncoded("abc", "abc");
+    }
 
+    @Test
+    public void decodeQEncoded() throws Exception {
         assertEncoded(" hй! аифu !!!", "=?UTF-8?Q?_h=C3=A9!_=C3=A0=C3=A8=C3=B4u_!!!?=");
+    }
 
+    @Test
+    public void decodeBEncoded() throws Exception {
         assertEncoded(" hй! аифu !!!", "=?UTF-8?B?IGjDqSEgw6DDqMO0dSAhISE=?=");
     }
 
