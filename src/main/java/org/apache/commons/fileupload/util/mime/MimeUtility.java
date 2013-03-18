@@ -74,7 +74,7 @@ public final class MimeUtility {
      * @param text   The text to decode.
      *
      * @return The decoded test string.
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException if the detected encoding in the input text is not supported.
      */
     public static String decodeText(String text) throws UnsupportedEncodingException {
         // if the text contains any encoded tokens, those tokens will be marked with "=?".  If the
