@@ -68,14 +68,15 @@ final class Base64Decoder {
     private static final byte PADDING = (byte) '=';
 
     /**
-     * The decoding table size.
+     * The number of possible byte values; i.e. positives, negatives and zero.
      */
-    private static final int DECODING_TABLE_SIZE = 256;
+    private static final int DISTINCT_BYTE_VALUES = Byte.MAX_VALUE - Byte.MIN_VALUE + 1;
 
     /**
-     * Set up the decoding table.
+     * Set up the decoding table; this is indexed by a byte converted to an int,
+     * so must be at least as large as the number of different byte values.
      */
-    private static final byte[] DECODING_TABLE = new byte[DECODING_TABLE_SIZE];
+    private static final byte[] DECODING_TABLE = new byte[DISTINCT_BYTE_VALUES];
 
     static {
         for (int i = 0; i < ENCODING_TABLE.length; i++) {
@@ -92,9 +93,10 @@ final class Base64Decoder {
 
     /**
      * Checks if the input char must be skipped from the decode.
+     * The method skips whitespace characters LF, CR, horizontal tab and space.
      *
-     * @param c the char has to be checked.
-     * @return true, if the input char has to be checked, false otherwise.
+     * @param c the char to be checked.
+     * @return true, if the input char has to be skipped, false otherwise.
      */
     private static boolean ignore(char c) {
         return (c == '\n' || c == '\r' || c == '\t' || c == ' ');
