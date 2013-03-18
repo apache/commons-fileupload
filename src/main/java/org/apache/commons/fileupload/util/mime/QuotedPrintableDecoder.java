@@ -63,7 +63,7 @@ final class QuotedPrintableDecoder {
     }
 
     /**
-     * Decode the unencoded byte data writing it to the given output stream.
+     * Decode the encoded byte data writing it to the given output stream.
      *
      * @param data   The array of byte data to decode.
      * @param off    Starting offset within the array.
