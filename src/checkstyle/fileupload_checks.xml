@@ -90,9 +90,15 @@
     <!-- Require package Javadoc -->
     <module name="JavadocPackage"/>
 
+    <!-- Allow comments to suppress checks -->
+    <module name="SuppressionCommentFilter"/>
+
     <module name="TreeWalker">
 
         <property name="cacheFile" value="${checkstyle.cache.file}"/>
+
+        <!-- Allow comments to suppress checks -->
+        <module name="FileContentsHolder"/>
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->

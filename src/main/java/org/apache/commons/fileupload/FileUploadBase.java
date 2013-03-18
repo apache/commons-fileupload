@@ -953,9 +953,12 @@ public abstract class FileUploadBase {
 
             @SuppressWarnings("deprecation") // still has to be backward compatible
             final int contentLengthInt = ctx.getContentLength();
+
             final long requestSize = UploadContext.class.isAssignableFrom(ctx.getClass())
+                                     // Inline conditional is OK here CHECKSTYLE:OFF
                                      ? ((UploadContext) ctx).contentLength()
                                      : contentLengthInt;
+                                     // CHECKSTYLE:ON
 
             if (sizeMax >= 0) {
                 if (requestSize != -1 && requestSize > sizeMax) {
