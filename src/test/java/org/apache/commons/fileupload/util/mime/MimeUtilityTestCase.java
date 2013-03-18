@@ -35,17 +35,17 @@ public final class MimeUtilityTestCase {
     }
 
     @Test
-    public void decodeUtf8QEncoded() throws Exception {
+    public void decodeUtf8QuotedPrintableEncoded() throws Exception {
         assertEncoded(" hй! аифu !!!", "=?UTF-8?Q?_h=C3=A9!_=C3=A0=C3=A8=C3=B4u_!!!?=");
     }
 
     @Test
-    public void decodeUtf8BEncoded() throws Exception {
+    public void decodeUtf8Base64Encoded() throws Exception {
         assertEncoded(" hй! аифu !!!", "=?UTF-8?B?IGjDqSEgw6DDqMO0dSAhISE=?=");
     }
 
     @Test
-    public void decodeIso88591BEncoded() throws Exception {
+    public void decodeIso88591Base64Encoded() throws Exception {
         assertEncoded("If you can read this you understand the example.",
                       "=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n");
     }
