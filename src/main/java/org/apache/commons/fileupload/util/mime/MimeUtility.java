@@ -67,7 +67,7 @@ public final class MimeUtility {
 
     /**
      * Decode a string of text obtained from a mail header into
-     * it's proper form.  The text generally will consist of a
+     * its proper form.  The text generally will consist of a
      * string of tokens, some of which may be encoded using
      * base64 encoding.
      *
