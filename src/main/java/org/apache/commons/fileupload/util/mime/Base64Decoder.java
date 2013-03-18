@@ -106,6 +106,11 @@ final class Base64Decoder {
      * Decode the base 64 encoded byte data writing it to the given output stream,
      * whitespace characters will be ignored.
      *
+     * @param data the buffer containing the Base64-encoded data
+     * @param off the start offset (zero-based)
+     * @param length the number of bytes to convert
+     * @param out the output stream to hold the decoded bytes
+     *
      * @return the number of bytes produced.
      */
     public static int decode(byte[] data, int off, int length, OutputStream out) throws IOException {
