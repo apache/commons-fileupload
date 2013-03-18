@@ -20,4 +20,5 @@
 -->
 <suppressions>
   <suppress checks="MagicNumber" files="(Base64|QuotedPrintable)Decoder.java" lines="0-9999"/>
+  <suppress checks="[a-zA-Z0-9]*" files=".+\.properties" />
 </suppressions>
