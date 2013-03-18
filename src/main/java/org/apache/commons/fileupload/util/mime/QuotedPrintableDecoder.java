@@ -68,7 +68,7 @@ final class QuotedPrintableDecoder {
      * @return the number of bytes produced.
      * @exception IOException
      */
-    public static int decodeWord(byte[] data, int off, int length, OutputStream out) throws IOException {
+    public static int decode(byte[] data, int off, int length, OutputStream out) throws IOException {
         int endOffset = off + length;
         int bytesWritten = 0;
 
