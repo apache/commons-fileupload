@@ -33,20 +33,15 @@ final class QuotedPrintableDecoder {
     };
 
     /**
-     * The shift value required to create the upper nibble 
-     * from the first of 2 byte values converted from ascii hex. 
+     * The shift value required to create the upper nibble
+     * from the first of 2 byte values converted from ascii hex.
      */
     private static final int UPPER_NIBBLE_SHIFT = Byte.SIZE / 2;
 
     /**
-     * The decoding table size.
-     */
-    private static final int DECODING_TABLE_SIZE = 128;
-
-    /**
      * Set up the decoding table.
      */
-    private static final byte[] DECODING_TABLE = new byte[DECODING_TABLE_SIZE];
+    private static final byte[] DECODING_TABLE = new byte[128];
 
     static {
         // initialize the decoding table

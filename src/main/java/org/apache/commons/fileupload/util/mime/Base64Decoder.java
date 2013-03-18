@@ -25,26 +25,6 @@ import java.io.OutputStream;
 final class Base64Decoder {
 
     /**
-     * Bytes per undecoded block.
-     */
-    private static final int BYTES_PER_UNENCODED_BLOCK = 3;
-
-    /**
-     * 2 bits mask.
-     */
-    private static final int MASK_2BITS = 2;
-
-    /**
-     * 4 bits mask.
-     */
-    private static final int MASK_4BITS = 4;
-
-    /**
-     * 6 bits mask.
-     */
-    private static final int MASK_6BITS = 6;
-
-    /**
      * Set up the encoding table.
      */
     private static final byte[] ENCODING_TABLE = {
@@ -67,15 +47,10 @@ final class Base64Decoder {
     private static final byte PADDING = (byte) '=';
 
     /**
-     * The number of possible byte values; i.e. positives, negatives and zero.
-     */
-    private static final int DISTINCT_BYTE_VALUES = Byte.MAX_VALUE - Byte.MIN_VALUE + 1;
-
-    /**
      * Set up the decoding table; this is indexed by a byte converted to an int,
      * so must be at least as large as the number of different byte values.
      */
-    private static final byte[] DECODING_TABLE = new byte[DISTINCT_BYTE_VALUES];
+    private static final byte[] DECODING_TABLE = new byte[256];
 
     static {
         for (int i = 0; i < ENCODING_TABLE.length; i++) {
@@ -127,7 +102,7 @@ final class Base64Decoder {
         }
 
         int  i = off;
-        int  finish = end - MASK_4BITS;
+        int  finish = end - 4;
 
         while (i < finish) {
             while ((i < finish) && ignore((char) data[i])) {
@@ -154,40 +129,40 @@ final class Base64Decoder {
 
             b4 = DECODING_TABLE[data[i++]];
 
-            out.write((b1 << MASK_2BITS) | (b2 >> MASK_4BITS));
-            out.write((b2 << MASK_4BITS) | (b3 >> MASK_2BITS));
-            out.write((b3 << MASK_6BITS) | b4);
+            out.write((b1 << 2) | (b2 >> 4));
+            out.write((b2 << 4) | (b3 >> 2));
+            out.write((b3 << 6) | b4);
 
-            outLen += BYTES_PER_UNENCODED_BLOCK;
+            outLen += 3;
         }
 
-        if (data[end - MASK_2BITS] == PADDING) {
-            b1 = DECODING_TABLE[data[end - MASK_4BITS]];
-            b2 = DECODING_TABLE[data[end - BYTES_PER_UNENCODED_BLOCK]];
+        if (data[end - 2] == PADDING) {
+            b1 = DECODING_TABLE[data[end - 4]];
+            b2 = DECODING_TABLE[data[end - 3]];
 
-            out.write((b1 << MASK_2BITS) | (b2 >> MASK_4BITS));
+            out.write((b1 << 2) | (b2 >> 4));
 
             outLen += 1;
         } else if (data[end - 1] == PADDING) {
-            b1 = DECODING_TABLE[data[end - MASK_4BITS]];
-            b2 = DECODING_TABLE[data[end - BYTES_PER_UNENCODED_BLOCK]];
-            b3 = DECODING_TABLE[data[end - MASK_2BITS]];
+            b1 = DECODING_TABLE[data[end - 4]];
+            b2 = DECODING_TABLE[data[end - 3]];
+            b3 = DECODING_TABLE[data[end - 2]];
 
-            out.write((b1 << MASK_2BITS) | (b2 >> MASK_4BITS));
-            out.write((b2 << MASK_4BITS) | (b3 >> MASK_2BITS));
+            out.write((b1 << 2) | (b2 >> 4));
+            out.write((b2 << 4) | (b3 >> 2));
 
-            outLen += MASK_2BITS;
+            outLen += 2;
         } else {
-            b1 = DECODING_TABLE[data[end - MASK_4BITS]];
-            b2 = DECODING_TABLE[data[end - BYTES_PER_UNENCODED_BLOCK]];
-            b3 = DECODING_TABLE[data[end - MASK_2BITS]];
+            b1 = DECODING_TABLE[data[end - 4]];
+            b2 = DECODING_TABLE[data[end - 3]];
+            b3 = DECODING_TABLE[data[end - 2]];
             b4 = DECODING_TABLE[data[end - 1]];
 
-            out.write((b1 << MASK_2BITS) | (b2 >> MASK_4BITS));
-            out.write((b2 << MASK_4BITS) | (b3 >> MASK_2BITS));
-            out.write((b3 << MASK_6BITS) | b4);
+            out.write((b1 << 2) | (b2 >> 4));
+            out.write((b2 << 4) | (b3 >> 2));
+            out.write((b3 << 6) | b4);
 
-            outLen += BYTES_PER_UNENCODED_BLOCK;
+            outLen += 3;
         }
 
         return outLen;
