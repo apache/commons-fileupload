@@ -117,12 +117,12 @@ public final class MimeUtility {
             char ch = text.charAt(offset);
 
             // is this a whitespace character?
-            if (LINEAR_WHITESPACE.indexOf(ch) != -1) {
+            if (LINEAR_WHITESPACE.indexOf(ch) != -1) { // whitespace found
                 startWhiteSpace = offset;
                 while (offset < endOffset) {
                     // step over the white space characters.
                     ch = text.charAt(offset);
-                    if (LINEAR_WHITESPACE.indexOf(ch) != -1) {
+                    if (LINEAR_WHITESPACE.indexOf(ch) != -1) { // whitespace found
                         offset++;
                     } else {
                         // record the location of the first non lwsp and drop down to process the
@@ -136,9 +136,9 @@ public final class MimeUtility {
                 int wordStart = offset;
 
                 while (offset < endOffset) {
-                    // step over the white space characters.
+                    // step over the non white space characters.
                     ch = text.charAt(offset);
-                    if (LINEAR_WHITESPACE.indexOf(ch) == -1) {
+                    if (LINEAR_WHITESPACE.indexOf(ch) == -1) { // not white space
                         offset++;
                     } else {
                         break;
