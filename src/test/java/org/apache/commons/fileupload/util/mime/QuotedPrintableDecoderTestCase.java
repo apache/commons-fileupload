@@ -48,6 +48,16 @@ public final class QuotedPrintableDecoderTestCase {
         assertEncoded("=\r\n", "=3D=0D=0A");
     }
 
+    @Test
+    public void unsafeDecodeLowerCase() throws Exception {
+        assertEncoded("=\r\n", "=3d=0d=0a");
+    }
+
+    @Test(expected = IOException.class)
+    public void invalidCharDecode() throws Exception {
+        assertEncoded("=\r\n", "=3D=XD=XA");
+    }
+
     /**
      * This is NOT supported by Commons-Codec, see CODEC-121.
      *
