@@ -64,7 +64,7 @@ final class QuotedPrintableDecoder {
                 if (off + 1 >= endOffset) {
                     throw new IOException("Invalid quoted printable encoding; truncated escape sequence");
                 }
-                // convert the two bytes back from hex.
+
                 byte b1 = data[off++];
                 byte b2 = data[off++];
 
