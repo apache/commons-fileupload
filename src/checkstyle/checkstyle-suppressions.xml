@@ -19,6 +19,5 @@
    limitations under the License.
 -->
 <suppressions>
-  <suppress checks="MagicNumber" files="Base64Decoder.java" lines="0-9999"/>
   <suppress checks="[a-zA-Z0-9]*" files=".+\.properties" />
 </suppressions>
