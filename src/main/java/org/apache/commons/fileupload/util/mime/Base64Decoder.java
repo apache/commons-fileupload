@@ -162,12 +162,13 @@ final class Base64Decoder {
         if (p1 != PADDING) { // Nothing more to do if p1 == PADDING
             // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
             out.write((b2 << 4) | (b3 >> 2)); // 4 bits of b2 plus 4 bits of b3
-            outLen++;
-        } else if (p2 != PADDING) { // Nothing more to do if p2 == PADDING
-            b4 = DECODING_TABLE[p2];
-            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-            out.write((b3 << 6) | b4);        // 2 bits of b3 plus 6 bits of b4
-            outLen++;
+            outLen++; 
+            if (p2 != PADDING) { // Nothing more to do if p2 == PADDING
+                b4 = DECODING_TABLE[p2];
+                // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
+                out.write((b3 << 6) | b4);        // 2 bits of b3 plus 6 bits of b4
+                outLen++;
+            }
         }
 
         return outLen;
