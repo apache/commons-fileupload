@@ -48,10 +48,10 @@ public final class Base64DecoderTestCase {
         assertEncoded("", "");
         assertEncoded("f", "Zg==");
         assertEncoded("fo", "Zm8=");
-        // assertEncoded("foo", "Zm9v");
+        assertEncoded("foo", "Zm9v");
         assertEncoded("foob", "Zm9vYg==");
         assertEncoded("fooba", "Zm9vYmE=");
-        // assertEncoded("foobar", "Zm9vYmFy");
+        assertEncoded("foobar", "Zm9vYmFy");
     }
 
     private static void assertEncoded(String clearText, String encoded) throws Exception {
