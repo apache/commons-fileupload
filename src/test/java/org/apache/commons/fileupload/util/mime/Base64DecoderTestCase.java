@@ -59,7 +59,7 @@ public final class Base64DecoderTestCase {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
         byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
-        Base64Decoder.decode(encodedData, 0, encodedData.length, out);
+        Base64Decoder.decode(encodedData, out);
         byte[] actual = out.toByteArray();
 
         assertArrayEquals(expected, actual);

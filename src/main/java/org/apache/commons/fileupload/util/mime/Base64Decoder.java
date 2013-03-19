@@ -82,21 +82,19 @@ final class Base64Decoder {
      * whitespace characters will be ignored.
      *
      * @param data the buffer containing the Base64-encoded data
-     * @param off the start offset (zero-based)
-     * @param length the number of bytes to convert
      * @param out the output stream to hold the decoded bytes
      *
      * @return the number of bytes produced.
      */
-    public static int decode(byte[] data, int off, int length, OutputStream out) throws IOException {
+    public static int decode(byte[] data, OutputStream out) throws IOException {
         byte    b1, b2, b3, b4;
         int        outLen = 0;
 
-        if (data.length == 0 || length == 0) {
+        if (data.length == 0) {
             return outLen;
         }
 
-        int        end = off + length;
+        int        end = data.length;
 
         while (end > 0) {
             if (!ignore((char) data[end - 1])) {
@@ -106,7 +104,7 @@ final class Base64Decoder {
             end--;
         }
 
-        int  i = off;
+        int  i = 0;
         // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
         int  finish = end - 4; // last set of 4 bytes might include padding
 

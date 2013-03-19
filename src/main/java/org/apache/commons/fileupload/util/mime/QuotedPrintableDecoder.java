@@ -63,14 +63,14 @@ final class QuotedPrintableDecoder {
      * Decode the encoded byte data writing it to the given output stream.
      *
      * @param data   The array of byte data to decode.
-     * @param off    Starting offset within the array.
-     * @param length The length of data to encode.
      * @param out    The output stream used to return the decoded data.
      *
      * @return the number of bytes produced.
      * @exception IOException
      */
-    public static int decode(byte[] data, int off, int length, OutputStream out) throws IOException {
+    public static int decode(byte[] data, OutputStream out) throws IOException {
+        int off = 0;
+        int length = data.length;
         int endOffset = off + length;
         int bytesWritten = 0;
 
