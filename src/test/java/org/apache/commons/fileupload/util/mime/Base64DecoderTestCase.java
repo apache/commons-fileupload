@@ -45,7 +45,7 @@ public final class Base64DecoderTestCase {
      */
     @Test
     public void rfc4648Section10Decode() throws Exception {
-        // assertEncoded("", "");
+        assertEncoded("", "");
         assertEncoded("f", "Zg==");
         assertEncoded("fo", "Zm8=");
         // assertEncoded("foo", "Zm9v");
