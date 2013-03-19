@@ -25,32 +25,10 @@ import java.io.OutputStream;
 final class QuotedPrintableDecoder {
 
     /**
-     * Set up the encoding table.
-     */
-    private static final byte[] ENCODING_TABLE = {
-        (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6', (byte) '7',
-        (byte) '8', (byte) '9', (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F'
-    };
-
-    /**
      * The shift value required to create the upper nibble
      * from the first of 2 byte values converted from ascii hex.
      */
     private static final int UPPER_NIBBLE_SHIFT = Byte.SIZE / 2;
-
-    /**
-     * Set up the decoding table; this is indexed by a byte converted to an int,
-     * so must be at least as large as the number of different byte values,
-     * positive and negative and zero.
-     */
-    private static final byte[] DECODING_TABLE = new byte[Byte.MAX_VALUE - Byte.MIN_VALUE + 1];
-
-    static {
-        // initialize the decoding table
-        for (int i = 0; i < ENCODING_TABLE.length; i++) {
-            DECODING_TABLE[ENCODING_TABLE[i]] = (byte) i;
-        }
-    }
 
     /**
      * Hidden constructor, this class must not be instantiated.
@@ -99,8 +77,8 @@ final class QuotedPrintableDecoder {
                     // on decode.
                 } else {
                     // this is a hex pair we need to convert back to a single byte.
-                    byte c1 = DECODING_TABLE[b1];
-                    byte c2 = DECODING_TABLE[b2];
+                    int c1 = hexToBinary(b1);
+                    int c2 = hexToBinary(b2);
                     out.write((c1 << UPPER_NIBBLE_SHIFT) | c2);
                     // 3 bytes in, one byte out
                     bytesWritten++;
@@ -113,6 +91,22 @@ final class QuotedPrintableDecoder {
         }
 
         return bytesWritten;
+    }
+
+    /**
+     * Convert a hex digit to the binary value it represents.
+     * 
+     * @param b the ascii hex byte to convert (0-0, A-F, a-f)
+     * @return the int value of the hex byte, 0-15
+     * @throws IOException if the byte is not a valid hex digit.
+     */
+    private static int hexToBinary(final byte b) throws IOException {
+        // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
+        final int i = Character.digit((char) b, 16);
+        if (i == -1) {
+            throw new IOException("Invalid quoted printable encoding: not a valid hex digit: " + b);
+        }
+        return i;
     }
 
 }
