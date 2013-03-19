@@ -34,13 +34,25 @@ public final class QuotedPrintableDecoderTestCase {
     private static final String US_ASCII_CHARSET = "US-ASCII";
 
     @Test
+    public void emptyDecode() throws Exception {
+        assertEncoded("", "");
+    }
+
+    @Test
+    public void plainDecode() throws Exception {
+        // spaces are allowed in encoded data 
+        // There are special rules for trailing spaces; these are not currently implemented.
+        assertEncoded("The quick brown fox jumps over the lazy dog.", "The quick brown fox jumps over the lazy dog.");
+    }
+
+    @Test
     public void basicEncodeDecode() throws Exception {
         assertEncoded("= Hello there =\r\n", "=3D Hello there =3D=0D=0A");
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void invalidQuotedPrintableEncoding() throws Exception {
-        assertEncoded("abc123_-.*~!@#$%^&()+{}\"\\;:`,/[]", "YWJjMTIzXy0uKn4hQCMkJV4mKCkre31cIlxcOzpgLC9bXQ==");
+        assertIOException("truncated escape sequence", "YWJjMTIzXy0uKn4hQCMkJV4mKCkre31cIlxcOzpgLC9bXQ==");
     }
 
     @Test
