@@ -103,7 +103,8 @@ final class Base64Decoder {
         }
 
         int  i = off;
-        int  finish = end - 4;
+        // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
+        int  finish = end - 4; // last set of 4 bytes might include padding
 
         while (i < finish) {
             while ((i < finish) && ignore((char) data[i])) {
@@ -130,42 +131,39 @@ final class Base64Decoder {
 
             b4 = DECODING_TABLE[data[i++]];
 
-            // CHECKSTYLE:OFF
-            out.write((b1 << 2) | (b2 >> 4));
-            out.write((b2 << 4) | (b3 >> 2));
-            out.write((b3 << 6) | b4);
-            // CHECKSTYLE:ON
+            // Convert 4 6-bit bytes to 3 8-bit bytes
+            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 3 LINES
+            out.write((b1 << 2) | (b2 >> 4)); // 6 bits of b1 plus 2 bits of b2
+            out.write((b2 << 4) | (b3 >> 2)); // 4 bits of b2 plus 4 bits of b3
+            out.write((b3 << 6) | b4);        // 2 bits of b3 plus 6 bits of b4
 
+            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
             outLen += 3;
         }
 
-        if (data[end - 2] == PADDING) {
-            b1 = DECODING_TABLE[data[end - 4]];
-            b2 = DECODING_TABLE[data[end - 3]];
+        // Get the last 4 bytes; only last two can be padding
+        b1 = DECODING_TABLE[data[i++]];
+        b2 = DECODING_TABLE[data[i++]];
 
-            out.write((b1 << 2) | (b2 >> 4));
+        // always write the first byte
+        // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
+        out.write((b1 << 2) | (b2 >> 4)); // 6 bits of b1 plus 2 bits of b2
+        outLen++;
 
-            outLen += 1;
-        } else if (data[end - 1] == PADDING) {
-            b1 = DECODING_TABLE[data[end - 4]];
-            b2 = DECODING_TABLE[data[end - 3]];
-            b3 = DECODING_TABLE[data[end - 2]];
+        byte p1 = data[i++];
+        byte p2 = data[i++];
 
-            out.write((b1 << 2) | (b2 >> 4));
-            out.write((b2 << 4) | (b3 >> 2));
+        b3 = DECODING_TABLE[p1]; // may be needed later
 
-            outLen += 2;
-        } else {
-            b1 = DECODING_TABLE[data[end - 4]];
-            b2 = DECODING_TABLE[data[end - 3]];
-            b3 = DECODING_TABLE[data[end - 2]];
-            b4 = DECODING_TABLE[data[end - 1]];
-
-            out.write((b1 << 2) | (b2 >> 4));
-            out.write((b2 << 4) | (b3 >> 2));
-            out.write((b3 << 6) | b4);
-
-            outLen += 3;
+        if (p1 != PADDING) { // Nothing more to do ir p1 == PADDING
+            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
+            out.write((b2 << 4) | (b3 >> 2)); // 4 bits of b2 plus 4 bits of b3
+            outLen++;
+        } else if (p2 != PADDING) { // Nothing more to do if p2 == PADDING
+            b4 = DECODING_TABLE[p2];
+            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
+            out.write((b3 << 6) | b4);        // 2 bits of b3 plus 6 bits of b4
+            outLen++;
         }
 
         return outLen;
