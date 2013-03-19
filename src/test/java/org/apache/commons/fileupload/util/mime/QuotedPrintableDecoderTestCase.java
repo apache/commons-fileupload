@@ -17,9 +17,12 @@
 package org.apache.commons.fileupload.util.mime;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
@@ -57,6 +60,21 @@ public final class QuotedPrintableDecoderTestCase {
                       "If you believe that truth=3Dbeauty, then surely=20=\r\nmathematics is the most beautiful branch of philosophy.");
     }
 
+    @Test
+    public void invalidSoftBreak1() throws Exception {
+        assertIOException("CR must be followed by LF", "=\r\r");
+    }
+
+    @Test
+    public void invalidSoftBreak2() throws Exception {
+        assertIOException("CR must be followed by LF", "=\rn");
+    }
+
+    @Test
+    public void truncatedEscape() throws Exception {
+        assertIOException("truncated", "=1");
+    }
+
     private static void assertEncoded(String clearText, String encoded) throws Exception {
         byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
 
@@ -66,6 +84,18 @@ public final class QuotedPrintableDecoderTestCase {
         byte[] actual = out.toByteArray();
 
         assertArrayEquals(expected, actual);
+    }
+
+    private static void assertIOException(String messageText, String encoded) throws UnsupportedEncodingException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
+        byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+        try {
+            QuotedPrintableDecoder.decode(encodedData, out);
+            fail("Expected IOException");
+        } catch (IOException e) {
+            String em = e.getMessage();
+            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));        }
+
     }
 
 }
