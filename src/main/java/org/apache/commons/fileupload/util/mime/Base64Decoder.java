@@ -92,6 +92,10 @@ final class Base64Decoder {
         byte    b1, b2, b3, b4;
         int        outLen = 0;
 
+        if (data.length == 0 || length == 0) {
+            return outLen;
+        }
+
         int        end = off + length;
 
         while (end > 0) {
