@@ -55,7 +55,7 @@ public final class Base64DecoderTestCase {
     }
 
     /**
-     * Test our decode with pad character in the middle.
+     * Test our decode with a pad character in the middle.
      *
      * Contrary to Apache Commons-Codec implementation, doesn't halt decode and return what we've got so far.
      *
