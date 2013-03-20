@@ -89,4 +89,10 @@ public final class Base64DecoderTestCase {
         Base64Decoder.decode(x, new ByteArrayOutputStream());
     }
 
+    @Test(expected = IOException.class)
+    public void truncatedString() throws Exception {
+        final byte[] x = new byte[]{'n'};
+        Base64Decoder.decode(x, new ByteArrayOutputStream());
+    }
+
 }
