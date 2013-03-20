@@ -168,7 +168,7 @@ public class SizesTest extends FileUploadTestCase {
         } catch (FileUploadBase.FileSizeLimitExceededException e) {
             assertEquals(5, e.getPermittedSize());
         }
-        
+
         // provided Content-Length is wrong, actual content is larger -> handled by LimitedInputStream
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(15);
@@ -205,7 +205,7 @@ public class SizesTest extends FileUploadTestCase {
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(-1);
         upload.setSizeMax(200);
-        
+
         MockHttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
         try {
             upload.parseRequest(req);
@@ -225,7 +225,7 @@ public class SizesTest extends FileUploadTestCase {
             "Content-Type: text/whatever\r\n" +
             "Content-Length: 10\r\n" +
             "\r\n" +
-            "This is the content of the file\n" + 
+            "This is the content of the file\n" +
             "\r\n" +
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" +
@@ -246,15 +246,15 @@ public class SizesTest extends FileUploadTestCase {
         MockHttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
         req.setContentLength(-1);
         req.setReadLimit(10);
-        
+
         FileItemIterator it = upload.getItemIterator(req);
         assertTrue(it.hasNext());
-        
+
         FileItemStream item = it.next();
         assertFalse(item.isFormField());
         assertEquals("file1", item.getFieldName());
         assertEquals("foo1.tab", item.getName());
-        
+
         try {
             InputStream stream = item.openStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
