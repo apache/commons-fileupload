@@ -19,6 +19,7 @@ package org.apache.commons.fileupload.util.mime;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import org.junit.Test;
 
@@ -55,15 +56,15 @@ public final class Base64DecoderTestCase {
     }
 
     /**
-     * Test our decode with a pad character in the middle.
+     * Test our decode with pad character in the middle.
+     * Returns data up to pad character.
      *
-     * Contrary to Apache Commons-Codec implementation, doesn't halt decode and return what we've got so far.
      *
      * @throws Exception if any error occurs while decoding the input string.
      */
     @Test
     public void decodeWithInnerPad() throws Exception {
-        assertEncoded("Hello World\0Hello World", "SGVsbG8gV29ybGQ=SGVsbG8gV29ybGQ=");
+        assertEncoded("Hello World", "SGVsbG8gV29ybGQ=SGVsbG8gV29ybGQ=");
     }
 
     private static void assertEncoded(String clearText, String encoded) throws Exception {
@@ -78,16 +79,13 @@ public final class Base64DecoderTestCase {
     }
 
     /**
-     * Throws ArrayIndexOutOfBoundsException on some non-BASE64 bytes.
-     *
-     * This is fixed in Apache Commons-Codec.
+     * Throws IOException for non-BASE64 bytes.
      *
      * @throws Exception
-     * @see <a href="https://issues.apache.org/jira/browse/CODEC-68">CODEC-68</a>
      */
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Test(expected = IOException.class)
     public void nonBase64Bytes() throws Exception {
-        final byte[] x = new byte[]{'n', 'A', '=', '=', (byte) 0x9c};
+        final byte[] x = new byte[]{'n', 'A', (byte) 0x9c};
         Base64Decoder.decode(x, new ByteArrayOutputStream());
     }
 
