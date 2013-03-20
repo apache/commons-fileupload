@@ -135,6 +135,8 @@ final class Base64Decoder {
                     outLen++;
                 }
             }
+        } else if (cachedBytes != 0){
+            throw new IOException("Invalid Base64 input: truncated");            
         }
         return outLen;
     }
