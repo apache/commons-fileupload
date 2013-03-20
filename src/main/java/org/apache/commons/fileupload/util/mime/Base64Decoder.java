@@ -25,6 +25,21 @@ import java.io.OutputStream;
 final class Base64Decoder {
 
     /**
+     * Decoding table value for invalid bytes.
+     */
+    private static final int INVALID_BYTE = -1; // must be outside range 0-63
+
+    /**
+     * Mask to treat byte as unsigned integer.
+     */
+    private static final int MASK_BYTE_UNSIGNED = 0xFF;
+
+    /**
+     * Number of bytes per encoded chunk - 4 6bit bytes produce 3 8bit bytes on output.
+     */
+    private static final int INPUT_BYTES_PER_CHUNK = 4;
+
+    /**
      * Set up the encoding table.
      */
     private static final byte[] ENCODING_TABLE = {
@@ -54,6 +69,11 @@ final class Base64Decoder {
     private static final byte[] DECODING_TABLE = new byte[Byte.MAX_VALUE - Byte.MIN_VALUE + 1];
 
     static {
+        // Initialise as all invalid characters
+        for (int i = 0; i < DECODING_TABLE.length; i++) {
+            DECODING_TABLE[i] = INVALID_BYTE;
+        }
+        // set up valid characters
         for (int i = 0; i < ENCODING_TABLE.length; i++) {
             DECODING_TABLE[ENCODING_TABLE[i]] = (byte) i;
         }
@@ -67,17 +87,6 @@ final class Base64Decoder {
     }
 
     /**
-     * Checks if the input char must be skipped from the decode.
-     * The method skips whitespace characters LF, CR, horizontal tab and space.
-     *
-     * @param c the char to be checked.
-     * @return true, if the input char has to be skipped, false otherwise.
-     */
-    private static boolean ignore(char c) {
-        return (c == '\n' || c == '\r' || c == '\t' || c == ' ');
-    }
-
-    /**
      * Decode the base 64 encoded byte data writing it to the given output stream,
      * whitespace characters will be ignored.
      *
@@ -87,89 +96,46 @@ final class Base64Decoder {
      * @return the number of bytes produced.
      */
     public static int decode(byte[] data, OutputStream out) throws IOException {
-        byte    b1, b2, b3, b4;
         int        outLen = 0;
+        byte [] cache = new byte[INPUT_BYTES_PER_CHUNK];
+        int cachedBytes = 0;
 
-        if (data.length == 0) {
-            return outLen;
-        }
-
-        int        end = data.length;
-
-        while (end > 0) {
-            if (!ignore((char) data[end - 1])) {
+        for (byte b : data) {
+            if (b == PADDING) { // Padding means end of input
                 break;
             }
-
-            end--;
-        }
-
-        int  i = 0;
-        // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-        int  finish = end - 4; // last set of 4 bytes might include padding
-
-        while (i < finish) {
-            while ((i < finish) && ignore((char) data[i])) {
-                i++;
+            final byte d = DECODING_TABLE[MASK_BYTE_UNSIGNED & b];
+            if (d == INVALID_BYTE) {
+                throw new IOException("Invalid Base64 byte: " + b);
             }
+            cache[cachedBytes++] = d;
+            if (cachedBytes == INPUT_BYTES_PER_CHUNK) {
+                // Convert 4 6-bit bytes to 3 8-bit bytes
+                // CHECKSTYLE IGNORE MagicNumber FOR NEXT 3 LINES
+                out.write((cache[0] << 2) | (cache[1] >> 4)); // 6 bits of b1 plus 2 bits of b2
+                out.write((cache[1] << 4) | (cache[2] >> 2)); // 4 bits of b2 plus 4 bits of b3
+                out.write((cache[2] << 6) | cache[3]);        // 2 bits of b3 plus 6 bits of b4
 
-            b1 = DECODING_TABLE[data[i++]];
-
-            while ((i < finish) && ignore((char) data[i])) {
-                i++;
-            }
-
-            b2 = DECODING_TABLE[data[i++]];
-
-            while ((i < finish) && ignore((char) data[i])) {
-                i++;
-            }
-
-            b3 = DECODING_TABLE[data[i++]];
-
-            while ((i < finish) && ignore((char) data[i])) {
-                i++;
-            }
-
-            b4 = DECODING_TABLE[data[i++]];
-
-            // Convert 4 6-bit bytes to 3 8-bit bytes
-            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 3 LINES
-            out.write((b1 << 2) | (b2 >> 4)); // 6 bits of b1 plus 2 bits of b2
-            out.write((b2 << 4) | (b3 >> 2)); // 4 bits of b2 plus 4 bits of b3
-            out.write((b3 << 6) | b4);        // 2 bits of b3 plus 6 bits of b4
-
-            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-            outLen += 3;
-        }
-
-        // Get the last 4 bytes; only last two can be padding
-        b1 = DECODING_TABLE[data[i++]];
-        b2 = DECODING_TABLE[data[i++]];
-
-        // always write the first byte
-        // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-        out.write((b1 << 2) | (b2 >> 4)); // 6 bits of b1 plus 2 bits of b2
-        outLen++;
-
-        byte p1 = data[i++];
-        byte p2 = data[i++];
-
-        b3 = DECODING_TABLE[p1]; // may be needed later
-
-        if (p1 != PADDING) { // Nothing more to do if p1 == PADDING
-            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-            out.write((b2 << 4) | (b3 >> 2)); // 4 bits of b2 plus 4 bits of b3
-            outLen++; 
-            if (p2 != PADDING) { // Nothing more to do if p2 == PADDING
-                b4 = DECODING_TABLE[p2];
                 // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                out.write((b3 << 6) | b4);        // 2 bits of b3 plus 6 bits of b4
-                outLen++;
+                outLen += 3;
+                cachedBytes = 0;
             }
         }
-
+        // CHECKSTYLE IGNORE MagicNumber FOR NEXT 2 LINES
+        if (cachedBytes >= 2) {
+            out.write((cache[0] << 2) | (cache[1] >> 4)); // 6 bits of b1 plus 2 bits of b2
+            outLen++;
+            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 2 LINES
+            if (cachedBytes >= 3) {
+                out.write((cache[1] << 4) | (cache[2] >> 2)); // 4 bits of b2 plus 4 bits of b3
+                outLen++;
+                // CHECKSTYLE IGNORE MagicNumber FOR NEXT 2 LINES
+                if (cachedBytes >= 4) {
+                    out.write((cache[2] << 6) | cache[3]);        // 2 bits of b3 plus 6 bits of b4
+                    outLen++;
+                }
+            }
+        }
         return outLen;
     }
-
 }
