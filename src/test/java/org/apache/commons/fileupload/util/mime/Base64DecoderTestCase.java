@@ -79,14 +79,11 @@ public final class Base64DecoderTestCase {
     }
 
     /**
-     * Throws IOException for non-BASE64 bytes.
-     *
-     * @throws Exception
+     * Ignores non-BASE64 bytes.
      */
-    @Test(expected = IOException.class)
+    @Test
     public void nonBase64Bytes() throws Exception {
-        final byte[] x = new byte[]{'n', 'A', (byte) 0x9c};
-        Base64Decoder.decode(x, new ByteArrayOutputStream());
+        assertEncoded("Hello World", "S?G!V%sbG 8g\rV\t\n29ybGQ*=");
     }
 
     @Test(expected = IOException.class)

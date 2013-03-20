@@ -106,7 +106,7 @@ final class Base64Decoder {
             }
             final byte d = DECODING_TABLE[MASK_BYTE_UNSIGNED & b];
             if (d == INVALID_BYTE) {
-                throw new IOException("Invalid Base64 byte: " + b);
+                continue; // Ignore invalid bytes
             }
             cache[cachedBytes++] = d;
             if (cachedBytes == INPUT_BYTES_PER_CHUNK) {
