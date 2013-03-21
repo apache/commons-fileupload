@@ -30,6 +30,11 @@ final class Base64Decoder {
     private static final int INVALID_BYTE = -1; // must be outside range 0-63
 
     /**
+     * Decoding table value for padding bytes, so can detect PAD afer conversion.
+     */
+    private static final int PAD_BYTE = -2; // must be outside range 0-63
+
+    /**
      * Mask to treat byte as unsigned integer.
      */
     private static final int MASK_BYTE_UNSIGNED = 0xFF;
@@ -62,7 +67,7 @@ final class Base64Decoder {
     private static final byte PADDING = (byte) '=';
 
     /**
-     * Set up the decoding table; this is indexed by a byte converted to an int,
+     * Set up the decoding table; this is indexed by a byte converted to an unsigned int,
      * so must be at least as large as the number of different byte values,
      * positive and negative and zero.
      */
@@ -77,6 +82,8 @@ final class Base64Decoder {
         for (int i = 0; i < ENCODING_TABLE.length; i++) {
             DECODING_TABLE[ENCODING_TABLE[i]] = (byte) i;
         }
+        // Allow pad byte to be easily detected after conversion
+        DECODING_TABLE[PADDING] = PAD_BYTE;
     }
 
     /**
@@ -101,9 +108,6 @@ final class Base64Decoder {
         int cachedBytes = 0;
 
         for (byte b : data) {
-            if (b == PADDING) { // Padding means end of input
-                break;
-            }
             final byte d = DECODING_TABLE[MASK_BYTE_UNSIGNED & b];
             if (d == INVALID_BYTE) {
                 continue; // Ignore invalid bytes
@@ -111,32 +115,27 @@ final class Base64Decoder {
             cache[cachedBytes++] = d;
             if (cachedBytes == INPUT_BYTES_PER_CHUNK) {
                 // Convert 4 6-bit bytes to 3 8-bit bytes
-                // CHECKSTYLE IGNORE MagicNumber FOR NEXT 3 LINES
-                out.write((cache[0] << 2) | (cache[1] >> 4)); // 6 bits of b1 plus 2 bits of b2
-                out.write((cache[1] << 4) | (cache[2] >> 2)); // 4 bits of b2 plus 4 bits of b3
-                out.write((cache[2] << 6) | cache[3]);        // 2 bits of b3 plus 6 bits of b4
-
                 // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                outLen += 3;
+                out.write((cache[0] << 2) | (cache[1] >> 4)); // 6 bits of b1 plus 2 bits of b2
+                outLen++;
+                if (cache[2] != PAD_BYTE) {
+                    // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
+                    out.write((cache[1] << 4) | (cache[2] >> 2)); // 4 bits of b2 plus 4 bits of b3
+                    outLen++;
+                    if (cache[3] != PAD_BYTE) {
+                        // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
+                        out.write((cache[2] << 6) | cache[3]);        // 2 bits of b3 plus 6 bits of b4
+                        outLen++;
+                    }
+                } else if (cache[3] != PAD_BYTE) { // if byte 3 is pad, byte 4 must be pad too
+                    throw new IOException("Invalid Base64 input: incorrect padding");                    
+                }
                 cachedBytes = 0;
             }
         }
-        // CHECKSTYLE IGNORE MagicNumber FOR NEXT 2 LINES
-        if (cachedBytes >= 2) {
-            out.write((cache[0] << 2) | (cache[1] >> 4)); // 6 bits of b1 plus 2 bits of b2
-            outLen++;
-            // CHECKSTYLE IGNORE MagicNumber FOR NEXT 2 LINES
-            if (cachedBytes >= 3) {
-                out.write((cache[1] << 4) | (cache[2] >> 2)); // 4 bits of b2 plus 4 bits of b3
-                outLen++;
-                // CHECKSTYLE IGNORE MagicNumber FOR NEXT 2 LINES
-                if (cachedBytes >= 4) {
-                    out.write((cache[2] << 6) | cache[3]);        // 2 bits of b3 plus 6 bits of b4
-                    outLen++;
-                }
-            }
-        } else if (cachedBytes != 0){
-            throw new IOException("Invalid Base64 input: truncated");            
+        // Check for anything left over
+        if (cachedBytes != 0){
+            throw new IOException("Invalid Base64 input: truncated");
         }
         return outLen;
     }
