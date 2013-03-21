@@ -128,7 +128,7 @@ final class Base64Decoder {
                         outLen++;
                     }
                 } else if (cache[3] != PAD_BYTE) { // if byte 3 is pad, byte 4 must be pad too
-                    throw new IOException("Invalid Base64 input: incorrect padding");                    
+                    throw new IOException("Invalid Base64 input: incorrect padding");
                 }
                 cachedBytes = 0;
             }
