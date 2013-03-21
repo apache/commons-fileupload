@@ -40,7 +40,7 @@ public final class QuotedPrintableDecoderTestCase {
 
     @Test
     public void plainDecode() throws Exception {
-        // spaces are allowed in encoded data 
+        // spaces are allowed in encoded data
         // There are special rules for trailing spaces; these are not currently implemented.
         assertEncoded("The quick brown fox jumps over the lazy dog.", "The quick brown fox jumps over the lazy dog.");
     }
@@ -116,8 +116,8 @@ public final class QuotedPrintableDecoderTestCase {
             fail("Expected IOException");
         } catch (IOException e) {
             String em = e.getMessage();
-            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));        }
-
+            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));
+        }
     }
 
 }
