@@ -17,9 +17,12 @@
 package org.apache.commons.fileupload.util.mime;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
@@ -57,25 +60,12 @@ public final class Base64DecoderTestCase {
 
     /**
      * Test our decode with pad character in the middle.
-     * Returns data up to pad character.
-     *
-     *
-     * @throws Exception if any error occurs while decoding the input string.
+     * Continues provided that the padding is in the correct place,
+     * i.e. concatenated valid strings decode OK.
      */
     @Test
     public void decodeWithInnerPad() throws Exception {
-        assertEncoded("Hello World", "SGVsbG8gV29ybGQ=SGVsbG8gV29ybGQ=");
-    }
-
-    private static void assertEncoded(String clearText, String encoded) throws Exception {
-        byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
-        Base64Decoder.decode(encodedData, out);
-        byte[] actual = out.toByteArray();
-
-        assertArrayEquals(expected, actual);
+        assertEncoded("Hello WorldHello World", "SGVsbG8gV29ybGQ=SGVsbG8gV29ybGQ=");
     }
 
     /**
@@ -90,6 +80,57 @@ public final class Base64DecoderTestCase {
     public void truncatedString() throws Exception {
         final byte[] x = new byte[]{'n'};
         Base64Decoder.decode(x, new ByteArrayOutputStream());
+    }
+
+    @Test
+    public void decodeTrailingJunk() throws Exception {
+        assertEncoded("foobar", "Zm9vYmFy!!!");
+    }
+
+    // If there are valid trailing Base64 chars, complain
+    @Test
+    public void decodeTrailing1() throws Exception {
+        assertIOException("truncated", "Zm9vYmFy1");
+    }
+
+    // If there are valid trailing Base64 chars, complain
+    @Test
+    public void decodeTrailing2() throws Exception {
+        assertIOException("truncated", "Zm9vYmFy12");
+    }
+
+    // If there are valid trailing Base64 chars, complain
+    @Test
+    public void decodeTrailing3() throws Exception {
+        assertIOException("truncated", "Zm9vYmFy123");
+    }
+
+    @Test
+    public void badPadding() throws Exception {
+        assertIOException("incorrect padding", "Zg=a");
+    }
+
+    private static void assertEncoded(String clearText, String encoded) throws Exception {
+        byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
+        byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+        Base64Decoder.decode(encodedData, out);
+        byte[] actual = out.toByteArray();
+
+        assertArrayEquals(expected, actual);
+    }
+
+    private static void assertIOException(String messageText, String encoded) throws UnsupportedEncodingException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
+        byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+        try {
+            Base64Decoder.decode(encodedData, out);
+            fail("Expected IOException");
+        } catch (IOException e) {
+            String em = e.getMessage();
+            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));
+        }
     }
 
 }
