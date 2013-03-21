@@ -122,11 +122,13 @@ final class Base64Decoder {
                     // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
                     out.write((cache[1] << 4) | (cache[2] >> 2)); // 4 bits of b2 plus 4 bits of b3
                     outLen++;
+                    // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
                     if (cache[3] != PAD_BYTE) {
                         // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
                         out.write((cache[2] << 6) | cache[3]);        // 2 bits of b3 plus 6 bits of b4
                         outLen++;
                     }
+                // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
                 } else if (cache[3] != PAD_BYTE) { // if byte 3 is pad, byte 4 must be pad too
                     throw new IOException("Invalid Base64 input: incorrect padding");
                 }
