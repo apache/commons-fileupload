@@ -118,6 +118,15 @@ public final class Base64DecoderTestCase {
         assertIOException("truncated", "Zm8==");
     }
 
+    // These inputs cause java.lang.ArrayIndexOutOfBoundsException
+    // in the Java 6 method DatatypeConverter.parseBase64Binary(String)
+    // The non-ASCII characters should just be ignored
+    @Test
+    public void nonASCIIcharacter() throws Exception {
+        assertEncoded("f","Zg=À="); // A-grave
+        assertEncoded("f","Zg=\u0100=");
+    }
+
     private static void assertEncoded(String clearText, String encoded) throws Exception {
         byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
 
