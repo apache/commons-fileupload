@@ -110,6 +110,14 @@ public final class Base64DecoderTestCase {
         assertIOException("incorrect padding", "Zg=a");
     }
 
+    // This input causes java.lang.ArrayIndexOutOfBoundsException: 1
+    // in the Java 6 method DatatypeConverter.parseBase64Binary(String)
+    // currently reported as truncated (the last chunk consists just of '=')
+    @Test
+    public void badLength() throws Exception {
+        assertIOException("truncated", "Zm8==");
+    }
+
     private static void assertEncoded(String clearText, String encoded) throws Exception {
         byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
 
