@@ -107,7 +107,17 @@ public final class Base64DecoderTestCase {
 
     @Test
     public void badPadding() throws Exception {
-        assertIOException("incorrect padding", "Zg=a");
+        assertIOException("incorrect padding, 4th byte", "Zg=a");
+    }
+
+    @Test
+    public void badPaddingLeading1() throws Exception {
+        assertIOException("incorrect padding, first two bytes cannot be padding", "=A==");
+    }
+
+    @Test
+    public void badPaddingLeading2() throws Exception {
+        assertIOException("incorrect padding, first two bytes cannot be padding", "====");
     }
 
     // This input causes java.lang.ArrayIndexOutOfBoundsException: 1

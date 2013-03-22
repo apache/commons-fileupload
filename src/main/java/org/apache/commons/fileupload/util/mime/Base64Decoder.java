@@ -114,23 +114,30 @@ final class Base64Decoder {
             }
             cache[cachedBytes++] = d;
             if (cachedBytes == INPUT_BYTES_PER_CHUNK) {
+                // CHECKSTYLE IGNORE MagicNumber FOR NEXT 4 LINES
+                final byte b1 = cache[0];
+                final byte b2 = cache[1];
+                final byte b3 = cache[2];
+                final byte b4 = cache[3];
+                if (b1 == PAD_BYTE || b2 == PAD_BYTE) {
+                    throw new IOException("Invalid Base64 input: incorrect padding, first two bytes cannot be padding");
+                }
                 // Convert 4 6-bit bytes to 3 8-bit bytes
                 // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                out.write((cache[0] << 2) | (cache[1] >> 4)); // 6 bits of b1 plus 2 bits of b2
+                out.write((b1 << 2) | (b2 >> 4)); // 6 bits of b1 plus 2 bits of b2
                 outLen++;
-                if (cache[2] != PAD_BYTE) {
+                if (b3 != PAD_BYTE) {
                     // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                    out.write((cache[1] << 4) | (cache[2] >> 2)); // 4 bits of b2 plus 4 bits of b3
+                    out.write((b2 << 4) | (b3 >> 2)); // 4 bits of b2 plus 4 bits of b3
                     outLen++;
-                    // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                    if (cache[3] != PAD_BYTE) {
+                    if (b4 != PAD_BYTE) {
                         // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                        out.write((cache[2] << 6) | cache[3]);        // 2 bits of b3 plus 6 bits of b4
+                        out.write((b3 << 6) | b4);        // 2 bits of b3 plus 6 bits of b4
                         outLen++;
                     }
-                // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                } else if (cache[3] != PAD_BYTE) { // if byte 3 is pad, byte 4 must be pad too
-                    throw new IOException("Invalid Base64 input: incorrect padding");
+                } else if (b4 != PAD_BYTE) { // if byte 3 is pad, byte 4 must be pad too
+                    throw new // line wrap to avoid 120 char limit
+                    IOException("Invalid Base64 input: incorrect padding, 4th byte must be padding if 3rd byte is");
                 }
                 cachedBytes = 0;
             }
