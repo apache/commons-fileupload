@@ -51,6 +51,7 @@ Sub-task
  * [FILEUPLOAD-220] - replace package.html with package-info.java
  * [FILEUPLOAD-221] - FileItemHeadersImpl can now use LinkedHashMap
  * [FILEUPLOAD-222] - Mark @deprecated classes/methods with @Deprecated annotation
+ * [FILEUPLOAD-233] - Base64Decoder doesn't correctly implement RFC 4648
 
 Bug
 =============
@@ -70,6 +71,7 @@ Bug
  * [FILEUPLOAD-214] - ServletFileUpload only accepts POST requests
  * [FILEUPLOAD-228] - (Servlet|Portlet)RequestContext#contentLength() must return request.getContentLength() if Content-length header is not available
  * [FILEUPLOAD-229] - toLowerCase() is Locale-dependent; should use toLowerCase(Locale.ENGLISH) instead
+ * [FILEUPLOAD-232] - There are no unit tests for the new utils.mime classes
 
 Improvement
 =============
