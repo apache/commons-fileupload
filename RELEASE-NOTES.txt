@@ -90,7 +90,7 @@ Task
 =============
 
  * [FILEUPLOAD-201] - Update to JDK 1.5 and bump IO dependency to 2.0.1
- * [FILEUPLOAD-215] - version 1.2.3 improvement tasks
+ * [FILEUPLOAD-215] - version 1.3 improvement tasks
 
 OTHER NOTES
 ============
