@@ -160,7 +160,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update to JDK 1.5 and bump IO dependency to 2.0.1
       </action>
       <action issue="FILEUPLOAD-215" dev="simonetripodi" type="update">
-        version 1.2.3 improvement tasks
+        version 1.3 improvement tasks
       </action>
     </release>
 
