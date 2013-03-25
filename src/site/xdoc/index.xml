@@ -40,7 +40,8 @@
         make the results available in a manner easily used by the caller.
       </p>
       <p>
-        Since version <b>1.3</b>, FileUpload is able to handle RFC2047 encoded header values.
+        Starting with version <b>1.3</b>, FileUpload handles 
+        <a href="https://www.ietf.org/rfc/rfc2047.txt">RFC 2047</a> encoded header values.
       </p>
 
       <p>The simplest way to send a <i>multipart/form-data</i> request to a server is via a web form, i.e.</p>
