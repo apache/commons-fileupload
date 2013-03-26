@@ -23,7 +23,7 @@
     <format>tar.gz</format>
     <format>zip</format>
   </formats>
-  <baseDirectory>${artifactId}-${version}-src</baseDirectory>
+  <baseDirectory>${project.build.finalName}-src</baseDirectory>
   <fileSets>
     <fileSet>
       <directory>${basedir}</directory>
