@@ -23,6 +23,7 @@
     <format>tar.gz</format>
     <format>zip</format>
   </formats>
+  <baseDirectory>${project.build.finalName}-bin</baseDirectory>
   <includeSiteDirectory>true</includeSiteDirectory>
   <fileSets>
     <fileSet>
