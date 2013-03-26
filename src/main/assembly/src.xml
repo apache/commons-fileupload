@@ -31,6 +31,7 @@
         <exclude>**/.classpath</exclude>
         <exclude>**/.project</exclude>
         <exclude>**/.settings/</exclude>
+        <exclude>**/.doap_*.rdf</exclude>
         <exclude>**/bin/</exclude>
         <exclude>**/.externalToolBuilders/</exclude>
         <exclude>**/target/</exclude>
