@@ -156,7 +156,7 @@ public class DiskFileItemSerializeTest {
      * Create content bytes of a specified size.
      */
     private byte[] createContentBytes(int size) {
-        StringBuffer buffer = new StringBuffer(size);
+        StringBuilder buffer = new StringBuilder(size);
         byte count = 0;
         for (int i = 0; i < size; i++) {
             buffer.append(count+"");

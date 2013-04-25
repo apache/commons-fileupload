@@ -257,7 +257,7 @@ public class DefaultFileItemTest {
     };
 
     private static String constructString(int[] unicodeChars) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         if (unicodeChars != null) {
             for (int i = 0; i < unicodeChars.length; i++) {
                 buffer.append((char) unicodeChars[i]);
