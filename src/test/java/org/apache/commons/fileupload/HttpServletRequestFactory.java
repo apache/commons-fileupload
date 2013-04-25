@@ -34,7 +34,7 @@ final class HttpServletRequestFactory {
             final String[] strFileNames) {
         // todo - provide a real implementation
 
-        StringBuffer sbRequestData = new StringBuffer();
+        StringBuilder sbRequestData = new StringBuilder();
 
         for (int i = 0; i < strFileNames.length; i++)
         {
