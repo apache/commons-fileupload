@@ -48,6 +48,9 @@ The <action> type attribute can be add,update,fix,remove.
         When deserializing DiskFileItems ensure that the repository location, if
         any, is a valid one.
       </action>
+      <action dev="markt" type="fix">
+        Correct example in usage documentation so it compiles.
+      </action>
     </release>
     
     <release version="1.3" description="maintenance release, JDK1.5 update" date="2013-03-27">
