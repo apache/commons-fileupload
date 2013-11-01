@@ -141,7 +141,7 @@ boolean isMultipart = ServletFileUpload.isMultipartContent(request);]]></source>
           Handling a request in this scenario couldn't be much simpler:
         </p>
   <source><![CDATA[// Create a factory for disk-based file items
-FileItemFactory factory = new DiskFileItemFactory();
+DiskFileItemFactory factory = new DiskFileItemFactory();
 
 // Configure a repository (to ensure a secure temp location is used)
 ServletContext servletContext = this.getServletConfig().getServletContext();
