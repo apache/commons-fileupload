@@ -538,7 +538,7 @@ public class MultipartStream {
             if (++size > HEADER_PART_SIZE_MAX) {
                 throw new MalformedStreamException(
                         format("Header section has more than %s bytes (maybe it is not properly terminated)",
-                               HEADER_PART_SIZE_MAX));
+                               Integer.valueOf(HEADER_PART_SIZE_MAX)));
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++;

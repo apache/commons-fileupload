@@ -39,6 +39,7 @@ import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -47,7 +48,7 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * {@link org.apache.commons.fileupload.FileItem FileItem} interface.
  *
  * <p> After retrieving an instance of this class from a {@link
- * org.apache.commons.fileupload.DiskFileUpload DiskFileUpload} instance (see
+ * DiskFileItemFactory} instance (see
  * {@link org.apache.commons.fileupload.servlet.ServletFileUpload
  * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
  * either request all contents of file at once using {@link #get()} or
@@ -57,14 +58,14 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  *
  * <p>Temporary files, which are created for file items, should be
  * deleted later on. The best way to do this is using a
- * {@link org.apache.commons.io.FileCleaningTracker}, which you can set on the
+ * {@link FileCleaningTracker}, which you can set on the
  * {@link DiskFileItemFactory}. However, if you do use such a tracker,
  * then you must consider the following: Temporary files are automatically
  * deleted as soon as they are no longer needed. (More precisely, when the
  * corresponding instance of {@link java.io.File} is garbage collected.)
- * This is done by the so-called reaper thread, which is started
- * automatically when the class {@link org.apache.commons.io.FileCleaner}
- * is loaded.
+ * This is done by the so-called reaper thread, which is started and stopped
+ * automatically by the {@link FileCleaningTracker} when there are files to be
+ * tracked.
  * It might make sense to terminate that thread, for example, if
  * your web application ends. See the section on "Resource cleanup"
  * in the users guide of commons-fileupload.</p>
@@ -618,7 +619,8 @@ public class DiskFileItem
     @Override
     public String toString() {
         return format("name=%s, StoreLocation=%s, size=%s bytes, isFormField=%s, FieldName=%s",
-                      getName(), getStoreLocation(), getSize(), isFormField(), getFieldName());
+                      getName(), getStoreLocation(), Long.valueOf(getSize()),
+                      Boolean.valueOf(isFormField()), getFieldName());
     }
 
     // -------------------------------------------------- Serialization methods
