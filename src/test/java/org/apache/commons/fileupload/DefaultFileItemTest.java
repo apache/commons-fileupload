@@ -35,7 +35,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-@SuppressWarnings("deprecation") // unit tests for deprecated class
+@SuppressWarnings({"deprecation", "javadoc"}) // unit tests for deprecated class
 public class DefaultFileItemTest {
 
     /**

@@ -773,7 +773,7 @@ public abstract class FileUploadBase {
                         FileSizeLimitExceededException e =
                             new FileSizeLimitExceededException(
                                 format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                       fieldName, fileSizeMax),
+                                       fieldName, Long.valueOf(fileSizeMax)),
                                 pContentLength, fileSizeMax);
                         e.setFileName(pName);
                         e.setFieldName(pFieldName);
@@ -787,7 +787,7 @@ public abstract class FileUploadBase {
                             FileSizeLimitExceededException e =
                                 new FileSizeLimitExceededException(
                                     format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                           fieldName, pSizeMax),
+                                           fieldName, Long.valueOf(pSizeMax)),
                                     pCount, pSizeMax);
                             e.setFieldName(fieldName);
                             e.setFileName(name);
@@ -964,7 +964,7 @@ public abstract class FileUploadBase {
                 if (requestSize != -1 && requestSize > sizeMax) {
                     throw new SizeLimitExceededException(
                         format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                               requestSize, sizeMax),
+                                Long.valueOf(requestSize), Long.valueOf(sizeMax)),
                                requestSize, sizeMax);
                 }
                 input = new LimitedInputStream(input, sizeMax) {
@@ -973,7 +973,7 @@ public abstract class FileUploadBase {
                             throws IOException {
                         FileUploadException ex = new SizeLimitExceededException(
                         format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                               pCount, pSizeMax),
+                                Long.valueOf(pCount), Long.valueOf(pSizeMax)),
                                pCount, pSizeMax);
                         throw new FileUploadIOException(ex);
                     }

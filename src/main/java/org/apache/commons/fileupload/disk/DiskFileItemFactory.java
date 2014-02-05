@@ -58,9 +58,9 @@ import org.apache.commons.io.FileCleaningTracker;
  * then you must consider the following: Temporary files are automatically
  * deleted as soon as they are no longer needed. (More precisely, when the
  * corresponding instance of {@link java.io.File} is garbage collected.)
- * This is done by the so-called reaper thread, which is started
- * automatically when the class {@link org.apache.commons.io.FileCleaner}
- * is loaded.
+ * This is done by the so-called reaper thread, which is started and stopped
+ * automatically by the {@link FileCleaningTracker} when there are files to be
+ * tracked.
  * It might make sense to terminate that thread, for example, if
  * your web application ends. See the section on "Resource cleanup"
  * in the users guide of commons-fileupload.</p>
