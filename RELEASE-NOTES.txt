@@ -15,84 +15,30 @@
    limitations under the License.
 -->
 
-                          Apache Commons-FileUpload
-                                Version 1.3
-                               Release Notes
+The Apache Commons FileUpload team is pleased to announce the Apache Commons
+FileUpload 1.3.1 release!
+
+The Apache Commons FileUpload component provides a simple yet flexible means of
+adding support for multipart file upload functionality to servlets and web
+applications.
+
+No client code changes are required to migrate from version 1.3.0 to 1.3.1.
 
 
-INTRODUCTION
-============
+Changes in version 1.3.1 include:
 
-This is a maintenance release, new projects are encouraged to
-use this release of FileUpload.
-There is no urgency for existing projects to upgrade.
+Fixed Bugs:
+o SECURITY - CVE-2014-0050. Specially crafted input can trigger a DoS if the
+        buffer used by the MultipartStream is not big enough. When constructing
+        MultipartStream enforce the requirements for buffer size by throwing an
+        IllegalArgumentException if the requested buffer size is too small. This
+        prevents the DoS. 
+o When deserializing DiskFileItems ensure that the repository location, if
+        any, is a valid one. Thanks to Arun Babu Neelicattu. 
+o Correct example in usage documentation so it compiles. 
 
-IMPORTANT NOTES
-================
 
- * SECURITY - CVE-2013-0248, see http://seclists.org/fulldisclosure/2013/Mar/76
 
-DEPENDENCIES
-=============
+Have fun!
+-Apache Commons FileUpload team
 
-FileUpload 1.3 users should upgrade to the recommended dependency set below
-where possible.
-
-The Recommended Dependency Set for FileUpload 1.3 is:
-   Apache Commons-IO 2.2
-
-Sub-task
-=============
-
- * [FILEUPLOAD-216] - Update the project tree dirs according to default Maven conventions
- * [FILEUPLOAD-217] - drop JDK1.3 support and update to Java5
- * [FILEUPLOAD-218] - Update version in POM
- * [FILEUPLOAD-219] - upgrade tests to JUnit 4
- * [FILEUPLOAD-220] - replace package.html with package-info.java
- * [FILEUPLOAD-221] - FileItemHeadersImpl can now use LinkedHashMap
- * [FILEUPLOAD-222] - Mark @deprecated classes/methods with @Deprecated annotation
- * [FILEUPLOAD-233] - Base64Decoder doesn't correctly implement RFC 4648
-
-Bug
-=============
-
- * [FILEUPLOAD-143] - "Stream ended unexpectedly" when posting from a Flash client
- * [FILEUPLOAD-173] - Manifest for OSGi has invalid syntax
- * [FILEUPLOAD-183] - commons-io dependency does not get loaded by maven if only dependency to commons-fileupload is specified
- * [FILEUPLOAD-185] - http://commons.apache.org/fileupload/index.html is out of date
- * [FILEUPLOAD-186] - http://commons.apache.org/fileupload/index.html should not mention nightly builds
- * [FILEUPLOAD-189] - DiskFileItemFactory use of FileCleaningTracker is documented or coded wrong
- * [FILEUPLOAD-195] - Error reading the file size larger than 2 gb
- * [FILEUPLOAD-197] - ServletFileUpload isMultipartContent method does not support HTTP PUT
- * [FILEUPLOAD-199] - Uploads have unexpected results for files with non-ASCII names - support RFC2047
- * [FILEUPLOAD-202] - org.apache.commons.fileupload.FileUploadBase$IOFileUploadException: Processing of multipart/form-data request failed. Stream ended unexpectedly
- * [FILEUPLOAD-204] - FileItem.getHeaders() returns always null.
- * [FILEUPLOAD-212] - Insecure request size checking
- * [FILEUPLOAD-214] - ServletFileUpload only accepts POST requests
- * [FILEUPLOAD-228] - (Servlet|Portlet)RequestContext#contentLength() must return request.getContentLength() if Content-length header is not available
- * [FILEUPLOAD-229] - toLowerCase() is Locale-dependent; should use toLowerCase(Locale.ENGLISH) instead
- * [FILEUPLOAD-232] - There are no unit tests for the new utils.mime classes
-
-Improvement
-=============
-
- * [FILEUPLOAD-182] - Documentation: add simple HTML form example to fileupload user guide
- * [FILEUPLOAD-207] - enhance file read/write performance
- * [FILEUPLOAD-209] - Add Support for Generic Types
- * [FILEUPLOAD-210] - Process HTTP Requests Into Maps
- * [FILEUPLOAD-223] - Update commons-io dependency to latest version that supports JDK1.5
- * [FILEUPLOAD-224] - Avoid string concatenations while parsing headers, use buffers instead
- * [FILEUPLOAD-225] - Replace java.rmi.server.UID() with java.util.UUID
- * [FILEUPLOAD-226] - DiskFileItem.counter could be converted to AtomicInteger (or AtomicLong?)
- * [FILEUPLOAD-227] - Private immutable fields which could be final
-
-Task
-=============
-
- * [FILEUPLOAD-201] - Update to JDK 1.5 and bump IO dependency to 2.0.1
- * [FILEUPLOAD-215] - version 1.3 improvement tasks
-
-OTHER NOTES
-============
-
- * This is the first version of Apache Commons FileUpload which requires Java5
