@@ -38,13 +38,29 @@ public class MultipartStreamTest {
         final byte[] contents = strData.getBytes();
         InputStream input = new ByteArrayInputStream(contents);
         byte[] boundary = BOUNDARY_TEXT.getBytes();
-        int iBufSize = boundary.length;
+        int iBufSize =
+                boundary.length + MultipartStream.BOUNDARY_PREFIX.length + 1;
         MultipartStream ms = new MultipartStream(
                 input,
                 boundary,
                 iBufSize,
                 new MultipartStream.ProgressNotifier(null, contents.length));
         assertNotNull(ms);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testSmallBuffer() throws Exception {
+        final String strData = "foobar";
+        final byte[] contents = strData.getBytes();
+        InputStream input = new ByteArrayInputStream(contents);
+        byte[] boundary = BOUNDARY_TEXT.getBytes();
+        int iBufSize = 1;
+        @SuppressWarnings("unused")
+        MultipartStream ms = new MultipartStream(
+                input,
+                boundary,
+                iBufSize,
+                new MultipartStream.ProgressNotifier(null, contents.length));
     }
 
     @Test
