@@ -1201,6 +1201,15 @@ public abstract class FileUploadBase {
             super(message);
         }
 
+        /**
+         * Constructs an <code>InvalidContentTypeException</code> with
+         * the specified detail message and cause.
+         * 
+         * @param msg The detail message.
+         * @param cause the original cause
+         *
+         * @since 1.3.1
+         */
         public InvalidContentTypeException(String msg, Throwable cause) {
             super(msg, cause);
         }
