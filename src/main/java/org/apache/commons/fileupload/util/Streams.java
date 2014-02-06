@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.commons.fileupload.InvalidFileNameException;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Utility class for working with streams.
@@ -119,19 +120,9 @@ public final class Streams {
             in = null;
             return total;
         } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (Throwable t) {
-                    /* Ignore me */
-                }
-            }
-            if (closeOutputStream  &&  out != null) {
-                try {
-                    out.close();
-                } catch (Throwable t) {
-                    /* Ignore me */
-                }
+            IOUtils.closeQuietly(in);
+            if (closeOutputStream) {
+                IOUtils.closeQuietly(out);
             }
         }
     }
