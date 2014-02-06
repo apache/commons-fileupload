@@ -314,6 +314,8 @@ public class MultipartStream {
      *                  progress listener, if any.
      *
      * @throws IllegalArgumentException If the buffer size is too small
+     *
+     * @since 1.3.1
      */
     public MultipartStream(InputStream input,
             byte[] boundary,
