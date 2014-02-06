@@ -144,14 +144,14 @@ public final class Streams {
      * content into a string. The platform's default character encoding
      * is used for converting bytes into characters.
      *
-     * @param pStream The input stream to read.
+     * @param inputStream The input stream to read.
      * @see #asString(InputStream, String)
      * @return The streams contents, as a string.
      * @throws IOException An I/O error occurred.
      */
-    public static String asString(InputStream pStream) throws IOException {
+    public static String asString(InputStream inputStream) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        copy(pStream, baos, true);
+        copy(inputStream, baos, true);
         return baos.toString();
     }
 
@@ -160,17 +160,17 @@ public final class Streams {
      * {@link org.apache.commons.fileupload.FileItemStream}'s
      * content into a string, using the given character encoding.
      *
-     * @param pStream The input stream to read.
-     * @param pEncoding The character encoding, typically "UTF-8".
+     * @param inputStream The input stream to read.
+     * @param encoding The character encoding, typically "UTF-8".
      * @see #asString(InputStream)
      * @return The streams contents, as a string.
      * @throws IOException An I/O error occurred.
      */
-    public static String asString(InputStream pStream, String pEncoding)
+    public static String asString(InputStream inputStream, String encoding)
             throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        copy(pStream, baos, true);
-        return baos.toString(pEncoding);
+        copy(inputStream, baos, true);
+        return baos.toString(encoding);
     }
 
     /**
@@ -179,16 +179,16 @@ public final class Streams {
      * is valid, it will be returned without any modifications. Otherwise,
      * an {@link InvalidFileNameException} is raised.
      *
-     * @param pFileName The file name to check
+     * @param fileName The file name to check
      * @return Unmodified file name, if valid.
      * @throws InvalidFileNameException The file name was found to be invalid.
      */
-    public static String checkFileName(String pFileName) {
-        if (pFileName != null  &&  pFileName.indexOf('\u0000') != -1) {
+    public static String checkFileName(String fileName) {
+        if (fileName != null  &&  fileName.indexOf('\u0000') != -1) {
             // pFileName.replace("\u0000", "\\0")
             final StringBuilder sb = new StringBuilder();
-            for (int i = 0;  i < pFileName.length();  i++) {
-                char c = pFileName.charAt(i);
+            for (int i = 0;  i < fileName.length();  i++) {
+                char c = fileName.charAt(i);
                 switch (c) {
                     case 0:
                         sb.append("\\0");
@@ -198,10 +198,10 @@ public final class Streams {
                         break;
                 }
             }
-            throw new InvalidFileNameException(pFileName,
+            throw new InvalidFileNameException(fileName,
                     "Invalid file name: " + sb);
         }
-        return pFileName;
+        return fileName;
     }
 
 }
