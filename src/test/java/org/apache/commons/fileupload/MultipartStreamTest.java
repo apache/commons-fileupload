@@ -48,6 +48,7 @@ public class MultipartStreamTest {
         assertNotNull(ms);
     }
 
+    @SuppressWarnings("unused")
     @Test(expected=IllegalArgumentException.class)
     public void testSmallBuffer() throws Exception {
         final String strData = "foobar";
@@ -55,8 +56,7 @@ public class MultipartStreamTest {
         InputStream input = new ByteArrayInputStream(contents);
         byte[] boundary = BOUNDARY_TEXT.getBytes();
         int iBufSize = 1;
-        @SuppressWarnings("unused")
-        MultipartStream ms = new MultipartStream(
+        new MultipartStream(
                 input,
                 boundary,
                 iBufSize,

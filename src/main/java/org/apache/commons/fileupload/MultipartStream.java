@@ -319,6 +319,11 @@ public class MultipartStream {
             byte[] boundary,
             int bufSize,
             ProgressNotifier pNotifier) {
+
+        if (boundary == null) {
+            throw new IllegalArgumentException("boundary may not be null");
+        }
+
         this.input = input;
         this.bufSize = bufSize;
         this.buffer = new byte[bufSize];
