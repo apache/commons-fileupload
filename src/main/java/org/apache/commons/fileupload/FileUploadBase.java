@@ -1204,7 +1204,7 @@ public abstract class FileUploadBase {
         /**
          * Constructs an <code>InvalidContentTypeException</code> with
          * the specified detail message and cause.
-         * 
+         *
          * @param msg The detail message.
          * @param cause the original cause
          *
