@@ -91,6 +91,12 @@
       <email>simonetripodi@apache.org</email>
       <organization>Adobe</organization>
     </developer>
+    <developer>
+      <name>Gary Gregory</name>
+      <id>ggregory</id>
+      <email>ggregory@apache.org</email>
+      <organization />
+    </developer>
   </developers>
 
   <contributors>
@@ -101,10 +107,6 @@
     <contributor>
       <name>Daniel Fabian</name>
       <email>dfabian@google.com</email>
-    </contributor>
-    <contributor>
-      <name>Gary Gregory</name>
-      <email>ggregory@apache.org</email>
     </contributor>
     <contributor>
       <name>Jörg Heinicke</name>
