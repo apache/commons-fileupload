@@ -64,11 +64,9 @@ public final class Streams {
      * @return Number of bytes, which have been copied.
      * @throws IOException An I/O error occurred.
      */
-    public static long copy(InputStream inputStream,
-            OutputStream outputStream, boolean closeOutputStream)
+    public static long copy(InputStream inputStream, OutputStream outputStream, boolean closeOutputStream)
             throws IOException {
-        return copy(inputStream, outputStream, closeOutputStream,
-                new byte[DEFAULT_BUFFER_SIZE]);
+        return copy(inputStream, outputStream, closeOutputStream, new byte[DEFAULT_BUFFER_SIZE]);
     }
 
     /**
@@ -166,8 +164,7 @@ public final class Streams {
      * @return The streams contents, as a string.
      * @throws IOException An I/O error occurred.
      */
-    public static String asString(InputStream inputStream, String encoding)
-            throws IOException {
+    public static String asString(InputStream inputStream, String encoding) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         copy(inputStream, baos, true);
         return baos.toString(encoding);
