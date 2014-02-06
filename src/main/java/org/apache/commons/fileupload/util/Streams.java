@@ -51,7 +51,7 @@ public final class Streams {
      *   copy(pInputStream, pOutputStream, new byte[8192]);
      * </pre>
      *
-     * @param pInputStream The input stream, which is being read.
+     * @param inputStream The input stream, which is being read.
      * It is guaranteed, that {@link InputStream#close()} is called
      * on the stream.
      * @param outputStream The output stream, to which data should
@@ -64,10 +64,10 @@ public final class Streams {
      * @return Number of bytes, which have been copied.
      * @throws IOException An I/O error occurred.
      */
-    public static long copy(InputStream pInputStream,
+    public static long copy(InputStream inputStream,
             OutputStream outputStream, boolean closeOutputStream)
             throws IOException {
-        return copy(pInputStream, outputStream, closeOutputStream,
+        return copy(inputStream, outputStream, closeOutputStream,
                 new byte[DEFAULT_BUFFER_SIZE]);
     }
 
