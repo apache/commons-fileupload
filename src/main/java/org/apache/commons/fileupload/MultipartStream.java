@@ -268,10 +268,8 @@ public class MultipartStream {
     /**
      * Creates a new instance.
      *
-     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[],
-     * org.apache.commons.fileupload.MultipartStream.ProgressNotifier)},
-     * or {@link #MultipartStream(InputStream, byte[], int,
-     * org.apache.commons.fileupload.MultipartStream.ProgressNotifier)}
+     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int,
+     * ProgressNotifier)}
      */
     @Deprecated
     public MultipartStream() {
@@ -292,10 +290,8 @@ public class MultipartStream {
      *                 <code>encapsulations</code>.
      * @param bufSize  The size of the buffer to be used, in bytes.
      *
-     * @see #MultipartStream(InputStream, byte[],
-     *   MultipartStream.ProgressNotifier)
      * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int,
-     *  org.apache.commons.fileupload.MultipartStream.ProgressNotifier)}.
+     * ProgressNotifier)}.
      */
     @Deprecated
     public MultipartStream(InputStream input, byte[] boundary, int bufSize) {
@@ -317,8 +313,7 @@ public class MultipartStream {
      * @param pNotifier The notifier, which is used for calling the
      *                  progress listener, if any.
      *
-     * @see #MultipartStream(InputStream, byte[],
-     *     MultipartStream.ProgressNotifier)
+     * @throws IllegalArgumentException If the buffer size is too small
      */
     public MultipartStream(InputStream input,
             byte[] boundary,
@@ -331,9 +326,14 @@ public class MultipartStream {
 
         // We prepend CR/LF to the boundary to chop trailing CR/LF from
         // body-data tokens.
-        this.boundary = new byte[boundary.length + BOUNDARY_PREFIX.length];
         this.boundaryLength = boundary.length + BOUNDARY_PREFIX.length;
+        if (bufSize < this.boundaryLength + 1) {
+            throw new IllegalArgumentException(
+                    "The buffer size specified for the MultipartStream is too small");
+        }
+        this.boundary = new byte[this.boundaryLength];
         this.keepRegion = this.boundary.length;
+
         System.arraycopy(BOUNDARY_PREFIX, 0, this.boundary, 0,
                 BOUNDARY_PREFIX.length);
         System.arraycopy(boundary, 0, this.boundary, BOUNDARY_PREFIX.length,
@@ -352,8 +352,7 @@ public class MultipartStream {
      * @param pNotifier An object for calling the progress listener, if any.
      *
      *
-     * @see #MultipartStream(InputStream, byte[], int,
-     *     MultipartStream.ProgressNotifier)
+     * @see #MultipartStream(InputStream, byte[], int, ProgressNotifier)
      */
     MultipartStream(InputStream input,
             byte[] boundary,
@@ -368,10 +367,8 @@ public class MultipartStream {
      * @param boundary The token used for dividing the stream into
      *                 <code>encapsulations</code>.
      *
-     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[],
-     *  MultipartStream.ProgressNotifier)}.
-     * @see #MultipartStream(InputStream, byte[], int,
-     *  MultipartStream.ProgressNotifier)
+     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int,
+     *  ProgressNotifier)}.
      */
     @Deprecated
     public MultipartStream(InputStream input,
