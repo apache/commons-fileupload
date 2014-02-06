@@ -39,7 +39,6 @@ import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.fileupload.util.Streams;
-import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -58,14 +57,14 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  *
  * <p>Temporary files, which are created for file items, should be
  * deleted later on. The best way to do this is using a
- * {@link FileCleaningTracker}, which you can set on the
+ * {@link org.apache.commons.io.FileCleaningTracker}, which you can set on the
  * {@link DiskFileItemFactory}. However, if you do use such a tracker,
  * then you must consider the following: Temporary files are automatically
  * deleted as soon as they are no longer needed. (More precisely, when the
  * corresponding instance of {@link java.io.File} is garbage collected.)
  * This is done by the so-called reaper thread, which is started and stopped
- * automatically by the {@link FileCleaningTracker} when there are files to be
- * tracked.
+ * automatically by the {@link org.apache.commons.io.FileCleaningTracker} when
+ * there are files to be tracked.
  * It might make sense to terminate that thread, for example, if
  * your web application ends. See the section on "Resource cleanup"
  * in the users guide of commons-fileupload.</p>
