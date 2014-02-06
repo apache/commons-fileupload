@@ -702,9 +702,7 @@ public class MultipartStream {
         int first;
         int match = 0;
         int maxpos = tail - boundaryLength;
-        for (first = head;
-        (first <= maxpos) && (match != boundaryLength);
-        first++) {
+        for (first = head; (first <= maxpos) && (match != boundaryLength); first++) {
             first = findByte(boundary[0], first);
             if (first == -1 || (first > maxpos)) {
                 return -1;
