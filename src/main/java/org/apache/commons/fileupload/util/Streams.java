@@ -54,10 +54,10 @@ public final class Streams {
      * @param pInputStream The input stream, which is being read.
      * It is guaranteed, that {@link InputStream#close()} is called
      * on the stream.
-     * @param pOutputStream The output stream, to which data should
+     * @param outputStream The output stream, to which data should
      * be written. May be null, in which case the input streams
      * contents are simply discarded.
-     * @param pClose True guarantees, that {@link OutputStream#close()}
+     * @param closeOutputStream True guarantees, that {@link OutputStream#close()}
      * is called on the stream. False indicates, that only
      * {@link OutputStream#flush()} should be called finally.
      *
@@ -65,9 +65,9 @@ public final class Streams {
      * @throws IOException An I/O error occurred.
      */
     public static long copy(InputStream pInputStream,
-            OutputStream pOutputStream, boolean pClose)
+            OutputStream outputStream, boolean closeOutputStream)
             throws IOException {
-        return copy(pInputStream, pOutputStream, pClose,
+        return copy(pInputStream, outputStream, closeOutputStream,
                 new byte[DEFAULT_BUFFER_SIZE]);
     }
 
