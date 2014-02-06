@@ -53,10 +53,10 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="markt" type="fix">
         Fix CVE-2014-0050. Specially crafted input can trigger a DoS if the
-        buffer used by the <code>MultipartStream</code> is not big enough. When
-        constructing <code>MultipartStream</code> enforce the requirements for
-        buffer size by throwing an <code>IllegalArgumentException</code> if the
-        requested buffer size is too small. This prevents the DoS. 
+        buffer used by the MultipartStream is not big enough. When constructing
+        MultipartStream enforce the requirements for buffer size by throwing an
+        IllegalArgumentException if the requested buffer size is too small. This
+        prevents the DoS. 
       </action>
     </release>
     
