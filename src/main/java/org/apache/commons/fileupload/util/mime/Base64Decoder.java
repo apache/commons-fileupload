@@ -101,6 +101,7 @@ final class Base64Decoder {
      * @param out the output stream to hold the decoded bytes
      *
      * @return the number of bytes produced.
+     * @throws IOException thrown when the padding is incorrect or the input is truncated.
      */
     public static int decode(byte[] data, OutputStream out) throws IOException {
         int        outLen = 0;
