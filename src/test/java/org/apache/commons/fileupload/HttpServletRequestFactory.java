@@ -36,9 +36,8 @@ final class HttpServletRequestFactory {
 
         StringBuilder sbRequestData = new StringBuilder();
 
-        for (int i = 0; i < strFileNames.length; i++)
-        {
-            sbRequestData.append(strFileNames[i]);
+        for (String strFileName : strFileNames) {
+            sbRequestData.append(strFileName);
         }
 
         byte[] requestData = null;

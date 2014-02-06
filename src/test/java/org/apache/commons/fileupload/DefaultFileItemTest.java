@@ -259,8 +259,8 @@ public class DefaultFileItemTest {
     private static String constructString(int[] unicodeChars) {
         StringBuilder buffer = new StringBuilder();
         if (unicodeChars != null) {
-            for (int i = 0; i < unicodeChars.length; i++) {
-                buffer.append((char) unicodeChars[i]);
+            for (int unicodeChar : unicodeChars) {
+                buffer.append((char) unicodeChar);
             }
         }
         return buffer.toString();
@@ -281,8 +281,8 @@ public class DefaultFileItemTest {
                 true,
                 null);
         OutputStream outstream = item.getOutputStream();
-        for (int i = 0; i < SWISS_GERMAN_STUFF_ISO8859_1.length; i++) {
-            outstream.write(SWISS_GERMAN_STUFF_ISO8859_1[i]);
+        for (int element : SWISS_GERMAN_STUFF_ISO8859_1) {
+            outstream.write(element);
         }
         outstream.close();
         assertEquals(teststr, teststr, item.getString());
@@ -294,8 +294,8 @@ public class DefaultFileItemTest {
                 true,
                 null);
         outstream = item.getOutputStream();
-        for (int i = 0; i < SWISS_GERMAN_STUFF_UTF8.length; i++) {
-            outstream.write(SWISS_GERMAN_STUFF_UTF8[i]);
+        for (int element : SWISS_GERMAN_STUFF_UTF8) {
+            outstream.write(element);
         }
         outstream.close();
         assertEquals(teststr, teststr, item.getString());
@@ -309,8 +309,8 @@ public class DefaultFileItemTest {
                 true,
                 null);
         outstream = item.getOutputStream();
-        for (int i = 0; i < RUSSIAN_STUFF_KOI8R.length; i++) {
-            outstream.write(RUSSIAN_STUFF_KOI8R[i]);
+        for (int element : RUSSIAN_STUFF_KOI8R) {
+            outstream.write(element);
         }
         outstream.close();
         assertEquals(teststr, teststr, item.getString());
@@ -322,8 +322,8 @@ public class DefaultFileItemTest {
                 true,
                 null);
         outstream = item.getOutputStream();
-        for (int i = 0; i < RUSSIAN_STUFF_WIN1251.length; i++) {
-            outstream.write(RUSSIAN_STUFF_WIN1251[i]);
+        for (int element : RUSSIAN_STUFF_WIN1251) {
+            outstream.write(element);
         }
         outstream.close();
         assertEquals(teststr, teststr, item.getString());
@@ -335,8 +335,8 @@ public class DefaultFileItemTest {
                 true,
                 null);
         outstream = item.getOutputStream();
-        for (int i = 0; i < RUSSIAN_STUFF_UTF8.length; i++) {
-            outstream.write(RUSSIAN_STUFF_UTF8[i]);
+        for (int element : RUSSIAN_STUFF_UTF8) {
+            outstream.write(element);
         }
         outstream.close();
         assertEquals(teststr, teststr, item.getString());

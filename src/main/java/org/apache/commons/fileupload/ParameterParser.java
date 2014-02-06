@@ -129,8 +129,8 @@ public class ParameterParser {
      */
     private boolean isOneOf(char ch, final char[] charray) {
         boolean result = false;
-        for (int i = 0; i < charray.length; i++) {
-            if (ch == charray[i]) {
+        for (char element : charray) {
+            if (ch == element) {
                 result = true;
                 break;
             }
@@ -235,11 +235,11 @@ public class ParameterParser {
         char separator = separators[0];
         if (str != null) {
             int idx = str.length();
-            for (int i = 0;  i < separators.length;  i++) {
-                int tmp = str.indexOf(separators[i]);
+            for (char separator2 : separators) {
+                int tmp = str.indexOf(separator2);
                 if (tmp != -1 && tmp < idx) {
                     idx = tmp;
-                    separator = separators[i];
+                    separator = separator2;
                 }
             }
         }
