@@ -75,42 +75,42 @@ public final class Streams {
      * Copies the contents of the given {@link InputStream}
      * to the given {@link OutputStream}.
      *
-     * @param pIn The input stream, which is being read.
+     * @param inputStream The input stream, which is being read.
      *   It is guaranteed, that {@link InputStream#close()} is called
      *   on the stream.
-     * @param pOut The output stream, to which data should
+     * @param outputStream The output stream, to which data should
      *   be written. May be null, in which case the input streams
      *   contents are simply discarded.
-     * @param pClose True guarantees, that {@link OutputStream#close()}
+     * @param closeOutputStream True guarantees, that {@link OutputStream#close()}
      *   is called on the stream. False indicates, that only
      *   {@link OutputStream#flush()} should be called finally.
-     * @param pBuffer Temporary buffer, which is to be used for
+     * @param buffer Temporary buffer, which is to be used for
      *   copying data.
      * @return Number of bytes, which have been copied.
      * @throws IOException An I/O error occurred.
      */
-    public static long copy(InputStream pIn,
-            OutputStream pOut, boolean pClose,
-            byte[] pBuffer)
+    public static long copy(InputStream inputStream,
+            OutputStream outputStream, boolean closeOutputStream,
+            byte[] buffer)
     throws IOException {
-        OutputStream out = pOut;
-        InputStream in = pIn;
+        OutputStream out = outputStream;
+        InputStream in = inputStream;
         try {
             long total = 0;
             for (;;) {
-                int res = in.read(pBuffer);
+                int res = in.read(buffer);
                 if (res == -1) {
                     break;
                 }
                 if (res > 0) {
                     total += res;
                     if (out != null) {
-                        out.write(pBuffer, 0, res);
+                        out.write(buffer, 0, res);
                     }
                 }
             }
             if (out != null) {
-                if (pClose) {
+                if (closeOutputStream) {
                     out.close();
                 } else {
                     out.flush();
@@ -128,7 +128,7 @@ public final class Streams {
                     /* Ignore me */
                 }
             }
-            if (pClose  &&  out != null) {
+            if (closeOutputStream  &&  out != null) {
                 try {
                     out.close();
                 } catch (Throwable t) {
