@@ -509,9 +509,8 @@ class MockHttpServletRequest implements HttpServletRequest {
         public int read(byte b[], int off, int len) throws IOException {
             if (readLimit > 0) {
                 return in.read(b, off, Math.min(readLimit, len));
-            } else {
-                return in.read(b, off, len);
             }
+            return in.read(b, off, len);
         }
 
     }
