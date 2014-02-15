@@ -146,7 +146,7 @@ public class DiskFileItemSerializeTest {
     public void testInvalidRepository() throws Exception {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold);
-        File repository = new File(System.getProperty("java.io.tmpdir") + "file");
+        File repository = new File(System.getProperty("java.io.tmpdir"), "file");
         FileItem item = createFileItem(testFieldValueBytes, repository);
         deserialize(serialize(item));
     }
@@ -158,7 +158,7 @@ public class DiskFileItemSerializeTest {
     public void testInvalidRepositoryWithNullChar() throws Exception {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold);
-        File repository = new File(System.getProperty("java.io.tmpdir") + "\0");
+        File repository = new File(System.getProperty("java.io.tmpdir"), "\0");
         FileItem item = createFileItem(testFieldValueBytes, repository);
         deserialize(serialize(item));
     }
