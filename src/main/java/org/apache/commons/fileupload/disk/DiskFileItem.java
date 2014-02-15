@@ -663,11 +663,9 @@ public class DiskFileItem
         if (cachedContent != null) {
             output.write(cachedContent);
         } else {
-            new Throwable(dfosFile.toString()).printStackTrace();
             FileInputStream input = new FileInputStream(dfosFile);
             IOUtils.copy(input, output);
-            input.close();
-            System.out.println("deleted?"+dfosFile.delete()+" "+dfosFile);
+            dfosFile.delete();
             dfosFile = null;
         }
         output.close();
