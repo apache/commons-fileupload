@@ -258,7 +258,7 @@ public class SizesTest extends FileUploadTestCase {
         try {
             InputStream stream = item.openStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Streams.copy(stream, baos, true);
+            Streams.copy(stream, baos, true); // Streams.copy closes the input file
         } catch (FileUploadIOException e) {
             fail(e.getMessage());
         }
@@ -276,7 +276,7 @@ public class SizesTest extends FileUploadTestCase {
         try {
             InputStream stream = item.openStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Streams.copy(stream, baos, true);
+            Streams.copy(stream, baos, true); // Streams.copy closes the input file
             fail();
         } catch (FileUploadIOException e) {
             // expected
