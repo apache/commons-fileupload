@@ -316,13 +316,7 @@ public class DiskFileItem
         } catch (IOException e) {
             fileData = null;
         } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
+            IOUtils.closeQuietly(fis);
         }
 
         return fileData;
@@ -418,20 +412,8 @@ public class DiskFileItem
                                 new FileOutputStream(file));
                         IOUtils.copy(in, out);
                     } finally {
-                        if (in != null) {
-                            try {
-                                in.close();
-                            } catch (IOException e) {
-                                // ignore
-                            }
-                        }
-                        if (out != null) {
-                            try {
-                                out.close();
-                            } catch (IOException e) {
-                                // ignore
-                            }
-                        }
+                        IOUtils.closeQuietly(in);
+                        IOUtils.closeQuietly(out);
                     }
                 }
             } else {
