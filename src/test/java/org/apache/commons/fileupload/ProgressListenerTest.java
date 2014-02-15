@@ -120,6 +120,7 @@ public class ProgressListenerTest extends FileUploadTestCase {
                 }
             }
             assertEquals(-1, istream.read());
+            istream.close();
         }
         assertTrue(!iter.hasNext());
         listener.checkFinished();
