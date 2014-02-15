@@ -45,7 +45,8 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.4" date="TBA" description=
 "TBA">
-      <action dev="sebb" type="update" due-to="Ville Skyttä">Make some MultipartStream private fields final</action>
+      <action issue="FILEUPLOAD-245" dev="sebb" type="fix">DiskFileItem.get() may not fully read the data</action>
+      <action issue="FILEUPLOAD-243" dev="sebb" type="update" due-to="Ville Skyttä">Make some MultipartStream private fields final</action>
     </release>
 
     <release version="1.3.1" description=
