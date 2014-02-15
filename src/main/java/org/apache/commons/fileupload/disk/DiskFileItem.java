@@ -312,7 +312,7 @@ public class DiskFileItem
 
         try {
             fis = new BufferedInputStream(new FileInputStream(dfos.getFile()));
-            fis.read(fileData);
+            IOUtils.readFully(fis, fileData);
         } catch (IOException e) {
             fileData = null;
         } finally {
@@ -681,9 +681,11 @@ public class DiskFileItem
         if (cachedContent != null) {
             output.write(cachedContent);
         } else {
+            new Throwable(dfosFile.toString()).printStackTrace();
             FileInputStream input = new FileInputStream(dfosFile);
             IOUtils.copy(input, output);
-            dfosFile.delete();
+            input.close();
+            System.out.println("deleted?"+dfosFile.delete()+" "+dfosFile);
             dfosFile = null;
         }
         output.close();
