@@ -256,9 +256,10 @@ public class SizesTest extends FileUploadTestCase {
         assertEquals("foo1.tab", item.getName());
 
         {
+            @SuppressWarnings("resource") // Streams.copy closes the input file
             InputStream stream = item.openStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Streams.copy(stream, baos, true); // Streams.copy closes the input file
+            Streams.copy(stream, baos, true);
         }
 
         // the second item is over the size max, thus we expect an error
@@ -272,9 +273,10 @@ public class SizesTest extends FileUploadTestCase {
         item = it.next();
 
         try {
+            @SuppressWarnings("resource") // Streams.copy closes the input file
             InputStream stream = item.openStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Streams.copy(stream, baos, true); // Streams.copy closes the input file
+            Streams.copy(stream, baos, true);
             fail();
         } catch (FileUploadIOException e) {
             // expected
