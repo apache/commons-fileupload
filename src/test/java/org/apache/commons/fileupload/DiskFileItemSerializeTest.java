@@ -32,6 +32,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -305,7 +306,7 @@ public class DiskFileItemSerializeTest {
         } catch (Exception e) {
             fail("Exception during deserialization: " + e);
         }
-        
+        IOUtils.closeQuietly(baos);
         return result;
     }
 
