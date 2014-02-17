@@ -554,6 +554,9 @@ public class DiskFileItem
      * named temporary file in the configured repository path. The lifetime of
      * the file is tied to the lifetime of the <code>FileItem</code> instance;
      * the file will be deleted when the instance is garbage collected.
+     * <p>
+     * <b>Note: Subclasses that override this method must ensure that they return the
+     * same File each time.</b>
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
