@@ -589,8 +589,7 @@ public class MultipartStream {
      */
     public int readBodyData(OutputStream output)
             throws MalformedStreamException, IOException {
-        final InputStream istream = newInputStream();
-        return (int) Streams.copy(istream, output, false); // N.B. Streams.copy closes the input stream
+        return (int) Streams.copy(newInputStream(), output, false); // N.B. Streams.copy closes the input stream
     }
 
     /**
