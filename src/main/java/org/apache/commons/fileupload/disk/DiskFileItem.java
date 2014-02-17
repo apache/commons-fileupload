@@ -297,11 +297,12 @@ public class DiskFileItem
      * contents of the file were not yet cached in memory, they will be
      * loaded from the disk storage and cached.
      *
-     * @return The contents of the file as an array of bytes.
+     * @return The contents of the file as an array of bytes
+     * or {@code null} if the data cannot be read
      */
     public byte[] get() {
         if (isInMemory()) {
-            if (cachedContent == null) {
+            if (cachedContent == null && dfos != null) {
                 cachedContent = dfos.getData();
             }
             return cachedContent;
@@ -542,6 +543,9 @@ public class DiskFileItem
      */
     @Override
     protected void finalize() {
+        if (dfos == null) {
+            return;
+        }
         File outputFile = dfos.getFile();
 
         if (outputFile != null && outputFile.exists()) {
