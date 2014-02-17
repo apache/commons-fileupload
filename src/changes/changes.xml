@@ -45,6 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.4" date="TBA" description=
 "TBA">
+      <action issue="FILEUPLOAD-250" dev="sebb" type="fix">FileUploadBase - potential resource leak - InputStream not closed on exception</action>
       <action issue="FILEUPLOAD-244" dev="sebb" type="fix">DiskFileItem.readObject fails to close FileInputStream</action>
       <action issue="FILEUPLOAD-246" dev="sebb" type="update">FileUpload should use IOUtils.closeQuietly where relevant</action>
       <action issue="FILEUPLOAD-245" dev="sebb" type="fix">DiskFileItem.get() may not fully read the data</action>

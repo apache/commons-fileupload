@@ -38,6 +38,7 @@ import org.apache.commons.fileupload.util.Closeable;
 import org.apache.commons.fileupload.util.FileItemHeadersImpl;
 import org.apache.commons.fileupload.util.LimitedInputStream;
 import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.io.IOUtils;
 
 /**
  * <p>High level API for processing file uploads.</p>
@@ -949,7 +950,6 @@ public abstract class FileUploadBase {
                                MULTIPART_FORM_DATA, MULTIPART_MIXED, contentType));
             }
 
-            InputStream input = ctx.getInputStream();
 
             @SuppressWarnings("deprecation") // still has to be backward compatible
             final int contentLengthInt = ctx.getContentLength();
@@ -960,6 +960,7 @@ public abstract class FileUploadBase {
                                      : contentLengthInt;
                                      // CHECKSTYLE:ON
 
+            InputStream input; // N.B. this is eventually closed in MultipartStream processing
             if (sizeMax >= 0) {
                 if (requestSize != -1 && requestSize > sizeMax) {
                     throw new SizeLimitExceededException(
@@ -967,7 +968,8 @@ public abstract class FileUploadBase {
                                 Long.valueOf(requestSize), Long.valueOf(sizeMax)),
                                requestSize, sizeMax);
                 }
-                input = new LimitedInputStream(input, sizeMax) {
+                // N.B. this is eventually closed in MultipartStream processing
+                input = new LimitedInputStream(ctx.getInputStream(), sizeMax) {
                     @Override
                     protected void raiseError(long pSizeMax, long pCount)
                             throws IOException {
@@ -978,6 +980,8 @@ public abstract class FileUploadBase {
                         throw new FileUploadIOException(ex);
                     }
                 };
+            } else {
+                input = ctx.getInputStream();
             }
 
             String charEncoding = headerEncoding;
@@ -987,6 +991,7 @@ public abstract class FileUploadBase {
 
             boundary = getBoundary(contentType);
             if (boundary == null) {
+                IOUtils.closeQuietly(input); // avoid possible resource leak
                 throw new FileUploadException("the request was rejected because no multipart boundary was found");
             }
 
@@ -994,6 +999,7 @@ public abstract class FileUploadBase {
             try {
                 multi = new MultipartStream(input, boundary, notifier);
             } catch (IllegalArgumentException iae) {
+                IOUtils.closeQuietly(input); // avoid possible resource leak
                 throw new InvalidContentTypeException(
                         format("The boundary specified in the %s header is too long", CONTENT_TYPE), iae);
             }
