@@ -19,7 +19,6 @@ package org.apache.commons.fileupload.disk;
 import static java.lang.String.format;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +38,7 @@ import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -312,7 +312,7 @@ public class DiskFileItem
         InputStream fis = null;
 
         try {
-            fis = new BufferedInputStream(new FileInputStream(dfos.getFile()));
+            fis = new FileInputStream(dfos.getFile());
             IOUtils.readFully(fis, fileData);
         } catch (IOException e) {
             fileData = null;
@@ -403,20 +403,7 @@ public class DiskFileItem
                  * in a temporary location so move it to the
                  * desired file.
                  */
-                if (!outputFile.renameTo(file)) {
-                    BufferedInputStream in = null;
-                    BufferedOutputStream out = null;
-                    try {
-                        in = new BufferedInputStream(
-                            new FileInputStream(outputFile));
-                        out = new BufferedOutputStream(
-                                new FileOutputStream(file));
-                        IOUtils.copy(in, out);
-                    } finally {
-                        IOUtils.closeQuietly(in);
-                        IOUtils.closeQuietly(out);
-                    }
-                }
+                FileUtils.moveFile(outputFile, file);
             } else {
                 /*
                  * For whatever reason we cannot write the
@@ -672,7 +659,7 @@ public class DiskFileItem
         } else {
             FileInputStream input = new FileInputStream(dfosFile);
             IOUtils.copy(input, output);
-            input.close();
+            IOUtils.closeQuietly(input);
             dfosFile.delete();
             dfosFile = null;
         }
