@@ -83,7 +83,13 @@ public class FileCleanerCleanup implements ServletContextListener {
      *     {@link #getFileCleaningTracker(ServletContext)}.
      */
     public void contextDestroyed(ServletContextEvent sce) {
-        getFileCleaningTracker(sce.getServletContext()).exitWhenFinished();
+        ServletContext context = sce.getServletContext();
+        if(context != null) {
+            FileCleaningTracker fct = getFileCleaningTracker(context);
+            if(fct != null) {
+                fct.exitWhenFinished();
+            }
+        }
     }
 
 }
