@@ -44,6 +44,7 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="1.4" date="TBA" description="TBA">
+      <action issue="FILEUPLOAD-234" dev="tn" type="fix">Fix section "Resource cleanup" of the user guide</action>
       <action issue="FILEUPLOAD-237" dev="tn" type="fix">Fix streaming example: use FileItem.getInputStream() instead of openStream()</action>
       <action issue="FILEUPLOAD-248" dev="ecki" type="fix">DiskFileItem might suppress critical IOExceptions on rename - use FileUtil.move instead</action>
       <action issue="FILEUPLOAD-251" dev="sebb" type="fix">DiskFileItem#getTempFile() is broken</action>
