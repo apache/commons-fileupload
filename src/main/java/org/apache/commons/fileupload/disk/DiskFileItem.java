@@ -520,6 +520,9 @@ public class DiskFileItem
         if (dfos == null) {
             return null;
         }
+        if (isInMemory()) {
+        	return null;
+        }
         return dfos.getFile();
     }
 
@@ -569,7 +572,7 @@ public class DiskFileItem
 
     /**
      * Returns an identifier that is unique within the class loader used to
-     * load this class, but does not have random-like apearance.
+     * load this class, but does not have random-like appearance.
      *
      * @return A String with the non-random looking instance identifier.
      */
