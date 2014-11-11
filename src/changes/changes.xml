@@ -44,6 +44,7 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="1.4" date="TBA" description="TBA">
+      <action issue="FILEUPLOAD-242" dev="tn" type="fix">FileUploadBase - should not silently catch and ignore all Throwables</action>
       <action issue="FILEUPLOAD-257" dev="tn" type="fix">Fix Javadoc 1.8.0 errors</action>
       <action issue="FILEUPLOAD-234" dev="tn" type="fix">Fix section "Resource cleanup" of the user guide</action>
       <action issue="FILEUPLOAD-237" dev="tn" type="fix">Fix streaming example: use FileItem.getInputStream() instead of openStream()</action>
