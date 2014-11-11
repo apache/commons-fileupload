@@ -35,7 +35,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
  *   <li>Repository is the system default temp directory, as returned by
  *       <code>System.getProperty("java.io.tmpdir")</code>.</li>
  * </ul>
- * </p>
  *
  * @version $Id$
  *
