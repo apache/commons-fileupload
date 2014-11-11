@@ -389,9 +389,7 @@ public class DiskFileItem
                 fout = new FileOutputStream(file);
                 fout.write(get());
             } finally {
-                if (fout != null) {
-                    fout.close();
-                }
+            	IOUtils.closeQuietly(fout);
             }
         } else {
             File outputFile = getStoreLocation();
