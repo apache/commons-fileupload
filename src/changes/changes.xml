@@ -44,6 +44,7 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="1.4" date="TBA" description="TBA">
+      <action issue="FILEUPLOAD-252" dev="tn" type="fix">DiskFileItem#write() could lose original IO exception</action>
       <action issue="FILEUPLOAD-258" dev="tn" type="fix">DiskFileItem#getStoreLocation() wrongly returned a File object for items stored in memory</action>
       <action issue="FILEUPLOAD-242" dev="tn" type="fix">FileUploadBase - should not silently catch and ignore all Throwables</action>
       <action issue="FILEUPLOAD-257" dev="tn" type="fix">Fix Javadoc 1.8.0 errors</action>
