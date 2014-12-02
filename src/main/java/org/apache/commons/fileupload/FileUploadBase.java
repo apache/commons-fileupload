@@ -366,31 +366,12 @@ public abstract class FileUploadBase {
                 for (FileItem fileItem : items) {
                     try {
                         fileItem.delete();
-                    } catch (Throwable t) {
-                    	handleThrowable(t);
+                    } catch (Exception ignored) {
+                        // ignored TODO perhaps add to tracker delete failure list somehow?
                     }
                 }
             }
         }
-    }
-
-    /**
-     * Checks whether the supplied Throwable is one that needs to be
-     * rethrown and swallows all others.
-     * @param t the Throwable to check
-     */
-    private void handleThrowable(Throwable t) {
-        if (t instanceof ThreadDeath) {
-            throw (ThreadDeath) t;
-        }
-        if (t instanceof StackOverflowError) {
-            // Swallow silently - it should be recoverable
-            return;
-        }
-        if (t instanceof VirtualMachineError) {
-            throw (VirtualMachineError) t;
-        }
-        // All other instances of Throwable will be silently swallowed
     }
 
     /**
