@@ -18,7 +18,6 @@ package org.apache.commons.fileupload.disk;
 
 import static java.lang.String.format;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
