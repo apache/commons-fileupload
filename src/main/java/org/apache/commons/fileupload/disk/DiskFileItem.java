@@ -16,7 +16,7 @@
  */
 package org.apache.commons.fileupload.disk;
 
-import static java.lang.String.format;
+import static java.lang.String.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -387,6 +387,7 @@ public class DiskFileItem
             try {
                 fout = new FileOutputStream(file);
                 fout.write(get());
+                fout.close();
             } finally {
             	IOUtils.closeQuietly(fout);
             }
