@@ -43,36 +43,50 @@
         <created>2014-02-07</created>
         <revision>1.3.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-fileupload</name>
         <created>2013-03-27</created>
         <revision>1.3</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-fileupload</name>
         <created>2010-07-29</created>
         <revision>1.2.2</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-fileupload</name>
         <created>2008-01-18</created>
         <revision>1.2.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-fileupload</name>
         <created>2007-02-13</created>
         <revision>1.2</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-fileupload</name>
         <created>2006-06-08</created>
         <revision>1.1.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-fileupload</name>
         <created>2005-12-23</created>
         <revision>1.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-fileupload</name>
         <created>2003-06-24</created>
