@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<module name="commons-fileupload">
+
+  <description>File upload component.</description>
+  <url href="http://commons.apache.org/fileupload/" />
+
+  <cvs repository="jakarta" />
+
+  <!-- This is really the cvs module. We need to change this but -->
+  <!-- I will leave this for now until everything works.         -->
+
+  <project name="commons-fileupload">
+    <!-- Standard Maven target to produce Javadocs, source -->
+    <!-- and binary distributions.                         -->
+    <ant buildfile="build-gump.xml" target="jar">
+      <property name="maven.final.name" value="commons-fileupload-@@DATE@@" />
+    </ant>
+
+    <package>org.apache.commons.fileupload</package>
+
+    <!-- All Maven projects need Ant and Xerces to build. -->
+    <depend project="jakarta-ant" inherit="runtime" />
+    <depend project="xml-xerces" />
+
+    <depend project="jaf" />
+    <depend project="servletapi" />
+
+    <work nested="target/classes" />
+    <home nested="target" />
+    <jar name="commons-fileupload-@@DATE@@.jar" />
+    <javadoc nested="docs/apidocs" />
+
+    <nag from="Maven Developers &lt;turbine-maven-dev@jakarta.apache.org&gt;"
+         to="dev@commons.apache.org" />
+  </project>
+
+</module>
