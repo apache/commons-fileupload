@@ -1361,7 +1361,7 @@ public abstract class FileUploadBase {
 
         /**
          * @deprecated 1.2 Replaced by
-         * {@link #SizeLimitExceededException(String, long, long)}
+         * {@code SizeLimitExceededException(String, long, long)}
          */
         @Deprecated
         public SizeLimitExceededException() {
@@ -1370,7 +1370,7 @@ public abstract class FileUploadBase {
 
         /**
          * @deprecated 1.2 Replaced by
-         * {@link #SizeLimitExceededException(String, long, long)}
+         * {@code #SizeLimitExceededException(String, long, long)}
          * @param message The exceptions detail message.
          */
         @Deprecated

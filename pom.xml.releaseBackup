@@ -26,7 +26,7 @@
 
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.3.2</version>
+  <version>1.3.2-SNAPSHOT</version>
 
   <name>Apache Commons FileUpload</name>
   <description>
@@ -167,9 +167,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/fileupload/tags/commons-fileupload-1.3.2</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/fileupload/tags/commons-fileupload-1.3.2</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/fileupload/tags/commons-fileupload-1.3.2</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/fileupload/trunk</url>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -260,7 +260,7 @@
     								</goals>
     							</pluginExecutionFilter>
     							<action>
-    								<ignore />
+    								<ignore></ignore>
     							</action>
     						</pluginExecution>
     					</pluginExecutions>
