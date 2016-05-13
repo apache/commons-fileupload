@@ -167,9 +167,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/fileupload/trunk</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/fileupload/branches/b1_3</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/fileupload/branches/b1_3</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/fileupload/branches/b1_3</url>
   </scm>
   <issueManagement>
     <system>jira</system>
