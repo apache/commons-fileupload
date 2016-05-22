@@ -316,13 +316,7 @@
         <artifactId>clirr-maven-plugin</artifactId>
         <version>${commons.clirr.version}</version>
         <configuration>
-          <comparisonArtifacts>
-            <comparisonArtifact>
-              <groupId>commons-fileupload</groupId>
-              <artifactId>commons-fileupload</artifactId>
-              <version>1.3</version>
-            </comparisonArtifact>
-          </comparisonArtifacts>
+          <comparisonVersion>1.3</comparisonVersion>
         </configuration>
       </plugin>
     </plugins>
