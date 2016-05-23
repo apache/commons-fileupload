@@ -43,6 +43,12 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
+    <release version="1.3.2" description="Bugfix release for 1.3.1" date="tba">
+      <action issue="FILEUPLOAD-272" dev="jochen" type="update">
+        Performance Improvement in MultipartStream
+      </action>
+    </release>
+
     <release version="1.3.1" description=
 "This is a security and maintenance release that includes an important security 
 fix as well as a small number of bugfixes." date="2014-02-07">
