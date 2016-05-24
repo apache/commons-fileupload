@@ -222,12 +222,12 @@ public class MultipartStream {
      * The amount of data, in bytes, that must be kept in the buffer in order
      * to detect delimiters reliably.
      */
-    private final int keepRegion;
+    private int keepRegion;
 
     /**
      * The byte sequence that partitions the stream.
      */
-    private final byte[] boundary;
+    private byte[] boundary;
 
     /**
      * The length of the buffer used for processing the request.
@@ -334,7 +334,7 @@ public class MultipartStream {
         }
 
         this.input = input;
-        this.bufSize = Math.max(bufSize, boundaryLength*2);
+        this.bufSize = Math.max(bufSize, boundaryLength * 2);
         this.buffer = new byte[this.bufSize];
         this.notifier = pNotifier;
 
@@ -589,7 +589,8 @@ public class MultipartStream {
      */
     public int readBodyData(OutputStream output)
             throws MalformedStreamException, IOException {
-        return (int) Streams.copy(newInputStream(), output, false); // N.B. Streams.copy closes the input stream
+        final InputStream istream = newInputStream();
+        return (int) Streams.copy(istream, output, false);
     }
 
     /**

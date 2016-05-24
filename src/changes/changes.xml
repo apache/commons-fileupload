@@ -43,20 +43,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.4" date="TBA" description="TBA">
-      <action issue="FILEUPLOAD-252" dev="tn" type="fix">DiskFileItem#write() could lose original IO exception</action>
-      <action issue="FILEUPLOAD-258" dev="tn" type="fix">DiskFileItem#getStoreLocation() wrongly returned a File object for items stored in memory</action>
-      <action issue="FILEUPLOAD-242" dev="tn" type="fix">FileUploadBase - should not silently catch and ignore all Throwables</action>
-      <action issue="FILEUPLOAD-257" dev="tn" type="fix">Fix Javadoc 1.8.0 errors</action>
-      <action issue="FILEUPLOAD-234" dev="tn" type="fix">Fix section "Resource cleanup" of the user guide</action>
-      <action issue="FILEUPLOAD-237" dev="tn" type="fix">Fix streaming example: use FileItem.getInputStream() instead of openStream()</action>
-      <action issue="FILEUPLOAD-248" dev="ecki" type="fix">DiskFileItem might suppress critical IOExceptions on rename - use FileUtil.move instead</action>
-      <action issue="FILEUPLOAD-251" dev="sebb" type="fix">DiskFileItem#getTempFile() is broken</action>
-      <action issue="FILEUPLOAD-250" dev="sebb" type="fix">FileUploadBase - potential resource leak - InputStream not closed on exception</action>
-      <action issue="FILEUPLOAD-244" dev="sebb" type="fix">DiskFileItem.readObject fails to close FileInputStream</action>
-      <action issue="FILEUPLOAD-246" dev="sebb" type="update">FileUpload should use IOUtils.closeQuietly where relevant</action>
-      <action issue="FILEUPLOAD-245" dev="sebb" type="fix">DiskFileItem.get() may not fully read the data</action>
-      <action issue="FILEUPLOAD-243" dev="sebb" type="update" due-to="Ville Skyttä">Make some MultipartStream private fields final</action>
+    <release version="1.3.2" description="Bugfix release for 1.3.1" date="tba">
+      <action issue="FILEUPLOAD-272" dev="jochen" type="update">
+        Performance Improvement in MultipartStream
+      </action>
     </release>
 
     <release version="1.3.1" description=

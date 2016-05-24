@@ -68,7 +68,7 @@ FileItemIterator iter = upload.getItemIterator(request);
 while (iter.hasNext()) {
     FileItemStream item = iter.next();
     String name = item.getFieldName();
-    InputStream stream = item.getInputStream();
+    InputStream stream = item.openStream();
     if (item.isFormField()) {
         System.out.println("Form field " + name + " with value "
             + Streams.asString(stream) + " detected.");

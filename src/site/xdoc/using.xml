@@ -284,8 +284,8 @@ byte[] data = item.get();
       </p>
       <p>
         Such temporary files are deleted automatically, if they are no longer
-        used (more precisely, if the corresponding instance of <code>DiskFileItem</code>
-        is garbage collected. This is done silently by the <code>org.apache.commons.io.FileCleanerTracker</code>
+        used (more precisely, if the corresponding instance of <code>java.io.File</code>
+        is garbage collected. This is done silently by the <code>org.apache.commons.io.FileCleaner</code>
         class, which starts a reaper thread.
       </p>
       <p>

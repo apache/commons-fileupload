@@ -74,12 +74,6 @@
     <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
     <module name="Translation"/>
 
-    <!-- Following interprets the header file as regular expressions. -->
-    <!-- <module name="RegexpHeader"/>                                -->
-    <module name="RegexpHeader">
-        <property name="headerFile" value="${checkstyle.header.file}"/>
-    </module>
-
     <!-- Checks for Size Violations.                    -->
     <!-- See http://checkstyle.sf.net/config_sizes.html -->
     <module name="FileLength"/>

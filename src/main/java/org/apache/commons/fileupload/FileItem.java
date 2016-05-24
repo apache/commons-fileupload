@@ -46,7 +46,7 @@ import java.io.UnsupportedEncodingException;
  * @version $Id$
  * @since 1.3 additionally implements FileItemHeadersSupport
  */
-public interface FileItem extends FileItemHeadersSupport {
+public interface FileItem extends Serializable, FileItemHeadersSupport {
 
     // ------------------------------- Methods from javax.activation.DataSource
 

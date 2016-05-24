@@ -396,43 +396,6 @@ public class ServletFileUploadTest extends FileUploadTestCase {
         assertEquals(2, mappedParameters.get("multi").size());
     }
 
-    /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
-     */
-    @Test
-    public void testContentTypeAttachment()
-            throws IOException, FileUploadException {
-        List<FileItem> fileItems = parseUpload(
-        		"-----1234\r\n" +
-        		"content-disposition: form-data; name=\"field1\"\r\n" +
-        		"\r\n" +
-        		"Joe Blow\r\n" +
-        		"-----1234\r\n" +
-        		"content-disposition: form-data; name=\"pics\"\r\n" +
-        		"Content-type: multipart/mixed, boundary=---9876\r\n" +
-        		"\r\n" +
-        		"-----9876\r\n" +
-        		"Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
-        		"Content-Type: text/plain\r\n" +
-        		"\r\n" + 
-        		"... contents of file1.txt ...\r\n" +
-        		"-----9876--\r\n" +
-        		"-----1234--\r\n");        				
-        assertEquals(2, fileItems.size());
-
-        FileItem field = fileItems.get(0);
-        assertEquals("field1", field.getFieldName());
-        assertTrue(field.isFormField());
-        assertEquals("Joe Blow", field.getString());
-
-        FileItem file = fileItems.get(1);
-        assertEquals("pics", file.getFieldName());
-        assertFalse(file.isFormField());
-        assertEquals("... contents of file1.txt ...", file.getString());
-        assertEquals("text/plain", file.getContentType());
-        assertEquals("file1.txt", file.getName());
-    }
-
     private void assertHeaders(String[] pHeaderNames, String[] pHeaderValues,
                                FileItem pItem, int pIndex) {
         for (int i = 0;  i < pHeaderNames.length;  i++) {

@@ -67,22 +67,16 @@
 
     <section name="Downloading">
       <subsection name="Full Releases">
-        <p><strong>FileUpload 1.3.1</strong> - 7 February 2014</p>
+        <p><strong>FileUpload 1.3</strong> - 27 March 2013</p>
         <ul>
           <li>Download the binary and source distributions from a mirror site
             <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
           </li>
         </ul>
-        <p><strong>FileUpload 1.3</strong> - 27 March 2013</p>
-        <ul>
-          <li>Download the binary and source distributions from the archive site
-            <a href="http://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
         <p><strong>FileUpload 1.2.2</strong> - 29 July 2010</p>
         <ul>
-          <li>Download the binary and source distributions from the archive site
-            <a href="http://archive.apache.org/dist/commons/fileupload/">here</a>
+          <li>Download the binary and source distributions from a mirror site
+            <a href="http://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
           </li>
         </ul>
         <p><strong>FileUpload 1.2.1</strong> - 18 January 2008</p>
