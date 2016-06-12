@@ -263,6 +263,21 @@
     								<execute/>
     							</action>
     						</pluginExecution>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>org.codehaus.mojo</groupId>
+    								<artifactId>
+    									build-helper-maven-plugin
+    								</artifactId>
+    								<versionRange>[1.10,)</versionRange>
+    								<goals>
+    									<goal>parse-version</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<execute/>
+    							</action>
+    						</pluginExecution>
     					</pluginExecutions>
     				</lifecycleMappingMetadata>
     			</configuration>
