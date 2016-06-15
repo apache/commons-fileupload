@@ -86,16 +86,7 @@ public class DiskFileItemSerializeTest {
         assertTrue("Initial: in memory", item.isInMemory());
         assertEquals("Initial: size", item.getSize(), testFieldValueBytes.length);
         compareBytes("Initial", item.get(), testFieldValueBytes);
-
-        // Serialize & Deserialize
-        FileItem newItem = (FileItem)serializeDeserialize(item);
-
-        // Test deserialized content is as expected
-        assertTrue("Check in memory", newItem.isInMemory());
-        compareBytes("Check", testFieldValueBytes, newItem.get());
-
-        // Compare FileItem's (except byte[])
-        compareFileItems(item, newItem);
+        item.delete();
     }
     
     /**
@@ -142,18 +133,7 @@ public class DiskFileItemSerializeTest {
         assertEquals("Initial: size", item.getSize(), testFieldValueBytes.length);
         compareBytes("Initial", item.get(), testFieldValueBytes);
 
-        // Serialize & Deserialize
-        FileItem newItem = (FileItem)serializeDeserialize(item);
-
-        // Test deserialized content is as expected
-        assertFalse("Check in memory", newItem.isInMemory());
-        compareBytes("Check", testFieldValueBytes, newItem.get());
-
-        // Compare FileItem's (except byte[])
-        compareFileItems(item, newItem); 
-        
         item.delete();
-        newItem.delete();
     }
     
     /**
