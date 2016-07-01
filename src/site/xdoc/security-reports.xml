@@ -18,25 +18,25 @@
 -->
 <document>
     <properties>
-        <title>Commons Fileupload Security Reports</title>
+        <title>Commons FileUpload Security Reports</title>
         <author email="dev@commons.apache.org">Commons Documentation Team</author>
     </properties>
     <body>
-      <section name="Apache Commons Fileupload Security Vulnerabilities">
+      <section name="Apache Commons FileUpload Security Vulnerabilities">
         <p>This page lists all security vulnerabilities fixed in
-        released versions of Apache Commons Fileupload. Each
+        released versions of Apache Commons FileUpload. Each
         vulnerability is given a security impact rating by the
         development team - please note that this rating may vary from
         platform to platform. We also list the versions of Commons
-        Fileupload the flaw is known to affect, and where a flaw has not
+        FileUpload the flaw is known to affect, and where a flaw has not
         been verified list the version with a question mark.</p>
 
         <p>Please note that binary patches are never provided. If you
         need to apply a source code patch, use the building
-        instructions for the Commons Fileupload version that you are
+        instructions for the Commons FileUpload version that you are
         using.</p>
 
-        <p>If you need help on building Commons Fileupload or other help
+        <p>If you need help on building Commons FileUpload or other help
         on following the instructions to mitigate the known
         vulnerabilities listed here, please send your questions to the
         public <a href="mail-lists.html">Commons Users mailing
@@ -52,7 +52,7 @@
         href="http://commons.apache.org/security.html">security page
         of the Apache Commons project</a>.</p>
 
-        <subsection name="Fixed in Apache Commons Fileupload 1.3.2">
+        <subsection name="Fixed in Apache Commons FileUpload 1.3.2">
           <p><b>Low: Denial of Service</b> <a
           href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-3092">CVE-2016-3092</a></p>
  
@@ -66,7 +66,7 @@
           <p>Affects: 1.0? - 1.3.1</p>
         </subsection>
 
-        <subsection name="Fixed in Apache Commons Fileupload 1.3.1">
+        <subsection name="Fixed in Apache Commons FileUpload 1.3.1">
           <p><b>Low: Denial of Service</b> <a
           href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=2014-0050">CVE-2014-0050</a></p>
 
@@ -82,7 +82,7 @@
           <p>Affects: 1.0? - 1.3</p>
         </subsection>
 
-        <subsection name="Fixed in Apache Commons Fileupload 1.3">
+        <subsection name="Fixed in Apache Commons FileUpload 1.3">
 
           <p><b>Low: Improved Documentation for Multitenancy</b> <a
           href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=2013-0248">CVE-2013-0248</a></p>
