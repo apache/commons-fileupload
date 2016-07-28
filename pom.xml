@@ -167,9 +167,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/fileupload/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/fileupload/trunk</url>
+    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/commons-fileupload.git</connection>
+    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/commons-fileupload.git</developerConnection>
+    <url>https://git-wip-us.apache.org/repos/asf?p=commons-fileupload.git</url>
   </scm>
   <issueManagement>
     <system>jira</system>
