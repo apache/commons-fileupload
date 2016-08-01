@@ -16,7 +16,7 @@
  */
 package org.apache.commons.fileupload.disk;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -24,8 +24,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
