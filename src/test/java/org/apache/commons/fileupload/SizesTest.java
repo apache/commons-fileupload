@@ -256,7 +256,6 @@ public class SizesTest extends FileUploadTestCase {
         assertEquals("foo1.tab", item.getName());
 
         {
-            @SuppressWarnings("resource") // Streams.copy closes the input file
             InputStream stream = item.openStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Streams.copy(stream, baos, true);
@@ -273,7 +272,6 @@ public class SizesTest extends FileUploadTestCase {
         item = it.next();
 
         try {
-            @SuppressWarnings("resource") // Streams.copy closes the input file
             InputStream stream = item.openStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Streams.copy(stream, baos, true);
