@@ -76,11 +76,6 @@ public class DiskFileItem
     // ----------------------------------------------------- Manifest constants
 
     /**
-     * The UID to use when serializing this instance.
-     */
-    private static final long serialVersionUID = 2237570099615271025L;
-
-    /**
      * Default content charset to be used when no explicit charset
      * parameter is provided by the sender. Media subtypes of the
      * "text" type are defined to have a default charset value of
@@ -153,11 +148,6 @@ public class DiskFileItem
      * The temporary file to use.
      */
     private transient File tempFile;
-
-    /**
-     * File to allow for serialization of the content of this item.
-     */
-    private File dfosFile;
 
     /**
      * The file items headers.

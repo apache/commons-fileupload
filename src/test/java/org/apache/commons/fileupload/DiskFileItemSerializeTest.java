@@ -32,7 +32,6 @@ import java.io.OutputStream;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -88,14 +87,14 @@ public class DiskFileItemSerializeTest {
         compareBytes("Initial", item.get(), testFieldValueBytes);
         item.delete();
     }
-    
+
     /**
      * Helper method to test creation of a field.
      */
     private void testInMemoryObject(byte[] testFieldValueBytes) {
         testInMemoryObject(testFieldValueBytes, REPO);
     }
-    
+
     /**
      * Test creation of a field for which the amount of data falls below the
      * configured threshold.
@@ -135,7 +134,7 @@ public class DiskFileItemSerializeTest {
 
         item.delete();
     }
-    
+
     /**
      * Test serialization and deserialization when repository is not null.
      */
@@ -145,7 +144,7 @@ public class DiskFileItemSerializeTest {
         byte[] testFieldValueBytes = createContentBytes(threshold);
         testInMemoryObject(testFieldValueBytes, REPO);
     }
-    
+
     /**
      * Test deserialization fails when repository is not valid.
      */
@@ -157,7 +156,7 @@ public class DiskFileItemSerializeTest {
         FileItem item = createFileItem(testFieldValueBytes, repository);
         deserialize(serialize(item));
     }
-    
+
     /**
      * Test deserialization fails when repository contains a null character.
      */
@@ -168,17 +167,6 @@ public class DiskFileItemSerializeTest {
         File repository = new File(System.getProperty("java.io.tmpdir"), "\0");
         FileItem item = createFileItem(testFieldValueBytes, repository);
         deserialize(serialize(item));
-    }
-
-    /**
-     * Compare FileItem's (except the byte[] content)
-     */
-    private void compareFileItems(FileItem origItem, FileItem newItem) {
-        assertTrue("Compare: is in Memory",   origItem.isInMemory()   == newItem.isInMemory());
-        assertTrue("Compare: is Form Field",  origItem.isFormField()  == newItem.isFormField());
-        assertEquals("Compare: Field Name",   origItem.getFieldName(),   newItem.getFieldName());
-        assertEquals("Compare: Content Type", origItem.getContentType(), newItem.getContentType());
-        assertEquals("Compare: File Name",    origItem.getName(),        newItem.getName());
     }
 
     /**
@@ -233,14 +221,14 @@ public class DiskFileItemSerializeTest {
         return item;
 
     }
-    
+
     /**
      * Create a FileItem with the specfied content bytes.
      */
     private FileItem createFileItem(byte[] contentBytes) {
         return createFileItem(contentBytes, REPO);
     }
-    
+
     /**
      * Do serialization
      */
@@ -252,7 +240,7 @@ public class DiskFileItemSerializeTest {
         oos.close();
         return baos;
     }
-    
+
     /**
      * Do deserialization
      */
@@ -266,28 +254,4 @@ public class DiskFileItemSerializeTest {
 
         return result;
     }
-    
-    /**
-     * Do serialization and deserialization.
-     */
-    private Object serializeDeserialize(Object target) {
-        // Serialize the test object
-        ByteArrayOutputStream baos = null;
-        try {
-            baos = serialize(target);
-        } catch (Exception e) {
-            fail("Exception during serialization: " + e);
-        }
-        
-        // Deserialize the test object
-        Object result = null;
-        try {
-            result = deserialize(baos);
-        } catch (Exception e) {
-            fail("Exception during deserialization: " + e);
-        }
-        IOUtils.closeQuietly(baos);
-        return result;
-    }
-
 }
