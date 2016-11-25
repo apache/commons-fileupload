@@ -210,11 +210,11 @@ public class DiskFileItem
     public InputStream getInputStream()
         throws IOException {
         if (!isInMemory()) {
-            return new FileInputStream(dfos.getFile());
+            return new FileInputStream(getOutputStream().getFile());
         }
 
         if (cachedContent == null) {
-            cachedContent = dfos.getData();
+            cachedContent = getOutputStream().getData();
         }
         return new ByteArrayInputStream(cachedContent);
     }
@@ -271,7 +271,7 @@ public class DiskFileItem
         if (cachedContent != null) {
             return true;
         }
-        return dfos.isInMemory();
+        return getOutputStream().isInMemory();
     }
 
     /**
@@ -284,10 +284,10 @@ public class DiskFileItem
             return size;
         } else if (cachedContent != null) {
             return cachedContent.length;
-        } else if (dfos.isInMemory()) {
-            return dfos.getData().length;
+        } else if (getOutputStream().isInMemory()) {
+            return getOutputStream().getData().length;
         } else {
-            return dfos.getFile().length();
+            return getOutputStream().getFile().length();
         }
     }
 
@@ -301,8 +301,8 @@ public class DiskFileItem
      */
     public byte[] get() {
         if (isInMemory()) {
-            if (cachedContent == null && dfos != null) {
-                cachedContent = dfos.getData();
+            if (cachedContent == null && getOutputStream() != null) {
+                cachedContent = getOutputStream().getData();
             }
             return cachedContent;
         }
@@ -311,7 +311,7 @@ public class DiskFileItem
         InputStream fis = null;
 
         try {
-            fis = new FileInputStream(dfos.getFile());
+            fis = new FileInputStream(getOutputStream().getFile());
             IOUtils.readFully(fis, fileData);
         } catch (IOException e) {
             fileData = null;
