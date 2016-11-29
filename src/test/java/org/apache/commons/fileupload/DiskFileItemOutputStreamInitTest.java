@@ -33,7 +33,7 @@ public class DiskFileItemOutputStreamInitTest {
     public void tearDown() throws Exception {
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetSizeWithoutAccessingOutputStreamBefore() {
         diskFileItem.getSize();
     }
