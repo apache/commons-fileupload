@@ -210,11 +210,11 @@ public class DiskFileItem
     public InputStream getInputStream()
         throws IOException {
         if (!isInMemory()) {
-            return new FileInputStream(getOutputStream().getFile());
+            return new FileInputStream(getDeferredFileOutputStream().getFile());
         }
 
         if (cachedContent == null) {
-            cachedContent = getOutputStream().getData();
+            cachedContent = getDeferredFileOutputStream().getData();
         }
         return new ByteArrayInputStream(cachedContent);
     }
@@ -268,26 +268,34 @@ public class DiskFileItem
      *         from memory; <code>false</code> otherwise.
      */
     public boolean isInMemory() {
-        if (cachedContent != null) {
-            return true;
+        try {
+            if (cachedContent != null) {
+                return true;
+            }
+            return getDeferredFileOutputStream().isInMemory();
+        } catch (IOException e) {
+            return false;
         }
-        return getOutputStream().isInMemory();
     }
 
     /**
-     * Returns the size of the file.
+     * Returns the size of the file or 0 if the file cannot be read.
      *
-     * @return The size of the file, in bytes.
+     * @return The size of the file, in bytes or 0 if the file cannot be read.
      */
     public long getSize() {
-        if (size >= 0) {
-            return size;
-        } else if (cachedContent != null) {
-            return cachedContent.length;
-        } else if (getOutputStream().isInMemory()) {
-            return getOutputStream().getData().length;
-        } else {
-            return getOutputStream().getFile().length();
+        try {
+            if (size >= 0) {
+                return size;
+            } else if (cachedContent != null) {
+                return cachedContent.length;
+            } else if (getDeferredFileOutputStream().isInMemory()) {
+                return getDeferredFileOutputStream().getData().length;
+            } else {
+                return getDeferredFileOutputStream().getFile().length();
+            }
+        } catch (IOException e) {
+            return 0L;
         }
     }
 
@@ -300,18 +308,20 @@ public class DiskFileItem
      * or {@code null} if the data cannot be read
      */
     public byte[] get() {
-        if (isInMemory()) {
-            if (cachedContent == null && getOutputStream() != null) {
-                cachedContent = getOutputStream().getData();
-            }
-            return cachedContent;
-        }
-
-        byte[] fileData = new byte[(int) getSize()];
         InputStream fis = null;
-
+        byte[] fileData = null;
         try {
-            fis = new FileInputStream(getOutputStream().getFile());
+            if (isInMemory()) {
+                if (cachedContent == null && getOutputStream() != null) {
+                    cachedContent = getDeferredFileOutputStream().getData();
+                }
+                return cachedContent;
+            }
+
+            fileData = new byte[(int) getSize()];
+
+
+            fis = new FileInputStream(getDeferredFileOutputStream().getFile());
             IOUtils.readFully(fis, fileData);
         } catch (IOException e) {
             fileData = null;
@@ -492,6 +502,11 @@ public class DiskFileItem
      */
     public OutputStream getOutputStream()
         throws IOException {
+        return getDeferredFileOutputStream();
+    }
+
+    private DeferredFileOutputStream getDeferredFileOutputStream()
+            throws IOException {
         if (dfos == null) {
             File outputFile = getTempFile();
             dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
