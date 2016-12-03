@@ -181,7 +181,7 @@
     <maven.compiler.target>1.5</maven.compiler.target>
     <maven.compile.encoding>ISO-8859-1</maven.compile.encoding>
     <commons.componentid>fileupload</commons.componentid>
-    <commons.release.version>1.3.2</commons.release.version>
+    <commons.release.version>1.3.3</commons.release.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
