@@ -232,7 +232,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <preparationGoals>clean site verify</preparationGoals>
-          <goals>deploy</goals>
+          <goals>clean site deploy</goals>
         </configuration>
       </plugin>
     </plugins>
