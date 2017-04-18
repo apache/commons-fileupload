@@ -28,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -210,7 +211,7 @@ public class DiskFileItem
     public InputStream getInputStream()
         throws IOException {
         if (!isInMemory()) {
-            return new FileInputStream(dfos.getFile());
+            return Files.newInputStream(dfos.getFile().toPath());
         }
 
         if (cachedContent == null) {
@@ -311,7 +312,7 @@ public class DiskFileItem
         InputStream fis = null;
 
         try {
-            fis = new FileInputStream(dfos.getFile());
+            fis = Files.newInputStream(dfos.getFile().toPath());
             IOUtils.readFully(fis, fileData);
         } catch (IOException e) {
             fileData = null;
@@ -383,9 +384,9 @@ public class DiskFileItem
      */
     public void write(File file) throws Exception {
         if (isInMemory()) {
-            FileOutputStream fout = null;
+            OutputStream fout = null;
             try {
-                fout = new FileOutputStream(file);
+                fout = Files.newOutputStream(file.toPath());
                 fout.write(get());
                 fout.close();
             } finally {
