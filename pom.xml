@@ -180,6 +180,7 @@
     <maven.compiler.source>1.5</maven.compiler.source>
     <maven.compiler.target>1.5</maven.compiler.target>
     <commons.componentid>fileupload</commons.componentid>
+    <commons.module.name>org.apache.commons.fileupload</commons.module.name>
     <commons.release.version>1.4</commons.release.version>
     <commons.release.desc>(requires Java ${maven.compiler.target} or later)</commons.release.desc>
     <commons.rc.version>RC1</commons.rc.version>
