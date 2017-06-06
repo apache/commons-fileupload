@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.UUID;
@@ -78,7 +77,7 @@ public class DiskFileItem
     implements FileItem {
 
 	/**
-	 * Although it implements {@link Serializable}, a DiskFileItem can actually only be deserialized,
+     * Although it implements {@link java.io.Serializable}, a DiskFileItem can actually only be deserialized,
 	 * if this System property is true.
 	 */
     public static final String SERIALIZABLE_PROPERTY = DiskFileItem.class.getName() + ".serializable";
