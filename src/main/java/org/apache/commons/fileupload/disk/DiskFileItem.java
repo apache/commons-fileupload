@@ -76,13 +76,13 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
 public class DiskFileItem
     implements FileItem {
 
-	/**
+    /**
      * Although it implements {@link java.io.Serializable}, a DiskFileItem can actually only be deserialized,
-	 * if this System property is true.
-	 */
+     * if this System property is true.
+     */
     public static final String SERIALIZABLE_PROPERTY = DiskFileItem.class.getName() + ".serializable";
 
-	// ----------------------------------------------------- Manifest constants
+    // ----------------------------------------------------- Manifest constants
 
     /**
      * The UID to use when serializing this instance.
