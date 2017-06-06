@@ -660,10 +660,10 @@ public class DiskFileItem
      */
     private void readObject(ObjectInputStream in)
             throws IOException, ClassNotFoundException {
-    	if (!Boolean.getBoolean(SERIALIZABLE_PROPERTY)) {
-    		throw new IllegalStateException("Property " + SERIALIZABLE_PROPERTY
-    				+ " is not true, rejecting to deserialize a DiskFileItem.");
-    	}
+        if (!Boolean.getBoolean(SERIALIZABLE_PROPERTY)) {
+            throw new IllegalStateException("Property " + SERIALIZABLE_PROPERTY
+                    + " is not true, rejecting to deserialize a DiskFileItem.");
+        }
         // read values
         in.defaultReadObject();
 
