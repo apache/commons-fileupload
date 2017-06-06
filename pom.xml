@@ -26,7 +26,7 @@
 
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.3.4-SNAPSHOT</version>
+  <version>1.3.3</version>
 
   <name>Apache Commons FileUpload</name>
   <description>
@@ -95,6 +95,12 @@
       <name>Gary Gregory</name>
       <id>ggregory</id>
       <email>ggregory@apache.org</email>
+      <organization />
+    </developer>
+    <developer>
+      <name>Rob Tompkins</name>
+      <id>chtompki</id>
+      <email>chtompki@apache.org</email>
       <organization />
     </developer>
   </developers>
