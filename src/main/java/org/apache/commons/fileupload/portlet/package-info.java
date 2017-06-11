@@ -30,7 +30,7 @@
  *      The following code fragment demonstrates typical usage.
  *    </p>
  * <pre>
- *       DiskFileItemFactory factory = new DiskFileItemFactory();
+ *        DiskFileItemFactory factory = new DiskFileItemFactory();
  *        // Configure the factory here, if desired.
  *        PortletFileUpload upload = new PortletFileUpload(factory);
  *        // Configure the uploader here, if desired.
