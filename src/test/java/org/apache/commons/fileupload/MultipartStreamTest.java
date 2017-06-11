@@ -46,7 +46,6 @@ public class MultipartStreamTest {
         assertNotNull(ms);
     }
 
-    @SuppressWarnings("unused")
     @Test(expected=IllegalArgumentException.class)
     public void testSmallBuffer() throws Exception {
         final String strData = "foobar";
