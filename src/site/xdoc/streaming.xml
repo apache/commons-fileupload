@@ -27,14 +27,14 @@
     <section name="Why Streaming?">
       <p>
         The traditional API, which is described in the <a href="using.html">User
-        Guide</a>, assumes, that file items must be stored somewhere, before
+        Guide</a>, assumes that file items must be stored somewhere before
         they are actually accessable by the user. This approach is convenient,
         because it allows easy access to an items contents. On the other hand,
         it is memory and time consuming.
       </p>
       <p>
         The streaming API allows you to trade a little bit of convenience for
-        optimal performance and and a low memory profile. Additionally, the
+        optimal performance and a low memory profile. Additionally, the
         API is more lightweight, thus easier to understand.
       </p>
     </section>
@@ -42,7 +42,7 @@
     <section name="How it works">
       <p>
         Again, the <code>FileUpload</code> class is used for accessing the
-        form fields and fields in the order, in which they have been sent
+        form fields and fields in the order in which they have been sent
         by the client. However, the <code>FileItemFactory</code> is completely
         ignored.
       </p>
@@ -50,7 +50,7 @@
   
     <section name="Parsing the request">
       <p>
-        First of all, do not forget to ensure, that a request actually is a
+        First of all, do not forget to ensure that a request actually is a
         a file upload request. This is typically done using the same static
         method, which you already know from the traditional API.
       </p>
