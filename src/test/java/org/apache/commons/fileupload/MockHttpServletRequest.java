@@ -32,7 +32,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-class MockHttpServletRequest implements HttpServletRequest {
+public class MockHttpServletRequest implements HttpServletRequest {
 
     private final InputStream m_requestData;
 

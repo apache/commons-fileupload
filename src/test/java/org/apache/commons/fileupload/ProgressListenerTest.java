@@ -23,14 +23,15 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.junit.Test;
 
 /**
- * Tests the progress listener.
+ * Tests the {@link ProgressListener}.
  */
-public class ProgressListenerTest extends FileUploadTestCase {
+public class ProgressListenerTest {
 
     private class ProgressListenerImpl implements ProgressListener {
 
@@ -76,18 +77,18 @@ public class ProgressListenerTest extends FileUploadTestCase {
             String header = "-----1234\r\n"
                 + "Content-Disposition: form-data; name=\"field" + (i+1) + "\"\r\n"
                 + "\r\n";
-            baos.write(header.getBytes("US-ASCII"));
+            baos.write(header.getBytes(StandardCharsets.US_ASCII.name()));
             for (int j = 0;  j < 16384+i;  j++) {
                 baos.write((byte) j);
             }
-            baos.write("\r\n".getBytes("US-ASCII"));
+            baos.write("\r\n".getBytes(StandardCharsets.US_ASCII.name()));
         }
-        baos.write("-----1234--\r\n".getBytes("US-ASCII"));
+        baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII.name()));
         byte[] contents = baos.toByteArray();
 
-        MockHttpServletRequest request = new MockHttpServletRequest(contents, "multipart/form-data; boundary=---1234");
+        MockHttpServletRequest request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE);
         runTest(NUM_ITEMS, contents.length, request);
-        request = new MockHttpServletRequest(contents, "multipart/form-data; boundary=---1234"){
+        request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE){
             @Override
             public int getContentLength() {
                 return -1;
