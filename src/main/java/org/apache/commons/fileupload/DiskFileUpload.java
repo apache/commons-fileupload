@@ -34,8 +34,6 @@ import javax.servlet.http.HttpServletRequest;
  * depending on their size, and will be available as {@link
  * org.apache.commons.fileupload.FileItem}s.</p>
  *
- * @version $Id$
- *
  * @deprecated 1.1 Use <code>ServletFileUpload</code> together with
  *             <code>DiskFileItemFactory</code> instead.
  */

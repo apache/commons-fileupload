@@ -25,8 +25,6 @@ import org.junit.Test;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.MultipartStream}.
- *
- * @version $Id$
  */
 public class MultipartStreamTest {
 

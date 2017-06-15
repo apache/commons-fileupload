@@ -32,8 +32,6 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link org.apache.commons.fileupload.DefaultFileItem}.
- *
- * @version $Id$
  */
 @SuppressWarnings({"deprecation", "javadoc"}) // unit tests for deprecated class
 public class DefaultFileItemTest {

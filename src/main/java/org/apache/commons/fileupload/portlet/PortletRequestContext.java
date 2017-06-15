@@ -31,8 +31,6 @@ import org.apache.commons.fileupload.UploadContext;
  * a portlet.</p>
  *
  * @since FileUpload 1.1
- *
- * @version $Id$
  */
 public class PortletRequestContext implements UploadContext {
 

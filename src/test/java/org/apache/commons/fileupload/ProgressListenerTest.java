@@ -29,8 +29,6 @@ import org.junit.Test;
 
 /**
  * Tests the progress listener.
- *
- * @version $Id$
  */
 public class ProgressListenerTest extends FileUploadTestCase {
 

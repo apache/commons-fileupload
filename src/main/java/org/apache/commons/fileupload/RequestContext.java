@@ -25,8 +25,6 @@ import java.io.IOException;
  * handled by FileUpload, such as servlets and portlets.</p>
  *
  * @since FileUpload 1.1
- *
- * @version $Id$
  */
 public interface RequestContext {
 

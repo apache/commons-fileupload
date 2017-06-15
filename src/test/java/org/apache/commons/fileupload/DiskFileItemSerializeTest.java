@@ -39,8 +39,6 @@ import org.junit.Test;
 /**
  * Serialization Unit tests for
  *  {@link org.apache.commons.fileupload.disk.DiskFileItem}.
- *
- * @version $Id$
  */
 public class DiskFileItemSerializeTest {
 

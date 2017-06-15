@@ -18,9 +18,6 @@ package org.apache.commons.fileupload;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * @version $Id$
- */
 final class HttpServletRequestFactory {
 
     static public HttpServletRequest createHttpServletRequestWithNullContentType() {

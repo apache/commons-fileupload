@@ -80,8 +80,6 @@ import org.apache.commons.fileupload.util.Streams;
  *     // a read or write error occurred
  *   }
  * </pre>
- *
- * @version $Id$
  */
 public class MultipartStream {
 

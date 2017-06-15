@@ -26,8 +26,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * Base class for deriving test cases.
- *
- * @version $Id$
  */
 public abstract class FileUploadTestCase {
 

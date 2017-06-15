@@ -21,8 +21,6 @@ import java.io.PrintWriter;
 
 /**
  * Exception for errors encountered while processing the request.
- *
- * @version $Id$
  */
 public class FileUploadException extends Exception {
 

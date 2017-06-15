@@ -35,8 +35,6 @@ import org.junit.Test;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
- *
- * @version $Id$
  */
 @SuppressWarnings({"deprecation", "javadoc"}) // unit tests for deprecated class
 public class ServletFileUploadTest extends FileUploadTestCase {

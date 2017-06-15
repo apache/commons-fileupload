@@ -66,8 +66,6 @@ import org.apache.commons.io.FileCleaningTracker;
  * in the users guide of commons-fileupload.</p>
  *
  * @since FileUpload 1.1
- *
- * @version $Id$
  */
 public class DiskFileItemFactory implements FileItemFactory {
 

@@ -67,8 +67,6 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * in the users guide of commons-fileupload.</p>
  *
  * @since FileUpload 1.1
- *
- * @version $Id$
  */
 public class DiskFileItem
     implements FileItem {

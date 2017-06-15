@@ -32,9 +32,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-/**
- * @version $Id$
- */
 class MockHttpServletRequest implements HttpServletRequest {
 
     private final InputStream m_requestData;

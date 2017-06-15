@@ -45,8 +45,6 @@ import org.apache.commons.fileupload.FileUploadException;
  * else.</p>
  *
  * @since FileUpload 1.1
- *
- * @version $Id$
  */
 public class PortletFileUpload extends FileUpload {
 

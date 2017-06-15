@@ -32,8 +32,6 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
  * {@link #getInputStream()} and process the file without attempting to load
  * it into memory, which may come handy with large files.
  *
- * @version $Id$
- *
  * @deprecated 1.1 Use <code>DiskFileItem</code> instead.
  */
 @Deprecated

@@ -36,8 +36,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
  *       <code>System.getProperty("java.io.tmpdir")</code>.</li>
  * </ul>
  *
- * @version $Id$
- *
  * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
  */
 @Deprecated
