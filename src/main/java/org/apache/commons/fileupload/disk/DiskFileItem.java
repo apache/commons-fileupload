@@ -375,7 +375,7 @@ public class DiskFileItem
                 fout.write(get());
                 fout.close();
             } finally {
-            	IOUtils.closeQuietly(fout);
+                IOUtils.closeQuietly(fout);
             }
         } else {
             File outputFile = getStoreLocation();
@@ -505,7 +505,7 @@ public class DiskFileItem
             return null;
         }
         if (isInMemory()) {
-        	return null;
+            return null;
         }
         return dfos.getFile();
     }
