@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,7 +40,7 @@ import org.junit.Test;
 /**
  * Unit test for items with varying sizes.
  */
-public class SizesTest extends FileUploadTestCase {
+public class SizesTest {
 
     /**
      * Runs a test with varying file sizes.
@@ -65,7 +66,8 @@ public class SizesTest extends FileUploadTestCase {
         }
         baos.write("-----1234--\r\n".getBytes("US-ASCII"));
 
-        List<FileItem> fileItems = parseUpload(baos.toByteArray());
+        List<FileItem> fileItems =
+                Util.parseUpload(new ServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
         Iterator<FileItem> fileIter = fileItems.iterator();
         add = 16;
         num = 0;
@@ -100,7 +102,8 @@ public class SizesTest extends FileUploadTestCase {
 
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(-1);
-        HttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        HttpServletRequest req = new MockHttpServletRequest(
+                request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         List<FileItem> fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         FileItem item = fileItems.get(0);
@@ -108,7 +111,7 @@ public class SizesTest extends FileUploadTestCase {
 
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(40);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         item = fileItems.get(0);
@@ -116,7 +119,7 @@ public class SizesTest extends FileUploadTestCase {
 
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(30);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
@@ -142,7 +145,8 @@ public class SizesTest extends FileUploadTestCase {
 
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(-1);
-        HttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        HttpServletRequest req = new MockHttpServletRequest(
+                request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         List<FileItem> fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         FileItem item = fileItems.get(0);
@@ -150,7 +154,7 @@ public class SizesTest extends FileUploadTestCase {
 
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(40);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         item = fileItems.get(0);
@@ -159,7 +163,7 @@ public class SizesTest extends FileUploadTestCase {
         // provided Content-Length is larger than the FileSizeMax -> handled by ctor
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(5);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
@@ -170,7 +174,7 @@ public class SizesTest extends FileUploadTestCase {
         // provided Content-Length is wrong, actual content is larger -> handled by LimitedInputStream
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(15);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
@@ -204,14 +208,14 @@ public class SizesTest extends FileUploadTestCase {
         upload.setFileSizeMax(-1);
         upload.setSizeMax(200);
 
-        MockHttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        MockHttpServletRequest req = new MockHttpServletRequest(
+                request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
         } catch (FileUploadBase.SizeLimitExceededException e) {
             assertEquals(200, e.getPermittedSize());
         }
-
     }
 
     @Test
@@ -241,7 +245,8 @@ public class SizesTest extends FileUploadTestCase {
         // set the read limit to 10 to simulate a "real" stream
         // otherwise the buffer would be immediately filled
 
-        MockHttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), CONTENT_TYPE);
+        MockHttpServletRequest req = new MockHttpServletRequest(
+                request.getBytes(StandardCharsets.US_ASCII.name()), Constants.CONTENT_TYPE);
         req.setContentLength(-1);
         req.setReadLimit(10);
 
@@ -277,7 +282,6 @@ public class SizesTest extends FileUploadTestCase {
         } catch (FileUploadIOException e) {
             // expected
         }
-
     }
 
 }
