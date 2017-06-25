@@ -20,62 +20,52 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
+import org.apache.commons.fileupload.servlet.ServletFileUploadTest;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
- * Unit tests {@link org.apache.commons.fileupload.DiskFileUpload}.
+ * Common tests for implementations of {@link FileUpload}. This is a parameterized test.
+ * Tests must be valid and common to all implementations of FileUpload added as parameter
+ * in this class.
+ *
+ * @see ServletFileUploadTest
+ * @see PortletFileUploadTest
+ * @since 1.4
  */
-@SuppressWarnings({"deprecation", "javadoc"}) // unit tests for deprecated class
-public class ServletFileUploadTest extends FileUploadTestCase {
+@RunWith(Parameterized.class)
+public class FileUploadTest {
 
-    @Test
-    public void testWithInvalidRequest() {
-        FileUploadBase fu = null;
-
-        fu = new DiskFileUpload();
-
-        HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
-
-
-        try {
-            fu.parseRequest(req);
-            fail("testWithInvalidRequest: expected exception was not thrown");
-        } catch (FileUploadException expected) {
-            // this exception is expected
-        }
+    /**
+     * @return {@link FileUpload} classes under test.
+     */
+    @Parameters(name="{0}")
+    public static Iterable<? extends Object> data() {
+        return Util.fileUploadImplementations();
     }
 
-    @Test
-    public void testWithNullContentType() {
-        FileUploadBase fu = new DiskFileUpload();
+    /**
+     * Current parameterized FileUpload.
+     */
+    @Parameter
+    public FileUpload upload;
 
-        HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
-
-        try {
-            fu.parseRequest(req);
-            fail("testWithNullContentType: expected exception was not thrown");
-        } catch (DiskFileUpload.InvalidContentTypeException expected) {
-            // this exception is expected
-        } catch (FileUploadException unexpected) {
-            fail("testWithNullContentType: unexpected exception was thrown");
-        }
-    }
+    // --- Test methods common to all implementations of a FileUpload
 
     @Test
     public void testFileUpload()
             throws IOException, FileUploadException {
-        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+        List<FileItem> fileItems = Util.parseUpload(upload, 
+                                               "-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
                                                "\r\n" +
@@ -122,7 +112,8 @@ public class ServletFileUploadTest extends FileUploadTestCase {
     @Test
     public void testFilenameCaseSensitivity()
             throws IOException, FileUploadException {
-        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+        List<FileItem> fileItems = Util.parseUpload(upload,
+                                               "-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
                                                "\r\n" +
@@ -142,7 +133,8 @@ public class ServletFileUploadTest extends FileUploadTestCase {
     @Test
     public void testEmptyFile()
             throws UnsupportedEncodingException, FileUploadException {
-        List<FileItem> fileItems = parseUpload ("-----1234\r\n" +
+        List<FileItem> fileItems = Util.parseUpload (upload,
+                                                "-----1234\r\n" +
                                                 "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
                                                 "\r\n" +
                                                 "\r\n" +
@@ -163,7 +155,8 @@ public class ServletFileUploadTest extends FileUploadTestCase {
     @Test
     public void testIE5MacBug()
             throws UnsupportedEncodingException, FileUploadException {
-        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+        List<FileItem> fileItems = Util.parseUpload(upload,
+                                               "-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"field1\"\r\n" +
                                                "\r\n" +
                                                "fieldValue\r\n" +
@@ -232,7 +225,7 @@ public class ServletFileUploadTest extends FileUploadTestCase {
             "...contents of file2.gif...\r\n" +
             "--BbC04y--\r\n" +
             "--AaB03x--";
-        List<FileItem> fileItems = parseUpload(request.getBytes("US-ASCII"), contentType);
+        List<FileItem> fileItems = Util.parseUpload(upload, request.getBytes("US-ASCII"), contentType);
         assertEquals(3, fileItems.size());
         FileItem item0 = fileItems.get(0);
         assertEquals("field1", item0.getFieldName());
@@ -254,7 +247,7 @@ public class ServletFileUploadTest extends FileUploadTestCase {
     @Test
     public void testFoldedHeaders()
             throws IOException, FileUploadException {
-        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+        List<FileItem> fileItems = Util.parseUpload(upload, "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                 "Content-Type: text/whatever\r\n" +
                 "\r\n" +
@@ -314,7 +307,8 @@ public class ServletFileUploadTest extends FileUploadTestCase {
         {
             "present", "Is there", "Here", "Is That"
         };
-        List<FileItem> fileItems = parseUpload("-----1234\r\n" +
+        List<FileItem> fileItems = Util.parseUpload(upload, 
+                                               "-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
                                                headerNames[0] + ": " + headerValues[0] + "\r\n" +
@@ -355,67 +349,27 @@ public class ServletFileUploadTest extends FileUploadTestCase {
     }
 
     /**
-     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-210">
-     */
-    @Test
-    public void parseParameterMap()
-            throws Exception {
-        String text = "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                      "Content-Type: text/whatever\r\n" +
-                      "\r\n" +
-                      "This is the content of the file\n" +
-                      "\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"field\"\r\n" +
-                      "\r\n" +
-                      "fieldValue\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                      "\r\n" +
-                      "value1\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                      "\r\n" +
-                      "value2\r\n" +
-                      "-----1234--\r\n";
-        byte[] bytes = text.getBytes("US-ASCII");
-        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-        HttpServletRequest request = new MockHttpServletRequest(bytes, CONTENT_TYPE);
-
-        Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
-        assertTrue(mappedParameters.containsKey("file"));
-        assertEquals(1, mappedParameters.get("file").size());
-
-        assertTrue(mappedParameters.containsKey("field"));
-        assertEquals(1, mappedParameters.get("field").size());
-
-        assertTrue(mappedParameters.containsKey("multi"));
-        assertEquals(2, mappedParameters.get("multi").size());
-    }
-
-    /**
      * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
      */
     @Test
     public void testContentTypeAttachment()
             throws IOException, FileUploadException {
-        List<FileItem> fileItems = parseUpload(
-        		"-----1234\r\n" +
-        		"content-disposition: form-data; name=\"field1\"\r\n" +
-        		"\r\n" +
-        		"Joe Blow\r\n" +
-        		"-----1234\r\n" +
-        		"content-disposition: form-data; name=\"pics\"\r\n" +
-        		"Content-type: multipart/mixed, boundary=---9876\r\n" +
-        		"\r\n" +
-        		"-----9876\r\n" +
-        		"Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
-        		"Content-Type: text/plain\r\n" +
-        		"\r\n" + 
-        		"... contents of file1.txt ...\r\n" +
-        		"-----9876--\r\n" +
-        		"-----1234--\r\n");        				
+        List<FileItem> fileItems = Util.parseUpload(upload,
+                "-----1234\r\n" +
+                "content-disposition: form-data; name=\"field1\"\r\n" +
+                "\r\n" +
+                "Joe Blow\r\n" +
+                "-----1234\r\n" +
+                "content-disposition: form-data; name=\"pics\"\r\n" +
+                "Content-type: multipart/mixed, boundary=---9876\r\n" +
+                "\r\n" +
+                "-----9876\r\n" +
+                "Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
+                "Content-Type: text/plain\r\n" +
+                "\r\n" + 
+                "... contents of file1.txt ...\r\n" +
+                "-----9876--\r\n" +
+                "-----1234--\r\n");
         assertEquals(2, fileItems.size());
 
         FileItem field = fileItems.get(0);
@@ -432,8 +386,8 @@ public class ServletFileUploadTest extends FileUploadTestCase {
     }
 
     private void assertHeaders(String[] pHeaderNames, String[] pHeaderValues,
-                               FileItem pItem, int pIndex) {
-        for (int i = 0;  i < pHeaderNames.length;  i++) {
+            FileItem pItem, int pIndex) {
+        for (int i = 0; i < pHeaderNames.length; i++) {
             final String value = pItem.getHeaders().getHeader(pHeaderNames[i]);
             if (i == pIndex) {
                 assertEquals(pHeaderValues[i], value);
@@ -442,5 +396,4 @@ public class ServletFileUploadTest extends FileUploadTestCase {
             }
         }
     }
-
 }
