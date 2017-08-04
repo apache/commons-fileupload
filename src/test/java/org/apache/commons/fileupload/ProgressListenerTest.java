@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.junit.Test;
@@ -77,13 +76,13 @@ public class ProgressListenerTest {
             String header = "-----1234\r\n"
                 + "Content-Disposition: form-data; name=\"field" + (i+1) + "\"\r\n"
                 + "\r\n";
-            baos.write(header.getBytes(StandardCharsets.US_ASCII.name()));
+            baos.write(header.getBytes("US-ASCII"));
             for (int j = 0;  j < 16384+i;  j++) {
                 baos.write((byte) j);
             }
-            baos.write("\r\n".getBytes(StandardCharsets.US_ASCII.name()));
+            baos.write("\r\n".getBytes("US-ASCII"));
         }
-        baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII.name()));
+        baos.write("-----1234--\r\n".getBytes("US-ASCII"));
         byte[] contents = baos.toByteArray();
 
         MockHttpServletRequest request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE);

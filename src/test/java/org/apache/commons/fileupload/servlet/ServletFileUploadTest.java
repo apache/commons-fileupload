@@ -19,7 +19,6 @@ package org.apache.commons.fileupload.servlet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +71,7 @@ public class ServletFileUploadTest {
                       "\r\n" +
                       "value2\r\n" +
                       "-----1234--\r\n";
-        byte[] bytes = text.getBytes(StandardCharsets.US_ASCII.name());
+        byte[] bytes = text.getBytes("US-ASCII");
         HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
         Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);

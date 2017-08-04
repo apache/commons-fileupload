@@ -17,7 +17,6 @@
 package org.apache.commons.fileupload;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class Util {
 
     public static List<FileItem> parseUpload(FileUpload upload, String content)
         throws UnsupportedEncodingException, FileUploadException {
-        byte[] bytes = content.getBytes(StandardCharsets.US_ASCII.name());
+        byte[] bytes = content.getBytes("US-ASCII");
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 
