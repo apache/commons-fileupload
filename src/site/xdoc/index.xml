@@ -62,6 +62,7 @@
         <li><a href="./javadocs/api-release/index.html">JavaDoc API (Latest release)</a></li>
         <li><a href="./apidocs/index.html">JavaDoc API (Latest development)</a></li>
         <li><a href="./project-reports.html">Project Reports</a></li>
+        <li><a href="https://dist.apache.org/repos/dist/release/commons/fileupload/RELEASE-NOTES.txt">Release Notes</a></li>
       </ul>
       <p>You can also <a href="./source-repository.html">browse</a> the Subversion repository.</p>
     </section>
