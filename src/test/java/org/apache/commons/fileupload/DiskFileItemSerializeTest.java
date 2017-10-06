@@ -98,7 +98,7 @@ public class DiskFileItemSerializeTest {
      * configured threshold.
      */
     @Test
-    public void testBelowThreshold() throws Exception {
+    public void testBelowThreshold() {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold - 1);
         testInMemoryObject(testFieldValueBytes);
@@ -109,7 +109,7 @@ public class DiskFileItemSerializeTest {
      * configured threshold.
      */
     @Test
-    public void testThreshold() throws Exception {
+    public void testThreshold() {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold);
         testInMemoryObject(testFieldValueBytes);
@@ -120,7 +120,7 @@ public class DiskFileItemSerializeTest {
      * configured threshold.
      */
     @Test
-    public void testAboveThreshold() throws Exception {
+    public void testAboveThreshold() {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold + 1);
         FileItem item = createFileItem(testFieldValueBytes);
@@ -137,7 +137,7 @@ public class DiskFileItemSerializeTest {
      * Test serialization and deserialization when repository is not null.
      */
     @Test
-    public void testValidRepository() throws Exception {
+    public void testValidRepository() {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold);
         testInMemoryObject(testFieldValueBytes, REPO);
