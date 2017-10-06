@@ -28,7 +28,6 @@ import org.apache.commons.fileupload.Constants;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.MockHttpServletRequest;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -38,13 +37,6 @@ import org.junit.Test;
  * @since 1.4
  */
 public class ServletFileUploadTest {
-
-    private ServletFileUpload upload;
-
-    @Before
-    public void setUp() {
-        upload = new ServletFileUpload(new DiskFileItemFactory());
-    }
 
     /**
      * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-210">
@@ -74,6 +66,7 @@ public class ServletFileUploadTest {
         byte[] bytes = text.getBytes("US-ASCII");
         HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
+        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
@@ -85,4 +78,26 @@ public class ServletFileUploadTest {
         assertEquals(2, mappedParameters.get("multi").size());
     }
 
+
+    @Test
+    public void parseImpliedUtf8()
+	    throws Exception {
+        // utf8 encoded form-data without explicit content-type encoding
+        String text = "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
+                "\r\n" +
+                "Thís ís the coñteñt of the fíle\n" +
+                "\r\n" +
+                "-----1234--\r\n";
+
+        byte[] bytes = text.getBytes("UTF-8");
+        HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
+
+        DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
+        fileItemFactory.setDefaultCharset("UTF-8");
+        ServletFileUpload upload = new ServletFileUpload(fileItemFactory);
+        List<FileItem> fileItems = upload.parseRequest(request);
+        FileItem fileItem = fileItems.get(0);
+        assertTrue(fileItem.getString(), fileItem.getString().contains("coñteñt"));
+    }
 }
