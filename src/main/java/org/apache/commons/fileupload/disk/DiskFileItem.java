@@ -415,7 +415,7 @@ public class DiskFileItem
     public void delete() {
         cachedContent = null;
         File outputFile = getStoreLocation();
-        if (outputFile != null && outputFile.exists()) {
+        if (outputFile != null && !isInMemory()  &&  !outputFile.exists()) {
             outputFile.delete();
         }
     }
@@ -523,7 +523,7 @@ public class DiskFileItem
      */
     @Override
     protected void finalize() {
-        if (dfos == null) {
+        if (dfos == null  ||  dfos.isInMemory()) {
             return;
         }
         File outputFile = dfos.getFile();
