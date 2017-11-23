@@ -507,7 +507,7 @@ public class DiskFileItem
      *         memory.
      */
     public File getStoreLocation() {
-        if (dfos == null) {
+        if (dfos == null || dfos.isInMemory()) {
             return null;
         }
         if (isInMemory()) {
@@ -523,7 +523,7 @@ public class DiskFileItem
      */
     @Override
     protected void finalize() {
-        if (dfos == null) {
+        if (dfos == null || dfos.isInMemory()) {
             return;
         }
         File outputFile = dfos.getFile();
