@@ -426,7 +426,7 @@ ProgressListener progressListener = new ProgressListener(){
         Hopefully this page has provided you with a good idea of how to use
         FileUpload in your own applications. For more detail on the methods
         introduced here, as well as other available methods, you should refer
-        to the <a href="./apidocs/index.html">JavaDocs</a>.
+        to the <a href="./apidocs/index.html">Javadocs</a>.
       </p>
       <p>
         The usage described here should satisfy a large majority of file upload
