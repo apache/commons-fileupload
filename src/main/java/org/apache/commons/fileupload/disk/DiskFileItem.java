@@ -482,7 +482,7 @@ public class DiskFileItem
      *
      * @throws IOException if an error occurs.
      */
-    public OutputStream getOutputStream() 
+    public OutputStream getOutputStream()
         throws IOException {
         if (dfos == null) {
             File outputFile = getTempFile();

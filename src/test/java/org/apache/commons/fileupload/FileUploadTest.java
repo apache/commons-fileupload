@@ -64,7 +64,7 @@ public class FileUploadTest {
     @Test
     public void testFileUpload()
             throws IOException, FileUploadException {
-        List<FileItem> fileItems = Util.parseUpload(upload, 
+        List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
@@ -307,7 +307,7 @@ public class FileUploadTest {
         {
             "present", "Is there", "Here", "Is That"
         };
-        List<FileItem> fileItems = Util.parseUpload(upload, 
+        List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
@@ -366,7 +366,7 @@ public class FileUploadTest {
                 "-----9876\r\n" +
                 "Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
                 "Content-Type: text/plain\r\n" +
-                "\r\n" + 
+                "\r\n" +
                 "... contents of file1.txt ...\r\n" +
                 "-----9876--\r\n" +
                 "-----1234--\r\n");
