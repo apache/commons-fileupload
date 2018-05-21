@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
+import org.apache.commons.io.FileUtils;
 
 import org.junit.Test;
 
@@ -140,11 +141,11 @@ public class DefaultFileItemTest {
      * configured threshold, where a specific repository is configured.
      */
     @Test
-    public void testAboveThresholdSpecifiedRepository() {
+    public void testAboveThresholdSpecifiedRepository() throws IOException {
         String tempPath = System.getProperty("java.io.tmpdir");
         String tempDirName = "testAboveThresholdSpecifiedRepository";
         File tempDir = new File(tempPath, tempDirName);
-        tempDir.mkdir();
+        FileUtils.forceMkdir(tempDir);
         doTestAboveThreshold(tempDir);
         assertTrue(tempDir.delete());
     }
