@@ -50,17 +50,15 @@ public class DiskFileItemSerializeTest {
         if (REPO.exists()) {
             FileUtils.deleteDirectory(REPO);
         }
-        assertFalse("Must not exist", REPO.exists());
-        REPO.mkdir();
+        FileUtils.forceMkdir(REPO);
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws IOException {
         for(File file : FileUtils.listFiles(REPO, null, true)) {
             System.out.println("Found leftover file " + file);
         }
-        REPO.delete();
-        assertFalse(REPO + " is not empty", REPO.exists());
+        FileUtils.deleteDirectory(REPO);
     }
 
     /**
