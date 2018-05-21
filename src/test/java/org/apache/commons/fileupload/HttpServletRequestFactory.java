@@ -18,16 +18,20 @@ package org.apache.commons.fileupload;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Creates {@code HttpSerletRequest}s for tests.
+ * @author richter
+ */
 final class HttpServletRequestFactory {
 
-    static public HttpServletRequest createHttpServletRequestWithNullContentType() {
+    public static HttpServletRequest createHttpServletRequestWithNullContentType() {
         byte[] requestData = "foobar".getBytes();
-        return new MockHttpServletRequest(
+        return new HttpServletRequestMock(
                             requestData,
                             null);
     }
 
-    static public HttpServletRequest createValidHttpServletRequest(
+    public static HttpServletRequest createValidHttpServletRequest(
             final String[] strFileNames) {
         // todo - provide a real implementation
 
@@ -40,16 +44,18 @@ final class HttpServletRequestFactory {
         byte[] requestData = null;
         requestData = sbRequestData.toString().getBytes();
 
-        return new MockHttpServletRequest(
+        return new HttpServletRequestMock(
                             requestData,
                             FileUploadBase.MULTIPART_FORM_DATA);
     }
 
-    static public HttpServletRequest createInvalidHttpServletRequest() {
+    public static HttpServletRequest createInvalidHttpServletRequest() {
         byte[] requestData = "foobar".getBytes();
-        return new MockHttpServletRequest(
+        return new HttpServletRequestMock(
                             requestData,
                             FileUploadBase.MULTIPART_FORM_DATA);
     }
 
+    private HttpServletRequestFactory() {
+    }
 }

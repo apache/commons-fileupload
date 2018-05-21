@@ -31,13 +31,22 @@ import org.junit.Test;
 @SuppressWarnings({"deprecation"}) // unit tests for deprecated class
 public class DiskFileUploadTest {
 
+    /**
+     * The upload used for the test.
+     */
     private DiskFileUpload upload;
 
+    /**
+     * Re-create upload before each test method.
+     */
     @Before
     public void setUp() {
         upload = new DiskFileUpload();
     }
 
+    /**
+     * Test invalid request.
+     */
     @Test
     public void testWithInvalidRequest() {
         HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
@@ -50,6 +59,9 @@ public class DiskFileUploadTest {
         }
     }
 
+    /**
+     * Test {@code contextType == null}.
+     */
     @Test
     public void testWithNullContentType() {
         HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();

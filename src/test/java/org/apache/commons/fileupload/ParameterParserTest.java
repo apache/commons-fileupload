@@ -28,6 +28,9 @@ import org.junit.Test;
  */
 public class ParameterParserTest {
 
+    /**
+     * Tests parsing.
+     */
     @Test
     public void testParsing() {
         String s =
@@ -39,7 +42,7 @@ public class ParameterParserTest {
         assertEquals("stuff; stuff", params.get("test2"));
         assertEquals("\"stuff", params.get("test3"));
 
-        params = parser.parse(s, new char[] { ',', ';' });
+        params = parser.parse(s, new char[] {',', ';'});
         assertEquals(null, params.get("test"));
         assertEquals("stuff", params.get("test1"));
         assertEquals("stuff; stuff", params.get("test2"));
@@ -65,6 +68,9 @@ public class ParameterParserTest {
         assertEquals(0, params.size());
     }
 
+    /**
+     * Tests content type parsing.
+     */
     @Test
     public void testContentTypeParsing() {
         String s = "text/plain; Charset=UTF-8";
@@ -74,6 +80,9 @@ public class ParameterParserTest {
         assertEquals("UTF-8", params.get("charset"));
     }
 
+    /**
+     * Tests parsing with escaped chars.
+     */
     @Test
     public void testParsingEscapedChars() {
         String s = "param = \"stuff\\\"; more stuff\"";
@@ -89,31 +98,37 @@ public class ParameterParserTest {
         assertNull(params.get("anotherparam"));
     }
 
-    // See: http://issues.apache.org/jira/browse/FILEUPLOAD-139
+    /**
+     * Tests that http://issues.apache.org/jira/browse/FILEUPLOAD-139 is and
+     * remains fixed.
+     */
     @Test
     public void testFileUpload139() {
         ParameterParser parser = new ParameterParser();
         String s = "Content-type: multipart/form-data , boundary=AaB03x";
-        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        Map<String, String> params = parser.parse(s, new char[] {',', ';'});
         assertEquals("AaB03x", params.get("boundary"));
 
         s = "Content-type: multipart/form-data, boundary=AaB03x";
-        params = parser.parse(s, new char[] { ';', ',' });
+        params = parser.parse(s, new char[] {';', ','});
         assertEquals("AaB03x", params.get("boundary"));
 
         s = "Content-type: multipart/mixed, boundary=BbC04y";
-        params = parser.parse(s, new char[] { ',', ';' });
+        params = parser.parse(s, new char[] {',', ';'});
         assertEquals("BbC04y", params.get("boundary"));
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>
+     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>.
      */
     @Test
     public void fileUpload199() {
         ParameterParser parser = new ParameterParser();
-        String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
-        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        String s = "Content-Disposition: form-data; "
+                + "name=\"file\"; "
+                + "filename=\"=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= "
+                    + "=?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
+        Map<String, String> params = parser.parse(s, new char[] {',', ';'});
         assertEquals("If you can read this you understand the example.", params.get("filename"));
     }
 

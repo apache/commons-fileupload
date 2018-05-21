@@ -22,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import static org.apache.commons.fileupload.util.EncodingConstants.US_ASCII_CHARSET;
 
 /**
  * Utility class to decode MIME texts.
@@ -29,11 +30,6 @@ import java.util.Map;
  * @since 1.3
  */
 public final class MimeUtility {
-
-    /**
-     * The {@code US-ASCII} charset identifier constant.
-     */
-    private static final String US_ASCII_CHARSET = "US-ASCII";
 
     /**
      * The marker to indicate text is encoded with BASE64 algorithm.

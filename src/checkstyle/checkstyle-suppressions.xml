@@ -20,4 +20,6 @@
 -->
 <suppressions>
   <suppress checks="[a-zA-Z0-9]*" files=".+\.properties" />
+  <suppress checks="[a-zA-Z0-9]*" files="LICENSE.txt" />
+  <suppress checks="[a-zA-Z0-9]*" files="NOTICE.txt" />
 </suppressions>

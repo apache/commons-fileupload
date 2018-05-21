@@ -46,22 +46,49 @@ import org.apache.commons.fileupload.FileUploadBase;
  * @since 1.4
  */
 @SuppressWarnings("rawtypes") // because of the portlet ActionRequest API does not use generics
-public class MockPortletActionRequest implements ActionRequest {
+public class PortletActionRequestMock implements ActionRequest {
 
+    /**
+     * The attributes.
+     */
     private final Hashtable<String, Object> attributes = new Hashtable<String, Object>();
-
+    /**
+     * The parameters.
+     */
     private final Map<String, String> parameters = new HashMap<String, String>();
-
+    /**
+     * The character encoding.
+     */
     private String characterEncoding;
+    /**
+     * The content length.
+     */
     private final int length;
+    /**
+     * The content type.
+     */
     private final String contentType;
+    /**
+     * The request data.
+     */
     private final InputStream requestData;
 
-    public MockPortletActionRequest(final byte[] requestData, final String contentType) {
+    /**
+     * Creates a new portlet action request mock.
+     * @param requestData the request data
+     * @param contentType the content type
+     */
+    public PortletActionRequestMock(final byte[] requestData, final String contentType) {
         this(new ByteArrayInputStream(requestData), requestData.length, contentType);
     }
 
-    public MockPortletActionRequest(ByteArrayInputStream byteArrayInputStream, int requestLength, String contentType) {
+    /**
+     * Creates a new portlet action request mock.
+     * @param byteArrayInputStream the data
+     * @param requestLength the request length
+     * @param contentType the content type
+     */
+    public PortletActionRequestMock(ByteArrayInputStream byteArrayInputStream, int requestLength, String contentType) {
         this.requestData = byteArrayInputStream;
         length = requestLength;
         this.contentType = contentType;

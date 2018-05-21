@@ -17,6 +17,7 @@
 package org.apache.commons.fileupload;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 /**
  * An iterator, as returned by
@@ -47,6 +48,8 @@ public interface FileItemIterator {
      * @return FileItemStream instance, which provides
      *   access to the next file item.
      */
-    FileItemStream next() throws FileUploadException, IOException;
+    FileItemStream next() throws NoSuchElementException,
+            FileUploadException,
+            IOException;
 
 }

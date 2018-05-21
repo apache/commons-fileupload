@@ -33,12 +33,13 @@ import org.junit.Test;
 public class FileItemHeadersTest {
 
     /**
-     * @throws Exception
+     * Test file item headers.
      */
     @Test
-    public void testFileItemHeaders() throws Exception {
+    public void testFileItemHeaders() {
         FileItemHeadersImpl aMutableFileItemHeaders = new FileItemHeadersImpl();
-        aMutableFileItemHeaders.addHeader("Content-Disposition", "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
+        aMutableFileItemHeaders.addHeader("Content-Disposition",
+                "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
         aMutableFileItemHeaders.addHeader("Content-Type", "text/plain");
 
         aMutableFileItemHeaders.addHeader("TestHeader", "headerValue1");
@@ -52,7 +53,8 @@ public class FileItemHeadersTest {
         assertEquals("testheader", headerNameEnumeration.next());
         assertFalse(headerNameEnumeration.hasNext());
 
-        assertEquals(aMutableFileItemHeaders.getHeader("Content-Disposition"), "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
+        assertEquals(aMutableFileItemHeaders.getHeader("Content-Disposition"),
+                "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
         assertEquals(aMutableFileItemHeaders.getHeader("Content-Type"), "text/plain");
         assertEquals(aMutableFileItemHeaders.getHeader("content-type"), "text/plain");
         assertEquals(aMutableFileItemHeaders.getHeader("TestHeader"), "headerValue1");

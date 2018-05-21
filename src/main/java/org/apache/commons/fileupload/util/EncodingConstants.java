@@ -14,25 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload.util.mime;
+package org.apache.commons.fileupload.util;
 
 /**
- * @since 1.3
+ * Encoding-related constants.
  */
-final class ParseException extends Exception {
+public final class EncodingConstants {
 
     /**
-     * The UID to use when serializing this instance.
+     * The {@code US-ASCII} charset identifier constant.
      */
-    private static final long serialVersionUID = 5355281266579392077L;
+    public static final String US_ASCII_CHARSET = "US-ASCII";
 
-    /**
-     * Constructs a new exception with the specified detail message.
-     *
-     * @param message the detail message.
-     */
-    ParseException(String message) {
-        super(message);
+    private EncodingConstants() {
     }
-
 }

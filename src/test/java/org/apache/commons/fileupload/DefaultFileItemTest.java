@@ -40,17 +40,17 @@ public class DefaultFileItemTest {
     /**
      * Content type for regular form items.
      */
-    private static final String textContentType = "text/plain";
+    private static final String TEXT_CONTENT_TYPE = "text/plain";
 
     /**
      * Content type for file uploads.
      */
-    private static final String fileContentType = "application/octet-stream";
+    private static final String FILE_CONTENT_TYPE = "application/octet-stream";
 
     /**
      * Very low threshold for testing memory versus disk options.
      */
-    private static final int threshold = 16;
+    private static final int THRESHOLD = 16;
 
     /**
      * Test construction of a regular text field.
@@ -62,13 +62,13 @@ public class DefaultFileItemTest {
 
         FileItem item = factory.createItem(
                 textFieldName,
-                textContentType,
+                TEXT_CONTENT_TYPE,
                 true,
                 null
         );
         assertNotNull(item);
         assertEquals(item.getFieldName(), textFieldName);
-        assertEquals(item.getContentType(), textContentType);
+        assertEquals(item.getContentType(), TEXT_CONTENT_TYPE);
         assertTrue(item.isFormField());
         assertNull(item.getName());
     }
@@ -84,13 +84,13 @@ public class DefaultFileItemTest {
 
         FileItem item = factory.createItem(
                 fileFieldName,
-                fileContentType,
+                FILE_CONTENT_TYPE,
                 false,
                 fileName
         );
         assertNotNull(item);
         assertEquals(item.getFieldName(), fileFieldName);
-        assertEquals(item.getContentType(), fileContentType);
+        assertEquals(item.getContentType(), FILE_CONTENT_TYPE);
         assertFalse(item.isFormField());
         assertEquals(item.getName(), fileName);
     }
@@ -108,7 +108,7 @@ public class DefaultFileItemTest {
 
         FileItem item = factory.createItem(
                 textFieldName,
-                textContentType,
+                TEXT_CONTENT_TYPE,
                 true,
                 null
         );
@@ -118,7 +118,7 @@ public class DefaultFileItemTest {
             OutputStream os = item.getOutputStream();
             os.write(testFieldValueBytes);
             os.close();
-        } catch(IOException e) {
+        } catch (IOException e) {
             fail("Unexpected IOException");
         }
         assertTrue(item.isInMemory());
@@ -139,6 +139,7 @@ public class DefaultFileItemTest {
     /**
      * Test creation of a field for which the amount of data falls above the
      * configured threshold, where a specific repository is configured.
+     * @throws java.io.IOException if an I/O exception occurs
      */
     @Test
     public void testAboveThresholdSpecifiedRepository() throws IOException {
@@ -166,7 +167,7 @@ public class DefaultFileItemTest {
 
         FileItem item = factory.createItem(
                 textFieldName,
-                textContentType,
+                TEXT_CONTENT_TYPE,
                 true,
                 null
         );
@@ -176,7 +177,7 @@ public class DefaultFileItemTest {
             OutputStream os = item.getOutputStream();
             os.write(testFieldValueBytes);
             os.close();
-        } catch(IOException e) {
+        } catch (IOException e) {
             fail("Unexpected IOException");
         }
         assertFalse(item.isInMemory());
@@ -208,49 +209,80 @@ public class DefaultFileItemTest {
      * @return the new <code>FileItemFactory</code> instance.
      */
     protected FileItemFactory createFactory(File repository) {
-        return new DefaultFileItemFactory(threshold, repository);
+        return new DefaultFileItemFactory(THRESHOLD, repository);
     }
 
-    static final String CHARSET_ISO88591 = "ISO-8859-1";
+    /**
+     * ISO-88591 charset code.
+     */
+    private static final String CHARSET_ISO88591 = "ISO-8859-1";
 
-    static final String CHARSET_ASCII = "US-ASCII";
+    /**
+     * UTF-8 charset code.
+     */
+    private static final String CHARSET_UTF8 = "UTF-8";
 
-    static final String CHARSET_UTF8 = "UTF-8";
+    /**
+     * KOI8_R charset code.
+     */
+    private static final String CHARSET_KOI8_R = "KOI8_R";
 
-    static final String CHARSET_KOI8_R = "KOI8_R";
+    /**
+     * Cp1251 charset code.
+     */
+    private static final String CHARSET_WIN1251 = "Cp1251";
 
-    static final String CHARSET_WIN1251 = "Cp1251";
-
-    static final int SWISS_GERMAN_STUFF_UNICODE [] = {
+    /**
+     * Swiss german stuff unicode.
+     */
+    private static final int[] SWISS_GERMAN_STUFF_UNICODE = {
         0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4
     };
 
-    static final int SWISS_GERMAN_STUFF_ISO8859_1 [] = {
+    /**
+     * Swiss german stuff ISO-8859-1.
+     */
+    private static final int[] SWISS_GERMAN_STUFF_ISO8859_1 = {
         0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4
     };
 
-    static final int SWISS_GERMAN_STUFF_UTF8 [] = {
+    /**
+     * Swiss german stuff UTF-8.
+     */
+    private static final int[] SWISS_GERMAN_STUFF_UTF8 = {
         0x47, 0x72, 0xC3, 0xBC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xC3, 0xA4,
         0x6D, 0xC3, 0xA4
     };
 
-    static final int RUSSIAN_STUFF_UNICODE [] = {
+    /**
+     * Russian stuff unicode.
+     */
+    private static final int[] RUSSIAN_STUFF_UNICODE = {
         0x412, 0x441, 0x435, 0x43C, 0x5F, 0x43F, 0x440, 0x438,
         0x432, 0x435, 0x442
     };
 
-    static final int RUSSIAN_STUFF_UTF8 [] = {
+    /**
+     * Russian stuff UTF-8.
+     */
+    private static final int[] RUSSIAN_STUFF_UTF8 = {
         0xD0, 0x92, 0xD1, 0x81, 0xD0, 0xB5, 0xD0, 0xBC, 0x5F,
         0xD0, 0xBF, 0xD1, 0x80, 0xD0, 0xB8, 0xD0, 0xB2, 0xD0,
         0xB5, 0xD1, 0x82
     };
 
-    static final int RUSSIAN_STUFF_KOI8R [] = {
+    /**
+     * Russian stuff K0I8R.
+     */
+    private static final int[] RUSSIAN_STUFF_KOI8R = {
         0xF7, 0xD3, 0xC5, 0xCD, 0x5F, 0xD0, 0xD2, 0xC9, 0xD7,
         0xC5, 0xD4
     };
 
-    static final int RUSSIAN_STUFF_WIN1251 [] = {
+    /**
+     * Russian stuff Win1251.
+     */
+    private static final int[] RUSSIAN_STUFF_WIN1251 = {
         0xC2, 0xF1, 0xE5, 0xEC, 0x5F, 0xEF, 0xF0, 0xE8, 0xE2,
         0xE5, 0xF2
     };
@@ -267,8 +299,9 @@ public class DefaultFileItemTest {
 
     /**
      * Test construction of content charset.
+     * @throws java.io.IOException if an I/O error occurs
      */
-    public void testContentCharSet() throws Exception {
+    public void testContentCharSet() throws IOException {
         FileItemFactory factory = createFactory(null);
 
         String teststr = constructString(SWISS_GERMAN_STUFF_UNICODE);

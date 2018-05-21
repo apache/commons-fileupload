@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -32,41 +33,58 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class MockHttpServletRequest implements HttpServletRequest {
-
-    private final InputStream m_requestData;
-
-    private long length;
-
-    private final String m_strContentType;
-
-    private int readLimit = -1;
-
-    private final Map<String, String> m_headers = new java.util.HashMap<String, String>();
+/**
+ * A mock implementation of {@code HttpServletRequest} used for tests.
+ */
+public class HttpServletRequestMock implements HttpServletRequest {
 
     /**
-     * Creates a new instance with the given request data
-     * and content type.
+     * The request data.
      */
-    public MockHttpServletRequest(
-            final byte[] requestData,
-            final String strContentType) {
+    private final InputStream requestData;
+    /**
+     * The request data length.
+     */
+    private long length;
+    /**
+     * The request data content type.
+     */
+    private final String contentType;
+    /**
+     * The read limit.
+     */
+    private int readLimit = -1;
+    /**
+     * The request header map.
+     */
+    private final Map<String, String> headers = new HashMap<String, String>();
+
+    /**
+     * Creates a new instance with the given request data and content type.
+     * @param requestData the request data
+     * @param contentType the content type
+     */
+    public HttpServletRequestMock(final byte[] requestData,
+            final String contentType) {
         this(new ByteArrayInputStream(requestData),
-                requestData.length, strContentType);
+                requestData.length,
+                contentType);
     }
 
     /**
-     * Creates a new instance with the given request data
-     * and content type.
+     * Creates a new instance with the given request data and content type.
+     * @param requestData the request data
+     * @param requestLength the request length
+     * @param contentType the content type
      */
-    public MockHttpServletRequest(
-            final InputStream requestData,
+    public HttpServletRequestMock(final InputStream requestData,
             final long requestLength,
-            final String strContentType) {
-        m_requestData = requestData;
+            final String contentType) {
+        this.requestData = requestData;
         length = requestLength;
-        m_strContentType = strContentType;
-        m_headers.put(FileUploadBase.CONTENT_TYPE, strContentType);
+        this.contentType = contentType;
+        headers.put(FileUploadBase.CONTENT_TYPE,
+                contentType);
     }
 
     /**
@@ -98,7 +116,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getHeader(String headerName) {
-        return m_headers.get(headerName);
+        return headers.get(headerName);
     }
 
     /**
@@ -312,7 +330,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     public int getContentLength() {
         int iLength = 0;
 
-        if (null == m_requestData) {
+        if (null == requestData) {
             iLength = -1;
         } else {
             if (length > Integer.MAX_VALUE) {
@@ -325,6 +343,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     /**
      * For testing attack scenarios in SizesTest.
+     * @param length the content length
      */
     public void setContentLength(long length) {
         this.length = length;
@@ -335,7 +354,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getContentType() {
-        return m_strContentType;
+        return contentType;
     }
 
     /**
@@ -343,7 +362,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        ServletInputStream sis = new MyServletInputStream(m_requestData, readLimit);
+        ServletInputStream sis = new MyServletInputStream(requestData, readLimit);
         return sis;
     }
 
@@ -536,17 +555,25 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return null;
     }
 
-    private static class MyServletInputStream
-        extends javax.servlet.ServletInputStream {
+    /**
+     * A {@code ServletInputStream} implementation with a read limit.
+     */
+    private static class MyServletInputStream extends ServletInputStream {
 
+        /**
+         * The wrapped input stream.
+         */
         private final InputStream in;
+        /**
+         * The read limit.
+         */
         private final int readLimit;
 
         /**
          * Creates a new instance, which returns the given
          * streams data.
          */
-        public MyServletInputStream(InputStream pStream, int readLimit) {
+        MyServletInputStream(InputStream pStream, int readLimit) {
             in = pStream;
             this.readLimit = readLimit;
         }
@@ -557,7 +584,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
         }
 
         @Override
-        public int read(byte b[], int off, int len) throws IOException {
+        public int read(byte[] b, int off, int len) throws IOException {
             if (readLimit > 0) {
                 return in.read(b, off, Math.min(readLimit, len));
             }

@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
 import org.apache.commons.fileupload.servlet.ServletFileUploadTest;
+import static org.apache.commons.fileupload.util.EncodingConstants.US_ASCII_CHARSET;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -48,43 +49,50 @@ public class FileUploadTest {
     /**
      * @return {@link FileUpload} classes under test.
      */
-    @Parameters(name="{0}")
+    @Parameters(name = "{0}")
     public static Iterable<? extends Object> data() {
         return Util.fileUploadImplementations();
     }
 
     /**
-     * Current parameterized FileUpload.
+     * Current parameterized FileUpload. Needs to be public in order to be
+     * accessible by JUnit's {@link Parameterized} test runner.
      */
     @Parameter
+    //CHECKSTYLE:OFF
     public FileUpload upload;
+    //CHECKSTYLE:ON
 
-    // --- Test methods common to all implementations of a FileUpload
-
+    /**
+     * Test methods common to all implementations of a FileUpload.
+     * @throws IOException if an I/O exception occurs
+     * @throws FileUploadException if the file upload fails
+     */
     @Test
     public void testFileUpload()
             throws IOException, FileUploadException {
         List<FileItem> fileItems = Util.parseUpload(upload,
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                                               "Content-Type: text/whatever\r\n" +
-                                               "\r\n" +
-                                               "This is the content of the file\n" +
-                                               "\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"field\"\r\n" +
-                                               "\r\n" +
-                                               "fieldValue\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                                               "\r\n" +
-                                               "value1\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                                               "\r\n" +
-                                               "value2\r\n" +
-                                               "-----1234--\r\n");
-        assertEquals(4, fileItems.size());
+                "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n"
+                        + "Content-Type: text/whatever\r\n"
+                        + "\r\n"
+                        + "This is the content of the file\n"
+                        + "\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"field\"\r\n"
+                        + "\r\n"
+                        + "fieldValue\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                        + "\r\n"
+                        + "value1\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                        + "\r\n"
+                        + "value2\r\n"
+                        + "-----1234--\r\n");
+        final int expectedFileSize = 4;
+        assertEquals(expectedFileSize, fileItems.size());
 
         FileItem file = fileItems.get(0);
         assertEquals("file", file.getFieldName());
@@ -103,23 +111,29 @@ public class FileUploadTest {
         assertTrue(multi0.isFormField());
         assertEquals("value1", multi0.getString());
 
-        FileItem multi1 = fileItems.get(3);
+        final int index3 = 3;
+        FileItem multi1 = fileItems.get(index3);
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
     }
 
+    /**
+     * Tests case sensitivity in filename.
+     * @throws IOException if an I/O exception occurs
+     * @throws FileUploadException if the file upload fails
+     */
     @Test
     public void testFilenameCaseSensitivity()
             throws IOException, FileUploadException {
         List<FileItem> fileItems = Util.parseUpload(upload,
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
-                                               "Content-Type: text/whatever\r\n" +
-                                               "\r\n" +
-                                               "This is the content of the file\n" +
-                                               "\r\n" +
-                                               "-----1234--\r\n");
+                "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n"
+                        + "Content-Type: text/whatever\r\n"
+                        + "\r\n"
+                        + "This is the content of the file\n"
+                        + "\r\n"
+                        + "-----1234--\r\n");
         assertEquals(1, fileItems.size());
 
         FileItem file = fileItems.get(0);
@@ -128,17 +142,21 @@ public class FileUploadTest {
     }
 
     /**
-     * This is what the browser does if you submit the form without choosing a file.
+     * This is what the browser does if you submit the form without choosing a
+     * file.
+     * @throws UnsupportedEncodingException if
+     * {@link EncodingConstants#US_ASCII_CHARSET} is not supported
+     * @throws FileUploadException if the file upload fails
      */
     @Test
     public void testEmptyFile()
             throws UnsupportedEncodingException, FileUploadException {
         List<FileItem> fileItems = Util.parseUpload (upload,
-                                                "-----1234\r\n" +
-                                                "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
-                                                "\r\n" +
-                                                "\r\n" +
-                                                "-----1234--\r\n");
+                "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n"
+                        + "\r\n"
+                        + "\r\n"
+                        + "-----1234--\r\n");
         assertEquals(1, fileItems.size());
 
         FileItem file = fileItems.get(0);
@@ -150,31 +168,35 @@ public class FileUploadTest {
     /**
      * Internet Explorer 5 for the Mac has a bug where the carriage
      * return is missing on any boundary line immediately preceding
-     * an input with type=image. (type=submit does not have the bug.)
+     * an input with type=image. (type=submit does not have the bug.).
+     * @throws UnsupportedEncodingException if
+     * {@link EncodingConstants#US_ASCII_CHARSET} is not supported
+     * @throws FileUploadException if the file upload fails
      */
     @Test
     public void testIE5MacBug()
             throws UnsupportedEncodingException, FileUploadException {
         List<FileItem> fileItems = Util.parseUpload(upload,
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"field1\"\r\n" +
-                                               "\r\n" +
-                                               "fieldValue\r\n" +
-                                               "-----1234\n" + // NOTE \r missing
-                                               "Content-Disposition: form-data; name=\"submitName.x\"\r\n" +
-                                               "\r\n" +
-                                               "42\r\n" +
-                                               "-----1234\n" + // NOTE \r missing
-                                               "Content-Disposition: form-data; name=\"submitName.y\"\r\n" +
-                                               "\r\n" +
-                                               "21\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"field2\"\r\n" +
-                                               "\r\n" +
-                                               "fieldValue2\r\n" +
-                                               "-----1234--\r\n");
+                "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"field1\"\r\n"
+                        + "\r\n"
+                        + "fieldValue\r\n"
+                        + "-----1234\n" // NOTE \r missing
+                        + "Content-Disposition: form-data; name=\"submitName.x\"\r\n"
+                        + "\r\n"
+                        + "42\r\n"
+                        + "-----1234\n" // NOTE \r missing
+                        + "Content-Disposition: form-data; name=\"submitName.y\"\r\n"
+                        + "\r\n"
+                        + "21\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"field2\"\r\n"
+                        + "\r\n"
+                        + "fieldValue2\r\n"
+                        + "-----1234--\r\n");
 
-        assertEquals(4, fileItems.size());
+        final int expectedFileSize = 4;
+        assertEquals(expectedFileSize, fileItems.size());
 
         FileItem field1 = fileItems.get(0);
         assertEquals("field1", field1.getFieldName());
@@ -191,42 +213,47 @@ public class FileUploadTest {
         assertTrue(submitY.isFormField());
         assertEquals("21", submitY.getString());
 
-        FileItem field2 = fileItems.get(3);
+        final int index3 = 3;
+        FileItem field2 = fileItems.get(index3);
         assertEquals("field2", field2.getFieldName());
         assertTrue(field2.isFormField());
         assertEquals("fieldValue2", field2.getString());
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>
+     * Tests for
+     * <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>.
+     * @throws UnsupportedEncodingException if
+     * {@link EncodingConstants#US_ASCII_CHARSET} is not supported
+     * @throws FileUploadException if the file upload fails
      */
     @Test
-    public void testFILEUPLOAD62() throws Exception {
+    public void testFILEUPLOAD62() throws UnsupportedEncodingException, FileUploadException {
         final String contentType = "multipart/form-data; boundary=AaB03x";
-        final String request =
-            "--AaB03x\r\n" +
-            "content-disposition: form-data; name=\"field1\"\r\n" +
-            "\r\n" +
-            "Joe Blow\r\n" +
-            "--AaB03x\r\n" +
-            "content-disposition: form-data; name=\"pics\"\r\n" +
-            "Content-type: multipart/mixed; boundary=BbC04y\r\n" +
-            "\r\n" +
-            "--BbC04y\r\n" +
-            "Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
-            "Content-Type: text/plain\r\n" +
-            "\r\n" +
-            "... contents of file1.txt ...\r\n" +
-            "--BbC04y\r\n" +
-            "Content-disposition: attachment; filename=\"file2.gif\"\r\n" +
-            "Content-type: image/gif\r\n" +
-            "Content-Transfer-Encoding: binary\r\n" +
-            "\r\n" +
-            "...contents of file2.gif...\r\n" +
-            "--BbC04y--\r\n" +
-            "--AaB03x--";
-        List<FileItem> fileItems = Util.parseUpload(upload, request.getBytes("US-ASCII"), contentType);
-        assertEquals(3, fileItems.size());
+        final String request = "--AaB03x\r\n"
+                + "content-disposition: form-data; name=\"field1\"\r\n"
+                + "\r\n"
+                + "Joe Blow\r\n"
+                + "--AaB03x\r\n"
+                + "content-disposition: form-data; name=\"pics\"\r\n"
+                + "Content-type: multipart/mixed; boundary=BbC04y\r\n"
+                + "\r\n"
+                + "--BbC04y\r\n"
+                + "Content-disposition: attachment; filename=\"file1.txt\"\r\n"
+                + "Content-Type: text/plain\r\n"
+                + "\r\n"
+                + "... contents of file1.txt ...\r\n"
+                + "--BbC04y\r\n"
+                + "Content-disposition: attachment; filename=\"file2.gif\"\r\n"
+                + "Content-type: image/gif\r\n"
+                + "Content-Transfer-Encoding: binary\r\n"
+                + "\r\n"
+                + "...contents of file2.gif...\r\n"
+                + "--BbC04y--\r\n"
+                + "--AaB03x--";
+        List<FileItem> fileItems = Util.parseUpload(upload, request.getBytes(US_ASCII_CHARSET), contentType);
+        final int expectedSize = 3;
+        assertEquals(expectedSize, fileItems.size());
         FileItem item0 = fileItems.get(0);
         assertEquals("field1", item0.getFieldName());
         assertNull(item0.getName());
@@ -242,33 +269,38 @@ public class FileUploadTest {
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>
+     * Tests for
+     * <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>.
+     * @throws java.io.IOException if an I/O exception occurs
+     * @throws FileUploadException if the file upload fails
      */
     @Test
     public void testFoldedHeaders()
             throws IOException, FileUploadException {
-        List<FileItem> fileItems = Util.parseUpload(upload, "-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                "Content-Type: text/whatever\r\n" +
-                "\r\n" +
-                "This is the content of the file\n" +
-                "\r\n" +
-                "-----1234\r\n" +
-                "Content-Disposition: form-data; \r\n" +
-                "\tname=\"field\"\r\n" +
-                "\r\n" +
-                "fieldValue\r\n" +
-                "-----1234\r\n" +
-                "Content-Disposition: form-data;\r\n" +
-                "     name=\"multi\"\r\n" +
-                "\r\n" +
-                "value1\r\n" +
-                "-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                "\r\n" +
-                "value2\r\n" +
-                "-----1234--\r\n");
-        assertEquals(4, fileItems.size());
+        List<FileItem> fileItems = Util.parseUpload(upload,
+                "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n"
+                        + "Content-Type: text/whatever\r\n"
+                        + "\r\n"
+                        + "This is the content of the file\n"
+                        + "\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data; \r\n"
+                        + "\tname=\"field\"\r\n"
+                        + "\r\n"
+                        + "fieldValue\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data;\r\n"
+                        + "     name=\"multi\"\r\n"
+                        + "\r\n"
+                        + "value1\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                        + "\r\n"
+                        + "value2\r\n"
+                        + "-----1234--\r\n");
+        final int expectedFileSize = 4;
+        assertEquals(expectedFileSize, fileItems.size());
 
         FileItem file = fileItems.get(0);
         assertEquals("file", file.getFieldName());
@@ -287,18 +319,22 @@ public class FileUploadTest {
         assertTrue(multi0.isFormField());
         assertEquals("value1", multi0.getString());
 
-        FileItem multi1 = fileItems.get(3);
+        final int index3 = 3;
+        FileItem multi1 = fileItems.get(index3);
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
     }
 
     /**
-     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-130">
+     * Tests for
+     * <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-130"></a>.
+     * @throws UnsupportedEncodingException if
+     * {@link EncodingConstants#US_ASCII_CHARSET} is not supported
+     * @throws FileUploadException if the file upload fails
      */
     @Test
-    public void testFileUpload130()
-            throws Exception {
+    public void testFileUpload130() throws UnsupportedEncodingException, FileUploadException {
         final String[] headerNames = new String[]
         {
             "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader"
@@ -307,69 +343,77 @@ public class FileUploadTest {
         {
             "present", "Is there", "Here", "Is That"
         };
+        final int index0 = 0;
+        final int index1 = 1;
+        final int index2 = 2;
+        final int index3 = 3;
         List<FileItem> fileItems = Util.parseUpload(upload,
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                                               "Content-Type: text/whatever\r\n" +
-                                               headerNames[0] + ": " + headerValues[0] + "\r\n" +
-                                               "\r\n" +
-                                               "This is the content of the file\n" +
-                                               "\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; \r\n" +
-                                               "\tname=\"field\"\r\n" +
-                                               headerNames[1] + ": " + headerValues[1] + "\r\n" +
-                                               "\r\n" +
-                                               "fieldValue\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data;\r\n" +
-                                               "     name=\"multi\"\r\n" +
-                                               headerNames[2] + ": " + headerValues[2] + "\r\n" +
-                                               "\r\n" +
-                                               "value1\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                                               headerNames[3] + ": " + headerValues[3] + "\r\n" +
-                                               "\r\n" +
-                                               "value2\r\n" +
-                                               "-----1234--\r\n");
-        assertEquals(4, fileItems.size());
+                "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n"
+                        + "Content-Type: text/whatever\r\n"
+                        + headerNames[index0] + ": " + headerValues[index0] + "\r\n"
+                        + "\r\n"
+                        + "This is the content of the file\n"
+                        + "\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data; \r\n"
+                        + "\tname=\"field\"\r\n"
+                        + headerNames[index1] + ": " + headerValues[index1] + "\r\n"
+                        + "\r\n"
+                        + "fieldValue\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data;\r\n"
+                        + "     name=\"multi\"\r\n"
+                        + headerNames[index2] + ": " + headerValues[index2] + "\r\n"
+                        + "\r\n"
+                        + "value1\r\n"
+                        + "-----1234\r\n"
+                        + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                        + headerNames[index3] + ": " + headerValues[index3] + "\r\n"
+                        + "\r\n"
+                        + "value2\r\n"
+                        + "-----1234--\r\n");
+        final int expectedSize = 4;
+        assertEquals(expectedSize, fileItems.size());
 
-        FileItem file = fileItems.get(0);
-        assertHeaders(headerNames, headerValues, file, 0);
+        FileItem file = fileItems.get(index0);
+        assertHeaders(headerNames, headerValues, file, index0);
 
-        FileItem field = fileItems.get(1);
-        assertHeaders(headerNames, headerValues, field, 1);
+        FileItem field = fileItems.get(index1);
+        assertHeaders(headerNames, headerValues, field, index1);
 
-        FileItem multi0 = fileItems.get(2);
-        assertHeaders(headerNames, headerValues, multi0, 2);
+        FileItem multi0 = fileItems.get(index2);
+        assertHeaders(headerNames, headerValues, multi0, index2);
 
-        FileItem multi1 = fileItems.get(3);
-        assertHeaders(headerNames, headerValues, multi1, 3);
+        FileItem multi1 = fileItems.get(index3);
+        assertHeaders(headerNames, headerValues, multi1, index3);
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
+     * Tests for
+     * <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>.
+     * @throws java.io.IOException if an I/O exception occurs
+     * @throws FileUploadException if the file upload fails
      */
     @Test
     public void testContentTypeAttachment()
             throws IOException, FileUploadException {
         List<FileItem> fileItems = Util.parseUpload(upload,
-                "-----1234\r\n" +
-                "content-disposition: form-data; name=\"field1\"\r\n" +
-                "\r\n" +
-                "Joe Blow\r\n" +
-                "-----1234\r\n" +
-                "content-disposition: form-data; name=\"pics\"\r\n" +
-                "Content-type: multipart/mixed, boundary=---9876\r\n" +
-                "\r\n" +
-                "-----9876\r\n" +
-                "Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
-                "Content-Type: text/plain\r\n" +
-                "\r\n" +
-                "... contents of file1.txt ...\r\n" +
-                "-----9876--\r\n" +
-                "-----1234--\r\n");
+                "-----1234\r\n"
+                        + "content-disposition: form-data; name=\"field1\"\r\n"
+                        + "\r\n"
+                        + "Joe Blow\r\n"
+                        + "-----1234\r\n"
+                        + "content-disposition: form-data; name=\"pics\"\r\n"
+                        + "Content-type: multipart/mixed, boundary=---9876\r\n"
+                        + "\r\n"
+                        + "-----9876\r\n"
+                        + "Content-disposition: attachment; filename=\"file1.txt\"\r\n"
+                        + "Content-Type: text/plain\r\n"
+                        + "\r\n"
+                        + "... contents of file1.txt ...\r\n"
+                        + "-----9876--\r\n"
+                        + "-----1234--\r\n");
         assertEquals(2, fileItems.size());
 
         FileItem field = fileItems.get(0);
@@ -385,7 +429,8 @@ public class FileUploadTest {
         assertEquals("file1.txt", file.getName());
     }
 
-    private void assertHeaders(String[] pHeaderNames, String[] pHeaderValues,
+    private void assertHeaders(String[] pHeaderNames,
+            String[] pHeaderValues,
             FileItem pItem, int pIndex) {
         for (int i = 0; i < pHeaderNames.length; i++) {
             final String value = pItem.getHeaders().getHeader(pHeaderNames[i]);

@@ -76,11 +76,11 @@ public interface FileItem extends FileItemHeadersSupport {
      *
      * @return The original filename in the client's filesystem.
      * @throws InvalidFileNameException The file name contains a NUL character,
-     *   which might be an indicator of a security attack. If you intend to
-     *   use the file name anyways, catch the exception and use
-     *   InvalidFileNameException#getName().
+     * which might be an indicator of a security attack. If you intend to
+     * use the file name anyways, catch the exception and use
+     * {@link InvalidFileNameException#getName()}.
      */
-    String getName();
+    String getName() throws InvalidFileNameException;
 
     // ------------------------------------------------------- FileItem methods
 

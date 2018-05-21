@@ -23,8 +23,10 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import static org.apache.commons.fileupload.util.EncodingConstants.US_ASCII_CHARSET;
 import org.junit.Test;
 
 /**
@@ -32,14 +34,26 @@ import org.junit.Test;
  */
 public class ProgressListenerTest {
 
+    /**
+     * The test implementation.
+     */
     private class ProgressListenerImpl implements ProgressListener {
 
+        /**
+         * The expected content length.
+         */
         private final long expectedContentLength;
-
+        /**
+         * The number of expected items.
+         */
         private final int expectedItems;
-
+        /**
+         * The number of bytes read.
+         */
         private Long bytesRead;
-
+        /**
+         * The number of items.
+         */
         private Integer items;
 
         ProgressListenerImpl(long pContentLength, int pItems) {
@@ -59,7 +73,7 @@ public class ProgressListenerTest {
             items = new Integer(pItems);
         }
 
-        void checkFinished(){
+        void checkFinished() {
             assertEquals(expectedContentLength, bytesRead.longValue());
             assertEquals(expectedItems, items.intValue());
         }
@@ -68,44 +82,54 @@ public class ProgressListenerTest {
 
     /**
      * Parse a very long file upload by using a progress listener.
+     * @throws UnsupportedEncodingException if
+     * {@link EncodingConstants#US_ASCII_CHARSET} is not supported
+     * @throws FileUploadException if the file upload fails
+     * @throws java.io.IOException if an I/O exception occurs
      */
     @Test
-    public void testProgressListener() throws Exception {
-        final int NUM_ITEMS = 512;
+    public void testProgressListener() throws UnsupportedEncodingException,
+            IOException,
+            FileUploadException {
+        final int numItems = 512;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (int i = 0;  i < NUM_ITEMS;  i++) {
+        for (int i = 0;  i < numItems;  i++) {
             String header = "-----1234\r\n"
-                + "Content-Disposition: form-data; name=\"field" + (i+1) + "\"\r\n"
+                + "Content-Disposition: form-data; name=\"field" + (i + 1) + "\"\r\n"
                 + "\r\n";
-            baos.write(header.getBytes("US-ASCII"));
-            for (int j = 0;  j < 16384+i;  j++) {
+            baos.write(header.getBytes(US_ASCII_CHARSET));
+            final int iterationLimit = 16384;
+            for (int j = 0;  j < iterationLimit + i;  j++) {
                 baos.write((byte) j);
             }
-            baos.write("\r\n".getBytes("US-ASCII"));
+            baos.write("\r\n".getBytes(US_ASCII_CHARSET));
         }
-        baos.write("-----1234--\r\n".getBytes("US-ASCII"));
+        baos.write("-----1234--\r\n".getBytes(US_ASCII_CHARSET));
         byte[] contents = baos.toByteArray();
 
-        MockHttpServletRequest request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE);
-        runTest(NUM_ITEMS, contents.length, request);
-        request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE){
+        HttpServletRequestMock request = new HttpServletRequestMock(contents, Constants.CONTENT_TYPE);
+        runTest(numItems, contents.length, request);
+        request = new HttpServletRequestMock(contents, Constants.CONTENT_TYPE) {
             @Override
             public int getContentLength() {
                 return -1;
             }
         };
-        runTest(NUM_ITEMS, contents.length, request);
+        runTest(numItems, contents.length, request);
     }
 
-    private void runTest(final int NUM_ITEMS, long pContentLength, MockHttpServletRequest request) throws FileUploadException, IOException {
+    private void runTest(final int numItems,
+            long pContentLength,
+            HttpServletRequestMock request) throws FileUploadException, IOException {
         ServletFileUpload upload = new ServletFileUpload();
-        ProgressListenerImpl listener = new ProgressListenerImpl(pContentLength, NUM_ITEMS);
+        ProgressListenerImpl listener = new ProgressListenerImpl(pContentLength, numItems);
         upload.setProgressListener(listener);
         FileItemIterator iter = upload.getItemIterator(request);
-        for (int i = 0;  i < NUM_ITEMS;  i++) {
+        for (int i = 0;  i < numItems;  i++) {
             FileItemStream stream = iter.next();
             InputStream istream = stream.openStream();
-            for (int j = 0;  j < 16384+i;  j++) {
+            final int iterationLimit = 16384;
+            for (int j = 0;  j < iterationLimit + i;  j++) {
                 /**
                  * This used to be
                  *     assertEquals((byte) j, (byte) istream.read());

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.fileupload.servlet;
 
+import java.io.UnsupportedEncodingException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -26,8 +27,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.Constants;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.MockHttpServletRequest;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.HttpServletRequestMock;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import static org.apache.commons.fileupload.util.EncodingConstants.US_ASCII_CHARSET;
 import org.junit.Test;
 
 /**
@@ -39,32 +42,33 @@ import org.junit.Test;
 public class ServletFileUploadTest {
 
     /**
-     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-210">
+     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-210"></a>.
+     * @throws UnsupportedEncodingException if {@code US-ASCII} is not supported
+     * @throws FileUploadException if the file upload fails
      */
     @Test
-    public void parseParameterMap()
-            throws Exception {
-        String text = "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                      "Content-Type: text/whatever\r\n" +
-                      "\r\n" +
-                      "This is the content of the file\n" +
-                      "\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"field\"\r\n" +
-                      "\r\n" +
-                      "fieldValue\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                      "\r\n" +
-                      "value1\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                      "\r\n" +
-                      "value2\r\n" +
-                      "-----1234--\r\n";
-        byte[] bytes = text.getBytes("US-ASCII");
-        HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
+    public void parseParameterMap() throws UnsupportedEncodingException, FileUploadException {
+        String text = "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n"
+                + "Content-Type: text/whatever\r\n"
+                + "\r\n"
+                + "This is the content of the file\n"
+                + "\r\n"
+                + "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"field\"\r\n"
+                + "\r\n"
+                + "fieldValue\r\n"
+                + "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                + "\r\n"
+                + "value1\r\n"
+                + "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                + "\r\n"
+                + "value2\r\n"
+                + "-----1234--\r\n";
+        byte[] bytes = text.getBytes(US_ASCII_CHARSET);
+        HttpServletRequest request = new HttpServletRequestMock(bytes, Constants.CONTENT_TYPE);
 
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
@@ -78,20 +82,24 @@ public class ServletFileUploadTest {
         assertEquals(2, mappedParameters.get("multi").size());
     }
 
-
+    /**
+     * Tests parsing of implied UTF-8.
+     * @throws UnsupportedEncodingException if {@code UTF-8} is not supported
+     * @throws FileUploadException if the file upload fails
+     */
     @Test
-    public void parseImpliedUtf8()
-	    throws Exception {
+    public void parseImpliedUtf8() throws UnsupportedEncodingException,
+            FileUploadException {
         // utf8 encoded form-data without explicit content-type encoding
-        String text = "-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
-                "\r\n" +
-                "Thís ís the coñteñt of the fíle\n" +
-                "\r\n" +
-                "-----1234--\r\n";
+        String text = "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"utf8Html\"\r\n"
+                + "\r\n"
+                + "Thís ís the coñteñt of the fíle\n"
+                + "\r\n"
+                + "-----1234--\r\n";
 
         byte[] bytes = text.getBytes("UTF-8");
-        HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
+        HttpServletRequest request = new HttpServletRequestMock(bytes, Constants.CONTENT_TYPE);
 
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
         fileItemFactory.setDefaultCharset("UTF-8");

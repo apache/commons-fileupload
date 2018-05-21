@@ -22,6 +22,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 
 import junit.framework.TestCase;
+import static org.apache.commons.fileupload.util.EncodingConstants.US_ASCII_CHARSET;
 
 /**
  * Unit test for items with varying sizes.
@@ -40,17 +42,23 @@ public class StreamingTest extends TestCase {
 
     /**
      * Tests a file upload with varying file sizes.
+     * @throws java.io.IOException if an I/O error occurs
+     * @throws FileUploadException if a fileupload
+     * exception occurs
      */
     public void testFileUpload()
             throws IOException, FileUploadException {
         byte[] request = newRequest();
         List<FileItem> fileItems = parseUpload(request);
         Iterator<FileItem> fileIter = fileItems.iterator();
-        int add = 16;
+        final int addValue = 16;
+        final int iterationLimit = 16384;
+        final int equalityCheck = 32;
+        int add = addValue;
         int num = 0;
-        for (int i = 0;  i < 16384;  i += add) {
-            if (++add == 32) {
-                add = 16;
+        for (int i = 0;  i < iterationLimit;  i += add) {
+            if (++add == equalityCheck) {
+                add = addValue;
             }
             FileItem item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
@@ -66,12 +74,16 @@ public class StreamingTest extends TestCase {
     /**
      * Tests, whether an invalid request throws a proper
      * exception.
+     * @throws java.io.IOException if an I/O error occurs
+     * @throws FileUploadException if a fileupload
+     * exception occurs
      */
     public void testFileUploadException()
             throws IOException, FileUploadException {
         byte[] request = newRequest();
-        byte[] invalidRequest = new byte[request.length-11];
-        System.arraycopy(request, 0, invalidRequest, 0, request.length-11);
+        final int requestSubtrahend = 11;
+        byte[] invalidRequest = new byte[request.length - requestSubtrahend];
+        System.arraycopy(request, 0, invalidRequest, 0, request.length - requestSubtrahend);
         try {
             parseUpload(invalidRequest);
             fail("Expected EndOfStreamException");
@@ -82,16 +94,19 @@ public class StreamingTest extends TestCase {
 
     /**
      * Tests, whether an IOException is properly delegated.
+     * @throws java.io.IOException if an I/O error occurs
      */
     public void testIOException()
             throws IOException {
         byte[] request = newRequest();
-        InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
+        final int readLimit = 123;
+        final String exceptionCause = "123";
+        InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)) {
             private int num;
             @Override
             public int read() throws IOException {
-                if (++num > 123) {
-                    throw new IOException("123");
+                if (++num > readLimit) {
+                    throw new IOException(exceptionCause);
                 }
                 return super.read();
             }
@@ -101,9 +116,12 @@ public class StreamingTest extends TestCase {
                 for (int i = 0;  i < pLen;  i++) {
                     int res = read();
                     if (res == -1) {
-                        return i == 0 ? -1 : i;
+                        if (i == 0) {
+                            return -1;
+                        }
+                        return i;
                     }
-                    pB[pOff+i] = (byte) res;
+                    pB[pOff + i] = (byte) res;
                 }
                 return pLen;
             }
@@ -113,40 +131,41 @@ public class StreamingTest extends TestCase {
             fail("Expected IOException");
         } catch (FileUploadException e) {
             assertTrue(e.getCause() instanceof IOException);
-            assertEquals("123", e.getCause().getMessage());
+            assertEquals(exceptionCause, e.getCause().getMessage());
         }
     }
 
     /**
-     * Test for FILEUPLOAD-135
+     * Test for FILEUPLOAD-135.
+     * @throws java.io.IOException if an I/O error occurs
+     * @throws FileUploadException if a fileupload
+     * exception occurs
      */
     public void testFILEUPLOAD135()
             throws IOException, FileUploadException {
         byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
+        final int maxLength = 3;
         List<FileItem> fileItems = parseUpload(new InputStream() {
             @Override
-            public int read()
-            throws IOException
-            {
+            public int read() throws IOException {
                 return bais.read();
             }
-            @Override
-            public int read(byte b[], int off, int len) throws IOException
-            {
-                return bais.read(b, off, Math.min(len, 3));
-            }
 
+            @Override
+            public int read(byte[] b, int off, int len) throws IOException {
+                return bais.read(b, off, Math.min(len, maxLength));
+            }
         }, request.length);
         Iterator<FileItem> fileIter = fileItems.iterator();
         assertTrue(fileIter.hasNext());
         FileItem item = fileIter.next();
         assertEquals("field", item.getFieldName());
         byte[] bytes = item.get();
-        assertEquals(3, bytes.length);
-        assertEquals((byte)'1', bytes[0]);
-        assertEquals((byte)'2', bytes[1]);
-        assertEquals((byte)'3', bytes[2]);
+        assertEquals(maxLength, bytes.length);
+        assertEquals((byte) '1', bytes[0]);
+        assertEquals((byte) '2', bytes[1]);
+        assertEquals((byte) '3', bytes[2]);
         assertTrue(!fileIter.hasNext());
     }
 
@@ -160,7 +179,7 @@ public class StreamingTest extends TestCase {
 
         FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        HttpServletRequest request = new MockHttpServletRequest(pStream,
+        HttpServletRequest request = new HttpServletRequestMock(pStream,
                 pLength, contentType);
 
         return upload.getItemIterator(new ServletRequestContext(request));
@@ -172,7 +191,7 @@ public class StreamingTest extends TestCase {
 
         FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        HttpServletRequest request = new MockHttpServletRequest(pStream,
+        HttpServletRequest request = new HttpServletRequestMock(pStream,
                 pLength, contentType);
 
         List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
@@ -192,7 +211,7 @@ public class StreamingTest extends TestCase {
 
     private byte[] newShortRequest() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII");
+        final OutputStreamWriter osw = new OutputStreamWriter(baos, US_ASCII_CHARSET);
         osw.write(getHeader("field"));
         osw.write("123");
         osw.write("\r\n");
@@ -203,12 +222,15 @@ public class StreamingTest extends TestCase {
 
     private byte[] newRequest() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII");
-        int add = 16;
+        final OutputStreamWriter osw = new OutputStreamWriter(baos, US_ASCII_CHARSET);
+        final int addValue = 16;
+        final int iterationLimit = 16384;
+        final int equalityCheck = 32;
+        int add = addValue;
         int num = 0;
-        for (int i = 0;  i < 16384;  i += add) {
-            if (++add == 32) {
-                add = 16;
+        for (int i = 0;  i < iterationLimit;  i += add) {
+            if (++add == equalityCheck) {
+                add = addValue;
             }
             osw.write(getHeader("field" + (num++)));
             osw.flush();
@@ -224,30 +246,39 @@ public class StreamingTest extends TestCase {
 
     /**
      * Tests, whether an {@link InvalidFileNameException} is thrown.
+     * @throws UnsupportedEncodingException if {@code US-ASCII} encoding is not
+     * supported
+     * @throws FileUploadException if a fileupload
+     * exception occurs
+     * @throws IOException if an I/O error occurs
      */
-    public void testInvalidFileNameException() throws Exception {
+    public void testInvalidFileNameException() throws UnsupportedEncodingException,
+            FileUploadException,
+            IOException {
         final String fileName = "foo.exe\u0000.png";
         final String request =
-            "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\n" +
-            "Content-Type: text/whatever\r\n" +
-            "\r\n" +
-            "This is the content of the file\n" +
-            "\r\n" +
-            "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"field\"\r\n" +
-            "\r\n" +
-            "fieldValue\r\n" +
-            "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" +
-            "\r\n" +
-            "value1\r\n" +
-            "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" +
-            "\r\n" +
-            "value2\r\n" +
-            "-----1234--\r\n";
-        final byte[] reqBytes = request.getBytes("US-ASCII");
+            "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"file\"; filename=\""
+                + fileName
+                + "\"\r\n"
+                + "Content-Type: text/whatever\r\n"
+                + "\r\n"
+                + "This is the content of the file\n"
+                + "\r\n"
+                + "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"field\"\r\n"
+                + "\r\n"
+                + "fieldValue\r\n"
+                + "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                + "\r\n"
+                + "value1\r\n"
+                + "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                + "\r\n"
+                + "value2\r\n"
+                + "-----1234--\r\n";
+        final byte[] reqBytes = request.getBytes(US_ASCII_CHARSET);
 
         FileItemIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
         final FileItemStream fileItemStream = fileItemIter.next();

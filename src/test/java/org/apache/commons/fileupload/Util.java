@@ -26,27 +26,57 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import static org.apache.commons.fileupload.util.EncodingConstants.US_ASCII_CHARSET;
 
 /**
  * Test utility methods.
  *
  * @since 1.4
  */
-public class Util {
+public final class Util {
 
+    /**
+     * Parses and upload.
+     * @param upload the file upload reference
+     * @param bytes the uploaded bytes
+     * @return the parsed file items
+     * @throws FileUploadException if a fileupload
+     * exception occurs
+     */
     public static List<FileItem> parseUpload(FileUpload upload, byte[] bytes) throws FileUploadException {
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 
-    public static List<FileItem> parseUpload(FileUpload upload, byte[] bytes, String contentType) throws FileUploadException {
-        final HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
+    /**
+     * Parses and upload.
+     * @param upload the file upload reference
+     * @param bytes the uploaded bytes
+     * @param contentType the context type for {@code bytes}
+     * @return the parsed file items
+     * @throws FileUploadException if a fileupload
+     * exception occurs
+     */
+    public static List<FileItem> parseUpload(FileUpload upload,
+            byte[] bytes,
+            String contentType) throws FileUploadException {
+        final HttpServletRequest request = new HttpServletRequestMock(bytes, contentType);
         List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
         return fileItems;
     }
 
+    /**
+     * Parses and upload.
+     * @param upload the file upload reference
+     * @param content the uploaded content
+     * @return the parsed file items
+     * @throws java.io.UnsupportedEncodingException if {@code US-ASCII} is not
+     * supported
+     * @throws FileUploadException if a fileupload
+     * exception occurs
+     */
     public static List<FileItem> parseUpload(FileUpload upload, String content)
         throws UnsupportedEncodingException, FileUploadException {
-        byte[] bytes = content.getBytes("US-ASCII");
+        byte[] bytes = content.getBytes(US_ASCII_CHARSET);
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 
@@ -58,5 +88,8 @@ public class Util {
         return Arrays.asList(
                 new ServletFileUpload(new DiskFileItemFactory()),
                 new PortletFileUpload(new DiskFileItemFactory()));
+    }
+
+    private Util() {
     }
 }

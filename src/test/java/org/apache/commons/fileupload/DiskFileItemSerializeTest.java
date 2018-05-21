@@ -42,20 +42,30 @@ import org.junit.Test;
  */
 public class DiskFileItemSerializeTest {
 
-    // Use a private repo to catch any files left over by tests
+    /**
+     * Use a private repo to catch any files left over by tests.
+     */
     private static final File REPO = new File(System.getProperty("java.io.tmpdir"), "diskfileitemrepo");
 
+    /**
+     * Deletes {@link #REPO} before each test method.
+     * @throws java.io.IOException if an I/O error occurs
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws IOException {
         if (REPO.exists()) {
             FileUtils.deleteDirectory(REPO);
         }
         FileUtils.forceMkdir(REPO);
     }
 
+    /**
+     * Tear down.
+     * @throws java.io.IOException if an I/O exception occurs
+     */
     @After
     public void tearDown() throws IOException {
-        for(File file : FileUtils.listFiles(REPO, null, true)) {
+        for (File file : FileUtils.listFiles(REPO, null, true)) {
             System.out.println("Found leftover file " + file);
         }
         FileUtils.deleteDirectory(REPO);
@@ -64,15 +74,17 @@ public class DiskFileItemSerializeTest {
     /**
      * Content type for regular form items.
      */
-    private static final String textContentType = "text/plain";
+    private static final String TEXT_CONTENT_TYPE = "text/plain";
 
     /**
      * Very low threshold for testing memory versus disk options.
      */
-    private static final int threshold = 16;
+    private static final int THRESHOLD = 16;
 
     /**
      * Helper method to test creation of a field when a repository is used.
+     * @param testFieldValueBytes the test field value bytes
+     * @param repository the file repository to use
      */
     public void testInMemoryObject(byte[] testFieldValueBytes, File repository) {
         FileItem item = createFileItem(testFieldValueBytes, repository);
@@ -98,7 +110,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testBelowThreshold() {
         // Create the FileItem
-        byte[] testFieldValueBytes = createContentBytes(threshold - 1);
+        byte[] testFieldValueBytes = createContentBytes(THRESHOLD - 1);
         testInMemoryObject(testFieldValueBytes);
     }
 
@@ -109,7 +121,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testThreshold() {
         // Create the FileItem
-        byte[] testFieldValueBytes = createContentBytes(threshold);
+        byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes);
     }
 
@@ -120,7 +132,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testAboveThreshold() {
         // Create the FileItem
-        byte[] testFieldValueBytes = createContentBytes(threshold + 1);
+        byte[] testFieldValueBytes = createContentBytes(THRESHOLD + 1);
         FileItem item = createFileItem(testFieldValueBytes);
 
         // Check state is as expected
@@ -137,17 +149,22 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testValidRepository() {
         // Create the FileItem
-        byte[] testFieldValueBytes = createContentBytes(threshold);
+        byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes, REPO);
     }
 
     /**
      * Test deserialization fails when repository is not valid.
+     * @throws java.io.IOException if an I/O exception occurs during
+     * serialization or deserialization
+     * @throws java.lang.ClassNotFoundException if a class is not found during
+     * deserialization
      */
-    @Test(expected=IOException.class)
-    public void testInvalidRepository() throws Exception {
+    @Test(expected = IOException.class)
+    public void testInvalidRepository() throws IOException,
+            ClassNotFoundException {
         // Create the FileItem
-        byte[] testFieldValueBytes = createContentBytes(threshold);
+        byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         File repository = new File(System.getProperty("java.io.tmpdir"), "file");
         FileItem item = createFileItem(testFieldValueBytes, repository);
         deserialize(serialize(item));
@@ -155,11 +172,16 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test deserialization fails when repository contains a null character.
+     * @throws java.io.IOException if an I/O exception occurs during
+     * serialization or deserialization
+     * @throws java.lang.ClassNotFoundException if a class is not found during
+     * deserialization
      */
-    @Test(expected=IOException.class)
-    public void testInvalidRepositoryWithNullChar() throws Exception {
+    @Test(expected = IOException.class)
+    public void testInvalidRepositoryWithNullChar() throws IOException,
+            ClassNotFoundException {
         // Create the FileItem
-        byte[] testFieldValueBytes = createContentBytes(threshold);
+        byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         File repository = new File(System.getProperty("java.io.tmpdir"), "\0");
         FileItem item = createFileItem(testFieldValueBytes, repository);
         deserialize(serialize(item));
@@ -183,10 +205,11 @@ public class DiskFileItemSerializeTest {
     private byte[] createContentBytes(int size) {
         StringBuilder buffer = new StringBuilder(size);
         byte count = 0;
+        final byte countLimit = 9;
         for (int i = 0; i < size; i++) {
-            buffer.append(count+"");
+            buffer.append(String.valueOf(count));
             count++;
-            if (count > 9) {
+            if (count > countLimit) {
                 count = 0;
             }
         }
@@ -197,12 +220,12 @@ public class DiskFileItemSerializeTest {
      * Create a FileItem with the specfied content bytes and repository.
      */
     private FileItem createFileItem(byte[] contentBytes, File repository) {
-        FileItemFactory factory = new DiskFileItemFactory(threshold, repository);
+        FileItemFactory factory = new DiskFileItemFactory(THRESHOLD, repository);
         String textFieldName = "textField";
 
         FileItem item = factory.createItem(
                 textFieldName,
-                textContentType,
+                TEXT_CONTENT_TYPE,
                 true,
                 "My File Name"
         );
@@ -210,7 +233,7 @@ public class DiskFileItemSerializeTest {
             OutputStream os = item.getOutputStream();
             os.write(contentBytes);
             os.close();
-        } catch(IOException e) {
+        } catch (IOException e) {
             fail("Unexpected IOException" + e);
         }
 
@@ -226,21 +249,25 @@ public class DiskFileItemSerializeTest {
     }
 
     /**
-     * Do serialization
+     * Do serialization.
+     * @param object the object to serialize
      */
-    private ByteArrayOutputStream serialize(Object target) throws Exception {
+    private ByteArrayOutputStream serialize(Object object) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(target);
+        oos.writeObject(object);
         oos.flush();
         oos.close();
         return baos;
     }
 
     /**
-     * Do deserialization
+     * Do deserialization.
+     * @param baos the output stream to create an object input stream from which
+     * is used for deserialization.
      */
-    private Object deserialize(ByteArrayOutputStream baos) throws Exception {
+    private Object deserialize(ByteArrayOutputStream baos) throws IOException,
+            ClassNotFoundException {
         Object result = null;
         ByteArrayInputStream bais =
                 new ByteArrayInputStream(baos.toByteArray());

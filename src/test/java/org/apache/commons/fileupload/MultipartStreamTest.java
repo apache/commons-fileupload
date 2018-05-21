@@ -28,10 +28,17 @@ import org.junit.Test;
  */
 public class MultipartStreamTest {
 
-    static private final String BOUNDARY_TEXT = "myboundary";
+    /**
+     * The boundary text.
+     */
+    private static final String BOUNDARY_TEXT = "myboundary";
 
+    /**
+     * Tests
+     * {@link MultipartStream#MultipartStream(java.io.InputStream, byte[], int) }.
+     */
     @Test
-    public void testThreeParamConstructor() throws Exception {
+    public void testThreeParamConstructor() {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
         InputStream input = new ByteArrayInputStream(contents);
@@ -46,8 +53,11 @@ public class MultipartStreamTest {
         assertNotNull(ms);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testSmallBuffer() throws Exception {
+    /**
+     * Tests {@code IllegalArgumentException} for too small buffer.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testSmallBuffer() {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
         InputStream input = new ByteArrayInputStream(contents);
@@ -60,8 +70,12 @@ public class MultipartStreamTest {
                 new MultipartStream.ProgressNotifier(null, contents.length));
     }
 
+    /**
+     * Tests
+     * {@link MultipartStream#MultipartStream(java.io.InputStream, byte[]) }.
+     */
     @Test
-    public void testTwoParamConstructor() throws Exception {
+    public void testTwoParamConstructor() {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
         InputStream input = new ByteArrayInputStream(contents);

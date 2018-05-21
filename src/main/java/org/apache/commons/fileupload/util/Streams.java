@@ -169,7 +169,7 @@ public final class Streams {
      * @return Unmodified file name, if valid.
      * @throws InvalidFileNameException The file name was found to be invalid.
      */
-    public static String checkFileName(String fileName) {
+    public static String checkFileName(String fileName) throws InvalidFileNameException {
         if (fileName != null  &&  fileName.indexOf('\u0000') != -1) {
             // pFileName.replace("\u0000", "\\0")
             final StringBuilder sb = new StringBuilder();
