@@ -38,7 +38,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     private long length;
 
-    private String m_strContentType;
+    private final String m_strContentType;
 
     private int readLimit = -1;
 

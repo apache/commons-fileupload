@@ -53,7 +53,7 @@ public class MockPortletActionRequest implements ActionRequest {
     private final Map<String, String> parameters = new HashMap<String, String>();
 
     private String characterEncoding;
-    private int length;
+    private final int length;
     private final String contentType;
     private final InputStream requestData;
 
