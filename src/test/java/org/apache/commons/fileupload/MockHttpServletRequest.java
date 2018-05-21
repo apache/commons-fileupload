@@ -269,6 +269,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     @Deprecated
+    @Override
     public boolean isRequestedSessionIdFromUrl() {
         return false;
     }
@@ -417,6 +418,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
+    @Override
     public String getLocalName() {
         return null;
     }
@@ -434,6 +436,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
+    @Override
     public int getLocalPort() {
         return 0;
     }
@@ -443,6 +446,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
+    @Override
     public int getRemotePort() {
         return 0;
     }
@@ -468,6 +472,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
+    @Override
     public String getLocalAddr() {
         return null;
     }
@@ -532,6 +537,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     @Deprecated
+    @Override
     public String getRealPath(String arg0) {
         return null;
     }
