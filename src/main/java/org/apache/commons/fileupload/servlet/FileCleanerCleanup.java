@@ -68,6 +68,7 @@ public class FileCleanerCleanup implements ServletContextListener {
      * @param sce The servlet context, used for calling
      *   {@link #setFileCleaningTracker(ServletContext, FileCleaningTracker)}.
      */
+    @Override
     public void contextInitialized(ServletContextEvent sce) {
         setFileCleaningTracker(sce.getServletContext(),
                 new FileCleaningTracker());
@@ -80,6 +81,7 @@ public class FileCleanerCleanup implements ServletContextListener {
      * @param sce The servlet context, used for calling
      *     {@link #getFileCleaningTracker(ServletContext)}.
      */
+    @Override
     public void contextDestroyed(ServletContextEvent sce) {
         getFileCleaningTracker(sce.getServletContext()).exitWhenFinished();
     }

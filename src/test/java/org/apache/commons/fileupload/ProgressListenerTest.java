@@ -47,6 +47,7 @@ public class ProgressListenerTest {
             expectedItems = pItems;
         }
 
+        @Override
         public void update(long pBytesRead, long pContentLength, int pItems) {
             assertTrue(pBytesRead >= 0  &&  pBytesRead <= expectedContentLength);
             assertTrue(pContentLength == -1  ||  pContentLength == expectedContentLength);

@@ -61,6 +61,7 @@ public class PortletRequestContext implements UploadContext {
      *
      * @return The character encoding for the request.
      */
+    @Override
     public String getCharacterEncoding() {
         return request.getCharacterEncoding();
     }
@@ -70,6 +71,7 @@ public class PortletRequestContext implements UploadContext {
      *
      * @return The content type of the request.
      */
+    @Override
     public String getContentType() {
         return request.getContentType();
     }
@@ -80,6 +82,7 @@ public class PortletRequestContext implements UploadContext {
      * @return The content length of the request.
      * @deprecated 1.3 Use {@link #contentLength()} instead
      */
+    @Override
     @Deprecated
     public int getContentLength() {
         return request.getContentLength();
@@ -91,6 +94,7 @@ public class PortletRequestContext implements UploadContext {
      * @return The content length of the request.
      * @since 1.3
      */
+    @Override
     public long contentLength() {
         long size;
         try {
@@ -108,6 +112,7 @@ public class PortletRequestContext implements UploadContext {
      *
      * @throws IOException if a problem occurs.
      */
+    @Override
     public InputStream getInputStream() throws IOException {
         return request.getPortletInputStream();
     }

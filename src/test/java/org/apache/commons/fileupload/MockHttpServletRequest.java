@@ -72,6 +72,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getAuthType()
      */
+    @Override
     public String getAuthType() {
         return null;
     }
@@ -79,6 +80,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getCookies()
      */
+    @Override
     public Cookie[] getCookies() {
         return null;
     }
@@ -86,6 +88,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getDateHeader(String)
      */
+    @Override
     public long getDateHeader(String arg0) {
         return 0;
     }
@@ -93,6 +96,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getHeader(String)
      */
+    @Override
     public String getHeader(String headerName) {
         return m_headers.get(headerName);
     }
@@ -100,6 +104,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getHeaders(String)
      */
+    @Override
     public Enumeration<String> getHeaders(String arg0) {
         // todo - implement
         return null;
@@ -108,6 +113,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
      */
+    @Override
     public Enumeration<String> getHeaderNames() {
         // todo - implement
         return null;
@@ -116,6 +122,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getIntHeader(String)
      */
+    @Override
     public int getIntHeader(String arg0) {
         return 0;
     }
@@ -123,6 +130,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getMethod()
      */
+    @Override
     public String getMethod() {
         return null;
     }
@@ -130,6 +138,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getPathInfo()
      */
+    @Override
     public String getPathInfo() {
         return null;
     }
@@ -137,6 +146,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getPathTranslated()
      */
+    @Override
     public String getPathTranslated() {
         return null;
     }
@@ -144,6 +154,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getContextPath()
      */
+    @Override
     public String getContextPath() {
         return null;
     }
@@ -151,6 +162,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getQueryString()
      */
+    @Override
     public String getQueryString() {
         return null;
     }
@@ -158,6 +170,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getRemoteUser()
      */
+    @Override
     public String getRemoteUser() {
         return null;
     }
@@ -165,6 +178,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#isUserInRole(String)
      */
+    @Override
     public boolean isUserInRole(String arg0) {
         return false;
     }
@@ -172,6 +186,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getUserPrincipal()
      */
+    @Override
     public Principal getUserPrincipal() {
         return null;
     }
@@ -179,6 +194,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getRequestedSessionId()
      */
+    @Override
     public String getRequestedSessionId() {
         return null;
     }
@@ -186,6 +202,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getRequestURI()
      */
+    @Override
     public String getRequestURI() {
         return null;
     }
@@ -193,6 +210,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getRequestURL()
      */
+    @Override
     public StringBuffer getRequestURL() {
         return null;
     }
@@ -200,6 +218,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getServletPath()
      */
+    @Override
     public String getServletPath() {
         return null;
     }
@@ -207,6 +226,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getSession(boolean)
      */
+    @Override
     public HttpSession getSession(boolean arg0) {
         return null;
     }
@@ -214,6 +234,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#getSession()
      */
+    @Override
     public HttpSession getSession() {
         return null;
     }
@@ -221,6 +242,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid()
      */
+    @Override
     public boolean isRequestedSessionIdValid() {
         return false;
     }
@@ -228,6 +250,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie()
      */
+    @Override
     public boolean isRequestedSessionIdFromCookie() {
         return false;
     }
@@ -235,6 +258,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL()
      */
+    @Override
     public boolean isRequestedSessionIdFromURL() {
         return false;
     }
@@ -243,6 +267,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl()
      * @deprecated
      */
+    @Override
     @Deprecated
     public boolean isRequestedSessionIdFromUrl() {
         return false;
@@ -251,6 +276,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getAttribute(String)
      */
+    @Override
     public Object getAttribute(String arg0) {
         return null;
     }
@@ -258,6 +284,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getAttributeNames()
      */
+    @Override
     public Enumeration<String> getAttributeNames() {
         return null;
     }
@@ -265,6 +292,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getCharacterEncoding()
      */
+    @Override
     public String getCharacterEncoding() {
         return null;
     }
@@ -272,6 +300,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#setCharacterEncoding(String)
      */
+    @Override
     public void setCharacterEncoding(String arg0)
         throws UnsupportedEncodingException {
     }
@@ -279,6 +308,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getContentLength()
      */
+    @Override
     public int getContentLength() {
         int iLength = 0;
 
@@ -303,6 +333,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getContentType()
      */
+    @Override
     public String getContentType() {
         return m_strContentType;
     }
@@ -310,6 +341,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getInputStream()
      */
+    @Override
     public ServletInputStream getInputStream() throws IOException {
         ServletInputStream sis = new MyServletInputStream(m_requestData, readLimit);
         return sis;
@@ -327,6 +359,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getParameter(String)
      */
+    @Override
     public String getParameter(String arg0) {
         return null;
     }
@@ -334,6 +367,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getParameterNames()
      */
+    @Override
     public Enumeration<String> getParameterNames() {
         return null;
     }
@@ -341,6 +375,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getParameterValues(String)
      */
+    @Override
     public String[] getParameterValues(String arg0) {
         return null;
     }
@@ -348,6 +383,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getParameterMap()
      */
+    @Override
     public Map<String, String[]> getParameterMap() {
         return null;
     }
@@ -355,6 +391,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getProtocol()
      */
+    @Override
     public String getProtocol() {
         return null;
     }
@@ -362,6 +399,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getScheme()
      */
+    @Override
     public String getScheme() {
         return null;
     }
@@ -369,6 +407,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getServerName()
      */
+    @Override
     public String getServerName() {
         return null;
     }
@@ -376,6 +415,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getLocalName()
      */
+    @Override
     @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
     public String getLocalName() {
         return null;
@@ -384,6 +424,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getServerPort()
      */
+    @Override
     public int getServerPort() {
         return 0;
     }
@@ -391,6 +432,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getLocalPort()
      */
+    @Override
     @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
     public int getLocalPort() {
         return 0;
@@ -399,6 +441,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getRemotePort()
      */
+    @Override
     @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
     public int getRemotePort() {
         return 0;
@@ -407,6 +450,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getReader()
      */
+    @Override
     public BufferedReader getReader() throws IOException {
         return null;
     }
@@ -414,6 +458,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getRemoteAddr()
      */
+    @Override
     public String getRemoteAddr() {
         return null;
     }
@@ -421,6 +466,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getLocalAddr()
      */
+    @Override
     @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
     public String getLocalAddr() {
         return null;
@@ -429,6 +475,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getRemoteHost()
      */
+    @Override
     public String getRemoteHost() {
         return null;
     }
@@ -436,18 +483,21 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#setAttribute(String, Object)
      */
+    @Override
     public void setAttribute(String arg0, Object arg1) {
     }
 
     /**
      * @see javax.servlet.ServletRequest#removeAttribute(String)
      */
+    @Override
     public void removeAttribute(String arg0) {
     }
 
     /**
      * @see javax.servlet.ServletRequest#getLocale()
      */
+    @Override
     public Locale getLocale() {
         return null;
     }
@@ -455,6 +505,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getLocales()
      */
+    @Override
     public Enumeration<Locale> getLocales() {
         return null;
     }
@@ -462,6 +513,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#isSecure()
      */
+    @Override
     public boolean isSecure() {
         return false;
     }
@@ -469,6 +521,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * @see javax.servlet.ServletRequest#getRequestDispatcher(String)
      */
+    @Override
     public RequestDispatcher getRequestDispatcher(String arg0) {
         return null;
     }
@@ -477,6 +530,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getRealPath(String)
      * @deprecated
      */
+    @Override
     @Deprecated
     public String getRealPath(String arg0) {
         return null;

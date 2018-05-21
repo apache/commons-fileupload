@@ -143,6 +143,7 @@ public abstract class LimitedInputStream extends FilterInputStream implements Cl
      * @return True, if the stream is closed, otherwise false.
      * @throws IOException An I/O error occurred.
      */
+    @Override
     public boolean isClosed() throws IOException {
         return closed;
     }
