@@ -82,6 +82,7 @@ public class ServletRequestContext implements UploadContext {
      */
     @Override
     @Deprecated
+    @Override
     public int getContentLength() {
         return request.getContentLength();
     }
