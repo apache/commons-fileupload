@@ -379,10 +379,12 @@ public class DiskFileItem
      * @param file The <code>File</code> into which the uploaded item should
      *             be stored.
      *
-     * @throws Exception if an error occurs.
+     * @throws IOException if an I/O exception occurs
+     * @throws FileUploadException if an exception which is unrelated to I/O
      */
     @Override
-    public void write(File file) throws Exception {
+    public void write(File file) throws IOException,
+            FileUploadException {
         if (isInMemory()) {
             FileOutputStream fout = null;
             try {
