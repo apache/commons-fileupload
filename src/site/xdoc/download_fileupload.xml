@@ -95,7 +95,7 @@ limitations under the License.
       </p>
     </subsection>
     </section>
-    <section name="Apache Commons FileUpload 1.4 (requires Java 1.5 or later)">
+    <section name="Apache Commons FileUpload 1.4 (requires Java 1.7 or later)">
       <subsection name="Binaries">
         <table>
           <tr>
