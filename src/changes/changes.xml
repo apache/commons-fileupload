@@ -43,7 +43,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.4" date="2018-12-22" description="1.4 Release">
+    <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
       <action issue="FILEUPLOAD-282" dev="chtompki" type="update">Upversion complier.source, compiler.target to 1.6</action>
       <action issue="FILEUPLOAD-252" dev="tn" type="fix">DiskFileItem#write() could lose original IO exception</action>
