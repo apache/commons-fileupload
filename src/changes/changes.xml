@@ -43,6 +43,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
+    <release version="2.0" date="TBD" description="2.0 Release">
+      <action                        dev="jochen" type="update">Bumping Compiler Level to 1.8.</action>
+    </release>
     <release version="1.4" date="2017-06-03" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
       <action issue="FILEUPLOAD-282" dev="chtompki" type="update">Upversion complier.source, compiler.target to 1.6</action>
