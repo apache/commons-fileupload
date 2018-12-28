@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>43</version>
+    <version>47</version>
   </parent>
 
   <groupId>org.apache.commons</groupId>
@@ -204,7 +204,6 @@
     <commons.module.name>org.apache.commons.fileupload</commons.module.name>
     <commons.release.version>2.0</commons.release.version>
     <commons.release.desc>(requires Java ${maven.compiler.target} or later)</commons.release.desc>
-    <commons.rc.version>RC1</commons.rc.version>
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
     <commons.site.path>fileupload</commons.site.path>
@@ -213,6 +212,16 @@
     <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version};-noimport:=true</commons.osgi.export>
     <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
+    <commons.japicmp.version>0.13.0</commons.japicmp.version>
+    <japicmp.skip>true</japicmp.skip>
+
+    <!-- Commons Release Plugin -->
+    <commons.bc.version>1.3.3</commons.bc.version>
+    <commons.rc.version>RC2</commons.rc.version>
+    <commons.release.isDistModule>true</commons.release.isDistModule>
+    <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
+    <commons.releaseManagerName>Rob Tompkins</commons.releaseManagerName>
+    <commons.releaseManagerKey>B6E73D84EA4FCC47166087253FAAD2CD5ECBB314</commons.releaseManagerKey>
   </properties>
 
   <dependencies>
@@ -263,6 +272,24 @@
     </plugins>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.rat</groupId>
+          <artifactId>apache-rat-plugin</artifactId>
+          <configuration>
+            <excludes>
+              <exclude>site-content/**</exclude>
+              <exclude>src/site/resources/download_lang.cgi</exclude>
+              <exclude>src/checkstyle/license-header.txt</exclude>
+            </excludes>
+          </configuration>
+        </plugin><!-- override skip property of parent pom -->
+        <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
