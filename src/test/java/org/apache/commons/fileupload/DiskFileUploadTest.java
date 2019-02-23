@@ -16,10 +16,14 @@
  */
 package org.apache.commons.fileupload;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,4 +68,35 @@ public class DiskFileUploadTest {
         }
     }
 
+    /** Proposed test for FILEUPLOAD-293. As of yet, doesn't reproduce the problem.
+     */
+    @Test
+    public void testMoveFile() throws Exception {
+        DiskFileUpload myUpload = new DiskFileUpload();
+        myUpload.setSizeThreshold(0);
+    	final String content =
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"file\";"
+                		+ "filename=\"foo.tab\"\r\n" +
+                "Content-Type: text/whatever\r\n" +
+                "\r\n" +
+                "This is the content of the file\n" +
+                "\r\n" +
+                "-----1234--\r\n";
+    	final byte[] contentBytes = content.getBytes("US-ASCII");
+        final HttpServletRequest request = new MockHttpServletRequest(contentBytes, Constants.CONTENT_TYPE);
+        final List<FileItem> items = myUpload.parseRequest(request);
+        assertNotNull(items);
+        assertFalse(items.isEmpty());
+        final DiskFileItem dfi = (DiskFileItem) items.get(0);
+        final File out = new File("target/unit-tests/DiskFileUpload/out.file");
+        if (out.isFile()) {
+        	out.delete();
+        }
+        final File outDir = out.getParentFile();
+        if (!outDir.isDirectory()) {
+        	outDir.mkdirs();
+        }
+        dfi.write(out);
+    }
 }
