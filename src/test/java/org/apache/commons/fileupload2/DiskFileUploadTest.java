@@ -91,14 +91,7 @@ public class DiskFileUploadTest {
         assertNotNull(items);
         assertFalse(items.isEmpty());
         final DiskFileItem dfi = (DiskFileItem) items.get(0);
-        final File out = new File("target/unit-tests/DiskFileUpload/out.file");
-        if (out.isFile()) {
-        	out.delete();
-        }
-        final File outDir = out.getParentFile();
-        if (!outDir.isDirectory()) {
-        	outDir.mkdirs();
-        }
+        final File out = File.createTempFile("install", ".tmp");
         dfi.write(out);
     }
 }

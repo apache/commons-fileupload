@@ -402,6 +402,9 @@ public class DiskFileItem
                  * in a temporary location so move it to the
                  * desired file.
                  */
+                if (file.exists()) {
+                	file.delete();
+                }
                 FileUtils.moveFile(outputFile, file);
             } else {
                 /*
