@@ -47,6 +47,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="jochen" type="update">Changing Maven coordinates, and package name, due to binary incompatible changes.</action>
       <action                        dev="jochen" type="update">Bumping Compiler Level to 1.8.</action>
       <action issue="FILEUPLOAD-293" dev="jochen" type="fix">DiskFileItem.write(File) had been changed to use FileUtils.moveFile internally, preventing an existing file as the target.</action>
+      <action issue="FILEUPLOAD-296" dev="jochen" type="fix" due-to="David Georg Reochelt">Performance gains by reusing an internal buffer.</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
