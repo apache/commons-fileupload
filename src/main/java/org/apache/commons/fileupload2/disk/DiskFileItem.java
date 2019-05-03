@@ -403,7 +403,7 @@ public class DiskFileItem
                  * desired file.
                  */
                 if (file.exists()) {
-                	file.delete();
+                    file.delete();
                 }
                 FileUtils.moveFile(outputFile, file);
             } else {
