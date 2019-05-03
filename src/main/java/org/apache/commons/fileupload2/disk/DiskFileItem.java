@@ -403,7 +403,10 @@ public class DiskFileItem
                  * desired file.
                  */
                 if (file.exists()) {
-                    file.delete();
+                    if (!file.delete()) {
+                        throw new FileUploadException(
+                                "Cannot write uploaded file to disk!");
+                    }
                 }
                 FileUtils.moveFile(outputFile, file);
             } else {
