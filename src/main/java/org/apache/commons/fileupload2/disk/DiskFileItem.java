@@ -543,7 +543,7 @@ public class DiskFileItem
      * Removes the file contents from the temporary storage.
      */
     @Override
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         if (dfos == null || dfos.isInMemory()) {
             return;
         }
@@ -552,6 +552,7 @@ public class DiskFileItem
         if (outputFile != null && outputFile.exists()) {
             outputFile.delete();
         }
+        super.finalize();
     }
 
     /**
