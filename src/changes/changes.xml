@@ -155,10 +155,10 @@ fix as well as a small number of bugfixes." date="2014-02-07">
         commons-io dependency does not get loaded by maven if only dependency to commons-fileupload is specified
       </action>
       <action issue="FILEUPLOAD-185" dev="simonetripodi" type="fix" due-to="Sebb">
-        http://commons.apache.org/fileupload/index.html is out of date
+        https://commons.apache.org/fileupload/index.html is out of date
       </action>
       <action issue="FILEUPLOAD-186" dev="simonetripodi" type="fix" due-to="Sebb">
-        http://commons.apache.org/fileupload/index.html should not mention nightly builds
+        https://commons.apache.org/fileupload/index.html should not mention nightly builds
       </action>
       <action issue="FILEUPLOAD-189" dev="simonetripodi" type="fix" due-to="Gregor K">
         DiskFileItemFactory use of FileCleaningTracker is documented or coded wrong - proposal submitted by Jan Novotný
