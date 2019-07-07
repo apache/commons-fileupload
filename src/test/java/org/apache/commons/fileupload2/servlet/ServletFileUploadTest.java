@@ -41,7 +41,7 @@ import org.junit.Test;
 public class ServletFileUploadTest {
 
     /**
-     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-210">
+     * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-210">
      */
     @Test
     public void parseParameterMap()

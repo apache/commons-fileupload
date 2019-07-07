@@ -201,7 +201,7 @@ public class FileUploadTest {
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>
      */
     @Test
     public void testFILEUPLOAD62() throws Exception {
@@ -245,7 +245,7 @@ public class FileUploadTest {
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>
      */
     @Test
     public void testFoldedHeaders()
@@ -297,7 +297,7 @@ public class FileUploadTest {
     }
 
     /**
-     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-130">
+     * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-130">
      */
     @Test
     public void testFileUpload130()
@@ -352,7 +352,7 @@ public class FileUploadTest {
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
      */
     @Test
     public void testContentTypeAttachment()

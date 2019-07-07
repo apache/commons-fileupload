@@ -188,7 +188,7 @@
   </scm>
   <issueManagement>
     <system>jira</system>
-    <url>http://issues.apache.org/jira/browse/FILEUPLOAD</url>
+    <url>https://issues.apache.org/jira/browse/FILEUPLOAD</url>
   </issueManagement>
 
   <distributionManagement>

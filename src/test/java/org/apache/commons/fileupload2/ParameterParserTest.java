@@ -90,7 +90,7 @@ public class ParameterParserTest {
         assertNull(params.get("anotherparam"));
     }
 
-    // See: http://issues.apache.org/jira/browse/FILEUPLOAD-139
+    // See: https://issues.apache.org/jira/browse/FILEUPLOAD-139
     @Test
     public void testFileUpload139() {
         ParameterParser parser = new ParameterParser();
@@ -108,7 +108,7 @@ public class ParameterParserTest {
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>
      */
     @Test
     public void fileUpload199() {

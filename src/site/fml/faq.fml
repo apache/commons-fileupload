@@ -43,7 +43,7 @@
         bug in earlier versions of that component that caused problems with
         multipart requests. The bug was fixed some time ago, so you probably
         just need to pick up a newer version. See the
-        <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=15278">Tomcat bug report</a>
+        <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=15278">Tomcat bug report</a>
         for full details.
       </answer>
     </faq>
@@ -141,7 +141,7 @@
         </p>
         <p>
           The problems details and a possible workaround are outlined in
-          <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-143">
+          <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-143">
             Bug 143
           </a>
           . The workaround suggests to use the streaming API
