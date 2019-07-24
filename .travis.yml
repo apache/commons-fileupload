@@ -19,7 +19,6 @@ sudo: false
 jdk:
   - oraclejdk8
   - oraclejdk11
-  - openjdk7
   - openjdk8
   - openjdk11
   - openjdk12
