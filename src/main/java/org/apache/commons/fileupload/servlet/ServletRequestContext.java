@@ -123,5 +123,14 @@ public class ServletRequestContext implements UploadContext {
                 Long.valueOf(this.contentLength()),
                 this.getContentType());
     }
+    
+     /**
+     *
+     * @return
+     */
+    public HttpServletRequest getRequest(){
+        return this.request;
+    }
+
 
 }
