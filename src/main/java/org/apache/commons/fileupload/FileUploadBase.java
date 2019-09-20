@@ -205,6 +205,18 @@ public abstract class FileUploadBase {
     public long getSizeMax() {
         return sizeMax;
     }
+    
+    /**
+     * This method enables subclassed to set 
+     allowed size per request if needed.
+     * @param ctx
+     * @return
+     */
+    public long getSizeMaxForThisRequest(RequestContext ctx) {
+        return sizeMax;
+    }
+
+    
 
     /**
      * Sets the maximum allowed size of a complete request, as opposed
@@ -959,15 +971,15 @@ public abstract class FileUploadBase {
                                      ? ((UploadContext) ctx).contentLength()
                                      : contentLengthInt;
                                      // CHECKSTYLE:ON
-
-            if (sizeMax >= 0) {
-                if (requestSize != -1 && requestSize > sizeMax) {
+            long sizeMaxForThisRequest = getSizeMaxForThisRequest(ctx);
+            if (sizeMaxForThisRequest >= 0) {
+                if (requestSize != -1 && requestSize > sizeMaxForThisRequest) {
                     throw new SizeLimitExceededException(
                         format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                                Long.valueOf(requestSize), Long.valueOf(sizeMax)),
-                               requestSize, sizeMax);
+                                Long.valueOf(requestSize), Long.valueOf(sizeMaxForThisRequest)),
+                               requestSize, sizeMaxForThisRequest);
                 }
-                input = new LimitedInputStream(input, sizeMax) {
+                input = new LimitedInputStream(input, sizeMaxForThisRequest) {
                     @Override
                     protected void raiseError(long pSizeMax, long pCount)
                             throws IOException {
