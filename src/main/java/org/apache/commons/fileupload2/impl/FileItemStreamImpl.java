@@ -26,8 +26,6 @@ import org.apache.commons.fileupload2.FileItemStream;
 import org.apache.commons.fileupload2.FileUploadBase;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
-import org.apache.commons.fileupload2.MultipartStream;
-import org.apache.commons.fileupload2.FileItemStream.ItemSkippedException;
 import org.apache.commons.fileupload2.FileUploadBase.FileSizeLimitExceededException;
 import org.apache.commons.fileupload2.FileUploadBase.FileUploadIOException;
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
@@ -40,7 +38,7 @@ import org.apache.commons.fileupload2.util.Streams;
  * Default implementation of {@link FileItemStream}.
  */
 public class FileItemStreamImpl implements FileItemStream {
-	private final FileUploadBase.FileItemIteratorImpl fileItemIteratorImpl;
+	private final FileItemIteratorImpl fileItemIteratorImpl;
 
     /**
      * The file items content type.
@@ -87,7 +85,7 @@ public class FileItemStreamImpl implements FileItemStream {
      * @param pContentLength The items content length, if known, or -1
      * @throws IOException Creating the file item failed.
      */
-    public FileItemStreamImpl(FileUploadBase.FileItemIteratorImpl pFileItemIterator, String pName, String pFieldName,
+    public FileItemStreamImpl(FileItemIteratorImpl pFileItemIterator, String pName, String pFieldName,
             String pContentType, boolean pFormField,
             long pContentLength) throws FileUploadException, IOException {
     	fileItemIteratorImpl = pFileItemIterator;

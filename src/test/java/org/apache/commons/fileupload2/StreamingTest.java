@@ -267,10 +267,8 @@ public class StreamingTest extends TestCase {
             assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
         }
 
-        List<FileItem> fileItems = parseUpload(reqBytes);
-        final FileItem fileItem = fileItems.get(0);
         try {
-            fileItem.getName();
+            List<FileItem> fileItems = parseUpload(reqBytes);
             fail("Expected exception");
         } catch (InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
