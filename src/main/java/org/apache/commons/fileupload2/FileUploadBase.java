@@ -31,10 +31,9 @@ import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
+import org.apache.commons.fileupload2.impl.FileItemStreamImpl;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.servlet.ServletRequestContext;
-import org.apache.commons.fileupload2.util.Closeable;
 import org.apache.commons.fileupload2.util.FileItemHeadersImpl;
 import org.apache.commons.fileupload2.util.LimitedInputStream;
 import org.apache.commons.fileupload2.util.Streams;
@@ -339,7 +338,7 @@ public abstract class FileUploadBase {
             while (iter.hasNext()) {
                 final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
-                final String fileName = ((FileItemIteratorImpl.FileItemStreamImpl) item).name;
+                final String fileName = ((FileItemStreamImpl) item).getName();
                 FileItem fileItem = fac.createItem(item.getFieldName(), item.getContentType(),
                                                    item.isFormField(), fileName);
                 items.add(fileItem);
@@ -706,7 +705,7 @@ public abstract class FileUploadBase {
      * The iterator, which is returned by
      * {@link FileUploadBase#getItemIterator(RequestContext)}.
      */
-    private static class FileItemIteratorImpl implements FileItemIterator {
+    public static class FileItemIteratorImpl implements FileItemIterator {
     	private final FileUploadBase fileUploadBase;
     	private final RequestContext ctx;
     	private long sizeMax, fileSizeMax;
@@ -733,197 +732,6 @@ public abstract class FileUploadBase {
 		}
 
 		/**
-         * Default implementation of {@link FileItemStream}.
-         */
-        public static class FileItemStreamImpl implements FileItemStream {
-        	private final FileItemIteratorImpl fileItemIteratorImpl;
-
-            /**
-             * The file items content type.
-             */
-            private final String contentType;
-
-            /**
-             * The file items field name.
-             */
-            private final String fieldName;
-
-            /**
-             * The file items file name.
-             */
-            private final String name;
-
-            /**
-             * Whether the file item is a form field.
-             */
-            private final boolean formField;
-
-            /**
-             * The file items input stream.
-             */
-            private final InputStream stream;
-
-            /**
-             * Whether the file item was already opened.
-             */
-            private boolean opened;
-
-            /**
-             * The headers, if any.
-             */
-            private FileItemHeaders headers;
-
-            /**
-             * Creates a new instance.
-             *
-             * @param pName The items file name, or null.
-             * @param pFieldName The items field name.
-             * @param pContentType The items content type, or null.
-             * @param pFormField Whether the item is a form field.
-             * @param pContentLength The items content length, if known, or -1
-             * @throws IOException Creating the file item failed.
-             */
-            FileItemStreamImpl(FileItemIteratorImpl pFileItemIterator, String pName, String pFieldName,
-                    String pContentType, boolean pFormField,
-                    long pContentLength) throws FileUploadException, IOException {
-            	fileItemIteratorImpl = pFileItemIterator;
-                name = pName;
-                fieldName = pFieldName;
-                contentType = pContentType;
-                formField = pFormField;
-                final long fileSizeMax = fileItemIteratorImpl.getFileSizeMax();
-                if (fileSizeMax != -1) { // Check if limit is already exceeded
-                    if (pContentLength != -1
-                            && pContentLength > fileSizeMax) {
-                        FileSizeLimitExceededException e =
-                                new FileSizeLimitExceededException(
-                                        format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                                fieldName, Long.valueOf(fileSizeMax)),
-                                        pContentLength, fileSizeMax);
-                        e.setFileName(pName);
-                        e.setFieldName(pFieldName);
-                        throw new FileUploadIOException(e);
-                    }
-                }
-                // OK to construct stream now
-                final ItemInputStream itemStream = fileItemIteratorImpl.getMultiPartStream().newInputStream();
-                InputStream istream = itemStream;
-                if (fileSizeMax != -1) {
-                    istream = new LimitedInputStream(istream, fileSizeMax) {
-                        @Override
-                        protected void raiseError(long pSizeMax, long pCount)
-                                throws IOException {
-                            itemStream.close(true);
-                            FileSizeLimitExceededException e =
-                                new FileSizeLimitExceededException(
-                                    format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                           fieldName, Long.valueOf(pSizeMax)),
-                                    pCount, pSizeMax);
-                            e.setFieldName(fieldName);
-                            e.setFileName(name);
-                            throw new FileUploadIOException(e);
-                        }
-                    };
-                }
-                stream = istream;
-            }
-
-            /**
-             * Returns the items content type, or null.
-             *
-             * @return Content type, if known, or null.
-             */
-            @Override
-            public String getContentType() {
-                return contentType;
-            }
-
-            /**
-             * Returns the items field name.
-             *
-             * @return Field name.
-             */
-            @Override
-            public String getFieldName() {
-                return fieldName;
-            }
-
-            /**
-             * Returns the items file name.
-             *
-             * @return File name, if known, or null.
-             * @throws InvalidFileNameException The file name contains a NUL character,
-             *   which might be an indicator of a security attack. If you intend to
-             *   use the file name anyways, catch the exception and use
-             *   InvalidFileNameException#getName().
-             */
-            @Override
-            public String getName() {
-                return Streams.checkFileName(name);
-            }
-
-            /**
-             * Returns, whether this is a form field.
-             *
-             * @return True, if the item is a form field,
-             *   otherwise false.
-             */
-            @Override
-            public boolean isFormField() {
-                return formField;
-            }
-
-            /**
-             * Returns an input stream, which may be used to
-             * read the items contents.
-             *
-             * @return Opened input stream.
-             * @throws IOException An I/O error occurred.
-             */
-            @Override
-            public InputStream openStream() throws IOException {
-                if (opened) {
-                    throw new IllegalStateException(
-                            "The stream was already opened.");
-                }
-                if (((Closeable) stream).isClosed()) {
-                    throw new FileItemStream.ItemSkippedException();
-                }
-                return stream;
-            }
-
-            /**
-             * Closes the file item.
-             *
-             * @throws IOException An I/O error occurred.
-             */
-            void close() throws IOException {
-                stream.close();
-            }
-
-            /**
-             * Returns the file item headers.
-             *
-             * @return The items header object
-             */
-            @Override
-            public FileItemHeaders getHeaders() {
-                return headers;
-            }
-
-            /**
-             * Sets the file item headers.
-             *
-             * @param pHeaders The items header object
-             */
-            @Override
-            public void setHeaders(FileItemHeaders pHeaders) {
-                headers = pHeaders;
-            }
-
-        }
-
-        /**
          * The multi part stream to process.
          */
         private MultipartStream multiPartStream;

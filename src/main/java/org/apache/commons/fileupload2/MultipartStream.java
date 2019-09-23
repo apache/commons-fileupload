@@ -626,7 +626,7 @@ public class MultipartStream {
      * Creates a new {@link ItemInputStream}.
      * @return A new instance of {@link ItemInputStream}.
      */
-    ItemInputStream newInputStream() {
+    public ItemInputStream newInputStream() {
         return new ItemInputStream();
     }
 
