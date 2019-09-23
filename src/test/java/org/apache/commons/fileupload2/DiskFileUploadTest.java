@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload2.DiskFileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.disk.DiskFileItem;
+import org.apache.commons.fileupload2.impl.InvalidContentTypeException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,7 +64,7 @@ public class DiskFileUploadTest {
         try {
             upload.parseRequest(req);
             fail("testWithNullContentType: expected exception was not thrown");
-        } catch (DiskFileUpload.InvalidContentTypeException expected) {
+        } catch (InvalidContentTypeException expected) {
             // this exception is expected
         } catch (FileUploadException unexpected) {
             fail("testWithNullContentType: unexpected exception was thrown");

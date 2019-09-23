@@ -19,7 +19,8 @@ package org.apache.commons.fileupload2;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.fileupload2.FileUploadBase.FileSizeLimitExceededException;
+import org.apache.commons.fileupload2.impl.FileSizeLimitExceededException;
+import org.apache.commons.fileupload2.impl.SizeLimitExceededException;
 
 /**
  * An iterator, as returned by

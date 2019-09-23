@@ -35,9 +35,6 @@ import org.apache.commons.fileupload2.MultipartStream;
 import org.apache.commons.fileupload2.ProgressListener;
 import org.apache.commons.fileupload2.RequestContext;
 import org.apache.commons.fileupload2.UploadContext;
-import org.apache.commons.fileupload2.FileUploadBase.FileUploadIOException;
-import org.apache.commons.fileupload2.FileUploadBase.InvalidContentTypeException;
-import org.apache.commons.fileupload2.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload2.util.LimitedInputStream;
 import org.apache.commons.io.IOUtils;
 

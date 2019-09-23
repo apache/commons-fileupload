@@ -32,11 +32,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemIterator;
 import org.apache.commons.fileupload2.FileItemStream;
-import org.apache.commons.fileupload2.FileUploadBase;
 import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.FileUploadBase.FileUploadIOException;
-import org.apache.commons.fileupload2.FileUploadBase.SizeException;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.impl.FileSizeLimitExceededException;
+import org.apache.commons.fileupload2.impl.FileUploadIOException;
+import org.apache.commons.fileupload2.impl.SizeLimitExceededException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.util.Streams;
 import org.junit.Test;
@@ -127,7 +127,7 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (FileUploadBase.FileSizeLimitExceededException e) {
+        } catch (FileSizeLimitExceededException e) {
             assertEquals(30, e.getPermittedSize());
         }
     }
@@ -171,7 +171,7 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (FileUploadBase.FileSizeLimitExceededException e) {
+        } catch (FileSizeLimitExceededException e) {
             assertEquals(5, e.getPermittedSize());
         }
 
@@ -182,7 +182,7 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (FileUploadBase.FileSizeLimitExceededException e) {
+        } catch (FileSizeLimitExceededException e) {
             assertEquals(15, e.getPermittedSize());
         }
     }
@@ -217,7 +217,7 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (FileUploadBase.SizeLimitExceededException e) {
+        } catch (SizeLimitExceededException e) {
             assertEquals(200, e.getPermittedSize());
         }
     }
@@ -272,7 +272,7 @@ public class SizesTest {
         try {
             // the header is still within size max -> this shall still succeed
             assertTrue(it.hasNext());
-        } catch (SizeException e) {
+        } catch (SizeLimitExceededException e) {
             fail();
         }
 

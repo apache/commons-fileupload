@@ -33,8 +33,8 @@ import org.apache.commons.fileupload2.FileUploadBase;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.MultipartStream;
-import org.apache.commons.fileupload2.FileUploadBase.IOFileUploadException;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.impl.IOFileUploadException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.servlet.ServletRequestContext;
 

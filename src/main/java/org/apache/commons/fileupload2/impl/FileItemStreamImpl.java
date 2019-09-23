@@ -23,11 +23,8 @@ import java.io.InputStream;
 
 import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.fileupload2.FileItemStream;
-import org.apache.commons.fileupload2.FileUploadBase;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
-import org.apache.commons.fileupload2.FileUploadBase.FileSizeLimitExceededException;
-import org.apache.commons.fileupload2.FileUploadBase.FileUploadIOException;
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
 import org.apache.commons.fileupload2.util.Closeable;
 import org.apache.commons.fileupload2.util.LimitedInputStream;
@@ -97,7 +94,7 @@ public class FileItemStreamImpl implements FileItemStream {
         if (fileSizeMax != -1) { // Check if limit is already exceeded
             if (pContentLength != -1
                     && pContentLength > fileSizeMax) {
-                FileUploadBase.FileSizeLimitExceededException e =
+                FileSizeLimitExceededException e =
                         new FileSizeLimitExceededException(
                                 format("The field %s exceeds its maximum permitted size of %s bytes.",
                                         fieldName, Long.valueOf(fileSizeMax)),
@@ -116,7 +113,7 @@ public class FileItemStreamImpl implements FileItemStream {
                 protected void raiseError(long pSizeMax, long pCount)
                         throws IOException {
                     itemStream.close(true);
-                    FileUploadBase.FileSizeLimitExceededException e =
+                    FileSizeLimitExceededException e =
                         new FileSizeLimitExceededException(
                             format("The field %s exceeds its maximum permitted size of %s bytes.",
                                    fieldName, Long.valueOf(pSizeMax)),
