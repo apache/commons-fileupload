@@ -16,16 +16,17 @@
  */
 package org.apache.commons.fileupload2.util.mime;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.fileupload2.util.mime.QuotedPrintableDecoder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @since 1.3
@@ -66,9 +67,9 @@ public final class QuotedPrintableDecoderTestCase {
         assertEncoded("=\r\n", "=3d=0d=0a");
     }
 
-    @Test(expected = IOException.class)
-    public void invalidCharDecode() throws Exception {
-        assertEncoded("=\r\n", "=3D=XD=XA");
+    @Test
+    public void invalidCharDecode() {
+        assertThrows(IOException.class, () -> assertEncoded("=\r\n", "=3D=XD=XA"));
     }
 
     /**
@@ -117,7 +118,7 @@ public final class QuotedPrintableDecoderTestCase {
             fail("Expected IOException");
         } catch (IOException e) {
             String em = e.getMessage();
-            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));
+            assertTrue(em.contains(messageText), "Expected to find " + messageText + " in '" + em + "'");
         }
     }
 

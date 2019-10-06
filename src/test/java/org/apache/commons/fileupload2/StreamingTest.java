@@ -16,9 +16,9 @@
  */
 package org.apache.commons.fileupload2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,7 +41,7 @@ import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload2.impl.IOFileUploadException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.servlet.ServletRequestContext;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for items with varying sizes.

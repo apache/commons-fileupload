@@ -16,8 +16,8 @@
  */
 package org.apache.commons.fileupload2.portlet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -29,8 +29,8 @@ import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileUploadTest;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload2.portlet.PortletFileUpload;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link PortletFileUpload}.
@@ -42,7 +42,7 @@ public class PortletFileUploadTest {
 
     private PortletFileUpload upload;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         upload = new PortletFileUpload(new DiskFileItemFactory());
     }
