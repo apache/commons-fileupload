@@ -16,16 +16,17 @@
  */
 package org.apache.commons.fileupload2.util.mime;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.fileupload2.util.mime.Base64Decoder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @since 1.3
@@ -77,10 +78,10 @@ public final class Base64DecoderTestCase {
         assertEncoded("Hello World", "S?G!V%sbG 8g\rV\t\n29ybGQ*=");
     }
 
-    @Test(expected = IOException.class)
-    public void truncatedString() throws Exception {
+    @Test
+    public void truncatedString() {
         final byte[] x = new byte[]{'n'};
-        Base64Decoder.decode(x, new ByteArrayOutputStream());
+        assertThrows(IOException.class, () -> Base64Decoder.decode(x, new ByteArrayOutputStream()));
     }
 
     @Test
@@ -157,7 +158,7 @@ public final class Base64DecoderTestCase {
             fail("Expected IOException");
         } catch (IOException e) {
             String em = e.getMessage();
-            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));
+            assertTrue(em.contains(messageText), "Expected to find " + messageText + " in '" + em + "'");
         }
     }
 

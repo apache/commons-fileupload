@@ -16,13 +16,14 @@
  */
 package org.apache.commons.fileupload2;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import org.apache.commons.fileupload2.MultipartStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests {@link org.apache.commons.fileupload2.MultipartStream}.
@@ -47,18 +48,19 @@ public class MultipartStreamTest {
         assertNotNull(ms);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testSmallBuffer() throws Exception {
+    @Test
+    public void testSmallBuffer() {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
         InputStream input = new ByteArrayInputStream(contents);
         byte[] boundary = BOUNDARY_TEXT.getBytes();
         int iBufSize = 1;
-        new MultipartStream(
-                input,
-                boundary,
-                iBufSize,
-                new MultipartStream.ProgressNotifier(null, contents.length));
+        assertThrows(IllegalArgumentException.class,
+                () -> new MultipartStream(
+                        input,
+                        boundary,
+                        iBufSize,
+                        new MultipartStream.ProgressNotifier(null, contents.length)));
     }
 
     @Test

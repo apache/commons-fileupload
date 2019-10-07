@@ -16,8 +16,8 @@
  */
 package org.apache.commons.fileupload2.servlet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ import org.apache.commons.fileupload2.FileUploadTest;
 import org.apache.commons.fileupload2.MockHttpServletRequest;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link ServletFileUpload}.
@@ -100,6 +100,6 @@ public class ServletFileUploadTest {
         ServletFileUpload upload = new ServletFileUpload(fileItemFactory);
         List<FileItem> fileItems = upload.parseRequest(request);
         FileItem fileItem = fileItems.get(0);
-        assertTrue(fileItem.getString(), fileItem.getString().contains("coñteñt"));
+        assertTrue(fileItem.getString().contains("coñteñt"), fileItem.getString());
     }
 }

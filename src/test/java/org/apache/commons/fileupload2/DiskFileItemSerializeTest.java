@@ -16,11 +16,12 @@
  */
 package org.apache.commons.fileupload2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,9 +35,9 @@ import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Serialization Unit tests for
@@ -47,7 +48,7 @@ public class DiskFileItemSerializeTest {
     // Use a private repo to catch any files left over by tests
     private static final File REPO = new File(System.getProperty("java.io.tmpdir"), "diskfileitemrepo");
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         if (REPO.exists()) {
             FileUtils.deleteDirectory(REPO);
@@ -55,7 +56,7 @@ public class DiskFileItemSerializeTest {
         FileUtils.forceMkdir(REPO);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws IOException {
         for(File file : FileUtils.listFiles(REPO, null, true)) {
             System.out.println("Found leftover file " + file);
@@ -80,8 +81,8 @@ public class DiskFileItemSerializeTest {
         FileItem item = createFileItem(testFieldValueBytes, repository);
 
         // Check state is as expected
-        assertTrue("Initial: in memory", item.isInMemory());
-        assertEquals("Initial: size", item.getSize(), testFieldValueBytes.length);
+        assertTrue(item.isInMemory(), "Initial: in memory");
+        assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
         compareBytes("Initial", item.get(), testFieldValueBytes);
         item.delete();
     }
@@ -126,8 +127,8 @@ public class DiskFileItemSerializeTest {
         FileItem item = createFileItem(testFieldValueBytes);
 
         // Check state is as expected
-        assertFalse("Initial: in memory", item.isInMemory());
-        assertEquals("Initial: size", item.getSize(), testFieldValueBytes.length);
+        assertFalse(item.isInMemory(), "Initial: in memory");
+        assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
         compareBytes("Initial", item.get(), testFieldValueBytes);
 
         item.delete();
@@ -146,36 +147,36 @@ public class DiskFileItemSerializeTest {
     /**
      * Test deserialization fails when repository is not valid.
      */
-    @Test(expected=IOException.class)
-    public void testInvalidRepository() throws Exception {
+    @Test
+    public void testInvalidRepository() {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold);
         File repository = new File(System.getProperty("java.io.tmpdir"), "file");
         FileItem item = createFileItem(testFieldValueBytes, repository);
-        deserialize(serialize(item));
+        assertThrows(IOException.class, () -> deserialize(serialize(item)));
     }
 
     /**
      * Test deserialization fails when repository contains a null character.
      */
-    @Test(expected=IOException.class)
-    public void testInvalidRepositoryWithNullChar() throws Exception {
+    @Test
+    public void testInvalidRepositoryWithNullChar() {
         // Create the FileItem
         byte[] testFieldValueBytes = createContentBytes(threshold);
         File repository = new File(System.getProperty("java.io.tmpdir"), "\0");
         FileItem item = createFileItem(testFieldValueBytes, repository);
-        deserialize(serialize(item));
+        assertThrows(IOException.class, () -> deserialize(serialize(item)));
     }
 
     /**
      * Compare content bytes.
      */
     private void compareBytes(String text, byte[] origBytes, byte[] newBytes) {
-        assertNotNull("origBytes must not be null", origBytes);
-        assertNotNull("newBytes must not be null", newBytes);
-        assertEquals(text + " byte[] length", origBytes.length, newBytes.length);
+        assertNotNull(origBytes, "origBytes must not be null");
+        assertNotNull(newBytes, "newBytes must not be null");
+        assertEquals(origBytes.length, newBytes.length, text + " byte[] length");
         for (int i = 0; i < origBytes.length; i++) {
-            assertEquals(text + " byte[" + i + "]", origBytes[i], newBytes[i]);
+            assertEquals(origBytes[i], newBytes[i], text + " byte[" + i + "]");
         }
     }
 

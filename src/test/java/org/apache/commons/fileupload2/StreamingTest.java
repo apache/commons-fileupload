@@ -16,6 +16,10 @@
  */
 package org.apache.commons.fileupload2;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FilterInputStream;
@@ -37,17 +41,17 @@ import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload2.impl.IOFileUploadException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.servlet.ServletRequestContext;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for items with varying sizes.
  */
-public class StreamingTest extends TestCase {
+public class StreamingTest {
 
     /**
      * Tests a file upload with varying file sizes.
      */
+    @Test
     public void testFileUpload()
             throws IOException, FileUploadException {
         byte[] request = newRequest();
@@ -74,6 +78,7 @@ public class StreamingTest extends TestCase {
      * Tests, whether an invalid request throws a proper
      * exception.
      */
+    @Test
     public void testFileUploadException()
             throws IOException, FileUploadException {
         byte[] request = newRequest();
@@ -90,6 +95,7 @@ public class StreamingTest extends TestCase {
     /**
      * Tests, whether an IOException is properly delegated.
      */
+    @Test
     public void testIOException()
             throws IOException {
         byte[] request = newRequest();
@@ -127,6 +133,7 @@ public class StreamingTest extends TestCase {
     /**
      * Test for FILEUPLOAD-135
      */
+    @Test
     public void testFILEUPLOAD135()
             throws IOException, FileUploadException {
         byte[] request = newShortRequest();
@@ -232,6 +239,7 @@ public class StreamingTest extends TestCase {
     /**
      * Tests, whether an {@link InvalidFileNameException} is thrown.
      */
+    @Test
     public void testInvalidFileNameException() throws Exception {
         final String fileName = "foo.exe\u0000.png";
         final String request =
