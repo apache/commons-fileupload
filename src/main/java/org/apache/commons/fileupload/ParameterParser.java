@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.fileupload.util.mime.MimeUtility;
+import org.apache.commons.fileupload.util.mime.RFC2231Utility;
 
 /**
  * A simple parser intended to parse sequences of name/value pairs.
@@ -305,10 +306,12 @@ public class ParameterParser {
 
         String paramName = null;
         String paramValue = null;
+        boolean hasExtendedParams = false;
         while (hasChar()) {
             paramName = parseToken(new char[] {
                     '=', separator });
             paramValue = null;
+            hasExtendedParams = (paramName != null) ? paramName.contains("*") : false; //TODO: Check only if delimiter is at end
             if (hasChar() && (charArray[pos] == '=')) {
                 pos++; // skip '='
                 paramValue = parseQuotedToken(new char[] {
@@ -316,7 +319,8 @@ public class ParameterParser {
 
                 if (paramValue != null) {
                     try {
-                        paramValue = MimeUtility.decodeText(paramValue);
+                        paramValue = hasExtendedParams ? RFC2231Utility.decodeText(paramValue)
+                                : MimeUtility.decodeText(paramValue);
                     } catch (final UnsupportedEncodingException e) {
                         // let's keep the original value in this case
                     }
@@ -326,6 +330,9 @@ public class ParameterParser {
                 pos++; // skip separator
             }
             if ((paramName != null) && (paramName.length() > 0)) {
+                if (hasExtendedParams) {
+                    paramName = paramName.replace("*", ""); //strip of the * from the name //TODO: Replace the last character alone
+                }
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ENGLISH);
                 }

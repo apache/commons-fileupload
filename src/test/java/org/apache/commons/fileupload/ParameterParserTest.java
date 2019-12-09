@@ -19,6 +19,7 @@ package org.apache.commons.fileupload;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import org.junit.Test;
@@ -110,11 +111,23 @@ public class ParameterParserTest {
      * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>
      */
     @Test
-    public void fileUpload199() {
+    public void testFileUpload199() {
         final ParameterParser parser = new ParameterParser();
         final String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
         final Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("If you can read this you understand the example.", params.get("filename"));
+    }
+
+    /**
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-274">FILEUPLOAD-274</a>
+     * @throws UnsupportedEncodingException
+     */
+    @Test
+    public void testFileUpload274() {
+        ParameterParser parser = new ParameterParser();
+        String s = "Content-Disposition: form-data; name=\"file\"; filename*=UTF-8\'\'%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";
+        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals("\u3053\u3093\u306B\u3061\u306F", params.get("filename")); //filename = "こんにちは" in japanese
     }
 
 }
