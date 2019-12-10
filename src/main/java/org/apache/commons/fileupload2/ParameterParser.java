@@ -306,12 +306,10 @@ public class ParameterParser {
 
         String paramName = null;
         String paramValue = null;
-        boolean hasExtendedParams = false;
         while (hasChar()) {
             paramName = parseToken(new char[] {
                     '=', separator });
             paramValue = null;
-            hasExtendedParams = (paramName != null) ? paramName.contains("*") : false; //TODO: Check only if delimiter is at end
             if (hasChar() && (charArray[pos] == '=')) {
                 pos++; // skip '='
                 paramValue = parseQuotedToken(new char[] {
@@ -319,7 +317,7 @@ public class ParameterParser {
 
                 if (paramValue != null) {
                     try {
-                        paramValue = hasExtendedParams ? RFC2231Utility.decodeText(paramValue)
+                        paramValue = RFC2231Utility.hasEncodedValue(paramName) ? RFC2231Utility.decodeText(paramValue)
                                 : MimeUtility.decodeText(paramValue);
                     } catch (UnsupportedEncodingException e) {
                         // let's keep the original value in this case
@@ -330,13 +328,10 @@ public class ParameterParser {
                 pos++; // skip separator
             }
             if ((paramName != null) && (paramName.length() > 0)) {
-                if (hasExtendedParams) {
-                    paramName = paramName.replace("*", ""); //strip of the * from the name //TODO: Replace the last character alone
-                }
+                paramName = RFC2231Utility.stripDelimiter(paramName);
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ENGLISH);
                 }
-
                 params.put(paramName, paramValue);
             }
         }

@@ -44,6 +44,34 @@ public final class RFC2231Utility {
     }
 
     /**
+     * Checks if Asterisk (*) at the end of parameter name to indicate,
+     * if it has charset and language information to decode the value
+     * @param paramName
+     * @return {@code true}, if encoded as per RFC 2231, {@code false} otherwise
+     */
+    public static boolean hasEncodedValue(String paramName) {
+        if (paramName != null) {
+            return paramName.lastIndexOf("*") == (paramName.length() - 1);
+        }
+        return false;
+    }
+
+    /**
+     * If {@code paramName} has Asterisk (*) at the end, it will be stripped off, 
+     * else the passed value will be returned
+     * @param paramName
+     * @return stripped {@code paramName} of Asterisk (*), if RFC2231 encoded
+     */
+    public static String stripDelimiter(String paramName) {
+        if (hasEncodedValue(paramName)) {
+            StringBuilder paramBuilder = new StringBuilder(paramName);
+            paramBuilder.deleteCharAt(paramName.lastIndexOf("*"));
+            return paramBuilder.toString();
+        }
+        return paramName;
+    }
+
+    /**
      * Decode a string of text obtained from a HTTP header as per RFC 2231
      * 
      * <p/>
