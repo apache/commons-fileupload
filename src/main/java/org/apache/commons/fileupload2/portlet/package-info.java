@@ -20,7 +20,7 @@
  *      An implementation of
  *      {@link org.apache.commons.fileupload2.FileUpload FileUpload}
  *      for use in portlets conforming to JSR 168. This implementation requires
- *      only access to the portlet's current <code>ActionRequest</code> instance,
+ *      only access to the portlet's current {@code ActionRequest} instance,
  *      and a suitable
  *      {@link org.apache.commons.fileupload2.FileItemFactory FileItemFactory}
  *      implementation, such as

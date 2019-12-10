@@ -33,7 +33,7 @@ import org.apache.commons.fileupload2.disk.DiskFileItem;
  * {@link #getInputStream()} and process the file without attempting to load
  * it into memory, which may come handy with large files.
  *
- * @deprecated 1.1 Use <code>DiskFileItem</code> instead.
+ * @deprecated 1.1 Use {@code DiskFileItem} instead.
  */
 @Deprecated
 public class DefaultFileItem
@@ -42,15 +42,15 @@ public class DefaultFileItem
     // ----------------------------------------------------------- Constructors
 
     /**
-     * Constructs a new <code>DefaultFileItem</code> instance.
+     * Constructs a new {@code DefaultFileItem} instance.
      *
      * @param fieldName     The name of the form field.
      * @param contentType   The content type passed by the browser or
-     *                      <code>null</code> if not specified.
+     *                      {@code null} if not specified.
      * @param isFormField   Whether or not this item is a plain form field, as
      *                      opposed to a file upload.
      * @param fileName      The original file name in the user's file system, or
-     *                      <code>null</code> if not specified.
+     *                      {@code null} if not specified.
      * @param sizeThreshold The threshold, in bytes, below which items will be
      *                      retained in memory and above which they will be
      *                      stored as a file.
@@ -58,7 +58,7 @@ public class DefaultFileItem
      *                      which files will be created, should the item size
      *                      exceed the threshold.
      *
-     * @deprecated 1.1 Use <code>DiskFileItem</code> instead.
+     * @deprecated 1.1 Use {@code DiskFileItem} instead.
      */
     @Deprecated
     public DefaultFileItem(String fieldName, String contentType,

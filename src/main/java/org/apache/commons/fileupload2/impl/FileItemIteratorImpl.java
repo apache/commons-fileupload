@@ -111,18 +111,19 @@ public class FileItemIteratorImpl implements FileItemIterator {
 
     /**
      * Creates a new instance.
-     *
-     * @param ctx The request context.
+     * 
+     * @param fileUploadBase Main processor.
+     * @param requestContext The request context.
      * @throws FileUploadException An error occurred while
      *   parsing the request.
      * @throws IOException An I/O error occurred.
      */
-    public FileItemIteratorImpl(FileUploadBase pFileUploadBase, RequestContext pRequestContext)
+    public FileItemIteratorImpl(FileUploadBase fileUploadBase, RequestContext requestContext)
             throws FileUploadException, IOException {
-    	fileUploadBase = pFileUploadBase;
+    	this.fileUploadBase = fileUploadBase;
     	sizeMax = fileUploadBase.getSizeMax();
     	fileSizeMax = fileUploadBase.getFileSizeMax();
-    	ctx = pRequestContext;
+    	ctx = requestContext;
         if (ctx == null) {
             throw new NullPointerException("ctx parameter");
         }

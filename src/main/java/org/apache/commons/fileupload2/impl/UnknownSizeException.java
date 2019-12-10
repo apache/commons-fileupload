@@ -36,7 +36,7 @@ public class UnknownSizeException
     private static final long serialVersionUID = 7062279004812015273L;
 
     /**
-     * Constructs a <code>UnknownSizeException</code> with no
+     * Constructs a {@code UnknownSizeException} with no
      * detail message.
      */
     public UnknownSizeException() {
@@ -44,7 +44,7 @@ public class UnknownSizeException
     }
 
     /**
-     * Constructs an <code>UnknownSizeException</code> with
+     * Constructs an {@code UnknownSizeException} with
      * the specified detail message.
      *
      * @param message The detail message.
