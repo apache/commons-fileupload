@@ -18,7 +18,10 @@ package org.apache.commons.fileupload.util.mime;
 
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 /**
@@ -27,6 +30,33 @@ import org.junit.Test;
  * RFC 5987 recommends to support both UTF-8 & ISO 8859-1. Test values are taken from https://tools.ietf.org/html/rfc5987#section-3.2.2
  */
 public final class RFC2231UtilityTestCase {
+
+    @Test
+    public void testHasEncodedValue() {
+        String nameWithAsteriskAtEnd = "paramname*";
+        assertTrue(RFC2231Utility.hasEncodedValue(nameWithAsteriskAtEnd));
+
+        String nameWithAsteriskNotAtEnd = "param*name";
+        assertFalse(RFC2231Utility.hasEncodedValue(nameWithAsteriskNotAtEnd));
+
+        String nameWithoutAsterisk = "paramname";
+        assertFalse(RFC2231Utility.hasEncodedValue(nameWithoutAsterisk));
+    }
+
+    @Test
+    public void testStripDelimiter() {
+        String nameWithAsteriskAtEnd = "paramname*";
+        assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithAsteriskAtEnd));
+
+        String nameWithAsteriskNotAtEnd = "param*name";
+        assertEquals("param*name", RFC2231Utility.stripDelimiter(nameWithAsteriskNotAtEnd));
+
+        String nameWithTwoAsterisks = "param*name*";
+        assertEquals("param*name", RFC2231Utility.stripDelimiter(nameWithTwoAsterisks));
+
+        String nameWithoutAsterisk = "paramname";
+        assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithoutAsterisk));
+    }
 
     @Test
     public void noNeedToDecode() throws Exception {
@@ -43,12 +73,12 @@ public final class RFC2231UtilityTestCase {
         assertEncoded("\u00A3 rate", "iso-8859-1'en'%A3%20rate"); //"£ rate"
     }
 
-    private static void assertEncoded(String expected, String encoded) throws Exception {
-        Assert.assertEquals(expected, RFC2231Utility.decodeText(encoded));
-    }
-
     @Test(expected = UnsupportedEncodingException.class)
     public void decodeInvalidEncoding() throws Exception {
         RFC2231Utility.decodeText("abc'en'hello");
+    }
+
+    private static void assertEncoded(String expected, String encoded) throws Exception {
+        assertEquals(expected, RFC2231Utility.decodeText(encoded));
     }
 }
