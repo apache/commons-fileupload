@@ -111,7 +111,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
 
     /**
      * Creates a new instance.
-     * 
+     *
      * @param fileUploadBase Main processor.
      * @param requestContext The request context.
      * @throws FileUploadException An error occurred while

@@ -35,7 +35,7 @@ public interface FileItemIterator {
 	 * @return The maximum size of a single, uploaded file. The value -1 indicates "unlimited".
 	 */
 	public long getFileSizeMax();
-	
+
 	/** Sets the maximum size of a single file. An {@link FileSizeLimitExceededException}
 	 * will be thrown, if there is an uploaded file, which is exceeding this value.
 	 * By default, this value will be copied from the {@link FileUploadBase#getFileSizeMax()
@@ -55,7 +55,7 @@ public interface FileItemIterator {
 	 * @return The maximum size of the complete HTTP requqest. The value -1 indicates "unlimited".
 	 */
 	public long getSizeMax();
-	
+
 	/** Returns the maximum size of the complete HTTP request. A {@link SizeLimitExceededException}
 	 * will be thrown, if the HTTP request will exceed this value.
 	 * By default, this value will be copied from the {@link FileUploadBase#getSizeMax()
