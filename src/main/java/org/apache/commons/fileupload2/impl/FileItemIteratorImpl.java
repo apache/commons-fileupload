@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemHeaders;
@@ -119,16 +120,11 @@ public class FileItemIteratorImpl implements FileItemIterator {
      * @throws IOException An I/O error occurred.
      */
     public FileItemIteratorImpl(FileUploadBase fileUploadBase, RequestContext requestContext)
-            throws FileUploadException, IOException {
-    	this.fileUploadBase = fileUploadBase;
-    	sizeMax = fileUploadBase.getSizeMax();
-    	fileSizeMax = fileUploadBase.getFileSizeMax();
-    	ctx = requestContext;
-        if (ctx == null) {
-            throw new NullPointerException("ctx parameter");
-        }
-
-
+        throws FileUploadException, IOException {
+        this.fileUploadBase = fileUploadBase;
+        sizeMax = fileUploadBase.getSizeMax();
+        fileSizeMax = fileUploadBase.getFileSizeMax();
+        ctx = Objects.requireNonNull(requestContext, "requestContext");
         skipPreamble = true;
         findNextItem();
     }

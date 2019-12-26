@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -329,16 +330,13 @@ public abstract class FileUploadBase {
         boolean successful = false;
         try {
             FileItemIterator iter = getItemIterator(ctx);
-            FileItemFactory fac = getFileItemFactory();
+            FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
-            if (fac == null) {
-                throw new NullPointerException("No FileItemFactory has been set.");
-            }
             while (iter.hasNext()) {
                 final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = ((FileItemStreamImpl) item).getName();
-                FileItem fileItem = fac.createItem(item.getFieldName(), item.getContentType(),
+                FileItem fileItem = fileItemFactory.createItem(item.getFieldName(), item.getContentType(),
                                                    item.isFormField(), fileName);
                 items.add(fileItem);
                 try {
