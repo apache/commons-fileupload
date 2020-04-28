@@ -27,7 +27,7 @@ import org.apache.commons.fileupload2.disk.DiskFileItem;
  * <p> After retrieving an instance of this class from a {@link
  * org.apache.commons.fileupload2.DiskFileUpload DiskFileUpload} instance (see
  * {@link org.apache.commons.fileupload2.DiskFileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
+ * #parseRequest(jakarta.servlet.http.HttpServletRequest)}), you may
  * either request all contents of file at once using {@link #get()} or
  * request an {@link java.io.InputStream InputStream} with
  * {@link #getInputStream()} and process the file without attempting to load

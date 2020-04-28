@@ -18,7 +18,7 @@ package org.apache.commons.fileupload2;
 
 import java.io.File;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <p>High level API for processing file uploads.</p>

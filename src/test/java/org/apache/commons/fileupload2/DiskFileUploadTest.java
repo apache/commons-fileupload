@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.DiskFileUpload;
 import org.apache.commons.fileupload2.FileUploadException;

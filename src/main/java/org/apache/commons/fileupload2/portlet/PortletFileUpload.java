@@ -36,7 +36,7 @@ import org.apache.commons.fileupload2.FileUploadException;
  * {@code multipart/mixed} encoding type, as specified by
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use
  * {@link org.apache.commons.fileupload2.servlet.ServletFileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest)} to acquire a list
+ * #parseRequest(jakarta.servlet.http.HttpServletRequest)} to acquire a list
  * of {@link org.apache.commons.fileupload2.FileItem FileItems} associated
  * with a given HTML widget.</p>
  *
