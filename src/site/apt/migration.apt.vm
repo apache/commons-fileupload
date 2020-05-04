@@ -33,7 +33,7 @@ Migration
    2. In your dependency declaration, change the groupId to org.apache.commons, the artifactId to
       commons-fileupload2, and the version number to ${project.version}.
 
-   2. Change namespace org.apache.commons.fileupload to org.apache.commons.fileupload2.
+   3. Change namespace org.apache.commons.fileupload to org.apache.commons.fileupload2.
    
       Example: Change
 
@@ -46,6 +46,24 @@ Migration
 +-------------------------------------------
    import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 +-------------------------------------------
+
+  4. Existing code like the following might give compiler errors, although it
+     looks perfectly valid:
+
++-------------------------------------------
+    try {
+        //  Parse a Fileupload request here.
+    } catch (IOException e) {
+        // Handle the IOException
+    } catch (FileUploadException e) {
+        // Handle the FileUploadException
+    }
++------------------------------------------- 
+
+    With FileUpload 2, this is invalid, because the FileUploadException is now a
+    subclass of the IOException. The solution is simple: Just switch the order,
+    and handle the FileUploadException in the first catch clause, and the IOException
+    in the second clause.
 
 # Migrating to Jakarta Servlet API, Version 5, or later.
 
