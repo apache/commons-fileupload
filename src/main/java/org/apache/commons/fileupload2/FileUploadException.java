@@ -16,13 +16,14 @@
  */
 package org.apache.commons.fileupload2;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
 /**
  * Exception for errors encountered while processing the request.
  */
-public class FileUploadException extends Exception {
+public class FileUploadException extends IOException {
 
     /**
      * Serial version UID, being used, if the exception

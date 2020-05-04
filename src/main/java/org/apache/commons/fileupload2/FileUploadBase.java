@@ -352,8 +352,8 @@ public abstract class FileUploadBase {
             }
             successful = true;
             return items;
-        } catch (FileUploadIOException e) {
-            throw (FileUploadException) e.getCause();
+        } catch (FileUploadException e) {
+            throw e;
         } catch (IOException e) {
             throw new FileUploadException(e.getMessage(), e);
         } finally {
