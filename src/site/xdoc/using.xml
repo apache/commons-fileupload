@@ -84,7 +84,7 @@
       </p>
     </section>
 
-    <section name="Servlets and Portlets">
+    <section name="Servlets, Jakarta Servlets, and Portlets">
       <p>
         Starting with version 1.1, FileUpload supports file upload requests in
         both servlet and portlet environments. The usage is almost identical in
@@ -104,6 +104,28 @@
             substitute the <code>ActionRequest</code> class.
           </li>
         </ul>
+      <p>Version 2 of FileUpload introduces support for the Jakarta Servlet API 5.
+         (This API is the successor to the classic servlet environment, which
+         basically renames the <code>javax.servlet</code> package to
+         <code>jakarta.servlet</code>). If you are building a Jakarta Servlet application,
+         keep the following in mind, as you read this document:</p>
+         <ul>
+          <li>
+            Where you see references to the <code>ServletFileUpload</code> class,
+            substitute the <code>JakSrvltFileUpload</code> class.
+          </li>
+          <li>
+            Likewise, references to the <code>FileCleanerCleanup</code> class should
+            be substituted with the <code>JakSrvltFileCleaner</code> class.
+          </li>
+          <li>
+            Where you see references to the <code>HttpServletRequest</code> class
+            (as in javax.servlet.http.HttpServletRequest), then substitute the
+            <code>jakarta.servlet.http.HttpServletRequest</code> class. For well
+            written code, this should be as simple as changing a single import
+            statement.
+          </li>
+         </ul>
     </section>
 
     <section name="Parsing the request">
