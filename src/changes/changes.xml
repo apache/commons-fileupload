@@ -51,6 +51,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="jochen" type="add">Add the package org.apache.fileupload2.jaksrvlt,
         for compliance with Jakarta Servlet API 5.0.
       </action>
+      <action                        dev="jochen" type="add">Making FileUploadException a subclass of IOException. (Mibor API simplification.)
+      </action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
