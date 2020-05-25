@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.fileupload2.util.mime.MimeUtility;
+import org.apache.commons.fileupload2.util.mime.RFC2231Utility;
 
 /**
  * A simple parser intended to parse sequences of name/value pairs.
@@ -316,7 +317,8 @@ public class ParameterParser {
 
                 if (paramValue != null) {
                     try {
-                        paramValue = MimeUtility.decodeText(paramValue);
+                        paramValue = RFC2231Utility.hasEncodedValue(paramName) ? RFC2231Utility.decodeText(paramValue)
+                                : MimeUtility.decodeText(paramValue);
                     } catch (UnsupportedEncodingException e) {
                         // let's keep the original value in this case
                     }
@@ -326,10 +328,10 @@ public class ParameterParser {
                 pos++; // skip separator
             }
             if ((paramName != null) && (paramName.length() > 0)) {
+                paramName = RFC2231Utility.stripDelimiter(paramName);
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ENGLISH);
                 }
-
                 params.put(paramName, paramValue);
             }
         }
