@@ -55,6 +55,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-274" dev="jochen" due-to="Merbin J Anselm" due-to-email="merbinjanselm@gmail.com">
         RFC 5987 compliance
       </action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Update tests from commons-io:commons-io 2.6 to 2.7.</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
