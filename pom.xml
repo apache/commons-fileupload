@@ -377,7 +377,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.10</version>
+        <version>3.1.1</version>
         <configuration>
           <configLocation>${basedir}/src/checkstyle/fileupload_checks.xml</configLocation>
           <suppressionsLocation>${basedir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
