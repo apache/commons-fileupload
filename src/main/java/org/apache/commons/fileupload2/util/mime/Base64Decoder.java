@@ -18,6 +18,7 @@ package org.apache.commons.fileupload2.util.mime;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 /**
  * @since 1.3
@@ -27,10 +28,10 @@ final class Base64Decoder {
     /**
      * Decoding table value for invalid bytes.
      */
-    private static final int INVALID_BYTE = -1; // must be outside range 0-63
+    private static final byte INVALID_BYTE = -1; // must be outside range 0-63
 
     /**
-     * Decoding table value for padding bytes, so can detect PAD afer conversion.
+     * Decoding table value for padding bytes, so can detect PAD after conversion.
      */
     private static final int PAD_BYTE = -2; // must be outside range 0-63
 
@@ -74,10 +75,8 @@ final class Base64Decoder {
     private static final byte[] DECODING_TABLE = new byte[Byte.MAX_VALUE - Byte.MIN_VALUE + 1];
 
     static {
-        // Initialise as all invalid characters
-        for (int i = 0; i < DECODING_TABLE.length; i++) {
-            DECODING_TABLE[i] = INVALID_BYTE;
-        }
+        // Initialize as all invalid characters
+        Arrays.fill(DECODING_TABLE, INVALID_BYTE);
         // set up valid characters
         for (int i = 0; i < ENCODING_TABLE.length; i++) {
             DECODING_TABLE[ENCODING_TABLE[i]] = (byte) i;
