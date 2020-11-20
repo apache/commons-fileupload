@@ -34,7 +34,6 @@ public class InvalidContentTypeException
      * detail message.
      */
     public InvalidContentTypeException() {
-        super();
     }
 
     /**

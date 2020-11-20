@@ -40,7 +40,6 @@ public class UnknownSizeException
      * detail message.
      */
     public UnknownSizeException() {
-        super();
     }
 
     /**

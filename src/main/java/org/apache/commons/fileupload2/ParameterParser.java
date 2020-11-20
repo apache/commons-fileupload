@@ -71,7 +71,6 @@ public class ParameterParser {
      * Default ParameterParser constructor.
      */
     public ParameterParser() {
-        super();
     }
 
     /**

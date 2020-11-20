@@ -763,7 +763,6 @@ public class MultipartStream {
          * detail message.
          */
         public MalformedStreamException() {
-            super();
         }
 
         /**
@@ -793,7 +792,6 @@ public class MultipartStream {
          * detail message.
          */
         public IllegalBoundaryException() {
-            super();
         }
 
         /**

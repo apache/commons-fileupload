@@ -52,7 +52,6 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      */
     @Deprecated
     public DefaultFileItemFactory() {
-        super();
     }
 
     /**

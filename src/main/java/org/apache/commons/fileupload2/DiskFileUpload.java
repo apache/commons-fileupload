@@ -60,7 +60,6 @@ public class DiskFileUpload
      */
     @Deprecated
     public DiskFileUpload() {
-        super();
         this.fileItemFactory = new DefaultFileItemFactory();
     }
 
@@ -75,7 +74,6 @@ public class DiskFileUpload
      */
     @Deprecated
     public DiskFileUpload(DefaultFileItemFactory fileItemFactory) {
-        super();
         this.fileItemFactory = fileItemFactory;
     }
 

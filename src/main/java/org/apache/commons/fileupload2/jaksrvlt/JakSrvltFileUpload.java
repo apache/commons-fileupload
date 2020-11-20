@@ -79,7 +79,6 @@ public class JakSrvltFileUpload extends FileUpload {
      * @see FileUpload#FileUpload(FileItemFactory)
      */
     public JakSrvltFileUpload() {
-        super();
     }
 
     /**
