@@ -326,7 +326,7 @@ public abstract class FileUploadBase {
      */
     public List<FileItem> parseRequest(final RequestContext ctx)
             throws FileUploadException {
-        final List<FileItem> items = new ArrayList<FileItem>();
+        final List<FileItem> items = new ArrayList<>();
         boolean successful = false;
         try {
             final FileItemIterator iter = getItemIterator(ctx);
@@ -385,14 +385,14 @@ public abstract class FileUploadBase {
     public Map<String, List<FileItem>> parseParameterMap(final RequestContext ctx)
             throws FileUploadException {
         final List<FileItem> items = parseRequest(ctx);
-        final Map<String, List<FileItem>> itemsMap = new HashMap<String, List<FileItem>>(items.size());
+        final Map<String, List<FileItem>> itemsMap = new HashMap<>(items.size());
 
         for (final FileItem fileItem : items) {
             final String fieldName = fileItem.getFieldName();
             List<FileItem> mappedItems = itemsMap.get(fieldName);
 
             if (mappedItems == null) {
-                mappedItems = new ArrayList<FileItem>();
+                mappedItems = new ArrayList<>();
                 itemsMap.put(fieldName, mappedItems);
             }
 
@@ -628,7 +628,7 @@ public abstract class FileUploadBase {
     @Deprecated
     protected Map<String, String> parseHeaders(final String headerPart) {
         final FileItemHeaders headers = getParsedHeaders(headerPart);
-        final Map<String, String> result = new HashMap<String, String>();
+        final Map<String, String> result = new HashMap<>();
         for (final Iterator<String> iter = headers.getHeaderNames();  iter.hasNext();) {
             final String headerName = iter.next();
             final Iterator<String> iter2 = headers.getHeaders(headerName);

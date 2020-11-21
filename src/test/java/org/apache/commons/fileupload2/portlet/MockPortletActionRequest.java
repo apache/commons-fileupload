@@ -48,9 +48,9 @@ import org.apache.commons.fileupload2.FileUploadBase;
 @SuppressWarnings("rawtypes") // because of the portlet ActionRequest API does not use generics
 public class MockPortletActionRequest implements ActionRequest {
 
-    private final Hashtable<String, Object> attributes = new Hashtable<String, Object>();
+    private final Hashtable<String, Object> attributes = new Hashtable<>();
 
-    private final Map<String, String> parameters = new HashMap<String, String>();
+    private final Map<String, String> parameters = new HashMap<>();
 
     private String characterEncoding;
     private final int length;

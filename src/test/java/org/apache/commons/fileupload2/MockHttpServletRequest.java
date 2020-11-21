@@ -44,7 +44,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     private int readLimit = -1;
 
-    private final Map<String, String> m_headers = new java.util.HashMap<String, String>();
+    private final Map<String, String> m_headers = new java.util.HashMap<>();
 
     /**
      * Creates a new instance with the given request data

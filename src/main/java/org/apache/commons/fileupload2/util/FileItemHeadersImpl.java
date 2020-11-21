@@ -43,7 +43,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
      * Map of {@code String} keys to a {@code List} of
      * {@code String} instances.
      */
-    private final Map<String, List<String>> headerNameToValueListMap = new LinkedHashMap<String, List<String>>();
+    private final Map<String, List<String>> headerNameToValueListMap = new LinkedHashMap<>();
 
     /**
      * {@inheritDoc}
@@ -89,7 +89,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
         final String nameLower = name.toLowerCase(Locale.ENGLISH);
         List<String> headerValueList = headerNameToValueListMap.get(nameLower);
         if (null == headerValueList) {
-            headerValueList = new ArrayList<String>();
+            headerValueList = new ArrayList<>();
             headerNameToValueListMap.put(nameLower, headerValueList);
         }
         headerValueList.add(value);

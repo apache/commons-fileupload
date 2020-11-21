@@ -228,7 +228,7 @@ public class ParameterParser {
      */
     public Map<String, String> parse(final String str, final char[] separators) {
         if (separators == null || separators.length == 0) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
         char separator = separators[0];
         if (str != null) {
@@ -255,7 +255,7 @@ public class ParameterParser {
      */
     public Map<String, String> parse(final String str, final char separator) {
         if (str == null) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
         return parse(str.toCharArray(), separator);
     }
@@ -272,7 +272,7 @@ public class ParameterParser {
      */
     public Map<String, String> parse(final char[] charArray, final char separator) {
         if (charArray == null) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
         return parse(charArray, 0, charArray.length, separator);
     }
@@ -296,9 +296,9 @@ public class ParameterParser {
         final char separator) {
 
         if (charArray == null) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
-        final HashMap<String, String> params = new HashMap<String, String>();
+        final HashMap<String, String> params = new HashMap<>();
         this.chars = charArray;
         this.pos = offset;
         this.len = length;
