@@ -37,19 +37,19 @@ import org.apache.commons.fileupload2.servlet.ServletRequestContext;
  */
 public class Util {
 
-    public static List<FileItem> parseUpload(FileUpload upload, byte[] bytes) throws FileUploadException {
+    public static List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes) throws FileUploadException {
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 
-    public static List<FileItem> parseUpload(FileUpload upload, byte[] bytes, String contentType) throws FileUploadException {
+    public static List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
         final HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
-        List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
+        final List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
         return fileItems;
     }
 
-    public static List<FileItem> parseUpload(FileUpload upload, String content)
+    public static List<FileItem> parseUpload(final FileUpload upload, final String content)
         throws UnsupportedEncodingException, FileUploadException {
-        byte[] bytes = content.getBytes("US-ASCII");
+        final byte[] bytes = content.getBytes("US-ASCII");
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 

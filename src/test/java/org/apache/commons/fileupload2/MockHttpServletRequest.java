@@ -91,7 +91,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.http.HttpServletRequest#getDateHeader(String)
      */
     @Override
-    public long getDateHeader(String arg0) {
+    public long getDateHeader(final String arg0) {
         return 0;
     }
 
@@ -99,7 +99,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.http.HttpServletRequest#getHeader(String)
      */
     @Override
-    public String getHeader(String headerName) {
+    public String getHeader(final String headerName) {
         return m_headers.get(headerName);
     }
 
@@ -107,7 +107,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.http.HttpServletRequest#getHeaders(String)
      */
     @Override
-    public Enumeration<String> getHeaders(String arg0) {
+    public Enumeration<String> getHeaders(final String arg0) {
         // todo - implement
         return null;
     }
@@ -125,7 +125,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.http.HttpServletRequest#getIntHeader(String)
      */
     @Override
-    public int getIntHeader(String arg0) {
+    public int getIntHeader(final String arg0) {
         return 0;
     }
 
@@ -181,7 +181,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.http.HttpServletRequest#isUserInRole(String)
      */
     @Override
-    public boolean isUserInRole(String arg0) {
+    public boolean isUserInRole(final String arg0) {
         return false;
     }
 
@@ -229,7 +229,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.http.HttpServletRequest#getSession(boolean)
      */
     @Override
-    public HttpSession getSession(boolean arg0) {
+    public HttpSession getSession(final boolean arg0) {
         return null;
     }
 
@@ -279,7 +279,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getAttribute(String)
      */
     @Override
-    public Object getAttribute(String arg0) {
+    public Object getAttribute(final String arg0) {
         return null;
     }
 
@@ -303,7 +303,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#setCharacterEncoding(String)
      */
     @Override
-    public void setCharacterEncoding(String arg0)
+    public void setCharacterEncoding(final String arg0)
         throws UnsupportedEncodingException {
     }
 
@@ -328,7 +328,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * For testing attack scenarios in SizesTest.
      */
-    public void setContentLength(long length) {
+    public void setContentLength(final long length) {
         this.length = length;
     }
 
@@ -345,7 +345,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        ServletInputStream sis = new MyServletInputStream(m_requestData, readLimit);
+        final ServletInputStream sis = new MyServletInputStream(m_requestData, readLimit);
         return sis;
     }
 
@@ -354,7 +354,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      *
      * @param readLimit the read limit to use
      */
-    public void setReadLimit(int readLimit) {
+    public void setReadLimit(final int readLimit) {
         this.readLimit = readLimit;
     }
 
@@ -362,7 +362,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getParameter(String)
      */
     @Override
-    public String getParameter(String arg0) {
+    public String getParameter(final String arg0) {
         return null;
     }
 
@@ -378,7 +378,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getParameterValues(String)
      */
     @Override
-    public String[] getParameterValues(String arg0) {
+    public String[] getParameterValues(final String arg0) {
         return null;
     }
 
@@ -486,14 +486,14 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#setAttribute(String, Object)
      */
     @Override
-    public void setAttribute(String arg0, Object arg1) {
+    public void setAttribute(final String arg0, final Object arg1) {
     }
 
     /**
      * @see javax.servlet.ServletRequest#removeAttribute(String)
      */
     @Override
-    public void removeAttribute(String arg0) {
+    public void removeAttribute(final String arg0) {
     }
 
     /**
@@ -524,7 +524,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getRequestDispatcher(String)
      */
     @Override
-    public RequestDispatcher getRequestDispatcher(String arg0) {
+    public RequestDispatcher getRequestDispatcher(final String arg0) {
         return null;
     }
 
@@ -534,7 +534,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     @Deprecated
-    public String getRealPath(String arg0) {
+    public String getRealPath(final String arg0) {
         return null;
     }
 
@@ -548,7 +548,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
          * Creates a new instance, which returns the given
          * streams data.
          */
-        public MyServletInputStream(InputStream pStream, int readLimit) {
+        public MyServletInputStream(final InputStream pStream, final int readLimit) {
             in = pStream;
             this.readLimit = readLimit;
         }
@@ -559,7 +559,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
         }
 
         @Override
-        public int read(byte b[], int off, int len) throws IOException {
+        public int read(final byte b[], final int off, final int len) throws IOException {
             if (readLimit > 0) {
                 return in.read(b, off, Math.min(readLimit, len));
             }

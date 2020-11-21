@@ -23,7 +23,7 @@ import org.apache.commons.fileupload2.FileUploadBase;
 final class HttpServletRequestFactory {
 
     static public HttpServletRequest createHttpServletRequestWithNullContentType() {
-        byte[] requestData = "foobar".getBytes();
+        final byte[] requestData = "foobar".getBytes();
         return new MockHttpServletRequest(
                             requestData,
                             null);
@@ -33,9 +33,9 @@ final class HttpServletRequestFactory {
             final String[] strFileNames) {
         // todo - provide a real implementation
 
-        StringBuilder sbRequestData = new StringBuilder();
+        final StringBuilder sbRequestData = new StringBuilder();
 
-        for (String strFileName : strFileNames) {
+        for (final String strFileName : strFileNames) {
             sbRequestData.append(strFileName);
         }
 
@@ -47,7 +47,7 @@ final class HttpServletRequestFactory {
     }
 
     static public HttpServletRequest createInvalidHttpServletRequest() {
-        byte[] requestData = "foobar".getBytes();
+        final byte[] requestData = "foobar".getBytes();
         return new MockHttpServletRequest(
                             requestData,
                             FileUploadBase.MULTIPART_FORM_DATA);

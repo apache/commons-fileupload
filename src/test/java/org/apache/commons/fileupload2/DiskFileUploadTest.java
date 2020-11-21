@@ -47,26 +47,26 @@ public class DiskFileUploadTest {
 
     @Test
     public void testWithInvalidRequest() {
-        HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
+        final HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
 
         try {
             upload.parseRequest(req);
             fail("testWithInvalidRequest: expected exception was not thrown");
-        } catch (FileUploadException expected) {
+        } catch (final FileUploadException expected) {
             // this exception is expected
         }
     }
 
     @Test
     public void testWithNullContentType() {
-        HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
+        final HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
 
         try {
             upload.parseRequest(req);
             fail("testWithNullContentType: expected exception was not thrown");
-        } catch (InvalidContentTypeException expected) {
+        } catch (final InvalidContentTypeException expected) {
             // this exception is expected
-        } catch (FileUploadException unexpected) {
+        } catch (final FileUploadException unexpected) {
             fail("testWithNullContentType: unexpected exception was thrown");
         }
     }
@@ -75,7 +75,7 @@ public class DiskFileUploadTest {
      */
     @Test
     public void testMoveFile() throws Exception {
-        DiskFileUpload myUpload = new DiskFileUpload();
+        final DiskFileUpload myUpload = new DiskFileUpload();
         myUpload.setSizeThreshold(0);
     	final String content =
                 "-----1234\r\n" +

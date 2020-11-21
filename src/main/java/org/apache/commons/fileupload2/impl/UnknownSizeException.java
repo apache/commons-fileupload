@@ -48,7 +48,7 @@ public class UnknownSizeException
      *
      * @param message The detail message.
      */
-    public UnknownSizeException(String message) {
+    public UnknownSizeException(final String message) {
         super(message);
     }
 

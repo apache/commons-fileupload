@@ -50,7 +50,7 @@ public class PortletFileUploadTest {
     @Test
     public void parseParameterMap()
             throws Exception {
-        String text = "-----1234\r\n" +
+        final String text = "-----1234\r\n" +
                       "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                       "Content-Type: text/whatever\r\n" +
                       "\r\n" +
@@ -69,10 +69,10 @@ public class PortletFileUploadTest {
                       "\r\n" +
                       "value2\r\n" +
                       "-----1234--\r\n";
-        byte[] bytes = text.getBytes("US-ASCII");
-        ActionRequest request = new MockPortletActionRequest(bytes, Constants.CONTENT_TYPE);
+        final byte[] bytes = text.getBytes("US-ASCII");
+        final ActionRequest request = new MockPortletActionRequest(bytes, Constants.CONTENT_TYPE);
 
-        Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
+        final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
 

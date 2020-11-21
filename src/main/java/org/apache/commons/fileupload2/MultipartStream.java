@@ -116,7 +116,7 @@ public class MultipartStream {
          * @param pListener The listener to invoke.
          * @param pContentLength The expected content length.
          */
-        public ProgressNotifier(ProgressListener pListener, long pContentLength) {
+        public ProgressNotifier(final ProgressListener pListener, final long pContentLength) {
             listener = pListener;
             contentLength = pContentLength;
         }
@@ -126,7 +126,7 @@ public class MultipartStream {
          *
          * @param pBytes Number of bytes, which have been read.
          */
-        void noteBytesRead(int pBytes) {
+        void noteBytesRead(final int pBytes) {
             /* Indicates, that the given number of bytes have been read from
              * the input stream.
              */
@@ -297,7 +297,7 @@ public class MultipartStream {
      * ProgressNotifier)}.
      */
     @Deprecated
-    public MultipartStream(InputStream input, byte[] boundary, int bufSize) {
+    public MultipartStream(final InputStream input, final byte[] boundary, final int bufSize) {
         this(input, boundary, bufSize, null);
     }
 
@@ -320,10 +320,10 @@ public class MultipartStream {
      *
      * @since 1.3.1
      */
-    public MultipartStream(InputStream input,
-            byte[] boundary,
-            int bufSize,
-            ProgressNotifier pNotifier) {
+    public MultipartStream(final InputStream input,
+            final byte[] boundary,
+            final int bufSize,
+            final ProgressNotifier pNotifier) {
 
         if (boundary == null) {
             throw new IllegalArgumentException("boundary may not be null");
@@ -366,9 +366,9 @@ public class MultipartStream {
      *
      * @see #MultipartStream(InputStream, byte[], int, ProgressNotifier)
      */
-    public MultipartStream(InputStream input,
-            byte[] boundary,
-            ProgressNotifier pNotifier) {
+    public MultipartStream(final InputStream input,
+            final byte[] boundary,
+            final ProgressNotifier pNotifier) {
         this(input, boundary, DEFAULT_BUFSIZE, pNotifier);
     }
 
@@ -383,8 +383,8 @@ public class MultipartStream {
      *  ProgressNotifier)}.
      */
     @Deprecated
-    public MultipartStream(InputStream input,
-            byte[] boundary) {
+    public MultipartStream(final InputStream input,
+            final byte[] boundary) {
         this(input, boundary, DEFAULT_BUFSIZE, null);
     }
 
@@ -408,7 +408,7 @@ public class MultipartStream {
      *
      * @param encoding The encoding used to read part headers.
      */
-    public void setHeaderEncoding(String encoding) {
+    public void setHeaderEncoding(final String encoding) {
         headerEncoding = encoding;
     }
 
@@ -450,7 +450,7 @@ public class MultipartStream {
      */
     public boolean readBoundary()
             throws FileUploadIOException, MalformedStreamException {
-        byte[] marker = new byte[2];
+        final byte[] marker = new byte[2];
         boolean nextChunk = false;
 
         head += boundaryLength;
@@ -475,10 +475,10 @@ public class MultipartStream {
                 throw new MalformedStreamException(
                 "Unexpected characters follow a boundary");
             }
-        } catch (FileUploadIOException e) {
+        } catch (final FileUploadIOException e) {
             // wraps a SizeException, re-throw as it will be unwrapped later
             throw e;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new MalformedStreamException("Stream ended unexpectedly");
         }
         return nextChunk;
@@ -503,7 +503,7 @@ public class MultipartStream {
      *                                  has a different length than the one
      *                                  being currently parsed.
      */
-    public void setBoundary(byte[] boundary)
+    public void setBoundary(final byte[] boundary)
             throws IllegalBoundaryException {
         if (boundary.length != boundaryLength - BOUNDARY_PREFIX.length) {
             throw new IllegalBoundaryException(
@@ -558,15 +558,15 @@ public class MultipartStream {
         int i = 0;
         byte b;
         // to support multi-byte characters
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int size = 0;
         while (i < HEADER_SEPARATOR.length) {
             try {
                 b = readByte();
-            } catch (FileUploadIOException e) {
+            } catch (final FileUploadIOException e) {
                 // wraps a SizeException, re-throw as it will be unwrapped later
                 throw e;
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new MalformedStreamException("Stream ended unexpectedly");
             }
             if (++size > HEADER_PART_SIZE_MAX) {
@@ -586,7 +586,7 @@ public class MultipartStream {
         if (headerEncoding != null) {
             try {
                 headers = baos.toString(headerEncoding);
-            } catch (UnsupportedEncodingException e) {
+            } catch (final UnsupportedEncodingException e) {
                 // Fall back to platform default if specified encoding is not
                 // supported.
                 headers = baos.toString();
@@ -617,7 +617,7 @@ public class MultipartStream {
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
-    public int readBodyData(OutputStream output)
+    public int readBodyData(final OutputStream output)
             throws MalformedStreamException, IOException {
         return (int) Streams.copy(newInputStream(), output, false); // N.B. Streams.copy closes the input stream
     }
@@ -666,7 +666,7 @@ public class MultipartStream {
             // Read boundary - if succeeded, the stream contains an
             // encapsulation.
             return readBoundary();
-        } catch (MalformedStreamException e) {
+        } catch (final MalformedStreamException e) {
             return false;
         } finally {
             // Restore delimiter.
@@ -689,9 +689,9 @@ public class MultipartStream {
      * @return {@code true} if {@code count} first bytes in arrays
      *         {@code a} and {@code b} are equal.
      */
-    public static boolean arrayequals(byte[] a,
-            byte[] b,
-            int count) {
+    public static boolean arrayequals(final byte[] a,
+            final byte[] b,
+            final int count) {
         for (int i = 0; i < count; i++) {
             if (a[i] != b[i]) {
                 return false;
@@ -710,8 +710,8 @@ public class MultipartStream {
      * @return The position of byte found, counting from beginning of the
      *         {@code buffer}, or {@code -1} if not found.
      */
-    protected int findByte(byte value,
-            int pos) {
+    protected int findByte(final byte value,
+            final int pos) {
         for (int i = pos; i < tail; i++) {
             if (buffer[i] == value) {
                 return i;
@@ -771,7 +771,7 @@ public class MultipartStream {
          *
          * @param message The detail message.
          */
-        public MalformedStreamException(String message) {
+        public MalformedStreamException(final String message) {
             super(message);
         }
 
@@ -800,7 +800,7 @@ public class MultipartStream {
          *
          * @param message The detail message.
          */
-        public IllegalBoundaryException(String message) {
+        public IllegalBoundaryException(final String message) {
             super(message);
         }
 
@@ -899,7 +899,7 @@ public class MultipartStream {
                 return -1;
             }
             ++total;
-            int b = buffer[head++];
+            final int b = buffer[head++];
             if (b >= 0) {
                 return b;
             }
@@ -917,7 +917,7 @@ public class MultipartStream {
          * @throws IOException An I/O error occurred.
          */
         @Override
-        public int read(byte[] b, int off, int len) throws IOException {
+        public int read(final byte[] b, final int off, final int len) throws IOException {
             if (closed) {
                 throw new FileItemStream.ItemSkippedException();
             }
@@ -955,7 +955,7 @@ public class MultipartStream {
          *   (hard close)
          * @throws IOException An I/O error occurred.
          */
-        public void close(boolean pCloseUnderlying) throws IOException {
+        public void close(final boolean pCloseUnderlying) throws IOException {
             if (closed) {
                 return;
             }
@@ -986,7 +986,7 @@ public class MultipartStream {
          * @throws IOException An I/O error occurred.
          */
         @Override
-        public long skip(long bytes) throws IOException {
+        public long skip(final long bytes) throws IOException {
             if (closed) {
                 throw new FileItemStream.ItemSkippedException();
             }
@@ -997,7 +997,7 @@ public class MultipartStream {
                     return 0;
                 }
             }
-            long res = Math.min(av, bytes);
+            final long res = Math.min(av, bytes);
             head += res;
             return res;
         }
@@ -1022,7 +1022,7 @@ public class MultipartStream {
             tail = pad;
 
             for (;;) {
-                int bytesRead = input.read(buffer, tail, bufSize - tail);
+                final int bytesRead = input.read(buffer, tail, bufSize - tail);
                 if (bytesRead == -1) {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so signal an error
@@ -1036,7 +1036,7 @@ public class MultipartStream {
                 tail += bytesRead;
 
                 findSeparator();
-                int av = available();
+                final int av = available();
 
                 if (av > 0 || pos != -1) {
                     return av;

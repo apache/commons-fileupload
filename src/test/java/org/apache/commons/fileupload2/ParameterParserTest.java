@@ -34,7 +34,7 @@ public class ParameterParserTest {
     public void testParsing() {
         String s =
             "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
-        ParameterParser parser = new ParameterParser();
+        final ParameterParser parser = new ParameterParser();
         Map<String, String> params = parser.parse(s, ';');
         assertEquals(null, params.get("test"));
         assertEquals("stuff", params.get("test1"));
@@ -69,17 +69,17 @@ public class ParameterParserTest {
 
     @Test
     public void testContentTypeParsing() {
-        String s = "text/plain; Charset=UTF-8";
-        ParameterParser parser = new ParameterParser();
+        final String s = "text/plain; Charset=UTF-8";
+        final ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
-        Map<String, String> params = parser.parse(s, ';');
+        final Map<String, String> params = parser.parse(s, ';');
         assertEquals("UTF-8", params.get("charset"));
     }
 
     @Test
     public void testParsingEscapedChars() {
         String s = "param = \"stuff\\\"; more stuff\"";
-        ParameterParser parser = new ParameterParser();
+        final ParameterParser parser = new ParameterParser();
         Map<String, String> params = parser.parse(s, ';');
         assertEquals(1, params.size());
         assertEquals("stuff\\\"; more stuff", params.get("param"));
@@ -94,7 +94,7 @@ public class ParameterParserTest {
     // See: https://issues.apache.org/jira/browse/FILEUPLOAD-139
     @Test
     public void testFileUpload139() {
-        ParameterParser parser = new ParameterParser();
+        final ParameterParser parser = new ParameterParser();
         String s = "Content-type: multipart/form-data , boundary=AaB03x";
         Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("AaB03x", params.get("boundary"));
@@ -113,9 +113,9 @@ public class ParameterParserTest {
      */
     @Test
     public void testFileUpload199() {
-        ParameterParser parser = new ParameterParser();
-        String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
-        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        final ParameterParser parser = new ParameterParser();
+        final String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
+        final Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("If you can read this you understand the example.", params.get("filename"));
     }
 
@@ -125,7 +125,7 @@ public class ParameterParserTest {
      */
     @Test
     public void testFileUpload274() {
-        ParameterParser parser = new ParameterParser();
+        final ParameterParser parser = new ParameterParser();
 
         // Should parse a UTF-8 charset
         String s = "Content-Disposition: form-data; name=\"file\"; filename*=UTF-8\'\'%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";

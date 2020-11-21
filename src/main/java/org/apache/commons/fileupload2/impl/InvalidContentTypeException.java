@@ -42,7 +42,7 @@ public class InvalidContentTypeException
      *
      * @param message The detail message.
      */
-    public InvalidContentTypeException(String message) {
+    public InvalidContentTypeException(final String message) {
         super(message);
     }
 
@@ -55,7 +55,7 @@ public class InvalidContentTypeException
      *
      * @since 1.3.1
      */
-    public InvalidContentTypeException(String msg, Throwable cause) {
+    public InvalidContentTypeException(final String msg, final Throwable cause) {
         super(msg, cause);
     }
 }

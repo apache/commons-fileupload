@@ -46,13 +46,13 @@ public class ProgressListenerTest {
 
         private Integer items;
 
-        ProgressListenerImpl(long pContentLength, int pItems) {
+        ProgressListenerImpl(final long pContentLength, final int pItems) {
             expectedContentLength = pContentLength;
             expectedItems = pItems;
         }
 
         @Override
-        public void update(long pBytesRead, long pContentLength, int pItems) {
+        public void update(final long pBytesRead, final long pContentLength, final int pItems) {
             assertTrue(pBytesRead >= 0  &&  pBytesRead <= expectedContentLength);
             assertTrue(pContentLength == -1  ||  pContentLength == expectedContentLength);
             assertTrue(pItems >= 0  &&  pItems <= expectedItems);
@@ -76,9 +76,9 @@ public class ProgressListenerTest {
     @Test
     public void testProgressListener() throws Exception {
         final int NUM_ITEMS = 512;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         for (int i = 0;  i < NUM_ITEMS;  i++) {
-            String header = "-----1234\r\n"
+            final String header = "-----1234\r\n"
                 + "Content-Disposition: form-data; name=\"field" + (i+1) + "\"\r\n"
                 + "\r\n";
             baos.write(header.getBytes("US-ASCII"));
@@ -88,7 +88,7 @@ public class ProgressListenerTest {
             baos.write("\r\n".getBytes("US-ASCII"));
         }
         baos.write("-----1234--\r\n".getBytes("US-ASCII"));
-        byte[] contents = baos.toByteArray();
+        final byte[] contents = baos.toByteArray();
 
         MockHttpServletRequest request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE);
         runTest(NUM_ITEMS, contents.length, request);
@@ -101,14 +101,14 @@ public class ProgressListenerTest {
         runTest(NUM_ITEMS, contents.length, request);
     }
 
-    private void runTest(final int NUM_ITEMS, long pContentLength, MockHttpServletRequest request) throws FileUploadException, IOException {
-        ServletFileUpload upload = new ServletFileUpload();
-        ProgressListenerImpl listener = new ProgressListenerImpl(pContentLength, NUM_ITEMS);
+    private void runTest(final int NUM_ITEMS, final long pContentLength, final MockHttpServletRequest request) throws FileUploadException, IOException {
+        final ServletFileUpload upload = new ServletFileUpload();
+        final ProgressListenerImpl listener = new ProgressListenerImpl(pContentLength, NUM_ITEMS);
         upload.setProgressListener(listener);
-        FileItemIterator iter = upload.getItemIterator(request);
+        final FileItemIterator iter = upload.getItemIterator(request);
         for (int i = 0;  i < NUM_ITEMS;  i++) {
-            FileItemStream stream = iter.next();
-            InputStream istream = stream.openStream();
+            final FileItemStream stream = iter.next();
+            final InputStream istream = stream.openStream();
             for (int j = 0;  j < 16384+i;  j++) {
                 /**
                  * This used to be
@@ -116,8 +116,8 @@ public class ProgressListenerTest {
                  * but this seems to trigger a bug in JRockit, so
                  * we express the same like this:
                  */
-                byte b1 = (byte) j;
-                byte b2 = (byte) istream.read();
+                final byte b1 = (byte) j;
+                final byte b2 = (byte) istream.read();
                 if (b1 != b2) {
                     fail("Expected " + b1 + ", got " + b2);
                 }

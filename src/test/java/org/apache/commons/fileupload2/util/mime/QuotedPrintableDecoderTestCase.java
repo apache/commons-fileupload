@@ -99,25 +99,25 @@ public final class QuotedPrintableDecoderTestCase {
         assertIOException("truncated", "=1");
     }
 
-    private static void assertEncoded(String clearText, String encoded) throws Exception {
-        byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
+    private static void assertEncoded(final String clearText, final String encoded) throws Exception {
+        final byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+        final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
+        final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
         QuotedPrintableDecoder.decode(encodedData, out);
-        byte[] actual = out.toByteArray();
+        final byte[] actual = out.toByteArray();
 
         assertArrayEquals(expected, actual);
     }
 
-    private static void assertIOException(String messageText, String encoded) throws UnsupportedEncodingException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+    private static void assertIOException(final String messageText, final String encoded) throws UnsupportedEncodingException {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
+        final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
         try {
             QuotedPrintableDecoder.decode(encodedData, out);
             fail("Expected IOException");
-        } catch (IOException e) {
-            String em = e.getMessage();
+        } catch (final IOException e) {
+            final String em = e.getMessage();
             assertTrue(em.contains(messageText), "Expected to find " + messageText + " in '" + em + "'");
         }
     }

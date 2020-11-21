@@ -92,7 +92,7 @@ public class ParameterParser {
      *               {@code false} otherwise.
      * @return the token
      */
-    private String getToken(boolean quoted) {
+    private String getToken(final boolean quoted) {
         // Trim leading white spaces
         while ((i1 < i2) && (Character.isWhitespace(chars[i1]))) {
             i1++;
@@ -125,9 +125,9 @@ public class ParameterParser {
      * @return {@code true} if the character is present in the array of
      *   characters, {@code false} otherwise.
      */
-    private boolean isOneOf(char ch, final char[] charray) {
+    private boolean isOneOf(final char ch, final char[] charray) {
         boolean result = false;
-        for (char element : charray) {
+        for (final char element : charray) {
             if (ch == element) {
                 result = true;
                 break;
@@ -212,7 +212,7 @@ public class ParameterParser {
      * converted to lower case when name/value pairs are parsed.
      * {@code false} otherwise.
      */
-    public void setLowerCaseNames(boolean b) {
+    public void setLowerCaseNames(final boolean b) {
         this.lowerCaseNames = b;
     }
 
@@ -226,15 +226,15 @@ public class ParameterParser {
      *
      * @return a map of name/value pairs
      */
-    public Map<String, String> parse(final String str, char[] separators) {
+    public Map<String, String> parse(final String str, final char[] separators) {
         if (separators == null || separators.length == 0) {
             return new HashMap<String, String>();
         }
         char separator = separators[0];
         if (str != null) {
             int idx = str.length();
-            for (char separator2 : separators) {
-                int tmp = str.indexOf(separator2);
+            for (final char separator2 : separators) {
+                final int tmp = str.indexOf(separator2);
                 if (tmp != -1 && tmp < idx) {
                     idx = tmp;
                     separator = separator2;
@@ -253,7 +253,7 @@ public class ParameterParser {
      *
      * @return a map of name/value pairs
      */
-    public Map<String, String> parse(final String str, char separator) {
+    public Map<String, String> parse(final String str, final char separator) {
         if (str == null) {
             return new HashMap<String, String>();
         }
@@ -270,7 +270,7 @@ public class ParameterParser {
      *
      * @return a map of name/value pairs
      */
-    public Map<String, String> parse(final char[] charArray, char separator) {
+    public Map<String, String> parse(final char[] charArray, final char separator) {
         if (charArray == null) {
             return new HashMap<String, String>();
         }
@@ -291,14 +291,14 @@ public class ParameterParser {
      */
     public Map<String, String> parse(
         final char[] charArray,
-        int offset,
-        int length,
-        char separator) {
+        final int offset,
+        final int length,
+        final char separator) {
 
         if (charArray == null) {
             return new HashMap<String, String>();
         }
-        HashMap<String, String> params = new HashMap<String, String>();
+        final HashMap<String, String> params = new HashMap<String, String>();
         this.chars = charArray;
         this.pos = offset;
         this.len = length;
@@ -318,7 +318,7 @@ public class ParameterParser {
                     try {
                         paramValue = RFC2231Utility.hasEncodedValue(paramName) ? RFC2231Utility.decodeText(paramValue)
                                 : MimeUtility.decodeText(paramValue);
-                    } catch (UnsupportedEncodingException e) {
+                    } catch (final UnsupportedEncodingException e) {
                         // let's keep the original value in this case
                     }
                 }

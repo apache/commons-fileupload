@@ -54,18 +54,18 @@ public class StreamingTest {
     @Test
     public void testFileUpload()
             throws IOException, FileUploadException {
-        byte[] request = newRequest();
-        List<FileItem> fileItems = parseUpload(request);
-        Iterator<FileItem> fileIter = fileItems.iterator();
+        final byte[] request = newRequest();
+        final List<FileItem> fileItems = parseUpload(request);
+        final Iterator<FileItem> fileIter = fileItems.iterator();
         int add = 16;
         int num = 0;
         for (int i = 0;  i < 16384;  i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            FileItem item = fileIter.next();
+            final FileItem item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
-            byte[] bytes = item.get();
+            final byte[] bytes = item.get();
             assertEquals(i, bytes.length);
             for (int j = 0;  j < i;  j++) {
                 assertEquals((byte) j, bytes[j]);
@@ -81,13 +81,13 @@ public class StreamingTest {
     @Test
     public void testFileUploadException()
             throws IOException, FileUploadException {
-        byte[] request = newRequest();
-        byte[] invalidRequest = new byte[request.length-11];
+        final byte[] request = newRequest();
+        final byte[] invalidRequest = new byte[request.length-11];
         System.arraycopy(request, 0, invalidRequest, 0, request.length-11);
         try {
             parseUpload(invalidRequest);
             fail("Expected EndOfStreamException");
-        } catch (IOFileUploadException e) {
+        } catch (final IOFileUploadException e) {
             assertTrue(e.getCause() instanceof MultipartStream.MalformedStreamException);
         }
     }
@@ -98,8 +98,8 @@ public class StreamingTest {
     @Test
     public void testIOException()
             throws IOException {
-        byte[] request = newRequest();
-        InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
+        final byte[] request = newRequest();
+        final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
             private int num;
             @Override
             public int read() throws IOException {
@@ -109,10 +109,10 @@ public class StreamingTest {
                 return super.read();
             }
             @Override
-            public int read(byte[] pB, int pOff, int pLen)
+            public int read(final byte[] pB, final int pOff, final int pLen)
                     throws IOException {
                 for (int i = 0;  i < pLen;  i++) {
-                    int res = read();
+                    final int res = read();
                     if (res == -1) {
                         return i == 0 ? -1 : i;
                     }
@@ -124,7 +124,7 @@ public class StreamingTest {
         try {
             parseUpload(stream, request.length);
             fail("Expected IOException");
-        } catch (FileUploadException e) {
+        } catch (final FileUploadException e) {
             assertTrue(e.getCause() instanceof IOException);
             assertEquals("123", e.getCause().getMessage());
         }
@@ -136,9 +136,9 @@ public class StreamingTest {
     @Test
     public void testFILEUPLOAD135()
             throws IOException, FileUploadException {
-        byte[] request = newShortRequest();
+        final byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
-        List<FileItem> fileItems = parseUpload(new InputStream() {
+        final List<FileItem> fileItems = parseUpload(new InputStream() {
             @Override
             public int read()
             throws IOException
@@ -146,17 +146,17 @@ public class StreamingTest {
                 return bais.read();
             }
             @Override
-            public int read(byte b[], int off, int len) throws IOException
+            public int read(final byte b[], final int off, final int len) throws IOException
             {
                 return bais.read(b, off, Math.min(len, 3));
             }
 
         }, request.length);
-        Iterator<FileItem> fileIter = fileItems.iterator();
+        final Iterator<FileItem> fileIter = fileItems.iterator();
         assertTrue(fileIter.hasNext());
-        FileItem item = fileIter.next();
+        final FileItem item = fileIter.next();
         assertEquals("field", item.getFieldName());
-        byte[] bytes = item.get();
+        final byte[] bytes = item.get();
         assertEquals(3, bytes.length);
         assertEquals((byte)'1', bytes[0]);
         assertEquals((byte)'2', bytes[1]);
@@ -164,36 +164,36 @@ public class StreamingTest {
         assertTrue(!fileIter.hasNext());
     }
 
-    private List<FileItem> parseUpload(byte[] bytes) throws FileUploadException {
+    private List<FileItem> parseUpload(final byte[] bytes) throws FileUploadException {
         return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
     }
 
-    private FileItemIterator parseUpload(int pLength, InputStream pStream)
+    private FileItemIterator parseUpload(final int pLength, final InputStream pStream)
             throws FileUploadException, IOException {
-        String contentType = "multipart/form-data; boundary=---1234";
+        final String contentType = "multipart/form-data; boundary=---1234";
 
-        FileUploadBase upload = new ServletFileUpload();
+        final FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        HttpServletRequest request = new MockHttpServletRequest(pStream,
+        final HttpServletRequest request = new MockHttpServletRequest(pStream,
                 pLength, contentType);
 
         return upload.getItemIterator(new ServletRequestContext(request));
     }
 
-    private List<FileItem> parseUpload(InputStream pStream, int pLength)
+    private List<FileItem> parseUpload(final InputStream pStream, final int pLength)
             throws FileUploadException {
-        String contentType = "multipart/form-data; boundary=---1234";
+        final String contentType = "multipart/form-data; boundary=---1234";
 
-        FileUploadBase upload = new ServletFileUpload();
+        final FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        HttpServletRequest request = new MockHttpServletRequest(pStream,
+        final HttpServletRequest request = new MockHttpServletRequest(pStream,
                 pLength, contentType);
 
-        List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
+        final List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
         return fileItems;
     }
 
-    private String getHeader(String pField) {
+    private String getHeader(final String pField) {
         return "-----1234\r\n"
             + "Content-Disposition: form-data; name=\"" + pField + "\"\r\n"
             + "\r\n";
@@ -264,21 +264,21 @@ public class StreamingTest {
             "-----1234--\r\n";
         final byte[] reqBytes = request.getBytes("US-ASCII");
 
-        FileItemIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
+        final FileItemIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
         final FileItemStream fileItemStream = fileItemIter.next();
         try {
             fileItemStream.getName();
             fail("Expected exception");
-        } catch (InvalidFileNameException e) {
+        } catch (final InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
             assertTrue(e.getMessage().indexOf(fileName) == -1);
             assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
         }
 
         try {
-            List<FileItem> fileItems = parseUpload(reqBytes);
+            final List<FileItem> fileItems = parseUpload(reqBytes);
             fail("Expected exception");
-        } catch (InvalidFileNameException e) {
+        } catch (final InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
             assertTrue(e.getMessage().indexOf(fileName) == -1);
             assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);

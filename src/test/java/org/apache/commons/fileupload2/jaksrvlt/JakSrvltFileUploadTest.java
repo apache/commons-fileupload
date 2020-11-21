@@ -44,7 +44,7 @@ public class JakSrvltFileUploadTest {
     @Test
     public void parseParameterMap()
             throws Exception {
-        String text = "-----1234\r\n" +
+        final String text = "-----1234\r\n" +
                       "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                       "Content-Type: text/whatever\r\n" +
                       "\r\n" +
@@ -63,11 +63,11 @@ public class JakSrvltFileUploadTest {
                       "\r\n" +
                       "value2\r\n" +
                       "-----1234--\r\n";
-        byte[] bytes = text.getBytes("US-ASCII");
-        HttpServletRequest request = new MockJakSrvltHttpRequest(bytes, Constants.CONTENT_TYPE);
+        final byte[] bytes = text.getBytes("US-ASCII");
+        final HttpServletRequest request = new MockJakSrvltHttpRequest(bytes, Constants.CONTENT_TYPE);
 
-        JakSrvltFileUpload upload = new JakSrvltFileUpload(new DiskFileItemFactory());
-        Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
+        final JakSrvltFileUpload upload = new JakSrvltFileUpload(new DiskFileItemFactory());
+        final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
 
@@ -83,21 +83,21 @@ public class JakSrvltFileUploadTest {
     public void parseImpliedUtf8()
 	    throws Exception {
         // utf8 encoded form-data without explicit content-type encoding
-        String text = "-----1234\r\n" +
+        final String text = "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
                 "\r\n" +
                 "Thís ís the coñteñt of the fíle\n" +
                 "\r\n" +
                 "-----1234--\r\n";
 
-        byte[] bytes = text.getBytes("UTF-8");
-        HttpServletRequest request = new MockJakSrvltHttpRequest(bytes, Constants.CONTENT_TYPE);
+        final byte[] bytes = text.getBytes("UTF-8");
+        final HttpServletRequest request = new MockJakSrvltHttpRequest(bytes, Constants.CONTENT_TYPE);
 
-        DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
+        final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
         fileItemFactory.setDefaultCharset("UTF-8");
-        JakSrvltFileUpload upload = new JakSrvltFileUpload(fileItemFactory);
-        List<FileItem> fileItems = upload.parseRequest(request);
-        FileItem fileItem = fileItems.get(0);
+        final JakSrvltFileUpload upload = new JakSrvltFileUpload(fileItemFactory);
+        final List<FileItem> fileItems = upload.parseRequest(request);
+        final FileItem fileItem = fileItems.get(0);
         assertTrue(fileItem.getString().contains("coñteñt"), fileItem.getString());
     }
 }

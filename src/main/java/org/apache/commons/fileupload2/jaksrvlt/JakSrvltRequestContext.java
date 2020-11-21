@@ -48,7 +48,7 @@ public class JakSrvltRequestContext implements UploadContext {
      *
      * @param request The request to which this context applies.
      */
-    public JakSrvltRequestContext(HttpServletRequest request) {
+    public JakSrvltRequestContext(final HttpServletRequest request) {
         this.request = request;
     }
 
@@ -97,7 +97,7 @@ public class JakSrvltRequestContext implements UploadContext {
         long size;
         try {
             size = Long.parseLong(request.getHeader(FileUploadBase.CONTENT_LENGTH));
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             size = request.getContentLength();
         }
         return size;

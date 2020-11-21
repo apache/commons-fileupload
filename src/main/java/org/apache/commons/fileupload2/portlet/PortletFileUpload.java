@@ -59,7 +59,7 @@ public class PortletFileUpload extends FileUpload {
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      */
-    public static final boolean isMultipartContent(ActionRequest request) {
+    public static final boolean isMultipartContent(final ActionRequest request) {
         return FileUploadBase.isMultipartContent(
                 new PortletRequestContext(request));
     }
@@ -83,7 +83,7 @@ public class PortletFileUpload extends FileUpload {
      * @see FileUpload#FileUpload()
      * @param fileItemFactory The factory to use for creating file items.
      */
-    public PortletFileUpload(FileItemFactory fileItemFactory) {
+    public PortletFileUpload(final FileItemFactory fileItemFactory) {
         super(fileItemFactory);
     }
 
@@ -101,7 +101,7 @@ public class PortletFileUpload extends FileUpload {
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */
-    public List<FileItem> parseRequest(ActionRequest request)
+    public List<FileItem> parseRequest(final ActionRequest request)
             throws FileUploadException {
         return parseRequest(new PortletRequestContext(request));
     }
@@ -119,7 +119,7 @@ public class PortletFileUpload extends FileUpload {
      *
      * @since 1.3
      */
-    public Map<String, List<FileItem>> parseParameterMap(ActionRequest request)
+    public Map<String, List<FileItem>> parseParameterMap(final ActionRequest request)
             throws FileUploadException {
         return parseParameterMap(new PortletRequestContext(request));
     }
@@ -140,7 +140,7 @@ public class PortletFileUpload extends FileUpload {
      *   error while communicating with the client or a problem while
      *   storing the uploaded content.
      */
-    public FileItemIterator getItemIterator(ActionRequest request)
+    public FileItemIterator getItemIterator(final ActionRequest request)
             throws FileUploadException, IOException {
         return super.getItemIterator(new PortletRequestContext(request));
     }

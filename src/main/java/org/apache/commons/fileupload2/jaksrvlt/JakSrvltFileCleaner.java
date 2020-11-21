@@ -45,7 +45,7 @@ public class JakSrvltFileCleaner implements ServletContextListener {
      * @return The contexts tracker
      */
     public static FileCleaningTracker
-            getFileCleaningTracker(ServletContext pServletContext) {
+            getFileCleaningTracker(final ServletContext pServletContext) {
         return (FileCleaningTracker)
             pServletContext.getAttribute(FILE_CLEANING_TRACKER_ATTRIBUTE);
     }
@@ -57,8 +57,8 @@ public class JakSrvltFileCleaner implements ServletContextListener {
      * @param pServletContext The servlet context to modify
      * @param pTracker The tracker to set
      */
-    public static void setFileCleaningTracker(ServletContext pServletContext,
-            FileCleaningTracker pTracker) {
+    public static void setFileCleaningTracker(final ServletContext pServletContext,
+            final FileCleaningTracker pTracker) {
         pServletContext.setAttribute(FILE_CLEANING_TRACKER_ATTRIBUTE, pTracker);
     }
 
@@ -70,7 +70,7 @@ public class JakSrvltFileCleaner implements ServletContextListener {
      *   {@link #setFileCleaningTracker(ServletContext, FileCleaningTracker)}.
      */
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
+    public void contextInitialized(final ServletContextEvent sce) {
         setFileCleaningTracker(sce.getServletContext(),
                 new FileCleaningTracker());
     }
@@ -83,7 +83,7 @@ public class JakSrvltFileCleaner implements ServletContextListener {
      *     {@link #getFileCleaningTracker(ServletContext)}.
      */
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+    public void contextDestroyed(final ServletContextEvent sce) {
         getFileCleaningTracker(sce.getServletContext()).exitWhenFinished();
     }
 }
