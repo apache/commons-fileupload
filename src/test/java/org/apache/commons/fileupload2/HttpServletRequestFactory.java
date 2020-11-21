@@ -39,8 +39,7 @@ final class HttpServletRequestFactory {
             sbRequestData.append(strFileName);
         }
 
-        byte[] requestData = null;
-        requestData = sbRequestData.toString().getBytes();
+        final byte[] requestData = sbRequestData.toString().getBytes();
 
         return new MockHttpServletRequest(
                             requestData,

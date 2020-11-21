@@ -244,11 +244,10 @@ public class DiskFileItemSerializeTest {
      * Do deserialization
      */
     private Object deserialize(ByteArrayOutputStream baos) throws Exception {
-        Object result = null;
         ByteArrayInputStream bais =
                 new ByteArrayInputStream(baos.toByteArray());
         ObjectInputStream ois = new ObjectInputStream(bais);
-        result = ois.readObject();
+        Object result = ois.readObject();
         bais.close();
 
         return result;
