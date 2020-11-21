@@ -20,16 +20,12 @@ cache:
     - $HOME/.m2
 matrix:
   include:
-    - os: linux-ppc64le
-      jdk: openjdk8
+    - jdk: openjdk8
+    - jdk: openjdk11
+    - jdk: openjdk15
+    - jdk: openjdk-ea
   allow_failures:
     - jdk: openjdk-ea
-jdk:
-  - oraclejdk11
-  - openjdk8
-  - openjdk11
-  - openjdk14
-  - openjdk-ea
 
 after_success:
   - mvn clean test jacoco:report coveralls:report -Ptravis-jacoco
