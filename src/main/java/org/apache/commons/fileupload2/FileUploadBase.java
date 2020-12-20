@@ -677,7 +677,7 @@ public abstract class FileUploadBase {
         }
         final String headerName = header.substring(0, colonOffset).trim();
         final String headerValue =
-            header.substring(header.indexOf(':') + 1).trim();
+            header.substring(colonOffset + 1).trim();
         headers.addHeader(headerName, headerValue);
     }
 
