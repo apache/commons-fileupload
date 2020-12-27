@@ -29,12 +29,6 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import org.apache.commons.io.FileUtils;
 
-import org.apache.commons.fileupload2.DefaultFileItem;
-import org.apache.commons.fileupload2.DefaultFileItemFactory;
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.FileItemFactory;
-import org.apache.commons.io.FileUtils;
-
 import org.junit.jupiter.api.Test;
 
 /**

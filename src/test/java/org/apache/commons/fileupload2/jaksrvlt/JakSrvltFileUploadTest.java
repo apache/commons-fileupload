@@ -19,6 +19,7 @@ package org.apache.commons.fileupload2.jaksrvlt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for {@link ServletFileUpload}.
+ * Test for {@link org.apache.commons.fileupload2.servlet.ServletFileUpload}.
  *
  * @see FileUploadTest
  * @since 1.4
@@ -63,7 +64,7 @@ public class JakSrvltFileUploadTest {
                       "\r\n" +
                       "value2\r\n" +
                       "-----1234--\r\n";
-        final byte[] bytes = text.getBytes("US-ASCII");
+        final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new MockJakSrvltHttpRequest(bytes, Constants.CONTENT_TYPE);
 
         final JakSrvltFileUpload upload = new JakSrvltFileUpload(new DiskFileItemFactory());
@@ -86,11 +87,11 @@ public class JakSrvltFileUploadTest {
         final String text = "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
                 "\r\n" +
-                "Thís ís the coñteñt of the fíle\n" +
+                "Thï¿½s ï¿½s the coï¿½teï¿½t of the fï¿½le\n" +
                 "\r\n" +
                 "-----1234--\r\n";
 
-        final byte[] bytes = text.getBytes("UTF-8");
+        final byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
         final HttpServletRequest request = new MockJakSrvltHttpRequest(bytes, Constants.CONTENT_TYPE);
 
         final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
@@ -98,6 +99,6 @@ public class JakSrvltFileUploadTest {
         final JakSrvltFileUpload upload = new JakSrvltFileUpload(fileItemFactory);
         final List<FileItem> fileItems = upload.parseRequest(request);
         final FileItem fileItem = fileItems.get(0);
-        assertTrue(fileItem.getString().contains("coñteñt"), fileItem.getString());
+        assertTrue(fileItem.getString().contains("coï¿½teï¿½t"), fileItem.getString());
     }
 }

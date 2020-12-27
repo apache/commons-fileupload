@@ -451,7 +451,7 @@ public class MultipartStream {
     public boolean readBoundary()
             throws FileUploadIOException, MalformedStreamException {
         final byte[] marker = new byte[2];
-        boolean nextChunk = false;
+        final boolean nextChunk;
 
         head += boundaryLength;
         try {
