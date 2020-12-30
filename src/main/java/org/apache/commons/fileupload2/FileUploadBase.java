@@ -390,12 +390,7 @@ public abstract class FileUploadBase {
 
         for (final FileItem fileItem : items) {
             final String fieldName = fileItem.getFieldName();
-            List<FileItem> mappedItems = itemsMap.get(fieldName);
-
-            if (mappedItems == null) {
-                mappedItems = new ArrayList<>();
-                itemsMap.put(fieldName, mappedItems);
-            }
+            List<FileItem> mappedItems = itemsMap.computeIfAbsent(fieldName, k -> new ArrayList<>());
 
             mappedItems.add(fileItem);
         }

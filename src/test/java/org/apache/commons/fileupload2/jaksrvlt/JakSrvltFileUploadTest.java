@@ -32,7 +32,7 @@ import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for {@link ServletFileUpload}.
+ * Test for {@link org.apache.commons.fileupload2.servlet.ServletFileUpload}.
  *
  * @see FileUploadTest
  * @since 1.4
