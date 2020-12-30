@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,13 +63,13 @@ public class SizesTest {
             final String header = "-----1234\r\n"
                 + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n"
                 + "\r\n";
-            baos.write(header.getBytes("US-ASCII"));
+            baos.write(header.getBytes(StandardCharsets.US_ASCII));
             for (int j = 0;  j < i;  j++) {
                 baos.write((byte) j);
             }
-            baos.write("\r\n".getBytes("US-ASCII"));
+            baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
         }
-        baos.write("-----1234--\r\n".getBytes("US-ASCII"));
+        baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
 
         final List<FileItem> fileItems =
                 Util.parseUpload(new ServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
@@ -107,7 +108,7 @@ public class SizesTest {
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(-1);
         HttpServletRequest req = new MockHttpServletRequest(
-                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+                request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         List<FileItem> fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         FileItem item = fileItems.get(0);
@@ -115,7 +116,7 @@ public class SizesTest {
 
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(40);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         item = fileItems.get(0);
@@ -123,7 +124,7 @@ public class SizesTest {
 
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(30);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
@@ -150,7 +151,7 @@ public class SizesTest {
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(-1);
         HttpServletRequest req = new MockHttpServletRequest(
-                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+                request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         List<FileItem> fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         FileItem item = fileItems.get(0);
@@ -158,7 +159,7 @@ public class SizesTest {
 
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(40);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         item = fileItems.get(0);
@@ -167,7 +168,7 @@ public class SizesTest {
         // provided Content-Length is larger than the FileSizeMax -> handled by ctor
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(5);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
@@ -178,7 +179,7 @@ public class SizesTest {
         // provided Content-Length is wrong, actual content is larger -> handled by LimitedInputStream
         upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(15);
-        req = new MockHttpServletRequest(request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        req = new MockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
@@ -213,7 +214,7 @@ public class SizesTest {
         upload.setSizeMax(200);
 
         final MockHttpServletRequest req = new MockHttpServletRequest(
-                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+                request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
@@ -250,7 +251,7 @@ public class SizesTest {
         // otherwise the buffer would be immediately filled
 
         final MockHttpServletRequest req = new MockHttpServletRequest(
-                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+                request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
         req.setContentLength(-1);
         req.setReadLimit(10);
 

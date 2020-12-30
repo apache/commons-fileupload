@@ -19,6 +19,7 @@ package org.apache.commons.fileupload2;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -86,7 +87,7 @@ public class DiskFileUploadTest {
                 "This is the content of the file\n" +
                 "\r\n" +
                 "-----1234--\r\n";
-    	final byte[] contentBytes = content.getBytes("US-ASCII");
+    	final byte[] contentBytes = content.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new MockHttpServletRequest(contentBytes, Constants.CONTENT_TYPE);
         final List<FileItem> items = myUpload.parseRequest(request);
         assertNotNull(items);
