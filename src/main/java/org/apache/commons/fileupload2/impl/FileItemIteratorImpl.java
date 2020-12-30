@@ -149,7 +149,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
                                  : contentLengthInt;
                                  // CHECKSTYLE:ON
 
-        InputStream input; // N.B. this is eventually closed in MultipartStream processing
+        final InputStream input; // N.B. this is eventually closed in MultipartStream processing
         if (sizeMax >= 0) {
             if (requestSize != -1 && requestSize > sizeMax) {
                 throw new SizeLimitExceededException(
@@ -218,7 +218,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
         }
         final MultipartStream multi = getMultiPartStream();
         for (;;) {
-            boolean nextPart;
+            final boolean nextPart;
             if (skipPreamble) {
                 nextPart = multi.skipPreamble();
             } else {
