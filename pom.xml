@@ -218,7 +218,7 @@
     <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version};-noimport:=true</commons.osgi.export>
     <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
-    <commons.japicmp.version>0.15.1</commons.japicmp.version>
+    <commons.japicmp.version>0.15.2</commons.japicmp.version>
     <japicmp.skip>true</japicmp.skip>
 
     <!-- Commons Release Plugin -->
