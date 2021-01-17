@@ -231,7 +231,7 @@ public final class MimeUtility {
         final String encodedText = word.substring(encodingPos + 1, encodedTextPos);
 
         // seems a bit silly to encode a null string, but easy to deal with.
-        if (encodedText.length() == 0) {
+        if (encodedText.isEmpty()) {
             return "";
         }
 
