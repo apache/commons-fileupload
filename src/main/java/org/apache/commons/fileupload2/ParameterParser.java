@@ -326,7 +326,7 @@ public class ParameterParser {
             if (hasChar() && (charArray[pos] == separator)) {
                 pos++; // skip separator
             }
-            if ((paramName != null) && (paramName.length() > 0)) {
+            if ((paramName != null) && !paramName.isEmpty()) {
                 paramName = RFC2231Utility.stripDelimiter(paramName);
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ENGLISH);
