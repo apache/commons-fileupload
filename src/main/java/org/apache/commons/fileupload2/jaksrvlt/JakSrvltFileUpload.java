@@ -72,7 +72,7 @@ public class JakSrvltFileUpload extends FileUpload {
     // ----------------------------------------------------------- Constructors
 
     /**
-     * Constructs an uninitialised instance of this class. A factory must be
+     * Constructs an uninitialized instance of this class. A factory must be
      * configured, using {@code setFileItemFactory()}, before attempting
      * to parse requests.
      *
