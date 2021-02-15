@@ -20,7 +20,7 @@
  *      An implementation of
  *      {@link org.apache.commons.fileupload2.FileUpload FileUpload}
  *      for use in servlets conforming to the namespace {@code jakarta.servlet}.
- *      
+ *
  *    </p>
  *    <p>
  *      The following code fragment demonstrates typical usage.
