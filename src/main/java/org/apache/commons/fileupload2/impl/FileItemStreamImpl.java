@@ -94,18 +94,16 @@ public class FileItemStreamImpl implements FileItemStream {
         contentType = pContentType;
         formField = pFormField;
         final long fileSizeMax = fileItemIteratorImpl.getFileSizeMax();
-        if (fileSizeMax != -1) { // Check if limit is already exceeded
-            if (pContentLength != -1
-                    && pContentLength > fileSizeMax) {
-                final FileSizeLimitExceededException e =
-                        new FileSizeLimitExceededException(
-                                format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                        fieldName, Long.valueOf(fileSizeMax)),
-                                pContentLength, fileSizeMax);
-                e.setFileName(pName);
-                e.setFieldName(pFieldName);
-                throw new FileUploadIOException(e);
-            }
+        if (fileSizeMax != -1 && pContentLength != -1
+                && pContentLength > fileSizeMax) {
+            final FileSizeLimitExceededException e =
+                    new FileSizeLimitExceededException(
+                            format("The field %s exceeds its maximum permitted size of %s bytes.",
+                                    fieldName, Long.valueOf(fileSizeMax)),
+                            pContentLength, fileSizeMax);
+            e.setFileName(pName);
+            e.setFieldName(pFieldName);
+            throw new FileUploadIOException(e);
         }
         // OK to construct stream now
         final ItemInputStream itemStream = fileItemIteratorImpl.getMultiPartStream().newInputStream();
