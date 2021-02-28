@@ -29,7 +29,6 @@ import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileUploadTest;
 import org.apache.commons.fileupload2.MockHttpServletRequest;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.junit.jupiter.api.Test;
 
 /**

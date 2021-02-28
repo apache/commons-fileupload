@@ -25,7 +25,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload2.util.mime.QuotedPrintableDecoder;
 import org.junit.jupiter.api.Test;
 
 /**

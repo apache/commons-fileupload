@@ -26,9 +26,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.FileUpload;
-import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.portlet.PortletFileUploadTest;
 import org.apache.commons.fileupload2.servlet.ServletFileUploadTest;
 import org.junit.jupiter.params.ParameterizedTest;

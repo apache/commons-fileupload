@@ -18,8 +18,6 @@ package org.apache.commons.fileupload2;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.FileUploadBase;
-
 final class HttpServletRequestFactory {
 
     static public HttpServletRequest createHttpServletRequestWithNullContentType() {

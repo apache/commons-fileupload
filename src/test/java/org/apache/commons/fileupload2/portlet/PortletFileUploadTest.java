@@ -28,7 +28,6 @@ import org.apache.commons.fileupload2.Constants;
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileUploadTest;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.portlet.PortletFileUpload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -24,10 +24,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.fileupload2.FileItemIterator;
-import org.apache.commons.fileupload2.FileItemStream;
-import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.ProgressListener;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.junit.jupiter.api.Test;
 

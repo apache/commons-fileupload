@@ -32,8 +32,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload2.FileUploadBase;
-
 public class MockHttpServletRequest implements HttpServletRequest {
 
     private final InputStream m_requestData;
