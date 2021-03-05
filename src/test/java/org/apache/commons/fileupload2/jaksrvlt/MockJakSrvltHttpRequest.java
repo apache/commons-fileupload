@@ -595,9 +595,8 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
 		final HttpSession session = getSession();
 	    if (session == null) {
 	    	return null;
-	    } else {
-	    	return session.getServletContext();
 	    }
+      return session.getServletContext();
 	}
 
 	@Override
