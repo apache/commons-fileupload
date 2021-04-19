@@ -56,6 +56,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="update" due-to="Emmanuel Lécharny">Slight optim: resuse the index position instead of recomputing it #49.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump maven-pmd-plugin from 3.13.0 to 3.14.0 #48.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Update commons.japicmp.version 0.13.0 -> 0.15.3.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump build actions/setup-java from v1.4.3 to v2.</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
