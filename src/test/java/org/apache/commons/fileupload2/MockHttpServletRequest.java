@@ -343,8 +343,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        final ServletInputStream sis = new MyServletInputStream(m_requestData, readLimit);
-        return sis;
+        return new MyServletInputStream(m_requestData, readLimit);
     }
 
     /**
