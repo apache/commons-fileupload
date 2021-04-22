@@ -264,8 +264,8 @@ public class StreamingTest {
             fail("Expected exception");
         } catch (final InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
-            assertTrue(e.getMessage().indexOf(fileName) == -1);
-            assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
+            assertTrue(!e.getMessage().contains(fileName));
+            assertTrue(e.getMessage().contains("foo.exe\\0.png"));
         }
 
         try {
@@ -273,8 +273,8 @@ public class StreamingTest {
             fail("Expected exception");
         } catch (final InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
-            assertTrue(e.getMessage().indexOf(fileName) == -1);
-            assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
+            assertTrue(!e.getMessage().contains(fileName));
+            assertTrue(e.getMessage().contains("foo.exe\\0.png"));
         }
     }
 

@@ -53,10 +53,10 @@ public class ProgressListenerTest {
             assertTrue(pContentLength == -1  ||  pContentLength == expectedContentLength);
             assertTrue(pItems >= 0  &&  pItems <= expectedItems);
 
-            assertTrue(bytesRead == null  ||  pBytesRead >= bytesRead.longValue());
-            bytesRead = new Long(pBytesRead);
-            assertTrue(items == null  ||  pItems >= items.intValue());
-            items = new Integer(pItems);
+            assertTrue(bytesRead == null  ||  pBytesRead >= bytesRead);
+            bytesRead = pBytesRead;
+            assertTrue(items == null  ||  pItems >= items);
+            items = pItems;
         }
 
         void checkFinished(){

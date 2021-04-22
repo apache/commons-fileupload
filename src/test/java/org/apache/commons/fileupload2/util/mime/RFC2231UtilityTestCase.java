@@ -76,9 +76,7 @@ public final class RFC2231UtilityTestCase {
 
     @Test
     public void decodeInvalidEncoding() throws Exception {
-        assertThrows(UnsupportedEncodingException.class, () -> {
-            RFC2231Utility.decodeText("abc'en'hello");
-        });
+        assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utility.decodeText("abc'en'hello"));
     }
 
     private static void assertEncoded(final String expected, final String encoded) throws Exception {

@@ -154,7 +154,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
             if (requestSize != -1 && requestSize > sizeMax) {
                 throw new SizeLimitExceededException(
                     format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                            Long.valueOf(requestSize), Long.valueOf(sizeMax)),
+                            requestSize, sizeMax),
                            requestSize, sizeMax);
             }
             // N.B. this is eventually closed in MultipartStream processing
@@ -164,7 +164,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
                         throws IOException {
                     final FileUploadException ex = new SizeLimitExceededException(
                     format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                            Long.valueOf(pCount), Long.valueOf(pSizeMax)),
+                            pCount, pSizeMax),
                            pCount, pSizeMax);
                     throw new FileUploadIOException(ex);
                 }

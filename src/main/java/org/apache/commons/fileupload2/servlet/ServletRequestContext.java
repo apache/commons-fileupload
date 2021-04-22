@@ -123,7 +123,7 @@ public class ServletRequestContext implements UploadContext {
     @Override
     public String toString() {
         return format("ContentLength=%s, ContentType=%s",
-                Long.valueOf(this.contentLength()),
+                this.contentLength(),
                 this.getContentType());
     }
 
