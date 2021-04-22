@@ -19,6 +19,7 @@ package org.apache.commons.fileupload2.util.mime;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -237,7 +238,7 @@ public final class MimeUtility {
             // the decoder writes directly to an output stream.
             final ByteArrayOutputStream out = new ByteArrayOutputStream(encodedText.length());
 
-            final byte[] encodedData = encodedText.getBytes(US_ASCII_CHARSET);
+            final byte[] encodedData = encodedText.getBytes(StandardCharsets.US_ASCII);
 
             // Base64 encoded?
             if (encoding.equals(BASE64_ENCODING_MARKER)) {

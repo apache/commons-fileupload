@@ -26,6 +26,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -199,7 +200,7 @@ public class StreamingTest {
 
     private byte[] newShortRequest() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII");
+        final OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII);
         osw.write(getHeader("field"));
         osw.write("123");
         osw.write("\r\n");
@@ -210,7 +211,7 @@ public class StreamingTest {
 
     private byte[] newRequest() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII");
+        final OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII);
         int add = 16;
         int num = 0;
         for (int i = 0;  i < 16384;  i += add) {
@@ -255,7 +256,7 @@ public class StreamingTest {
             "\r\n" +
             "value2\r\n" +
             "-----1234--\r\n";
-        final byte[] reqBytes = request.getBytes("US-ASCII");
+        final byte[] reqBytes = request.getBytes(StandardCharsets.US_ASCII);
 
         final FileItemIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
         final FileItemStream fileItemStream = fileItemIter.next();
