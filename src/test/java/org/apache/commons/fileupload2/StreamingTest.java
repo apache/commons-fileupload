@@ -182,8 +182,7 @@ public class StreamingTest {
         final HttpServletRequest request = new MockHttpServletRequest(pStream,
                 pLength, contentType);
 
-        final List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
-        return fileItems;
+        return upload.parseRequest(new ServletRequestContext(request));
     }
 
     private String getHeader(final String pField) {
