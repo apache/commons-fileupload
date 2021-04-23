@@ -19,7 +19,7 @@ package org.apache.commons.fileupload2;
 import static java.lang.String.format;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -423,11 +423,7 @@ public abstract class FileUploadBase {
             return null;
         }
         byte[] boundary;
-        try {
-            boundary = boundaryStr.getBytes("ISO-8859-1");
-        } catch (final UnsupportedEncodingException e) {
-            boundary = boundaryStr.getBytes(); // Intentionally falls back to default charset
-        }
+        boundary = boundaryStr.getBytes(StandardCharsets.ISO_8859_1);
         return boundary;
     }
 
