@@ -84,6 +84,12 @@ import org.apache.commons.fileupload2.util.Streams;
 public class MultipartStream {
 
     /**
+     * The index value when the end of the stream has been reached {@code -1}.
+     * @since 2.0
+     */
+    public static final int EOS = -1;
+
+    /**
      * Internal class, which is used to invoke the
      * {@link ProgressListener}.
      */
@@ -426,7 +432,7 @@ public class MultipartStream {
             head = 0;
             // Refill.
             tail = input.read(buffer, head, bufSize);
-            if (tail == -1) {
+            if (tail == EOS) {
                 // No more data available.
                 throw new IOException("No more data is available");
             }
@@ -708,7 +714,7 @@ public class MultipartStream {
      * @param pos   The starting position for searching.
      *
      * @return The position of byte found, counting from beginning of the
-     *         {@code buffer}, or {@code -1} if not found.
+     *         {@code buffer}, or {@code EOS (-1)} if not found.
      */
     protected int findByte(final byte value,
             final int pos) {
@@ -718,7 +724,7 @@ public class MultipartStream {
             }
         }
 
-        return -1;
+        return EOS;
     }
 
     /**
@@ -726,7 +732,7 @@ public class MultipartStream {
      * region delimited by {@code head} and {@code tail}.
      *
      * @return The position of the boundary found, counting from the
-     *         beginning of the {@code buffer}, or {@code -1} if
+     *         beginning of the {@code buffer}, or {@code EOS (-1)} if
      *         not found.
      */
     protected int findSeparator() {
@@ -744,7 +750,7 @@ public class MultipartStream {
                 return bufferPos - boundaryLength;
             }
         }
-        return -1;
+        return EOS;
     }
 
     /**
@@ -887,7 +893,7 @@ public class MultipartStream {
          * Returns the next byte in the stream.
          *
          * @return The next byte in the stream, as a non-negative
-         *   integer, or -1 for EOF.
+         *   integer, or {@code EOF (-1)} for EOS.
          * @throws IOException An I/O error occurred.
          */
         @Override
@@ -896,7 +902,7 @@ public class MultipartStream {
                 throw new FileItemStream.ItemSkippedException();
             }
             if (available() == 0 && makeAvailable() == 0) {
-                return -1;
+                return EOS;
             }
             ++total;
             final int b = buffer[head++];
@@ -913,7 +919,7 @@ public class MultipartStream {
          * @param off Offset of the first byte in the buffer.
          * @param len Maximum number of bytes to read.
          * @return Number of bytes, which have been actually read,
-         *   or -1 for EOF.
+         *   or {@code EOF (-1)} for EOS.
          * @throws IOException An I/O error occurred.
          */
         @Override
@@ -928,7 +934,7 @@ public class MultipartStream {
             if (res == 0) {
                 res = makeAvailable();
                 if (res == 0) {
-                    return -1;
+                    return EOS;
                 }
             }
             res = Math.min(res, len);
@@ -1009,7 +1015,7 @@ public class MultipartStream {
          * @throws IOException An I/O error occurred.
          */
         private int makeAvailable() throws IOException {
-            if (pos != -1) {
+            if (pos != EOS) {
                 return 0;
             }
 
@@ -1023,7 +1029,7 @@ public class MultipartStream {
 
             for (;;) {
                 final int bytesRead = input.read(buffer, tail, bufSize - tail);
-                if (bytesRead == -1) {
+                if (bytesRead == EOS) {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so signal an error
                     // condition.
@@ -1038,7 +1044,7 @@ public class MultipartStream {
                 findSeparator();
                 final int av = available();
 
-                if (av > 0 || pos != -1) {
+                if (av > 0 || pos != EOS) {
                     return av;
                 }
             }
