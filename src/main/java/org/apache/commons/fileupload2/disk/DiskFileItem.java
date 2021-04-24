@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.util.Map;
@@ -292,12 +293,14 @@ public class DiskFileItem
      * Returns the contents of the file as an array of bytes.  If the
      * contents of the file were not yet cached in memory, they will be
      * loaded from the disk storage and cached.
-     *
+     * @throws UncheckedIOException if an I/O error occurs
      * @return The contents of the file as an array of bytes
      * or {@code null} if the data cannot be read
+     *
+     * @throws UncheckedIOException if an I/O error occurs
      */
     @Override
-    public byte[] get() {
+    public byte[] get() throws UncheckedIOException {
         if (isInMemory()) {
             if (cachedContent == null && dfos != null) {
                 cachedContent = dfos.getData();
@@ -306,17 +309,12 @@ public class DiskFileItem
         }
 
         byte[] fileData = new byte[(int) getSize()];
-        InputStream fis = null;
 
-        try {
-            fis = Files.newInputStream(dfos.getFile().toPath());
+        try (InputStream fis = Files.newInputStream(dfos.getFile().toPath())) {
             IOUtils.readFully(fis, fileData);
-        } catch (final IOException e) {
-            fileData = null;
-        } finally {
-            IOUtils.closeQuietly(fis);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
-
         return fileData;
     }
 
@@ -334,7 +332,7 @@ public class DiskFileItem
      */
     @Override
     public String getString(final String charset)
-        throws UnsupportedEncodingException {
+        throws UnsupportedEncodingException, IOException {
         return new String(get(), charset);
     }
 
@@ -349,14 +347,15 @@ public class DiskFileItem
      */
     @Override
     public String getString() {
-        final byte[] rawdata = get();
-        String charset = getCharSet();
-        if (charset == null) {
-            charset = defaultCharset;
-        }
+        byte[] rawdata = new byte[0];
         try {
+            rawdata = get();
+            String charset = getCharSet();
+            if (charset == null) {
+                charset = defaultCharset;
+            }
             return new String(rawdata, charset);
-        } catch (final UnsupportedEncodingException e) {
+        } catch (final IOException e) {
             return new String(rawdata);
         }
     }
@@ -384,13 +383,10 @@ public class DiskFileItem
     @Override
     public void write(final File file) throws Exception {
         if (isInMemory()) {
-            OutputStream fout = null;
-            try {
-                fout = Files.newOutputStream(file.toPath());
+            try (OutputStream fout = Files.newOutputStream(file.toPath())) {
                 fout.write(get());
-                fout.close();
-            } finally {
-                IOUtils.closeQuietly(fout);
+            } catch (IOException e) {
+                throw new IOException("Unexpected output data");
             }
         } else {
             final File outputFile = getStoreLocation();
@@ -497,11 +493,9 @@ public class DiskFileItem
      * @return An {@link java.io.OutputStream OutputStream} that can be used
      *         for storing the contents of the file.
      *
-     * @throws IOException if an error occurs.
      */
     @Override
-    public OutputStream getOutputStream()
-        throws IOException {
+    public OutputStream getOutputStream() {
         if (dfos == null) {
             final File outputFile = getTempFile();
             dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
