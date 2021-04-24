@@ -193,8 +193,8 @@ public final class MimeUtility {
      * @param word   The possibly encoded word value.
      *
      * @return The decoded word.
-     * @throws ParseException
-     * @throws UnsupportedEncodingException
+     * @throws ParseException in case of a parse error of the RFC 2047
+     * @throws UnsupportedEncodingException Thrown when Invalid RFC 2047 encoding was found
      */
     private static String decodeWord(final String word) throws ParseException, UnsupportedEncodingException {
         // encoded words start with the characters "=?".  If this not an encoded word, we throw a
