@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -220,7 +221,7 @@ public class FileUploadTest {
             "...contents of file2.gif...\r\n" +
             "--BbC04y--\r\n" +
             "--AaB03x--";
-        final List<FileItem> fileItems = Util.parseUpload(upload, request.getBytes("US-ASCII"), contentType);
+        final List<FileItem> fileItems = Util.parseUpload(upload, request.getBytes(StandardCharsets.US_ASCII), contentType);
         assertEquals(3, fileItems.size());
         final FileItem item0 = fileItems.get(0);
         assertEquals("field1", item0.getFieldName());

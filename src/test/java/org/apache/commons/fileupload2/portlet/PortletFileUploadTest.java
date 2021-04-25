@@ -19,6 +19,7 @@ package org.apache.commons.fileupload2.portlet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ public class PortletFileUploadTest {
                       "\r\n" +
                       "value2\r\n" +
                       "-----1234--\r\n";
-        final byte[] bytes = text.getBytes("US-ASCII");
+        final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
         final ActionRequest request = new MockPortletActionRequest(bytes, Constants.CONTENT_TYPE);
 
         final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
