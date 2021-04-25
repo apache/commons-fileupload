@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
@@ -134,15 +135,15 @@ public final class Base64DecoderTestCase {
     // The non-ASCII characters should just be ignored
     @Test
     public void nonASCIIcharacter() throws Exception {
-        assertEncoded("f","Zg=À="); // A-grave
+        assertEncoded("f","Zg=Ã€="); // A-grave
         assertEncoded("f","Zg=\u0100=");
     }
 
     private static void assertEncoded(final String clearText, final String encoded) throws Exception {
-        final byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
+        final byte[] expected = clearText.getBytes(StandardCharsets.US_ASCII);
 
         final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+        final byte[] encodedData = encoded.getBytes(StandardCharsets.US_ASCII);
         Base64Decoder.decode(encodedData, out);
         final byte[] actual = out.toByteArray();
 
@@ -151,7 +152,7 @@ public final class Base64DecoderTestCase {
 
     private static void assertIOException(final String messageText, final String encoded) throws UnsupportedEncodingException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+        final byte[] encodedData = encoded.getBytes(StandardCharsets.US_ASCII);
         try {
             Base64Decoder.decode(encodedData, out);
             fail("Expected IOException");
