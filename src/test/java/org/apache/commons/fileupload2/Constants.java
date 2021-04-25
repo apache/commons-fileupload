@@ -21,12 +21,11 @@ package org.apache.commons.fileupload2;
  *
  * @since 1.4
  */
-public final class Constants {
+public interface Constants {
 
     /**
      * The content type used in several tests.
      */
-    public static final String CONTENT_TYPE = "multipart/form-data; boundary=---1234";
+    String CONTENT_TYPE = "multipart/form-data; boundary=---1234";
 
-    private Constants() {}
 }
