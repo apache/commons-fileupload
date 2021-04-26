@@ -560,7 +560,7 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
         }
 
         @Override
-        public int read(final byte b[], final int off, final int len) throws IOException {
+        public int read(final byte[] b, final int off, final int len) throws IOException {
             if (readLimit > 0) {
                 return in.read(b, off, Math.min(readLimit, len));
             }
