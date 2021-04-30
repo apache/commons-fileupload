@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
@@ -83,7 +84,7 @@ public class DiskFileItemSerializeTest {
         assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
         try {
             compareBytes("Initial", item.get(), testFieldValueBytes);
-        } catch (IOException e) {
+        } catch (UncheckedIOException e) {
             fail("Unexpected IOException", e);
         }
         item.delete();
@@ -133,7 +134,7 @@ public class DiskFileItemSerializeTest {
         assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
         try {
             compareBytes("Initial", item.get(), testFieldValueBytes);
-        } catch (IOException e) {
+        } catch (UncheckedIOException e) {
             fail("Unexpected IOException", e);
         }
 

@@ -25,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.util.Arrays;
 import org.apache.commons.io.FileUtils;
 
@@ -127,7 +127,7 @@ public class DefaultFileItemTest {
         assertEquals(item.getSize(), testFieldValueBytes.length);
         try {
             assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
-        } catch (IOException e) {
+        } catch (UncheckedIOException e) {
             fail("Unexpected IOException", e);
         }
         assertEquals(item.getString(), textFieldValue);
@@ -190,7 +190,7 @@ public class DefaultFileItemTest {
         assertEquals(item.getSize(), testFieldValueBytes.length);
         try {
             assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
-        } catch (IOException e) {
+        } catch (UncheckedIOException e) {
             fail("Unexpected IOException", e);
         }
         assertEquals(item.getString(), textFieldValue);
