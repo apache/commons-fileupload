@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
@@ -81,7 +82,11 @@ public class DiskFileItemSerializeTest {
         // Check state is as expected
         assertTrue(item.isInMemory(), "Initial: in memory");
         assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
-        compareBytes("Initial", item.get(), testFieldValueBytes);
+        try {
+            compareBytes("Initial", item.get(), testFieldValueBytes);
+        } catch (UncheckedIOException e) {
+            fail("Unexpected IOException", e);
+        }
         item.delete();
     }
 
@@ -127,7 +132,11 @@ public class DiskFileItemSerializeTest {
         // Check state is as expected
         assertFalse(item.isInMemory(), "Initial: in memory");
         assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
-        compareBytes("Initial", item.get(), testFieldValueBytes);
+        try {
+            compareBytes("Initial", item.get(), testFieldValueBytes);
+        } catch (UncheckedIOException e) {
+            fail("Unexpected IOException", e);
+        }
 
         item.delete();
     }

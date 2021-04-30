@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.util.Arrays;
 import org.apache.commons.io.FileUtils;
 
@@ -124,9 +125,14 @@ public class DefaultFileItemTest {
         }
         assertTrue(item.isInMemory());
         assertEquals(item.getSize(), testFieldValueBytes.length);
-        assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
+        try {
+            assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
+        } catch (UncheckedIOException e) {
+            fail("Unexpected IOException", e);
+        }
         assertEquals(item.getString(), textFieldValue);
     }
+
 
     /**
      * Test creation of a field for which the amount of data falls above the
@@ -182,7 +188,11 @@ public class DefaultFileItemTest {
         }
         assertFalse(item.isInMemory());
         assertEquals(item.getSize(), testFieldValueBytes.length);
-        assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
+        try {
+            assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
+        } catch (UncheckedIOException e) {
+            fail("Unexpected IOException", e);
+        }
         assertEquals(item.getString(), textFieldValue);
 
         assertTrue(item instanceof DefaultFileItem);
