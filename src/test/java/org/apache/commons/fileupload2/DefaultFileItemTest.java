@@ -16,6 +16,7 @@
  */
 package org.apache.commons.fileupload2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -27,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.util.Arrays;
 import org.apache.commons.io.FileUtils;
 
 
@@ -126,7 +126,7 @@ public class DefaultFileItemTest {
         assertTrue(item.isInMemory());
         assertEquals(item.getSize(), testFieldValueBytes.length);
         try {
-            assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
+            assertArrayEquals(item.get(), testFieldValueBytes);
         } catch (UncheckedIOException e) {
             fail("Unexpected IOException", e);
         }
@@ -189,7 +189,7 @@ public class DefaultFileItemTest {
         assertFalse(item.isInMemory());
         assertEquals(item.getSize(), testFieldValueBytes.length);
         try {
-            assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
+            assertArrayEquals(item.get(), testFieldValueBytes);
         } catch (UncheckedIOException e) {
             fail("Unexpected IOException", e);
         }
