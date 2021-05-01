@@ -35,27 +35,27 @@ public class ParameterParserTest {
             "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
         final ParameterParser parser = new ParameterParser();
         Map<String, String> params = parser.parse(s, ';');
-        assertEquals(null, params.get("test"));
+        assertNull(params.get("test"));
         assertEquals("stuff", params.get("test1"));
         assertEquals("stuff; stuff", params.get("test2"));
         assertEquals("\"stuff", params.get("test3"));
 
         params = parser.parse(s, new char[] { ',', ';' });
-        assertEquals(null, params.get("test"));
+        assertNull(params.get("test"));
         assertEquals("stuff", params.get("test1"));
         assertEquals("stuff; stuff", params.get("test2"));
         assertEquals("\"stuff", params.get("test3"));
 
         s = "  test  , test1=stuff   ,  , test2=, test3, ";
         params = parser.parse(s, ',');
-        assertEquals(null, params.get("test"));
+        assertNull(params.get("test"));
         assertEquals("stuff", params.get("test1"));
-        assertEquals(null, params.get("test2"));
-        assertEquals(null, params.get("test3"));
+        assertNull(params.get("test2"));
+        assertNull(params.get("test3"));
 
         s = "  test";
         params = parser.parse(s, ';');
-        assertEquals(null, params.get("test"));
+        assertNull(params.get("test"));
 
         s = "  ";
         params = parser.parse(s, ';');

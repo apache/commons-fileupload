@@ -17,6 +17,7 @@
 package org.apache.commons.fileupload2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -264,7 +265,7 @@ public class StreamingTest {
             fail("Expected exception");
         } catch (final InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
-            assertTrue(e.getMessage().indexOf(fileName) == -1);
+            assertEquals(-1, e.getMessage().indexOf(fileName));
             assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
         }
 
@@ -273,7 +274,7 @@ public class StreamingTest {
             fail("Expected exception");
         } catch (final InvalidFileNameException e) {
             assertEquals(fileName, e.getName());
-            assertTrue(e.getMessage().indexOf(fileName) == -1);
+            assertEquals(-1, e.getMessage().indexOf(fileName));
             assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
         }
     }
