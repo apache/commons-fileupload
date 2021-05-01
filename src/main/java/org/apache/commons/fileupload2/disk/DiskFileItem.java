@@ -305,7 +305,7 @@ public class DiskFileItem
             if (cachedContent == null && dfos != null) {
                 cachedContent = dfos.getData();
             }
-            return cachedContent;
+            return cachedContent != null ? cachedContent.clone() : new byte[0];
         }
 
         byte[] fileData = new byte[(int) getSize()];
@@ -347,16 +347,15 @@ public class DiskFileItem
      */
     @Override
     public String getString() {
-        byte[] rawdata = new byte[0];
         try {
-            rawdata = get();
+            byte[] rawData = get();
             String charset = getCharSet();
             if (charset == null) {
                 charset = defaultCharset;
             }
-            return new String(rawdata, charset);
+            return new String(rawData, charset);
         } catch (final IOException e) {
-            return new String(rawdata);
+            return new String(new byte[0]);
         }
     }
 

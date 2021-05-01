@@ -299,7 +299,7 @@ public class ParameterParser {
             return new HashMap<>();
         }
         final HashMap<String, String> params = new HashMap<>();
-        this.chars = charArray;
+        this.chars = charArray.clone();
         this.pos = offset;
         this.len = length;
 

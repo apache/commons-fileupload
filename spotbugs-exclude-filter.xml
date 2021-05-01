@@ -33,17 +33,8 @@
         <Bug pattern="MS_PKGPROTECT" />
     </Match>
     <Match>
-        <Class name="org.apache.commons.fileupload2.ParameterParser" />
-        <Method name="parse" />
-        <Bug pattern="EI_EXPOSE_REP2" />
-    </Match>
-    <Match>
         <Class name="org.apache.commons.fileupload2.disk.DiskFileItem" />
         <Bug pattern="DM_DEFAULT_ENCODING" />
-    </Match>
-    <Match>
-        <Class name="org.apache.commons.fileupload2.disk.DiskFileItem" />
-        <Bug pattern="EI_EXPOSE_REP" />
     </Match>
     <Match>
         <Class name="org.apache.commons.fileupload2.disk.DiskFileItem" />
