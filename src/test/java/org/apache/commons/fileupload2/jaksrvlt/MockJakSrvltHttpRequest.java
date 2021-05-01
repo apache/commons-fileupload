@@ -324,7 +324,7 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
      */
     @Override
     public int getContentLength() {
-        int iLength = 0;
+        int iLength;
 
         if (null == m_requestData) {
             iLength = -1;
