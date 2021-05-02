@@ -488,5 +488,11 @@
         <coveralls.skip>true</coveralls.skip>
       </properties>
     </profile>
+    <profile>
+      <id>java13</id>
+      <activation>
+        <jdk>13</jdk>
+      </activation>
+    </profile>
   </profiles>
 </project>
