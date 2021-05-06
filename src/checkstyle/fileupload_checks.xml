@@ -90,28 +90,36 @@
     <!-- Require package Javadoc -->
     <module name="JavadocPackage"/>
 
-    <!-- Allow comments to suppress checks -->
-    <module name="SuppressionCommentFilter"/>
 
-    <module name="SuppressWithNearbyCommentFilter">
-        <property name="commentFormat" value="CHECKSTYLE IGNORE (\w+) FOR NEXT (\d+) LINES?"/>
-        <property name="checkFormat" value="$1"/>
-        <property name="influenceFormat" value="$2"/>
+    <property name="cacheFile" value="${checkstyle.cache.file}"/>
+
+    <!-- Begin Custom for FileUpload -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="ignorePattern" value="^ \* @version .*$"/>
     </module>
+
 
     <module name="TreeWalker">
 
-        <property name="cacheFile" value="${checkstyle.cache.file}"/>
-
         <!-- Allow comments to suppress checks -->
-        <module name="FileContentsHolder"/>
+        <module name="SuppressionCommentFilter"/>
+
+        <module name="SuppressWithNearbyCommentFilter">
+          <property name="commentFormat" value="CHECKSTYLE IGNORE (\w+) FOR NEXT (\d+) LINES?"/>
+          <property name="checkFormat" value="$1"/>
+          <property name="influenceFormat" value="$2"/>
+        </module>
+
+
+
+        <!-- Allow comments to suppress checks
+        <module name="FileContentsHolder"/>-->
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <module name="JavadocMethod">
           <property name="scope" value="protected"/>
-          <property name="allowUndeclaredRTE" value="true"/>
-          <property name="allowThrowsTagsForSubclasses" value="true"/>
         </module>
         <module name="JavadocType"/>
         <module name="JavadocVariable"/>
@@ -153,11 +161,6 @@
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
 
-        <!-- Begin Custom for FileUpload -->
-        <module name="LineLength">
-          <property name="max" value="120"/>
-          <property name="ignorePattern" value="^ \* @version .*$"/>
-        </module>
         <!-- End Custom for FileUpload -->
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
@@ -205,9 +208,6 @@
         <module name="InnerAssignment"/>
         <module name="MagicNumber"/>
         <module name="MissingSwitchDefault"/>
-        <module name="RedundantThrows">
-          <property name="allowSubclasses" value="true"/>
-        </module>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
 
