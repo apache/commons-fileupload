@@ -567,105 +567,105 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
             return in.read(b, off, len);
         }
 
-		@Override
-		public boolean isFinished() {
-			return false;
-		}
+        @Override
+        public boolean isFinished() {
+            return false;
+        }
 
-		@Override
-		public boolean isReady() {
-			return false;
-		}
+        @Override
+        public boolean isReady() {
+            return false;
+        }
 
-		@Override
-		public void setReadListener(final ReadListener readListener) {
-			throw new IllegalStateException("Not implemented");
-		}
+        @Override
+        public void setReadListener(final ReadListener readListener) {
+            throw new IllegalStateException("Not implemented");
+        }
 
     }
 
-	@Override
-	public long getContentLengthLong() {
-		return (long) getContentLength();
-	}
+    @Override
+    public long getContentLengthLong() {
+        return (long) getContentLength();
+    }
 
-	@Override
-	public ServletContext getServletContext() {
-		final HttpSession session = getSession();
-	    if (session == null) {
-	    	return null;
-	    }
+    @Override
+    public ServletContext getServletContext() {
+        final HttpSession session = getSession();
+        if (session == null) {
+            return null;
+        }
       return session.getServletContext();
-	}
+    }
 
-	@Override
-	public AsyncContext startAsync() throws IllegalStateException {
-		throw new IllegalStateException("Not implemented");
-	}
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        throw new IllegalStateException("Not implemented");
+    }
 
-	@Override
-	public AsyncContext startAsync(final ServletRequest servletRequest, final ServletResponse servletResponse)
-			throws IllegalStateException {
-		throw new IllegalStateException("Not implemented");
-	}
+    @Override
+    public AsyncContext startAsync(final ServletRequest servletRequest, final ServletResponse servletResponse)
+            throws IllegalStateException {
+        throw new IllegalStateException("Not implemented");
+    }
 
-	@Override
-	public boolean isAsyncStarted() {
-		return false;
-	}
+    @Override
+    public boolean isAsyncStarted() {
+        return false;
+    }
 
-	@Override
-	public boolean isAsyncSupported() {
-		return false;
-	}
+    @Override
+    public boolean isAsyncSupported() {
+        return false;
+    }
 
-	@Override
-	public AsyncContext getAsyncContext() {
-		return null;
-	}
+    @Override
+    public AsyncContext getAsyncContext() {
+        return null;
+    }
 
-	@Override
-	public DispatcherType getDispatcherType() {
-		return null;
-	}
+    @Override
+    public DispatcherType getDispatcherType() {
+        return null;
+    }
 
-	@Override
-	public String changeSessionId() {
-		return null;
-	}
+    @Override
+    public String changeSessionId() {
+        return null;
+    }
 
-	@Override
-	public boolean authenticate(final HttpServletResponse response) throws IOException, ServletException {
-		return false;
-	}
+    @Override
+    public boolean authenticate(final HttpServletResponse response) throws IOException, ServletException {
+        return false;
+    }
 
-	@Override
-	public void login(final String username, final String password) throws ServletException {
-		throw new IllegalStateException("Not implemented");
-	}
+    @Override
+    public void login(final String username, final String password) throws ServletException {
+        throw new IllegalStateException("Not implemented");
+    }
 
-	@Override
-	public void logout() throws ServletException {
-		throw new IllegalStateException("Not implemented");
-	}
+    @Override
+    public void logout() throws ServletException {
+        throw new IllegalStateException("Not implemented");
+    }
 
-	@Override
-	public Collection<Part> getParts() throws IOException, ServletException {
-		return null;
-	}
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
+        return null;
+    }
 
-	@Override
-	public Part getPart(final String name) throws IOException, ServletException {
-		return null;
-	}
+    @Override
+    public Part getPart(final String name) throws IOException, ServletException {
+        return null;
+    }
 
-	@Override
-	public <T extends HttpUpgradeHandler> T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
-		throw new IllegalStateException("Not implemented");
-	}
+    @Override
+    public <T extends HttpUpgradeHandler> T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
+        throw new IllegalStateException("Not implemented");
+    }
 
-	@Override
-	public String getRealPath(final String path) {
-		return null;
-	}
+    @Override
+    public String getRealPath(final String path) {
+        return null;
+    }
 }
