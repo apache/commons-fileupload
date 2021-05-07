@@ -44,32 +44,32 @@ import org.apache.commons.io.IOUtils;
  * {@link FileUploadBase#getItemIterator(RequestContext)}.
  */
 public class FileItemIteratorImpl implements FileItemIterator {
-	private final FileUploadBase fileUploadBase;
-	private final RequestContext ctx;
-	private long sizeMax, fileSizeMax;
+    private final FileUploadBase fileUploadBase;
+    private final RequestContext ctx;
+    private long sizeMax, fileSizeMax;
 
 
-	@Override
-	public long getSizeMax() {
-		return sizeMax;
-	}
+    @Override
+    public long getSizeMax() {
+        return sizeMax;
+    }
 
-	@Override
-	public void setSizeMax(final long sizeMax) {
-		this.sizeMax = sizeMax;
-	}
+    @Override
+    public void setSizeMax(final long sizeMax) {
+        this.sizeMax = sizeMax;
+    }
 
-	@Override
-	public long getFileSizeMax() {
-		return fileSizeMax;
-	}
+    @Override
+    public long getFileSizeMax() {
+        return fileSizeMax;
+    }
 
-	@Override
-	public void setFileSizeMax(final long fileSizeMax) {
-		this.fileSizeMax = fileSizeMax;
-	}
+    @Override
+    public void setFileSizeMax(final long fileSizeMax) {
+        this.fileSizeMax = fileSizeMax;
+    }
 
-	/**
+    /**
      * The multi part stream to process.
      */
     private MultipartStream multiPartStream;
@@ -196,10 +196,10 @@ public class FileItemIteratorImpl implements FileItemIterator {
     }
 
     public MultipartStream getMultiPartStream() throws FileUploadException, IOException {
-    	if (multiPartStream == null) {
-    		init(fileUploadBase, ctx);
-    	}
-    	return multiPartStream;
+        if (multiPartStream == null) {
+            init(fileUploadBase, ctx);
+        }
+        return multiPartStream;
     }
 
     /**
@@ -331,15 +331,15 @@ public class FileItemIteratorImpl implements FileItemIterator {
         return currentItem;
     }
 
-	@Override
-	public List<FileItem> getFileItems() throws FileUploadException, IOException {
-		final List<FileItem> items = new ArrayList<>();
-		while (hasNext()) {
-			final FileItemStream fis = next();
-			final FileItem fi = fileUploadBase.getFileItemFactory().createItem(fis.getFieldName(), fis.getContentType(), fis.isFormField(), fis.getName());
-			items.add(fi);
-		}
-		return items;
-	}
+    @Override
+    public List<FileItem> getFileItems() throws FileUploadException, IOException {
+        final List<FileItem> items = new ArrayList<>();
+        while (hasNext()) {
+            final FileItemStream fis = next();
+            final FileItem fi = fileUploadBase.getFileItemFactory().createItem(fis.getFieldName(), fis.getContentType(), fis.isFormField(), fis.getName());
+            items.add(fi);
+        }
+        return items;
+    }
 
 }

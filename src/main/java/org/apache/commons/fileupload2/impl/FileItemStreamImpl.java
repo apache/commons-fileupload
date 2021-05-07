@@ -35,7 +35,7 @@ import org.apache.commons.fileupload2.util.Streams;
  * Default implementation of {@link FileItemStream}.
  */
 public class FileItemStreamImpl implements FileItemStream {
-	private final FileItemIteratorImpl fileItemIteratorImpl;
+    private final FileItemIteratorImpl fileItemIteratorImpl;
 
     /**
      * The file items content type.
@@ -88,7 +88,7 @@ public class FileItemStreamImpl implements FileItemStream {
     public FileItemStreamImpl(final FileItemIteratorImpl pFileItemIterator, final String pName, final String pFieldName,
             final String pContentType, final boolean pFormField,
             final long pContentLength) throws FileUploadException, IOException {
-    	fileItemIteratorImpl = pFileItemIterator;
+        fileItemIteratorImpl = pFileItemIterator;
         name = pName;
         fieldName = pFieldName;
         contentType = pContentType;

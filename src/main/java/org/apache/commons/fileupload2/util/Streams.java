@@ -145,7 +145,7 @@ public final class Streams {
      * @throws IOException An I/O error occurred.
      */
     public static String asString(final InputStream inputStream, final String encoding)
-    		throws IOException {
+            throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         copy(inputStream, baos, true);
         return baos.toString(encoding);
