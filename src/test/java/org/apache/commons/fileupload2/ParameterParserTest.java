@@ -113,7 +113,8 @@ public class ParameterParserTest {
     @Test
     public void testFileUpload199() {
         final ParameterParser parser = new ParameterParser();
-        final String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
+        final String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-"
+                + "1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
         final Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("If you can read this you understand the example.", params.get("filename"));
     }
@@ -127,7 +128,8 @@ public class ParameterParserTest {
         final ParameterParser parser = new ParameterParser();
 
         // Should parse a UTF-8 charset
-        String s = "Content-Disposition: form-data; name=\"file\"; filename*=UTF-8\'\'%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";
+        String s = "Content-Disposition: form-data; "
+                + "name=\"file\"; filename*=UTF-8\'\'%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";
         Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("\u3053\u3093\u306B\u3061\u306F", params.get("filename")); //filename = "こんにちは" in japanese
 

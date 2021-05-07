@@ -62,7 +62,8 @@ public final class Streams {
      * @return Number of bytes, which have been copied.
      * @throws IOException An I/O error occurred.
      */
-    public static long copy(final InputStream inputStream, final OutputStream outputStream, final boolean closeOutputStream)
+    public static long copy(final InputStream inputStream, final OutputStream outputStream,
+                            final boolean closeOutputStream)
             throws IOException {
         return copy(inputStream, outputStream, closeOutputStream, new byte[DEFAULT_BUFFER_SIZE]);
     }

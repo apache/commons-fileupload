@@ -22,7 +22,8 @@ import java.io.UnsupportedEncodingException;
  * Utility class to decode/encode character set on HTTP Header fields based on RFC 2231.
  * This implementation adheres to RFC 5987 in particular, which was defined for HTTP headers
  *
- * RFC 5987 builds on RFC 2231, but has lesser scope like <a href="https://tools.ietf.org/html/rfc5987#section-3.2">mandatory charset definition</a>
+ * RFC 5987 builds on RFC 2231, but has lesser scope like
+ * <a href="https://tools.ietf.org/html/rfc5987#section-3.2">mandatory charset definition</a>
  * and <a href="https://tools.ietf.org/html/rfc5987#section-4">no parameter continuation</a>
  *
  * <p>
@@ -83,7 +84,8 @@ public final class RFC2231Utility {
      * <b>Eg 3.</b> {@code UTF-8''%c2%a3%20and%20%e2%82%ac%20rates}
      * will be decoded to {@code £ and € rates}.
      *
-     * @param encodedText - Text to be decoded has a format of {@code <charset>'<language>'<encoded_value>} and ASCII only
+     * @param encodedText - Text to be decoded has a format of {@code <charset>'<language>'<encoded_value>}
+     * and ASCII only
      * @return Decoded text based on charset encoding
      * @throws UnsupportedEncodingException The requested character set wasn't found.
      */

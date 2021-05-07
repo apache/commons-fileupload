@@ -28,7 +28,8 @@ import org.junit.jupiter.api.Test;
 /**
  * The expected characters are encoded in UTF16, while the actual characters may be encoded in UTF-8/ISO-8859-1
  *
- * RFC 5987 recommends to support both UTF-8 & ISO 8859-1. Test values are taken from https://tools.ietf.org/html/rfc5987#section-3.2.2
+ * RFC 5987 recommends to support both UTF-8 & ISO 8859-1. Test values are taken
+ * from https://tools.ietf.org/html/rfc5987#section-3.2.2
  */
 public final class RFC2231UtilityTestCase {
 
@@ -66,7 +67,8 @@ public final class RFC2231UtilityTestCase {
 
     @Test
     public void decodeUtf8() throws Exception {
-        assertEncoded("\u00a3 \u0061\u006e\u0064 \u20ac \u0072\u0061\u0074\u0065\u0073", "UTF-8''%c2%a3%20and%20%e2%82%ac%20rates"); //"£ and € rates"
+        assertEncoded("\u00a3 \u0061\u006e\u0064 \u20ac \u0072\u0061\u0074\u0065\u0073",
+                "UTF-8''%c2%a3%20and%20%e2%82%ac%20rates"); //"£ and € rates"
     }
 
     @Test
