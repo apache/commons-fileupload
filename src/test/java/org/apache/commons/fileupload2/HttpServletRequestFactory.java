@@ -20,14 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 
 final class HttpServletRequestFactory {
 
-    static public HttpServletRequest createHttpServletRequestWithNullContentType() {
+    public static HttpServletRequest createHttpServletRequestWithNullContentType() {
         final byte[] requestData = "foobar".getBytes();
         return new MockHttpServletRequest(
                             requestData,
                             null);
     }
 
-    static public HttpServletRequest createValidHttpServletRequest(
+    public static HttpServletRequest createValidHttpServletRequest(
             final String[] strFileNames) {
         // todo - provide a real implementation
 

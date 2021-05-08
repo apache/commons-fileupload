@@ -42,17 +42,17 @@ public class DefaultFileItemTest {
     /**
      * Content type for regular form items.
      */
-    private static final String textContentType = "text/plain";
+    private static final String TEXT_CONTENT_TYPE = "text/plain";
 
     /**
      * Content type for file uploads.
      */
-    private static final String fileContentType = "application/octet-stream";
+    private static final String FILE_CONTENT_TYPE = "application/octet-stream";
 
     /**
      * Very low threshold for testing memory versus disk options.
      */
-    private static final int threshold = 16;
+    private static final int THRESHOLD = 16;
 
     /**
      * Test construction of a regular text field.
@@ -64,13 +64,13 @@ public class DefaultFileItemTest {
 
         final FileItem item = factory.createItem(
                 textFieldName,
-                textContentType,
+                TEXT_CONTENT_TYPE,
                 true,
                 null
         );
         assertNotNull(item);
         assertEquals(item.getFieldName(), textFieldName);
-        assertEquals(item.getContentType(), textContentType);
+        assertEquals(item.getContentType(), TEXT_CONTENT_TYPE);
         assertTrue(item.isFormField());
         assertNull(item.getName());
     }
@@ -86,13 +86,13 @@ public class DefaultFileItemTest {
 
         final FileItem item = factory.createItem(
                 fileFieldName,
-                fileContentType,
+                FILE_CONTENT_TYPE,
                 false,
                 fileName
         );
         assertNotNull(item);
         assertEquals(item.getFieldName(), fileFieldName);
-        assertEquals(item.getContentType(), fileContentType);
+        assertEquals(item.getContentType(), FILE_CONTENT_TYPE);
         assertFalse(item.isFormField());
         assertEquals(item.getName(), fileName);
     }
@@ -110,7 +110,7 @@ public class DefaultFileItemTest {
 
         final FileItem item = factory.createItem(
                 textFieldName,
-                textContentType,
+                TEXT_CONTENT_TYPE,
                 true,
                 null
         );
@@ -173,7 +173,7 @@ public class DefaultFileItemTest {
 
         final FileItem item = factory.createItem(
                 textFieldName,
-                textContentType,
+                TEXT_CONTENT_TYPE,
                 true,
                 null
         );
@@ -219,7 +219,7 @@ public class DefaultFileItemTest {
      * @return the new {@code FileItemFactory} instance.
      */
     protected FileItemFactory createFactory(final File repository) {
-        return new DefaultFileItemFactory(threshold, repository);
+        return new DefaultFileItemFactory(THRESHOLD, repository);
     }
 
     static final String CHARSET_ISO88591 = "ISO-8859-1";
