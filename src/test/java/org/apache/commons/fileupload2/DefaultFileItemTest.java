@@ -120,7 +120,7 @@ public class DefaultFileItemTest {
             final OutputStream os = item.getOutputStream();
             os.write(testFieldValueBytes);
             os.close();
-        } catch(final IOException e) {
+        } catch (final IOException e) {
             fail("Unexpected IOException");
         }
         assertTrue(item.isInMemory());
@@ -183,7 +183,7 @@ public class DefaultFileItemTest {
             final OutputStream os = item.getOutputStream();
             os.write(testFieldValueBytes);
             os.close();
-        } catch(final IOException e) {
+        } catch (final IOException e) {
             fail("Unexpected IOException");
         }
         assertFalse(item.isInMemory());

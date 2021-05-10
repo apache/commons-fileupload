@@ -135,8 +135,8 @@ public final class Base64DecoderTestCase {
     // The non-ASCII characters should just be ignored
     @Test
     public void nonASCIIcharacter() throws Exception {
-        assertEncoded("f","Zg=À="); // A-grave
-        assertEncoded("f","Zg=\u0100=");
+        assertEncoded("f", "Zg=À="); // A-grave
+        assertEncoded("f", "Zg=\u0100=");
     }
 
     private static void assertEncoded(final String clearText, final String encoded) throws Exception {

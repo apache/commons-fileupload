@@ -76,8 +76,8 @@ public class StreamingTest {
     public void testFileUploadException()
             throws IOException, FileUploadException {
         final byte[] request = newRequest();
-        final byte[] invalidRequest = new byte[request.length-11];
-        System.arraycopy(request, 0, invalidRequest, 0, request.length-11);
+        final byte[] invalidRequest = new byte[request.length - 11];
+        System.arraycopy(request, 0, invalidRequest, 0, request.length - 11);
         try {
             parseUpload(invalidRequest);
             fail("Expected EndOfStreamException");
@@ -93,7 +93,7 @@ public class StreamingTest {
     public void testIOException()
             throws IOException {
         final byte[] request = newRequest();
-        final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
+        final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)) {
             private int num;
             @Override
             public int read() throws IOException {
@@ -110,7 +110,7 @@ public class StreamingTest {
                     if (res == -1) {
                         return i == 0 ? -1 : i;
                     }
-                    pB[pOff+i] = (byte) res;
+                    pB[pOff + i] = (byte) res;
                 }
                 return pLen;
             }

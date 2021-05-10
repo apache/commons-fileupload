@@ -60,7 +60,7 @@ public class ProgressListenerTest {
             items = new Integer(pItems);
         }
 
-        void checkFinished(){
+        void checkFinished() {
             assertEquals(expectedContentLength, bytesRead.longValue());
             assertEquals(expectedItems, items.intValue());
         }
@@ -72,14 +72,14 @@ public class ProgressListenerTest {
      */
     @Test
     public void testProgressListener() throws Exception {
-        final int numItems = 512;
+        final int NUM_ITEMS = 512;
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (int i = 0;  i < numItems;  i++) {
+        for (int i = 0;  i < NUM_ITEMS;  i++) {
             final String header = "-----1234\r\n"
-                + "Content-Disposition: form-data; name=\"field" + (i+1) + "\"\r\n"
+                + "Content-Disposition: form-data; name=\"field" + (i + 1) + "\"\r\n"
                 + "\r\n";
             baos.write(header.getBytes(StandardCharsets.US_ASCII));
-            for (int j = 0;  j < 16384+i;  j++) {
+            for (int j = 0;  j < 16384 + i;  j++) {
                 baos.write((byte) j);
             }
             baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
@@ -88,25 +88,25 @@ public class ProgressListenerTest {
         final byte[] contents = baos.toByteArray();
 
         MockHttpServletRequest request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE);
-        runTest(numItems, contents.length, request);
-        request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE){
+        runTest(NUM_ITEMS, contents.length, request);
+        request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE) {
             @Override
             public int getContentLength() {
                 return -1;
             }
         };
-        runTest(numItems, contents.length, request);
+        runTest(NUM_ITEMS, contents.length, request);
     }
 
-    private void runTest(final int numItems, final long pContentLength, final MockHttpServletRequest request) throws FileUploadException, IOException {
+    private void runTest(final int NUM_ITEMS, final long pContentLength, final MockHttpServletRequest request) throws FileUploadException, IOException {
         final ServletFileUpload upload = new ServletFileUpload();
-        final ProgressListenerImpl listener = new ProgressListenerImpl(pContentLength, numItems);
+        final ProgressListenerImpl listener = new ProgressListenerImpl(pContentLength, NUM_ITEMS);
         upload.setProgressListener(listener);
         final FileItemIterator iter = upload.getItemIterator(request);
-        for (int i = 0;  i < numItems;  i++) {
+        for (int i = 0;  i < NUM_ITEMS;  i++) {
             final FileItemStream stream = iter.next();
             final InputStream istream = stream.openStream();
-            for (int j = 0;  j < 16384+i;  j++) {
+            for (int j = 0;  j < 16384 + i;  j++) {
                 /**
                  * This used to be
                  *     assertEquals((byte) j, (byte) istream.read());
