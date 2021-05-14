@@ -28,5 +28,5 @@ public final class Constants {
      */
     public static final String CONTENT_TYPE = "multipart/form-data; boundary=---1234";
 
-    private Constants() {}
+    private Constants() { }
 }

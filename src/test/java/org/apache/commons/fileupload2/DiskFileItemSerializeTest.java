@@ -66,12 +66,12 @@ public class DiskFileItemSerializeTest {
     /**
      * Content type for regular form items.
      */
-    private static final String textContentType = "text/plain";
+    private static final String TEXT_CONTENT_TYPE = "text/plain";
 
     /**
      * Very low threshold for testing memory versus disk options.
      */
-    private static final int threshold = 16;
+    private static final int THRESHOLD = 16;
 
     /**
      * Helper method to test creation of a field when a repository is used.
@@ -104,7 +104,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testBelowThreshold() {
         // Create the FileItem
-        final byte[] testFieldValueBytes = createContentBytes(threshold - 1);
+        final byte[] testFieldValueBytes = createContentBytes(THRESHOLD - 1);
         testInMemoryObject(testFieldValueBytes);
     }
 
@@ -115,7 +115,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testThreshold() {
         // Create the FileItem
-        final byte[] testFieldValueBytes = createContentBytes(threshold);
+        final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes);
     }
 
@@ -126,7 +126,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testAboveThreshold() {
         // Create the FileItem
-        final byte[] testFieldValueBytes = createContentBytes(threshold + 1);
+        final byte[] testFieldValueBytes = createContentBytes(THRESHOLD + 1);
         final FileItem item = createFileItem(testFieldValueBytes);
 
         // Check state is as expected
@@ -147,7 +147,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testValidRepository() {
         // Create the FileItem
-        final byte[] testFieldValueBytes = createContentBytes(threshold);
+        final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes, REPO);
     }
 
@@ -157,7 +157,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testInvalidRepository() {
         // Create the FileItem
-        final byte[] testFieldValueBytes = createContentBytes(threshold);
+        final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(System.getProperty("java.io.tmpdir"), "file");
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         assertThrows(IOException.class, () -> deserialize(serialize(item)));
@@ -169,7 +169,7 @@ public class DiskFileItemSerializeTest {
     @Test
     public void testInvalidRepositoryWithNullChar() {
         // Create the FileItem
-        final byte[] testFieldValueBytes = createContentBytes(threshold);
+        final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(System.getProperty("java.io.tmpdir"), "\0");
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         assertThrows(IOException.class, () -> deserialize(serialize(item)));
@@ -207,12 +207,12 @@ public class DiskFileItemSerializeTest {
      * Create a FileItem with the specfied content bytes and repository.
      */
     private FileItem createFileItem(final byte[] contentBytes, final File repository) {
-        final FileItemFactory factory = new DiskFileItemFactory(threshold, repository);
+        final FileItemFactory factory = new DiskFileItemFactory(THRESHOLD, repository);
         final String textFieldName = "textField";
 
         final FileItem item = factory.createItem(
                 textFieldName,
-                textContentType,
+                TEXT_CONTENT_TYPE,
                 true,
                 "My File Name"
         );

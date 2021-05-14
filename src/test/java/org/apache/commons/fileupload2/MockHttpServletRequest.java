@@ -34,15 +34,15 @@ import javax.servlet.http.HttpSession;
 
 public class MockHttpServletRequest implements HttpServletRequest {
 
-    private final InputStream m_requestData;
+    private final InputStream mmRequestData;
 
     private long length;
 
-    private final String m_strContentType;
+    private final String mStrContentType;
 
     private int readLimit = -1;
 
-    private final Map<String, String> m_headers = new java.util.HashMap<>();
+    private final Map<String, String> mHeaders = new java.util.HashMap<>();
 
     /**
      * Creates a new instance with the given request data
@@ -63,10 +63,10 @@ public class MockHttpServletRequest implements HttpServletRequest {
             final InputStream requestData,
             final long requestLength,
             final String strContentType) {
-        m_requestData = requestData;
+        mmRequestData = requestData;
         length = requestLength;
-        m_strContentType = strContentType;
-        m_headers.put(FileUploadBase.CONTENT_TYPE, strContentType);
+        mStrContentType = strContentType;
+        mHeaders.put(FileUploadBase.CONTENT_TYPE, strContentType);
     }
 
     /**
@@ -98,7 +98,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getHeader(final String headerName) {
-        return m_headers.get(headerName);
+        return mHeaders.get(headerName);
     }
 
     /**
@@ -312,7 +312,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     public int getContentLength() {
         int iLength;
 
-        if (null == m_requestData) {
+        if (null == mmRequestData) {
             iLength = -1;
         } else {
             if (length > Integer.MAX_VALUE) {
@@ -335,7 +335,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getContentType() {
-        return m_strContentType;
+        return mStrContentType;
     }
 
     /**
@@ -343,7 +343,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        return new MyServletInputStream(m_requestData, readLimit);
+        return new MyServletInputStream(mmRequestData, readLimit);
     }
 
     /**
