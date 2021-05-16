@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload2;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -28,6 +27,10 @@ import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.fileupload2.impl.InvalidContentTypeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test for {@link DiskFileUpload}. Remove when deprecated class is removed.

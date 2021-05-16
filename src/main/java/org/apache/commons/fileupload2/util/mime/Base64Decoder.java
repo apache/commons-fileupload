@@ -104,7 +104,7 @@ final class Base64Decoder {
      */
     public static int decode(final byte[] data, final OutputStream out) throws IOException {
         int        outLen = 0;
-        final byte [] cache = new byte[INPUT_BYTES_PER_CHUNK];
+        final byte[ ] cache = new byte[INPUT_BYTES_PER_CHUNK];
         int cachedBytes = 0;
 
         for (final byte b : data) {

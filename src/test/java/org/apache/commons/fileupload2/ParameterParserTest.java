@@ -40,7 +40,7 @@ public class ParameterParserTest {
         assertEquals("stuff; stuff", params.get("test2"));
         assertEquals("\"stuff", params.get("test3"));
 
-        params = parser.parse(s, new char[] { ',', ';' });
+        params = parser.parse(s, new char[] {',', ';' });
         assertNull(params.get("test"));
         assertEquals("stuff", params.get("test1"));
         assertEquals("stuff; stuff", params.get("test2"));
@@ -95,15 +95,15 @@ public class ParameterParserTest {
     public void testFileUpload139() {
         final ParameterParser parser = new ParameterParser();
         String s = "Content-type: multipart/form-data , boundary=AaB03x";
-        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        Map<String, String> params = parser.parse(s, new char[] {',', ';' });
         assertEquals("AaB03x", params.get("boundary"));
 
         s = "Content-type: multipart/form-data, boundary=AaB03x";
-        params = parser.parse(s, new char[] { ';', ',' });
+        params = parser.parse(s, new char[] {';', ',' });
         assertEquals("AaB03x", params.get("boundary"));
 
         s = "Content-type: multipart/mixed, boundary=BbC04y";
-        params = parser.parse(s, new char[] { ',', ';' });
+        params = parser.parse(s, new char[] {',', ';' });
         assertEquals("BbC04y", params.get("boundary"));
     }
 
@@ -140,17 +140,17 @@ public class ParameterParserTest {
 
         // Should not decode if '*' is not at the end of param-name
         s = "Content-Disposition: form-data; name=\"file\"; file*name=UTF-8\'\'%61%62%63\r\n";
-        params = parser.parse(s, new char[] { ',', ';' });
+        params = parser.parse(s, new char[] {',', ';' });
         assertEquals("UTF-8\'\'%61%62%63", params.get("file*name"));
 
         // Should not decode if param-value does not follow <charset>'<lang>'<encoded>
         s = "Content-Disposition: form-data; name=\"file\"; filename*=a\'bc\r\n";
-        params = parser.parse(s, new char[] { ',', ';' });
+        params = parser.parse(s, new char[] {',', ';' });
         assertEquals("a\'bc", params.get("filename"));
 
         // Should not decode if param-name doesn't have '*' at end
         s = "Content-Disposition: form-data; name=\"file\"; filename=a\'b\'c\r\n";
-        params = parser.parse(s, new char[] { ',', ';' });
+        params = parser.parse(s, new char[] {',', ';' });
         assertEquals("a\'b\'c", params.get("filename"));
     }
 

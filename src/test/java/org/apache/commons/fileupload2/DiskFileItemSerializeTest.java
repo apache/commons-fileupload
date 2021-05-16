@@ -194,7 +194,7 @@ public class DiskFileItemSerializeTest {
         final StringBuilder buffer = new StringBuilder(size);
         byte count = 0;
         for (int i = 0; i < size; i++) {
-            buffer.append(count+"");
+            buffer.append(count + "");
             count++;
             if (count > 9) {
                 count = 0;
@@ -220,7 +220,7 @@ public class DiskFileItemSerializeTest {
             final OutputStream os = item.getOutputStream();
             os.write(contentBytes);
             os.close();
-        } catch(final IOException e) {
+        } catch (final IOException e) {
             fail("Unexpected IOException" + e);
         }
 
