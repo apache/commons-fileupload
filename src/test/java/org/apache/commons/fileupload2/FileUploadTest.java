@@ -58,7 +58,8 @@ public class FileUploadTest {
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                                               "Content-Disposition: "
+                                               + "form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
                                                "\r\n" +
                                                "This is the content of the file\n" +
@@ -107,7 +108,8 @@ public class FileUploadTest {
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
+                                               "Content-Disposition: form-data; "
+                                             + "name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
                                                "\r\n" +
                                                "This is the content of the file\n" +
@@ -221,7 +223,8 @@ public class FileUploadTest {
             "...contents of file2.gif...\r\n" +
             "--BbC04y--\r\n" +
             "--AaB03x--";
-        final List<FileItem> fileItems = Util.parseUpload(upload, request.getBytes(StandardCharsets.US_ASCII), contentType);
+        final List<FileItem> fileItems = Util.parseUpload(upload, request.getBytes(StandardCharsets.US_ASCII),
+                contentType);
         assertEquals(3, fileItems.size());
         final FileItem item0 = fileItems.get(0);
         assertEquals("field1", item0.getFieldName());
@@ -307,7 +310,8 @@ public class FileUploadTest {
         };
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                                               "Content-Disposition: form-data; name=\"file\"; "
+                                             + "filename=\"foo.tab\"\r\n" +
                                                "Content-Type: text/whatever\r\n" +
                                                headerNames[0] + ": " + headerValues[0] + "\r\n" +
                                                "\r\n" +

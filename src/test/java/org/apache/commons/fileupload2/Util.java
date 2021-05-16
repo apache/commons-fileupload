@@ -39,7 +39,8 @@ public class Util {
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 
-    public static List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
+    public static List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes, final String contentType)
+            throws FileUploadException {
         final HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new ServletRequestContext(request));
     }

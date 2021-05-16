@@ -327,7 +327,8 @@ public abstract class FileUploadBase {
         boolean successful = false;
         try {
             final FileItemIterator iter = getItemIterator(ctx);
-            final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
+            final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(),
+                    "No FileItemFactory has been set.");
             final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {
                 final FileItemStream item = iter.next();

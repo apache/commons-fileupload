@@ -80,8 +80,9 @@ public final class QuotedPrintableDecoderTestCase {
      */
     @Test
     public void softLineBreakDecode() throws Exception {
-        assertEncoded("If you believe that truth=beauty, then surely mathematics is the most beautiful branch of philosophy.",
-                      "If you believe that truth=3Dbeauty, then surely=20=\r\nmathematics is the most beautiful branch of philosophy.");
+        assertEncoded("If you believe that truth=beauty, then surely mathematics is the most "
+                        +  "beautiful branch of philosophy.", "If you believe that truth=3Dbeauty, then "
+                        + "surely=20=\r\nmathematics is the most beautiful branch of philosophy.");
     }
 
     @Test
@@ -110,7 +111,8 @@ public final class QuotedPrintableDecoderTestCase {
         assertArrayEquals(expected, actual);
     }
 
-    private static void assertIOException(final String messageText, final String encoded) throws UnsupportedEncodingException {
+    private static void assertIOException(final String messageText, final String encoded)
+            throws UnsupportedEncodingException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
         final byte[] encodedData = encoded.getBytes(StandardCharsets.US_ASCII);
         try {
