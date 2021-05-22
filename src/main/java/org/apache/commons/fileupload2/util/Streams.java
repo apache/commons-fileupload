@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.ref.SoftReference;
 
 import org.apache.commons.fileupload2.InvalidFileNameException;
 
@@ -41,6 +42,11 @@ public final class Streams {
      * {@link #copy(InputStream, OutputStream, boolean)}.
      */
     public static final int DEFAULT_BUFFER_SIZE = 8192;
+    /**
+     * The {@link ThreadLocal} where the buffer will be store temporary to reuse.
+     * @since 2.0
+     */
+    private static final ThreadLocal<SoftReference<byte[]>> BUFFER_REF = new ThreadLocal<>();
 
     /**
      * Copies the contents of the given {@link InputStream}
@@ -65,7 +71,7 @@ public final class Streams {
     public static long copy(final InputStream inputStream, final OutputStream outputStream,
                             final boolean closeOutputStream)
             throws IOException {
-        return copy(inputStream, outputStream, closeOutputStream, new byte[DEFAULT_BUFFER_SIZE]);
+        return copy(inputStream, outputStream, closeOutputStream, getIOBuffer());
     }
 
     /**
@@ -181,6 +187,24 @@ public final class Streams {
                     "Invalid file name: " + sb);
         }
         return fileName;
+    }
+    /**
+     * <P>Gets the new instance of an {@code array}. If the {@code array} has been previously created,
+     * the same instance is returned.</P>
+     * @see #copy(InputStream, OutputStream, boolean, byte[])
+     * @return the temporary buffer, which is to be used for copying data.
+     */
+    protected static byte[] getIOBuffer() {
+        byte[] buffer = null;
+                final SoftReference<byte[]> ref = BUFFER_REF.get ();
+        if (ref != null) {
+            buffer = ref.get();
+        }
+        if (buffer == null) {
+            buffer = new byte[DEFAULT_BUFFER_SIZE];
+            BUFFER_REF.set (new SoftReference<>(buffer));
+        }
+        return buffer;
     }
 
 }
