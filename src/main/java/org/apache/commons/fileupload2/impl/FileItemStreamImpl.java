@@ -35,6 +35,11 @@ import org.apache.commons.fileupload2.util.Streams;
  * Default implementation of {@link FileItemStream}.
  */
 public class FileItemStreamImpl implements FileItemStream {
+    /**
+     * The File Item iterator implementation.
+     *
+     * @see FileItemIteratorImpl
+     */
     private final FileItemIteratorImpl fileItemIteratorImpl;
 
     /**
@@ -50,7 +55,7 @@ public class FileItemStreamImpl implements FileItemStream {
     /**
      * The file items file name.
      */
-    final String name;
+    private final String name;
 
     /**
      * Whether the file item is a form field.
