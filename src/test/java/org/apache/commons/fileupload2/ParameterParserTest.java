@@ -129,29 +129,29 @@ public class ParameterParserTest {
 
         // Should parse a UTF-8 charset
         String s = "Content-Disposition: form-data; "
-                + "name=\"file\"; filename*=UTF-8\'\'%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";
+                + "name=\"file\"; filename*=UTF-8''%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";
         Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("\u3053\u3093\u306B\u3061\u306F", params.get("filename")); //filename = "こんにちは" in japanese
 
         // Should parse ISO-8859-1 charset
-        s = "Content-Disposition: form-data; name=\"file\"; filename*=UTF-8\'\'%70%C3%A2%74%C3%A9\r\n";
+        s = "Content-Disposition: form-data; name=\"file\"; filename*=UTF-8''%70%C3%A2%74%C3%A9\r\n";
         params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("\u0070\u00e2\u0074\u00e9", params.get("filename")); //filename = "pâté" in french
 
         // Should not decode if '*' is not at the end of param-name
-        s = "Content-Disposition: form-data; name=\"file\"; file*name=UTF-8\'\'%61%62%63\r\n";
+        s = "Content-Disposition: form-data; name=\"file\"; file*name=UTF-8''%61%62%63\r\n";
         params = parser.parse(s, new char[] {',', ';' });
-        assertEquals("UTF-8\'\'%61%62%63", params.get("file*name"));
+        assertEquals("UTF-8''%61%62%63", params.get("file*name"));
 
         // Should not decode if param-value does not follow <charset>'<lang>'<encoded>
-        s = "Content-Disposition: form-data; name=\"file\"; filename*=a\'bc\r\n";
+        s = "Content-Disposition: form-data; name=\"file\"; filename*=a'bc\r\n";
         params = parser.parse(s, new char[] {',', ';' });
-        assertEquals("a\'bc", params.get("filename"));
+        assertEquals("a'bc", params.get("filename"));
 
         // Should not decode if param-name doesn't have '*' at end
-        s = "Content-Disposition: form-data; name=\"file\"; filename=a\'b\'c\r\n";
+        s = "Content-Disposition: form-data; name=\"file\"; filename=a'b'c\r\n";
         params = parser.parse(s, new char[] {',', ';' });
-        assertEquals("a\'b\'c", params.get("filename"));
+        assertEquals("a'b'c", params.get("filename"));
     }
 
 }

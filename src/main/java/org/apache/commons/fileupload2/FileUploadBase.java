@@ -31,7 +31,6 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.impl.FileItemIteratorImpl;
-import org.apache.commons.fileupload2.impl.FileItemStreamImpl;
 import org.apache.commons.fileupload2.impl.FileUploadIOException;
 import org.apache.commons.fileupload2.impl.IOFileUploadException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
@@ -333,7 +332,7 @@ public abstract class FileUploadBase {
             while (iter.hasNext()) {
                 final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
-                final String fileName = ((FileItemStreamImpl) item).getName();
+                final String fileName = item.getName();
                 final FileItem fileItem = fileItemFactory.createItem(item.getFieldName(), item.getContentType(),
                                                    item.isFormField(), fileName);
                 items.add(fileItem);
@@ -585,7 +584,7 @@ public abstract class FileUploadBase {
                 }
                 // Continuation line found
                 end = parseEndOfLine(headerPart, nonWs);
-                header.append(" ").append(headerPart.substring(nonWs, end));
+                header.append(" ").append(headerPart, nonWs, end);
                 start = end + 2;
             }
             parseHeaderLine(headers, header.toString());
