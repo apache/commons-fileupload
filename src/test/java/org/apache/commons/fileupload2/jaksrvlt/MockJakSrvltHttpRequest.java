@@ -357,7 +357,7 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        return (ServletInputStream) new MyServletInputStream(mRequestData, readLimit);
+        return new MyServletInputStream(mRequestData, readLimit);
     }
 
     /**
@@ -586,7 +586,7 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
 
     @Override
     public long getContentLengthLong() {
-        return (long) getContentLength();
+        return getContentLength();
     }
 
     @Override

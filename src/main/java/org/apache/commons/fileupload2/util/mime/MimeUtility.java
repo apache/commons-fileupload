@@ -150,7 +150,7 @@ public final class MimeUtility {
 
                         // are any whitespace characters significant?  Append 'em if we've got 'em.
                         if (!previousTokenEncoded && startWhiteSpace != -1) {
-                            decodedText.append(text.substring(startWhiteSpace, endWhiteSpace));
+                            decodedText.append(text, startWhiteSpace, endWhiteSpace);
                             startWhiteSpace = -1;
                         }
                         // this is definitely a decoded token.
@@ -168,7 +168,7 @@ public final class MimeUtility {
                 // this is a normal token, so it doesn't matter what the previous token was.  Add the white space
                 // if we have it.
                 if (startWhiteSpace != -1) {
-                    decodedText.append(text.substring(startWhiteSpace, endWhiteSpace));
+                    decodedText.append(text, startWhiteSpace, endWhiteSpace);
                     startWhiteSpace = -1;
                 }
                 // this is not a decoded token.
