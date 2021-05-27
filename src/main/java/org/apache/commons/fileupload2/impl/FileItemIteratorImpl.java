@@ -138,11 +138,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
                     format("the request doesn't contain a %s or %s stream, content type header is %s",
                            FileUploadBase.MULTIPART_FORM_DATA, FileUploadBase.MULTIPART_MIXED, contentType));
         }
-
-
-        @SuppressWarnings("deprecation") // still has to be backward compatible
-        final int contentLengthInt = ctx.getContentLength();
-
+        final long contentLengthInt = ((UploadContext) ctx).contentLength();
         final long requestSize = UploadContext.class.isAssignableFrom(ctx.getClass())
                                  // Inline conditional is OK here CHECKSTYLE:OFF
                                  ? ((UploadContext) ctx).contentLength()
