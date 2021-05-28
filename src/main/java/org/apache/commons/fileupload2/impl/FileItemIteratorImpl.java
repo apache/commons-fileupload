@@ -44,9 +44,24 @@ import org.apache.commons.io.IOUtils;
  * {@link FileUploadBase#getItemIterator(RequestContext)}.
  */
 public class FileItemIteratorImpl implements FileItemIterator {
+    /**
+     * The file uploads processing utility.
+     * @see FileUploadBase
+     */
     private final FileUploadBase fileUploadBase;
+    /**
+     * The request context.
+     * @see RequestContext
+     */
     private final RequestContext ctx;
-    private long sizeMax, fileSizeMax;
+    /**
+     * The maximum allowed size of a complete request.
+     */
+    private long sizeMax;
+    /**
+     * The maximum allowed size of a single uploaded file.
+     */
+    private long fileSizeMax;
 
 
     @Override
