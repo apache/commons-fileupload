@@ -27,5 +27,8 @@ matrix:
   allow_failures:
     - jdk: openjdk-ea
 
+script:
+  - mvn -V --no-transfer-progress
+
 after_success:
-  - mvn clean test jacoco:report coveralls:report -Ptravis-jacoco
+  - mvn -V clean test jacoco:report coveralls:report -Ptravis-jacoco --no-transfer-progress
