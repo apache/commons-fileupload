@@ -51,7 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="jochen" type="add">Add the package org.apache.fileupload2.jaksrvlt, for compliance with Jakarta Servlet API 5.0.</action>
       <action                        dev="jochen" type="add">Making FileUploadException a subclass of IOException. (Mibor API simplification.)</action>
       <action issue="FILEUPLOAD-274" dev="jochen" due-to="Merbin J Anselm" due-to-email="merbinjanselm@gmail.com">RFC 5987 compliance</action>
-      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Update tests from commons-io:commons-io 2.6 to 2.7.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Update tests from commons-io:commons-io 2.6 to 2.11.0, #104.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Update junit-jupiter from 5.5.2 to 5.6.2 #31.</action>
       <action                        dev="ggregory" type="update" due-to="Emmanuel Lécharny">Slight optim: resuse the index position instead of recomputing it #49.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump maven-pmd-plugin from 3.13.0 to 3.14.0 #48.</action>
