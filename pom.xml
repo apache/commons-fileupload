@@ -196,6 +196,10 @@
       <name>Arturo Bernal</name>
       <email>arturobernalg@gmail.com</email>
     </contributor>
+    <contributor>
+      <name>Martin Grigorov</name>
+      <email>mgrigorov@apache.org</email>
+    </contributor>
   </contributors>
 
   <scm>
@@ -233,6 +237,8 @@
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
     <commons.japicmp.version>0.15.3</commons.japicmp.version>
     <japicmp.skip>true</japicmp.skip>
+    <moditect-maven-plugin.version>1.0.0.RC1</moditect-maven-plugin.version>
+    <moditect.skip>true</moditect.skip>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>1.3.3</commons.bc.version>
@@ -308,6 +314,34 @@
             <version>5.2.0</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.moditect</groupId>
+        <artifactId>moditect-maven-plugin</artifactId>
+        <version>${moditect-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>add-module-infos</id>
+            <phase>package</phase>
+            <goals>
+              <goal>add-module-info</goal>
+            </goals>
+            <configuration>
+              <jvmVersion>9</jvmVersion>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <overwriteExistingFiles>true</overwriteExistingFiles>
+              <module>
+                <moduleInfo>
+                  <name>commons.fileupload2</name>
+                  <exports>
+                    !org.apache.commons.fileupload2.impl;
+                    *;
+                  </exports>
+                </moduleInfo>
+              </module>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -553,6 +587,12 @@
       <properties>
         <!-- coverall version 4.3.0 does not work with java 9, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
         <coveralls.skip>true</coveralls.skip>
+      </properties>
+    </profile>
+    <profile>
+      <id>release</id>
+      <properties>
+        <moditect.skip>false</moditect.skip>
       </properties>
     </profile>
   </profiles>

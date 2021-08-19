@@ -58,6 +58,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Update commons.japicmp.version 0.13.0 -> 0.15.3.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump build actions/setup-java from v1.4.3 to v2.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump spotbugs-maven-plugin from 4.2.3 to 4.3.0 #103.</action>
+      <action                        dev="mgrigorov" type="update">FILEUPLOAD-340 Make commons-fileupload2 a JPMS module by adding module-info.class.</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
