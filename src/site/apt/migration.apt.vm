@@ -25,7 +25,7 @@ Migration
 
 # Migrating to Commons FileUpload 2
 
-   Commons Fileupload is the first version, that drops compatibility to previous versions. This means, that
+   Commons Fileupload 2 is the first version, that drops compatibility to previous versions. This means, that
    you need to adapt your projects as follows:
 
    1. Upgrade your Java version to 8, or later.
@@ -132,3 +132,9 @@ The following example demonstrates, how to use Commons Fileupload with the Java 
 	 }
 
 +-------------------------------------------
+
+# Commons FileUpload 2 can be used a Java Package Module
+
+The library provides <<META-INF/versions/module-info.class>> that defines the required modules and exported packages.
+All packages but <<org.apache.commons.fileupload2.impl>> are exported. All exception classes have been moved from
+<<org.apache.commons.fileupload2.impl>> to <<org.apache.commons.fileupload2.pub>> package
