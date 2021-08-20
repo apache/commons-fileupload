@@ -28,13 +28,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.fileupload2.impl.FileItemIteratorImpl;
 import org.apache.commons.fileupload2.pub.FileUploadIOException;
 import org.apache.commons.fileupload2.pub.IOFileUploadException;
-import org.apache.commons.fileupload2.servlet.ServletFileUpload;
-import org.apache.commons.fileupload2.servlet.ServletRequestContext;
 import org.apache.commons.fileupload2.util.FileItemHeadersImpl;
 import org.apache.commons.fileupload2.util.Streams;
 
@@ -76,22 +72,6 @@ public abstract class FileUploadBase {
             return false;
         }
         return contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART);
-    }
-
-    /**
-     * Utility method that determines whether the request contains multipart
-     * content.
-     *
-     * @param req The servlet request to be evaluated. Must be non-null.
-     *
-     * @return {@code true} if the request is multipart;
-     *         {@code false} otherwise.
-     *
-     * @deprecated 1.1 Use the method on {@code ServletFileUpload} instead.
-     */
-    @Deprecated
-    public static boolean isMultipartContent(final HttpServletRequest req) {
-        return ServletFileUpload.isMultipartContent(req);
     }
 
     // ----------------------------------------------------- Manifest constants
@@ -261,26 +241,6 @@ public abstract class FileUploadBase {
     }
 
     // --------------------------------------------------------- Public methods
-
-    /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
-     * compliant {@code multipart/form-data} stream.
-     *
-     * @param req The servlet request to be parsed.
-     *
-     * @return A list of {@code FileItem} instances parsed from the
-     *         request, in the order that they were transmitted.
-     *
-     * @throws FileUploadException if there are problems reading/parsing
-     *                             the request or storing files.
-     *
-     * @deprecated 1.1 Use {@link ServletFileUpload#parseRequest(HttpServletRequest)} instead.
-     */
-    @Deprecated
-    public List<FileItem> parseRequest(final HttpServletRequest req)
-    throws FileUploadException {
-        return parseRequest(new ServletRequestContext(req));
-    }
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>

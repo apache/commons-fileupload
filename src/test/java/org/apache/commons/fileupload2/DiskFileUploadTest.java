@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.fileupload2.pub.InvalidContentTypeException;
+import org.apache.commons.fileupload2.servlet.ServletRequestContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +53,8 @@ public class DiskFileUploadTest {
         final HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
 
         try {
-            upload.parseRequest(req);
+            ServletRequestContext context = new ServletRequestContext(req);
+            upload.parseRequest(context);
             fail("testWithInvalidRequest: expected exception was not thrown");
         } catch (final FileUploadException expected) {
             // this exception is expected
@@ -64,7 +66,8 @@ public class DiskFileUploadTest {
         final HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
 
         try {
-            upload.parseRequest(req);
+            ServletRequestContext context = new ServletRequestContext(req);
+            upload.parseRequest(context);
             fail("testWithNullContentType: expected exception was not thrown");
         } catch (final InvalidContentTypeException expected) {
             // this exception is expected
@@ -90,7 +93,8 @@ public class DiskFileUploadTest {
                 "-----1234--\r\n";
         final byte[] contentBytes = content.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new MockHttpServletRequest(contentBytes, Constants.CONTENT_TYPE);
-        final List<FileItem> items = myUpload.parseRequest(request);
+        ServletRequestContext context = new ServletRequestContext(request);
+        final List<FileItem> items = myUpload.parseRequest(context);
         assertNotNull(items);
         assertFalse(items.isEmpty());
         final DiskFileItem dfi = (DiskFileItem) items.get(0);

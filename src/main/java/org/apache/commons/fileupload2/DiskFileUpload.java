@@ -20,15 +20,17 @@ import java.io.File;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload2.servlet.ServletRequestContext;
+
 /**
  * <p>High level API for processing file uploads.</p>
  *
  * <p>This class handles multiple files per single HTML widget, sent using
  * {@code multipart/mixed} encoding type, as specified by
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
- * #parseRequest(HttpServletRequest)} to acquire a list of {@link
- * org.apache.commons.fileupload2.FileItem}s associated with a given HTML
- * widget.</p>
+ * org.apache.commons.fileupload2.servlet.ServletFileUpload#parseRequest(HttpServletRequest)}
+ * to acquire a list of {@link org.apache.commons.fileupload2.FileItem}s
+ * associated with a given HTML widget.</p>
  *
  * <p>Individual parts will be stored in temporary disk storage or in memory,
  * depending on their size, and will be available as {@link
@@ -194,7 +196,8 @@ public class DiskFileUpload
         setSizeThreshold(sizeThreshold);
         setSizeMax(sizeMax);
         setRepositoryPath(path);
-        return parseRequest(req);
+        ServletRequestContext context = new ServletRequestContext(req);
+        return parseRequest(context);
     }
 
 }
