@@ -26,6 +26,8 @@ import org.apache.commons.fileupload2.FileItemStream;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
+import org.apache.commons.fileupload2.pub.FileSizeLimitExceededException;
+import org.apache.commons.fileupload2.pub.FileUploadIOException;
 import org.apache.commons.fileupload2.util.Closeable;
 import org.apache.commons.fileupload2.util.LimitedInputStream;
 import org.apache.commons.fileupload2.util.Streams;

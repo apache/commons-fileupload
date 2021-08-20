@@ -14,48 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.impl;
+package org.apache.commons.fileupload2.pub;
+
+import java.io.IOException;
 
 import org.apache.commons.fileupload2.FileUploadException;
 
 /**
- * Thrown to indicate that the request is not a multipart request.
+ * Thrown to indicate an IOException.
  */
-public class InvalidContentTypeException
-        extends FileUploadException {
+public class IOFileUploadException extends FileUploadException {
 
     /**
      * The exceptions UID, for serializing an instance.
      */
-    private static final long serialVersionUID = -9073026332015646668L;
+    private static final long serialVersionUID = 1749796615868477269L;
 
     /**
-     * Constructs a {@code InvalidContentTypeException} with no
-     * detail message.
+     * The exceptions cause; we overwrite the parent
+     * classes field, which is available since Java
+     * 1.4 only.
      */
-    public InvalidContentTypeException() {
+    private final IOException cause;
+
+    /**
+     * Creates a new instance with the given cause.
+     *
+     * @param pMsg The detail message.
+     * @param pException The exceptions cause.
+     */
+    public IOFileUploadException(final String pMsg, final IOException pException) {
+        super(pMsg);
+        cause = pException;
     }
 
     /**
-     * Constructs an {@code InvalidContentTypeException} with
-     * the specified detail message.
+     * Returns the exceptions cause.
      *
-     * @param message The detail message.
+     * @return The exceptions cause, if any, or null.
      */
-    public InvalidContentTypeException(final String message) {
-        super(message);
+    @Override
+    public Throwable getCause() {
+        return cause;
     }
 
-    /**
-     * Constructs an {@code InvalidContentTypeException} with
-     * the specified detail message and cause.
-     *
-     * @param msg The detail message.
-     * @param cause the original cause
-     *
-     * @since 1.3.1
-     */
-    public InvalidContentTypeException(final String msg, final Throwable cause) {
-        super(msg, cause);
-    }
 }

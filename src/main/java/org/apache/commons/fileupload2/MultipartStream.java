@@ -24,7 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload2.impl.FileUploadIOException;
+import org.apache.commons.fileupload2.pub.FileUploadIOException;
 import org.apache.commons.fileupload2.util.Closeable;
 import org.apache.commons.fileupload2.util.Streams;
 

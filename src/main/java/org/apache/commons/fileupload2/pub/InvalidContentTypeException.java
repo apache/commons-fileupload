@@ -14,42 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.impl;
+package org.apache.commons.fileupload2.pub;
 
 import org.apache.commons.fileupload2.FileUploadException;
 
 /**
- * Thrown to indicate that the request size is not specified. In other
- * words, it is thrown, if the content-length header is missing or
- * contains the value -1.
- *
- * @deprecated 1.2 As of commons-fileupload 1.2, the presence of a
- *   content-length header is no longer required.
+ * Thrown to indicate that the request is not a multipart request.
  */
-@Deprecated
-public class UnknownSizeException
-    extends FileUploadException {
+public class InvalidContentTypeException
+        extends FileUploadException {
 
     /**
      * The exceptions UID, for serializing an instance.
      */
-    private static final long serialVersionUID = 7062279004812015273L;
+    private static final long serialVersionUID = -9073026332015646668L;
 
     /**
-     * Constructs a {@code UnknownSizeException} with no
+     * Constructs a {@code InvalidContentTypeException} with no
      * detail message.
      */
-    public UnknownSizeException() {
+    public InvalidContentTypeException() {
     }
 
     /**
-     * Constructs an {@code UnknownSizeException} with
+     * Constructs an {@code InvalidContentTypeException} with
      * the specified detail message.
      *
      * @param message The detail message.
      */
-    public UnknownSizeException(final String message) {
+    public InvalidContentTypeException(final String message) {
         super(message);
     }
 
+    /**
+     * Constructs an {@code InvalidContentTypeException} with
+     * the specified detail message and cause.
+     *
+     * @param msg The detail message.
+     * @param cause the original cause
+     *
+     * @since 1.3.1
+     */
+    public InvalidContentTypeException(final String msg, final Throwable cause) {
+        super(msg, cause);
+    }
 }

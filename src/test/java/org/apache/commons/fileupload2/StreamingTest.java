@@ -32,7 +32,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.impl.IOFileUploadException;
+import org.apache.commons.fileupload2.pub.IOFileUploadException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.servlet.ServletRequestContext;
 import org.junit.jupiter.api.Test;

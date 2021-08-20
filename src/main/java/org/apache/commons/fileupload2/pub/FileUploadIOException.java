@@ -14,38 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.impl;
+package org.apache.commons.fileupload2.pub;
 
 import java.io.IOException;
 
 import org.apache.commons.fileupload2.FileUploadException;
 
 /**
- * Thrown to indicate an IOException.
+ * This exception is thrown for hiding an inner
+ * {@link FileUploadException} in an {@link IOException}.
  */
-public class IOFileUploadException extends FileUploadException {
+public class FileUploadIOException extends IOException {
 
     /**
      * The exceptions UID, for serializing an instance.
      */
-    private static final long serialVersionUID = 1749796615868477269L;
+    private static final long serialVersionUID = -7047616958165584154L;
 
     /**
      * The exceptions cause; we overwrite the parent
      * classes field, which is available since Java
      * 1.4 only.
      */
-    private final IOException cause;
+    private final FileUploadException cause;
 
     /**
-     * Creates a new instance with the given cause.
+     * Creates a {@code FileUploadIOException} with the
+     * given cause.
      *
-     * @param pMsg The detail message.
-     * @param pException The exceptions cause.
+     * @param pCause The exceptions cause, if any, or null.
      */
-    public IOFileUploadException(final String pMsg, final IOException pException) {
-        super(pMsg);
-        cause = pException;
+    public FileUploadIOException(final FileUploadException pCause) {
+        // We're not doing super(pCause) cause of 1.3 compatibility.
+        cause = pCause;
     }
 
     /**

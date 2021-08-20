@@ -14,49 +14,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.impl;
-
-import java.io.IOException;
+package org.apache.commons.fileupload2.pub;
 
 import org.apache.commons.fileupload2.FileUploadException;
 
 /**
- * This exception is thrown for hiding an inner
- * {@link FileUploadException} in an {@link IOException}.
+ * Thrown to indicate that the request size is not specified. In other
+ * words, it is thrown, if the content-length header is missing or
+ * contains the value -1.
+ *
+ * @deprecated 1.2 As of commons-fileupload 1.2, the presence of a
+ *   content-length header is no longer required.
  */
-public class FileUploadIOException extends IOException {
+@Deprecated
+public class UnknownSizeException
+    extends FileUploadException {
 
     /**
      * The exceptions UID, for serializing an instance.
      */
-    private static final long serialVersionUID = -7047616958165584154L;
+    private static final long serialVersionUID = 7062279004812015273L;
 
     /**
-     * The exceptions cause; we overwrite the parent
-     * classes field, which is available since Java
-     * 1.4 only.
+     * Constructs a {@code UnknownSizeException} with no
+     * detail message.
      */
-    private final FileUploadException cause;
-
-    /**
-     * Creates a {@code FileUploadIOException} with the
-     * given cause.
-     *
-     * @param pCause The exceptions cause, if any, or null.
-     */
-    public FileUploadIOException(final FileUploadException pCause) {
-        // We're not doing super(pCause) cause of 1.3 compatibility.
-        cause = pCause;
+    public UnknownSizeException() {
     }
 
     /**
-     * Returns the exceptions cause.
+     * Constructs an {@code UnknownSizeException} with
+     * the specified detail message.
      *
-     * @return The exceptions cause, if any, or null.
+     * @param message The detail message.
      */
-    @Override
-    public Throwable getCause() {
-        return cause;
+    public UnknownSizeException(final String message) {
+        super(message);
     }
 
 }

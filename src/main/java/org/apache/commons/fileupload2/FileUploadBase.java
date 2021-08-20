@@ -31,8 +31,8 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.impl.FileItemIteratorImpl;
-import org.apache.commons.fileupload2.impl.FileUploadIOException;
-import org.apache.commons.fileupload2.impl.IOFileUploadException;
+import org.apache.commons.fileupload2.pub.FileUploadIOException;
+import org.apache.commons.fileupload2.pub.IOFileUploadException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.servlet.ServletRequestContext;
 import org.apache.commons.fileupload2.util.FileItemHeadersImpl;

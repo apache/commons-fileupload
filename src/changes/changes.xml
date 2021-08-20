@@ -60,6 +60,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump spotbugs-maven-plugin from 4.2.3 to 4.3.0 #103.</action>
       <action                        dev="mgrigorov" type="update">FILEUPLOAD-340 Make commons-fileupload2 a JPMS module by adding module-info.class.</action>
       <action                        dev="jochen" type="update" due-to="Dependabot">Update Spotbugs from 4.2.3 to 4.4.0, ignore EI_EXPOSE_REP, and EI_EXPOSE_REP2.</action>
+      <action issue="FILEUPLOAD-341" dev="jochen" type="update" due-to="Martin Grigorov">Move Exception classes out of the impl package.</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>

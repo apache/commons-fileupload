@@ -24,7 +24,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.disk.DiskFileItem;
-import org.apache.commons.fileupload2.impl.InvalidContentTypeException;
+import org.apache.commons.fileupload2.pub.InvalidContentTypeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

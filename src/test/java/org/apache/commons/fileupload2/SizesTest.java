@@ -31,9 +31,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.impl.FileSizeLimitExceededException;
-import org.apache.commons.fileupload2.impl.FileUploadIOException;
-import org.apache.commons.fileupload2.impl.SizeLimitExceededException;
+import org.apache.commons.fileupload2.pub.FileSizeLimitExceededException;
+import org.apache.commons.fileupload2.pub.FileUploadIOException;
+import org.apache.commons.fileupload2.pub.SizeLimitExceededException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.util.Streams;
 import org.junit.jupiter.api.Test;
