@@ -33,8 +33,6 @@ import org.junit.jupiter.api.Test;
  */
 public final class Base64DecoderTestCase {
 
-    private static final String US_ASCII_CHARSET = "US-ASCII";
-
     /**
      * Tests RFC 4648 section 10 test vectors.
      * <ul>

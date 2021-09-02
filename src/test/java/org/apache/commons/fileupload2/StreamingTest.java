@@ -269,7 +269,7 @@ public class StreamingTest {
         }
 
         try {
-            final List<FileItem> fileItems = parseUpload(reqBytes);
+            parseUpload(reqBytes);
             fail("Expected exception");
         } catch (final InvalidFileNameException e) {
             assertEquals(fileName, e.getName());

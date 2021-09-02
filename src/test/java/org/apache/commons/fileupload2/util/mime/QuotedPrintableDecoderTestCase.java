@@ -33,8 +33,6 @@ import org.junit.jupiter.api.Test;
  */
 public final class QuotedPrintableDecoderTestCase {
 
-    private static final String US_ASCII_CHARSET = "US-ASCII";
-
     @Test
     public void emptyDecode() throws Exception {
         assertEncoded("", "");
