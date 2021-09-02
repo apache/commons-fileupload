@@ -584,7 +584,7 @@ public abstract class FileUploadBase {
                 }
                 // Continuation line found
                 end = parseEndOfLine(headerPart, nonWs);
-                header.append(" ").append(headerPart, nonWs, end);
+                header.append(' ').append(headerPart, nonWs, end);
                 start = end + 2;
             }
             parseHeaderLine(headers, header.toString());

@@ -71,7 +71,7 @@ public final class RFC2231Utility {
      */
     public static boolean hasEncodedValue(final String paramName) {
         if (paramName != null) {
-            return paramName.lastIndexOf("*") == (paramName.length() - 1);
+            return paramName.lastIndexOf('*') == (paramName.length() - 1);
         }
         return false;
     }
@@ -85,7 +85,7 @@ public final class RFC2231Utility {
     public static String stripDelimiter(final String paramName) {
         if (hasEncodedValue(paramName)) {
             final StringBuilder paramBuilder = new StringBuilder(paramName);
-            paramBuilder.deleteCharAt(paramName.lastIndexOf("*"));
+            paramBuilder.deleteCharAt(paramName.lastIndexOf('*'));
             return paramBuilder.toString();
         }
         return paramName;
