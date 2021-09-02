@@ -293,7 +293,7 @@ public class DiskFileItem
      * Returns the contents of the file as an array of bytes.  If the
      * contents of the file were not yet cached in memory, they will be
      * loaded from the disk storage and cached.
-     * @throws UncheckedIOException if an I/O error occurs
+     *
      * @return The contents of the file as an array of bytes
      * or {@code null} if the data cannot be read
      *
