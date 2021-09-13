@@ -332,7 +332,7 @@
               <overwriteExistingFiles>true</overwriteExistingFiles>
               <module>
                 <moduleInfo>
-                  <name>commons.fileupload2</name>
+                  <name>org.apache.commons.fileupload2</name>
                   <exports>
                     !org.apache.commons.fileupload2.impl;
                     *;
@@ -593,6 +593,7 @@
       <id>release</id>
       <properties>
         <moditect.skip>false</moditect.skip>
+        <maven.compiler.release>8</maven.compiler.release>
       </properties>
     </profile>
   </profiles>
