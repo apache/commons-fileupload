@@ -346,7 +346,7 @@ public abstract class FileUploadBase {
 
         for (final FileItem fileItem : items) {
             final String fieldName = fileItem.getFieldName();
-            List<FileItem> mappedItems = itemsMap.computeIfAbsent(fieldName, k -> new ArrayList<>());
+            final List<FileItem> mappedItems = itemsMap.computeIfAbsent(fieldName, k -> new ArrayList<>());
 
             mappedItems.add(fileItem);
         }
@@ -374,7 +374,7 @@ public abstract class FileUploadBase {
         if (boundaryStr == null) {
             return null;
         }
-        byte[] boundary;
+        final byte[] boundary;
         boundary = boundaryStr.getBytes(StandardCharsets.ISO_8859_1);
         return boundary;
     }

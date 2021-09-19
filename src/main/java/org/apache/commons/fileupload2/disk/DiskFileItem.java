@@ -308,11 +308,11 @@ public class DiskFileItem
             return cachedContent != null ? cachedContent.clone() : new byte[0];
         }
 
-        byte[] fileData = new byte[(int) getSize()];
+        final byte[] fileData = new byte[(int) getSize()];
 
         try (InputStream fis = Files.newInputStream(dfos.getFile().toPath())) {
             IOUtils.readFully(fis, fileData);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UncheckedIOException(e);
         }
         return fileData;
@@ -348,7 +348,7 @@ public class DiskFileItem
     @Override
     public String getString() {
         try {
-            byte[] rawData = get();
+            final byte[] rawData = get();
             String charset = getCharSet();
             if (charset == null) {
                 charset = defaultCharset;
@@ -384,7 +384,7 @@ public class DiskFileItem
         if (isInMemory()) {
             try (OutputStream fout = Files.newOutputStream(file.toPath())) {
                 fout.write(get());
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new IOException("Unexpected output data");
             }
         } else {

@@ -94,8 +94,12 @@
         <property name="ignorePattern" value="^ \* @version .*$"/>
     </module>
 
-
     <module name="TreeWalker">
+
+        <module name="FinalLocalVariable">
+            <property name="tokens" value="VARIABLE_DEF,PARAMETER_DEF"/>
+            <property name="validateEnhancedForLoopVariable" value="true"/>
+        </module>
 
         <!-- Allow comments to suppress checks -->
         <module name="SuppressionCommentFilter"/>
