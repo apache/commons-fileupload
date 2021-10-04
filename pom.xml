@@ -237,7 +237,7 @@
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
     <commons.japicmp.version>0.15.3</commons.japicmp.version>
     <japicmp.skip>true</japicmp.skip>
-    <moditect-maven-plugin.version>1.0.0.RC1</moditect-maven-plugin.version>
+    <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
     <moditect.skip>true</moditect.skip>
 
     <!-- Commons Release Plugin -->
