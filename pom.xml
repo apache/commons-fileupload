@@ -247,7 +247,7 @@
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.releaseManagerName>Rob Tompkins</commons.releaseManagerName>
     <commons.releaseManagerKey>B6E73D84EA4FCC47166087253FAAD2CD5ECBB314</commons.releaseManagerKey>
-    <spotbugs.plugin.version>4.4.1</spotbugs.plugin.version>
+    <spotbugs.plugin.version>4.4.2.1</spotbugs.plugin.version>
     <spotbugs.impl.version>4.4.1</spotbugs.impl.version>
     <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
 
