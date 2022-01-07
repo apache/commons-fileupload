@@ -248,7 +248,7 @@
     <commons.releaseManagerName>Rob Tompkins</commons.releaseManagerName>
     <commons.releaseManagerKey>B6E73D84EA4FCC47166087253FAAD2CD5ECBB314</commons.releaseManagerKey>
     <spotbugs.plugin.version>4.5.0.0</spotbugs.plugin.version>
-    <spotbugs.impl.version>4.5.2</spotbugs.impl.version>
+    <spotbugs.impl.version>4.5.3</spotbugs.impl.version>
     <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
 
   </properties>
