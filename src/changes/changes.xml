@@ -45,22 +45,23 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.0" date="TBD" description="2.0 Release">
       <action                        dev="jochen" type="update">Changing Maven coordinates, and package name, due to binary incompatible changes.</action>
-      <action                        dev="jochen" type="update">Bumping Compiler Level to 1.8.</action>
       <action issue="FILEUPLOAD-293" dev="jochen" type="fix">DiskFileItem.write(File) had been changed to use FileUtils.moveFile internally, preventing an existing file as the target.</action>
       <action issue="FILEUPLOAD-296" dev="jochen" type="fix" due-to="David Georg Reochelt">Performance gains by reusing an internal buffer.</action>
       <action                        dev="jochen" type="add">Add the package org.apache.fileupload2.jaksrvlt, for compliance with Jakarta Servlet API 5.0.</action>
       <action                        dev="jochen" type="add">Making FileUploadException a subclass of IOException. (Mibor API simplification.)</action>
       <action issue="FILEUPLOAD-274" dev="jochen" due-to="Merbin J Anselm" due-to-email="merbinjanselm@gmail.com">RFC 5987 compliance</action>
-      <action                        dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Update tests from commons-io:commons-io 2.6 to 2.11.0, #104.</action>
-      <action                        dev="ggregory" type="update" due-to="Dependabot">Update junit-jupiter from 5.5.2 to 5.8.2 #31, #130.</action>
       <action                        dev="ggregory" type="update" due-to="Emmanuel Lécharny">Slight optim: resuse the index position instead of recomputing it #49.</action>
+      <action issue="FILEUPLOAD-340" dev="mgrigorov" type="update">Make commons-fileupload2 a JPMS module by adding module-info.class.</action>
+      <action issue="FILEUPLOAD-341" dev="jochen" type="update" due-to="Martin Grigorov">Move Exception classes out of the impl package.</action>
+      <!-- UPDATE -->
+      <action                        dev="jochen" type="update">Bump Java compiler level to 1.8.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump tests from commons-io:commons-io 2.6 to 2.11.0, #104.</action>
+      <action                        dev="ggregory" type="update" due-to="Dependabot">Bump junit-jupiter from 5.5.2 to 5.8.2 #31, #130.</action>
+      <action                        dev="jochen" type="update" due-to="Dependabot">Bump Spotbugs from 4.2.3 to 4.4.0, ignore EI_EXPOSE_REP, and EI_EXPOSE_REP2.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump maven-pmd-plugin from 3.13.0 to 3.14.0 #48.</action>
-      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Update commons.japicmp.version 0.13.0 -> 0.15.3.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons.japicmp.version 0.13.0 -> 0.15.3.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump build actions/setup-java from 1.4.3 to v3 #142.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump spotbugs-maven-plugin from 4.2.3 to 4.6.0.0 #103, #133, #141.</action>
-      <action issue="FILEUPLOAD-340" dev="mgrigorov" type="update">Make commons-fileupload2 a JPMS module by adding module-info.class.</action>
-      <action                        dev="jochen" type="update" due-to="Dependabot">Update Spotbugs from 4.2.3 to 4.4.0, ignore EI_EXPOSE_REP, and EI_EXPOSE_REP2.</action>
-      <action issue="FILEUPLOAD-341" dev="jochen" type="update" due-to="Martin Grigorov">Move Exception classes out of the impl package.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump actions/checkout from 2.3.4 to 2.4.0 #125.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump actions/cache from 2.1.6 to 3 #128, #140.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump biz.aQute.bndlib from 6.0.0 to 6.1.0 #129.</action>
