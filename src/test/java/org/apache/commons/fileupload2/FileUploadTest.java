@@ -300,12 +300,10 @@ public class FileUploadTest {
     @MethodSource("data")
     public void testFileUpload130(final FileUpload upload)
             throws Exception {
-        final String[] headerNames = new String[]
-        {
+        final String[] headerNames = {
             "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader"
         };
-        final String[] headerValues = new String[]
-        {
+        final String[] headerValues = {
             "present", "Is there", "Here", "Is That"
         };
         final List<FileItem> fileItems = Util.parseUpload(upload,
