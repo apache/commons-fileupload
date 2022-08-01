@@ -355,7 +355,7 @@ public class DiskFileItem
             }
             return new String(rawData, charset);
         } catch (final IOException e) {
-            return new String(new byte[0]);
+            return "";
         }
     }
 
@@ -413,18 +413,18 @@ public class DiskFileItem
     }
 
     /**
-     * Deletes the underlying storage for a file item, including deleting any
-     * associated temporary disk file. Although this storage will be deleted
-     * automatically when the {@code FileItem} instance is garbage
-     * collected, this method can be used to ensure that this is done at an
-     * earlier time, thus preserving system resources.
+     * Deletes the underlying storage for a file item, including deleting any associated temporary disk file.
+     * This method can be used to ensure that this is done at an earlier time, thus preserving system resources.
      */
     @Override
     public void delete() {
         cachedContent = null;
         final File outputFile = getStoreLocation();
         if (outputFile != null && !isInMemory() && outputFile.exists()) {
-            outputFile.delete();
+            if (!outputFile.delete()) {
+                final String desc = "Cannot delete " + outputFile.toString();
+                throw new UncheckedIOException(desc, new IOException(desc));
+            }
         }
     }
 
@@ -528,22 +528,6 @@ public class DiskFileItem
     }
 
     // ------------------------------------------------------ Protected methods
-
-    /**
-     * Removes the file contents from the temporary storage.
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        if (dfos == null || dfos.isInMemory()) {
-            return;
-        }
-        final File outputFile = dfos.getFile();
-
-        if (outputFile != null && outputFile.exists()) {
-            outputFile.delete();
-        }
-        super.finalize();
-    }
 
     /**
      * Creates and returns a {@link java.io.File File} representing a uniquely
