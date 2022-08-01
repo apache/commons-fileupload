@@ -62,10 +62,10 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="jochen" type="update">Bump Java compiler level to 1.8.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump tests from commons-io:commons-io 2.6 to 2.11.0, #104.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump junit-jupiter from 5.5.2 to 5.8.2 #31, #130.</action>
-      <action                        dev="jochen" type="update" due-to="Dependabot">Bump Spotbugs from 4.2.3 to 4.4.0, ignore EI_EXPOSE_REP, and EI_EXPOSE_REP2.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump maven-pmd-plugin from 3.13.0 to 3.14.0 #48.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons.japicmp.version 0.13.0 -> 0.15.3.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump spotbugs-maven-plugin from 4.2.3 to 4.7.0.0 #103, #133, #141, #146.</action>
+      <action                        dev="jochen" type="update" due-to="Dependabot">Bump spotbugs from 4.2.3 to 4.7.1, ignore EI_EXPOSE_REP, and EI_EXPOSE_REP2, #152.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump biz.aQute.bndlib from 6.0.0 to 6.1.0 #129.</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
