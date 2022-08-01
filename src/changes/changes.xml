@@ -67,6 +67,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump spotbugs-maven-plugin from 4.2.3 to 4.7.1.1 #103, #133, #141, #146, #155.</action>
       <action                        dev="jochen" type="update" due-to="Dependabot">Bump spotbugs from 4.2.3 to 4.7.1, ignore EI_EXPOSE_REP, and EI_EXPOSE_REP2, #152.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump biz.aQute.bndlib from 6.0.0 to 6.1.0 #129.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-parent 52 -> 53.</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
