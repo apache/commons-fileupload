@@ -45,6 +45,7 @@ Apache Commons FileUpload
 
 [![Build Status](https://travis-ci.org/apache/commons-fileupload.svg?branch=master)](https://travis-ci.org/apache/commons-fileupload)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/badge.svg)](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/)
+[![CodeQL](https://github.com/apache/commons-fileupload/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
 
 The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
     file upload functionality to servlets and web applications.
