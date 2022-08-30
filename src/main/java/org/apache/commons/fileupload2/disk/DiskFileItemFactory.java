@@ -65,7 +65,7 @@ import org.apache.commons.io.FileCleaningTracker;
  * your web application ends. See the section on "Resource cleanup"
  * in the users guide of commons-fileupload.</p>
  *
- * @since FileUpload 1.1
+ * @since 1.1
  */
 public class DiskFileItemFactory implements FileItemFactory {
 

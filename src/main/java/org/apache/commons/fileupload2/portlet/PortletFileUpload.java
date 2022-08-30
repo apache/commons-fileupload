@@ -44,7 +44,7 @@ import org.apache.commons.fileupload2.FileUploadException;
  * used to create them; a given part may be in memory, on disk, or somewhere
  * else.</p>
  *
- * @since FileUpload 1.1
+ * @since 1.1
  */
 public class PortletFileUpload extends FileUpload {
 
