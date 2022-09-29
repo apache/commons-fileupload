@@ -43,7 +43,7 @@
 Apache Commons FileUpload
 ===================
 
-[![Build Status](https://travis-ci.org/apache/commons-fileupload.svg?branch=master)](https://travis-ci.org/apache/commons-fileupload)
+[![GitHub Actions Status](https://github.com/apache/commons-fileupload/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-fileupload/actions)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/?gav=true)
 [![CodeQL](https://github.com/apache/commons-fileupload/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
 
