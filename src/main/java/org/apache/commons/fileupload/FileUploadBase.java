@@ -206,6 +206,16 @@ public abstract class FileUploadBase {
     }
 
     /**
+     * Gets allowed max size for current upload, subclasses can override this method
+     * to calculate allowed size per request
+     * @param ctx requestContext - provides information related to current upload request.
+     * @return max size allowed for current request
+     */
+    public long getSizeMaxForThisRequest(RequestContext ctx) {
+        return sizeMax;
+    }
+
+    /**
      * Sets the maximum allowed size of a complete request, as opposed
      * to {@link #setFileSizeMax(long)}.
      *
@@ -969,15 +979,16 @@ public abstract class FileUploadBase {
                                      // CHECKSTYLE:ON
 
             InputStream input; // N.B. this is eventually closed in MultipartStream processing
-            if (sizeMax >= 0) {
-                if (requestSize != -1 && requestSize > sizeMax) {
+            long sizeMaxForThisRequest = getSizeMaxForThisRequest(ctx);
+            if (sizeMaxForThisRequest >= 0) {
+                if (requestSize != -1 && requestSize > sizeMaxForThisRequest) {
                     throw new SizeLimitExceededException(
                         format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                                Long.valueOf(requestSize), Long.valueOf(sizeMax)),
-                               requestSize, sizeMax);
+                                Long.valueOf(requestSize), Long.valueOf(sizeMaxForThisRequest)),
+                               requestSize, sizeMaxForThisRequest);
                 }
                 // N.B. this is eventually closed in MultipartStream processing
-                input = new LimitedInputStream(ctx.getInputStream(), sizeMax) {
+                input = new LimitedInputStream(ctx.getInputStream(), sizeMaxForThisRequest) {
                     @Override
                     protected void raiseError(long pSizeMax, long pCount)
                             throws IOException {

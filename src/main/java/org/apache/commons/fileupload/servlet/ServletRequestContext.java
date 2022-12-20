@@ -127,4 +127,13 @@ public class ServletRequestContext implements UploadContext {
                 this.getContentType());
     }
 
+    /**
+     * Gets underlying HttpServletRequest, this method can be used in subclasses of @{@link FileUploadBase}
+     * while adding support for max upload size per request.
+     * @return
+     */
+    public HttpServletRequest getRequest(){
+        return this.request;
+    }
+
 }
