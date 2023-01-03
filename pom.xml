@@ -26,7 +26,7 @@
 
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.4</version>
+  <version>1.5-SNAPSHOT</version>
 
   <name>Apache Commons FileUpload</name>
   <description>
@@ -215,9 +215,9 @@
     <japicmp.skip>true</japicmp.skip>
 
     <!-- Commons Release Plugin -->
-    <commons.release.version>1.4</commons.release.version>
-    <commons.bc.version>1.3.3</commons.bc.version>
-    <commons.rc.version>RC2</commons.rc.version>
+    <commons.release.version>1.5</commons.release.version>
+    <commons.bc.version>1.4</commons.bc.version>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.releaseManagerName>Rob Tompkins</commons.releaseManagerName>
