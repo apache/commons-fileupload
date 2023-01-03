@@ -45,6 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.5" date="TBD" description="1.5 Release">
       <action issue="FILEUPLOAD-293" dev="jochen" type="fix">DiskFileItem.write(File) had been changed to use FileUtils.moveFile internally, preventing an existing file as the target.</action>
+      <action                        dev="markt" type="add">Add a configurable limit (disabled by default) for the number of files to upload per request.</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>

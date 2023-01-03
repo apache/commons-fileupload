@@ -166,6 +166,12 @@ public abstract class FileUploadBase {
     private long fileSizeMax = -1;
 
     /**
+     * The maximum permitted number of files that may be uploaded in a single
+     * request. A value of -1 indicates no maximum.
+     */
+    private long fileCountMax = -1;
+
+    /**
      * The content encoding to use when reading part headers.
      */
     private String headerEncoding;
@@ -240,6 +246,25 @@ public abstract class FileUploadBase {
     public void setFileSizeMax(long fileSizeMax) {
         this.fileSizeMax = fileSizeMax;
     }
+
+    /**
+     * Returns the maximum number of files allowed in a single request.
+     *
+     * @return The maximum number of files allowed in a single request.
+     */
+    public long getFileCountMax() {
+        return fileCountMax;
+    }
+
+    /**
+     * Sets the maximum number of files allowed per request.
+     *
+     * @param fileCountMax The new limit. {@code -1} means no limit.
+     */
+    public void setFileCountMax(final long fileCountMax) {
+        this.fileCountMax = fileCountMax;
+    }
+
 
     /**
      * Retrieves the character encoding used when reading the headers of an
@@ -337,7 +362,11 @@ public abstract class FileUploadBase {
                 throw new NullPointerException("No FileItemFactory has been set.");
             }
             while (iter.hasNext()) {
-                final FileItemStream item = iter.next();
+                if (items.size() == fileCountMax) {
+                    // The next item will exceed the limit.
+                    throw new FileCountLimitExceededException(ATTACHMENT, getFileCountMax());
+                }
+            	final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = ((FileItemIteratorImpl.FileItemStreamImpl) item).name;
                 FileItem fileItem = fac.createItem(item.getFieldName(), item.getContentType(),
