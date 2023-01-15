@@ -37,7 +37,7 @@ o FILEUPLOAD-243:  Make some MultipartStream private fields final Thanks to Vill
 
 
 For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons FileUpload website:
+patches, or suggestions for improvement, see the Apache Commons FileUpload website:
 
 https://commons.apache.org/proper/commons-fileupload/
 
@@ -59,7 +59,7 @@ o FILEUPLOAD-279:  DiskFileItem can no longer be deserialized, unless a particul
 
 
 For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons FileUpload website:
+patches, or suggestions for improvement, see the Apache Commons FileUpload website:
 
 https://commons.apache.org/proper/commons-fileupload/
 
@@ -73,7 +73,7 @@ o FILEUPLOAD-272:  Performance Improvement in MultipartStream. Prevents a DoS (C
 
 
 For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons FileUpload website:
+patches, or suggestions for improvement, see the Apache Commons FileUpload website:
 
 https://commons.apache.org/proper/commons-fileupload/
 
@@ -109,7 +109,7 @@ o                  Correct example in usage documentation so it compiles.
 
 
 For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons FileUpload website:
+patches, or suggestions for improvement, see the Apache Commons FileUpload website:
 
 https://commons.apache.org/proper/commons-fileupload/
 
