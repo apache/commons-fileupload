@@ -421,7 +421,6 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${checkstyle.plugin.version}</version>
           <configuration>
             <configLocation>${basedir}/src/checkstyle/fileupload_checks.xml</configLocation>
             <suppressionsLocation>${basedir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
@@ -579,13 +578,6 @@
           <plugin>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-maven-plugin</artifactId>
-            <dependencies>
-              <dependency>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs</artifactId>
-                <version>${spotbugs.impl.version}</version>
-              </dependency>
-            </dependencies>
             <configuration>
               <excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</excludeFilterFile>
             </configuration>
