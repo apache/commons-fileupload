@@ -15,9 +15,18 @@
 
 github:
   description: "Apache Commons FileUpload is a robust, high-performance, file upload capability to your servlets and web applications"
-  homepage: https://commons.apache.org/proper/commons-fileupload/
+  homepage: https://commons.apache.org/fileupload/
   labels:
     - java
     - fileupload
     - upload
     - apache
+
+notifications:
+    commits:      commits@commons.apache.org
+    issues:       issues@commons.apache.org
+    pullrequests: issues@commons.apache.org
+    jira_options: link label
+    jobs:         notifications@commons.apache.org
+    issues_bot_dependabot: notifications@commons.apache.org
+    pullrequests_bot_dependabot: notifications@commons.apache.org
