@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload.util.mime.MimeUtility;
 import org.junit.Test;
 
 /**
@@ -38,12 +37,12 @@ public final class MimeUtilityTestCase {
 
     @Test
     public void decodeUtf8QuotedPrintableEncoded() throws Exception {
-        assertEncoded(" hé! àèôu !!!", "=?UTF-8?Q?_h=C3=A9!_=C3=A0=C3=A8=C3=B4u_!!!?=");
+        assertEncoded(" hï¿½! ï¿½ï¿½ï¿½u !!!", "=?UTF-8?Q?_h=C3=A9!_=C3=A0=C3=A8=C3=B4u_!!!?=");
     }
 
     @Test
     public void decodeUtf8Base64Encoded() throws Exception {
-        assertEncoded(" hé! àèôu !!!", "=?UTF-8?B?IGjDqSEgw6DDqMO0dSAhISE=?=");
+        assertEncoded(" hï¿½! ï¿½ï¿½ï¿½u !!!", "=?UTF-8?B?IGjDqSEgw6DDqMO0dSAhISE=?=");
     }
 
     @Test
