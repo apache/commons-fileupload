@@ -104,8 +104,8 @@ final class Base64Decoder {
      * @throws IOException thrown when the padding is incorrect or the input is truncated.
      */
     public static int decode(byte[] data, OutputStream out) throws IOException {
-        int        outLen = 0;
-        byte [] cache = new byte[INPUT_BYTES_PER_CHUNK];
+        int outLen = 0;
+        byte[] cache = new byte[INPUT_BYTES_PER_CHUNK];
         int cachedBytes = 0;
 
         for (byte b : data) {

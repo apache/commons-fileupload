@@ -366,7 +366,7 @@ public abstract class FileUploadBase {
                     // The next item will exceed the limit.
                     throw new FileCountLimitExceededException(ATTACHMENT, getFileCountMax());
                 }
-            	final FileItemStream item = iter.next();
+                final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = ((FileItemIteratorImpl.FileItemStreamImpl) item).name;
                 FileItem fileItem = fac.createItem(item.getFieldName(), item.getContentType(),
