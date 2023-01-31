@@ -25,7 +25,7 @@
  | commons-build-plugin/trunk/src/main/resources/commons-xdoc-templates |
  +======================================================================+
  |                                                                      |
- | 1) Re-generate using: mvn commons:readme-md                          |
+ | 1) Re-generate using: mvn commons-build:readme-md                    |
  |                                                                      |
  | 2) Set the following properties in the component's pom:              |
  |    - commons.componentid (required, alphabetic, lower case)          |
@@ -43,8 +43,11 @@
 Apache Commons FileUpload
 ===================
 
-[![Build Status](https://travis-ci.org/apache/commons-fileupload.svg?branch=master)](https://travis-ci.org/apache/commons-fileupload)
+[![Travis-CI Status](https://travis-ci.org/apache/commons-fileupload.svg)](https://travis-ci.org/apache/commons-fileupload)
+[![GitHub Actions Status](https://github.com/apache/commons-fileupload/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-fileupload/actions)
+[![Coverage Status](https://coveralls.io/repos/apache/commons-fileupload/badge.svg)](https://coveralls.io/r/apache/commons-fileupload)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/badge.svg)](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/)
+[![Javadocs](https://javadoc.io/badge/commons-fileupload/commons-fileupload/1.5.svg)](https://javadoc.io/doc/commons-fileupload/commons-fileupload/1.5)
 
 The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
     file upload functionality to servlets and web applications.
@@ -53,7 +56,7 @@ Documentation
 -------------
 
 More information can be found on the [Apache Commons FileUpload homepage](https://commons.apache.org/proper/commons-fileupload).
-The [Javadoc](https://commons.apache.org/proper/commons-fileupload/javadocs/api-release) can be browsed.
+The [Javadoc](https://commons.apache.org/proper/commons-fileupload/apidocs) can be browsed.
 Questions related to the usage of Apache Commons FileUpload should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
@@ -66,7 +69,7 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.4</version>
+  <version>1.5</version>
 </dependency>
 ```
 
