@@ -212,8 +212,8 @@
     <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version};-noimport:=true</commons.osgi.export>
     <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
-    <commons.japicmp.version>0.13.0</commons.japicmp.version>
-    <japicmp.skip>true</japicmp.skip>
+    <commons.japicmp.version>0.17.1</commons.japicmp.version>
+    <japicmp.skip>false</japicmp.skip>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>1.4</commons.bc.version>
@@ -304,13 +304,10 @@
               <exclude>src/checkstyle/license-header.txt</exclude>
             </excludes>
           </configuration>
-        </plugin><!-- override skip property of parent pom -->
+        </plugin>
         <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
-          <configuration>
-            <skip>true</skip>
-          </configuration>
         </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
         <plugin>
@@ -391,6 +388,10 @@
           <includeTestSourceDirectory>false</includeTestSourceDirectory>
           <enableRulesSummary>false</enableRulesSummary>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
