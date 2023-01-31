@@ -17,8 +17,8 @@
 -->
 
 <!DOCTYPE module PUBLIC
-    "-//Puppy Crawl//DTD Check Configuration 1.1//EN"
-    "http://www.puppycrawl.com/dtds/configuration_1_1.dtd">
+    "-//Checkstyle//DTD Checkstyle Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/configuration_1_2.dtd">
 
 <!--
   Checkstyle configuration for Commons FileUpload. FileUpload uses the Sun
@@ -74,11 +74,6 @@
     <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
     <module name="Translation"/>
 
-    <!-- Following interprets the header file as regular expressions. -->
-    <!-- <module name="RegexpHeader"/>                                -->
-    <module name="RegexpHeader">
-        <property name="headerFile" value="${checkstyle.header.file}"/>
-    </module>
 
     <!-- Checks for Size Violations.                    -->
     <!-- See http://checkstyle.sf.net/config_sizes.html -->
@@ -90,28 +85,42 @@
     <!-- Require package Javadoc -->
     <module name="JavadocPackage"/>
 
-    <!-- Allow comments to suppress checks -->
-    <module name="SuppressionCommentFilter"/>
 
-    <module name="SuppressWithNearbyCommentFilter">
-        <property name="commentFormat" value="CHECKSTYLE IGNORE (\w+) FOR NEXT (\d+) LINES?"/>
-        <property name="checkFormat" value="$1"/>
-        <property name="influenceFormat" value="$2"/>
+    <property name="cacheFile" value="${checkstyle.cache.file}"/>
+
+    <!-- Begin Custom for FileUpload -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="ignorePattern" value="^ \* @version .*$"/>
     </module>
 
     <module name="TreeWalker">
 
-        <property name="cacheFile" value="${checkstyle.cache.file}"/>
+        <!-- Not fixed in 1.x branch
+        <module name="FinalLocalVariable">
+            <property name="tokens" value="VARIABLE_DEF,PARAMETER_DEF"/>
+            <property name="validateEnhancedForLoopVariable" value="true"/>
+        </module>
+        -->
 
         <!-- Allow comments to suppress checks -->
-        <module name="FileContentsHolder"/>
+        <module name="SuppressionCommentFilter"/>
+
+        <module name="SuppressWithNearbyCommentFilter">
+          <property name="commentFormat" value="CHECKSTYLE IGNORE (\w+) FOR NEXT (\d+) LINES?"/>
+          <property name="checkFormat" value="$1"/>
+          <property name="influenceFormat" value="$2"/>
+        </module>
+
+
+
+        <!-- Allow comments to suppress checks
+        <module name="FileContentsHolder"/>-->
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <module name="JavadocMethod">
-          <property name="scope" value="protected"/>
-          <property name="allowUndeclaredRTE" value="true"/>
-          <property name="allowThrowsTagsForSubclasses" value="true"/>
+          <property name="accessModifiers" value="protected"/>
         </module>
         <module name="JavadocType"/>
         <module name="JavadocVariable"/>
@@ -153,11 +162,6 @@
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
 
-        <!-- Begin Custom for FileUpload -->
-        <module name="LineLength">
-          <property name="max" value="120"/>
-          <property name="ignorePattern" value="^ \* @version .*$"/>
-        </module>
         <!-- End Custom for FileUpload -->
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
@@ -197,7 +201,6 @@
 
         <!-- Checks for common coding problems               -->
         <!-- See http://checkstyle.sf.net/config_coding.html -->
-        <module name="AvoidInlineConditionals"/>
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <!-- Disabled for FileUpload: module name="HiddenField"/ -->
@@ -205,9 +208,6 @@
         <module name="InnerAssignment"/>
         <module name="MagicNumber"/>
         <module name="MissingSwitchDefault"/>
-        <module name="RedundantThrows">
-          <property name="allowSubclasses" value="true"/>
-        </module>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
 
