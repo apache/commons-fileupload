@@ -26,7 +26,7 @@
 
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.5</version>
+  <version>1.5-SNAPSHOT</version>
 
   <name>Apache Commons FileUpload</name>
   <description>
@@ -183,7 +183,7 @@
     <connection>scm:git:http://gitbox.apache.org/repos/asf/commons-fileupload.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-fileupload.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-fileupload.git</url>
-    <tag>commons-fileupload-1.5-RC1</tag>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
