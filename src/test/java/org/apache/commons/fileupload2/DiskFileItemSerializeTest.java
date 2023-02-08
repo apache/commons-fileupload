@@ -87,7 +87,23 @@ public class DiskFileItemSerializeTest {
         } catch (UncheckedIOException e) {
             fail("Unexpected IOException", e);
         }
+        testWritingToFile(item, testFieldValueBytes);
         item.delete();
+    }
+
+    /**
+     * Helper method to test writing item contents to a file.
+     */
+    public void testWritingToFile(final FileItem item, final byte[] testFieldValueBytes) {
+        try {
+            final File temp = File.createTempFile("fileupload", null);
+            // Note that the file exists and is initially empty;
+            // write() must be able to handle that.
+            item.write(temp);
+            compareBytes("Initial", FileUtils.readFileToByteArray(temp), testFieldValueBytes);
+        } catch (Exception e) {
+            fail("Unexpected Exception", e);
+        }
     }
 
     /**
@@ -138,6 +154,7 @@ public class DiskFileItemSerializeTest {
             fail("Unexpected IOException", e);
         }
 
+        testWritingToFile(item, testFieldValueBytes);
         item.delete();
     }
 
