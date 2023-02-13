@@ -43,7 +43,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.5" date="TBD" description="1.5 Release">
+    <release version="1.5" date="2023-02-13" description="1.5 Release">
       <action                        dev="markt" type="update">Bump Commons IO to 2.11.0</action>
       <action issue="FILEUPLOAD-293" dev="jochen" type="fix">DiskFileItem.write(File) had been changed to use FileUtils.moveFile internally, preventing an existing file as the target</action>
       <action                        dev="markt" due-to="David Georg Reichelt" type="fix">Improve parsing speed</action>
