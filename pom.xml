@@ -26,7 +26,7 @@
 
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
 
   <name>Apache Commons FileUpload</name>
   <description>
@@ -203,7 +203,7 @@
     <maven.compiler.target>1.6</maven.compiler.target>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload</commons.module.name>
-    <commons.release.version>1.5</commons.release.version>
+    <commons.release.version>1.5.1</commons.release.version>
     <commons.release.desc>(requires Java ${maven.compiler.target} or later)</commons.release.desc>
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
@@ -216,7 +216,7 @@
     <japicmp.skip>false</japicmp.skip>
 
     <!-- Commons Release Plugin -->
-    <commons.bc.version>1.4</commons.bc.version>
+    <commons.bc.version>1.5</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
