@@ -52,6 +52,22 @@
         href="https://commons.apache.org/security.html">security page
         of the Apache Commons project</a>.</p>
 
+        <subsection name="Fixed in Apache Commons FileUpload 1.5">
+          <p><b>Important: Denial of Service</b> <a
+          href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-24998">CVE-2023-24998</a></p>
+ 
+          <p>Apache Commons FileUpload before 1.5 does not limit the number of
+          request parts to be processed resulting in the possibility of an
+          attacker triggering a DoS with a malicious upload or series of
+          uploads.</p>
+
+          <p>This was fixed in commit
+          <a href="https://github.com/apache/commons-fileupload/commit/e20c04990f7420ca917e96a84cec58b13a1b3d17"
+          >e20c0499</a>.</p>
+
+          <p>Affects: 1.0? - 1.4</p>
+        </subsection>
+
         <subsection name="Notes on Apache Commons FileUpload 1.3.3">
           <p>
             Regarding potential security problems with the class called DiskFileItem,
@@ -91,7 +107,7 @@
           boundary is close to the size of the buffer in MultipartStream. This is also fixed
           for <a href="https://tomcat.apache.org/security.html">Apache Tomcat</a>.</p>
 
-          <p>This was fixed in revisions
+          <p>This was fixed in revision
           <a href="http://svn.apache.org/viewvc?view=revision&amp;revision=1743480">1743480</a>.</p>
 
           <p>Affects: 1.0? - 1.3.1</p>
@@ -107,7 +123,7 @@
           loop and CPU consumption) via a crafted Content-Type header that bypasses a loop's intended
           exit conditions.</p>
 
-          <p>This was fixed in revisions
+          <p>This was fixed in revision
           <a href="http://svn.apache.org/viewvc?view=revision&amp;revision=1565143">1565143</a>.</p>
 
           <p>Affects: 1.0? - 1.3</p>
@@ -121,7 +137,7 @@
           <p>Update the Javadoc and documentation to make it clear that setting a repository
           is required for a secure configuration if there are local, untrusted users.</p>
 
-          <p>This was fixed in revisions
+          <p>This was fixed in revision
           <a href="http://svn.apache.org/viewvc?view=revision&amp;revision=1453273">1453273</a>.</p>
 
           <p>Affects: 1.0 - 1.2.2</p>
