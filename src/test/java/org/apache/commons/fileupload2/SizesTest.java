@@ -286,7 +286,7 @@ public class SizesTest {
         }
     }
 
-    /** Checks, whether the maxSize works.
+    /** Checks, whether the fileCountMax works.
      */
     @Test
     public void testCountMaxLimit()
