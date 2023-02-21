@@ -31,6 +31,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.pub.FileCountLimitExceededException;
 import org.apache.commons.fileupload2.pub.FileSizeLimitExceededException;
 import org.apache.commons.fileupload2.pub.FileUploadIOException;
 import org.apache.commons.fileupload2.pub.SizeLimitExceededException;
@@ -285,4 +286,82 @@ public class SizesTest {
         }
     }
 
+    /** Checks, whether the maxSize works.
+     */
+    @Test
+    public void testCountMaxLimit()
+            throws IOException, FileUploadException {
+        final String request =
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file1\"; filename=\"foo1.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "Content-Length: 10\r\n" +
+            "\r\n" +
+            "This is the content of the file1\n" +
+            "\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"field\"\r\n" +
+            "\r\n" +
+            "fieldValue\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "\r\n" +
+            "This is the content of the file2\n" +
+            "\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"multi\"\r\n" +
+            "\r\n" +
+            "value1\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"multi\"\r\n" +
+            "\r\n" +
+            "value2\r\n" +
+            "-----1234--\r\n";
+
+
+        // Check default configuration has no limit
+        {
+          final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+          assertEquals(-1, upload.getFileCountMax());
+
+          final MockHttpServletRequest req = new MockHttpServletRequest(
+                  request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
+          List<FileItem> items = upload.parseRequest(req);
+          assertEquals(5, items.size());
+          assertEquals(2, items.stream().filter(fileItem -> !fileItem.isFormField()).count());
+        }
+
+        // Check when custom limit is specified, but not reached
+        //  - only files are counted, not simple form fields
+        {
+          final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+          upload.setFileCountMax(3);
+          assertEquals(3, upload.getFileCountMax());
+        
+          final MockHttpServletRequest req = new MockHttpServletRequest(
+                  request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
+          List<FileItem> items = upload.parseRequest(req);
+          assertEquals(5, items.size());
+          assertEquals(2, items.stream().filter(fileItem -> !fileItem.isFormField()).count());
+        }
+        
+        // Check when custom limit is specified and reached
+        // -> exception thrown, and indicates the configured limit
+        {
+          final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+          upload.setFileCountMax(2);
+          assertEquals(2, upload.getFileCountMax());
+        
+          final MockHttpServletRequest req = new MockHttpServletRequest(
+                  request.getBytes(StandardCharsets.US_ASCII), Constants.CONTENT_TYPE);
+          try {
+            upload.parseRequest(req);
+            fail("Expected exception.");
+          } catch (FileCountLimitExceededException ex) {
+            assertEquals(2, ex.getLimit());
+          }
+        }
+
+    }
 }

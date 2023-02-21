@@ -308,6 +308,7 @@ public abstract class FileUploadBase {
     public List<FileItem> parseRequest(final RequestContext ctx)
             throws FileUploadException {
         final List<FileItem> items = new ArrayList<>();
+        int fileCount = 0;
         boolean successful = false;
         try {
             final FileItemIterator iter = getItemIterator(ctx);
@@ -315,7 +316,7 @@ public abstract class FileUploadBase {
                     "No FileItemFactory has been set.");
             final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {
-                if (items.size() == fileCountMax) {
+                if (fileCount == fileCountMax) {
                     // The next item will exceed the limit.
                     throw new FileCountLimitExceededException(ATTACHMENT, getFileCountMax());
                 }
@@ -333,6 +334,10 @@ public abstract class FileUploadBase {
                     throw new IOFileUploadException(format("Processing of %s request failed. %s",
                                                            MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
+                if (!fileItem.isFormField()) {
+                  fileCount++;
+                }
+
                 final FileItemHeaders fih = item.getHeaders();
                 fileItem.setHeaders(fih);
             }
