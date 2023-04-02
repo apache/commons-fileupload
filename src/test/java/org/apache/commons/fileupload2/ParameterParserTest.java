@@ -69,7 +69,6 @@ public class ParameterParserTest {
 
     /**
      * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-274">FILEUPLOAD-274</a>
-     * @throws UnsupportedEncodingException
      */
     @Test
     public void testFileUpload274() {
