@@ -71,6 +71,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.getFileName(Map).</action>
       <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.getHeader(Map, String).</action>
       <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.parseHeaders(String).</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Replace org.apache.commons.fileupload2.util.mime.Base64Decoder with java.util.Base64.</action>
       <!-- UPDATE -->
       <action                        dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">Bump actions/cache from 2.1.6 to 3.0.8 #128, #140.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">Bump actions/checkout from 2.3.4 to 3.0.2 #125.</action>

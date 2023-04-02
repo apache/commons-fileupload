@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -230,7 +231,7 @@ public final class MimeUtility {
 
             // Base64 encoded?
             if (encoding.equals(BASE64_ENCODING_MARKER)) {
-                Base64Decoder.decode(encodedData, out);
+                out.write(Base64.getMimeDecoder().decode(encodedData));
             } else if (encoding.equals(QUOTEDPRINTABLE_ENCODING_MARKER)) { // maybe quoted printable.
                 QuotedPrintableDecoder.decode(encodedData, out);
             } else {
