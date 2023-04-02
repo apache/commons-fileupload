@@ -42,11 +42,11 @@ public class FileUploadIOException extends IOException {
      * Creates a {@code FileUploadIOException} with the
      * given cause.
      *
-     * @param pCause The exceptions cause, if any, or null.
+     * @param cause The exceptions cause, if any, or null.
      */
-    public FileUploadIOException(final FileUploadException pCause) {
+    public FileUploadIOException(final FileUploadException cause) {
         // We're not doing super(pCause) cause of 1.3 compatibility.
-        cause = pCause;
+        this.cause = cause;
     }
 
     /**
