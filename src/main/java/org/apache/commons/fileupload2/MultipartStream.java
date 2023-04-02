@@ -502,7 +502,7 @@ public class MultipartStream {
      *
      * @return {@code true} if {@code count} first bytes in arrays {@code a} and {@code b} are equal.
      */
-    public static boolean arrayequals(final byte[] a, final byte[] b, final int count) {
+    public static boolean arrayEquals(final byte[] a, final byte[] b, final int count) {
         for (int i = 0; i < count; i++) {
             if (a[i] != b[i]) {
                 return false;
@@ -776,9 +776,9 @@ public class MultipartStream {
             }
 
             marker[1] = readByte();
-            if (arrayequals(marker, STREAM_TERMINATOR, 2)) {
+            if (arrayEquals(marker, STREAM_TERMINATOR, 2)) {
                 nextChunk = false;
-            } else if (arrayequals(marker, FIELD_SEPARATOR, 2)) {
+            } else if (arrayEquals(marker, FIELD_SEPARATOR, 2)) {
                 nextChunk = true;
             } else {
                 throw new MalformedStreamException("Unexpected characters follow a boundary");
