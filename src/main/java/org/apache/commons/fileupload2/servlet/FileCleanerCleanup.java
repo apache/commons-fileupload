@@ -17,8 +17,8 @@
 package org.apache.commons.fileupload2.servlet;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 import org.apache.commons.io.FileCleaningTracker;
 
