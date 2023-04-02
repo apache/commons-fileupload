@@ -50,8 +50,6 @@ public class ServletFileUpload extends FileUpload {
      */
     private static final String POST_METHOD = "POST";
 
-    // ---------------------------------------------------------- Class methods
-
     /**
      * Utility method that determines whether the request contains multipart
      * content.
@@ -68,8 +66,6 @@ public class ServletFileUpload extends FileUpload {
         }
         return FileUploadBase.isMultipartContent(new ServletRequestContext(request));
     }
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Constructs an uninitialized instance of this class. A factory must be
@@ -110,8 +106,7 @@ public class ServletFileUpload extends FileUpload {
      *   error while communicating with the client or a problem while
      *   storing the uploaded content.
      */
-    public FileItemIterator getItemIterator(final HttpServletRequest request)
-    throws FileUploadException, IOException {
+    public FileItemIterator getItemIterator(final HttpServletRequest request) throws FileUploadException, IOException {
         return super.getItemIterator(new ServletRequestContext(request));
     }
 
@@ -128,8 +123,7 @@ public class ServletFileUpload extends FileUpload {
      *
      * @since 1.3
      */
-    public Map<String, List<FileItem>> parseParameterMap(final HttpServletRequest request)
-            throws FileUploadException {
+    public Map<String, List<FileItem>> parseParameterMap(final HttpServletRequest request) throws FileUploadException {
         return parseParameterMap(new ServletRequestContext(request));
     }
 
@@ -145,8 +139,7 @@ public class ServletFileUpload extends FileUpload {
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */
-    public List<FileItem> parseRequest(final HttpServletRequest request)
-    throws FileUploadException {
+    public List<FileItem> parseRequest(final HttpServletRequest request) throws FileUploadException {
         return parseRequest(new ServletRequestContext(request));
     }
 

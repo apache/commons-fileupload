@@ -17,42 +17,42 @@
 package org.apache.commons.fileupload2.pub;
 
 /**
- * Thrown to indicate that A files size exceeds the configured maximum.
+ * Signals that a file size exceeds the configured maximum.
  */
-public class FileSizeLimitExceededException
-        extends SizeException {
+public class FileUploadByteCountLimitException extends FileUploadSizeException {
 
     /**
      * The exceptions UID, for serializing an instance.
      */
-    private static final long serialVersionUID = 8150776562029630058L;
+    private static final long serialVersionUID = 2;
 
     /**
      * File name of the item, which caused the exception.
      */
-    private String fileName;
+    private final String fileName;
 
     /**
      * Field name of the item, which caused the exception.
      */
-    private String fieldName;
+    private final String fieldName;
 
     /**
-     * Constructs a {@code SizeExceededException} with
-     * the specified detail message, and actual and permitted sizes.
+     * Constructs an instance with the specified detail message, and actual and permitted sizes.
      *
-     * @param message   The detail message.
+     * @param message   The detail message (which is saved for later retrieval by the {@link #getMessage()} method)
      * @param actual    The actual request size.
      * @param permitted The maximum permitted request size.
+     * @param fileName  File name of the item, which caused the exception.
+     * @param fieldName Field name of the item, which caused the exception.
      */
-    public FileSizeLimitExceededException(final String message, final long actual,
-            final long permitted) {
-        super(message, actual, permitted);
+    public FileUploadByteCountLimitException(final String message, final long actual, final long permitted, final String fileName, final String fieldName) {
+        super(message, permitted, actual);
+        this.fileName = fieldName;
+        this.fieldName = fieldName;
     }
 
     /**
-     * Returns the field name of the item, which caused the
-     * exception.
+     * Gets the field name of the item, which caused the exception.
      *
      * @return Field name, if known, or null.
      */
@@ -61,34 +61,12 @@ public class FileSizeLimitExceededException
     }
 
     /**
-     * Returns the file name of the item, which caused the
-     * exception.
+     * Gets the file name of the item, which caused the exception.
      *
      * @return File name, if known, or null.
      */
     public String getFileName() {
         return fileName;
-    }
-
-    /**
-     * Sets the field name of the item, which caused the
-     * exception.
-     *
-     * @param pFieldName the field name of the item,
-     *        which caused the exception.
-     */
-    public void setFieldName(final String pFieldName) {
-        fieldName = pFieldName;
-    }
-
-    /**
-     * Sets the file name of the item, which caused the
-     * exception.
-     *
-     * @param pFileName the file name of the item, which caused the exception.
-     */
-    public void setFileName(final String pFileName) {
-        fileName = pFileName;
     }
 
 }

@@ -29,9 +29,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.fileupload2.impl.FileItemIteratorImpl;
-import org.apache.commons.fileupload2.pub.FileCountLimitExceededException;
-import org.apache.commons.fileupload2.pub.FileUploadIOException;
-import org.apache.commons.fileupload2.pub.IOFileUploadException;
+import org.apache.commons.fileupload2.pub.FileUploadFileCountLimitException;
 import org.apache.commons.fileupload2.util.FileItemHeadersImpl;
 import org.apache.commons.fileupload2.util.Streams;
 
@@ -386,14 +384,8 @@ public abstract class FileUploadBase {
      *   error while communicating with the client or a problem while
      *   storing the uploaded content.
      */
-    public FileItemIterator getItemIterator(final RequestContext ctx)
-    throws FileUploadException, IOException {
-        try {
-            return new FileItemIteratorImpl(this, ctx);
-        } catch (final FileUploadIOException e) {
-            // unwrap encapsulated SizeException
-            throw (FileUploadException) e.getCause();
-        }
+    public FileItemIterator getItemIterator(final RequestContext ctx) throws FileUploadException, IOException {
+        return new FileItemIteratorImpl(this, ctx);
     }
 
     /**
@@ -587,27 +579,24 @@ public abstract class FileUploadBase {
         boolean successful = false;
         try {
             final FileItemIterator iter = getItemIterator(ctx);
-            final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(),
-                    "No FileItemFactory has been set.");
+            final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {
                 if (items.size() == fileCountMax) {
                     // The next item will exceed the limit.
-                    throw new FileCountLimitExceededException(ATTACHMENT, getFileCountMax());
+                    throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), items.size());
                 }
                 final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = item.getName();
-                final FileItem fileItem = fileItemFactory.createItem(item.getFieldName(), item.getContentType(),
-                                                   item.isFormField(), fileName);
+                final FileItem fileItem = fileItemFactory.createItem(item.getFieldName(), item.getContentType(), item.isFormField(), fileName);
                 items.add(fileItem);
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer);
-                } catch (final FileUploadIOException e) {
-                    throw (FileUploadException) e.getCause();
+                } catch (final FileUploadException e) {
+                    throw e;
                 } catch (final IOException e) {
-                    throw new IOFileUploadException(format("Processing of %s request failed. %s",
-                                                           MULTIPART_FORM_DATA, e.getMessage()), e);
+                    throw new FileUploadException(format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
                 final FileItemHeaders fih = item.getHeaders();
                 fileItem.setHeaders(fih);

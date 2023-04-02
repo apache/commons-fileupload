@@ -19,8 +19,9 @@ package org.apache.commons.fileupload2;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.fileupload2.pub.FileSizeLimitExceededException;
-import org.apache.commons.fileupload2.pub.SizeLimitExceededException;
+import javax.naming.SizeLimitExceededException;
+
+import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
 
 /**
  * An iterator, as returned by
@@ -29,7 +30,7 @@ import org.apache.commons.fileupload2.pub.SizeLimitExceededException;
 public interface FileItemIterator {
     List<FileItem> getFileItems() throws FileUploadException, IOException;
 
-    /** Returns the maximum size of a single file. An {@link FileSizeLimitExceededException}
+    /** Returns the maximum size of a single file. An {@link FileUploadByteCountLimitException}
      * will be thrown, if there is an uploaded file, which is exceeding this value.
      * By default, this value will be copied from the {@link FileUploadBase#getFileSizeMax()
      * FileUploadBase} object, however, the user may replace the default value with a
@@ -72,7 +73,7 @@ public interface FileItemIterator {
      */
     FileItemStream next() throws FileUploadException, IOException;
 
-    /** Sets the maximum size of a single file. An {@link FileSizeLimitExceededException}
+    /** Sets the maximum size of a single file. An {@link FileUploadByteCountLimitException}
      * will be thrown, if there is an uploaded file, which is exceeding this value.
      * By default, this value will be copied from the {@link FileUploadBase#getFileSizeMax()
      * FileUploadBase} object, however, the user may replace the default value with a

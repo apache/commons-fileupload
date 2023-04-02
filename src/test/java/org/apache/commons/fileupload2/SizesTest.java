@@ -31,9 +31,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.pub.FileSizeLimitExceededException;
-import org.apache.commons.fileupload2.pub.FileUploadIOException;
-import org.apache.commons.fileupload2.pub.SizeLimitExceededException;
+import org.apache.commons.fileupload2.pub.FileUploadSizeException;
+import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.util.Streams;
 import org.junit.jupiter.api.Test;
@@ -80,8 +79,8 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (final FileSizeLimitExceededException e) {
-            assertEquals(30, e.getPermittedSize());
+        } catch (final FileUploadByteCountLimitException e) {
+            assertEquals(30, e.getPermitted());
         }
     }
 
@@ -124,8 +123,8 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (final FileSizeLimitExceededException e) {
-            assertEquals(5, e.getPermittedSize());
+        } catch (final FileUploadByteCountLimitException e) {
+            assertEquals(5, e.getPermitted());
         }
 
         // provided Content-Length is wrong, actual content is larger -> handled by LimitedInputStream
@@ -135,8 +134,8 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (final FileSizeLimitExceededException e) {
-            assertEquals(15, e.getPermittedSize());
+        } catch (final FileUploadByteCountLimitException e) {
+            assertEquals(15, e.getPermitted());
         }
     }
 
@@ -214,8 +213,8 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (final SizeLimitExceededException e) {
-            assertEquals(200, e.getPermittedSize());
+        } catch (final FileUploadSizeException e) {
+            assertEquals(200, e.getPermitted());
         }
     }
 
@@ -269,7 +268,7 @@ public class SizesTest {
         try {
             // the header is still within size max -> this shall still succeed
             assertTrue(it.hasNext());
-        } catch (final SizeLimitExceededException e) {
+        } catch (final FileUploadSizeException e) {
             fail();
         }
 
@@ -280,7 +279,7 @@ public class SizesTest {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Streams.copy(stream, baos, true);
             fail();
-        } catch (final FileUploadIOException e) {
+        } catch (final FileUploadException e) {
             // expected
         }
     }

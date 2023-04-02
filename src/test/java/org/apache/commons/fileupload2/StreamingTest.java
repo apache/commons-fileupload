@@ -29,10 +29,10 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.pub.IOFileUploadException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
 import org.apache.commons.fileupload2.servlet.ServletRequestContext;
 import org.junit.jupiter.api.Test;
@@ -186,7 +186,7 @@ public class StreamingTest {
         try {
             parseUpload(invalidRequest);
             fail("Expected EndOfStreamException");
-        } catch (final IOFileUploadException e) {
+        } catch (final FileUploadException e) {
             assertTrue(e.getCause() instanceof MultipartStream.MalformedStreamException);
         }
     }

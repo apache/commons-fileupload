@@ -144,12 +144,10 @@ public final class Streams {
      * @return Number of bytes, which have been copied.
      * @throws IOException An I/O error occurred.
      */
-    public static long copy(final InputStream inputStream,
-            final OutputStream outputStream, final boolean closeOutputStream,
-            final byte[] buffer)
-    throws IOException {
+    public static long copy(final InputStream inputStream, final OutputStream outputStream, final boolean closeOutputStream, final byte[] buffer)
+            throws IOException {
         try (OutputStream out = outputStream;
-              InputStream in = inputStream) {
+                InputStream in = inputStream) {
             long total = 0;
             for (;;) {
                 final int res = in.read(buffer);

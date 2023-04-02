@@ -19,43 +19,44 @@ package org.apache.commons.fileupload2.pub;
 import org.apache.commons.fileupload2.FileUploadException;
 
 /**
- * Thrown to indicate that the request is not a multipart request.
+ * Signals that a request is not a multipart request.
  */
-public class InvalidContentTypeException
-        extends FileUploadException {
+public class FileUploadContentTypeException extends FileUploadException {
 
     /**
      * The exceptions UID, for serializing an instance.
      */
-    private static final long serialVersionUID = -9073026332015646668L;
+    private static final long serialVersionUID = 2;
 
     /**
-     * Constructs a {@code InvalidContentTypeException} with no
-     * detail message.
+     * The guilty content type.
      */
-    public InvalidContentTypeException() {
-    }
+    private String contentType;
 
     /**
-     * Constructs an {@code InvalidContentTypeException} with
-     * the specified detail message.
+     * Constructs an instance with the specified detail message.
      *
-     * @param message The detail message.
+     * @param message The detail message (which is saved for later retrieval by the {@link #getMessage()} method)
+     * @param contentType The guilty content type.
      */
-    public InvalidContentTypeException(final String message) {
+    public FileUploadContentTypeException(final String message, final String contentType) {
         super(message);
+        this.contentType = contentType;
     }
 
     /**
-     * Constructs an {@code InvalidContentTypeException} with
-     * the specified detail message and cause.
+     * Constructs an instance with the specified detail message and cause.
      *
-     * @param msg The detail message.
+     * @param message
+     *        The detail message (which is saved for later retrieval
+     *        by the {@link #getMessage()} method)
      * @param cause the original cause
-     *
-     * @since 1.3.1
      */
-    public InvalidContentTypeException(final String msg, final Throwable cause) {
-        super(msg, cause);
+    public FileUploadContentTypeException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    public String getContentType() {
+        return contentType;
     }
 }
