@@ -19,7 +19,6 @@ package org.apache.commons.fileupload2;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;

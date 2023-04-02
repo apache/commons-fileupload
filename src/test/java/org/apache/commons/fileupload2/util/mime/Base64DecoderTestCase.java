@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
@@ -44,8 +43,7 @@ public final class Base64DecoderTestCase {
         assertArrayEquals(expected, actual);
     }
 
-    private static void assertIOException(final String messageText, final String encoded)
-            throws UnsupportedEncodingException {
+    private static void assertIOException(final String messageText, final String encoded) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
         final byte[] encodedData = encoded.getBytes(StandardCharsets.US_ASCII);
         try {

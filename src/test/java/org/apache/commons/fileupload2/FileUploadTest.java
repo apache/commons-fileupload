@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Stream;
@@ -108,7 +107,7 @@ public class FileUploadTest {
     @ParameterizedTest
     @MethodSource("data")
     public void testEmptyFile(final FileUpload upload)
-            throws UnsupportedEncodingException, FileUploadException {
+            throws FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload (upload,
                                                 "-----1234\r\n" +
                                                 "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
@@ -355,7 +354,7 @@ public class FileUploadTest {
     @ParameterizedTest
     @MethodSource("data")
     public void testIE5MacBug(final FileUpload upload)
-            throws UnsupportedEncodingException, FileUploadException {
+            throws FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"field1\"\r\n" +
