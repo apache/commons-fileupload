@@ -32,31 +32,13 @@ public class FileUploadIOException extends IOException {
     private static final long serialVersionUID = -7047616958165584154L;
 
     /**
-     * The exceptions cause; we overwrite the parent
-     * classes field, which is available since Java
-     * 1.4 only.
-     */
-    private final FileUploadException cause;
-
-    /**
      * Creates a {@code FileUploadIOException} with the
      * given cause.
      *
      * @param cause The exceptions cause, if any, or null.
      */
     public FileUploadIOException(final FileUploadException cause) {
-        // We're not doing super(pCause) cause of 1.3 compatibility.
-        this.cause = cause;
-    }
-
-    /**
-     * Returns the exceptions cause.
-     *
-     * @return The exceptions cause, if any, or null.
-     */
-    @Override
-    public Throwable getCause() {
-        return cause;
+        super(cause);
     }
 
 }
