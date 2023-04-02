@@ -82,18 +82,6 @@ public class JakSrvltRequestContext implements UploadContext {
     }
 
     /**
-     * Retrieve the content length of the request.
-     *
-     * @return The content length of the request.
-     * @deprecated 1.3 Use {@link #contentLength()} instead
-     */
-    @Override
-    @Deprecated
-    public int getContentLength() {
-        return request.getContentLength();
-    }
-
-    /**
      * Retrieve the content type of the request.
      *
      * @return The content type of the request.

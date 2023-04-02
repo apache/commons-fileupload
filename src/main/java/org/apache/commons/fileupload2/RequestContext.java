@@ -29,30 +29,21 @@ import java.io.IOException;
 public interface RequestContext {
 
     /**
-     * Retrieve the character encoding for the request.
+     * Gets the character encoding for the request.
      *
      * @return The character encoding for the request.
      */
     String getCharacterEncoding();
 
     /**
-     * Retrieve the content length of the request.
-     *
-     * @return The content length of the request.
-     * @deprecated 1.3 Use {@link UploadContext#contentLength()} instead
-     */
-    @Deprecated
-    int getContentLength();
-
-    /**
-     * Retrieve the content type of the request.
+     * Gets the content type of the request.
      *
      * @return The content type of the request.
      */
     String getContentType();
 
     /**
-     * Retrieve the input stream for the request.
+     * Gets the input stream for the request.
      *
      * @return The input stream for the request.
      *

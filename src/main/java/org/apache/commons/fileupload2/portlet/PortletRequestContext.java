@@ -34,15 +34,10 @@ import org.apache.commons.fileupload2.UploadContext;
  */
 public class PortletRequestContext implements UploadContext {
 
-    // ----------------------------------------------------- Instance Variables
-
     /**
      * The request for which the context is being provided.
      */
     private final ActionRequest request;
-
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Construct a context for this request.
@@ -52,9 +47,6 @@ public class PortletRequestContext implements UploadContext {
     public PortletRequestContext(final ActionRequest request) {
         this.request = request;
     }
-
-
-    // --------------------------------------------------------- Public Methods
 
     /**
      * Retrieve the content length of the request.
@@ -81,18 +73,6 @@ public class PortletRequestContext implements UploadContext {
     @Override
     public String getCharacterEncoding() {
         return request.getCharacterEncoding();
-    }
-
-    /**
-     * Retrieve the content length of the request.
-     *
-     * @return The content length of the request.
-     * @deprecated 1.3 Use {@link #contentLength()} instead
-     */
-    @Override
-    @Deprecated
-    public int getContentLength() {
-        return request.getContentLength();
     }
 
     /**

@@ -570,50 +570,9 @@ public class MultipartStream {
      */
     private final ProgressNotifier notifier;
 
-    /**
-     * Creates a new instance.
-     *
-     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int, ProgressNotifier)}
-     */
-    @Deprecated
-    public MultipartStream() {
-        this(null, null, null);
-    }
+
 
     // --------------------------------------------------------- Public methods
-
-    /**
-     * <p>
-     * Constructs a {@code MultipartStream} with a default size buffer.
-     *
-     * @param input    The {@code InputStream} to serve as a data source.
-     * @param boundary The token used for dividing the stream into {@code encapsulations}.
-     *
-     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int, ProgressNotifier)}.
-     */
-    @Deprecated
-    public MultipartStream(final InputStream input, final byte[] boundary) {
-        this(input, boundary, DEFAULT_BUFSIZE, null);
-    }
-
-    /**
-     * <p>
-     * Constructs a {@code MultipartStream} with a custom size buffer and no progress notifier.
-     *
-     * <p>
-     * Note that the buffer must be at least big enough to contain the boundary string, plus 4 characters for CR/LF and double dash, plus at least one byte of
-     * data. Too small a buffer size setting will degrade performance.
-     *
-     * @param input    The {@code InputStream} to serve as a data source.
-     * @param boundary The token used for dividing the stream into {@code encapsulations}.
-     * @param bufSize  The size of the buffer to be used, in bytes.
-     *
-     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int, ProgressNotifier)}.
-     */
-    @Deprecated
-    public MultipartStream(final InputStream input, final byte[] boundary, final int bufSize) {
-        this(input, boundary, bufSize, null);
-    }
 
     /**
      * <p>

@@ -59,6 +59,18 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="jochen" type="add">Add the package org.apache.fileupload2.jaksrvlt, for compliance with Jakarta Servlet API 5.0.</action>
       <action                        dev="jochen" type="add">Making FileUploadException a subclass of IOException. (Mibor API simplification.)</action>
       <action                        dev="markt" type="add">Add a configurable limit (disabled by default) for the number of files to upload per request.</action>
+      <!-- REMOVE -->
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated constructors in MultipartStream.</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated RequestContext.getContentLength().</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated JakSrvltRequestContext.getContentLength().</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated PortletRequestContext.getContentLength().</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated ServletRequestContext.getContentLength().</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.MAX_HEADER_SIZE.</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.createItem(Map, boolean).</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.getFieldName(Map).</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.getFileName(Map).</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.getHeader(Map, String).</action>
+      <action                        dev="ggregory" type="remove" due-to="Gary Gregory">Remove deprecated FileUploadBase.parseHeaders(String).</action>
       <!-- UPDATE -->
       <action                        dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">Bump actions/cache from 2.1.6 to 3.0.8 #128, #140.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot, Gary Gregory">Bump actions/checkout from 2.3.4 to 3.0.2 #125.</action>

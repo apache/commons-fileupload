@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -94,16 +93,6 @@ public abstract class FileUploadBase {
     public static final String MULTIPART_MIXED = "multipart/mixed";
 
     /**
-     * The maximum length of a single header line that will be parsed
-     * (1024 bytes).
-     * @deprecated This constant is no longer used. As of commons-fileupload
-     *   1.2, the only applicable limit is the total size of a parts headers,
-     *   {@link MultipartStream#HEADER_PART_SIZE_MAX}.
-     */
-    @Deprecated
-    public static final int MAX_HEADER_SIZE = 1024;
-
-    /**
      * <p>Utility method that determines whether the request contains multipart
      * content.</p>
      *
@@ -155,32 +144,6 @@ public abstract class FileUploadBase {
      */
     private ProgressListener listener;
 
-    // ----------------------------------------------------- Property accessors
-
-    /**
-     * Creates a new {@link FileItem} instance.
-     *
-     * @param headers       A {@code Map} containing the HTTP request
-     *                      headers.
-     * @param isFormField   Whether or not this item is a form field, as
-     *                      opposed to a file.
-     *
-     * @return A newly created {@code FileItem} instance.
-     *
-     * @throws FileUploadException if an error occurs.
-     * @deprecated 1.2 This method is no longer used in favour of
-     *   internally created instances of {@link FileItem}.
-     */
-    @Deprecated
-    protected FileItem createItem(final Map<String, String> headers,
-                                  final boolean isFormField)
-        throws FileUploadException {
-        return getFileItemFactory().createItem(getFieldName(headers),
-                getHeader(headers, CONTENT_TYPE),
-                isFormField,
-                getFileName(headers));
-    }
-
     /**
      * Retrieves the boundary from the {@code Content-type} header.
      *
@@ -214,20 +177,6 @@ public abstract class FileUploadBase {
      */
     public String getFieldName(final FileItemHeaders headers) {
         return getFieldName(headers.getHeader(CONTENT_DISPOSITION));
-    }
-
-    /**
-     * Retrieves the field name from the {@code Content-disposition}
-     * header.
-     *
-     * @param headers A {@code Map} containing the HTTP request headers.
-     *
-     * @return The field name for the current {@code encapsulation}.
-     * @deprecated 1.2.1 Use {@link #getFieldName(FileItemHeaders)}.
-     */
-    @Deprecated
-    protected String getFieldName(final Map<String, String> headers) {
-        return getFieldName(getHeader(headers, CONTENT_DISPOSITION));
     }
 
     /**
@@ -281,20 +230,6 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the file name from the {@code Content-disposition}
-     * header.
-     *
-     * @param headers A {@code Map} containing the HTTP request headers.
-     *
-     * @return The file name for the current {@code encapsulation}.
-     * @deprecated 1.2.1 Use {@link #getFileName(FileItemHeaders)}.
-     */
-    @Deprecated
-    protected String getFileName(final Map<String, String> headers) {
-        return getFileName(getHeader(headers, CONTENT_DISPOSITION));
-    }
-
-    /**
      * Returns the given content-disposition headers file name.
      * @param pContentDisposition The content-disposition headers value.
      * @return The file name
@@ -324,8 +259,6 @@ public abstract class FileUploadBase {
         return fileName;
     }
 
-    // --------------------------------------------------------- Public methods
-
     /**
      * Returns the maximum allowed size of a single uploaded file,
      * as opposed to {@link #getSizeMax()}.
@@ -335,23 +268,6 @@ public abstract class FileUploadBase {
      */
     public long getFileSizeMax() {
         return fileSizeMax;
-    }
-
-    /**
-     * Returns the header with the specified name from the supplied map. The
-     * header lookup is case-insensitive.
-     *
-     * @param headers A {@code Map} containing the HTTP request headers.
-     * @param name    The name of the header to return.
-     *
-     * @return The value of specified header, or a comma-separated list if
-     *         there were multiple headers of that name.
-     * @deprecated 1.2.1 Use {@link FileItemHeaders#getHeader(String)}.
-     */
-    @Deprecated
-    protected final String getHeader(final Map<String, String> headers,
-            final String name) {
-        return headers.get(name.toLowerCase(Locale.ENGLISH));
     }
 
     /**
@@ -365,8 +281,6 @@ public abstract class FileUploadBase {
     public String getHeaderEncoding() {
         return headerEncoding;
     }
-
-    // ------------------------------------------------------ Protected methods
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
@@ -502,35 +416,6 @@ public abstract class FileUploadBase {
         final String headerValue =
             header.substring(colonOffset + 1).trim();
         headers.addHeader(headerName, headerValue);
-    }
-
-    /**
-     * <p> Parses the {@code header-part} and returns as key/value
-     * pairs.
-     *
-     * <p> If there are multiple headers of the same names, the name
-     * will map to a comma-separated list containing the values.
-     *
-     * @param headerPart The {@code header-part} of the current
-     *                   {@code encapsulation}.
-     *
-     * @return A {@code Map} containing the parsed HTTP request headers.
-     * @deprecated 1.2.1 Use {@link #getParsedHeaders(String)}
-     */
-    @Deprecated
-    protected Map<String, String> parseHeaders(final String headerPart) {
-        final FileItemHeaders headers = getParsedHeaders(headerPart);
-        final Map<String, String> result = new HashMap<>();
-        for (final Iterator<String> iter = headers.getHeaderNames();  iter.hasNext();) {
-            final String headerName = iter.next();
-            final Iterator<String> iter2 = headers.getHeaders(headerName);
-            final StringBuilder headerValue = new StringBuilder(iter2.next());
-            while (iter2.hasNext()) {
-                headerValue.append(",").append(iter2.next());
-            }
-            result.put(headerName, headerValue.toString());
-        }
-        return result;
     }
 
     /**
