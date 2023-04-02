@@ -34,6 +34,7 @@ import java.io.UncheckedIOException;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SerializationUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -121,13 +122,7 @@ public class DiskFileItemSerializeTest {
      * Do deserialization
      */
     private Object deserialize(final ByteArrayOutputStream baos) throws Exception {
-        final ByteArrayInputStream bais =
-                new ByteArrayInputStream(baos.toByteArray());
-        final ObjectInputStream ois = new ObjectInputStream(bais);
-        final Object result = ois.readObject();
-        bais.close();
-
-        return result;
+        return SerializationUtils.deserialize(baos.toByteArray());
     }
 
     /**
