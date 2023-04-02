@@ -48,14 +48,10 @@ import org.apache.commons.fileupload2.util.Streams;
  */
 public abstract class FileUploadBase {
 
-    // ---------------------------------------------------------- Class methods
-
     /**
      * HTTP content type header name.
      */
     public static final String CONTENT_TYPE = "Content-type";
-
-    // ----------------------------------------------------- Manifest constants
 
     /**
      * HTTP content disposition header name.
@@ -113,8 +109,6 @@ public abstract class FileUploadBase {
         }
         return contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART);
     }
-
-    // ----------------------------------------------------------- Data members
 
     /**
      * The maximum size permitted for the complete request, as opposed to

@@ -88,8 +88,6 @@ public class ServletFileUpload extends FileUpload {
         super(fileItemFactory);
     }
 
-    // --------------------------------------------------------- Public methods
-
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.

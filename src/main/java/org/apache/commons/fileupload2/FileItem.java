@@ -47,8 +47,6 @@ import java.io.UnsupportedEncodingException;
  */
 public interface FileItem extends FileItemHeadersSupport {
 
-    // ------------------------------- Methods from javax.activation.DataSource
-
     /**
      * Deletes the underlying storage for a file item, including deleting any
      * associated temporary disk file. Although this storage will be deleted
@@ -75,8 +73,6 @@ public interface FileItem extends FileItemHeadersSupport {
      *         not defined.
      */
     String getContentType();
-
-    // ------------------------------------------------------- FileItem methods
 
     /**
      * Returns the name of the field in the multipart form corresponding to

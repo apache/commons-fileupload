@@ -34,14 +34,10 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class JakSrvltRequestContext implements UploadContext {
 
-    // ----------------------------------------------------- Instance Variables
-
     /**
      * The request for which the context is being provided.
      */
     private final HttpServletRequest request;
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Construct a context for this request.
@@ -51,8 +47,6 @@ public class JakSrvltRequestContext implements UploadContext {
     public JakSrvltRequestContext(final HttpServletRequest request) {
         this.request = request;
     }
-
-    // --------------------------------------------------------- Public Methods
 
     /**
      * Retrieve the content length of the request.

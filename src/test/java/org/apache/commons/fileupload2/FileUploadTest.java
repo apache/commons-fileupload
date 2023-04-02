@@ -49,8 +49,6 @@ public class FileUploadTest {
         return Util.fileUploadImplementations().stream();
     }
 
-    // --- Test methods common to all implementations of a FileUpload
-
     private void assertHeaders(final String[] pHeaderNames, final String[] pHeaderValues,
             final FileItem pItem, final int pIndex) {
         for (int i = 0; i < pHeaderNames.length; i++) {

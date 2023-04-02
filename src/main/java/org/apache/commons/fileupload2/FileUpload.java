@@ -33,14 +33,10 @@ package org.apache.commons.fileupload2;
 public class FileUpload
     extends FileUploadBase {
 
-    // ----------------------------------------------------------- Data members
-
     /**
      * The factory to use to create new form items.
      */
     private FileItemFactory fileItemFactory;
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Constructs an uninitialized instance of this class.
@@ -64,8 +60,6 @@ public class FileUpload
     public FileUpload(final FileItemFactory fileItemFactory) {
         this.fileItemFactory = fileItemFactory;
     }
-
-    // ----------------------------------------------------- Property accessors
 
     /**
      * Returns the factory class used when creating file items.

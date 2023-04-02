@@ -476,8 +476,6 @@ public class MultipartStream {
      */
     protected static final byte[] HEADER_SEPARATOR = { CR, LF, CR, LF };
 
-    // ----------------------------------------------------------- Data members
-
     /**
      * A byte sequence that that follows a delimiter that will be followed by an encapsulation ({@code CRLF}).
      */
@@ -546,8 +544,6 @@ public class MultipartStream {
      */
     private final byte[] buffer;
 
-    // ----------------------------------------------------------- Constructors
-
     /**
      * The index of first valid character in the buffer. <br>
      * 0 <= head < bufSize
@@ -571,8 +567,6 @@ public class MultipartStream {
     private final ProgressNotifier notifier;
 
 
-
-    // --------------------------------------------------------- Public methods
 
     /**
      * <p>

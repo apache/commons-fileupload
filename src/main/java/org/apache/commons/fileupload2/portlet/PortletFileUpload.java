@@ -48,8 +48,6 @@ import org.apache.commons.fileupload2.FileUploadException;
  */
 public class PortletFileUpload extends FileUpload {
 
-    // ---------------------------------------------------------- Class methods
-
     /**
      * Utility method that determines whether the request contains multipart
      * content.
@@ -63,8 +61,6 @@ public class PortletFileUpload extends FileUpload {
         return FileUploadBase.isMultipartContent(
                 new PortletRequestContext(request));
     }
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Constructs an uninitialized instance of this class. A factory must be
@@ -86,8 +82,6 @@ public class PortletFileUpload extends FileUpload {
     public PortletFileUpload(final FileItemFactory fileItemFactory) {
         super(fileItemFactory);
     }
-
-    // --------------------------------------------------------- Public methods
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>

@@ -50,8 +50,6 @@ public class JakSrvltFileUpload extends FileUpload {
      */
     private static final String POST_METHOD = "POST";
 
-    // ---------------------------------------------------------- Class methods
-
     /**
      * Utility method that determines whether the request contains multipart
      * content.
@@ -68,8 +66,6 @@ public class JakSrvltFileUpload extends FileUpload {
         }
         return FileUploadBase.isMultipartContent(new JakSrvltRequestContext(request));
     }
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Constructs an uninitialized instance of this class. A factory must be
@@ -91,8 +87,6 @@ public class JakSrvltFileUpload extends FileUpload {
     public JakSrvltFileUpload(final FileItemFactory fileItemFactory) {
         super(fileItemFactory);
     }
-
-    // --------------------------------------------------------- Public methods
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>

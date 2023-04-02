@@ -71,8 +71,6 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
 public class DiskFileItem
     implements FileItem {
 
-    // ----------------------------------------------------- Manifest constants
-
     /**
      * Default content charset to be used when no explicit charset
      * parameter is provided by the sender. Media subtypes of the
@@ -80,8 +78,6 @@ public class DiskFileItem
      * "ISO-8859-1" when received via HTTP.
      */
     public static final String DEFAULT_CHARSET = "ISO-8859-1";
-
-    // ----------------------------------------------------------- Data members
 
     /**
      * UID used in unique file name generation.
@@ -171,15 +167,11 @@ public class DiskFileItem
      */
     private FileItemHeaders headers;
 
-    // ----------------------------------------------------------- Constructors
-
     /**
      * Default content charset to be used when no explicit charset
      * parameter is provided by the sender.
      */
     private String defaultCharset = DEFAULT_CHARSET;
-
-    // ------------------------------- Methods from javax.activation.DataSource
 
     /**
      * Constructs a new {@code DiskFileItem} instance.
@@ -268,8 +260,6 @@ public class DiskFileItem
         final Map<String, String> params = parser.parse(getContentType(), ';');
         return params.get("charset");
     }
-
-    // ------------------------------------------------------- FileItem methods
 
     /**
      * Returns the content type passed by the agent or {@code null} if
@@ -476,8 +466,6 @@ public class DiskFileItem
         return tempFile;
     }
 
-    // --------------------------------------------------------- Public methods
-
     /**
      * Determines whether or not a {@code FileItem} instance represents
      * a simple form field.
@@ -493,8 +481,6 @@ public class DiskFileItem
         return isFormField;
     }
 
-    // ------------------------------------------------------ Protected methods
-
     /**
      * Provides a hint as to whether or not the file contents will be read
      * from memory.
@@ -509,8 +495,6 @@ public class DiskFileItem
         }
         return dfos.isInMemory();
     }
-
-    // -------------------------------------------------------- Private methods
 
     /**
      * Sets the default charset for use when no explicit charset

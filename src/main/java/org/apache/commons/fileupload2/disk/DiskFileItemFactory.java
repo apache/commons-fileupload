@@ -69,14 +69,10 @@ import org.apache.commons.io.FileCleaningTracker;
  */
 public class DiskFileItemFactory implements FileItemFactory {
 
-    // ----------------------------------------------------- Manifest constants
-
     /**
      * The default threshold above which uploads will be stored on disk.
      */
     public static final int DEFAULT_SIZE_THRESHOLD = 10240;
-
-    // ----------------------------------------------------- Instance Variables
 
     /**
      * The directory in which uploaded files will be stored, if stored on disk.
@@ -101,8 +97,6 @@ public class DiskFileItemFactory implements FileItemFactory {
      */
     private String defaultCharset = DiskFileItem.DEFAULT_CHARSET;
 
-    // ----------------------------------------------------------- Constructors
-
     /**
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
@@ -125,8 +119,6 @@ public class DiskFileItemFactory implements FileItemFactory {
         this.sizeThreshold = sizeThreshold;
         this.repository = repository;
     }
-
-    // ------------------------------------------------------------- Properties
 
     /**
      * Create a new {@link org.apache.commons.fileupload2.disk.DiskFileItem}
@@ -187,8 +179,6 @@ public class DiskFileItemFactory implements FileItemFactory {
     public File getRepository() {
         return repository;
     }
-
-    // --------------------------------------------------------- Public Methods
 
     /**
      * Returns the size threshold beyond which files are written directly to
