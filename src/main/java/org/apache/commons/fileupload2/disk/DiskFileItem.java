@@ -95,6 +95,25 @@ public class DiskFileItem
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     /**
+     * Returns an identifier that is unique within the class loader used to
+     * load this class, but does not have random-like appearance.
+     *
+     * @return A String with the non-random looking instance identifier.
+     */
+    private static String getUniqueId() {
+        final int limit = 100000000;
+        final int current = COUNTER.getAndIncrement();
+        String id = Integer.toString(current);
+
+        // If you manage to get more than 100 million of ids, you'll
+        // start getting ids longer than 8 characters.
+        if (current < limit) {
+            id = ("00000000" + id).substring(id.length());
+        }
+        return id;
+    }
+
+    /**
      * The name of the form field as provided by the browser.
      */
     private String fieldName;
@@ -115,12 +134,12 @@ public class DiskFileItem
      */
     private final String fileName;
 
+
     /**
      * The size of the item, in bytes. This is used to cache the size when a
      * file item is moved from its original location.
      */
     private long size = -1;
-
 
     /**
      * The threshold above which uploads will be stored on disk.
@@ -152,13 +171,15 @@ public class DiskFileItem
      */
     private FileItemHeaders headers;
 
+    // ----------------------------------------------------------- Constructors
+
     /**
      * Default content charset to be used when no explicit charset
      * parameter is provided by the sender.
      */
     private String defaultCharset = DEFAULT_CHARSET;
 
-    // ----------------------------------------------------------- Constructors
+    // ------------------------------- Methods from javax.activation.DataSource
 
     /**
      * Constructs a new {@code DiskFileItem} instance.
@@ -188,105 +209,20 @@ public class DiskFileItem
         this.repository = repository;
     }
 
-    // ------------------------------- Methods from javax.activation.DataSource
-
     /**
-     * Returns an {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
-     *
-     * @return An {@link java.io.InputStream InputStream} that can be
-     *         used to retrieve the contents of the file.
-     *
-     * @throws IOException if an error occurs.
+     * Deletes the underlying storage for a file item, including deleting any associated temporary disk file.
+     * This method can be used to ensure that this is done at an earlier time, thus preserving system resources.
      */
     @Override
-    public InputStream getInputStream()
-        throws IOException {
-        if (!isInMemory()) {
-            return Files.newInputStream(dfos.getFile().toPath());
+    public void delete() {
+        cachedContent = null;
+        final File outputFile = getStoreLocation();
+        if (outputFile != null && !isInMemory() && outputFile.exists()) {
+            if (!outputFile.delete()) {
+                final String desc = "Cannot delete " + outputFile.toString();
+                throw new UncheckedIOException(desc, new IOException(desc));
+            }
         }
-
-        if (cachedContent == null) {
-            cachedContent = dfos.getData();
-        }
-        return new ByteArrayInputStream(cachedContent);
-    }
-
-    /**
-     * Returns the content type passed by the agent or {@code null} if
-     * not defined.
-     *
-     * @return The content type passed by the agent or {@code null} if
-     *         not defined.
-     */
-    @Override
-    public String getContentType() {
-        return contentType;
-    }
-
-    /**
-     * Returns the content charset passed by the agent or {@code null} if
-     * not defined.
-     *
-     * @return The content charset passed by the agent or {@code null} if
-     *         not defined.
-     */
-    public String getCharSet() {
-        final ParameterParser parser = new ParameterParser();
-        parser.setLowerCaseNames(true);
-        // Parameter parser can handle null input
-        final Map<String, String> params = parser.parse(getContentType(), ';');
-        return params.get("charset");
-    }
-
-    /**
-     * Returns the original file name in the client's file system.
-     *
-     * @return The original file name in the client's file system.
-     * @throws org.apache.commons.fileupload2.InvalidFileNameException The file name contains a NUL character,
-     *   which might be an indicator of a security attack. If you intend to
-     *   use the file name anyways, catch the exception and use
-     *   {@link org.apache.commons.fileupload2.InvalidFileNameException#getName()}.
-     */
-    @Override
-    public String getName() {
-        return Streams.checkFileName(fileName);
-    }
-
-    // ------------------------------------------------------- FileItem methods
-
-    /**
-     * Provides a hint as to whether or not the file contents will be read
-     * from memory.
-     *
-     * @return {@code true} if the file contents will be read
-     *         from memory; {@code false} otherwise.
-     */
-    @Override
-    public boolean isInMemory() {
-        if (cachedContent != null) {
-            return true;
-        }
-        return dfos.isInMemory();
-    }
-
-    /**
-     * Returns the size of the file.
-     *
-     * @return The size of the file, in bytes.
-     */
-    @Override
-    public long getSize() {
-        if (size >= 0) {
-            return size;
-        }
-        if (cachedContent != null) {
-            return cachedContent.length;
-        }
-        if (dfos.isInMemory()) {
-            return dfos.getData().length;
-        }
-        return dfos.getFile().length();
     }
 
     /**
@@ -319,21 +255,159 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the contents of the file as a String, using the specified
-     * encoding.  This method uses {@link #get()} to retrieve the
-     * contents of the file.
+     * Returns the content charset passed by the agent or {@code null} if
+     * not defined.
      *
-     * @param charset The charset to use.
+     * @return The content charset passed by the agent or {@code null} if
+     *         not defined.
+     */
+    public String getCharSet() {
+        final ParameterParser parser = new ParameterParser();
+        parser.setLowerCaseNames(true);
+        // Parameter parser can handle null input
+        final Map<String, String> params = parser.parse(getContentType(), ';');
+        return params.get("charset");
+    }
+
+    // ------------------------------------------------------- FileItem methods
+
+    /**
+     * Returns the content type passed by the agent or {@code null} if
+     * not defined.
      *
-     * @return The contents of the file, as a string.
-     *
-     * @throws UnsupportedEncodingException if the requested character
-     *                                      encoding is not available.
+     * @return The content type passed by the agent or {@code null} if
+     *         not defined.
      */
     @Override
-    public String getString(final String charset)
-        throws UnsupportedEncodingException, IOException {
-        return new String(get(), charset);
+    public String getContentType() {
+        return contentType;
+    }
+
+    /**
+     * Returns the default charset for use when no explicit charset
+     * parameter is provided by the sender.
+     * @return the default charset
+     */
+    public String getDefaultCharset() {
+        return defaultCharset;
+    }
+
+    /**
+     * Returns the name of the field in the multipart form corresponding to
+     * this file item.
+     *
+     * @return The name of the form field.
+     *
+     * @see #setFieldName(String)
+     *
+     */
+    @Override
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    /**
+     * Returns the file item headers.
+     * @return The file items headers.
+     */
+    @Override
+    public FileItemHeaders getHeaders() {
+        return headers;
+    }
+
+    /**
+     * Returns an {@link java.io.InputStream InputStream} that can be
+     * used to retrieve the contents of the file.
+     *
+     * @return An {@link java.io.InputStream InputStream} that can be
+     *         used to retrieve the contents of the file.
+     *
+     * @throws IOException if an error occurs.
+     */
+    @Override
+    public InputStream getInputStream()
+        throws IOException {
+        if (!isInMemory()) {
+            return Files.newInputStream(dfos.getFile().toPath());
+        }
+
+        if (cachedContent == null) {
+            cachedContent = dfos.getData();
+        }
+        return new ByteArrayInputStream(cachedContent);
+    }
+
+    /**
+     * Returns the original file name in the client's file system.
+     *
+     * @return The original file name in the client's file system.
+     * @throws org.apache.commons.fileupload2.InvalidFileNameException The file name contains a NUL character,
+     *   which might be an indicator of a security attack. If you intend to
+     *   use the file name anyways, catch the exception and use
+     *   {@link org.apache.commons.fileupload2.InvalidFileNameException#getName()}.
+     */
+    @Override
+    public String getName() {
+        return Streams.checkFileName(fileName);
+    }
+
+    /**
+     * Returns an {@link java.io.OutputStream OutputStream} that can
+     * be used for storing the contents of the file.
+     *
+     * @return An {@link java.io.OutputStream OutputStream} that can be used
+     *         for storing the contents of the file.
+     *
+     */
+    @Override
+    public OutputStream getOutputStream() {
+        if (dfos == null) {
+            final File outputFile = getTempFile();
+            dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
+        }
+        return dfos;
+    }
+
+    /**
+     * Returns the size of the file.
+     *
+     * @return The size of the file, in bytes.
+     */
+    @Override
+    public long getSize() {
+        if (size >= 0) {
+            return size;
+        }
+        if (cachedContent != null) {
+            return cachedContent.length;
+        }
+        if (dfos.isInMemory()) {
+            return dfos.getData().length;
+        }
+        return dfos.getFile().length();
+    }
+
+    /**
+     * Returns the {@link java.io.File} object for the {@code FileItem}'s
+     * data's temporary location on the disk. Note that for
+     * {@code FileItem}s that have their data stored in memory,
+     * this method will return {@code null}. When handling large
+     * files, you can use {@link java.io.File#renameTo(java.io.File)} to
+     * move the file to new location without copying the data, if the
+     * source and destination locations reside within the same logical
+     * volume.
+     *
+     * @return The data file, or {@code null} if the data is stored in
+     *         memory.
+     */
+    public File getStoreLocation() {
+        if (dfos == null) {
+            return null;
+        }
+        if (isInMemory()) {
+            return null;
+        }
+        return dfos.getFile();
     }
 
     /**
@@ -357,6 +431,143 @@ public class DiskFileItem
         } catch (final IOException e) {
             return "";
         }
+    }
+
+    /**
+     * Returns the contents of the file as a String, using the specified
+     * encoding.  This method uses {@link #get()} to retrieve the
+     * contents of the file.
+     *
+     * @param charset The charset to use.
+     *
+     * @return The contents of the file, as a string.
+     *
+     * @throws UnsupportedEncodingException if the requested character
+     *                                      encoding is not available.
+     */
+    @Override
+    public String getString(final String charset)
+        throws UnsupportedEncodingException, IOException {
+        return new String(get(), charset);
+    }
+
+    /**
+     * Creates and returns a {@link java.io.File File} representing a uniquely
+     * named temporary file in the configured repository path. The lifetime of
+     * the file is tied to the lifetime of the {@code FileItem} instance;
+     * the file will be deleted when the instance is garbage collected.
+     * <p>
+     * <b>Note: Subclasses that override this method must ensure that they return the
+     * same File each time.</b>
+     *
+     * @return The {@link java.io.File File} to be used for temporary storage.
+     */
+    protected File getTempFile() {
+        if (tempFile == null) {
+            File tempDir = repository;
+            if (tempDir == null) {
+                tempDir = new File(System.getProperty("java.io.tmpdir"));
+            }
+
+            final String tempFileName = format("upload_%s_%s.tmp", UID, getUniqueId());
+
+            tempFile = new File(tempDir, tempFileName);
+        }
+        return tempFile;
+    }
+
+    // --------------------------------------------------------- Public methods
+
+    /**
+     * Determines whether or not a {@code FileItem} instance represents
+     * a simple form field.
+     *
+     * @return {@code true} if the instance represents a simple form
+     *         field; {@code false} if it represents an uploaded file.
+     *
+     * @see #setFormField(boolean)
+     *
+     */
+    @Override
+    public boolean isFormField() {
+        return isFormField;
+    }
+
+    // ------------------------------------------------------ Protected methods
+
+    /**
+     * Provides a hint as to whether or not the file contents will be read
+     * from memory.
+     *
+     * @return {@code true} if the file contents will be read
+     *         from memory; {@code false} otherwise.
+     */
+    @Override
+    public boolean isInMemory() {
+        if (cachedContent != null) {
+            return true;
+        }
+        return dfos.isInMemory();
+    }
+
+    // -------------------------------------------------------- Private methods
+
+    /**
+     * Sets the default charset for use when no explicit charset
+     * parameter is provided by the sender.
+     * @param charset the default charset
+     */
+    public void setDefaultCharset(final String charset) {
+        defaultCharset = charset;
+    }
+
+    /**
+     * Sets the field name used to reference this file item.
+     *
+     * @param fieldName The name of the form field.
+     *
+     * @see #getFieldName()
+     *
+     */
+    @Override
+    public void setFieldName(final String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    /**
+     * Specifies whether or not a {@code FileItem} instance represents
+     * a simple form field.
+     *
+     * @param state {@code true} if the instance represents a simple form
+     *              field; {@code false} if it represents an uploaded file.
+     *
+     * @see #isFormField()
+     *
+     */
+    @Override
+    public void setFormField(final boolean state) {
+        isFormField = state;
+    }
+
+    /**
+     * Sets the file item headers.
+     * @param pHeaders The file items headers.
+     */
+    @Override
+    public void setHeaders(final FileItemHeaders pHeaders) {
+        headers = pHeaders;
+    }
+
+    /**
+     * Returns a string representation of this object.
+     *
+     * @return a string representation of this object.
+     */
+    @Override
+    public String toString() {
+        return format("name=%s, StoreLocation=%s, size=%s bytes, isFormField=%s, FieldName=%s",
+                      getName(), getStoreLocation(), getSize(),
+                isFormField(), getFieldName());
     }
 
     /**
@@ -410,216 +621,5 @@ public class DiskFileItem
             }
             FileUtils.moveFile(outputFile, file);
         }
-    }
-
-    /**
-     * Deletes the underlying storage for a file item, including deleting any associated temporary disk file.
-     * This method can be used to ensure that this is done at an earlier time, thus preserving system resources.
-     */
-    @Override
-    public void delete() {
-        cachedContent = null;
-        final File outputFile = getStoreLocation();
-        if (outputFile != null && !isInMemory() && outputFile.exists()) {
-            if (!outputFile.delete()) {
-                final String desc = "Cannot delete " + outputFile.toString();
-                throw new UncheckedIOException(desc, new IOException(desc));
-            }
-        }
-    }
-
-    /**
-     * Returns the name of the field in the multipart form corresponding to
-     * this file item.
-     *
-     * @return The name of the form field.
-     *
-     * @see #setFieldName(String)
-     *
-     */
-    @Override
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    /**
-     * Sets the field name used to reference this file item.
-     *
-     * @param fieldName The name of the form field.
-     *
-     * @see #getFieldName()
-     *
-     */
-    @Override
-    public void setFieldName(final String fieldName) {
-        this.fieldName = fieldName;
-    }
-
-    /**
-     * Determines whether or not a {@code FileItem} instance represents
-     * a simple form field.
-     *
-     * @return {@code true} if the instance represents a simple form
-     *         field; {@code false} if it represents an uploaded file.
-     *
-     * @see #setFormField(boolean)
-     *
-     */
-    @Override
-    public boolean isFormField() {
-        return isFormField;
-    }
-
-    /**
-     * Specifies whether or not a {@code FileItem} instance represents
-     * a simple form field.
-     *
-     * @param state {@code true} if the instance represents a simple form
-     *              field; {@code false} if it represents an uploaded file.
-     *
-     * @see #isFormField()
-     *
-     */
-    @Override
-    public void setFormField(final boolean state) {
-        isFormField = state;
-    }
-
-    /**
-     * Returns an {@link java.io.OutputStream OutputStream} that can
-     * be used for storing the contents of the file.
-     *
-     * @return An {@link java.io.OutputStream OutputStream} that can be used
-     *         for storing the contents of the file.
-     *
-     */
-    @Override
-    public OutputStream getOutputStream() {
-        if (dfos == null) {
-            final File outputFile = getTempFile();
-            dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
-        }
-        return dfos;
-    }
-
-    // --------------------------------------------------------- Public methods
-
-    /**
-     * Returns the {@link java.io.File} object for the {@code FileItem}'s
-     * data's temporary location on the disk. Note that for
-     * {@code FileItem}s that have their data stored in memory,
-     * this method will return {@code null}. When handling large
-     * files, you can use {@link java.io.File#renameTo(java.io.File)} to
-     * move the file to new location without copying the data, if the
-     * source and destination locations reside within the same logical
-     * volume.
-     *
-     * @return The data file, or {@code null} if the data is stored in
-     *         memory.
-     */
-    public File getStoreLocation() {
-        if (dfos == null) {
-            return null;
-        }
-        if (isInMemory()) {
-            return null;
-        }
-        return dfos.getFile();
-    }
-
-    // ------------------------------------------------------ Protected methods
-
-    /**
-     * Creates and returns a {@link java.io.File File} representing a uniquely
-     * named temporary file in the configured repository path. The lifetime of
-     * the file is tied to the lifetime of the {@code FileItem} instance;
-     * the file will be deleted when the instance is garbage collected.
-     * <p>
-     * <b>Note: Subclasses that override this method must ensure that they return the
-     * same File each time.</b>
-     *
-     * @return The {@link java.io.File File} to be used for temporary storage.
-     */
-    protected File getTempFile() {
-        if (tempFile == null) {
-            File tempDir = repository;
-            if (tempDir == null) {
-                tempDir = new File(System.getProperty("java.io.tmpdir"));
-            }
-
-            final String tempFileName = format("upload_%s_%s.tmp", UID, getUniqueId());
-
-            tempFile = new File(tempDir, tempFileName);
-        }
-        return tempFile;
-    }
-
-    // -------------------------------------------------------- Private methods
-
-    /**
-     * Returns an identifier that is unique within the class loader used to
-     * load this class, but does not have random-like appearance.
-     *
-     * @return A String with the non-random looking instance identifier.
-     */
-    private static String getUniqueId() {
-        final int limit = 100000000;
-        final int current = COUNTER.getAndIncrement();
-        String id = Integer.toString(current);
-
-        // If you manage to get more than 100 million of ids, you'll
-        // start getting ids longer than 8 characters.
-        if (current < limit) {
-            id = ("00000000" + id).substring(id.length());
-        }
-        return id;
-    }
-
-    /**
-     * Returns a string representation of this object.
-     *
-     * @return a string representation of this object.
-     */
-    @Override
-    public String toString() {
-        return format("name=%s, StoreLocation=%s, size=%s bytes, isFormField=%s, FieldName=%s",
-                      getName(), getStoreLocation(), getSize(),
-                isFormField(), getFieldName());
-    }
-
-    /**
-     * Returns the file item headers.
-     * @return The file items headers.
-     */
-    @Override
-    public FileItemHeaders getHeaders() {
-        return headers;
-    }
-
-    /**
-     * Sets the file item headers.
-     * @param pHeaders The file items headers.
-     */
-    @Override
-    public void setHeaders(final FileItemHeaders pHeaders) {
-        headers = pHeaders;
-    }
-
-    /**
-     * Returns the default charset for use when no explicit charset
-     * parameter is provided by the sender.
-     * @return the default charset
-     */
-    public String getDefaultCharset() {
-        return defaultCharset;
-    }
-
-    /**
-     * Sets the default charset for use when no explicit charset
-     * parameter is provided by the sender.
-     * @param charset the default charset
-     */
-    public void setDefaultCharset(final String charset) {
-        defaultCharset = charset;
     }
 }

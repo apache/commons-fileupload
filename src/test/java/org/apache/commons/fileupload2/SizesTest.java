@@ -43,50 +43,6 @@ import org.junit.jupiter.api.Test;
  */
 public class SizesTest {
 
-    /**
-     * Runs a test with varying file sizes.
-     */
-    @Test
-    public void testFileUpload()
-            throws IOException, FileUploadException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int add = 16;
-        int num = 0;
-        for (int i = 0;  i < 16384;  i += add) {
-            if (++add == 32) {
-                add = 16;
-            }
-            final String header = "-----1234\r\n"
-                + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n"
-                + "\r\n";
-            baos.write(header.getBytes(StandardCharsets.US_ASCII));
-            for (int j = 0;  j < i;  j++) {
-                baos.write((byte) j);
-            }
-            baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
-        }
-        baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
-
-        final List<FileItem> fileItems =
-                Util.parseUpload(new ServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
-        final Iterator<FileItem> fileIter = fileItems.iterator();
-        add = 16;
-        num = 0;
-        for (int i = 0;  i < 16384;  i += add) {
-            if (++add == 32) {
-                add = 16;
-            }
-            final FileItem item = fileIter.next();
-            assertEquals("field" + (num++), item.getFieldName());
-            final byte[] bytes = item.get();
-            assertEquals(i, bytes.length);
-            for (int j = 0;  j < i;  j++) {
-                assertEquals((byte) j, bytes[j]);
-            }
-        }
-        assertTrue(!fileIter.hasNext());
-    }
-
     /** Checks, whether limiting the file size works.
      */
     @Test
@@ -182,6 +138,50 @@ public class SizesTest {
         } catch (final FileSizeLimitExceededException e) {
             assertEquals(15, e.getPermittedSize());
         }
+    }
+
+    /**
+     * Runs a test with varying file sizes.
+     */
+    @Test
+    public void testFileUpload()
+            throws IOException, FileUploadException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int add = 16;
+        int num = 0;
+        for (int i = 0;  i < 16384;  i += add) {
+            if (++add == 32) {
+                add = 16;
+            }
+            final String header = "-----1234\r\n"
+                + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n"
+                + "\r\n";
+            baos.write(header.getBytes(StandardCharsets.US_ASCII));
+            for (int j = 0;  j < i;  j++) {
+                baos.write((byte) j);
+            }
+            baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
+        }
+        baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
+
+        final List<FileItem> fileItems =
+                Util.parseUpload(new ServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
+        final Iterator<FileItem> fileIter = fileItems.iterator();
+        add = 16;
+        num = 0;
+        for (int i = 0;  i < 16384;  i += add) {
+            if (++add == 32) {
+                add = 16;
+            }
+            final FileItem item = fileIter.next();
+            assertEquals("field" + (num++), item.getFieldName());
+            final byte[] bytes = item.get();
+            assertEquals(i, bytes.length);
+            for (int j = 0;  j < i;  j++) {
+                assertEquals((byte) j, bytes[j]);
+            }
+        }
+        assertTrue(!fileIter.hasNext());
     }
 
     /** Checks, whether the maxSize works.

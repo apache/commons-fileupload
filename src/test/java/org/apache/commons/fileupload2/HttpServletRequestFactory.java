@@ -27,6 +27,13 @@ final class HttpServletRequestFactory {
                             null);
     }
 
+    static public HttpServletRequest createInvalidHttpServletRequest() {
+        final byte[] requestData = "foobar".getBytes();
+        return new MockHttpServletRequest(
+                            requestData,
+                            FileUploadBase.MULTIPART_FORM_DATA);
+    }
+
     public static HttpServletRequest createValidHttpServletRequest(
             final String[] strFileNames) {
         // todo - provide a real implementation
@@ -39,13 +46,6 @@ final class HttpServletRequestFactory {
 
         final byte[] requestData = sbRequestData.toString().getBytes();
 
-        return new MockHttpServletRequest(
-                            requestData,
-                            FileUploadBase.MULTIPART_FORM_DATA);
-    }
-
-    static public HttpServletRequest createInvalidHttpServletRequest() {
-        final byte[] requestData = "foobar".getBytes();
         return new MockHttpServletRequest(
                             requestData,
                             FileUploadBase.MULTIPART_FORM_DATA);

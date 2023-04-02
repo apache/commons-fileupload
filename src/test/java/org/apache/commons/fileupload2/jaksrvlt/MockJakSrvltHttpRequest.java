@@ -48,6 +48,51 @@ import jakarta.servlet.http.Part;
 
 public class MockJakSrvltHttpRequest implements HttpServletRequest {
 
+    private static class MyServletInputStream
+        extends jakarta.servlet.ServletInputStream {
+
+        private final InputStream in;
+        private final int readLimit;
+
+        /**
+         * Creates a new instance, which returns the given
+         * streams data.
+         */
+        public MyServletInputStream(final InputStream pStream, final int readLimit) {
+            in = pStream;
+            this.readLimit = readLimit;
+        }
+
+        @Override
+        public boolean isFinished() {
+            return false;
+        }
+
+        @Override
+        public boolean isReady() {
+            return false;
+        }
+
+        @Override
+        public int read() throws IOException {
+            return in.read();
+        }
+
+        @Override
+        public int read(final byte[] b, final int off, final int len) throws IOException {
+            if (readLimit > 0) {
+                return in.read(b, off, Math.min(readLimit, len));
+            }
+            return in.read(b, off, len);
+        }
+
+        @Override
+        public void setReadListener(final ReadListener readListener) {
+            throw new IllegalStateException("Not implemented");
+        }
+
+    }
+
     private final InputStream mRequestData;
 
     private long length;
@@ -83,11 +128,89 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
         mHeaders.put(FileUploadBase.CONTENT_TYPE, strContentType);
     }
 
+    @Override
+    public boolean authenticate(final HttpServletResponse response) throws IOException, ServletException {
+        return false;
+    }
+
+    @Override
+    public String changeSessionId() {
+        return null;
+    }
+
+    @Override
+    public AsyncContext getAsyncContext() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getAttribute(String)
+     */
+    @Override
+    public Object getAttribute(final String arg0) {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getAttributeNames()
+     */
+    @Override
+    public Enumeration<String> getAttributeNames() {
+        return null;
+    }
+
     /**
      * @see javax.servlet.http.HttpServletRequest#getAuthType()
      */
     @Override
     public String getAuthType() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getCharacterEncoding()
+     */
+    @Override
+    public String getCharacterEncoding() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getContentLength()
+     */
+    @Override
+    public int getContentLength() {
+        int iLength;
+
+        if (null == mRequestData) {
+            iLength = -1;
+        } else {
+            if (length > Integer.MAX_VALUE) {
+                throw new RuntimeException("Value '" + length + "' is too large to be converted to int");
+            }
+            iLength = (int) length;
+        }
+        return iLength;
+    }
+
+    @Override
+    public long getContentLengthLong() {
+        return getContentLength();
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getContentType()
+     */
+    @Override
+    public String getContentType() {
+        return mStrContentType;
+    }
+
+    /**
+     * @see javax.servlet.http.HttpServletRequest#getContextPath()
+     */
+    @Override
+    public String getContextPath() {
         return null;
     }
 
@@ -107,21 +230,17 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
         return 0;
     }
 
+    @Override
+    public DispatcherType getDispatcherType() {
+        return null;
+    }
+
     /**
      * @see javax.servlet.http.HttpServletRequest#getHeader(String)
      */
     @Override
     public String getHeader(final String headerName) {
         return mHeaders.get(headerName);
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServletRequest#getHeaders(String)
-     */
-    @Override
-    public Enumeration<String> getHeaders(final String arg0) {
-        // todo - implement
-        return null;
     }
 
     /**
@@ -134,6 +253,23 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     /**
+     * @see javax.servlet.http.HttpServletRequest#getHeaders(String)
+     */
+    @Override
+    public Enumeration<String> getHeaders(final String arg0) {
+        // todo - implement
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getInputStream()
+     */
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        return new MyServletInputStream(mRequestData, readLimit);
+    }
+
+    /**
      * @see javax.servlet.http.HttpServletRequest#getIntHeader(String)
      */
     @Override
@@ -142,10 +278,95 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     /**
+     * @see javax.servlet.ServletRequest#getLocalAddr()
+     */
+    @Override
+    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
+    public String getLocalAddr() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getLocale()
+     */
+    @Override
+    public Locale getLocale() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getLocales()
+     */
+    @Override
+    public Enumeration<Locale> getLocales() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getLocalName()
+     */
+    @Override
+    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
+    public String getLocalName() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getLocalPort()
+     */
+    @Override
+    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
+    public int getLocalPort() {
+        return 0;
+    }
+
+    /**
      * @see javax.servlet.http.HttpServletRequest#getMethod()
      */
     @Override
     public String getMethod() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getParameter(String)
+     */
+    @Override
+    public String getParameter(final String arg0) {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getParameterMap()
+     */
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getParameterNames()
+     */
+    @Override
+    public Enumeration<String> getParameterNames() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getParameterValues(String)
+     */
+    @Override
+    public String[] getParameterValues(final String arg0) {
+        return null;
+    }
+
+    @Override
+    public Part getPart(final String name) throws IOException, ServletException {
+        return null;
+    }
+
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
         return null;
     }
 
@@ -166,10 +387,10 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequest#getContextPath()
+     * @see javax.servlet.ServletRequest#getProtocol()
      */
     @Override
-    public String getContextPath() {
+    public String getProtocol() {
         return null;
     }
 
@@ -182,6 +403,44 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     /**
+     * @see javax.servlet.ServletRequest#getReader()
+     */
+    @Override
+    public BufferedReader getReader() throws IOException {
+        return null;
+    }
+
+    @Override
+    public String getRealPath(final String path) {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getRemoteAddr()
+     */
+    @Override
+    public String getRemoteAddr() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getRemoteHost()
+     */
+    @Override
+    public String getRemoteHost() {
+        return null;
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#getRemotePort()
+     */
+    @Override
+    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
+    public int getRemotePort() {
+        return 0;
+    }
+
+    /**
      * @see javax.servlet.http.HttpServletRequest#getRemoteUser()
      */
     @Override
@@ -190,18 +449,10 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequest#isUserInRole(String)
+     * @see javax.servlet.ServletRequest#getRequestDispatcher(String)
      */
     @Override
-    public boolean isUserInRole(final String arg0) {
-        return false;
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServletRequest#getUserPrincipal()
-     */
-    @Override
-    public Principal getUserPrincipal() {
+    public RequestDispatcher getRequestDispatcher(final String arg0) {
         return null;
     }
 
@@ -230,186 +481,6 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequest#getServletPath()
-     */
-    @Override
-    public String getServletPath() {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServletRequest#getSession(boolean)
-     */
-    @Override
-    public HttpSession getSession(final boolean arg0) {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServletRequest#getSession()
-     */
-    @Override
-    public HttpSession getSession() {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid()
-     */
-    @Override
-    public boolean isRequestedSessionIdValid() {
-        return false;
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie()
-     */
-    @Override
-    public boolean isRequestedSessionIdFromCookie() {
-        return false;
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL()
-     */
-    @Override
-    public boolean isRequestedSessionIdFromURL() {
-        return false;
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl()
-     * @deprecated
-     */
-    @Override
-    @Deprecated
-    public boolean isRequestedSessionIdFromUrl() {
-        return false;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getAttribute(String)
-     */
-    @Override
-    public Object getAttribute(final String arg0) {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getAttributeNames()
-     */
-    @Override
-    public Enumeration<String> getAttributeNames() {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getCharacterEncoding()
-     */
-    @Override
-    public String getCharacterEncoding() {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#setCharacterEncoding(String)
-     */
-    @Override
-    public void setCharacterEncoding(final String arg0)
-        throws UnsupportedEncodingException {
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getContentLength()
-     */
-    @Override
-    public int getContentLength() {
-        int iLength;
-
-        if (null == mRequestData) {
-            iLength = -1;
-        } else {
-            if (length > Integer.MAX_VALUE) {
-                throw new RuntimeException("Value '" + length + "' is too large to be converted to int");
-            }
-            iLength = (int) length;
-        }
-        return iLength;
-    }
-
-    /**
-     * For testing attack scenarios in SizesTest.
-     */
-    public void setContentLength(final long length) {
-        this.length = length;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getContentType()
-     */
-    @Override
-    public String getContentType() {
-        return mStrContentType;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getInputStream()
-     */
-    @Override
-    public ServletInputStream getInputStream() throws IOException {
-        return new MyServletInputStream(mRequestData, readLimit);
-    }
-
-    /**
-     * Sets the read limit. This can be used to limit the number of bytes to read ahead.
-     *
-     * @param readLimit the read limit to use
-     */
-    public void setReadLimit(final int readLimit) {
-        this.readLimit = readLimit;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getParameter(String)
-     */
-    @Override
-    public String getParameter(final String arg0) {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getParameterNames()
-     */
-    @Override
-    public Enumeration<String> getParameterNames() {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getParameterValues(String)
-     */
-    @Override
-    public String[] getParameterValues(final String arg0) {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getParameterMap()
-     */
-    @Override
-    public Map<String, String[]> getParameterMap() {
-        return null;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getProtocol()
-     */
-    @Override
-    public String getProtocol() {
-        return null;
-    }
-
-    /**
      * @see javax.servlet.ServletRequest#getScheme()
      */
     @Override
@@ -426,15 +497,6 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getLocalName()
-     */
-    @Override
-    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
-    public String getLocalName() {
-        return null;
-    }
-
-    /**
      * @see javax.servlet.ServletRequest#getServerPort()
      */
     @Override
@@ -442,85 +504,89 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
         return 0;
     }
 
-    /**
-     * @see javax.servlet.ServletRequest#getLocalPort()
-     */
     @Override
-    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
-    public int getLocalPort() {
-        return 0;
+    public ServletContext getServletContext() {
+        final HttpSession session = getSession();
+        if (session == null) {
+            return null;
+        }
+      return session.getServletContext();
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getRemotePort()
+     * @see javax.servlet.http.HttpServletRequest#getServletPath()
      */
     @Override
-    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
-    public int getRemotePort() {
-        return 0;
-    }
-
-    /**
-     * @see javax.servlet.ServletRequest#getReader()
-     */
-    @Override
-    public BufferedReader getReader() throws IOException {
+    public String getServletPath() {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getRemoteAddr()
+     * @see javax.servlet.http.HttpServletRequest#getSession()
      */
     @Override
-    public String getRemoteAddr() {
+    public HttpSession getSession() {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getLocalAddr()
+     * @see javax.servlet.http.HttpServletRequest#getSession(boolean)
      */
     @Override
-    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
-    public String getLocalAddr() {
+    public HttpSession getSession(final boolean arg0) {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getRemoteHost()
+     * @see javax.servlet.http.HttpServletRequest#getUserPrincipal()
      */
     @Override
-    public String getRemoteHost() {
+    public Principal getUserPrincipal() {
         return null;
     }
 
-    /**
-     * @see javax.servlet.ServletRequest#setAttribute(String, Object)
-     */
     @Override
-    public void setAttribute(final String arg0, final Object arg1) {
+    public boolean isAsyncStarted() {
+        return false;
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        return false;
     }
 
     /**
-     * @see javax.servlet.ServletRequest#removeAttribute(String)
+     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie()
      */
     @Override
-    public void removeAttribute(final String arg0) {
+    public boolean isRequestedSessionIdFromCookie() {
+        return false;
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getLocale()
+     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl()
+     * @deprecated
      */
     @Override
-    public Locale getLocale() {
-        return null;
+    @Deprecated
+    public boolean isRequestedSessionIdFromUrl() {
+        return false;
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getLocales()
+     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL()
      */
     @Override
-    public Enumeration<Locale> getLocales() {
-        return null;
+    public boolean isRequestedSessionIdFromURL() {
+        return false;
+    }
+
+    /**
+     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid()
+     */
+    @Override
+    public boolean isRequestedSessionIdValid() {
+        return false;
     }
 
     /**
@@ -532,70 +598,59 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getRequestDispatcher(String)
+     * @see javax.servlet.http.HttpServletRequest#isUserInRole(String)
      */
     @Override
-    public RequestDispatcher getRequestDispatcher(final String arg0) {
-        return null;
-    }
-
-    private static class MyServletInputStream
-        extends jakarta.servlet.ServletInputStream {
-
-        private final InputStream in;
-        private final int readLimit;
-
-        /**
-         * Creates a new instance, which returns the given
-         * streams data.
-         */
-        public MyServletInputStream(final InputStream pStream, final int readLimit) {
-            in = pStream;
-            this.readLimit = readLimit;
-        }
-
-        @Override
-        public int read() throws IOException {
-            return in.read();
-        }
-
-        @Override
-        public int read(final byte[] b, final int off, final int len) throws IOException {
-            if (readLimit > 0) {
-                return in.read(b, off, Math.min(readLimit, len));
-            }
-            return in.read(b, off, len);
-        }
-
-        @Override
-        public boolean isFinished() {
-            return false;
-        }
-
-        @Override
-        public boolean isReady() {
-            return false;
-        }
-
-        @Override
-        public void setReadListener(final ReadListener readListener) {
-            throw new IllegalStateException("Not implemented");
-        }
-
+    public boolean isUserInRole(final String arg0) {
+        return false;
     }
 
     @Override
-    public long getContentLengthLong() {
-        return getContentLength();
+    public void login(final String username, final String password) throws ServletException {
+        throw new IllegalStateException("Not implemented");
     }
 
     @Override
-    public ServletContext getServletContext() {
-        final HttpSession session = getSession();
-        if (session == null) {
-            return null;
-        }
-      return session.getServletContext();
+    public void logout() throws ServletException {
+        throw new IllegalStateException("Not implemented");
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#removeAttribute(String)
+     */
+    @Override
+    public void removeAttribute(final String arg0) {
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#setAttribute(String, Object)
+     */
+    @Override
+    public void setAttribute(final String arg0, final Object arg1) {
+    }
+
+    /**
+     * @see javax.servlet.ServletRequest#setCharacterEncoding(String)
+     */
+    @Override
+    public void setCharacterEncoding(final String arg0)
+        throws UnsupportedEncodingException {
+    }
+
+    /**
+     * For testing attack scenarios in SizesTest.
+     */
+    public void setContentLength(final long length) {
+        this.length = length;
+    }
+
+    /**
+     * Sets the read limit. This can be used to limit the number of bytes to read ahead.
+     *
+     * @param readLimit the read limit to use
+     */
+    public void setReadLimit(final int readLimit) {
+        this.readLimit = readLimit;
     }
 
     @Override
@@ -610,62 +665,7 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
     }
 
     @Override
-    public boolean isAsyncStarted() {
-        return false;
-    }
-
-    @Override
-    public boolean isAsyncSupported() {
-        return false;
-    }
-
-    @Override
-    public AsyncContext getAsyncContext() {
-        return null;
-    }
-
-    @Override
-    public DispatcherType getDispatcherType() {
-        return null;
-    }
-
-    @Override
-    public String changeSessionId() {
-        return null;
-    }
-
-    @Override
-    public boolean authenticate(final HttpServletResponse response) throws IOException, ServletException {
-        return false;
-    }
-
-    @Override
-    public void login(final String username, final String password) throws ServletException {
-        throw new IllegalStateException("Not implemented");
-    }
-
-    @Override
-    public void logout() throws ServletException {
-        throw new IllegalStateException("Not implemented");
-    }
-
-    @Override
-    public Collection<Part> getParts() throws IOException, ServletException {
-        return null;
-    }
-
-    @Override
-    public Part getPart(final String name) throws IOException, ServletException {
-        return null;
-    }
-
-    @Override
     public <T extends HttpUpgradeHandler> T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
         throw new IllegalStateException("Not implemented");
-    }
-
-    @Override
-    public String getRealPath(final String path) {
-        return null;
     }
 }

@@ -57,6 +57,23 @@ public class PortletRequestContext implements UploadContext {
     // --------------------------------------------------------- Public Methods
 
     /**
+     * Retrieve the content length of the request.
+     *
+     * @return The content length of the request.
+     * @since 1.3
+     */
+    @Override
+    public long contentLength() {
+        long size;
+        try {
+            size = Long.parseLong(request.getProperty(FileUploadBase.CONTENT_LENGTH));
+        } catch (final NumberFormatException e) {
+            size = request.getContentLength();
+        }
+        return size;
+    }
+
+    /**
      * Retrieve the character encoding for the request.
      *
      * @return The character encoding for the request.
@@ -64,16 +81,6 @@ public class PortletRequestContext implements UploadContext {
     @Override
     public String getCharacterEncoding() {
         return request.getCharacterEncoding();
-    }
-
-    /**
-     * Retrieve the content type of the request.
-     *
-     * @return The content type of the request.
-     */
-    @Override
-    public String getContentType() {
-        return request.getContentType();
     }
 
     /**
@@ -89,20 +96,13 @@ public class PortletRequestContext implements UploadContext {
     }
 
     /**
-     * Retrieve the content length of the request.
+     * Retrieve the content type of the request.
      *
-     * @return The content length of the request.
-     * @since 1.3
+     * @return The content type of the request.
      */
     @Override
-    public long contentLength() {
-        long size;
-        try {
-            size = Long.parseLong(request.getProperty(FileUploadBase.CONTENT_LENGTH));
-        } catch (final NumberFormatException e) {
-            size = request.getContentLength();
-        }
-        return size;
+    public String getContentType() {
+        return request.getContentType();
     }
 
     /**

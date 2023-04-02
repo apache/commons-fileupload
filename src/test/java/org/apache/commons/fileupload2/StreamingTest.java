@@ -42,6 +42,77 @@ import org.junit.jupiter.api.Test;
  */
 public class StreamingTest {
 
+    private String getFooter() {
+        return "-----1234--\r\n";
+    }
+
+    private String getHeader(final String pField) {
+        return "-----1234\r\n"
+            + "Content-Disposition: form-data; name=\"" + pField + "\"\r\n"
+            + "\r\n";
+
+    }
+
+    private byte[] newRequest() throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII);
+        int add = 16;
+        int num = 0;
+        for (int i = 0;  i < 16384;  i += add) {
+            if (++add == 32) {
+                add = 16;
+            }
+            osw.write(getHeader("field" + (num++)));
+            osw.flush();
+            for (int j = 0;  j < i;  j++) {
+                baos.write((byte) j);
+            }
+            osw.write("\r\n");
+        }
+        osw.write(getFooter());
+        osw.close();
+        return baos.toByteArray();
+    }
+
+    private byte[] newShortRequest() throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII);
+        osw.write(getHeader("field"));
+        osw.write("123");
+        osw.write("\r\n");
+        osw.write(getFooter());
+        osw.close();
+        return baos.toByteArray();
+    }
+
+    private List<FileItem> parseUpload(final byte[] bytes) throws FileUploadException {
+        return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
+    }
+
+    private List<FileItem> parseUpload(final InputStream pStream, final int pLength)
+            throws FileUploadException {
+        final String contentType = "multipart/form-data; boundary=---1234";
+
+        final FileUploadBase upload = new ServletFileUpload();
+        upload.setFileItemFactory(new DiskFileItemFactory());
+        final HttpServletRequest request = new MockHttpServletRequest(pStream,
+                pLength, contentType);
+
+        return upload.parseRequest(new ServletRequestContext(request));
+    }
+
+    private FileItemIterator parseUpload(final int pLength, final InputStream pStream)
+            throws FileUploadException, IOException {
+        final String contentType = "multipart/form-data; boundary=---1234";
+
+        final FileUploadBase upload = new ServletFileUpload();
+        upload.setFileItemFactory(new DiskFileItemFactory());
+        final HttpServletRequest request = new MockHttpServletRequest(pStream,
+                pLength, contentType);
+
+        return upload.getItemIterator(new ServletRequestContext(request));
+    }
+
     /**
      * Tests a file upload with varying file sizes.
      */
@@ -66,62 +137,6 @@ public class StreamingTest {
             }
         }
         assertTrue(!fileIter.hasNext());
-    }
-
-    /**
-     * Tests, whether an invalid request throws a proper
-     * exception.
-     */
-    @Test
-    public void testFileUploadException()
-            throws IOException, FileUploadException {
-        final byte[] request = newRequest();
-        final byte[] invalidRequest = new byte[request.length - 11];
-        System.arraycopy(request, 0, invalidRequest, 0, request.length - 11);
-        try {
-            parseUpload(invalidRequest);
-            fail("Expected EndOfStreamException");
-        } catch (final IOFileUploadException e) {
-            assertTrue(e.getCause() instanceof MultipartStream.MalformedStreamException);
-        }
-    }
-
-    /**
-     * Tests, whether an IOException is properly delegated.
-     */
-    @Test
-    public void testIOException()
-            throws IOException {
-        final byte[] request = newRequest();
-        final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)) {
-            private int num;
-            @Override
-            public int read() throws IOException {
-                if (++num > 123) {
-                    throw new IOException("123");
-                }
-                return super.read();
-            }
-            @Override
-            public int read(final byte[] pB, final int pOff, final int pLen)
-                    throws IOException {
-                for (int i = 0;  i < pLen;  i++) {
-                    final int res = read();
-                    if (res == -1) {
-                        return i == 0 ? -1 : i;
-                    }
-                    pB[pOff + i] = (byte) res;
-                }
-                return pLen;
-            }
-        };
-        try {
-            parseUpload(stream, request.length);
-            fail("Expected IOException");
-        } catch (final FileUploadException e) {
-            assertTrue(e.getCause() instanceof IOException);
-            assertEquals("123", e.getCause().getMessage());
-        }
     }
 
     /**
@@ -158,75 +173,22 @@ public class StreamingTest {
         assertTrue(!fileIter.hasNext());
     }
 
-    private List<FileItem> parseUpload(final byte[] bytes) throws FileUploadException {
-        return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
-    }
-
-    private FileItemIterator parseUpload(final int pLength, final InputStream pStream)
-            throws FileUploadException, IOException {
-        final String contentType = "multipart/form-data; boundary=---1234";
-
-        final FileUploadBase upload = new ServletFileUpload();
-        upload.setFileItemFactory(new DiskFileItemFactory());
-        final HttpServletRequest request = new MockHttpServletRequest(pStream,
-                pLength, contentType);
-
-        return upload.getItemIterator(new ServletRequestContext(request));
-    }
-
-    private List<FileItem> parseUpload(final InputStream pStream, final int pLength)
-            throws FileUploadException {
-        final String contentType = "multipart/form-data; boundary=---1234";
-
-        final FileUploadBase upload = new ServletFileUpload();
-        upload.setFileItemFactory(new DiskFileItemFactory());
-        final HttpServletRequest request = new MockHttpServletRequest(pStream,
-                pLength, contentType);
-
-        return upload.parseRequest(new ServletRequestContext(request));
-    }
-
-    private String getHeader(final String pField) {
-        return "-----1234\r\n"
-            + "Content-Disposition: form-data; name=\"" + pField + "\"\r\n"
-            + "\r\n";
-
-    }
-
-    private String getFooter() {
-        return "-----1234--\r\n";
-    }
-
-    private byte[] newShortRequest() throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII);
-        osw.write(getHeader("field"));
-        osw.write("123");
-        osw.write("\r\n");
-        osw.write(getFooter());
-        osw.close();
-        return baos.toByteArray();
-    }
-
-    private byte[] newRequest() throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII);
-        int add = 16;
-        int num = 0;
-        for (int i = 0;  i < 16384;  i += add) {
-            if (++add == 32) {
-                add = 16;
-            }
-            osw.write(getHeader("field" + (num++)));
-            osw.flush();
-            for (int j = 0;  j < i;  j++) {
-                baos.write((byte) j);
-            }
-            osw.write("\r\n");
+    /**
+     * Tests, whether an invalid request throws a proper
+     * exception.
+     */
+    @Test
+    public void testFileUploadException()
+            throws IOException, FileUploadException {
+        final byte[] request = newRequest();
+        final byte[] invalidRequest = new byte[request.length - 11];
+        System.arraycopy(request, 0, invalidRequest, 0, request.length - 11);
+        try {
+            parseUpload(invalidRequest);
+            fail("Expected EndOfStreamException");
+        } catch (final IOFileUploadException e) {
+            assertTrue(e.getCause() instanceof MultipartStream.MalformedStreamException);
         }
-        osw.write(getFooter());
-        osw.close();
-        return baos.toByteArray();
     }
 
     /**
@@ -275,6 +237,44 @@ public class StreamingTest {
             assertEquals(fileName, e.getName());
             assertEquals(-1, e.getMessage().indexOf(fileName));
             assertTrue(e.getMessage().contains("foo.exe\\0.png"));
+        }
+    }
+
+    /**
+     * Tests, whether an IOException is properly delegated.
+     */
+    @Test
+    public void testIOException()
+            throws IOException {
+        final byte[] request = newRequest();
+        final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)) {
+            private int num;
+            @Override
+            public int read() throws IOException {
+                if (++num > 123) {
+                    throw new IOException("123");
+                }
+                return super.read();
+            }
+            @Override
+            public int read(final byte[] pB, final int pOff, final int pLen)
+                    throws IOException {
+                for (int i = 0;  i < pLen;  i++) {
+                    final int res = read();
+                    if (res == -1) {
+                        return i == 0 ? -1 : i;
+                    }
+                    pB[pOff + i] = (byte) res;
+                }
+                return pLen;
+            }
+        };
+        try {
+            parseUpload(stream, request.length);
+            fail("Expected IOException");
+        } catch (final FileUploadException e) {
+            assertTrue(e.getCause() instanceof IOException);
+            assertEquals("123", e.getCause().getMessage());
         }
     }
 

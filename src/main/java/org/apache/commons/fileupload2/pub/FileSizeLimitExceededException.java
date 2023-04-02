@@ -51,26 +51,6 @@ public class FileSizeLimitExceededException
     }
 
     /**
-     * Returns the file name of the item, which caused the
-     * exception.
-     *
-     * @return File name, if known, or null.
-     */
-    public String getFileName() {
-        return fileName;
-    }
-
-    /**
-     * Sets the file name of the item, which caused the
-     * exception.
-     *
-     * @param pFileName the file name of the item, which caused the exception.
-     */
-    public void setFileName(final String pFileName) {
-        fileName = pFileName;
-    }
-
-    /**
      * Returns the field name of the item, which caused the
      * exception.
      *
@@ -78,6 +58,16 @@ public class FileSizeLimitExceededException
      */
     public String getFieldName() {
         return fieldName;
+    }
+
+    /**
+     * Returns the file name of the item, which caused the
+     * exception.
+     *
+     * @return File name, if known, or null.
+     */
+    public String getFileName() {
+        return fileName;
     }
 
     /**
@@ -89,6 +79,16 @@ public class FileSizeLimitExceededException
      */
     public void setFieldName(final String pFieldName) {
         fieldName = pFieldName;
+    }
+
+    /**
+     * Sets the file name of the item, which caused the
+     * exception.
+     *
+     * @param pFileName the file name of the item, which caused the exception.
+     */
+    public void setFileName(final String pFileName) {
+        fileName = pFileName;
     }
 
 }

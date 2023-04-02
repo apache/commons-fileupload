@@ -85,6 +85,21 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
+    public String getCharacterEncoding() {
+        return characterEncoding;
+    }
+
+    @Override
+    public int getContentLength() {
+        return length;
+    }
+
+    @Override
+    public String getContentType() {
+        return contentType;
+    }
+
+    @Override
     public String getContextPath() {
         return null;
     }
@@ -125,6 +140,11 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
+    public InputStream getPortletInputStream() throws IOException {
+        return requestData;
+    }
+
+    @Override
     public PortletMode getPortletMode() {
         return null;
     }
@@ -156,6 +176,11 @@ public class MockPortletActionRequest implements ActionRequest {
 
     @Override
     public Enumeration getPropertyNames() {
+        return null;
+    }
+
+    @Override
+    public BufferedReader getReader() throws UnsupportedEncodingException, IOException {
         return null;
     }
 
@@ -237,31 +262,6 @@ public class MockPortletActionRequest implements ActionRequest {
     @Override
     public void setAttribute(final String key, final Object value) {
         attributes.put(key, value);
-    }
-
-    @Override
-    public String getCharacterEncoding() {
-        return characterEncoding;
-    }
-
-    @Override
-    public int getContentLength() {
-        return length;
-    }
-
-    @Override
-    public String getContentType() {
-        return contentType;
-    }
-
-    @Override
-    public InputStream getPortletInputStream() throws IOException {
-        return requestData;
-    }
-
-    @Override
-    public BufferedReader getReader() throws UnsupportedEncodingException, IOException {
-        return null;
     }
 
     @Override

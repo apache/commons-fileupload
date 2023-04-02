@@ -86,13 +86,6 @@ final class Base64Decoder {
     }
 
     /**
-     * Hidden constructor, this class must not be instantiated.
-     */
-    private Base64Decoder() {
-        // do nothing
-    }
-
-    /**
      * Decode the base 64 encoded byte data writing it to the given output stream,
      * whitespace characters will be ignored.
      *
@@ -147,5 +140,12 @@ final class Base64Decoder {
             throw new IOException("Invalid Base64 input: truncated");
         }
         return outLen;
+    }
+
+    /**
+     * Hidden constructor, this class must not be instantiated.
+     */
+    private Base64Decoder() {
+        // do nothing
     }
 }

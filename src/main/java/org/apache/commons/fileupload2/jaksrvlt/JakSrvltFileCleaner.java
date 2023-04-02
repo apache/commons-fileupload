@@ -63,6 +63,18 @@ public class JakSrvltFileCleaner implements ServletContextListener {
     }
 
     /**
+     * Called when the web application is being destroyed.
+     * Calls {@link FileCleaningTracker#exitWhenFinished()}.
+     *
+     * @param sce The servlet context, used for calling
+     *     {@link #getFileCleaningTracker(ServletContext)}.
+     */
+    @Override
+    public void contextDestroyed(final ServletContextEvent sce) {
+        getFileCleaningTracker(sce.getServletContext()).exitWhenFinished();
+    }
+
+    /**
      * Called when the web application is initialized. Does
      * nothing.
      *
@@ -73,17 +85,5 @@ public class JakSrvltFileCleaner implements ServletContextListener {
     public void contextInitialized(final ServletContextEvent sce) {
         setFileCleaningTracker(sce.getServletContext(),
                 new FileCleaningTracker());
-    }
-
-    /**
-     * Called when the web application is being destroyed.
-     * Calls {@link FileCleaningTracker#exitWhenFinished()}.
-     *
-     * @param sce The servlet context, used for calling
-     *     {@link #getFileCleaningTracker(ServletContext)}.
-     */
-    @Override
-    public void contextDestroyed(final ServletContextEvent sce) {
-        getFileCleaningTracker(sce.getServletContext()).exitWhenFinished();
     }
 }

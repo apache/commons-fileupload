@@ -100,14 +100,19 @@ public class JakSrvltFileUpload extends FileUpload {
      *
      * @param request The servlet request to be parsed.
      *
-     * @return A list of {@code FileItem} instances parsed from the
-     *         request, in the order that they were transmitted.
+     * @return An iterator to instances of {@code FileItemStream}
+     *         parsed from the request, in the order that they were
+     *         transmitted.
      *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
+     * @throws IOException An I/O error occurred. This may be a network
+     *   error while communicating with the client or a problem while
+     *   storing the uploaded content.
      */
-    public List<FileItem> parseRequest(final HttpServletRequest request) throws FileUploadException {
-        return parseRequest(new JakSrvltRequestContext(request));
+    public FileItemIterator getItemIterator(final HttpServletRequest request)
+    throws FileUploadException, IOException {
+        return super.getItemIterator(new JakSrvltRequestContext(request));
     }
 
     /**
@@ -134,19 +139,14 @@ public class JakSrvltFileUpload extends FileUpload {
      *
      * @param request The servlet request to be parsed.
      *
-     * @return An iterator to instances of {@code FileItemStream}
-     *         parsed from the request, in the order that they were
-     *         transmitted.
+     * @return A list of {@code FileItem} instances parsed from the
+     *         request, in the order that they were transmitted.
      *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
-     * @throws IOException An I/O error occurred. This may be a network
-     *   error while communicating with the client or a problem while
-     *   storing the uploaded content.
      */
-    public FileItemIterator getItemIterator(final HttpServletRequest request)
-    throws FileUploadException, IOException {
-        return super.getItemIterator(new JakSrvltRequestContext(request));
+    public List<FileItem> parseRequest(final HttpServletRequest request) throws FileUploadException {
+        return parseRequest(new JakSrvltRequestContext(request));
     }
 
 }

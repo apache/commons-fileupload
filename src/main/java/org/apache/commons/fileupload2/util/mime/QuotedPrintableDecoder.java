@@ -31,13 +31,6 @@ final class QuotedPrintableDecoder {
     private static final int UPPER_NIBBLE_SHIFT = Byte.SIZE / 2;
 
     /**
-     * Hidden constructor, this class must not be instantiated.
-     */
-    private QuotedPrintableDecoder() {
-        // do nothing
-    }
-
-    /**
      * Decode the encoded byte data writing it to the given output stream.
      *
      * @param data   The array of byte data to decode.
@@ -107,6 +100,13 @@ final class QuotedPrintableDecoder {
             throw new IOException("Invalid quoted printable encoding: not a valid hex digit: " + b);
         }
         return i;
+    }
+
+    /**
+     * Hidden constructor, this class must not be instantiated.
+     */
+    private QuotedPrintableDecoder() {
+        // do nothing
     }
 
 }

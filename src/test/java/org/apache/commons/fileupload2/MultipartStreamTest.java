@@ -32,6 +32,21 @@ public class MultipartStreamTest {
     static private final String BOUNDARY_TEXT = "myboundary";
 
     @Test
+    public void testSmallBuffer() {
+        final String strData = "foobar";
+        final byte[] contents = strData.getBytes();
+        final InputStream input = new ByteArrayInputStream(contents);
+        final byte[] boundary = BOUNDARY_TEXT.getBytes();
+        final int iBufSize = 1;
+        assertThrows(IllegalArgumentException.class,
+                () -> new MultipartStream(
+                        input,
+                        boundary,
+                        iBufSize,
+                        new MultipartStream.ProgressNotifier(null, contents.length)));
+    }
+
+    @Test
     public void testThreeParamConstructor() throws Exception {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
@@ -45,21 +60,6 @@ public class MultipartStreamTest {
                 iBufSize,
                 new MultipartStream.ProgressNotifier(null, contents.length));
         assertNotNull(ms);
-    }
-
-    @Test
-    public void testSmallBuffer() {
-        final String strData = "foobar";
-        final byte[] contents = strData.getBytes();
-        final InputStream input = new ByteArrayInputStream(contents);
-        final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final int iBufSize = 1;
-        assertThrows(IllegalArgumentException.class,
-                () -> new MultipartStream(
-                        input,
-                        boundary,
-                        iBufSize,
-                        new MultipartStream.ProgressNotifier(null, contents.length)));
     }
 
     @Test

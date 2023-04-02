@@ -131,6 +131,15 @@ public class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
+     * Closes the file item.
+     *
+     * @throws IOException An I/O error occurred.
+     */
+    public void close() throws IOException {
+        stream.close();
+    }
+
+    /**
      * Returns the items content type, or null.
      *
      * @return Content type, if known, or null.
@@ -148,6 +157,16 @@ public class FileItemStreamImpl implements FileItemStream {
     @Override
     public String getFieldName() {
         return fieldName;
+    }
+
+    /**
+     * Returns the file item headers.
+     *
+     * @return The items header object
+     */
+    @Override
+    public FileItemHeaders getHeaders() {
+        return headers;
     }
 
     /**
@@ -188,25 +207,6 @@ public class FileItemStreamImpl implements FileItemStream {
             throw new FileItemStream.ItemSkippedException();
         }
         return stream;
-    }
-
-    /**
-     * Closes the file item.
-     *
-     * @throws IOException An I/O error occurred.
-     */
-    public void close() throws IOException {
-        stream.close();
-    }
-
-    /**
-     * Returns the file item headers.
-     *
-     * @return The items header object
-     */
-    @Override
-    public FileItemHeaders getHeaders() {
-        return headers;
     }
 
     /**

@@ -33,6 +33,31 @@ import org.junit.jupiter.api.Test;
  */
 public final class RFC2231UtilityTestCase {
 
+    private static void assertEncoded(final String expected, final String encoded) throws Exception {
+        assertEquals(expected, RFC2231Utility.decodeText(encoded));
+    }
+
+    @Test
+    public void decodeInvalidEncoding() throws Exception {
+        assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utility.decodeText("abc'en'hello"));
+    }
+
+    @Test
+    public void decodeIso88591() throws Exception {
+        assertEncoded("\u00A3 rate", "iso-8859-1'en'%A3%20rate"); //"£ rate"
+    }
+
+    @Test
+    public void decodeUtf8() throws Exception {
+        assertEncoded("\u00a3 \u0061\u006e\u0064 \u20ac \u0072\u0061\u0074\u0065\u0073",
+                "UTF-8''%c2%a3%20and%20%e2%82%ac%20rates"); //"£ and € rates"
+    }
+
+    @Test
+    public void noNeedToDecode() throws Exception {
+        assertEncoded("abc", "abc");
+    }
+
     @Test
     public void testHasEncodedValue() {
         final String nameWithAsteriskAtEnd = "paramname*";
@@ -58,30 +83,5 @@ public final class RFC2231UtilityTestCase {
 
         final String nameWithoutAsterisk = "paramname";
         assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithoutAsterisk));
-    }
-
-    @Test
-    public void noNeedToDecode() throws Exception {
-        assertEncoded("abc", "abc");
-    }
-
-    @Test
-    public void decodeUtf8() throws Exception {
-        assertEncoded("\u00a3 \u0061\u006e\u0064 \u20ac \u0072\u0061\u0074\u0065\u0073",
-                "UTF-8''%c2%a3%20and%20%e2%82%ac%20rates"); //"£ and € rates"
-    }
-
-    @Test
-    public void decodeIso88591() throws Exception {
-        assertEncoded("\u00A3 rate", "iso-8859-1'en'%A3%20rate"); //"£ rate"
-    }
-
-    @Test
-    public void decodeInvalidEncoding() throws Exception {
-        assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utility.decodeText("abc'en'hello"));
-    }
-
-    private static void assertEncoded(final String expected, final String encoded) throws Exception {
-        assertEquals(expected, RFC2231Utility.decodeText(encoded));
     }
 }

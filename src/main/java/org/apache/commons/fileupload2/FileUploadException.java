@@ -67,6 +67,14 @@ public class FileUploadException extends IOException {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Throwable getCause() {
+        return cause;
+    }
+
+    /**
      * Prints this throwable and its backtrace to the specified print stream.
      *
      * @param stream {@code PrintStream} to use for output
@@ -93,14 +101,6 @@ public class FileUploadException extends IOException {
             writer.println("Caused by:");
             cause.printStackTrace(writer);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Throwable getCause() {
-        return cause;
     }
 
 }
