@@ -24,7 +24,7 @@ import java.io.InputStream;
  * An input stream, which limits its data size. This stream is
  * used, if the content length is unknown.
  */
-public abstract class LimitedInputStream extends FilterInputStream implements Closeable {
+public abstract class LimitedInputStream extends FilterInputStream {
 
     /**
      * The maximum size of an item, in bytes.
@@ -35,11 +35,6 @@ public abstract class LimitedInputStream extends FilterInputStream implements Cl
      * The current number of bytes.
      */
     private long count;
-
-    /**
-     * Whether this stream is already closed.
-     */
-    private boolean closed;
 
     /**
      * Creates a new instance.
@@ -76,19 +71,7 @@ public abstract class LimitedInputStream extends FilterInputStream implements Cl
      */
     @Override
     public void close() throws IOException {
-        closed = true;
         super.close();
-    }
-
-    /**
-     * Returns, whether this stream is already closed.
-     *
-     * @return True, if the stream is closed, otherwise false.
-     * @throws IOException An I/O error occurred.
-     */
-    @Override
-    public boolean isClosed() throws IOException {
-        return closed;
     }
 
     /**

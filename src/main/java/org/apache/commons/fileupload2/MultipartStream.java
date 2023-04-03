@@ -25,7 +25,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.fileupload2.pub.FileUploadSizeException;
-import org.apache.commons.fileupload2.util.Closeable;
 import org.apache.commons.fileupload2.util.Streams;
 
 /**
@@ -83,7 +82,7 @@ import org.apache.commons.fileupload2.util.Streams;
 public class MultipartStream {
 
     /**
-     * Thrown upon attempt of setting an invalid boundary token.
+     * Signals an attempt to set an invalid boundary token.
      */
     public static class FileUploadBoundaryException extends FileUploadException {
 
@@ -106,7 +105,7 @@ public class MultipartStream {
     /**
      * An {@link InputStream} for reading an items contents.
      */
-    public class ItemInputStream extends InputStream implements Closeable {
+    public class ItemInputStream extends InputStream {
 
         /**
          * Offset when converting negative bytes to integers.
@@ -167,14 +166,14 @@ public class MultipartStream {
         /**
          * Closes the input stream.
          *
-         * @param pCloseUnderlying Whether to close the underlying stream (hard close)
+         * @param closeUnderlying Whether to close the underlying stream (hard close)
          * @throws IOException An I/O error occurred.
          */
-        public void close(final boolean pCloseUnderlying) throws IOException {
+        public void close(final boolean closeUnderlying) throws IOException {
             if (closed) {
                 return;
             }
-            if (pCloseUnderlying) {
+            if (closeUnderlying) {
                 closed = true;
                 input.close();
             } else {
@@ -215,12 +214,6 @@ public class MultipartStream {
             return total;
         }
 
-        /**
-         * Returns, whether the stream is closed.
-         *
-         * @return True, if the stream is closed, otherwise false.
-         */
-        @Override
         public boolean isClosed() {
             return closed;
         }
@@ -347,14 +340,14 @@ public class MultipartStream {
     }
 
     /**
-     * Thrown to indicate that the input stream fails to follow the required syntax.
+     * Signals that the input stream fails to follow the required syntax.
      */
     public static class MalformedStreamException extends IOException {
 
         /**
          * The UID to use when serializing this instance.
          */
-        private static final long serialVersionUID = 6466926458059796677L;
+        private static final long serialVersionUID = 2;
 
         /**
          * Constructs an {@code MalformedStreamException} with the specified detail message.

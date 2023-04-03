@@ -27,7 +27,6 @@ import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
 import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
-import org.apache.commons.fileupload2.util.Closeable;
 import org.apache.commons.fileupload2.util.LimitedInputStream;
 import org.apache.commons.fileupload2.util.Streams;
 
@@ -66,6 +65,11 @@ public class FileItemStreamImpl implements FileItemStream {
      * The file items input stream.
      */
     private final InputStream inputStream;
+
+    /**
+     * The file items input stream closed flag.
+     */
+    private boolean inputStreamClosed;
 
     /**
      * The headers, if any.
@@ -120,6 +124,7 @@ public class FileItemStreamImpl implements FileItemStream {
      */
     public void close() throws IOException {
         inputStream.close();
+        inputStreamClosed = true;
     }
 
     /**
@@ -182,7 +187,7 @@ public class FileItemStreamImpl implements FileItemStream {
      */
     @Override
     public InputStream openStream() throws IOException {
-        if (((Closeable) inputStream).isClosed()) {
+        if (inputStreamClosed) {
             throw new FileItemStream.ItemSkippedException();
         }
         return inputStream;
