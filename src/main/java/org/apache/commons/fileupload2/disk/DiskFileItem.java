@@ -34,8 +34,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.fileupload2.FileUploadException;
+import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.ParameterParser;
-import org.apache.commons.fileupload2.util.Streams;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
@@ -69,8 +69,7 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  *
  * @since 1.1
  */
-public class DiskFileItem
-    implements FileItem {
+public class DiskFileItem implements FileItem {
 
     /**
      * Default content charset to be used when no explicit charset
@@ -339,7 +338,7 @@ public class DiskFileItem
      */
     @Override
     public String getName() {
-        return Streams.checkFileName(fileName);
+        return DiskFileItem.checkFileName(fileName);
     }
 
     /**
@@ -606,5 +605,36 @@ public class DiskFileItem
             }
             FileUtils.moveFile(outputFile, file);
         }
+    }
+
+    /**
+     * Checks, whether the given file name is valid in the sense,
+     * that it doesn't contain any NUL characters. If the file name
+     * is valid, it will be returned without any modifications. Otherwise,
+     * an {@link InvalidFileNameException} is raised.
+     *
+     * @param fileName The file name to check
+     * @return Unmodified file name, if valid.
+     * @throws InvalidFileNameException The file name was found to be invalid.
+     */
+    public static String checkFileName(final String fileName) {
+        if (fileName != null  &&  fileName.indexOf('\u0000') != -1) {
+            // pFileName.replace("\u0000", "\\0")
+            final StringBuilder sb = new StringBuilder();
+            for (int i = 0;  i < fileName.length();  i++) {
+                final char c = fileName.charAt(i);
+                switch (c) {
+                    case 0:
+                        sb.append("\\0");
+                        break;
+                    default:
+                        sb.append(c);
+                        break;
+                }
+            }
+            throw new InvalidFileNameException(fileName,
+                    "Invalid file name: " + sb);
+        }
+        return fileName;
     }
 }

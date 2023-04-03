@@ -26,9 +26,9 @@ import org.apache.commons.fileupload2.FileItemStream;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
+import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
 import org.apache.commons.fileupload2.util.LimitedInputStream;
-import org.apache.commons.fileupload2.util.Streams;
 
 /**
  * Default implementation of {@link FileItemStream}.
@@ -166,7 +166,7 @@ public class FileItemStreamImpl implements FileItemStream {
      */
     @Override
     public String getName() {
-        return Streams.checkFileName(fileName);
+        return DiskFileItem.checkFileName(fileName);
     }
 
     /**
