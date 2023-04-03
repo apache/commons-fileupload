@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.UUID;
@@ -77,7 +78,7 @@ public class DiskFileItem
      * "text" type are defined to have a default charset value of
      * "ISO-8859-1" when received via HTTP.
      */
-    public static final String DEFAULT_CHARSET = "ISO-8859-1";
+    public static final String DEFAULT_CHARSET = StandardCharsets.ISO_8859_1.name();
 
     /**
      * UID used in unique file name generation.
