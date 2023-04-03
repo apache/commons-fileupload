@@ -456,7 +456,7 @@ public class DiskFileItem implements FileItem {
         if (tempFile == null) {
             File tempDir = repository;
             if (tempDir == null) {
-                tempDir = new File(System.getProperty("java.io.tmpdir"));
+                tempDir = FileUtils.getTempDirectory();
             }
 
             final String tempFileName = format("upload_%s_%s.tmp", UID, getUniqueId());

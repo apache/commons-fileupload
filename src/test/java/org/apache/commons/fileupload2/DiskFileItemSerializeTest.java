@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
 public class DiskFileItemSerializeTest {
 
     // Use a private repository to catch any files left over by tests
-    private static final File REPOSITORY = new File(System.getProperty("java.io.tmpdir"), "DiskFileItemRepo");
+    private static final File REPOSITORY = new File(FileUtils.getTempDirectory(), "DiskFileItemRepo");
 
     /**
      * Content type for regular form items.
@@ -203,7 +203,7 @@ public class DiskFileItemSerializeTest {
     public void testInvalidRepository() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
-        final File repository = new File(System.getProperty("java.io.tmpdir"), "file");
+        final File repository = new File(FileUtils.getTempDirectory(), "file");
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         assertThrows(IOException.class, () -> deserialize(serialize(item)));
     }
@@ -215,7 +215,7 @@ public class DiskFileItemSerializeTest {
     public void testInvalidRepositoryWithNullChar() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
-        final File repository = new File(System.getProperty("java.io.tmpdir"), "\0");
+        final File repository = new File(FileUtils.getTempDirectory(), "\0");
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         assertThrows(IOException.class, () -> deserialize(serialize(item)));
     }
