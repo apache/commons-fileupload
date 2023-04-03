@@ -16,23 +16,12 @@
  */
 package org.apache.commons.fileupload2.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import org.apache.commons.fileupload2.InvalidFileNameException;
 
 /**
  * Utility class for working with streams.
  */
 public final class Streams {
-
-    /**
-     * Default buffer size for use in
-     * {@link #copy(InputStream, OutputStream, boolean)}.
-     */
-    public static final int DEFAULT_BUFFER_SIZE = 8192;
 
     /**
      * Checks, whether the given file name is valid in the sense,
@@ -63,79 +52,6 @@ public final class Streams {
                     "Invalid file name: " + sb);
         }
         return fileName;
-    }
-
-    /**
-     * Copies the contents of the given {@link InputStream}
-     * to the given {@link OutputStream}. Shortcut for
-     * <pre>
-     *   copy(pInputStream, pOutputStream, new byte[8192]);
-     * </pre>
-     *
-     * @param inputStream The input stream, which is being read.
-     * It is guaranteed, that {@link InputStream#close()} is called
-     * on the stream.
-     * @param outputStream The output stream, to which data should
-     * be written. May be null, in which case the input streams
-     * contents are simply discarded.
-     * @param closeOutputStream True guarantees, that
-     * {@link OutputStream#close()} is called on the stream.
-     * False indicates, that only
-     * {@link OutputStream#flush()} should be called finally.
-     * @return Number of bytes, which have been copied.
-     * @throws IOException An I/O error occurred.
-     */
-    public static long copy(final InputStream inputStream, final OutputStream outputStream,
-                            final boolean closeOutputStream)
-            throws IOException {
-        return copy(inputStream, outputStream, closeOutputStream, new byte[DEFAULT_BUFFER_SIZE]);
-    }
-
-    /**
-     * Copies the contents of the given {@link InputStream}
-     * to the given {@link OutputStream}.
-     *
-     * @param inputStream The input stream, which is being read.
-     *   It is guaranteed, that {@link InputStream#close()} is called
-     *   on the stream.
-     * @param outputStream The output stream, to which data should
-     *   be written. May be null, in which case the input streams
-     *   contents are simply discarded.
-     * @param closeOutputStream True guarantees, that {@link OutputStream#close()}
-     *   is called on the stream. False indicates, that only
-     *   {@link OutputStream#flush()} should be called finally.
-     * @param buffer Temporary buffer, which is to be used for
-     *   copying data.
-     * @return Number of bytes, which have been copied.
-     * @throws IOException An I/O error occurred.
-     */
-    public static long copy(final InputStream inputStream, final OutputStream outputStream, final boolean closeOutputStream, final byte[] buffer)
-            throws IOException {
-        try (OutputStream out = outputStream;
-                InputStream in = inputStream) {
-            long total = 0;
-            for (;;) {
-                final int res = in.read(buffer);
-                if (res == -1) {
-                    break;
-                }
-                if (res > 0) {
-                    total += res;
-                    if (out != null) {
-                        out.write(buffer, 0, res);
-                    }
-                }
-            }
-            if (out != null) {
-                if (closeOutputStream) {
-                    out.close();
-                } else {
-                    out.flush();
-                }
-            }
-            in.close();
-            return total;
-        }
     }
 
     /**

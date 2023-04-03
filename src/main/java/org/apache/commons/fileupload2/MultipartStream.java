@@ -25,7 +25,8 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.fileupload2.pub.FileUploadSizeException;
-import org.apache.commons.fileupload2.util.Streams;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.NullOutputStream;
 
 /**
  * <p>
@@ -654,8 +655,8 @@ public class MultipartStream {
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
-    public int discardBodyData() throws MalformedStreamException, IOException {
-        return readBodyData(null);
+    public long discardBodyData() throws MalformedStreamException, IOException {
+        return readBodyData(NullOutputStream.NULL_OUTPUT_STREAM);
     }
 
     /**
@@ -733,8 +734,10 @@ public class MultipartStream {
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
-    public int readBodyData(final OutputStream output) throws MalformedStreamException, IOException {
-        return (int) Streams.copy(newInputStream(), output, false); // N.B. Streams.copy closes the input stream
+    public long readBodyData(final OutputStream output) throws MalformedStreamException, IOException {
+        try (ItemInputStream inputStream = newInputStream()) {
+            return IOUtils.copyLarge(inputStream, output);
+        }
     }
 
     /**
@@ -745,7 +748,7 @@ public class MultipartStream {
      * @throws FileUploadSizeException  if the bytes read from the stream exceeded the size limits
      * @throws MalformedStreamException if the stream ends unexpectedly or fails to follow required syntax.
      */
-    public boolean readBoundary() throws FileUploadException, MalformedStreamException {
+    public boolean readBoundary() throws FileUploadSizeException, MalformedStreamException {
         final byte[] marker = new byte[2];
         final boolean nextChunk;
 
@@ -771,7 +774,6 @@ public class MultipartStream {
                 throw new MalformedStreamException("Unexpected characters follow a boundary");
             }
         } catch (final FileUploadSizeException e) {
-            // wraps a FileUploadSizeException, re-throw as it will be unwrapped later?
             throw e;
         } catch (final IOException e) {
             throw new MalformedStreamException("Stream ended unexpectedly", e);

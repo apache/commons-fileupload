@@ -19,6 +19,8 @@ package org.apache.commons.fileupload2;
 import static java.lang.String.format;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ import java.util.Objects;
 import org.apache.commons.fileupload2.impl.FileItemIteratorImpl;
 import org.apache.commons.fileupload2.pub.FileUploadFileCountLimitException;
 import org.apache.commons.fileupload2.util.FileItemHeadersImpl;
-import org.apache.commons.fileupload2.util.Streams;
+import org.apache.commons.io.IOUtils;
 
 /**
  * <p>High level API for processing file uploads.</p>
@@ -459,7 +461,7 @@ public abstract class FileUploadBase {
         try {
             final FileItemIterator iter = getItemIterator(ctx);
             final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
-            final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
+            final byte[] buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {
                 if (items.size() == fileCountMax) {
                     // The next item will exceed the limit.
@@ -470,15 +472,15 @@ public abstract class FileUploadBase {
                 final String fileName = item.getName();
                 final FileItem fileItem = fileItemFactory.createItem(item.getFieldName(), item.getContentType(), item.isFormField(), fileName);
                 items.add(fileItem);
-                try {
-                    Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer);
+                try (InputStream inputStream = item.openStream();
+                        OutputStream outputStream = fileItem.getOutputStream()) {
+                    IOUtils.copyLarge(inputStream, outputStream, buffer);
                 } catch (final FileUploadException e) {
                     throw e;
                 } catch (final IOException e) {
                     throw new FileUploadException(format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
-                final FileItemHeaders fih = item.getHeaders();
-                fileItem.setHeaders(fih);
+                fileItem.setHeaders(item.getHeaders());
             }
             successful = true;
             return items;

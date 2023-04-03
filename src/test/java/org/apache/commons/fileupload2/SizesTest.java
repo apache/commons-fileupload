@@ -34,7 +34,7 @@ import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
 import org.apache.commons.fileupload2.pub.FileUploadSizeException;
 import org.apache.commons.fileupload2.servlet.ServletFileUpload;
-import org.apache.commons.fileupload2.util.Streams;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -259,9 +259,11 @@ public class SizesTest {
         assertEquals("foo1.tab", item.getName());
 
         {
-            final InputStream stream = item.openStream();
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Streams.copy(stream, baos, true);
+            try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    final InputStream stream = item.openStream()) {
+                IOUtils.copy(stream, baos);
+            }
+            
         }
 
         // the second item is over the size max, thus we expect an error
@@ -275,9 +277,10 @@ public class SizesTest {
         item = it.next();
 
         try {
-            final InputStream stream = item.openStream();
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Streams.copy(stream, baos, true);
+            try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    final InputStream stream = item.openStream()) {
+                IOUtils.copy(stream, baos);
+            }
             fail();
         } catch (final FileUploadException e) {
             // expected
