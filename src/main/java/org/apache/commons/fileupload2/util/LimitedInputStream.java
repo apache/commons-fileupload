@@ -97,7 +97,7 @@ public abstract class LimitedInputStream extends FilterInputStream {
      * <p>
      * This method
      * simply performs {@code in.read()} and returns the result.
-     *
+     * </p>
      * @return     the next byte of data, or {@code -1} if the end of the
      *             stream is reached.
      * @throws  IOException  if an I/O error occurs.
@@ -121,7 +121,7 @@ public abstract class LimitedInputStream extends FilterInputStream {
      * <p>
      * This method simply performs {@code in.read(b, off, len)}
      * and returns the result.
-     *
+     * </p>
      * @param      b     the buffer into which the data is read.
      * @param      off   The start offset in the destination array
      *                   {@code b}.

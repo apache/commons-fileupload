@@ -23,16 +23,20 @@ import org.apache.commons.fileupload2.FileItemFactory;
 import org.apache.commons.io.FileCleaningTracker;
 
 /**
- * <p>The default {@link org.apache.commons.fileupload2.FileItemFactory}
- * implementation. This implementation creates
+ * The default {@link org.apache.commons.fileupload2.FileItemFactory}
+ * implementation.
+ * <p>
+ * This implementation creates
  * {@link org.apache.commons.fileupload2.FileItem} instances which keep their
  * content either in memory, for smaller items, or in a temporary file on disk,
  * for larger items. The size threshold, above which content will be stored on
  * disk, is configurable, as is the directory in which temporary files will be
- * created.</p>
- *
- * <p>If not otherwise configured, the default configuration values are as
- * follows:</p>
+ * created.
+ * </p>
+ * <p>
+ * If not otherwise configured, the default configuration values are as
+ * follows:
+ * </p>
  * <ul>
  *   <li>Size threshold is 10KB.</li>
  *   <li>Repository is the system default temp directory, as returned by
@@ -50,8 +54,8 @@ import org.apache.commons.io.FileCleaningTracker;
  * by the ServletContext attribute {@code javax.servlet.context.tempdir}
  * may be used.
  * </p>
- *
- * <p>Temporary files, which are created for file items, should be
+ * <p>
+ * Temporary files, which are created for file items, should be
  * deleted later on. The best way to do this is using a
  * {@link FileCleaningTracker}, which you can set on the
  * {@link DiskFileItemFactory}. However, if you do use such a tracker,
@@ -63,7 +67,8 @@ import org.apache.commons.io.FileCleaningTracker;
  * tracked.
  * It might make sense to terminate that thread, for example, if
  * your web application ends. See the section on "Resource cleanup"
- * in the users guide of commons-fileupload.</p>
+ * in the users guide of commons-fileupload.
+ * </p>
  *
  * @since 1.1
  */
@@ -85,9 +90,11 @@ public class DiskFileItemFactory implements FileItemFactory {
     private int sizeThreshold = DEFAULT_SIZE_THRESHOLD;
 
     /**
-     * <p>The instance of {@link FileCleaningTracker}, which is responsible
-     * for deleting temporary files.</p>
-     * <p>May be null, if tracking files is not required.</p>
+     * The instance of {@link FileCleaningTracker}, which is responsible
+     * for deleting temporary files.
+     * <p>
+     * May be null, if tracking files is not required.
+     * </p>
      */
     private FileCleaningTracker fileCleaningTracker;
 
@@ -121,7 +128,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Create a new {@link org.apache.commons.fileupload2.disk.DiskFileItem}
+     * Creates a new {@link org.apache.commons.fileupload2.disk.DiskFileItem}
      * instance from the supplied parameters and the local factory
      * configuration.
      *
@@ -131,7 +138,6 @@ public class DiskFileItemFactory implements FileItemFactory {
      *                    {@code false} otherwise.
      * @param fileName    The name of the uploaded file, if any, as supplied
      *                    by the browser or other client.
-     *
      * @return The newly created file item.
      */
     @Override
@@ -148,8 +154,9 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the default charset for use when no explicit charset
+     * Gets the default charset for use when no explicit charset
      * parameter is provided by the sender.
+     *
      * @return the default charset
      */
     public String getDefaultCharset() {
@@ -157,7 +164,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the tracker, which is responsible for deleting temporary
+     * Gets the tracker, which is responsible for deleting temporary
      * files.
      *
      * @return An instance of {@link FileCleaningTracker}, or null
@@ -168,24 +175,21 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the directory used to temporarily store files that are larger
+     * Gets the directory used to temporarily store files that are larger
      * than the configured size threshold.
      *
      * @return The directory in which temporary files will be located.
-     *
      * @see #setRepository(java.io.File)
-     *
      */
     public File getRepository() {
         return repository;
     }
 
     /**
-     * Returns the size threshold beyond which files are written directly to
+     * Gets the size threshold beyond which files are written directly to
      * disk. The default value is 10240 bytes.
      *
      * @return The size threshold, in bytes.
-     *
      * @see #setSizeThreshold(int)
      */
     public int getSizeThreshold() {
@@ -218,9 +222,7 @@ public class DiskFileItemFactory implements FileItemFactory {
      * than the configured size threshold.
      *
      * @param repository The directory in which temporary files will be located.
-     *
      * @see #getRepository()
-     *
      */
     public void setRepository(final File repository) {
         this.repository = repository;
@@ -230,9 +232,7 @@ public class DiskFileItemFactory implements FileItemFactory {
      * Sets the size threshold beyond which files are written directly to disk.
      *
      * @param sizeThreshold The size threshold, in bytes.
-     *
      * @see #getSizeThreshold()
-     *
      */
     public void setSizeThreshold(final int sizeThreshold) {
         this.sizeThreshold = sizeThreshold;

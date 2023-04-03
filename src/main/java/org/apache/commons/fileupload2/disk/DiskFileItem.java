@@ -220,7 +220,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the contents of the file as an array of bytes.  If the
+     * Gets the contents of the file as an array of bytes.  If the
      * contents of the file were not yet cached in memory, they will be
      * loaded from the disk storage and cached.
      *
@@ -248,7 +248,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the content charset passed by the agent or {@code null} if
+     * Gets the content charset passed by the agent or {@code null} if
      * not defined.
      *
      * @return The content charset passed by the agent or {@code null} if
@@ -263,7 +263,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the content type passed by the agent or {@code null} if
+     * Gets the content type passed by the agent or {@code null} if
      * not defined.
      *
      * @return The content type passed by the agent or {@code null} if
@@ -275,7 +275,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the default charset for use when no explicit charset
+     * Gets the default charset for use when no explicit charset
      * parameter is provided by the sender.
      *
      * @return the default charset
@@ -285,7 +285,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the name of the field in the multipart form corresponding to
+     * Gets the name of the field in the multipart form corresponding to
      * this file item.
      *
      * @return The name of the form field.
@@ -297,7 +297,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the file item headers.
+     * Gets the file item headers.
      *
      * @return The file items headers.
      */
@@ -307,7 +307,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns an {@link java.io.InputStream InputStream} that can be
+     * Gets an {@link java.io.InputStream InputStream} that can be
      * used to retrieve the contents of the file.
      *
      * @return An {@link java.io.InputStream InputStream} that can be
@@ -328,7 +328,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the original file name in the client's file system.
+     * Gets the original file name in the client's file system.
      *
      * @return The original file name in the client's file system.
      * @throws org.apache.commons.fileupload2.InvalidFileNameException The file name contains a NUL character,
@@ -342,7 +342,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns an {@link java.io.OutputStream OutputStream} that can
+     * Gets an {@link java.io.OutputStream OutputStream} that can
      * be used for storing the contents of the file.
      *
      * @return An {@link java.io.OutputStream OutputStream} that can be used
@@ -358,7 +358,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the size of the file.
+     * Gets the size of the file.
      *
      * @return The size of the file, in bytes.
      */
@@ -377,7 +377,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the {@link java.io.File} object for the {@code FileItem}'s
+     * Gets the {@link java.io.File} object for the {@code FileItem}'s
      * data's temporary location on the disk. Note that for
      * {@code FileItem}s that have their data stored in memory,
      * this method will return {@code null}. When handling large
@@ -400,7 +400,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the contents of the file as a String, using the default
+     * Gets the contents of the file as a String, using the default
      * character encoding.  This method uses {@link #get()} to retrieve the
      * contents of the file.
      * <p>
@@ -423,14 +423,12 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns the contents of the file as a String, using the specified
+     * Gets the contents of the file as a String, using the specified
      * encoding.  This method uses {@link #get()} to retrieve the
      * contents of the file.
      *
      * @param charset The charset to use.
-     *
      * @return The contents of the file, as a string.
-     *
      * @throws UnsupportedEncodingException if the requested character
      *                                      encoding is not available.
      */
@@ -457,16 +455,14 @@ public class DiskFileItem implements FileItem {
             if (tempDir == null) {
                 tempDir = FileUtils.getTempDirectory();
             }
-
             final String tempFileName = format("upload_%s_%s.tmp", UID, getUniqueId());
-
             tempFile = new File(tempDir, tempFileName);
         }
         return tempFile;
     }
 
     /**
-     * Determines whether or not a {@code FileItem} instance represents
+     * Tests whether or not a {@code FileItem} instance represents
      * a simple form field.
      *
      * @return {@code true} if the instance represents a simple form

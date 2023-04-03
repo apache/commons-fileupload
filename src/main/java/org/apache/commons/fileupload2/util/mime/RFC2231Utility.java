@@ -21,16 +21,16 @@ import java.io.UnsupportedEncodingException;
 /**
  * Utility class to decode/encode character set on HTTP Header fields based on RFC 2231.
  * This implementation adheres to RFC 5987 in particular, which was defined for HTTP headers
- *
+ * <p>
  * RFC 5987 builds on RFC 2231, but has lesser scope like
  * <a href="https://tools.ietf.org/html/rfc5987#section-3.2">mandatory charset definition</a>
  * and <a href="https://tools.ietf.org/html/rfc5987#section-4">no parameter continuation</a>
- *
- * <p>
+ * </p>
  * @see <a href="https://tools.ietf.org/html/rfc2231">RFC 2231</a>
  * @see <a href="https://tools.ietf.org/html/rfc5987">RFC 5987</a>
  */
 public final class RFC2231Utility {
+
     /**
      * The Hexadecimal values char array.
      */
@@ -57,7 +57,7 @@ public final class RFC2231Utility {
     }
 
     /**
-     * Decode a string of text obtained from a HTTP header as per RFC 2231
+     * Decodes a string of text obtained from a HTTP header as per RFC 2231
      *
      * <b>Eg 1.</b> {@code us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A}
      * will be decoded to {@code This is ***fun***}
@@ -90,7 +90,8 @@ public final class RFC2231Utility {
     }
 
     /**
-     * Convert {@code text} to their corresponding Hex value.
+     * Converts {@code text} to their corresponding Hex value.
+     *
      * @param text - ASCII text input
      * @return Byte array of characters decoded from ASCII table
      */
@@ -119,7 +120,7 @@ public final class RFC2231Utility {
     }
 
     /**
-     * Checks if Asterisk (*) at the end of parameter name to indicate,
+     * Tests if asterisk (*) at the end of parameter name to indicate,
      * if it has charset and language information to decode the value.
      * @param paramName The parameter, which is being checked.
      * @return {@code true}, if encoded as per RFC 2231, {@code false} otherwise

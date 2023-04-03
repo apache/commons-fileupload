@@ -34,6 +34,7 @@ import org.apache.commons.fileupload2.util.LimitedInputStream;
  * Default implementation of {@link FileItemStream}.
  */
 public class FileItemStreamImpl implements FileItemStream {
+
     /**
      * The File Item iterator implementation.
      *
@@ -128,7 +129,7 @@ public class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Returns the items content type, or null.
+     * Gets the items content type, or null.
      *
      * @return Content type, if known, or null.
      */
@@ -138,7 +139,7 @@ public class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Returns the items field name.
+     * Gets the items field name.
      *
      * @return Field name.
      */
@@ -148,7 +149,7 @@ public class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Returns the file item headers.
+     * Gets the file item headers.
      *
      * @return The items header object
      */
@@ -158,7 +159,7 @@ public class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Returns the items file name.
+     * Gets the items file name.
      *
      * @return File name, if known, or null.
      * @throws InvalidFileNameException The file name contains a NUL character, which might be an indicator of a security attack. If you intend to use the file
@@ -170,7 +171,7 @@ public class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Returns, whether this is a form field.
+     * Tests whether this is a form field.
      *
      * @return True, if the item is a form field, otherwise false.
      */
@@ -180,7 +181,7 @@ public class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Returns an input stream, which may be used to read the items contents.
+     * Gets the input stream, which may be used to read the items contents.
      *
      * @return Opened input stream.
      * @throws IOException An I/O error occurred.

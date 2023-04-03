@@ -30,30 +30,30 @@ import org.apache.commons.fileupload2.FileUploadBase;
 import org.apache.commons.fileupload2.FileUploadException;
 
 /**
- * <p>High level API for processing file uploads.</p>
- *
- * <p>This class handles multiple files per single HTML widget, sent using
+ * High level API for processing file uploads.
+ * <p>
+ * This class handles multiple files per single HTML widget, sent using
  * {@code multipart/mixed} encoding type, as specified by
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use
  * {@link org.apache.commons.fileupload2.servlet.ServletFileUpload
  * #parseRequest(javax.servlet.http.HttpServletRequest)} to acquire a list
  * of {@link org.apache.commons.fileupload2.FileItem FileItems} associated
- * with a given HTML widget.</p>
- *
- * <p>How the data for individual parts is stored is determined by the factory
+ * with a given HTML widget.
+ * </p>
+ * <p>
+ * How the data for individual parts is stored is determined by the factory
  * used to create them; a given part may be in memory, on disk, or somewhere
- * else.</p>
- *
+ * else.
+ * </p>
  * @since 1.1
  */
 public class PortletFileUpload extends FileUpload {
 
     /**
-     * Utility method that determines whether the request contains multipart
+     * Tests whether the request contains multipart
      * content.
      *
      * @param request The portlet request to be evaluated. Must be non-null.
-     *
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      */
@@ -84,15 +84,13 @@ public class PortletFileUpload extends FileUpload {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
-     * compliant {@code multipart/form-data} stream.
+     * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * compliant {@code multipart/form-data} file item iterator.
      *
      * @param request The portlet request to be parsed.
-     *
      * @return An iterator to instances of {@code FileItemStream}
      *         parsed from the request, in the order that they were
      *         transmitted.
-     *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      * @throws IOException An I/O error occurred. This may be a network
@@ -105,16 +103,13 @@ public class PortletFileUpload extends FileUpload {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param request The portlet request to be parsed.
-     *
      * @return A map of {@code FileItem} instances parsed from the request.
-     *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
-     *
      * @since 1.3
      */
     public Map<String, List<FileItem>> parseParameterMap(final ActionRequest request)
@@ -123,14 +118,12 @@ public class PortletFileUpload extends FileUpload {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param request The portlet request to be parsed.
-     *
      * @return A list of {@code FileItem} instances parsed from the
      *         request, in the order that they were transmitted.
-     *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */

@@ -31,7 +31,7 @@ final class QuotedPrintableDecoder {
     private static final int UPPER_NIBBLE_SHIFT = Byte.SIZE / 2;
 
     /**
-     * Decode the encoded byte data writing it to the given output stream.
+     * Decodes the encoded byte data writing it to the given output stream.
      *
      * @param data   The array of byte data to decode.
      * @param out    The output stream used to return the decoded data.
@@ -87,7 +87,7 @@ final class QuotedPrintableDecoder {
     }
 
     /**
-     * Convert a hex digit to the binary value it represents.
+     * Converts a hex digit to the binary value it represents.
      *
      * @param b the ascii hex byte to convert (0-0, A-F, a-f)
      * @return the int value of the hex byte, 0-15

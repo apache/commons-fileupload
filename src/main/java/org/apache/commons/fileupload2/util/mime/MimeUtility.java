@@ -76,7 +76,7 @@ public final class MimeUtility {
     }
 
     /**
-     * Decode a string of text obtained from a mail header into
+     * Decodes a string of text obtained from a mail header into
      * its proper form.  The text generally will consist of a
      * string of tokens, some of which may be encoded using
      * base64 encoding.
@@ -175,7 +175,7 @@ public final class MimeUtility {
     }
 
     /**
-     * Parse a string using the RFC 2047 rules for an "encoded-word"
+     * Decodes a string using the RFC 2047 rules for an "encoded-word"
      * type.  This encoding has the syntax:
      *
      * encoded-word = "=?" charset "?" encoding "?" encoded-text "?="

@@ -128,7 +128,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
     }
 
     /**
-     * Called for finding the next item, if any.
+     * Finds the next item, if any.
      *
      * @return True, if an next item was found, otherwise false.
      * @throws IOException An I/O error occurred.

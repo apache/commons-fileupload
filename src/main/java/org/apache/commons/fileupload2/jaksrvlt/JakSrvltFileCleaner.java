@@ -38,7 +38,7 @@ public class JakSrvltFileCleaner implements ServletContextListener {
         = JakSrvltFileCleaner.class.getName() + ".FileCleaningTracker";
 
     /**
-     * Returns the instance of {@link FileCleaningTracker}, which is
+     * Gets the instance of {@link FileCleaningTracker}, which is
      * associated with the given {@link ServletContext}.
      *
      * @param pServletContext The servlet context to query
