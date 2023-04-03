@@ -30,8 +30,7 @@ package org.apache.commons.fileupload2;
  * used to create them; a given part may be in memory, on disk, or somewhere
  * else.</p>
  */
-public class FileUpload
-    extends FileUploadBase {
+public class FileUpload extends FileUploadBase {
 
     /**
      * The factory to use to create new form items.
@@ -62,7 +61,7 @@ public class FileUpload
     }
 
     /**
-     * Returns the factory class used when creating file items.
+     * Gets the factory class used when creating file items.
      *
      * @return The factory class for new file items.
      */

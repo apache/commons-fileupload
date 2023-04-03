@@ -28,9 +28,11 @@ import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
  * {@link FileUploadBase#getItemIterator(RequestContext)}.
  */
 public interface FileItemIterator {
+
     List<FileItem> getFileItems() throws FileUploadException, IOException;
 
-    /** Returns the maximum size of a single file. An {@link FileUploadByteCountLimitException}
+    /**
+     * Gets the maximum size of a single file. An {@link FileUploadByteCountLimitException}
      * will be thrown, if there is an uploaded file, which is exceeding this value.
      * By default, this value will be copied from the {@link FileUploadBase#getFileSizeMax()
      * FileUploadBase} object, however, the user may replace the default value with a
@@ -39,7 +41,8 @@ public interface FileItemIterator {
      */
     long getFileSizeMax();
 
-    /** Returns the maximum size of the complete HTTP request. A {@link SizeLimitExceededException}
+    /**
+     * Gets the maximum size of the complete HTTP request. A {@link SizeLimitExceededException}
      * will be thrown, if the HTTP request will exceed this value.
      * By default, this value will be copied from the {@link FileUploadBase#getSizeMax()
      * FileUploadBase} object, however, the user may replace the default value with a
@@ -49,7 +52,7 @@ public interface FileItemIterator {
     long getSizeMax();
 
     /**
-     * Returns, whether another instance of {@link FileItemStream}
+     * Tests whether another instance of {@link FileItemStream}
      * is available.
      *
      * @throws FileUploadException Parsing or processing the
@@ -73,25 +76,31 @@ public interface FileItemIterator {
      */
     FileItemStream next() throws FileUploadException, IOException;
 
-    /** Sets the maximum size of a single file. An {@link FileUploadByteCountLimitException}
+    /**
+     * Sets the maximum size of a single file. An {@link FileUploadByteCountLimitException}
      * will be thrown, if there is an uploaded file, which is exceeding this value.
      * By default, this value will be copied from the {@link FileUploadBase#getFileSizeMax()
      * FileUploadBase} object, however, the user may replace the default value with a
      * request specific value by invoking {@link #setFileSizeMax(long)} on this object, so
      * there is no need to configure it here.
-     * <em>Note:</em>Changing this value doesn't affect files, that have already been uploaded.
+     * <p>
+     * <em>Note:</em> Changing this value doesn't affect files, that have already been uploaded.
+     * </p>
      * @param pFileSizeMax The maximum size of a single, uploaded file. The value -1 indicates "unlimited".
      */
     void setFileSizeMax(long pFileSizeMax);
 
-    /** Returns the maximum size of the complete HTTP request. A {@link SizeLimitExceededException}
+    /**
+     * Sets the maximum size of the complete HTTP request. A {@link SizeLimitExceededException}
      * will be thrown, if the HTTP request will exceed this value.
      * By default, this value will be copied from the {@link FileUploadBase#getSizeMax()
      * FileUploadBase} object, however, the user may replace the default value with a
      * request specific value by invoking {@link #setSizeMax(long)} on this object.
+     * <p>
      * <em>Note:</em> Setting the maximum size on this object will work only, if the iterator is not
      * yet initialized. In other words: If the methods {@link #hasNext()}, {@link #next()} have not
      * yet been invoked.
+     * </p>
      * @param pSizeMax The maximum size of the complete HTTP request. The value -1 indicates "unlimited".
      */
     void setSizeMax(long pSizeMax);

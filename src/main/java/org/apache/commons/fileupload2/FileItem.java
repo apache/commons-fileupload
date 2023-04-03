@@ -24,35 +24,28 @@ import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * <p> This class represents a file or form item that was received within a
- * {@code multipart/form-data} POST request.
- *
- * <p> After retrieving an instance of this class from a {@link
- * org.apache.commons.fileupload2.FileUpload FileUpload} instance (see
- * {@link org.apache.commons.fileupload2.servlet.ServletFileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
- * either request all contents of the file at once using {@link #get()} or
- * request an {@link java.io.InputStream InputStream} with
- * {@link #getInputStream()} and process the file without attempting to load
- * it into memory, which may come handy with large files.
- *
- * <p> While this interface does not extend
- * {@code javax.activation.DataSource} per se (to avoid a seldom used
- * dependency), several of the defined methods are specifically defined with
- * the same signatures as methods in that interface. This allows an
- * implementation of this interface to also implement
+ * <p>
+ * This class represents a file or form item that was received within a {@code multipart/form-data} POST request.
+ * </p>
+ * <p>
+ * After retrieving an instance of this class from a {@link org.apache.commons.fileupload2.FileUpload FileUpload} instance (see
+ * {@link org.apache.commons.fileupload2.servlet.ServletFileUpload #parseRequest(javax.servlet.http.HttpServletRequest)}), you may either request all contents
+ * of the file at once using {@link #get()} or request an {@link java.io.InputStream InputStream} with {@link #getInputStream()} and process the file without
+ * attempting to load it into memory, which may come handy with large files.
+ * </p>
+ * <p>
+ * While this interface does not extend {@code javax.activation.DataSource} per se (to avoid a seldom used dependency), several of the defined methods are
+ * specifically defined with the same signatures as methods in that interface. This allows an implementation of this interface to also implement
  * {@code javax.activation.DataSource} with minimal additional work.
- *
+ * </p>
  * @since 1.3 additionally implements FileItemHeadersSupport
  */
 public interface FileItem extends FileItemHeadersSupport {
 
     /**
-     * Deletes the underlying storage for a file item, including deleting any
-     * associated temporary disk file. Although this storage will be deleted
-     * automatically when the {@code FileItem} instance is garbage
-     * collected, this method can be used to ensure that this is done at an
-     * earlier time, thus preserving system resources.
+     * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. Although this storage will be deleted
+     * automatically when the {@code FileItem} instance is garbage collected, this method can be used to ensure that this is done at an earlier time, thus
+     * preserving system resources.
      */
     void delete();
 
@@ -66,104 +59,85 @@ public interface FileItem extends FileItemHeadersSupport {
     byte[] get() throws UncheckedIOException;
 
     /**
-     * Returns the content type passed by the browser or {@code null} if
-     * not defined.
+     * Gets the content type passed by the browser or {@code null} if not defined.
      *
-     * @return The content type passed by the browser or {@code null} if
-     *         not defined.
+     * @return The content type passed by the browser or {@code null} if not defined.
      */
     String getContentType();
 
     /**
-     * Returns the name of the field in the multipart form corresponding to
-     * this file item.
+     * Gets the name of the field in the multipart form corresponding to this file item.
      *
      * @return The name of the form field.
      */
     String getFieldName();
 
     /**
-     * Returns an {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
+     * Gets an {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
      *
-     * @return An {@link java.io.InputStream InputStream} that can be
-     *         used to retrieve the contents of the file.
+     * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
      *
      * @throws IOException if an error occurs.
      */
     InputStream getInputStream() throws IOException;
 
     /**
-     * Returns the original file name in the client's file system, as provided by
-     * the browser (or other client software). In most cases, this will be the
-     * base file name, without path information. However, some clients, such as
-     * the Opera browser, do include path information.
+     * Gets the original file name in the client's file system, as provided by the browser (or other client software). In most cases, this will be the base file
+     * name, without path information. However, some clients, such as the Opera browser, do include path information.
      *
      * @return The original file name in the client's file system.
-     * @throws InvalidFileNameException The file name contains a NUL character,
-     *   which might be an indicator of a security attack. If you intend to
-     *   use the file name anyways, catch the exception and use
-     *   InvalidFileNameException#getName().
+     * @throws InvalidFileNameException The file name contains a NUL character, which might be an indicator of a security attack. If you intend to use the file
+     *                                  name anyways, catch the exception and use InvalidFileNameException#getName().
      */
     String getName();
 
     /**
-     * Returns an {@link java.io.OutputStream OutputStream} that can
-     * be used for storing the contents of the file.
+     * Gets an {@link java.io.OutputStream OutputStream} that can be used for storing the contents of the file.
      *
-     * @return An {@link java.io.OutputStream OutputStream} that can be used
-     *         for storing the contents of the file.
+     * @return An {@link java.io.OutputStream OutputStream} that can be used for storing the contents of the file.
      *
      * @throws IOException if an error occurs.
      */
     OutputStream getOutputStream() throws IOException;
 
     /**
-     * Returns the size of the file item.
+     * Gets the size of the file item.
      *
      * @return The size of the file item, in bytes.
      */
     long getSize();
 
     /**
-     * Returns the contents of the file item as a String, using the default
-     * character encoding.  This method uses {@link #get()} to retrieve the
-     * contents of the item.
+     * Gets the contents of the file item as a String, using the default character encoding. This method uses {@link #get()} to retrieve the contents of the
+     * item.
      *
      * @return The contents of the item, as a string.
      */
     String getString();
 
     /**
-     * Returns the contents of the file item as a String, using the specified
-     * encoding.  This method uses {@link #get()} to retrieve the
-     * contents of the item.
+     * Gets the contents of the file item as a String, using the specified encoding. This method uses {@link #get()} to retrieve the contents of the item.
      *
      * @param encoding The character encoding to use.
      *
      * @return The contents of the item, as a string.
      *
-     * @throws UnsupportedEncodingException if the requested character
-     *                                      encoding is not available.
-     * @throws IOException if an I/O error occurs
+     * @throws UnsupportedEncodingException if the requested character encoding is not available.
+     * @throws IOException                  if an I/O error occurs
      */
     String getString(String encoding) throws UnsupportedEncodingException, IOException;
 
     /**
-     * Determines whether or not a {@code FileItem} instance represents
-     * a simple form field.
+     * Tests whether or not a {@code FileItem} instance represents a simple form field.
      *
-     * @return {@code true} if the instance represents a simple form
-     *         field; {@code false} if it represents an uploaded file.
+     * @return {@code true} if the instance represents a simple form field; {@code false} if it represents an uploaded file.
      */
     boolean isFormField();
 
     /**
-     * Provides a hint as to whether or not the file contents will be read
-     * from memory.
+     * Tests a hint as to whether or not the file contents will be read from memory.
      *
-     * @return {@code true} if the file contents will be read from memory;
-     *         {@code false} otherwise.
+     * @return {@code true} if the file contents will be read from memory; {@code false} otherwise.
      */
     boolean isInMemory();
 
@@ -175,28 +149,23 @@ public interface FileItem extends FileItemHeadersSupport {
     void setFieldName(String name);
 
     /**
-     * Specifies whether or not a {@code FileItem} instance represents
-     * a simple form field.
+     * Sets whether or not a {@code FileItem} instance represents a simple form field.
      *
-     * @param state {@code true} if the instance represents a simple form
-     *              field; {@code false} if it represents an uploaded file.
+     * @param state {@code true} if the instance represents a simple form field; {@code false} if it represents an uploaded file.
      */
     void setFormField(boolean state);
 
     /**
-     * A convenience method to write an uploaded item to disk. The client code
-     * is not concerned with whether or not the item is stored in memory, or on
-     * disk in a temporary location. They just want to write the uploaded item
-     * to a file.
+     * Writes an uploaded item to disk.
      * <p>
-     * This method is not guaranteed to succeed if called more than once for
-     * the same item. This allows a particular implementation to use, for
-     * example, file renaming, where possible, rather than copying all of the
-     * underlying data, thus gaining a significant performance benefit.
-     *
-     * @param file The {@code File} into which the uploaded item should
-     *             be stored.
-     *
+     * The client code is not concerned with whether or not the item is stored in memory, or on disk in a temporary location. They just want to write the
+     * uploaded item to a file.
+     * </p>
+     * <p>
+     * This method is not guaranteed to succeed if called more than once for the same item. This allows a particular implementation to use, for example, file
+     * renaming, where possible, rather than copying all of the underlying data, thus gaining a significant performance benefit.
+     * </p>
+     * @param file The {@code File} into which the uploaded item should be stored.
      * @throws IOException if an error occurs.
      */
     void write(File file) throws IOException;

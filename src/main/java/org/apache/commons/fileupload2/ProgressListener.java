@@ -17,7 +17,7 @@
 package org.apache.commons.fileupload2;
 
 /**
- * The {@link ProgressListener} may be used to display a progress bar.
+ * Receives progress information. May be used to display a progress bar.
  */
 public interface ProgressListener {
 

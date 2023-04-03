@@ -35,18 +35,20 @@ import org.apache.commons.fileupload2.util.FileItemHeadersImpl;
 import org.apache.commons.io.IOUtils;
 
 /**
- * <p>High level API for processing file uploads.</p>
- *
- * <p>This class handles multiple files per single HTML widget, sent using
+ * High level API for processing file uploads.
+ * <p>
+ * This class handles multiple files per single HTML widget, sent using
  * {@code multipart/mixed} encoding type, as specified by
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
  * #parseRequest(RequestContext)} to acquire a list of {@link
  * org.apache.commons.fileupload2.FileItem}s associated with a given HTML
- * widget.</p>
- *
- * <p>How the data for individual parts is stored is determined by the factory
+ * widget.
+ * </p>
+ * <p>
+ * How the data for individual parts is stored is determined by the factory
  * used to create them; a given part may be in memory, on disk, or somewhere
- * else.</p>
+ * else.
+ * </p>
  */
 public abstract class FileUploadBase {
 
@@ -91,16 +93,15 @@ public abstract class FileUploadBase {
     public static final String MULTIPART_MIXED = "multipart/mixed";
 
     /**
-     * <p>Utility method that determines whether the request contains multipart
-     * content.</p>
-     *
-     * <p><strong>NOTE:</strong>This method will be moved to the
+     * Utility method that determines whether the request contains multipart
+     * content.
+     * <p>
+     * <strong>NOTE:</strong> This method will be moved to the
      * {@code ServletFileUpload} class after the FileUpload 1.1 release.
      * Unfortunately, since this method is static, it is not possible to
-     * provide its replacement until this method is removed.</p>
-     *
+     * provide its replacement until this method is removed.
+     * </p>
      * @param ctx The request context to be evaluated. Must be non-null.
-     *
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      */
@@ -141,11 +142,10 @@ public abstract class FileUploadBase {
     private ProgressListener listener;
 
     /**
-     * Retrieves the boundary from the {@code Content-type} header.
+     * Gets the boundary from the {@code Content-type} header.
      *
      * @param contentType The value of the content type header from which to
      *                    extract the boundary value.
-     *
      * @return The boundary, as a byte array.
      */
     public byte[] getBoundary(final String contentType) {
@@ -164,11 +164,10 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the field name from the {@code Content-disposition}
+     * Gets the field name from the {@code Content-disposition}
      * header.
      *
      * @param headers A {@code Map} containing the HTTP request headers.
-     *
      * @return The field name for the current {@code encapsulation}.
      */
     public String getFieldName(final FileItemHeaders headers) {
@@ -176,8 +175,9 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Returns the field name, which is given by the content-disposition
+     * Gets the field name, which is given by the content-disposition
      * header.
+     *
      * @param pContentDisposition The content-dispositions header value.
      * @return The field jake
      */
@@ -198,7 +198,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Returns the maximum number of files allowed in a single request.
+     * Gets the maximum number of files allowed in a single request.
      *
      * @return The maximum number of files allowed in a single request.
      */
@@ -207,14 +207,14 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Returns the factory class used when creating file items.
+     * Gets the factory class used when creating file items.
      *
      * @return The factory class for new file items.
      */
     public abstract FileItemFactory getFileItemFactory();
 
     /**
-     * Retrieves the file name from the {@code Content-disposition}
+     * Gets the file name from the {@code Content-disposition}
      * header.
      *
      * @param headers The HTTP headers object.
@@ -226,7 +226,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Returns the given content-disposition headers file name.
+     * Gets the given content-disposition headers file name.
      * @param pContentDisposition The content-disposition headers value.
      * @return The file name
      */
@@ -256,7 +256,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Returns the maximum allowed size of a single uploaded file,
+     * Gets the maximum allowed size of a single uploaded file,
      * as opposed to {@link #getSizeMax()}.
      *
      * @see #setFileSizeMax(long)
@@ -267,7 +267,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the character encoding used when reading the headers of an
+     * Gets the character encoding used when reading the headers of an
      * individual part. When not specified, or {@code null}, the request
      * encoding is used. If that is also not specified, or {@code null},
      * the platform default encoding is used.
@@ -279,15 +279,13 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
-     *
      * @return An iterator to instances of {@code FileItemStream}
      *         parsed from the request, in the order that they were
      *         transmitted.
-     *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      * @throws IOException An I/O error occurred. This may be a network
@@ -299,15 +297,14 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * <p> Parses the {@code header-part} and returns as key/value
+     * Parses the {@code header-part} and returns as key/value
      * pairs.
-     *
-     * <p> If there are multiple headers of the same names, the name
+     * <p>
+     * If there are multiple headers of the same names, the name
      * will map to a comma-separated list containing the values.
-     *
+     * </p>
      * @param headerPart The {@code header-part} of the current
      *                   {@code encapsulation}.
-     *
      * @return A {@code Map} containing the parsed HTTP request headers.
      */
     public FileItemHeaders getParsedHeaders(final String headerPart) {
@@ -344,7 +341,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Returns the progress listener.
+     * Gets the progress listener.
      *
      * @return The progress listener, if any, or null.
      */
@@ -353,12 +350,11 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Returns the maximum allowed size of a complete request, as opposed
+     * Gets the maximum allowed size of a complete request, as opposed
      * to {@link #getFileSizeMax()}.
      *
      * @return The maximum allowed size, in bytes. The default value of
      *   -1 indicates, that there is no limit.
-     *
      * @see #setSizeMax(long)
      *
      */
@@ -376,6 +372,7 @@ public abstract class FileUploadBase {
 
     /**
      * Skips bytes until the end of the current line.
+     *
      * @param headerPart The headers, which are being parsed.
      * @param end Index of the last byte, which has yet been
      *   processed.
@@ -398,7 +395,8 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Reads the next header line.
+     * Parses the next header line.
+     *
      * @param headers String with all headers.
      * @param header Map where to store the current header.
      */
@@ -415,16 +413,13 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
-     *
      * @return A map of {@code FileItem} instances parsed from the request.
-     *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
-     *
      * @since 1.3
      */
     public Map<String, List<FileItem>> parseParameterMap(final RequestContext ctx)
@@ -443,14 +438,12 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
-     *
      * @return A list of {@code FileItem} instances parsed from the
      *         request, in the order that they were transmitted.
-     *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */
@@ -555,9 +548,7 @@ public abstract class FileUploadBase {
      *
      * @param sizeMax The maximum allowed size, in bytes. The default value of
      *   -1 indicates, that there is no limit.
-     *
      * @see #getSizeMax()
-     *
      */
     public void setSizeMax(final long sizeMax) {
         this.sizeMax = sizeMax;

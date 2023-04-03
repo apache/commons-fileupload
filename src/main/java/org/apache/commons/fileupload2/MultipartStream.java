@@ -29,16 +29,15 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.NullOutputStream;
 
 /**
- * <p>
- * Signals low-level API for processing file uploads.
+ * Low-level API for processing file uploads.
  *
  * <p>
  * This class can be used to process data streams conforming to MIME 'multipart' format as defined in <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC
  * 1867</a>. Arbitrarily large amounts of data in the stream can be processed under constant memory usage.
- *
+ * </p>
  * <p>
- * The format of the stream is defined in the following way:<br>
- *
+ * The format of the stream is defined in the following way:
+ * </p>
  * <code>
  *   multipart-body := preamble 1*encapsulation close-delimiter epilogue<br>
  *   encapsulation := delimiter body CRLF<br>
@@ -57,10 +56,10 @@ import org.apache.commons.io.output.NullOutputStream;
  * <p>
  * Note that body-data can contain another mulipart entity. There is limited support for single pass processing of such nested streams. The nested stream is
  * <strong>required</strong> to have a boundary token of the same length as the parent stream (see {@link #setBoundary(byte[])}).
- *
+ * </p>
  * <p>
- * Here is an example of usage of this class.<br>
- *
+ * Here is an example of usage of this class:
+ * </p>
  * <pre>
  * try {
  *     MultipartStream multipartStream = new MultipartStream(input, boundary);
@@ -207,7 +206,7 @@ public class MultipartStream {
         }
 
         /**
-         * Returns the number of bytes, which have been read by the stream.
+         * Gets the number of bytes, which have been read by the stream.
          *
          * @return Number of bytes, which have been read so far.
          */
@@ -262,7 +261,7 @@ public class MultipartStream {
         }
 
         /**
-         * Returns the next byte in the stream.
+         * Reads the next byte in the stream.
          *
          * @return The next byte in the stream, as a non-negative integer, or -1 for EOF.
          * @throws IOException An I/O error occurred.
@@ -491,7 +490,6 @@ public class MultipartStream {
      * @param a     The first array to compare.
      * @param b     The second array to compare.
      * @param count How many bytes should be compared.
-     *
      * @return {@code true} if {@code count} first bytes in arrays {@code a} and {@code b} are equal.
      */
     public static boolean arrayEquals(final byte[] a, final byte[] b, final int count) {
@@ -563,13 +561,11 @@ public class MultipartStream {
 
 
     /**
-     * <p>
      * Constructs a {@code MultipartStream} with a custom size buffer.
-     *
      * <p>
      * Note that the buffer must be at least big enough to contain the boundary string, plus 4 characters for CR/LF and double dash, plus at least one byte of
      * data. Too small a buffer size setting will degrade performance.
-     *
+     * </p>
      * @param input     The {@code InputStream} to serve as a data source.
      * @param boundary  The token used for dividing the stream into {@code encapsulations}.
      * @param bufferSize   The size of the buffer to be used, in bytes.
@@ -607,7 +603,6 @@ public class MultipartStream {
     }
 
     /**
-     * <p>
      * Constructs a {@code MultipartStream} with a default size buffer.
      *
      * @param input     The {@code InputStream} to serve as a data source.
@@ -620,7 +615,7 @@ public class MultipartStream {
     }
 
     /**
-     * Compute the table used for Knuth-Morris-Pratt search algorithm.
+     * Computes the table used for Knuth-Morris-Pratt search algorithm.
      */
     private void computeBoundaryTable() {
         int position = 2;
@@ -644,14 +639,11 @@ public class MultipartStream {
     }
 
     /**
-     * <p>
      * Reads {@code body-data} from the current {@code encapsulation} and discards it.
-     *
      * <p>
      * Use this method to skip encapsulations you don't need or don't understand.
-     *
+     * </p>
      * @return The amount of data discarded.
-     *
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
@@ -701,7 +693,7 @@ public class MultipartStream {
     }
 
     /**
-     * Retrieves the character encoding used when reading the headers of an individual part. When not specified, or {@code null}, the platform default encoding
+     * Gets the character encoding used when reading the headers of an individual part. When not specified, or {@code null}, the platform default encoding
      * is used.
      *
      * @return The encoding used to read part headers.
@@ -720,17 +712,13 @@ public class MultipartStream {
     }
 
     /**
-     * <p>
      * Reads {@code body-data} from the current {@code encapsulation} and writes its contents into the output {@code Stream}.
-     *
      * <p>
      * Arbitrary large amounts of data can be processed by this method using a constant size buffer. (see
      * {@link #MultipartStream(InputStream,byte[],int, MultipartStream.ProgressNotifier) constructor}).
-     *
+     * </p>
      * @param output The {@code Stream} to write data into. May be null, in which case this method is equivalent to {@link #discardBodyData()}.
-     *
      * @return the amount of data written.
-     *
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
@@ -744,7 +732,6 @@ public class MultipartStream {
      * Skips a {@code boundary} token, and checks whether more {@code encapsulations} are contained in the stream.
      *
      * @return {@code true} if there are more encapsulations in this stream; {@code false} otherwise.
-     *
      * @throws FileUploadSizeException  if the bytes read from the stream exceeded the size limits
      * @throws MalformedStreamException if the stream ends unexpectedly or fails to follow required syntax.
      */
@@ -785,7 +772,6 @@ public class MultipartStream {
      * Reads a byte from the {@code buffer}, and refills it as necessary.
      *
      * @return The next byte from the input stream.
-     *
      * @throws IOException if there is no more data available.
      */
     public byte readByte() throws IOException {
@@ -806,17 +792,14 @@ public class MultipartStream {
     }
 
     /**
-     * <p>
      * Reads the {@code header-part} of the current {@code encapsulation}.
-     *
      * <p>
      * Headers are returned verbatim to the input stream, including the trailing {@code CRLF} marker. Parsing is left to the application.
-     *
+     * </p>
      * <p>
      * <strong>TODO</strong> allow limiting maximum header size to protect against abuse.
-     *
+     * </p>
      * @return The {@code header-part} of the current encapsulation.
-     *
      * @throws FileUploadSizeException  if the bytes read from the stream exceeded the size limits.
      * @throws MalformedStreamException if the stream ends unexpectedly.
      */
@@ -863,20 +846,17 @@ public class MultipartStream {
     }
 
     /**
-     * <p>
      * Changes the boundary token used for partitioning the stream.
-     *
      * <p>
      * This method allows single pass processing of nested multipart streams.
-     *
+     * </p>
      * <p>
      * The boundary token of the nested stream is {@code required} to be of the same length as the boundary token in parent stream.
-     *
+     * </p>
      * <p>
      * Restoring the parent stream boundary token after processing of a nested stream is left to the application.
-     *
+     * </p>
      * @param boundary The boundary to be used for parsing of the nested stream.
-     *
      * @throws FileUploadBoundaryException if the {@code boundary} has a different length than the one being currently parsed.
      */
     public void setBoundary(final byte[] boundary) throws FileUploadBoundaryException {
@@ -888,7 +868,7 @@ public class MultipartStream {
     }
 
     /**
-     * Specifies the character encoding to be used when reading the headers of individual parts. When not specified, or {@code null}, the platform default
+     * Sets the character encoding to be used when reading the headers of individual parts. When not specified, or {@code null}, the platform default
      * encoding is used.
      *
      * @param encoding The encoding used to read part headers.
@@ -901,7 +881,6 @@ public class MultipartStream {
      * Finds the beginning of the first {@code encapsulation}.
      *
      * @return {@code true} if an {@code encapsulation} was found in the stream.
-     *
      * @throws IOException if an i/o error occurs.
      */
     public boolean skipPreamble() throws IOException {

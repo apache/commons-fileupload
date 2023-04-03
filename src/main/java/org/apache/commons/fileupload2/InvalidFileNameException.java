@@ -17,7 +17,7 @@
 package org.apache.commons.fileupload2;
 
 /**
- * This exception is thrown in case of an invalid file name.
+ * Signals an invalid file name.
  * A file name is invalid, if it contains a NUL character.
  * Attackers might use this to circumvent security checks:
  * For example, a malicious user might upload a file with the name
@@ -40,7 +40,7 @@ public class InvalidFileNameException extends RuntimeException {
     private final String name;
 
     /**
-     * Creates a new instance.
+     * Constructs a new instance.
      *
      * @param pName The file name causing the exception.
      * @param pMessage A human readable error message.
@@ -51,7 +51,7 @@ public class InvalidFileNameException extends RuntimeException {
     }
 
     /**
-     * Returns the invalid file name.
+     * Gets the invalid file name.
      *
      * @return the invalid file name.
      */

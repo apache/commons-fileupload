@@ -26,13 +26,13 @@ import org.apache.commons.fileupload2.util.mime.RFC2231Utility;
 
 /**
  * A simple parser intended to parse sequences of name/value pairs.
- *
+ * <p>
  * Parameter values are expected to be enclosed in quotes if they
  * contain unsafe characters, such as '=' characters or separators.
  * Parameter values are optional and can be omitted.
- *
+ * </p>
  * <p>
- *  {@code param1 = value; param2 = "anything goes; really"; param3}
+ * {@code param1 = value; param2 = "anything goes; really"; param3}
  * </p>
  */
 public class ParameterParser {
@@ -107,7 +107,7 @@ public class ParameterParser {
     }
 
     /**
-     * Are there any characters left to parse?
+     * Tests if there any characters left to parse.
      *
      * @return {@code true} if there are unparsed characters,
      *         {@code false} otherwise.
@@ -117,7 +117,7 @@ public class ParameterParser {
     }
 
     /**
-     * Returns {@code true} if parameter names are to be converted to lower
+     * Tests {@code true} if parameter names are to be converted to lower
      * case when name/value pairs are parsed.
      *
      * @return {@code true} if parameter names are to be
@@ -133,7 +133,6 @@ public class ParameterParser {
      *
      * @param ch the character to test for presence in the array of characters
      * @param charray the array of characters to test against
-     *
      * @return {@code true} if the character is present in the array of
      *   characters, {@code false} otherwise.
      */
@@ -155,7 +154,6 @@ public class ParameterParser {
      * @param charArray the array of characters that contains a sequence of
      * name/value pairs
      * @param separator the name/value pairs separator
-     *
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(final char[] charArray, final char separator) {
@@ -174,7 +172,6 @@ public class ParameterParser {
      * @param offset - the initial offset.
      * @param length - the length.
      * @param separator the name/value pairs separator
-     *
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(
@@ -231,7 +228,6 @@ public class ParameterParser {
      *
      * @param str the string that contains a sequence of name/value pairs
      * @param separator the name/value pairs separator
-     *
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(final String str, final char separator) {
@@ -248,7 +244,6 @@ public class ParameterParser {
      *
      * @param str the string that contains a sequence of name/value pairs
      * @param separators the name/value pairs separators
-     *
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(final String str, final char[] separators) {
@@ -276,7 +271,6 @@ public class ParameterParser {
      * @param terminators the array of terminating characters. Any of these
      * characters when encountered outside the quotation marks signify the end
      * of the token
-     *
      * @return the token
      */
     private String parseQuotedToken(final char[] terminators) {
@@ -307,7 +301,6 @@ public class ParameterParser {
      *
      * @param terminators the array of terminating characters. Any of these
      * characters when encountered signify the end of the token
-     *
      * @return the token
      */
     private String parseToken(final char[] terminators) {

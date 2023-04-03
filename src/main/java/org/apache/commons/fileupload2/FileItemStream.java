@@ -20,16 +20,20 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * <p> This interface provides access to a file or form item that was
+ * Provides access to a file or form item that was
  * received within a {@code multipart/form-data} POST request.
- * The items contents are retrieved by calling {@link #openStream()}.</p>
+ * <p>
+ * The items contents are retrieved by calling {@link #openStream()}.
+ * </p>
  * <p>Instances of this class are created by accessing the
  * iterator, returned by
- * {@link FileUploadBase#getItemIterator(RequestContext)}.</p>
+ * {@link FileUploadBase#getItemIterator(RequestContext)}.
+ * </p>
  * <p><em>Note</em>: There is an interaction between the iterator and
  * its associated instances of {@link FileItemStream}: By invoking
  * {@link java.util.Iterator#hasNext()} on the iterator, you discard all data,
- * which hasn't been read so far from the previous data.</p>
+ * which hasn't been read so far from the previous data.
+ * </p>
  */
 public interface FileItemStream extends FileItemHeadersSupport {
 
@@ -51,7 +55,7 @@ public interface FileItemStream extends FileItemHeadersSupport {
     }
 
     /**
-     * Returns the content type passed by the browser or {@code null} if
+     * Gets the content type passed by the browser or {@code null} if
      * not defined.
      *
      * @return The content type passed by the browser or {@code null} if
@@ -60,7 +64,7 @@ public interface FileItemStream extends FileItemHeadersSupport {
     String getContentType();
 
     /**
-     * Returns the name of the field in the multipart form corresponding to
+     * Gets the name of the field in the multipart form corresponding to
      * this file item.
      *
      * @return The name of the form field.
@@ -68,7 +72,7 @@ public interface FileItemStream extends FileItemHeadersSupport {
     String getFieldName();
 
     /**
-     * Returns the original file name in the client's file system, as provided by
+     * Gets the original file name in the client's file system, as provided by
      * the browser (or other client software). In most cases, this will be the
      * base file name, without path information. However, some clients, such as
      * the Opera browser, do include path information.
@@ -78,7 +82,7 @@ public interface FileItemStream extends FileItemHeadersSupport {
     String getName();
 
     /**
-     * Determines whether or not a {@code FileItem} instance represents
+     * Tests whether or not a {@code FileItem} instance represents
      * a simple form field.
      *
      * @return {@code true} if the instance represents a simple form
@@ -87,7 +91,7 @@ public interface FileItemStream extends FileItemHeadersSupport {
     boolean isFormField();
 
     /**
-     * Creates an {@link InputStream}, which allows to read the
+     * Opens an {@link InputStream}, which allows to read the
      * items contents.
      *
      * @return The input stream, from which the items data may

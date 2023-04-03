@@ -41,10 +41,11 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
 /**
- * <p> The default implementation of the
+ * The default implementation of the
  * {@link org.apache.commons.fileupload2.FileItem FileItem} interface.
  *
- * <p> After retrieving an instance of this class from a {@link
+ * <p>
+ * After retrieving an instance of this class from a {@link
  * DiskFileItemFactory} instance (see
  * {@link org.apache.commons.fileupload2.servlet.ServletFileUpload
  * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
@@ -52,8 +53,9 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * request an {@link java.io.InputStream InputStream} with
  * {@link #getInputStream()} and process the file without attempting to load
  * it into memory, which may come handy with large files.
- *
- * <p>Temporary files, which are created for file items, should be
+ * </p>
+ * <p>
+ * Temporary files, which are created for file items, should be
  * deleted later on. The best way to do this is using a
  * {@link org.apache.commons.io.FileCleaningTracker}, which you can set on the
  * {@link DiskFileItemFactory}. However, if you do use such a tracker,
@@ -65,7 +67,8 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * there are files to be tracked.
  * It might make sense to terminate that thread, for example, if
  * your web application ends. See the section on "Resource cleanup"
- * in the users guide of commons-fileupload.</p>
+ * in the users guide of commons-fileupload.
+ * </p>
  *
  * @since 1.1
  */
@@ -82,8 +85,7 @@ public class DiskFileItem implements FileItem {
     /**
      * UID used in unique file name generation.
      */
-    private static final String UID =
-            UUID.randomUUID().toString().replace('-', '_');
+    private static final String UID = UUID.randomUUID().toString().replace('-', '_');
 
     /**
      * Counter used in unique identifier generation.
@@ -224,7 +226,6 @@ public class DiskFileItem implements FileItem {
      *
      * @return The contents of the file as an array of bytes
      * or {@code null} if the data cannot be read
-     *
      * @throws UncheckedIOException if an I/O error occurs
      */
     @Override
@@ -276,6 +277,7 @@ public class DiskFileItem implements FileItem {
     /**
      * Returns the default charset for use when no explicit charset
      * parameter is provided by the sender.
+     *
      * @return the default charset
      */
     public String getDefaultCharset() {
@@ -287,9 +289,7 @@ public class DiskFileItem implements FileItem {
      * this file item.
      *
      * @return The name of the form field.
-     *
      * @see #setFieldName(String)
-     *
      */
     @Override
     public String getFieldName() {
@@ -298,6 +298,7 @@ public class DiskFileItem implements FileItem {
 
     /**
      * Returns the file item headers.
+     *
      * @return The file items headers.
      */
     @Override
@@ -311,7 +312,6 @@ public class DiskFileItem implements FileItem {
      *
      * @return An {@link java.io.InputStream InputStream} that can be
      *         used to retrieve the contents of the file.
-     *
      * @throws IOException if an error occurs.
      */
     @Override
@@ -347,7 +347,6 @@ public class DiskFileItem implements FileItem {
      *
      * @return An {@link java.io.OutputStream OutputStream} that can be used
      *         for storing the contents of the file.
-     *
      */
     @Override
     public OutputStream getOutputStream() {
@@ -404,9 +403,9 @@ public class DiskFileItem implements FileItem {
      * Returns the contents of the file as a String, using the default
      * character encoding.  This method uses {@link #get()} to retrieve the
      * contents of the file.
-     *
+     * <p>
      * <b>TODO</b> Consider making this method throw UnsupportedEncodingException.
-     *
+     * </p>
      * @return The contents of the file, as a string.
      */
     @Override
@@ -449,7 +448,7 @@ public class DiskFileItem implements FileItem {
      * <p>
      * <b>Note: Subclasses that override this method must ensure that they return the
      * same File each time.</b>
-     *
+     * </p>
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
     protected File getTempFile() {
@@ -472,9 +471,7 @@ public class DiskFileItem implements FileItem {
      *
      * @return {@code true} if the instance represents a simple form
      *         field; {@code false} if it represents an uploaded file.
-     *
      * @see #setFormField(boolean)
-     *
      */
     @Override
     public boolean isFormField() {
@@ -499,6 +496,7 @@ public class DiskFileItem implements FileItem {
     /**
      * Sets the default charset for use when no explicit charset
      * parameter is provided by the sender.
+     *
      * @param charset the default charset
      */
     public void setDefaultCharset(final String charset) {
@@ -509,9 +507,7 @@ public class DiskFileItem implements FileItem {
      * Sets the field name used to reference this file item.
      *
      * @param fieldName The name of the form field.
-     *
      * @see #getFieldName()
-     *
      */
     @Override
     public void setFieldName(final String fieldName) {
@@ -524,9 +520,7 @@ public class DiskFileItem implements FileItem {
      *
      * @param state {@code true} if the instance represents a simple form
      *              field; {@code false} if it represents an uploaded file.
-     *
      * @see #isFormField()
-     *
      */
     @Override
     public void setFormField(final boolean state) {
@@ -535,6 +529,7 @@ public class DiskFileItem implements FileItem {
 
     /**
      * Sets the file item headers.
+     *
      * @param pHeaders The file items headers.
      */
     @Override
@@ -568,9 +563,7 @@ public class DiskFileItem implements FileItem {
      * This method is only guaranteed to work <em>once</em>, the first time it is invoked for a particular item. This is because, in the event that the method
      * renames a temporary file, that file will no longer be available to copy or rename again at a later time.
      * </p>
-     *
      * @param file The {@code File} into which the uploaded item should be stored.
-     *
      * @throws IOException if an error occurs.
      */
     @Override
@@ -587,7 +580,7 @@ public class DiskFileItem implements FileItem {
                 /*
                  * For whatever reason we cannot write the file to disk.
                  */
-                throw new FileUploadException("Cannot write uploaded file to disk!");
+                throw new FileUploadException("Cannot write uploaded file to disk.");
             }
             // Save the length of the file
             size = outputFile.length();
@@ -595,7 +588,7 @@ public class DiskFileItem implements FileItem {
              * The uploaded file is being stored on disk in a temporary location so move it to the desired file.
              */
             if (file.exists() && !file.delete()) {
-                throw new FileUploadException("Cannot write uploaded file to disk!");
+                throw new FileUploadException("Cannot write uploaded file to disk.");
             }
             FileUtils.moveFile(outputFile, file);
         }
