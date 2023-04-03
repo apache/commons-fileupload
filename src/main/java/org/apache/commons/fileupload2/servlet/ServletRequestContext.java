@@ -27,8 +27,8 @@ import org.apache.commons.fileupload2.FileUploadBase;
 import org.apache.commons.fileupload2.UploadContext;
 
 /**
- * <p>Provides access to the request information needed for a request made to
- * an HTTP servlet.</p>
+ * Provides access to the request information needed for a request made to
+ * an HTTP servlet.
  *
  * @since 1.1
  */
@@ -40,7 +40,7 @@ public class ServletRequestContext implements UploadContext {
     private final HttpServletRequest request;
 
     /**
-     * Construct a context for this request.
+     * Constructs a context for this request.
      *
      * @param request The request to which this context applies.
      */
@@ -49,7 +49,7 @@ public class ServletRequestContext implements UploadContext {
     }
 
     /**
-     * Retrieve the content length of the request.
+     * Gets the content length of the request.
      *
      * @return The content length of the request.
      * @since 1.3
@@ -66,7 +66,7 @@ public class ServletRequestContext implements UploadContext {
     }
 
     /**
-     * Retrieve the character encoding for the request.
+     * Gets the character encoding for the request.
      *
      * @return The character encoding for the request.
      */
@@ -76,7 +76,7 @@ public class ServletRequestContext implements UploadContext {
     }
 
     /**
-     * Retrieve the content type of the request.
+     * Gets the content type of the request.
      *
      * @return The content type of the request.
      */
@@ -86,7 +86,7 @@ public class ServletRequestContext implements UploadContext {
     }
 
     /**
-     * Retrieve the input stream for the request.
+     * Gets the input stream for the request.
      *
      * @return The input stream for the request.
      *
