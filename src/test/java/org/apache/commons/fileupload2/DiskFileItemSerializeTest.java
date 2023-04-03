@@ -38,13 +38,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Serialization Unit tests for
- *  {@link org.apache.commons.fileupload2.disk.DiskFileItem}.
+ * Serialization Unit tests for {@link org.apache.commons.fileupload2.disk.DiskFileItem}.
  */
 public class DiskFileItemSerializeTest {
 
-    // Use a private repo to catch any files left over by tests
-    private static final File REPO = new File(System.getProperty("java.io.tmpdir"), "diskfileitemrepo");
+    // Use a private repository to catch any files left over by tests
+    private static final File REPOSITORY = new File(System.getProperty("java.io.tmpdir"), "DiskFileItemRepo");
 
     /**
      * Content type for regular form items.
@@ -87,76 +86,64 @@ public class DiskFileItemSerializeTest {
     /**
      * Create a FileItem with the specfied content bytes.
      */
-    private FileItem createFileItem(final byte[] contentBytes) {
-        return createFileItem(contentBytes, REPO);
+    private FileItem createFileItem(final byte[] contentBytes) throws IOException {
+        return createFileItem(contentBytes, REPOSITORY);
     }
 
     /**
      * Create a FileItem with the specfied content bytes and repository.
      */
-    private FileItem createFileItem(final byte[] contentBytes, final File repository) {
+    private FileItem createFileItem(final byte[] contentBytes, final File repository) throws IOException {
         final FileItemFactory factory = new DiskFileItemFactory(THRESHOLD, repository);
         final String textFieldName = "textField";
 
-        final FileItem item = factory.createItem(
-                textFieldName,
-                TEXT_CONTENT_TYPE,
-                true,
-                "My File Name"
-        );
-        try {
-            final OutputStream os = item.getOutputStream();
+        final FileItem item = factory.createItem(textFieldName, TEXT_CONTENT_TYPE, true, "My File Name");
+        try (OutputStream os = item.getOutputStream()) {
             os.write(contentBytes);
-            os.close();
-        } catch (final IOException e) {
-            fail("Unexpected IOException" + e);
         }
-
         return item;
-
     }
 
     /**
-     * Do deserialization
+     * Do deserialization.
      */
-    private Object deserialize(final ByteArrayOutputStream baos) throws Exception {
+    private Object deserialize(final ByteArrayOutputStream baos) {
         return SerializationUtils.deserialize(baos.toByteArray());
     }
 
     /**
-     * Do serialization
+     * Do serialization.
      */
-    private ByteArrayOutputStream serialize(final Object target) throws Exception {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(target);
-        oos.flush();
-        oos.close();
-        return baos;
+    private ByteArrayOutputStream serialize(final Object target) throws IOException {
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                final ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+            oos.writeObject(target);
+            oos.flush();
+            return baos;
+        }
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
-        if (REPO.exists()) {
-            FileUtils.deleteDirectory(REPO);
+    public void setUp() throws IOException {
+        if (REPOSITORY.exists()) {
+            FileUtils.deleteDirectory(REPOSITORY);
         }
-        FileUtils.forceMkdir(REPO);
+        FileUtils.forceMkdir(REPOSITORY);
     }
 
     @AfterEach
     public void tearDown() throws IOException {
-        for(final File file : FileUtils.listFiles(REPO, null, true)) {
+        for (final File file : FileUtils.listFiles(REPOSITORY, null, true)) {
             System.out.println("Found leftover file " + file);
         }
-        FileUtils.deleteDirectory(REPO);
+        FileUtils.deleteDirectory(REPOSITORY);
     }
 
     /**
-     * Test creation of a field for which the amount of data falls above the
-     * configured threshold.
+     * Test creation of a field for which the amount of data falls above the configured threshold.
      */
     @Test
-    public void testAboveThreshold() {
+    public void testAboveThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD + 1);
         final FileItem item = createFileItem(testFieldValueBytes);
@@ -175,11 +162,10 @@ public class DiskFileItemSerializeTest {
     }
 
     /**
-     * Test creation of a field for which the amount of data falls below the
-     * configured threshold.
+     * Test creation of a field for which the amount of data falls below the configured threshold.
      */
     @Test
-    public void testBelowThreshold() {
+    public void testBelowThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD - 1);
         testInMemoryObject(testFieldValueBytes);
@@ -188,14 +174,14 @@ public class DiskFileItemSerializeTest {
     /**
      * Helper method to test creation of a field.
      */
-    private void testInMemoryObject(final byte[] testFieldValueBytes) {
-        testInMemoryObject(testFieldValueBytes, REPO);
+    private void testInMemoryObject(final byte[] testFieldValueBytes) throws IOException {
+        testInMemoryObject(testFieldValueBytes, REPOSITORY);
     }
 
     /**
      * Helper method to test creation of a field when a repository is used.
      */
-    public void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) {
+    public void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) throws IOException {
         final FileItem item = createFileItem(testFieldValueBytes, repository);
 
         // Check state is as expected
@@ -214,7 +200,7 @@ public class DiskFileItemSerializeTest {
      * Test deserialization fails when repository is not valid.
      */
     @Test
-    public void testInvalidRepository() {
+    public void testInvalidRepository() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(System.getProperty("java.io.tmpdir"), "file");
@@ -226,7 +212,7 @@ public class DiskFileItemSerializeTest {
      * Test deserialization fails when repository contains a null character.
      */
     @Test
-    public void testInvalidRepositoryWithNullChar() {
+    public void testInvalidRepositoryWithNullChar() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(System.getProperty("java.io.tmpdir"), "\0");
@@ -235,11 +221,10 @@ public class DiskFileItemSerializeTest {
     }
 
     /**
-     * Test creation of a field for which the amount of data equals the
-     * configured threshold.
+     * Test creation of a field for which the amount of data equals the configured threshold.
      */
     @Test
-    public void testThreshold() {
+    public void testThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes);
@@ -249,24 +234,20 @@ public class DiskFileItemSerializeTest {
      * Test serialization and deserialization when repository is not null.
      */
     @Test
-    public void testValidRepository() {
+    public void testValidRepository() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
-        testInMemoryObject(testFieldValueBytes, REPO);
+        testInMemoryObject(testFieldValueBytes, REPOSITORY);
     }
 
     /**
      * Helper method to test writing item contents to a file.
      */
-    public void testWritingToFile(final FileItem item, final byte[] testFieldValueBytes) {
-        try {
-            final File temp = File.createTempFile("fileupload", null);
-            // Note that the file exists and is initially empty;
-            // write() must be able to handle that.
-            item.write(temp);
-            compareBytes("Initial", FileUtils.readFileToByteArray(temp), testFieldValueBytes);
-        } catch (Exception e) {
-            fail("Unexpected Exception", e);
-        }
+    public void testWritingToFile(final FileItem item, final byte[] testFieldValueBytes) throws IOException {
+        final File temp = File.createTempFile("fileupload", null);
+        // Note that the file exists and is initially empty;
+        // write() must be able to handle that.
+        item.write(temp);
+        compareBytes("Initial", FileUtils.readFileToByteArray(temp), testFieldValueBytes);
     }
 }

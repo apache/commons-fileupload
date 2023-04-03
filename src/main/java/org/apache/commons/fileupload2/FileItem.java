@@ -197,8 +197,8 @@ public interface FileItem extends FileItemHeadersSupport {
      * @param file The {@code File} into which the uploaded item should
      *             be stored.
      *
-     * @throws Exception if an error occurs.
+     * @throws IOException if an error occurs.
      */
-    void write(File file) throws Exception;
+    void write(File file) throws IOException;
 
 }
