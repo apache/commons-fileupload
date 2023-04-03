@@ -45,22 +45,26 @@ import org.apache.commons.io.IOUtils;
  * The iterator, which is returned by {@link FileUploadBase#getItemIterator(RequestContext)}.
  */
 public class FileItemIteratorImpl implements FileItemIterator {
+
     /**
      * The file uploads processing utility.
      *
      * @see FileUploadBase
      */
     private final FileUploadBase fileUploadBase;
+
     /**
      * The request context.
      *
      * @see RequestContext
      */
     private final RequestContext ctx;
+
     /**
      * The maximum allowed size of a complete request.
      */
     private long sizeMax;
+
     /**
      * The maximum allowed size of a single uploaded file.
      */
@@ -107,7 +111,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
     private boolean eof;
 
     /**
-     * Creates a new instance.
+     * Constructs a new instance.
      *
      * @param fileUploadBase Main processor.
      * @param requestContext The request context.
@@ -229,7 +233,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
     }
 
     /**
-     * Returns, whether another instance of {@link FileItemStream} is available.
+     * Tests whether another instance of {@link FileItemStream} is available.
      *
      * @throws FileUploadException Parsing or processing the file item failed.
      * @throws IOException         Reading the file item failed.
