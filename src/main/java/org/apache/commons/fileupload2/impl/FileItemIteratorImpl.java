@@ -206,8 +206,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
         final List<FileItem> items = new ArrayList<>();
         while (hasNext()) {
             final FileItemStream fis = next();
-            final FileItem fi = fileUploadBase.getFileItemFactory().createItem(fis.getFieldName(), fis.getContentType(), fis.isFormField(), fis.getName());
-            items.add(fi);
+            items.add(fileUploadBase.getFileItemFactory().createItem(fis.getFieldName(), fis.getContentType(), fis.isFormField(), fis.getName()));
         }
         return items;
     }
