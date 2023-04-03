@@ -35,41 +35,6 @@ public final class Streams {
     public static final int DEFAULT_BUFFER_SIZE = 8192;
 
     /**
-     * This convenience method allows to read a
-     * {@link org.apache.commons.fileupload2.FileItemStream}'s
-     * content into a string. The platform's default character encoding
-     * is used for converting bytes into characters.
-     *
-     * @param inputStream The input stream to read.
-     * @see #asString(InputStream, String)
-     * @return The streams contents, as a string.
-     * @throws IOException An I/O error occurred.
-     */
-    public static String asString(final InputStream inputStream) throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        copy(inputStream, baos, true);
-        return baos.toString();
-    }
-
-    /**
-     * This convenience method allows to read a
-     * {@link org.apache.commons.fileupload2.FileItemStream}'s
-     * content into a string, using the given character encoding.
-     *
-     * @param inputStream The input stream to read.
-     * @param encoding The character encoding, typically "UTF-8".
-     * @see #asString(InputStream)
-     * @return The streams contents, as a string.
-     * @throws IOException An I/O error occurred.
-     */
-    public static String asString(final InputStream inputStream, final String encoding)
-            throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        copy(inputStream, baos, true);
-        return baos.toString(encoding);
-    }
-
-    /**
      * Checks, whether the given file name is valid in the sense,
      * that it doesn't contain any NUL characters. If the file name
      * is valid, it will be returned without any modifications. Otherwise,
