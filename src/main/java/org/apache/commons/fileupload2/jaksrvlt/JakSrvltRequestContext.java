@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.fileupload2.FileUploadBase;
-import org.apache.commons.fileupload2.UploadContext;
+import org.apache.commons.fileupload2.RequestContext;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -32,7 +32,7 @@ import jakarta.servlet.http.HttpServletRequest;
  *
  * @since 1.1
  */
-public class JakSrvltRequestContext implements UploadContext {
+public class JakSrvltRequestContext implements RequestContext {
 
     /**
      * The request for which the context is being provided.
@@ -55,7 +55,7 @@ public class JakSrvltRequestContext implements UploadContext {
      * @since 1.3
      */
     @Override
-    public long contentLength() {
+    public long getContentLength() {
         long size;
         try {
             size = Long.parseLong(request.getHeader(FileUploadBase.CONTENT_LENGTH));
@@ -105,7 +105,7 @@ public class JakSrvltRequestContext implements UploadContext {
     @Override
     public String toString() {
         return format("ContentLength=%s, ContentType=%s",
-                this.contentLength(),
+                this.getContentLength(),
                 this.getContentType());
     }
 

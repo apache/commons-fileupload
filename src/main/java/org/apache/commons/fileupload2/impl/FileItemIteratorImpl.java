@@ -35,7 +35,6 @@ import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.MultipartStream;
 import org.apache.commons.fileupload2.ProgressListener;
 import org.apache.commons.fileupload2.RequestContext;
-import org.apache.commons.fileupload2.UploadContext;
 import org.apache.commons.fileupload2.pub.FileUploadContentTypeException;
 import org.apache.commons.fileupload2.pub.FileUploadSizeException;
 import org.apache.commons.fileupload2.util.LimitedInputStream;
@@ -256,11 +255,11 @@ public class FileItemIteratorImpl implements FileItemIterator {
             throw new FileUploadContentTypeException(format("the request doesn't contain a %s or %s stream, content type header is %s",
                     FileUploadBase.MULTIPART_FORM_DATA, FileUploadBase.MULTIPART_MIXED, contentType), contentType);
         }
-        final long contentLengthInt = ((UploadContext) ctx).contentLength();
+        final long contentLengthInt = ctx.getContentLength();
         // @formatter:off
-        final long requestSize = UploadContext.class.isAssignableFrom(ctx.getClass())
+        final long requestSize = RequestContext.class.isAssignableFrom(ctx.getClass())
                                  // Inline conditional is OK here CHECKSTYLE:OFF
-                                 ? ((UploadContext) ctx).contentLength()
+                                 ? ctx.getContentLength()
                                  : contentLengthInt;
                                  // CHECKSTYLE:ON
         // @formatter:on
