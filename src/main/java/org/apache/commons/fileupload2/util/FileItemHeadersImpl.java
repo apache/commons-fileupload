@@ -37,7 +37,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
     /**
      * Serial version UID, being used, if serialized.
      */
-    private static final long serialVersionUID = -4455695752627032559L;
+    private static final long serialVersionUID = 2;
 
     /**
      * Map of {@code String} keys to a {@code List} of

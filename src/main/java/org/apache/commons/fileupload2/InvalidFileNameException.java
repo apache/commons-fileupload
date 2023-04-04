@@ -32,7 +32,7 @@ public class InvalidFileNameException extends RuntimeException {
      * Serial version UID, being used, if the exception
      * is serialized.
      */
-    private static final long serialVersionUID = 7922042602454350470L;
+    private static final long serialVersionUID = 2;
 
     /**
      * The file name causing the exception.

@@ -50,7 +50,7 @@ public interface FileItemStream extends FileItemHeadersSupport {
          * The exceptions serial version UID, which is being used
          * when serializing an exception instance.
          */
-        private static final long serialVersionUID = -7280778431581963740L;
+        private static final long serialVersionUID = 2;
 
     }
 
