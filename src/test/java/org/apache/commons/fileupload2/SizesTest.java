@@ -254,7 +254,7 @@ public class SizesTest {
         final FileItemIterator it = upload.getItemIterator(req);
         assertTrue(it.hasNext());
 
-        FileItemStream item = it.next();
+        final FileItemStream item = it.next();
         assertFalse(item.isFormField());
         assertEquals("file1", item.getFieldName());
         assertEquals("foo1.tab", item.getName());
@@ -264,7 +264,7 @@ public class SizesTest {
                     final InputStream stream = item.openStream()) {
                 IOUtils.copy(stream, baos);
             }
-            
+
         }
 
         // the second item is over the size max, thus we expect an error
