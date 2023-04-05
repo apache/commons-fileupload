@@ -86,9 +86,9 @@ public interface FileItemIterator {
      * <p>
      * <em>Note:</em> Changing this value doesn't affect files, that have already been uploaded.
      * </p>
-     * @param pFileSizeMax The maximum size of a single, uploaded file. The value -1 indicates "unlimited".
+     * @param fileSizeMax The maximum size of a single, uploaded file. The value -1 indicates "unlimited".
      */
-    void setFileSizeMax(long pFileSizeMax);
+    void setFileSizeMax(long fileSizeMax);
 
     /**
      * Sets the maximum size of the complete HTTP request. A {@link SizeLimitExceededException}
@@ -101,7 +101,7 @@ public interface FileItemIterator {
      * yet initialized. In other words: If the methods {@link #hasNext()}, {@link #next()} have not
      * yet been invoked.
      * </p>
-     * @param pSizeMax The maximum size of the complete HTTP request. The value -1 indicates "unlimited".
+     * @param sizeMax The maximum size of the complete HTTP request. The value -1 indicates "unlimited".
      */
-    void setSizeMax(long pSizeMax);
+    void setSizeMax(long sizeMax);
 }

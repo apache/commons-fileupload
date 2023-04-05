@@ -46,9 +46,9 @@ public class StreamingTest {
         return "-----1234--\r\n";
     }
 
-    private String getHeader(final String pField) {
+    private String getHeader(final String value) {
         return "-----1234\r\n"
-            + "Content-Disposition: form-data; name=\"" + pField + "\"\r\n"
+            + "Content-Disposition: form-data; name=\"" + value + "\"\r\n"
             + "\r\n";
 
     }
@@ -89,26 +89,26 @@ public class StreamingTest {
         return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
     }
 
-    private List<FileItem> parseUpload(final InputStream pStream, final int pLength)
+    private List<FileItem> parseUpload(final InputStream inputStream, final int length)
             throws FileUploadException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
         final FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        final HttpServletRequest request = new MockHttpServletRequest(pStream,
-                pLength, contentType);
+        final HttpServletRequest request = new MockHttpServletRequest(inputStream,
+                length, contentType);
 
         return upload.parseRequest(new ServletRequestContext(request));
     }
 
-    private FileItemIterator parseUpload(final int pLength, final InputStream pStream)
+    private FileItemIterator parseUpload(final int length, final InputStream inputStream)
             throws FileUploadException, IOException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
         final FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        final HttpServletRequest request = new MockHttpServletRequest(pStream,
-                pLength, contentType);
+        final HttpServletRequest request = new MockHttpServletRequest(inputStream,
+                length, contentType);
 
         return upload.getItemIterator(new ServletRequestContext(request));
     }
@@ -257,16 +257,16 @@ public class StreamingTest {
                 return super.read();
             }
             @Override
-            public int read(final byte[] pB, final int pOff, final int pLen)
+            public int read(final byte[] buffer, final int offset, final int length)
                     throws IOException {
-                for (int i = 0;  i < pLen;  i++) {
+                for (int i = 0;  i < length;  i++) {
                     final int res = read();
                     if (res == -1) {
                         return i == 0 ? -1 : i;
                     }
-                    pB[pOff + i] = (byte) res;
+                    buffer[offset + i] = (byte) res;
                 }
-                return pLen;
+                return length;
             }
         };
         try {

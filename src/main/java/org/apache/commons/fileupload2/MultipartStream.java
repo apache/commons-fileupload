@@ -410,13 +410,13 @@ public class MultipartStream {
         /**
          * Called to indicate that bytes have been read.
          *
-         * @param pBytes Number of bytes, which have been read.
+         * @param byteCount Number of bytes, which have been read.
          */
-        void noteBytesRead(final int pBytes) {
+        void noteBytesRead(final int byteCount) {
             /*
              * Indicates, that the given number of bytes have been read from the input stream.
              */
-            bytesRead += pBytes;
+            bytesRead += byteCount;
             notifyListener();
         }
 
@@ -569,11 +569,11 @@ public class MultipartStream {
      * @param input     The {@code InputStream} to serve as a data source.
      * @param boundary  The token used for dividing the stream into {@code encapsulations}.
      * @param bufferSize   The size of the buffer to be used, in bytes.
-     * @param pNotifier The notifier, which is used for calling the progress listener, if any.
+     * @param notifier The notifier, which is used for calling the progress listener, if any.
      * @throws IllegalArgumentException If the buffer size is too small.
      * @since 1.3.1
      */
-    public MultipartStream(final InputStream input, final byte[] boundary, final int bufferSize, final ProgressNotifier pNotifier) {
+    public MultipartStream(final InputStream input, final byte[] boundary, final int bufferSize, final ProgressNotifier notifier) {
 
         if (boundary == null) {
             throw new IllegalArgumentException("boundary may not be null");
@@ -588,7 +588,7 @@ public class MultipartStream {
         this.input = input;
         this.bufSize = Math.max(bufferSize, boundaryLength * 2);
         this.buffer = new byte[this.bufSize];
-        this.notifier = pNotifier;
+        this.notifier = notifier;
 
         this.boundary = new byte[this.boundaryLength];
         this.boundaryTable = new int[this.boundaryLength + 1];

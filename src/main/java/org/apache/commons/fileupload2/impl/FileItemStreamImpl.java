@@ -81,26 +81,26 @@ public class FileItemStreamImpl implements FileItemStream {
      * Creates a new instance.
      *
      * @param fileItemIterator The {@link FileItemIteratorImpl iterator}, which returned this file item.
-     * @param pFileName             The items file name, or null.
-     * @param pFieldName        The items field name.
+     * @param fileName             The items file name, or null.
+     * @param fieldName        The items field name.
      * @param contentType      The items content type, or null.
      * @param formField        Whether the item is a form field.
      * @param contentLength    The items content length, if known, or -1
      * @throws IOException         Creating the file item failed.
      * @throws FileUploadException Parsing the incoming data stream failed.
      */
-    public FileItemStreamImpl(final FileItemIteratorImpl fileItemIterator, final String pFileName, final String pFieldName, final String contentType,
+    public FileItemStreamImpl(final FileItemIteratorImpl fileItemIterator, final String fileName, final String fieldName, final String contentType,
             final boolean formField, final long contentLength) throws FileUploadException, IOException {
         this.fileItemIteratorImpl = fileItemIterator;
-        this.fileName = pFileName;
-        this.fieldName = pFieldName;
+        this.fileName = fileName;
+        this.fieldName = fieldName;
         this.contentType = contentType;
         this.formField = formField;
         final long fileSizeMax = fileItemIteratorImpl.getFileSizeMax();
         if (fileSizeMax != -1 && contentLength != -1 && contentLength > fileSizeMax) {
             throw new FileUploadByteCountLimitException(
-                    format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, fileSizeMax), contentLength, fileSizeMax, pFileName,
-                    pFieldName);
+                    format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, fileSizeMax), contentLength, fileSizeMax, fileName,
+                    fieldName);
         }
         // OK to construct stream now
         final ItemInputStream itemInputStream = fileItemIteratorImpl.getMultiPartStream().newInputStream();
@@ -197,11 +197,11 @@ public class FileItemStreamImpl implements FileItemStream {
     /**
      * Sets the file item headers.
      *
-     * @param pHeaders The items header object
+     * @param headers The items header object
      */
     @Override
-    public void setHeaders(final FileItemHeaders pHeaders) {
-        headers = pHeaders;
+    public void setHeaders(final FileItemHeaders headers) {
+        this.headers = headers;
     }
 
 }

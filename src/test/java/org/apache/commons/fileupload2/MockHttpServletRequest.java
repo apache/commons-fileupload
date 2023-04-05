@@ -37,29 +37,29 @@ public class MockHttpServletRequest implements HttpServletRequest {
     private static class MyServletInputStream
         extends javax.servlet.ServletInputStream {
 
-        private final InputStream in;
+        private final InputStream inputStream;
         private final int readLimit;
 
         /**
          * Creates a new instance, which returns the given
          * streams data.
          */
-        public MyServletInputStream(final InputStream pStream, final int readLimit) {
-            in = pStream;
+        public MyServletInputStream(final InputStream inputStream, final int readLimit) {
+            this.inputStream = inputStream;
             this.readLimit = readLimit;
         }
 
         @Override
         public int read() throws IOException {
-            return in.read();
+            return inputStream.read();
         }
 
         @Override
         public int read(final byte[] b, final int off, final int len) throws IOException {
             if (readLimit > 0) {
-                return in.read(b, off, Math.min(readLimit, len));
+                return inputStream.read(b, off, Math.min(readLimit, len));
             }
-            return in.read(b, off, len);
+            return inputStream.read(b, off, len);
         }
 
     }

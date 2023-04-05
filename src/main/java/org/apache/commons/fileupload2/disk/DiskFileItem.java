@@ -526,11 +526,11 @@ public class DiskFileItem implements FileItem {
     /**
      * Sets the file item headers.
      *
-     * @param pHeaders The file items headers.
+     * @param headers The file items headers.
      */
     @Override
-    public void setHeaders(final FileItemHeaders pHeaders) {
-        headers = pHeaders;
+    public void setHeaders(final FileItemHeaders headers) {
+        this.headers = headers;
     }
 
     /**
@@ -602,7 +602,7 @@ public class DiskFileItem implements FileItem {
      */
     public static String checkFileName(final String fileName) {
         if (fileName != null  &&  fileName.indexOf('\u0000') != -1) {
-            // pFileName.replace("\u0000", "\\0")
+            // fileName.replace("\u0000", "\\0")
             final StringBuilder sb = new StringBuilder();
             for (int i = 0;  i < fileName.length();  i++) {
                 final char c = fileName.charAt(i);

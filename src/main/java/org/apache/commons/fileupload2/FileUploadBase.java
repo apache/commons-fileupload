@@ -178,17 +178,17 @@ public abstract class FileUploadBase {
      * Gets the field name, which is given by the content-disposition
      * header.
      *
-     * @param pContentDisposition The content-dispositions header value.
+     * @param contentDisposition The content-dispositions header value.
      * @return The field jake
      */
-    private String getFieldName(final String pContentDisposition) {
+    private String getFieldName(final String contentDisposition) {
         String fieldName = null;
-        if (pContentDisposition != null
-                && pContentDisposition.toLowerCase(Locale.ENGLISH).startsWith(FORM_DATA)) {
+        if (contentDisposition != null
+                && contentDisposition.toLowerCase(Locale.ENGLISH).startsWith(FORM_DATA)) {
             final ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
-            final Map<String, String> params = parser.parse(pContentDisposition, ';');
+            final Map<String, String> params = parser.parse(contentDisposition, ';');
             fieldName = params.get("name");
             if (fieldName != null) {
                 fieldName = fieldName.trim();
@@ -227,18 +227,18 @@ public abstract class FileUploadBase {
 
     /**
      * Gets the given content-disposition headers file name.
-     * @param pContentDisposition The content-disposition headers value.
+     * @param contentDisposition The content-disposition headers value.
      * @return The file name
      */
-    private String getFileName(final String pContentDisposition) {
+    private String getFileName(final String contentDisposition) {
         String fileName = null;
-        if (pContentDisposition != null) {
-            final String cdl = pContentDisposition.toLowerCase(Locale.ENGLISH);
+        if (contentDisposition != null) {
+            final String cdl = contentDisposition.toLowerCase(Locale.ENGLISH);
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
                 final ParameterParser parser = new ParameterParser();
                 parser.setLowerCaseNames(true);
                 // Parameter parser can handle null input
-                final Map<String, String> params = parser.parse(pContentDisposition, ';');
+                final Map<String, String> params = parser.parse(contentDisposition, ';');
                 if (params.containsKey("filename")) {
                     fileName = params.get("filename");
                     if (fileName != null) {
@@ -536,10 +536,10 @@ public abstract class FileUploadBase {
     /**
      * Sets the progress listener.
      *
-     * @param pListener The progress listener, if any. Defaults to null.
+     * @param listener The progress listener, if any. Defaults to null.
      */
-    public void setProgressListener(final ProgressListener pListener) {
-        listener = pListener;
+    public void setProgressListener(final ProgressListener listener) {
+        this.listener = listener;
     }
 
     /**

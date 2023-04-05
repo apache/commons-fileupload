@@ -199,22 +199,22 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * Sets the default charset for use when no explicit charset
      * parameter is provided by the sender.
-     * @param pCharset the default charset
+     * @param charset the default charset
      */
-    public void setDefaultCharset(final String pCharset) {
-        defaultCharset = pCharset;
+    public void setDefaultCharset(final String charset) {
+        defaultCharset = charset;
     }
 
     /**
      * Sets the tracker, which is responsible for deleting temporary
      * files.
      *
-     * @param pTracker An instance of {@link FileCleaningTracker},
+     * @param tracker An instance of {@link FileCleaningTracker},
      *   which will from now on track the created files, or null
      *   (default), to disable tracking.
      */
-    public void setFileCleaningTracker(final FileCleaningTracker pTracker) {
-        fileCleaningTracker = pTracker;
+    public void setFileCleaningTracker(final FileCleaningTracker tracker) {
+        fileCleaningTracker = tracker;
     }
 
     /**

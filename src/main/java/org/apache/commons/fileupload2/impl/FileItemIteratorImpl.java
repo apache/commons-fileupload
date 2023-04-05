@@ -196,9 +196,9 @@ public class FileItemIteratorImpl implements FileItemIterator {
         }
     }
 
-    private long getContentLength(final FileItemHeaders pHeaders) {
+    private long getContentLength(final FileItemHeaders headers) {
         try {
-            return Long.parseLong(pHeaders.getHeader(FileUploadBase.CONTENT_LENGTH));
+            return Long.parseLong(headers.getHeader(FileUploadBase.CONTENT_LENGTH));
         } catch (final Exception e) {
             return -1;
         }
@@ -249,7 +249,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
         return findNextItem();
     }
 
-    protected void init(final FileUploadBase fileUploadBase, final RequestContext pRequestContext) throws FileUploadException, IOException {
+    protected void init(final FileUploadBase fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         final String contentType = ctx.getContentType();
         if ((null == contentType) || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(FileUploadBase.MULTIPART))) {
             throw new FileUploadContentTypeException(format("the request doesn't contain a %s or %s stream, content type header is %s",
@@ -273,9 +273,9 @@ public class FileItemIteratorImpl implements FileItemIterator {
             // N.B. this is eventually closed in MultipartStream processing
             input = new LimitedInputStream(ctx.getInputStream(), sizeMax) {
                 @Override
-                protected void raiseError(final long pSizeMax, final long pCount) throws IOException {
+                protected void raiseError(final long maxLen, final long count) throws IOException {
                     throw new FileUploadSizeException(
-                            format("The request was rejected because its size (%s) exceeds the configured maximum (%s)", pCount, pSizeMax), pSizeMax, pCount);
+                            format("The request was rejected because its size (%s) exceeds the configured maximum (%s)", count, maxLen), maxLen, count);
                 }
             };
         } else {
