@@ -50,7 +50,7 @@ import org.apache.commons.io.IOUtils;
  * else.
  * </p>
  */
-public abstract class FileUploadBase {
+public abstract class AbstractFileUpload {
 
     /**
      * HTTP content type header name.

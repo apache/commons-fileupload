@@ -30,7 +30,7 @@ import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.fileupload2.FileItemIterator;
 import org.apache.commons.fileupload2.FileItemStream;
-import org.apache.commons.fileupload2.FileUploadBase;
+import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.MultipartStream;
 import org.apache.commons.fileupload2.ProgressListener;
@@ -41,16 +41,16 @@ import org.apache.commons.fileupload2.util.LimitedInputStream;
 import org.apache.commons.io.IOUtils;
 
 /**
- * The iterator, which is returned by {@link FileUploadBase#getItemIterator(RequestContext)}.
+ * The iterator, which is returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */
 public class FileItemIteratorImpl implements FileItemIterator {
 
     /**
      * The file uploads processing utility.
      *
-     * @see FileUploadBase
+     * @see AbstractFileUpload
      */
-    private final FileUploadBase fileUploadBase;
+    private final AbstractFileUpload fileUploadBase;
 
     /**
      * The request context.
@@ -117,7 +117,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
      * @throws FileUploadException An error occurred while parsing the request.
      * @throws IOException         An I/O error occurred.
      */
-    public FileItemIteratorImpl(final FileUploadBase fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
+    public FileItemIteratorImpl(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         this.fileUploadBase = fileUploadBase;
         this.sizeMax = fileUploadBase.getSizeMax();
         this.fileSizeMax = fileUploadBase.getFileSizeMax();
@@ -164,8 +164,8 @@ public class FileItemIteratorImpl implements FileItemIterator {
                 // We're parsing the outer multipart
                 final String fieldName = fileUploadBase.getFieldName(headers);
                 if (fieldName != null) {
-                    final String subContentType = headers.getHeader(FileUploadBase.CONTENT_TYPE);
-                    if (subContentType != null && subContentType.toLowerCase(Locale.ENGLISH).startsWith(FileUploadBase.MULTIPART_MIXED)) {
+                    final String subContentType = headers.getHeader(AbstractFileUpload.CONTENT_TYPE);
+                    if (subContentType != null && subContentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART_MIXED)) {
                         currentFieldName = fieldName;
                         // Multiple files associated with this field name
                         final byte[] subBoundary = fileUploadBase.getBoundary(subContentType);
@@ -174,7 +174,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
                         continue;
                     }
                     final String fileName = fileUploadBase.getFileName(headers);
-                    currentItem = new FileItemStreamImpl(this, fileName, fieldName, headers.getHeader(FileUploadBase.CONTENT_TYPE), fileName == null,
+                    currentItem = new FileItemStreamImpl(this, fileName, fieldName, headers.getHeader(AbstractFileUpload.CONTENT_TYPE), fileName == null,
                             getContentLength(headers));
                     currentItem.setHeaders(headers);
                     progressNotifier.noteItem();
@@ -184,7 +184,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
             } else {
                 final String fileName = fileUploadBase.getFileName(headers);
                 if (fileName != null) {
-                    currentItem = new FileItemStreamImpl(this, fileName, currentFieldName, headers.getHeader(FileUploadBase.CONTENT_TYPE), false,
+                    currentItem = new FileItemStreamImpl(this, fileName, currentFieldName, headers.getHeader(AbstractFileUpload.CONTENT_TYPE), false,
                             getContentLength(headers));
                     currentItem.setHeaders(headers);
                     progressNotifier.noteItem();
@@ -198,7 +198,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
 
     private long getContentLength(final FileItemHeaders headers) {
         try {
-            return Long.parseLong(headers.getHeader(FileUploadBase.CONTENT_LENGTH));
+            return Long.parseLong(headers.getHeader(AbstractFileUpload.CONTENT_LENGTH));
         } catch (final Exception e) {
             return -1;
         }
@@ -249,11 +249,11 @@ public class FileItemIteratorImpl implements FileItemIterator {
         return findNextItem();
     }
 
-    protected void init(final FileUploadBase fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
+    protected void init(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         final String contentType = ctx.getContentType();
-        if ((null == contentType) || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(FileUploadBase.MULTIPART))) {
+        if ((null == contentType) || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART))) {
             throw new FileUploadContentTypeException(format("the request doesn't contain a %s or %s stream, content type header is %s",
-                    FileUploadBase.MULTIPART_FORM_DATA, FileUploadBase.MULTIPART_MIXED, contentType), contentType);
+                    AbstractFileUpload.MULTIPART_FORM_DATA, AbstractFileUpload.MULTIPART_MIXED, contentType), contentType);
         }
         final long contentLengthInt = ctx.getContentLength();
         // @formatter:off
@@ -298,7 +298,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
             multiPartStream = new MultipartStream(input, multiPartBoundary, progressNotifier);
         } catch (final IllegalArgumentException e) {
             IOUtils.closeQuietly(input); // avoid possible resource leak
-            throw new FileUploadContentTypeException(format("The boundary specified in the %s header is too long", FileUploadBase.CONTENT_TYPE), e);
+            throw new FileUploadContentTypeException(format("The boundary specified in the %s header is too long", AbstractFileUpload.CONTENT_TYPE), e);
         }
         multiPartStream.setHeaderEncoding(charEncoding);
     }

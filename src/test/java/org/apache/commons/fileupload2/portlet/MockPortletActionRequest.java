@@ -37,7 +37,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.PortletSession;
 import javax.portlet.WindowState;
 
-import org.apache.commons.fileupload2.FileUploadBase;
+import org.apache.commons.fileupload2.AbstractFileUpload;
 
 /**
  * Mock class for tests. Implements an {@link ActionRequest}.
@@ -66,7 +66,7 @@ public class MockPortletActionRequest implements ActionRequest {
         this.requestData = byteArrayInputStream;
         length = requestLength;
         this.contentType = contentType;
-        attributes.put(FileUploadBase.CONTENT_TYPE, contentType);
+        attributes.put(AbstractFileUpload.CONTENT_TYPE, contentType);
     }
 
     @Override

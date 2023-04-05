@@ -93,7 +93,7 @@ public class StreamingTest {
             throws FileUploadException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
-        final FileUploadBase upload = new ServletFileUpload();
+        final AbstractFileUpload upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
         final HttpServletRequest request = new MockHttpServletRequest(inputStream,
                 length, contentType);
@@ -105,7 +105,7 @@ public class StreamingTest {
             throws FileUploadException, IOException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
-        final FileUploadBase upload = new ServletFileUpload();
+        final AbstractFileUpload upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
         final HttpServletRequest request = new MockHttpServletRequest(inputStream,
                 length, contentType);

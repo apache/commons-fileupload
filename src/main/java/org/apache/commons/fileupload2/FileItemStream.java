@@ -27,7 +27,7 @@ import java.io.InputStream;
  * </p>
  * <p>Instances of this class are created by accessing the
  * iterator, returned by
- * {@link FileUploadBase#getItemIterator(RequestContext)}.
+ * {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  * </p>
  * <p><em>Note</em>: There is an interaction between the iterator and
  * its associated instances of {@link FileItemStream}: By invoking

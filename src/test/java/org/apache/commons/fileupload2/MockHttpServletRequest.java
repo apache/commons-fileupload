@@ -96,7 +96,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
         mmRequestData = requestData;
         length = requestLength;
         mStrContentType = strContentType;
-        mHeaders.put(FileUploadBase.CONTENT_TYPE, strContentType);
+        mHeaders.put(AbstractFileUpload.CONTENT_TYPE, strContentType);
     }
 
     /**

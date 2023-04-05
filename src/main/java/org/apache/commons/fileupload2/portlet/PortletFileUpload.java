@@ -26,7 +26,7 @@ import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
 import org.apache.commons.fileupload2.FileItemIterator;
 import org.apache.commons.fileupload2.FileUpload;
-import org.apache.commons.fileupload2.FileUploadBase;
+import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
 
 /**
@@ -58,7 +58,7 @@ public class PortletFileUpload extends FileUpload {
      *         {@code false} otherwise.
      */
     public static final boolean isMultipartContent(final ActionRequest request) {
-        return FileUploadBase.isMultipartContent(
+        return AbstractFileUpload.isMultipartContent(
                 new PortletRequestContext(request));
     }
 

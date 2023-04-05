@@ -31,7 +31,7 @@ final class HttpServletRequestFactory {
         final byte[] requestData = "foobar".getBytes();
         return new MockHttpServletRequest(
                             requestData,
-                            FileUploadBase.MULTIPART_FORM_DATA);
+                            AbstractFileUpload.MULTIPART_FORM_DATA);
     }
 
     public static HttpServletRequest createValidHttpServletRequest(
@@ -48,7 +48,7 @@ final class HttpServletRequestFactory {
 
         return new MockHttpServletRequest(
                             requestData,
-                            FileUploadBase.MULTIPART_FORM_DATA);
+                            AbstractFileUpload.MULTIPART_FORM_DATA);
     }
 
 }

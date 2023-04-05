@@ -23,7 +23,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.FileUploadBase;
+import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.RequestContext;
 
 /**
@@ -58,7 +58,7 @@ public class ServletRequestContext implements RequestContext {
     public long getContentLength() {
         long size;
         try {
-            size = Long.parseLong(request.getHeader(FileUploadBase.CONTENT_LENGTH));
+            size = Long.parseLong(request.getHeader(AbstractFileUpload.CONTENT_LENGTH));
         } catch (final NumberFormatException e) {
             size = request.getContentLength();
         }

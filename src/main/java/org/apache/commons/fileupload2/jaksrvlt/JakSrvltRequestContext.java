@@ -21,7 +21,7 @@ import static java.lang.String.format;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.fileupload2.FileUploadBase;
+import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.RequestContext;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,7 +58,7 @@ public class JakSrvltRequestContext implements RequestContext {
     public long getContentLength() {
         long size;
         try {
-            size = Long.parseLong(request.getHeader(FileUploadBase.CONTENT_LENGTH));
+            size = Long.parseLong(request.getHeader(AbstractFileUpload.CONTENT_LENGTH));
         } catch (final NumberFormatException e) {
             size = request.getContentLength();
         }

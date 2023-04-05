@@ -27,7 +27,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.FileUploadBase;
+import org.apache.commons.fileupload2.AbstractFileUpload;
 
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
@@ -124,7 +124,7 @@ public class MockJakSrvltHttpRequest implements HttpServletRequest {
         mRequestData = requestData;
         length = requestLength;
         mStrContentType = strContentType;
-        mHeaders.put(FileUploadBase.CONTENT_TYPE, strContentType);
+        mHeaders.put(AbstractFileUpload.CONTENT_TYPE, strContentType);
     }
 
     @Override
