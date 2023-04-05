@@ -217,7 +217,9 @@ public class DiskFileItemSerializeTest {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(FileUtils.getTempDirectory(), "\0");
-        assertThrows(InvalidPathException.class, () -> createFileItem(testFieldValueBytes, repository));
+        final FileItem item = createFileItem(testFieldValueBytes, repository);
+        assertThrows(IOException.class, () -> deserialize(serialize(item)));
+
     }
 
     /**
