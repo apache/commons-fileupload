@@ -61,12 +61,8 @@ public class JakSrvltFileUpload extends FileUpload {
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      */
-    public static final boolean isMultipartContent(
-            final HttpServletRequest request) {
-        if (!POST_METHOD.equalsIgnoreCase(request.getMethod())) {
-            return false;
-        }
-        return AbstractFileUpload.isMultipartContent(new JakSrvltRequestContext(request));
+    public static final boolean isMultipartContent(final HttpServletRequest request) {
+        return POST_METHOD.equalsIgnoreCase(request.getMethod()) && AbstractFileUpload.isMultipartContent(new JakSrvltRequestContext(request));
     }
 
     /**
