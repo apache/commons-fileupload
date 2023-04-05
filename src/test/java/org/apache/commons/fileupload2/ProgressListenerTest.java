@@ -72,24 +72,22 @@ public class ProgressListenerTest {
         final ProgressListenerImpl listener = new ProgressListenerImpl(contentLength, itemCount);
         upload.setProgressListener(listener);
         final FileItemIterator iter = upload.getItemIterator(request);
-        for (int i = 0;  i < itemCount;  i++) {
-            final FileItemStream stream = iter.next();
-            final InputStream istream = stream.openStream();
-            for (int j = 0;  j < 16384 + i;  j++) {
-                /**
-                 * This used to be
-                 *     assertEquals((byte) j, (byte) istream.read());
-                 * but this seems to trigger a bug in JRockit, so
-                 * we express the same like this:
-                 */
-                final byte b1 = (byte) j;
-                final byte b2 = (byte) istream.read();
-                if (b1 != b2) {
-                    fail("Expected " + b1 + ", got " + b2);
+        for (int i = 0; i < itemCount; i++) {
+            final FileItemStream fileItemStream = iter.next();
+            try (final InputStream inputStream = fileItemStream.openStream()) {
+                for (int j = 0; j < 16384 + i; j++) {
+                    /**
+                     * This used to be assertEquals((byte) j, (byte) istream.read()); but this seems to trigger a bug in JRockit, so we express the same like
+                     * this:
+                     */
+                    final byte b1 = (byte) j;
+                    final byte b2 = (byte) inputStream.read();
+                    if (b1 != b2) {
+                        fail("Expected " + b1 + ", got " + b2);
+                    }
                 }
+                assertEquals(-1, inputStream.read());
             }
-            assertEquals(-1, istream.read());
-            istream.close();
         }
         assertTrue(!iter.hasNext());
         listener.checkFinished();
