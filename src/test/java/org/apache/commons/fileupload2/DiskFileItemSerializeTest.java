@@ -152,11 +152,7 @@ public class DiskFileItemSerializeTest {
         // Check state is as expected
         assertFalse(item.isInMemory(), "Initial: in memory");
         assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
-        try {
-            compareBytes("Initial", item.get(), testFieldValueBytes);
-        } catch (UncheckedIOException e) {
-            fail("Unexpected IOException", e);
-        }
+        compareBytes("Initial", item.get(), testFieldValueBytes);
 
         testWritingToFile(item, testFieldValueBytes);
         item.delete();
@@ -188,11 +184,7 @@ public class DiskFileItemSerializeTest {
         // Check state is as expected
         assertTrue(item.isInMemory(), "Initial: in memory");
         assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
-        try {
-            compareBytes("Initial", item.get(), testFieldValueBytes);
-        } catch (UncheckedIOException e) {
-            fail("Unexpected IOException", e);
-        }
+        compareBytes("Initial", item.get(), testFieldValueBytes);
         testWritingToFile(item, testFieldValueBytes);
         item.delete();
     }

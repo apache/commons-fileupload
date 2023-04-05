@@ -18,6 +18,7 @@ package org.apache.commons.fileupload2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -267,24 +268,15 @@ public class SizesTest {
         }
 
         // the second item is over the size max, thus we expect an error
-        try {
-            // the header is still within size max -> this shall still succeed
-            assertTrue(it.hasNext());
-        } catch (final FileUploadSizeException e) {
-            fail();
-        }
+        // the header is still within size max -> this shall still succeed
+        assertTrue(it.hasNext());
 
-        item = it.next();
-
-        try {
+        assertThrows(FileUploadException.class, () -> {
+            final FileItemStream item2 = it.next();
             try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    final InputStream stream = item.openStream()) {
+                    final InputStream stream = item2.openStream()) {
                 IOUtils.copy(stream, baos);
             }
-            fail();
-        } catch (final FileUploadException e) {
-            // expected
-        }
+        });
     }
-
 }
