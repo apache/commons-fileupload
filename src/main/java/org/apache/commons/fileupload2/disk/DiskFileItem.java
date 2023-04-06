@@ -567,7 +567,7 @@ public class DiskFileItem implements FileItem {
             try (OutputStream fout = Files.newOutputStream(file.toPath())) {
                 fout.write(get());
             } catch (final IOException e) {
-                throw new IOException("Unexpected output data");
+                throw new IOException("Unexpected output data", e);
             }
         } else {
             final File outputFile = getStoreLocation();
