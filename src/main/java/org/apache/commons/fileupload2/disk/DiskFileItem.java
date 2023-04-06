@@ -132,7 +132,6 @@ public class DiskFileItem implements FileItem {
      */
     private final String fileName;
 
-
     /**
      * The size of the item, in bytes. This is used to cache the size when a
      * file item is moved from its original location.
