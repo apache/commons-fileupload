@@ -16,23 +16,19 @@
  */
 package org.apache.commons.fileupload2.portlet;
 
-import static java.lang.String.format;
-
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.portlet.ActionRequest;
 
-import org.apache.commons.fileupload2.AbstractFileUpload;
-import org.apache.commons.fileupload2.RequestContext;
+import org.apache.commons.fileupload2.AbstractRequestContext;
 
 /**
- * Provides access to the request information needed for a request made to
- * a portlet.
+ * Provides access to the request information needed for a request made to a portlet.
  *
  * @since 1.1
  */
-public class PortletRequestContext implements RequestContext {
+public class PortletRequestContext extends AbstractRequestContext {
 
     /**
      * The request for which the context is being provided.
@@ -45,24 +41,8 @@ public class PortletRequestContext implements RequestContext {
      * @param request The request to which this context applies.
      */
     public PortletRequestContext(final ActionRequest request) {
+        super(request::getProperty, request::getContentLength);
         this.request = request;
-    }
-
-    /**
-     * Gets the content length of the request.
-     *
-     * @return The content length of the request.
-     * @since 1.3
-     */
-    @Override
-    public long getContentLength() {
-        long size;
-        try {
-            size = Long.parseLong(request.getProperty(AbstractFileUpload.CONTENT_LENGTH));
-        } catch (final NumberFormatException e) {
-            size = request.getContentLength();
-        }
-        return size;
     }
 
     /**
@@ -89,24 +69,11 @@ public class PortletRequestContext implements RequestContext {
      * Gets the input stream for the request.
      *
      * @return The input stream for the request.
-     *
      * @throws IOException if a problem occurs.
      */
     @Override
     public InputStream getInputStream() throws IOException {
         return request.getPortletInputStream();
-    }
-
-    /**
-     * Returns a string representation of this object.
-     *
-     * @return a string representation of this object.
-     */
-    @Override
-    public String toString() {
-        return format("ContentLength=%s, ContentType=%s",
-                this.getContentLength(),
-                      this.getContentType());
     }
 
 }

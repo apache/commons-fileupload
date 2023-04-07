@@ -22,11 +22,11 @@ import java.util.Map;
 
 import javax.portlet.ActionRequest;
 
+import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
 import org.apache.commons.fileupload2.FileItemIterator;
 import org.apache.commons.fileupload2.FileUpload;
-import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
 
 /**

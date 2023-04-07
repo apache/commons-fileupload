@@ -21,8 +21,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.AbstractFileUpload;
-import org.apache.commons.fileupload2.RequestContext;
+import org.apache.commons.fileupload2.AbstractRequestContext;
 
 /**
  * Provides access to the request information needed for a request made to
@@ -30,7 +29,7 @@ import org.apache.commons.fileupload2.RequestContext;
  *
  * @since 1.1
  */
-public class ServletRequestContext implements RequestContext {
+public class ServletRequestContext extends AbstractRequestContext {
 
     /**
      * The request for which the context is being provided.
@@ -43,24 +42,8 @@ public class ServletRequestContext implements RequestContext {
      * @param request The request to which this context applies.
      */
     public ServletRequestContext(final HttpServletRequest request) {
+        super(request::getHeader, request::getContentLength);
         this.request = request;
-    }
-
-    /**
-     * Gets the content length of the request.
-     *
-     * @return The content length of the request.
-     * @since 1.3
-     */
-    @Override
-    public long getContentLength() {
-        long size;
-        try {
-            size = Long.parseLong(request.getHeader(AbstractFileUpload.CONTENT_LENGTH));
-        } catch (final NumberFormatException e) {
-            size = request.getContentLength();
-        }
-        return size;
     }
 
     /**
@@ -93,16 +76,6 @@ public class ServletRequestContext implements RequestContext {
     @Override
     public InputStream getInputStream() throws IOException {
         return request.getInputStream();
-    }
-
-    /**
-     * Returns a string representation of this object.
-     *
-     * @return a string representation of this object.
-     */
-    @Override
-    public String toString() {
-        return String.format("ContentLength=%s, ContentType=%s", this.getContentLength(), this.getContentType());
     }
 
 }

@@ -19,8 +19,7 @@ package org.apache.commons.fileupload2.jaksrvlt;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.fileupload2.AbstractFileUpload;
-import org.apache.commons.fileupload2.RequestContext;
+import org.apache.commons.fileupload2.AbstractRequestContext;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -30,7 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
  *
  * @since 1.1
  */
-public class JakSrvltRequestContext implements RequestContext {
+public class JakSrvltRequestContext extends AbstractRequestContext {
 
     /**
      * The request for which the context is being provided.
@@ -43,24 +42,8 @@ public class JakSrvltRequestContext implements RequestContext {
      * @param request The request to which this context applies.
      */
     public JakSrvltRequestContext(final HttpServletRequest request) {
+        super(request::getHeader, request::getContentLength);
         this.request = request;
-    }
-
-    /**
-     * Gets the content length of the request.
-     *
-     * @return The content length of the request.
-     * @since 1.3
-     */
-    @Override
-    public long getContentLength() {
-        long size;
-        try {
-            size = Long.parseLong(request.getHeader(AbstractFileUpload.CONTENT_LENGTH));
-        } catch (final NumberFormatException e) {
-            size = request.getContentLength();
-        }
-        return size;
     }
 
     /**
@@ -93,16 +76,6 @@ public class JakSrvltRequestContext implements RequestContext {
     @Override
     public InputStream getInputStream() throws IOException {
         return request.getInputStream();
-    }
-
-    /**
-     * Gets a string representation of this object.
-     *
-     * @return a string representation of this object.
-     */
-    @Override
-    public String toString() {
-        return String.format("ContentLength=%s, ContentType=%s", this.getContentLength(), this.getContentType());
     }
 
 }
