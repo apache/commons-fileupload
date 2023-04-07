@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload2.disk;
 
-import static java.lang.String.format;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -454,7 +453,7 @@ public class DiskFileItem implements FileItem {
             if (tempDir == null) {
                 tempDir = FileUtils.getTempDirectory();
             }
-            final String tempFileName = format("upload_%s_%s.tmp", UID, getUniqueId());
+            final String tempFileName = String.format("upload_%s_%s.tmp", UID, getUniqueId());
             tempFile = new File(tempDir, tempFileName);
         }
         return tempFile;
@@ -539,9 +538,8 @@ public class DiskFileItem implements FileItem {
      */
     @Override
     public String toString() {
-        return format("name=%s, StoreLocation=%s, size=%s bytes, isFormField=%s, FieldName=%s",
-                      getName(), getStoreLocation(), getSize(),
-                isFormField(), getFieldName());
+        return String.format("name=%s, StoreLocation=%s, size=%s bytes, isFormField=%s, FieldName=%s", getName(), getStoreLocation(), getSize(), isFormField(),
+                getFieldName());
     }
 
     /**

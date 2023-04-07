@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload2.impl;
 
-import static java.lang.String.format;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -252,7 +251,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
     protected void init(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         final String contentType = ctx.getContentType();
         if ((null == contentType) || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART))) {
-            throw new FileUploadContentTypeException(format("the request doesn't contain a %s or %s stream, content type header is %s",
+            throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
                     AbstractFileUpload.MULTIPART_FORM_DATA, AbstractFileUpload.MULTIPART_MIXED, contentType), contentType);
         }
         final long contentLengthInt = ctx.getContentLength();
@@ -267,7 +266,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
         if (sizeMax >= 0) {
             if (requestSize != -1 && requestSize > sizeMax) {
                 throw new FileUploadSizeException(
-                        format("the request was rejected because its size (%s) exceeds the configured maximum (%s)", requestSize, sizeMax), sizeMax,
+                        String.format("the request was rejected because its size (%s) exceeds the configured maximum (%s)", requestSize, sizeMax), sizeMax,
                         requestSize);
             }
             // N.B. this is eventually closed in MultipartStream processing
@@ -275,7 +274,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
                 @Override
                 protected void raiseError(final long maxLen, final long count) throws IOException {
                     throw new FileUploadSizeException(
-                            format("The request was rejected because its size (%s) exceeds the configured maximum (%s)", count, maxLen), maxLen, count);
+                            String.format("The request was rejected because its size (%s) exceeds the configured maximum (%s)", count, maxLen), maxLen, count);
                 }
             };
         } else {
@@ -298,7 +297,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
             multiPartStream = new MultipartStream(input, multiPartBoundary, progressNotifier);
         } catch (final IllegalArgumentException e) {
             IOUtils.closeQuietly(input); // avoid possible resource leak
-            throw new FileUploadContentTypeException(format("The boundary specified in the %s header is too long", AbstractFileUpload.CONTENT_TYPE), e);
+            throw new FileUploadContentTypeException(String.format("The boundary specified in the %s header is too long", AbstractFileUpload.CONTENT_TYPE), e);
         }
         multiPartStream.setHeaderEncoding(charEncoding);
     }

@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload2.impl;
 
-import static java.lang.String.format;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -98,9 +97,8 @@ public class FileItemStreamImpl implements FileItemStream {
         this.formField = formField;
         final long fileSizeMax = fileItemIteratorImpl.getFileSizeMax();
         if (fileSizeMax != -1 && contentLength != -1 && contentLength > fileSizeMax) {
-            throw new FileUploadByteCountLimitException(
-                    format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, fileSizeMax), contentLength, fileSizeMax, fileName,
-                    fieldName);
+            throw new FileUploadByteCountLimitException(String.format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, fileSizeMax),
+                    contentLength, fileSizeMax, fileName, fieldName);
         }
         // OK to construct stream now
         final ItemInputStream itemInputStream = fileItemIteratorImpl.getMultiPartStream().newInputStream();
@@ -111,7 +109,8 @@ public class FileItemStreamImpl implements FileItemStream {
                 protected void raiseError(final long sizeMax, final long count) throws IOException {
                     itemInputStream.close(true);
                     throw new FileUploadByteCountLimitException(
-                            format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, sizeMax), count, sizeMax, fileName, fieldName);
+                            String.format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, sizeMax), count, sizeMax, fileName,
+                            fieldName);
                 }
             };
         }

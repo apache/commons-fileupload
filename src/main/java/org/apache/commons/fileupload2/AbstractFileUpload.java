@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload2;
 
-import static java.lang.String.format;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -471,7 +470,7 @@ public abstract class AbstractFileUpload {
                 } catch (final FileUploadException e) {
                     throw e;
                 } catch (final IOException e) {
-                    throw new FileUploadException(format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
+                    throw new FileUploadException(String.format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
                 fileItem.setHeaders(item.getHeaders());
             }
