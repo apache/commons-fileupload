@@ -200,6 +200,10 @@
       <name>Martin Grigorov</name>
       <email>mgrigorov@apache.org</email>
     </contributor>
+    <contributor>
+      <name>Dennis Kieselhorst</name>
+      <email>deki@apache.org</email>
+    </contributor>
   </contributors>
 
   <scm>
