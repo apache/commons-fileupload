@@ -41,4 +41,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: Aimanfaiz1999/commons-fileupload:latest
+          tags: aimanfaiz1999/commons-fileupload:latest
