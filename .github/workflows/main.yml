@@ -45,4 +45,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/commons-fileupload:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/commons:latest
