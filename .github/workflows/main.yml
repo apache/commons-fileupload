@@ -18,8 +18,7 @@ name: Docker image publish
 
 on:
   push:
-    branches:
-      - "main"
+    branches: [ master ]
 
 jobs:
   build:
