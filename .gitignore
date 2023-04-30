@@ -1,6 +1,6 @@
-/target/
-/.settings/
-/.classpath
-/.project
-site-content/
+**/target/
+**/.settings/
+**/.classpath
+**/.project
+**/site-content/
 /commons-fileupload2.iml

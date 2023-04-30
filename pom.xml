@@ -25,9 +25,10 @@
   </parent>
 
   <artifactId>commons-fileupload2</artifactId>
-  <version>2.0-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-  <name>Apache Commons FileUpload</name>
+  <name>Apache Commons FileUpload Parent</name>
   <description>
     The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
     file upload functionality to servlets and web applications.
@@ -223,6 +224,7 @@
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload</commons.module.name>
     <commons.release.version>2.0</commons.release.version>
@@ -235,6 +237,9 @@
     <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version};-noimport:=true</commons.osgi.export>
     <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
+    <commons.servlet-api.version>2.5</commons.servlet-api.version>
+    <commons.io.version>2.11.0</commons.io.version>
+    <commons.lang3.version>3.12.0</commons.lang3.version>
     <japicmp.skip>true</japicmp.skip>
     <clirr.skip>true</clirr.skip>
     <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
@@ -249,43 +254,6 @@
     <commons.releaseManagerKey>B6E73D84EA4FCC47166087253FAAD2CD5ECBB314</commons.releaseManagerKey>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.4</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>portlet-api</groupId>
-      <artifactId>portlet-api</artifactId>
-      <version>1.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.11.0</version>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-      <version>5.0.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.12.0</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>
@@ -296,8 +264,8 @@
             <id>validate-main</id>
             <phase>validate</phase>
             <configuration>
-              <configLocation>${basedir}/src/checkstyle/fileupload_checks.xml</configLocation>
-              <suppressionsLocation>${basedir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+              <configLocation>${commons.parent.dir}/src/checkstyle/fileupload_checks.xml</configLocation>
+              <suppressionsLocation>${commons.parent.dir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
               <includeTestSourceDirectory>false</includeTestSourceDirectory>
               <enableRulesSummary>false</enableRulesSummary>
               <consoleOutput>true</consoleOutput>
@@ -314,8 +282,8 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptors>
-            <descriptor>${basedir}/src/main/assembly/bin.xml</descriptor>
-            <descriptor>${basedir}/src/main/assembly/src.xml</descriptor>
+            <descriptor>${commons.parent.dir}/src/main/assembly/bin.xml</descriptor>
+            <descriptor>${commons.parent.dir}/src/main/assembly/src.xml</descriptor>
           </descriptors>
           <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
@@ -429,10 +397,17 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
           <configuration>
-            <configLocation>${basedir}/src/checkstyle/fileupload_checks.xml</configLocation>
-            <suppressionsLocation>${basedir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+            <configLocation>${commons.parent.dir}/src/checkstyle/fileupload_checks.xml</configLocation>
+            <suppressionsLocation>${commons.parent.dir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
             <includeTestSourceDirectory>false</includeTestSourceDirectory>
             <enableRulesSummary>false</enableRulesSummary>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <configuration>
+            <excludeFilterFile>${commons.parent.dir}/spotbugs-exclude-filter.xml</excludeFilterFile>
           </configuration>
         </plugin>
       </plugins>
@@ -462,8 +437,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <configLocation>${basedir}/src/checkstyle/fileupload_checks.xml</configLocation>
-          <suppressionsLocation>${basedir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+          <configLocation>${commons.parent.dir}/src/checkstyle/fileupload_checks.xml</configLocation>
+          <suppressionsLocation>${commons.parent.dir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
           <includeTestSourceDirectory>false</includeTestSourceDirectory>
           <enableRulesSummary>false</enableRulesSummary>
         </configuration>
@@ -474,7 +449,7 @@
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <rulesets>
-            <ruleset>${basedir}/src/checkstyle/fileupload_basic.xml</ruleset>
+            <ruleset>${commons.parent.dir}/src/checkstyle/fileupload_basic.xml</ruleset>
           </rulesets>
         </configuration>
       </plugin>
@@ -567,13 +542,6 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs-maven-plugin</artifactId>
-            <configuration>
-              <excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</excludeFilterFile>
-            </configuration>
-          </plugin>
         </plugins>
       </build>
     </profile>
@@ -595,4 +563,10 @@
       </properties>
     </profile>
   </profiles>
+  <modules>
+	<module>commons-fileupload2-core</module>
+	<module>commons-fileupload2-jakarta</module>
+	<module>commons-fileupload2-javax</module>
+	<module>commons-fileupload2-portlet</module>
+  </modules>
 </project>
