@@ -143,7 +143,7 @@ public class DiskFileItemFactory implements FileItemFactory {
      * Gets the directory used to temporarily store files that are larger than the configured size threshold.
      *
      * @return The directory in which temporary files will be located.
-     * @see #setRepository(java.io.File)
+     * @see #setRepository(File)
      */
     public File getRepository() {
         return repository;
