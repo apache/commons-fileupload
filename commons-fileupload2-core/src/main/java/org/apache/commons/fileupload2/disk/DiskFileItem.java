@@ -249,7 +249,7 @@ public class DiskFileItem implements FileItem {
      *
      * @return The content charset passed by the agent or {@code null} if not defined.
      */
-    public String getCharSet() {
+    public String getCharset() {
         final ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
@@ -390,7 +390,7 @@ public class DiskFileItem implements FileItem {
     public String getString() {
         try {
             final byte[] rawData = get();
-            String charset = getCharSet();
+            String charset = getCharset();
             if (charset == null) {
                 charset = defaultCharset;
             }
