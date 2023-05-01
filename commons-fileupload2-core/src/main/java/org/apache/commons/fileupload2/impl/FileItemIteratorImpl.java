@@ -249,7 +249,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
 
     protected void init(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         final String contentType = ctx.getContentType();
-        if ((null == contentType) || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART))) {
+        if (null == contentType || !contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART)) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
                     AbstractFileUpload.MULTIPART_FORM_DATA, AbstractFileUpload.MULTIPART_MIXED, contentType), contentType);
         }
@@ -311,7 +311,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
      */
     @Override
     public FileItemStream next() throws FileUploadException, IOException {
-        if (eof || (!itemValid && !hasNext())) {
+        if (eof || !itemValid && !hasNext()) {
             throw new NoSuchElementException();
         }
         itemValid = false;

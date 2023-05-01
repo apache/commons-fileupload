@@ -58,17 +58,6 @@ public abstract class LimitedInputStream extends FilterInputStream {
     }
 
     /**
-     * Closes this input stream and releases any system resources associated with the stream. This method simply performs {@code in.close()}.
-     *
-     * @throws IOException if an I/O error occurs.
-     * @see java.io.FilterInputStream#in
-     */
-    @Override
-    public void close() throws IOException {
-        super.close();
-    }
-
-    /**
      * Called to indicate, that the input streams limit has been exceeded.
      *
      * @param sizeMax The input streams limit, in bytes.

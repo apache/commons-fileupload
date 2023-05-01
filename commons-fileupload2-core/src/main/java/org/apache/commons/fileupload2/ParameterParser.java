@@ -80,15 +80,15 @@ public class ParameterParser {
      */
     private String getToken(final boolean quoted) {
         // Trim leading white spaces
-        while ((i1 < i2) && (Character.isWhitespace(chars[i1]))) {
+        while (i1 < i2 && Character.isWhitespace(chars[i1])) {
             i1++;
         }
         // Trim trailing white spaces
-        while ((i2 > i1) && (Character.isWhitespace(chars[i2 - 1]))) {
+        while (i2 > i1 && Character.isWhitespace(chars[i2 - 1])) {
             i2--;
         }
         // Strip away quotation marks if necessary
-        if (quoted && ((i2 - i1) >= 2) && (chars[i1] == '"') && (chars[i2 - 1] == '"')) {
+        if (quoted && i2 - i1 >= 2 && chars[i1] == '"' && chars[i2 - 1] == '"') {
             i1++;
             i2--;
         }
@@ -173,22 +173,22 @@ public class ParameterParser {
         while (hasChar()) {
             paramName = parseToken(new char[] { '=', separator });
             paramValue = null;
-            if (hasChar() && (charArray[pos] == '=')) {
+            if (hasChar() && charArray[pos] == '=') {
                 pos++; // skip '='
                 paramValue = parseQuotedToken(new char[] { separator });
 
                 if (paramValue != null) {
                     try {
                         paramValue = RFC2231Utility.hasEncodedValue(paramName) ? RFC2231Utility.decodeText(paramValue) : MimeUtility.decodeText(paramValue);
-                    } catch (final UnsupportedEncodingException e) {
+                    } catch (final UnsupportedEncodingException ignored) {
                         // let's keep the original value in this case
                     }
                 }
             }
-            if (hasChar() && (charArray[pos] == separator)) {
+            if (hasChar() && charArray[pos] == separator) {
                 pos++; // skip separator
             }
-            if ((paramName != null) && !paramName.isEmpty()) {
+            if (paramName != null && !paramName.isEmpty()) {
                 paramName = RFC2231Utility.stripDelimiter(paramName);
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ENGLISH);
@@ -259,7 +259,7 @@ public class ParameterParser {
             if (!charEscaped && ch == '"') {
                 quoted = !quoted;
             }
-            charEscaped = (!charEscaped && ch == '\\');
+            charEscaped = !charEscaped && ch == '\\';
             i2++;
             pos++;
 

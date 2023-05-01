@@ -210,11 +210,9 @@ public class DiskFileItem implements FileItem {
     public void delete() {
         cachedContent = null;
         final File outputFile = getStoreLocation();
-        if (outputFile != null && !isInMemory() && outputFile.exists()) {
-            if (!outputFile.delete()) {
-                final String desc = "Cannot delete " + outputFile.toString();
-                throw new UncheckedIOException(desc, new IOException(desc));
-            }
+        if (outputFile != null && !isInMemory() && outputFile.exists() && !outputFile.delete()) {
+            final String desc = "Cannot delete " + outputFile.toString();
+            throw new UncheckedIOException(desc, new IOException(desc));
         }
     }
 
