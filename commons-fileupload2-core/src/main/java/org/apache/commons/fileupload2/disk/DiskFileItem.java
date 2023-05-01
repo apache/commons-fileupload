@@ -105,7 +105,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Returns an identifier that is unique within the class loader used to load this class, but does not have random-like appearance.
+     * Gets an identifier that is unique within the class loader used to load this class, but does not have random-like appearance.
      *
      * @return A String with the non-random looking instance identifier.
      */
