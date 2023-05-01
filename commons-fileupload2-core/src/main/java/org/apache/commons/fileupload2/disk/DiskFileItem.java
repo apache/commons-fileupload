@@ -110,7 +110,7 @@ public class DiskFileItem implements FileItem {
      * @return A String with the non-random looking instance identifier.
      */
     private static String getUniqueId() {
-        final int limit = 100000000;
+        final int limit = 100_000_000;
         final int current = COUNTER.getAndIncrement();
         String id = Integer.toString(current);
 
