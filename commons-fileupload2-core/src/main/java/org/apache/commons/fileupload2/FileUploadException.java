@@ -29,12 +29,6 @@ public class FileUploadException extends IOException {
     private static final long serialVersionUID = 2;
 
     /**
-     * Constructs a new instance.
-     */
-    public FileUploadException() {
-    }
-
-    /**
      * Constructs an instance with a given detail message.
      *
      * @param message The detail message (which is saved for later retrieval by the {@link #getMessage()} method)
