@@ -572,7 +572,6 @@ public class MultipartStream {
      * @since 1.3.1
      */
     public MultipartStream(final InputStream input, final byte[] boundary, final int bufferSize, final ProgressNotifier notifier) {
-
         if (boundary == null) {
             throw new IllegalArgumentException("boundary may not be null");
         }
@@ -674,10 +673,8 @@ public class MultipartStream {
      * @return The position of the boundary found, counting from the beginning of the {@code buffer}, or {@code -1} if not found.
      */
     protected int findSeparator() {
-
         int bufferPos = this.head;
         int tablePos = 0;
-
         while (bufferPos < this.tail) {
             while (tablePos >= 0 && buffer[bufferPos] != boundary[tablePos]) {
                 tablePos = boundaryTable[tablePos];
@@ -738,7 +735,6 @@ public class MultipartStream {
     public boolean readBoundary() throws FileUploadSizeException, MalformedStreamException {
         final byte[] marker = new byte[2];
         final boolean nextChunk;
-
         head += boundaryLength;
         try {
             marker[0] = readByte();
