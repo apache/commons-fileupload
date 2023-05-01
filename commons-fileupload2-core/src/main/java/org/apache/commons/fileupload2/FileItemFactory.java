@@ -31,7 +31,6 @@ public interface FileItemFactory {
      * @param contentType The content type of the form field.
      * @param isFormField {@code true} if this is a plain form field; {@code false} otherwise.
      * @param fileName    The name of the uploaded file, if any, as supplied by the browser or other client.
-     *
      * @return The newly created file item.
      */
     FileItem createItem(String fieldName, String contentType, boolean isFormField, String fileName);
