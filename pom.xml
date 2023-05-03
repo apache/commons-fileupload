@@ -292,7 +292,7 @@
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-library</artifactId>
+      <artifactId>hamcrest</artifactId>
       <version>2.2</version>
       <scope>test</scope>
     </dependency>
@@ -459,11 +459,6 @@
             <includeTestSourceDirectory>false</includeTestSourceDirectory>
             <enableRulesSummary>false</enableRulesSummary>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.4.0.905</version>
         </plugin>
       </plugins>
     </pluginManagement>
