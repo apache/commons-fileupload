@@ -242,7 +242,7 @@
     <commons.lang3.version>3.12.0</commons.lang3.version>
     <japicmp.skip>true</japicmp.skip>
     <clirr.skip>true</clirr.skip>
-    <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
+    <moditect-maven-plugin.version>1.0.0.Final</moditect-maven-plugin.version>
     <moditect.skip>true</moditect.skip>
 
     <!-- Commons Release Plugin -->
