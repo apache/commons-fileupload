@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and 
 # limitations under the License.
 
-name: Sonar
+name: Build
 
 on:
   push:
@@ -29,10 +29,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 11
+      - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 1.8
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
@@ -50,4 +50,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=commons-fileupload -Dsonar.projectName='commons-fileupload'
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=common-fileupload -Dsonar.projectName='common-fileupload'
