@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and 
 # limitations under the License.
 
-name: Sonar
+name: Build
 
 on:
   push:
@@ -50,4 +50,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=common-fileupload -Dsonar.projectName='common-fileupload'
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=commons -Dsonar.projectName='commons'
