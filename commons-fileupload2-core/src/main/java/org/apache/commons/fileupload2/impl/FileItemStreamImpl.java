@@ -26,7 +26,7 @@ import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
 import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
-import org.apache.commons.fileupload2.util.LimitedInputStream;
+import org.apache.commons.io.input.BoundedInputStream;
 
 /**
  * Default implementation of {@link FileItemStream}.
@@ -103,9 +103,9 @@ public class FileItemStreamImpl implements FileItemStream {
         final ItemInputStream itemInputStream = fileItemIteratorImpl.getMultiPartStream().newInputStream();
         InputStream istream = itemInputStream;
         if (fileSizeMax != -1) {
-            istream = new LimitedInputStream(istream, fileSizeMax) {
+            istream = new BoundedInputStream(istream, fileSizeMax) {
                 @Override
-                protected void raiseError(final long sizeMax, final long count) throws IOException {
+                protected void onMaxLength(final long sizeMax, final long count) throws IOException {
                     itemInputStream.close(true);
                     throw new FileUploadByteCountLimitException(
                             String.format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, sizeMax), count, sizeMax, fileName,

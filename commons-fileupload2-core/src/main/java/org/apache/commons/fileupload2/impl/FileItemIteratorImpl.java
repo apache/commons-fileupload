@@ -35,8 +35,8 @@ import org.apache.commons.fileupload2.ProgressListener;
 import org.apache.commons.fileupload2.RequestContext;
 import org.apache.commons.fileupload2.pub.FileUploadContentTypeException;
 import org.apache.commons.fileupload2.pub.FileUploadSizeException;
-import org.apache.commons.fileupload2.util.LimitedInputStream;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.BoundedInputStream;
 
 /**
  * The iterator, which is returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
@@ -269,9 +269,9 @@ public class FileItemIteratorImpl implements FileItemIterator {
                         requestSize);
             }
             // N.B. this is eventually closed in MultipartStream processing
-            input = new LimitedInputStream(ctx.getInputStream(), sizeMax) {
+            input = new BoundedInputStream(ctx.getInputStream(), sizeMax) {
                 @Override
-                protected void raiseError(final long maxLen, final long count) throws IOException {
+                protected void onMaxLength(final long maxLen, final long count) throws IOException {
                     throw new FileUploadSizeException(
                             String.format("The request was rejected because its size (%s) exceeds the configured maximum (%s)", count, maxLen), maxLen, count);
                 }
