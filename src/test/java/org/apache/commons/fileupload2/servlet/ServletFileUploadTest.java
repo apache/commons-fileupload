@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
 public class ServletFileUploadTest {
 
     @Test
-    public void parseImpliedUtf8()
+    void parseImpliedUtf8()
         throws Exception {
         // utf8 encoded form-data without explicit content-type encoding
         final String text = "-----1234\r\n" +
@@ -67,7 +67,7 @@ public class ServletFileUploadTest {
      * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-210">
      */
     @Test
-    public void parseParameterMap()
+    void parseParameterMap()
             throws Exception {
         final String text = "-----1234\r\n" +
                       "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
