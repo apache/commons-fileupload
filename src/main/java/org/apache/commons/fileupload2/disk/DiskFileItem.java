@@ -603,14 +603,12 @@ public class DiskFileItem implements FileItem {
             final StringBuilder sb = new StringBuilder();
             for (int i = 0;  i < fileName.length();  i++) {
                 final char c = fileName.charAt(i);
-                switch (c) {
-                    case 0:
-                        sb.append("\\0");
-                        break;
-                    default:
-                        sb.append(c);
-                        break;
+                if (c == 0) {
+                    sb.append("\\0");
+                } else {
+                    sb.append(c);
                 }
+
             }
             throw new InvalidFileNameException(fileName,
                     "Invalid file name: " + sb);
