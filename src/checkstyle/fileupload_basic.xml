@@ -17,9 +17,9 @@
 -->
 
 <ruleset name="FileUpload Basic Rules">
-  <description>PMD Basic Ruleset minus the EmptyCatchBlock rule.</description>
+  <description>PMD Basic Rule set minus the EmptyCatchBlock rule.</description>
 
-  <rule ref="category/java/errorprone.xml">
+  <rule ref="category/java/error prone.xml">
     <exclude name="EmptyCatchBlock"/>
   </rule>
 </ruleset>
