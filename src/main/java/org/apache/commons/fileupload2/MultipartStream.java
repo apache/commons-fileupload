@@ -657,7 +657,7 @@ public class MultipartStream {
      * Searches for a byte of specified value in the {@code buffer}, starting at the specified {@code position}.
      *
      * @param value The value to find.
-     * @param pos   The starting position for searching.
+     * @param pos   The starting position for searching .
      *
      * @return The position of byte found, counting from beginning of the {@code buffer}, or {@code -1} if not found.
      */
