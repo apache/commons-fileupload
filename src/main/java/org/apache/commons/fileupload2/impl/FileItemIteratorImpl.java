@@ -116,7 +116,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
      * @throws FileUploadException An error occurred while parsing the request.
      * @throws IOException         An I/O error occurred.
      */
-    public FileItemIteratorImpl(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
+    public FileItemIteratorImpl(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws IOException {
         this.fileUploadBase = fileUploadBase;
         this.sizeMax = fileUploadBase.getSizeMax();
         this.fileSizeMax = fileUploadBase.getFileSizeMax();
@@ -131,7 +131,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
      * @return True, if an next item was found, otherwise false.
      * @throws IOException An I/O error occurred.
      */
-    private boolean findNextItem() throws FileUploadException, IOException {
+    private boolean findNextItem() throws IOException {
         if (eof) {
             return false;
         }
@@ -218,7 +218,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
         return fileSizeMax;
     }
 
-    public MultipartStream getMultiPartStream() throws FileUploadException, IOException {
+    public MultipartStream getMultiPartStream() throws IOException {
         if (multiPartStream == null) {
             init(fileUploadBase, ctx);
         }
@@ -238,7 +238,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
      * @return True, if one or more additional file items are available, otherwise false.
      */
     @Override
-    public boolean hasNext() throws FileUploadException, IOException {
+    public boolean hasNext() throws IOException {
         if (eof) {
             return false;
         }
@@ -248,7 +248,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
         return findNextItem();
     }
 
-    protected void init(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
+    protected void init(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws IOException {
         final String contentType = ctx.getContentType();
         if ((null == contentType) || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART))) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
@@ -311,7 +311,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
      * @return FileItemStream instance, which provides access to the next file item.
      */
     @Override
-    public FileItemStream next() throws FileUploadException, IOException {
+    public FileItemStream next() throws IOException {
         if (eof || (!itemValid && !hasNext())) {
             throw new NoSuchElementException();
         }
