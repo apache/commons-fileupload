@@ -646,7 +646,7 @@ public class MultipartStream {
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
-    public long discardBodyData() throws MalformedStreamException, IOException {
+    public long discardBodyData() throws IOException {
         return readBodyData(NullOutputStream.NULL_OUTPUT_STREAM);
     }
 
