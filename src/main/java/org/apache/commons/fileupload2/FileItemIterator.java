@@ -74,7 +74,7 @@ public interface FileItemIterator {
      * @return FileItemStream instance, which provides
      *   access to the next file item.
      */
-    FileItemStream next() throws FileUploadException, IOException;
+    FileItemStream next() throws IOException;
 
     /**
      * Sets the maximum size of a single file. An {@link FileUploadByteCountLimitException}
