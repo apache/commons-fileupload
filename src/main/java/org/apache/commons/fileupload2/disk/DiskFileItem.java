@@ -155,12 +155,12 @@ public class DiskFileItem implements FileItem {
     /**
      * Output stream for this item.
      */
-    private transient DeferredFileOutputStream dfos;
+    private DeferredFileOutputStream dfos;
 
     /**
      * The temporary file to use.
      */
-    private transient File tempFile;
+    private File tempFile;
 
     /**
      * The file items headers.
@@ -432,7 +432,7 @@ public class DiskFileItem implements FileItem {
      */
     @Override
     public String getString(final String charset)
-        throws UnsupportedEncodingException, IOException {
+        throws IOException {
         return new String(get(), charset);
     }
 
