@@ -106,7 +106,7 @@ public final class RFC2231Utility {
                 }
                 final byte b1 = HEX_DECODE[text.charAt(i++) & MASK];
                 final byte b2 = HEX_DECODE[text.charAt(i++) & MASK];
-                out.write((b1 << shift) | b2);
+                out.write((b1 << shift) | b2 & 0xff);
             } else {
                 out.write((byte) c);
             }
