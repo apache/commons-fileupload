@@ -43,7 +43,7 @@ public abstract class LimitedInputStream extends FilterInputStream {
      * @param sizeMax The limit; no more than this number of bytes
      *   shall be returned by the source stream.
      */
-    protected LimitedInputStream(final InputStream inputStream, final long sizeMax) {
+    public LimitedInputStream(final InputStream inputStream, final long sizeMax) {
         super(inputStream);
         this.sizeMax = sizeMax;
     }

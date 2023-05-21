@@ -98,15 +98,15 @@ public final class RFC2231Utility {
     private static byte[] fromHex(final String text) {
         final int shift = 4;
         final ByteArrayOutputStream out = new ByteArrayOutputStream(text.length());
-        for (int i = 0; i < text.length(); i++) {
-            final char c = text.charAt(i);
+        for (int i = 0; i < text.length();) {
+            final char c = text.charAt(i++);
             if (c == '%') {
                 if (i > text.length() - 2) {
                     break; // unterminated sequence
                 }
-                final byte b1 = HEX_DECODE[text.charAt(i) & MASK];
-                final byte b2 = HEX_DECODE[text.charAt(i) & MASK];
-                out.write((b1 << shift) | b2 & 0xff);
+                final byte b1 = HEX_DECODE[text.charAt(i++) & MASK];
+                final byte b2 = HEX_DECODE[text.charAt(i++) & MASK];
+                out.write((b1 << shift) | b2);
             } else {
                 out.write((byte) c);
             }

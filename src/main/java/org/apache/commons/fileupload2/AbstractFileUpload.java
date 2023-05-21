@@ -291,7 +291,7 @@ public abstract class AbstractFileUpload {
      *   error while communicating with the client or a problem while
      *   storing the uploaded content.
      */
-    public FileItemIterator getItemIterator(final RequestContext ctx) throws IOException {
+    public FileItemIterator getItemIterator(final RequestContext ctx) throws FileUploadException, IOException {
         return new FileItemIteratorImpl(this, ctx);
     }
 

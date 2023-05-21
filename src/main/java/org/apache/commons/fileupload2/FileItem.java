@@ -125,7 +125,7 @@ public interface FileItem extends FileItemHeadersSupport {
      * @throws UnsupportedEncodingException if the requested character encoding is not available.
      * @throws IOException                  if an I/O error occurs
      */
-    String getString(String encoding) throws IOException;
+    String getString(String encoding) throws UnsupportedEncodingException, IOException;
 
     /**
      * Tests whether or not a {@code FileItem} instance represents a simple form field.

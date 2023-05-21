@@ -79,10 +79,7 @@ import org.apache.commons.io.output.NullOutputStream;
  * </pre>
  */
 public class MultipartStream {
-    /**
-     * stream ended unexpectdly replacement.
-     */
-    public static final String MY_CONSTANT = "Stream ended unexpectedly";
+
     /**
      * Signals an attempt to set an invalid boundary token.
      */
@@ -245,7 +242,7 @@ public class MultipartStream {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so signal an error
                     // condition.
-                    final String msg = MY_CONSTANT;
+                    final String msg = "Stream ended unexpectedly";
                     throw new MalformedStreamException(msg);
                 }
                 if (notifier != null) {
@@ -649,7 +646,7 @@ public class MultipartStream {
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
-    public long discardBodyData() throws IOException {
+    public long discardBodyData() throws MalformedStreamException, IOException {
         return readBodyData(NullOutputStream.NULL_OUTPUT_STREAM);
     }
 
@@ -657,7 +654,7 @@ public class MultipartStream {
      * Searches for a byte of specified value in the {@code buffer}, starting at the specified {@code position}.
      *
      * @param value The value to find.
-     * @param pos   The starting position for searching .
+     * @param pos   The starting position for searching.
      *
      * @return The position of byte found, counting from beginning of the {@code buffer}, or {@code -1} if not found.
      */
@@ -724,7 +721,7 @@ public class MultipartStream {
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
-    public long readBodyData(final OutputStream output) throws IOException {
+    public long readBodyData(final OutputStream output) throws MalformedStreamException, IOException {
         try (ItemInputStream inputStream = newInputStream()) {
             return IOUtils.copyLarge(inputStream, output);
         }
@@ -765,7 +762,7 @@ public class MultipartStream {
         } catch (final FileUploadSizeException e) {
             throw e;
         } catch (final IOException e) {
-            throw new MalformedStreamException(MY_CONSTANT, e);
+            throw new MalformedStreamException("Stream ended unexpectedly", e);
         }
         return nextChunk;
     }
@@ -818,7 +815,7 @@ public class MultipartStream {
                 // wraps a FileUploadSizeException, re-throw as it will be unwrapped later
                 throw e;
             } catch (final IOException e) {
-                throw new MalformedStreamException(MY_CONSTANT, e);
+                throw new MalformedStreamException("Stream ended unexpectedly", e);
             }
             if (++size > HEADER_PART_SIZE_MAX) {
                 throw new MalformedStreamException(

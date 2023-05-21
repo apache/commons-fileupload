@@ -29,7 +29,7 @@ import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
  */
 public interface FileItemIterator {
 
-    List<FileItem> getFileItems() throws IOException;
+    List<FileItem> getFileItems() throws FileUploadException, IOException;
 
     /**
      * Gets the maximum size of a single file. An {@link FileUploadByteCountLimitException}
@@ -74,7 +74,7 @@ public interface FileItemIterator {
      * @return FileItemStream instance, which provides
      *   access to the next file item.
      */
-    FileItemStream next() throws IOException;
+    FileItemStream next() throws FileUploadException, IOException;
 
     /**
      * Sets the maximum size of a single file. An {@link FileUploadByteCountLimitException}
