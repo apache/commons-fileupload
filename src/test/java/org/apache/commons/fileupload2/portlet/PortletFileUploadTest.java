@@ -43,7 +43,7 @@ public class PortletFileUploadTest {
     private PortletFileUpload upload;
 
     @Test
-    public void parseParameterMap()
+    void parseParameterMap()
             throws Exception {
         final String text = "-----1234\r\n" +
                       "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
