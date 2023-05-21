@@ -74,13 +74,13 @@ public class FileItemHeadersTest {
 
         headerValueEnumeration = aMutableFileItemHeaders.getHeaders("TestHeader");
         assertTrue(headerValueEnumeration.hasNext());
-        assertEquals(headerValueEnumeration.next(), "headerValue1");
+        assertEquals("headerValue1", headerValueEnumeration.next());
         assertTrue(headerValueEnumeration.hasNext());
-        assertEquals(headerValueEnumeration.next(), "headerValue2");
+        assertEquals("headerValue2", headerValueEnumeration.next());
         assertTrue(headerValueEnumeration.hasNext());
-        assertEquals(headerValueEnumeration.next(), "headerValue3");
+        assertEquals("headerValue3", headerValueEnumeration.next());
         assertTrue(headerValueEnumeration.hasNext());
-        assertEquals(headerValueEnumeration.next(), "headerValue4");
+        assertEquals("headerValue4", headerValueEnumeration.next());
         assertFalse(headerValueEnumeration.hasNext());
 
         headerValueEnumeration = aMutableFileItemHeaders.getHeaders("DummyHeader");
