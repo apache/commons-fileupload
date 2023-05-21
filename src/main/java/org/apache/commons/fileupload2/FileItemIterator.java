@@ -61,7 +61,7 @@ public interface FileItemIterator {
      * @return True, if one or more additional file items
      *   are available, otherwise false.
      */
-    boolean hasNext() throws FileUploadException, IOException;
+    boolean hasNext() throws IOException;
 
     /**
      * Returns the next available {@link FileItemStream}.
