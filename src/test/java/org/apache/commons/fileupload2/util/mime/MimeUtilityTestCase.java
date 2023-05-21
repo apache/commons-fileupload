@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  * @since 1.3
  */
-public final class MimeUtilityTestCase {
+final class MimeUtilityTestCase {
 
     private static void assertEncoded(final String expected, final String encoded) throws Exception {
         assertEquals(expected, MimeUtility.decodeText(encoded));
