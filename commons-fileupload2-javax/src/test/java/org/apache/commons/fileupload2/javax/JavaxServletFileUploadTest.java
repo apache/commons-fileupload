@@ -37,9 +37,9 @@ import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
-public class ServletFileUploadTest extends AbstractFileUploadTest {
+public class JavaxServletFileUploadTest extends AbstractFileUploadTest {
 
-    public ServletFileUploadTest() {
+    public JavaxServletFileUploadTest() {
         super(new ServletFileUpload(new DiskFileItemFactory()));
     }
 
