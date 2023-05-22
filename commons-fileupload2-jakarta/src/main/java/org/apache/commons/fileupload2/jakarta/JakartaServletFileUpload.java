@@ -48,7 +48,7 @@ public class JakartaServletFileUpload extends FileUpload {
     private static final String POST_METHOD = "POST";
 
     /**
-     * Utility method that determines whether the request contains multipart content.
+     * Tests whether the request contains multipart content.
      *
      * @param request The servlet request to be evaluated. Must be non-null.
      *
