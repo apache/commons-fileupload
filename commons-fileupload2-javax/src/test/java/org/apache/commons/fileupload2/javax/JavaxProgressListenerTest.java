@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests the {@link ProgressListener}.
  */
-public class ProgressListenerTest {
+public class JavaxProgressListenerTest {
 
     private static class ProgressListenerImpl implements ProgressListener {
 
