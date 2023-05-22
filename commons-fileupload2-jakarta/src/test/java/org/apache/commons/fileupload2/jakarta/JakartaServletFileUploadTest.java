@@ -52,7 +52,7 @@ public class JakartaServletFileUploadTest {
         // @formatter:on
 
         final byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
-        final HttpServletRequest request = new MockJakartaServletHttpRequest(bytes, Constants.CONTENT_TYPE);
+        final HttpServletRequest request = new JakartaMockServletHttpRequest(bytes, Constants.CONTENT_TYPE);
 
         final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
         fileItemFactory.setDefaultCharset("UTF-8");
@@ -89,7 +89,7 @@ public class JakartaServletFileUploadTest {
                       "-----1234--\r\n";
         // @formatter:on
         final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
-        final HttpServletRequest request = new MockJakartaServletHttpRequest(bytes, Constants.CONTENT_TYPE);
+        final HttpServletRequest request = new JakartaMockServletHttpRequest(bytes, Constants.CONTENT_TYPE);
 
         final JakartaServletFileUpload upload = new JakartaServletFileUpload(new DiskFileItemFactory());
         final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
