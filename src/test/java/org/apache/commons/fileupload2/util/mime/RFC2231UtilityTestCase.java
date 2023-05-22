@@ -38,12 +38,12 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
-    public void decodeInvalidEncoding() throws Exception {
+    void decodeInvalidEncoding() throws Exception {
         assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utility.decodeText("abc'en'hello"));
     }
 
     @Test
-    public void decodeIso88591() throws Exception {
+    void decodeIso88591() throws Exception {
         assertEncoded("\u00A3 rate", "iso-8859-1'en'%A3%20rate"); //"£ rate"
     }
 
