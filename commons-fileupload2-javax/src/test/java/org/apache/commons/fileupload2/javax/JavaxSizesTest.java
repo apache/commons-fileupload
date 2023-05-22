@@ -22,13 +22,13 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.Constants;
-import org.apache.commons.fileupload2.SizesTest;
+import org.apache.commons.fileupload2.AbstractSizesTest;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 
 /**
  * Unit test for items with varying sizes.
  */
-public class JavaxSizesTest extends SizesTest<ServletFileUpload, HttpServletRequest> {
+public class JavaxSizesTest extends AbstractSizesTest<ServletFileUpload, HttpServletRequest> {
 
     @Override
     protected ServletFileUpload newFileUpload() {

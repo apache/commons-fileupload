@@ -20,7 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.fileupload2.Constants;
-import org.apache.commons.fileupload2.SizesTest;
+import org.apache.commons.fileupload2.AbstractSizesTest;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * Unit test for items with varying sizes.
  */
-public class JakartaSizesTest extends SizesTest<JakartaServletFileUpload, HttpServletRequest> {
+public class JakartaSizesTest extends AbstractSizesTest<JakartaServletFileUpload, HttpServletRequest> {
 
     @Override
     protected JakartaServletFileUpload newFileUpload() {
