@@ -79,6 +79,10 @@ import org.apache.commons.io.output.NullOutputStream;
  * </pre>
  */
 public class MultipartStream {
+    /**
+     * stream ended unexpectdly replacement.
+     */
+    public static final String MY_CONSTANT = "Stream ended unexpectedly";
 
     /**
      * Signals an attempt to set an invalid boundary token.
@@ -242,7 +246,7 @@ public class MultipartStream {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so signal an error
                     // condition.
-                    final String msg = "Stream ended unexpectedly";
+                    final String msg = MY_CONSTANT;
                     throw new MalformedStreamException(msg);
                 }
                 if (notifier != null) {
@@ -762,7 +766,7 @@ public class MultipartStream {
         } catch (final FileUploadSizeException e) {
             throw e;
         } catch (final IOException e) {
-            throw new MalformedStreamException("Stream ended unexpectedly", e);
+            throw new MalformedStreamException(MY_CONSTANT, e);
         }
         return nextChunk;
     }
@@ -815,7 +819,7 @@ public class MultipartStream {
                 // wraps a FileUploadSizeException, re-throw as it will be unwrapped later
                 throw e;
             } catch (final IOException e) {
-                throw new MalformedStreamException("Stream ended unexpectedly", e);
+                throw new MalformedStreamException(MY_CONSTANT, e);
             }
             if (++size > HEADER_PART_SIZE_MAX) {
                 throw new MalformedStreamException(
