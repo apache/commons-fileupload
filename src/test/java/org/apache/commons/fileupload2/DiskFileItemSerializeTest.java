@@ -141,7 +141,7 @@ public class DiskFileItemSerializeTest {
      * Test creation of a field for which the amount of data falls above the configured threshold.
      */
     @Test
-    public void testAboveThreshold() throws IOException {
+    void testAboveThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD + 1);
         final FileItem item = createFileItem(testFieldValueBytes);
@@ -159,7 +159,7 @@ public class DiskFileItemSerializeTest {
      * Test creation of a field for which the amount of data falls below the configured threshold.
      */
     @Test
-    public void testBelowThreshold() throws IOException {
+    void testBelowThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD - 1);
         testInMemoryObject(testFieldValueBytes);
@@ -190,7 +190,7 @@ public class DiskFileItemSerializeTest {
      * Test deserialization fails when repository is not valid.
      */
     @Test
-    public void testInvalidRepository() throws IOException {
+    void testInvalidRepository() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(FileUtils.getTempDirectory(), "file");
@@ -202,7 +202,7 @@ public class DiskFileItemSerializeTest {
      * Fails when repository contains a null character.
      */
     @Test
-    public void testInvalidRepositoryWithNullChar() throws IOException {
+    void testInvalidRepositoryWithNullChar() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(FileUtils.getTempDirectory(), "\0");
@@ -215,7 +215,7 @@ public class DiskFileItemSerializeTest {
      * Test creation of a field for which the amount of data equals the configured threshold.
      */
     @Test
-    public void testThreshold() throws IOException {
+    void testThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes);
@@ -225,7 +225,7 @@ public class DiskFileItemSerializeTest {
      * Test serialization and deserialization when repository is not null.
      */
     @Test
-    public void testValidRepository() throws IOException {
+    void testValidRepository() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes, REPOSITORY);

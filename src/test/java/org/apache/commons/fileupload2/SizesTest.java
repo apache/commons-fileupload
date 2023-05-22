@@ -46,7 +46,7 @@ public class SizesTest {
     /** Checks, whether limiting the file size works.
      */
     @Test
-    public void testFileSizeLimit()
+    void testFileSizeLimit()
             throws IOException, FileUploadException {
         final String request =
             "-----1234\r\n" +
@@ -88,7 +88,7 @@ public class SizesTest {
     /** Checks, whether a faked Content-Length header is detected.
      */
     @Test
-    public void testFileSizeLimitWithFakedContentLength()
+    void testFileSizeLimitWithFakedContentLength()
             throws IOException, FileUploadException {
         final String request =
             "-----1234\r\n" +
@@ -144,7 +144,7 @@ public class SizesTest {
      * Runs a test with varying file sizes.
      */
     @Test
-    public void testFileUpload()
+    void testFileUpload()
             throws IOException, FileUploadException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int add = 16;
@@ -187,7 +187,7 @@ public class SizesTest {
     /** Checks, whether the maxSize works.
      */
     @Test
-    public void testMaxSizeLimit()
+    void testMaxSizeLimit()
             throws IOException, FileUploadException {
         final String request =
             "-----1234\r\n" +
@@ -220,7 +220,7 @@ public class SizesTest {
     }
 
     @Test
-    public void testMaxSizeLimitUnknownContentLength()
+    void testMaxSizeLimitUnknownContentLength()
             throws IOException, FileUploadException {
         final String request =
             "-----1234\r\n" +

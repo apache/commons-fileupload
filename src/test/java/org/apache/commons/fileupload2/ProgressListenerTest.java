@@ -97,7 +97,7 @@ public class ProgressListenerTest {
      * Parse a very long file upload by using a progress listener.
      */
     @Test
-    public void testProgressListener() throws Exception {
+    void testProgressListener() throws Exception {
         final int NUM_ITEMS = 512;
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         for (int i = 0;  i < NUM_ITEMS;  i++) {

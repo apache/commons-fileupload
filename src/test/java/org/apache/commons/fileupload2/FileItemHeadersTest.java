@@ -36,7 +36,7 @@ public class FileItemHeadersTest {
      * @throws Exception
      */
     @Test
-    public void testFileItemHeaders() throws Exception {
+    void testFileItemHeaders() throws Exception {
         final FileItemHeadersImpl aMutableFileItemHeaders = new FileItemHeadersImpl();
         aMutableFileItemHeaders.addHeader("Content-Disposition",
                 "form-data; name=\"FileItem\"; filename=\"file1.txt\"");

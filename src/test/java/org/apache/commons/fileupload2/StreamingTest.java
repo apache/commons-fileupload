@@ -117,7 +117,7 @@ public class StreamingTest {
      * Tests a file upload with varying file sizes.
      */
     @Test
-    public void testFileUpload()
+    void testFileUpload()
             throws IOException, FileUploadException {
         final byte[] request = newRequest();
         final List<FileItem> fileItems = parseUpload(request);
@@ -143,7 +143,7 @@ public class StreamingTest {
      * Test for FILEUPLOAD-135
      */
     @Test
-    public void testFILEUPLOAD135()
+    void testFILEUPLOAD135()
             throws IOException, FileUploadException {
         final byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
@@ -178,7 +178,7 @@ public class StreamingTest {
      * exception.
      */
     @Test
-    public void testFileUploadException()
+    void testFileUploadException()
             throws IOException, FileUploadException {
         final byte[] request = newRequest();
         final byte[] invalidRequest = new byte[request.length - 11];
@@ -195,7 +195,7 @@ public class StreamingTest {
      * Tests, whether an {@link InvalidFileNameException} is thrown.
      */
     @Test
-    public void testInvalidFileNameException() throws Exception {
+    void testInvalidFileNameException() throws Exception {
         final String fileName = "foo.exe\u0000.png";
         final String request =
             "-----1234\r\n" +
@@ -244,7 +244,7 @@ public class StreamingTest {
      * Tests, whether an IOException is properly delegated.
      */
     @Test
-    public void testIOException()
+    void testIOException()
             throws IOException {
         final byte[] request = newRequest();
         final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)) {

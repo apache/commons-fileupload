@@ -66,7 +66,7 @@ public class FileUploadTest {
      */
     @ParameterizedTest
     @MethodSource("data")
-    public void testContentTypeAttachment(final FileUpload upload)
+    void testContentTypeAttachment(final FileUpload upload)
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                 "-----1234\r\n" +
@@ -104,7 +104,7 @@ public class FileUploadTest {
      */
     @ParameterizedTest
     @MethodSource("data")
-    public void testEmptyFile(final FileUpload upload)
+    void testEmptyFile(final FileUpload upload)
             throws FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload (upload,
                                                 "-----1234\r\n" +
@@ -122,7 +122,7 @@ public class FileUploadTest {
 
     @ParameterizedTest
     @MethodSource("data")
-    public void testFilenameCaseSensitivity(final FileUpload upload)
+    void testFilenameCaseSensitivity(final FileUpload upload)
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
@@ -142,7 +142,7 @@ public class FileUploadTest {
 
     @ParameterizedTest
     @MethodSource("data")
-    public void testFileUpload(final FileUpload upload)
+    void testFileUpload(final FileUpload upload)
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
@@ -195,7 +195,7 @@ public class FileUploadTest {
      */
     @ParameterizedTest
     @MethodSource("data")
-    public void testFileUpload130(final FileUpload upload)
+    void testFileUpload130(final FileUpload upload)
             throws Exception {
         final String[] headerNames = {
             "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader"
@@ -250,7 +250,7 @@ public class FileUploadTest {
      */
     @ParameterizedTest
     @MethodSource("data")
-    public void testFILEUPLOAD62(final FileUpload upload) throws Exception {
+    void testFILEUPLOAD62(final FileUpload upload) throws Exception {
         final String contentType = "multipart/form-data; boundary=AaB03x";
         final String request =
             "--AaB03x\r\n" +
@@ -296,7 +296,7 @@ public class FileUploadTest {
      */
     @ParameterizedTest
     @MethodSource("data")
-    public void testFoldedHeaders(final FileUpload upload)
+    void testFoldedHeaders(final FileUpload upload)
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload, "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
@@ -351,7 +351,7 @@ public class FileUploadTest {
      */
     @ParameterizedTest
     @MethodSource("data")
-    public void testIE5MacBug(final FileUpload upload)
+    void testIE5MacBug(final FileUpload upload)
             throws FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +

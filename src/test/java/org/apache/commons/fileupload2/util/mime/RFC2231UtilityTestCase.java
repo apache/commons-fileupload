@@ -48,18 +48,18 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
-    public void decodeUtf8() throws Exception {
+    void decodeUtf8() throws Exception {
         assertEncoded("\u00a3 \u0061\u006e\u0064 \u20ac \u0072\u0061\u0074\u0065\u0073",
                 "UTF-8''%c2%a3%20and%20%e2%82%ac%20rates"); //"£ and € rates"
     }
 
     @Test
-    public void noNeedToDecode() throws Exception {
+    void noNeedToDecode() throws Exception {
         assertEncoded("abc", "abc");
     }
 
     @Test
-    public void testHasEncodedValue() {
+    void testHasEncodedValue() {
         final String nameWithAsteriskAtEnd = "paramname*";
         assertTrue(RFC2231Utility.hasEncodedValue(nameWithAsteriskAtEnd));
 
@@ -71,7 +71,7 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
-    public void testStripDelimiter() {
+    void testStripDelimiter() {
         final String nameWithAsteriskAtEnd = "paramname*";
         assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithAsteriskAtEnd));
 

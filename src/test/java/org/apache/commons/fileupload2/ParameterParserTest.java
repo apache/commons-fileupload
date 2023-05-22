@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 public class ParameterParserTest {
 
     @Test
-    public void testContentTypeParsing() {
+    void testContentTypeParsing() {
         final String s = "text/plain; Charset=UTF-8";
         final ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
@@ -39,7 +39,7 @@ public class ParameterParserTest {
 
     // See: https://issues.apache.org/jira/browse/FILEUPLOAD-139
     @Test
-    public void testFileUpload139() {
+    void testFileUpload139() {
         final ParameterParser parser = new ParameterParser();
         String s = "Content-type: multipart/form-data , boundary=AaB03x";
         Map<String, String> params = parser.parse(s, new char[] {',', ';' });
@@ -58,7 +58,7 @@ public class ParameterParserTest {
      * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>
      */
     @Test
-    public void testFileUpload199() {
+    void testFileUpload199() {
         final ParameterParser parser = new ParameterParser();
         final String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-"
                 + "1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
@@ -70,7 +70,7 @@ public class ParameterParserTest {
      * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-274">FILEUPLOAD-274</a>
      */
     @Test
-    public void testFileUpload274() {
+    void testFileUpload274() {
         final ParameterParser parser = new ParameterParser();
 
         // Should parse a UTF-8 charset
@@ -101,7 +101,7 @@ public class ParameterParserTest {
     }
 
     @Test
-    public void testParsing() {
+    void testParsing() {
         String s =
             "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
         final ParameterParser parser = new ParameterParser();
@@ -138,7 +138,7 @@ public class ParameterParserTest {
     }
 
     @Test
-    public void testParsingEscapedChars() {
+    void testParsingEscapedChars() {
         String s = "param = \"stuff\\\"; more stuff\"";
         final ParameterParser parser = new ParameterParser();
         Map<String, String> params = parser.parse(s, ';');
