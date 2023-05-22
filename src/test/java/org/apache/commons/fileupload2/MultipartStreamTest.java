@@ -38,12 +38,11 @@ public class MultipartStreamTest {
         final InputStream input = new ByteArrayInputStream(contents);
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
         final int iBufSize = 1;
-        assertThrows(IllegalArgumentException.class,
-                () -> new MultipartStream(
-                        input,
-                        boundary,
-                        iBufSize,
-                        new MultipartStream.ProgressNotifier(null, contents.length)));
+        assertThrows(IllegalArgumentException.class, () -> {
+            MultipartStream.ProgressNotifier progressNotifier = new MultipartStream.ProgressNotifier(null, contents.length);
+            new MultipartStream(input, boundary, iBufSize, progressNotifier);
+        });
+
     }
 
     @Test
