@@ -36,7 +36,7 @@ public class PortletRequestContext extends AbstractRequestContext {
     private final ActionRequest request;
 
     /**
-     * Construct a context for this request.
+     * Constructs a context for this request.
      *
      * @param request The request to which this context applies.
      */
