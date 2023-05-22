@@ -43,7 +43,7 @@ import org.apache.commons.fileupload2.FileUploadException;
  *
  * @since 1.1
  */
-public class PortletFileUpload extends FileUpload {
+public class PortletFileUpload extends FileUpload<ActionRequest> {
 
     /**
      * Tests whether the request contains multipart content.
@@ -83,6 +83,7 @@ public class PortletFileUpload extends FileUpload {
      * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
      *                             uploaded content.
      */
+    @Override
     public FileItemIterator getItemIterator(final ActionRequest request) throws FileUploadException, IOException {
         return super.getItemIterator(new PortletRequestContext(request));
     }
@@ -95,6 +96,7 @@ public class PortletFileUpload extends FileUpload {
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      * @since 1.3
      */
+    @Override
     public Map<String, List<FileItem>> parseParameterMap(final ActionRequest request) throws FileUploadException {
         return parseParameterMap(new PortletRequestContext(request));
     }
@@ -106,6 +108,7 @@ public class PortletFileUpload extends FileUpload {
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
+    @Override
     public List<FileItem> parseRequest(final ActionRequest request) throws FileUploadException {
         return parseRequest(new PortletRequestContext(request));
     }

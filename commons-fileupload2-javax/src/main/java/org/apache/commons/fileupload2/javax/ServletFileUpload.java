@@ -40,7 +40,7 @@ import org.apache.commons.fileupload2.FileUploadException;
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
  * </p>
  */
-public class ServletFileUpload extends FileUpload {
+public class ServletFileUpload extends FileUpload<HttpServletRequest> {
 
     /**
      * Constant for HTTP POST method.
@@ -86,6 +86,7 @@ public class ServletFileUpload extends FileUpload {
      * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
      *                             uploaded content.
      */
+    @Override
     public FileItemIterator getItemIterator(final HttpServletRequest request) throws FileUploadException, IOException {
         return super.getItemIterator(new ServletRequestContext(request));
     }
@@ -98,6 +99,7 @@ public class ServletFileUpload extends FileUpload {
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      * @since 1.3
      */
+    @Override
     public Map<String, List<FileItem>> parseParameterMap(final HttpServletRequest request) throws FileUploadException {
         return parseParameterMap(new ServletRequestContext(request));
     }
@@ -109,6 +111,7 @@ public class ServletFileUpload extends FileUpload {
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
+    @Override
     public List<FileItem> parseRequest(final HttpServletRequest request) throws FileUploadException {
         return parseRequest(new ServletRequestContext(request));
     }

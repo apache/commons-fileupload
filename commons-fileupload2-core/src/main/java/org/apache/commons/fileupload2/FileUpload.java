@@ -16,22 +16,23 @@
  */
 package org.apache.commons.fileupload2;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 /**
- * <p>
  * High level API for processing file uploads.
- * </p>
- *
  * <p>
  * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(RequestContext)} to acquire a list of
- * {@link org.apache.commons.fileupload2.FileItem FileItems} associated with a given HTML widget.
+ * {@link org.apache.commons.fileupload2.FileItem} associated with a given HTML widget.
  * </p>
- *
  * <p>
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
  * </p>
+ * @param <T> the context type
  */
-public class FileUpload extends AbstractFileUpload {
+public abstract class FileUpload<T> extends AbstractFileUpload {
 
     /**
      * The factory to use to create new form items.
@@ -77,5 +78,35 @@ public class FileUpload extends AbstractFileUpload {
     public void setFileItemFactory(final FileItemFactory factory) {
         this.fileItemFactory = factory;
     }
+
+    /**
+     * Gets a file item iterator.
+     *
+     * @param request The servlet request to be parsed.
+     * @return An iterator to instances of {@code FileItemStream} parsed from the request, in the order that they were transmitted.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
+     *                             uploaded content.
+     */
+    public abstract FileItemIterator getItemIterator(T request) throws FileUploadException, IOException;
+
+    /**
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     *
+     * @param request The servlet request to be parsed.
+     * @return A map of {@code FileItem} instances parsed from the request.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     * @since 1.3
+     */
+    public abstract Map<String, List<FileItem>> parseParameterMap(T request) throws FileUploadException;
+
+    /**
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     *
+     * @param request The servlet request to be parsed.
+     * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     */
+    public abstract List<FileItem> parseRequest(T request) throws FileUploadException;
 
 }
