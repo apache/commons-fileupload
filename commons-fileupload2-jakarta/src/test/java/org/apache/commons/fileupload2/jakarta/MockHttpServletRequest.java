@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.javax;
+package org.apache.commons.fileupload2.jakarta;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -22,19 +22,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.fileupload2.AbstractFileUpload;
+
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 
 public class MockHttpServletRequest implements HttpServletRequest {
 
@@ -52,6 +62,18 @@ public class MockHttpServletRequest implements HttpServletRequest {
         }
 
         @Override
+        public boolean isFinished() {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public boolean isReady() {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
         public int read() throws IOException {
             return inputStream.read();
         }
@@ -62,6 +84,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
                 return inputStream.read(b, off, Math.min(readLimit, len));
             }
             return inputStream.read(b, off, len);
+        }
+
+        @Override
+        public void setReadListener(final ReadListener readListener) {
+            // TODO Auto-generated method stub
+
         }
 
     }
@@ -92,6 +120,24 @@ public class MockHttpServletRequest implements HttpServletRequest {
         this.contentType = contentType;
         this.headers.put(AbstractFileUpload.CONTENT_TYPE, contentType);
         this.readLimit = readLimit;
+    }
+
+    @Override
+    public boolean authenticate(final HttpServletResponse response) throws IOException, ServletException {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public String changeSessionId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public AsyncContext getAsyncContext() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**
@@ -144,6 +190,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return iLength;
     }
 
+    @Override
+    public long getContentLengthLong() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
     /**
      * @see ServletRequest#getContentType()
      */
@@ -174,6 +226,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
     @Override
     public long getDateHeader(final String arg0) {
         return 0;
+    }
+
+    @Override
+    public DispatcherType getDispatcherType() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**
@@ -298,6 +356,18 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String[] getParameterValues(final String arg0) {
+        return null;
+    }
+
+    @Override
+    public Part getPart(final String name) throws IOException, ServletException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
+        // TODO Auto-generated method stub
         return null;
     }
 
@@ -440,6 +510,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return 0;
     }
 
+    @Override
+    public ServletContext getServletContext() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     /**
      * @see HttpServletRequest#getServletPath()
      */
@@ -470,6 +546,18 @@ public class MockHttpServletRequest implements HttpServletRequest {
     @Override
     public Principal getUserPrincipal() {
         return null;
+    }
+
+    @Override
+    public boolean isAsyncStarted() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        // TODO Auto-generated method stub
+        return false;
     }
 
     /**
@@ -507,7 +595,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     /**
-     * @see HttpServletRequest#isSecure()
+     * @see ServletRequest#isSecure()
      */
     @Override
     public boolean isSecure() {
@@ -520,6 +608,18 @@ public class MockHttpServletRequest implements HttpServletRequest {
     @Override
     public boolean isUserInRole(final String arg0) {
         return false;
+    }
+
+    @Override
+    public void login(final String username, final String password) throws ServletException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void logout() throws ServletException {
+        // TODO Auto-generated method stub
+
     }
 
     /**
@@ -541,6 +641,24 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public void setCharacterEncoding(final String arg0) throws UnsupportedEncodingException {
+    }
+
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public AsyncContext startAsync(final ServletRequest servletRequest, final ServletResponse servletResponse) throws IllegalStateException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <T extends HttpUpgradeHandler> T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

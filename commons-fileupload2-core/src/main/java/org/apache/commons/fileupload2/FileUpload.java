@@ -70,16 +70,6 @@ public abstract class FileUpload<T> extends AbstractFileUpload {
     }
 
     /**
-     * Sets the factory class to use when creating file items.
-     *
-     * @param factory The factory class for new file items.
-     */
-    @Override
-    public void setFileItemFactory(final FileItemFactory factory) {
-        this.fileItemFactory = factory;
-    }
-
-    /**
      * Gets a file item iterator.
      *
      * @param request The servlet request to be parsed.
@@ -108,5 +98,15 @@ public abstract class FileUpload<T> extends AbstractFileUpload {
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
     public abstract List<FileItem> parseRequest(T request) throws FileUploadException;
+
+    /**
+     * Sets the factory class to use when creating file items.
+     *
+     * @param factory The factory class for new file items.
+     */
+    @Override
+    public void setFileItemFactory(final FileItemFactory factory) {
+        this.fileItemFactory = factory;
+    }
 
 }
