@@ -45,7 +45,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit test for items with varying sizes.
  */
-public class StreamingTest {
+public class JavaxStreamingTest {
 
     private String getFooter() {
         return "-----1234--\r\n";

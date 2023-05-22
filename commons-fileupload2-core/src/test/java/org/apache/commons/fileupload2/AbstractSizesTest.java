@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @param <F> The subclass of FileUpload.
  * @param <R> The type of FileUpload request.
  */
-public abstract class SizesTest<F extends FileUpload<R>, R> {
+public abstract class AbstractSizesTest<F extends FileUpload<R>, R> {
 
     protected abstract F newFileUpload();
 

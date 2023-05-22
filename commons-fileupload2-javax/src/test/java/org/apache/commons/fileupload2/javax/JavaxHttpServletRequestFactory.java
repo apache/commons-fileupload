@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.AbstractFileUpload;
 
-final class HttpServletRequestFactory {
+final class JavaxHttpServletRequestFactory {
 
     public static HttpServletRequest createHttpServletRequestWithNullContentType() {
         final byte[] requestData = "foobar".getBytes();
