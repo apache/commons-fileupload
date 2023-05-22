@@ -71,7 +71,7 @@ public class ProgressListenerTest {
 
     }
 
-    private void runTest(final int itemCount, final long contentLength, final MockHttpServletRequest request) throws FileUploadException, IOException {
+    private void runTest(final int itemCount, final long contentLength, final JavaxMockHttpServletRequest request) throws FileUploadException, IOException {
         final ServletFileUpload upload = new ServletFileUpload();
         final ProgressListenerImpl listener = new ProgressListenerImpl(contentLength, itemCount);
         upload.setProgressListener(listener);
@@ -115,9 +115,9 @@ public class ProgressListenerTest {
         baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
         final byte[] contents = baos.toByteArray();
 
-        MockHttpServletRequest request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE);
+        JavaxMockHttpServletRequest request = new JavaxMockHttpServletRequest(contents, Constants.CONTENT_TYPE);
         runTest(NUM_ITEMS, contents.length, request);
-        request = new MockHttpServletRequest(contents, Constants.CONTENT_TYPE) {
+        request = new JavaxMockHttpServletRequest(contents, Constants.CONTENT_TYPE) {
             @Override
             public int getContentLength() {
                 return -1;

@@ -24,12 +24,12 @@ final class HttpServletRequestFactory {
 
     public static HttpServletRequest createHttpServletRequestWithNullContentType() {
         final byte[] requestData = "foobar".getBytes();
-        return new MockHttpServletRequest(requestData, null);
+        return new JavaxMockHttpServletRequest(requestData, null);
     }
 
     static public HttpServletRequest createInvalidHttpServletRequest() {
         final byte[] requestData = "foobar".getBytes();
-        return new MockHttpServletRequest(requestData, AbstractFileUpload.MULTIPART_FORM_DATA);
+        return new JavaxMockHttpServletRequest(requestData, AbstractFileUpload.MULTIPART_FORM_DATA);
     }
 
     public static HttpServletRequest createValidHttpServletRequest(final String[] strFileNames) {
@@ -43,7 +43,7 @@ final class HttpServletRequestFactory {
 
         final byte[] requestData = sbRequestData.toString().getBytes();
 
-        return new MockHttpServletRequest(requestData, AbstractFileUpload.MULTIPART_FORM_DATA);
+        return new JavaxMockHttpServletRequest(requestData, AbstractFileUpload.MULTIPART_FORM_DATA);
     }
 
 }

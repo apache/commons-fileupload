@@ -100,7 +100,7 @@ public class StreamingTest {
 
         final AbstractFileUpload upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        final HttpServletRequest request = new MockHttpServletRequest(inputStream, length, contentType, -1);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(inputStream, length, contentType, -1);
 
         return upload.parseRequest(new ServletRequestContext(request));
     }
@@ -110,7 +110,7 @@ public class StreamingTest {
 
         final AbstractFileUpload upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        final HttpServletRequest request = new MockHttpServletRequest(inputStream, length, contentType, -1);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(inputStream, length, contentType, -1);
 
         return upload.getItemIterator(new ServletRequestContext(request));
     }

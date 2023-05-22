@@ -36,7 +36,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload2.AbstractFileUpload;
 
-public class MockHttpServletRequest implements HttpServletRequest {
+public class JavaxMockHttpServletRequest implements HttpServletRequest {
 
     private static class MyServletInputStream extends ServletInputStream {
 
@@ -79,14 +79,14 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * Creates a new instance with the given request data and content type.
      */
-    public MockHttpServletRequest(final byte[] requestData, final String contentType) {
+    public JavaxMockHttpServletRequest(final byte[] requestData, final String contentType) {
         this(new ByteArrayInputStream(requestData), requestData.length, contentType, -1);
     }
 
     /**
      * Creates a new instance with the given request data and content type.
      */
-    public MockHttpServletRequest(final InputStream requestInputStream, final long requestLength, final String contentType, final int readLimit) {
+    public JavaxMockHttpServletRequest(final InputStream requestInputStream, final long requestLength, final String contentType, final int readLimit) {
         this.requestInputStream = requestInputStream;
         this.requestLength = requestLength;
         this.contentType = contentType;

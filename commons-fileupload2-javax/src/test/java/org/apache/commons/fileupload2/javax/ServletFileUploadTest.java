@@ -56,7 +56,7 @@ public class ServletFileUploadTest extends AbstractFileUploadTest {
         // @formatter:on
 
         final byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
-        final HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
         final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
         fileItemFactory.setDefaultCharset("UTF-8");
@@ -93,7 +93,7 @@ public class ServletFileUploadTest extends AbstractFileUploadTest {
                       "-----1234--\r\n";
         // @formatter:on
         final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
-        final HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
         final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
@@ -109,7 +109,7 @@ public class ServletFileUploadTest extends AbstractFileUploadTest {
 
     @Override
     public List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
-        final HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new ServletRequestContext(request));
     }
 

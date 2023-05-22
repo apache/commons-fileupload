@@ -32,7 +32,7 @@ import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.javax.MockHttpServletRequest;
+import org.apache.commons.fileupload2.javax.JavaxMockHttpServletRequest;
 import org.apache.commons.fileupload2.javax.ServletRequestContext;
 import org.junit.jupiter.api.Test;
 
@@ -87,7 +87,7 @@ public class PortletFileUploadTest extends AbstractFileUploadTest {
 
     @Override
     public List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
-        final HttpServletRequest request = new MockHttpServletRequest(bytes, contentType);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new ServletRequestContext(request));
     }
 

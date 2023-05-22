@@ -36,9 +36,9 @@ public class JavaxSizesTest extends SizesTest<ServletFileUpload, HttpServletRequ
     }
 
     @Override
-    protected MockHttpServletRequest newMockHttpServletRequest(final String request, final Integer overrideContenLength, final Integer overrideReadLimit) {
+    protected JavaxMockHttpServletRequest newMockHttpServletRequest(final String request, final Integer overrideContenLength, final Integer overrideReadLimit) {
         final byte[] requestData = request.getBytes(StandardCharsets.US_ASCII);
-        return new MockHttpServletRequest(new ByteArrayInputStream(requestData), overrideContenLength != null ? overrideContenLength : requestData.length,
+        return new JavaxMockHttpServletRequest(new ByteArrayInputStream(requestData), overrideContenLength != null ? overrideContenLength : requestData.length,
                 Constants.CONTENT_TYPE, overrideReadLimit != null ? overrideReadLimit : -1);
     }
 
