@@ -17,12 +17,11 @@
 package org.apache.commons.fileupload2.javax;
 
 import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.Constants;
 import org.apache.commons.fileupload2.AbstractSizesTest;
+import org.apache.commons.fileupload2.Constants;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 
 /**
@@ -36,9 +35,8 @@ public class JavaxSizesTest extends AbstractSizesTest<ServletFileUpload, HttpSer
     }
 
     @Override
-    protected JavaxMockHttpServletRequest newMockHttpServletRequest(final String request, final Integer overrideContenLength, final Integer overrideReadLimit) {
-        final byte[] requestData = request.getBytes(StandardCharsets.US_ASCII);
-        return new JavaxMockHttpServletRequest(new ByteArrayInputStream(requestData), overrideContenLength != null ? overrideContenLength : requestData.length,
+    protected JavaxMockHttpServletRequest newMockHttpServletRequest(final byte[] request, final Integer overrideContenLength, final Integer overrideReadLimit) {
+        return new JavaxMockHttpServletRequest(new ByteArrayInputStream(request), overrideContenLength != null ? overrideContenLength : request.length,
                 Constants.CONTENT_TYPE, overrideReadLimit != null ? overrideReadLimit : -1);
     }
 

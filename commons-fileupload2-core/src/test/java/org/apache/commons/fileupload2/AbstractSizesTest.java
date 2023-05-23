@@ -38,11 +38,7 @@ import org.junit.jupiter.api.Test;
  * @param <F> The subclass of FileUpload.
  * @param <R> The type of FileUpload request.
  */
-public abstract class AbstractSizesTest<F extends FileUpload<R>, R> {
-
-    protected abstract F newFileUpload();
-
-    protected abstract R newMockHttpServletRequest(String request, Integer overrideContenLength, Integer overrideReadLimit);
+public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends AbstractTest<F, R> {
 
     /**
      * Checks, whether limiting the file size works.

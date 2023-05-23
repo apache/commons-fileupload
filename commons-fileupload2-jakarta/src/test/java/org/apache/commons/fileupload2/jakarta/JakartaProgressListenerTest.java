@@ -14,29 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.javax;
+package org.apache.commons.fileupload2.jakarta;
 
 import java.io.ByteArrayInputStream;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.AbstractProgressListenerTest;
 import org.apache.commons.fileupload2.Constants;
 import org.apache.commons.fileupload2.ProgressListener;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * Tests the {@link ProgressListener}.
  */
-public class JavaxProgressListenerTest extends AbstractProgressListenerTest<ServletFileUpload, HttpServletRequest> {
+public class JakartaProgressListenerTest extends AbstractProgressListenerTest<JakartaServletFileUpload, HttpServletRequest> {
 
     @Override
-    protected ServletFileUpload newFileUpload() {
-        return new ServletFileUpload();
+    protected JakartaServletFileUpload newFileUpload() {
+        return new JakartaServletFileUpload();
     }
 
     @Override
     protected HttpServletRequest newMockHttpServletRequest(final byte[] request, final Integer overrideContenLength, final Integer overrideReadLimit) {
-        return new JavaxMockHttpServletRequest(new ByteArrayInputStream(request), overrideContenLength != null ? overrideContenLength : request.length,
+        return new JakartaMockHttpServletRequest(new ByteArrayInputStream(request), overrideContenLength != null ? overrideContenLength : request.length,
                 Constants.CONTENT_TYPE, overrideReadLimit != null ? overrideReadLimit : -1);
     }
 
