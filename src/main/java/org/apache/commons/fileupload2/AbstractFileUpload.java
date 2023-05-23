@@ -488,16 +488,13 @@ public abstract class AbstractFileUpload {
             throw new FileUploadException(e.getMessage(), e);
         } finally {
             if (!successful) {
-                final List<FileItem> failedDeletions = new ArrayList<>();
                 for (final FileItem fileItem : items) {
                     try {
                         fileItem.delete();
                     } catch (final Exception ignored) {
-                        // Add failed deletion to the list
-                        failedDeletions.add(fileItem);
+                        // ignored TODO perhaps add to tracker delete failure list somehow?
                     }
                 }
-                // TODO Handle the list of failed deletions as needed (e.g., add to a tracker or log)
             }
         }
     }
