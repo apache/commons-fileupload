@@ -312,15 +312,19 @@ public abstract class AbstractFileUpload {
         int start = 0;
         for (;;) {
             int end = parseEndOfLine(headerPart, start);
+
             if (start == end) {
                 break;
             }
             final StringBuilder header = new StringBuilder(headerPart.substring(start, end));
             start = end + 2;
+
             while (start < len) {
                 int nonWs = start;
+
                 while (nonWs < len) {
                     final char c = headerPart.charAt(nonWs);
+
                     if (c != ' '  &&  c != '\t') {
                         break;
                     }
@@ -329,10 +333,12 @@ public abstract class AbstractFileUpload {
                 if (nonWs == start) {
                     break;
                 }
+
                 // Continuation line found
                 end = parseEndOfLine(headerPart, nonWs);
                 header.append(' ').append(headerPart, nonWs, end);
                 start = end + 2;
+
             }
             parseHeaderLine(headers, header.toString());
         }
