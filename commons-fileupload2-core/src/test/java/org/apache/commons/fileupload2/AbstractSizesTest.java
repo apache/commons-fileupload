@@ -203,7 +203,7 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
         // set the read limit to 10 to simulate a "real" stream
         // otherwise the buffer would be immediately filled
 
-        final R req = newMockHttpServletRequest(request, -1, 10);
+        final R req = newMockHttpServletRequest(request, -1L, 10);
 
         final FileItemIterator it = upload.getItemIterator(req);
         assertTrue(it.hasNext());

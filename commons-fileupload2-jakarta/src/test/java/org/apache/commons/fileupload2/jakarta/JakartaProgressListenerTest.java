@@ -16,10 +16,9 @@
  */
 package org.apache.commons.fileupload2.jakarta;
 
-import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import org.apache.commons.fileupload2.AbstractProgressListenerTest;
-import org.apache.commons.fileupload2.Constants;
 import org.apache.commons.fileupload2.ProgressListener;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,9 +34,8 @@ public class JakartaProgressListenerTest extends AbstractProgressListenerTest<Ja
     }
 
     @Override
-    protected HttpServletRequest newMockHttpServletRequest(final byte[] request, final Integer overrideContenLength, final Integer overrideReadLimit) {
-        return new JakartaMockHttpServletRequest(new ByteArrayInputStream(request), overrideContenLength != null ? overrideContenLength : request.length,
-                Constants.CONTENT_TYPE, overrideReadLimit != null ? overrideReadLimit : -1);
+    protected HttpServletRequest newMockHttpServletRequest(final InputStream request, final long requestLength, final String contentType, final int readLimit) {
+        return new JakartaMockHttpServletRequest(request, requestLength, contentType, readLimit);
     }
 
 }

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.fileupload2;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -27,12 +29,16 @@ import java.nio.charset.StandardCharsets;
 public abstract class AbstractTest<F extends FileUpload<R>, R> {
 
     protected abstract F newFileUpload();
-    // empty
 
-    protected abstract R newMockHttpServletRequest(byte[] request, Integer overrideContenLength, Integer overrideReadLimit);
+    protected R newMockHttpServletRequest(final byte[] request, final Long overrideContenLength, final String contentType, final Integer overrideReadLimit) {
+        return newMockHttpServletRequest(new ByteArrayInputStream(request), overrideContenLength != null ? overrideContenLength : request.length, contentType,
+                overrideReadLimit != null ? overrideReadLimit : -1);
+    }
 
-    protected R newMockHttpServletRequest(final String request, final Integer overrideContenLength, final Integer overrideReadLimit) {
-        return newMockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII), overrideContenLength, overrideReadLimit);
+    protected abstract R newMockHttpServletRequest(InputStream requestInputStream, long requestLength, String contentType, int readLimit);
+
+    protected R newMockHttpServletRequest(final String request, final Long overrideContenLength, final Integer overrideReadLimit) {
+        return newMockHttpServletRequest(request.getBytes(StandardCharsets.US_ASCII), overrideContenLength, Constants.CONTENT_TYPE, overrideReadLimit);
     }
 
 }

@@ -112,9 +112,9 @@ public abstract class AbstractProgressListenerTest<F extends FileUpload<R>, R> e
         baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
         final byte[] requestBytes = baos.toByteArray();
 
-        R request = newMockHttpServletRequest(requestBytes, null, null);
+        R request = newMockHttpServletRequest(requestBytes, null, Constants.CONTENT_TYPE, null);
         runTest(numItems, requestBytes.length, request);
-        request = newMockHttpServletRequest(requestBytes, -1, null);
+        request = newMockHttpServletRequest(requestBytes, -1L, Constants.CONTENT_TYPE, null);
         runTest(numItems, requestBytes.length, request);
     }
 

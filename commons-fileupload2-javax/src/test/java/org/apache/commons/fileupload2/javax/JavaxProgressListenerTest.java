@@ -16,12 +16,11 @@
  */
 package org.apache.commons.fileupload2.javax;
 
-import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.AbstractProgressListenerTest;
-import org.apache.commons.fileupload2.Constants;
 import org.apache.commons.fileupload2.ProgressListener;
 
 /**
@@ -35,9 +34,8 @@ public class JavaxProgressListenerTest extends AbstractProgressListenerTest<Serv
     }
 
     @Override
-    protected HttpServletRequest newMockHttpServletRequest(final byte[] request, final Integer overrideContenLength, final Integer overrideReadLimit) {
-        return new JavaxMockHttpServletRequest(new ByteArrayInputStream(request), overrideContenLength != null ? overrideContenLength : request.length,
-                Constants.CONTENT_TYPE, overrideReadLimit != null ? overrideReadLimit : -1);
+    protected HttpServletRequest newMockHttpServletRequest(final InputStream request, final long requestLength, final String contentType, final int readLimit) {
+        return new JavaxMockHttpServletRequest(request, requestLength, contentType, readLimit);
     }
 
 }

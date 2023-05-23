@@ -14,28 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.javax;
+package org.apache.commons.fileupload2.jakarta;
 
 import java.io.InputStream;
 
-import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.fileupload2.AbstractStreamingTest;
 
-import org.apache.commons.fileupload2.AbstractSizesTest;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Unit test for items with varying sizes.
  */
-public class JavaxSizesTest extends AbstractSizesTest<ServletFileUpload, HttpServletRequest> {
+public class JavaxStreamingTest extends AbstractStreamingTest<JakartaServletFileUpload, HttpServletRequest, JakartaServletRequestContext> {
 
     @Override
-    protected ServletFileUpload newFileUpload() {
-        return new ServletFileUpload(new DiskFileItemFactory());
+    protected JakartaServletFileUpload newFileUpload() {
+        return new JakartaServletFileUpload();
     }
 
     @Override
-    protected JavaxMockHttpServletRequest newMockHttpServletRequest(final InputStream request, final long requestLength, final String contentType, final int readLimit) {
-        return new JavaxMockHttpServletRequest(request, requestLength, contentType, readLimit);
+    protected HttpServletRequest newMockHttpServletRequest(final InputStream request, final long requestLength, final String contentType, final int readLimit) {
+        return new JakartaMockHttpServletRequest(request, requestLength, contentType, readLimit);
+    }
+
+    @Override
+    protected JakartaServletRequestContext newServletRequestContext(final HttpServletRequest request) {
+        return new JakartaServletRequestContext(request);
     }
 
 }
