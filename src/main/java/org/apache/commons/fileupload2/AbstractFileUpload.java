@@ -155,7 +155,7 @@ public abstract class AbstractFileUpload {
         final String boundaryStr = params.get("boundary");
 
         if (boundaryStr == null) {
-            return null;
+            return new byte[0];
         }
         final byte[] boundary;
         boundary = boundaryStr.getBytes(StandardCharsets.ISO_8859_1);
