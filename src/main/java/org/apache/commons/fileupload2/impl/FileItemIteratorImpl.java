@@ -204,7 +204,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
     }
 
     @Override
-    public List<FileItem> getFileItems() throws FileUploadException, IOException {
+    public List<FileItem> getFileItems() throws IOException {
         final List<FileItem> items = new ArrayList<>();
         while (hasNext()) {
             final FileItemStream fis = next();
@@ -220,7 +220,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
 
     public MultipartStream getMultiPartStream() throws IOException {
         if (multiPartStream == null) {
-            init(fileUploadBase, ctx);
+            init(fileUploadBase);
         }
         return multiPartStream;
     }
@@ -248,7 +248,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
         return findNextItem();
     }
 
-    protected void init(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws IOException {
+    protected void init(final AbstractFileUpload fileUploadBase) throws IOException {
         final String contentType = ctx.getContentType();
         if ((null == contentType) || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART))) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
