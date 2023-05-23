@@ -46,6 +46,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.Part;
 
+/**
+ * Test fixture for {@link HttpServletRequest}.
+ */
 public class JakartaMockHttpServletRequest implements HttpServletRequest {
 
     private static class MyServletInputStream extends ServletInputStream {

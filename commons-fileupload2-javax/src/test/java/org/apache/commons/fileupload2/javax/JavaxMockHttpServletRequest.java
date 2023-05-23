@@ -36,6 +36,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload2.AbstractFileUpload;
 
+/**
+ * Test fixture for {@link HttpServletRequest}.
+ */
 public class JavaxMockHttpServletRequest implements HttpServletRequest {
 
     private static class MyServletInputStream extends ServletInputStream {
