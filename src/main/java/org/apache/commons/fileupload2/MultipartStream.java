@@ -176,10 +176,11 @@ public class MultipartStream {
             if (closed) {
                 return;
             }
+            long totalBytesSkipped = 0;
             if (closeUnderlying) {
                 closed = true;
                 input.close();
-            } else {
+            }  else {
                 for (;;) {
                     int av = available();
                     if (av == 0) {
@@ -188,7 +189,8 @@ public class MultipartStream {
                             break;
                         }
                     }
-                    skip(av);
+                    final long bytesSkipped = skip(av);
+                    totalBytesSkipped += bytesSkipped;
                 }
             }
             closed = true;
