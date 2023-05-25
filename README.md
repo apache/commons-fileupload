@@ -25,7 +25,7 @@
  | commons-build-plugin/trunk/src/main/resources/commons-xdoc-templates |
  +======================================================================+
  |                                                                      |
- | 1) Re-generate using: mvn commons:readme-md                          |
+ | 1) Re-generate using: mvn commons-build:readme-md                    |
  |                                                                      |
  | 2) Set the following properties in the component's pom:              |
  |    - commons.componentid (required, alphabetic, lower case)          |
@@ -40,12 +40,15 @@
  |                                                                      |
  +======================================================================+
 --->
-Apache Commons FileUpload
+Apache Commons FileUpload Parent
 ===================
 
 [![GitHub Actions Status](https://github.com/apache/commons-fileupload/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-fileupload/actions)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/?gav=true)
+[![Coverage Status](https://codecov.io/gh/apache/commons-fileupload/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-fileupload)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-fileupload2/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-fileupload2/?gav=true)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2/2.0.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2/2.0.0)
 [![CodeQL](https://github.com/apache/commons-fileupload/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload)
 
 The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
     file upload functionality to servlets and web applications.
@@ -53,13 +56,15 @@ The Apache Commons FileUpload component provides a simple yet flexible means of 
 Documentation
 -------------
 
-More information can be found on the [Apache Commons FileUpload homepage](https://commons.apache.org/proper/commons-fileupload).
-The [Javadoc](https://commons.apache.org/proper/commons-fileupload/javadocs/api-release) can be browsed.
-Questions related to the usage of Apache Commons FileUpload should be posted to the [user mailing list][ml].
+More information can be found on the [Apache Commons FileUpload Parent homepage](https://commons.apache.org/proper/commons-fileupload).
+The [Javadoc](https://commons.apache.org/proper/commons-fileupload/apidocs) can be browsed.
+Questions related to the usage of Apache Commons FileUpload Parent should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
 -----------------------------------
 You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-fileupload/download_fileupload.cgi).
+
+Alternatively you can pull it from the central Maven repositories:
 
 Alternatively, you can pull it from the central Maven repositories:
 
@@ -81,10 +86,20 @@ The upcoming version 2.0.0 will be:
 </dependency>
 ```
 
+You can experiment today by building from git master or using a snapshot build:
+
+```xml
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-fileupload2</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+</dependency>
+```
+
 Contributing
 ------------
 
-We accept Pull Requests via GitHub. The [developer mailing list][ml] is the main channel of communication for contributors.
+We accept Pull Requests via GitHub. The [developer mailing list](https://commons.apache.org/mail-lists.html) is the main channel of communication for contributors.
 There are some guidelines which will make applying PRs easier for us:
 + No tabs! Please use spaces for indentation.
 + Respect the code style.
@@ -102,14 +117,68 @@ See the `NOTICE.txt` file for required notices and attributions.
 
 Donations
 ---------
-You like Apache Commons FileUpload? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support the development.
+You like Apache Commons FileUpload Parent? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support the development.
 
 Additional Resources
 --------------------
 
 + [Apache Commons Homepage](https://commons.apache.org/)
 + [Apache Issue Tracker (JIRA)](https://issues.apache.org/jira/browse/FILEUPLOAD)
++ [Apache Commons Slack Channel](https://the-asf.slack.com/archives/C60NVB8AD)
 + [Apache Commons Twitter Account](https://twitter.com/ApacheCommons)
 + `#apache-commons` IRC channel on `irc.freenode.org`
 
-[ml]:https://commons.apache.org/mail-lists.html
+Apache Commons Components
+-------------------------
+
+| Component | GitHub Repository | Apache Homepage |
+| --------- | ----------------- | ----------------|
+| Apache Commons BCEL | [commons-bcel](https://github.com/apache/commons-bcel) | [commons-bcel](https://commons.apache.org/proper/commons-bcel) |
+| Apache Commons Beanutils | [commons-beanutils](https://github.com/apache/commons-beanutils) | [commons-beanutils](https://commons.apache.org/proper/commons-beanutils) |
+| Apache Commons BSF | [commons-bsf](https://github.com/apache/commons-bsf) | [commons-bsf](https://commons.apache.org/proper/commons-bsf) |
+| Apache Commons Build-plugin | [commons-build-plugin](https://github.com/apache/commons-build-plugin) | [commons-build-plugin](https://commons.apache.org/proper/commons-build-plugin) |
+| Apache Commons Chain | [commons-chain](https://github.com/apache/commons-chain) | [commons-chain](https://commons.apache.org/proper/commons-chain) |
+| Apache Commons CLI | [commons-cli](https://github.com/apache/commons-cli) | [commons-cli](https://commons.apache.org/proper/commons-cli) |
+| Apache Commons Codec | [commons-codec](https://github.com/apache/commons-codec) | [commons-codec](https://commons.apache.org/proper/commons-codec) |
+| Apache Commons Collections | [commons-collections](https://github.com/apache/commons-collections) | [commons-collections](https://commons.apache.org/proper/commons-collections) |
+| Apache Commons Compress | [commons-compress](https://github.com/apache/commons-compress) | [commons-compress](https://commons.apache.org/proper/commons-compress) |
+| Apache Commons Configuration | [commons-configuration](https://github.com/apache/commons-configuration) | [commons-configuration](https://commons.apache.org/proper/commons-configuration) |
+| Apache Commons Crypto | [commons-crypto](https://github.com/apache/commons-crypto) | [commons-crypto](https://commons.apache.org/proper/commons-crypto) |
+| Apache Commons CSV | [commons-csv](https://github.com/apache/commons-csv) | [commons-csv](https://commons.apache.org/proper/commons-csv) |
+| Apache Commons Daemon | [commons-daemon](https://github.com/apache/commons-daemon) | [commons-daemon](https://commons.apache.org/proper/commons-daemon) |
+| Apache Commons DBCP | [commons-dbcp](https://github.com/apache/commons-dbcp) | [commons-dbcp](https://commons.apache.org/proper/commons-dbcp) |
+| Apache Commons Dbutils | [commons-dbutils](https://github.com/apache/commons-dbutils) | [commons-dbutils](https://commons.apache.org/proper/commons-dbutils) |
+| Apache Commons Digester | [commons-digester](https://github.com/apache/commons-digester) | [commons-digester](https://commons.apache.org/proper/commons-digester) |
+| Apache Commons Email | [commons-email](https://github.com/apache/commons-email) | [commons-email](https://commons.apache.org/proper/commons-email) |
+| Apache Commons Exec | [commons-exec](https://github.com/apache/commons-exec) | [commons-exec](https://commons.apache.org/proper/commons-exec) |
+| Apache Commons Fileupload | [commons-fileupload](https://github.com/apache/commons-fileupload) | [commons-fileupload](https://commons.apache.org/proper/commons-fileupload) |
+| Apache Commons Functor | [commons-functor](https://github.com/apache/commons-functor) | [commons-functor](https://commons.apache.org/proper/commons-functor) |
+| Apache Commons Geometry | [commons-geometry](https://github.com/apache/commons-geometry) | [commons-geometry](https://commons.apache.org/proper/commons-geometry) |
+| Apache Commons Graph | [commons-graph](https://github.com/apache/commons-graph) | [commons-graph](https://commons.apache.org/proper/commons-graph) |
+| Apache Commons Imaging | [commons-imaging](https://github.com/apache/commons-imaging) | [commons-imaging](https://commons.apache.org/proper/commons-imaging) |
+| Apache Commons IO | [commons-io](https://github.com/apache/commons-io) | [commons-io](https://commons.apache.org/proper/commons-io) |
+| Apache Commons JCI | [commons-jci](https://github.com/apache/commons-jci) | [commons-jci](https://commons.apache.org/proper/commons-jci) |
+| Apache Commons JCS | [commons-jcs](https://github.com/apache/commons-jcs) | [commons-jcs](https://commons.apache.org/proper/commons-jcs) |
+| Apache Commons Jelly | [commons-jelly](https://github.com/apache/commons-jelly) | [commons-jelly](https://commons.apache.org/proper/commons-jelly) |
+| Apache Commons Jexl | [commons-jexl](https://github.com/apache/commons-jexl) | [commons-jexl](https://commons.apache.org/proper/commons-jexl) |
+| Apache Commons Jxpath | [commons-jxpath](https://github.com/apache/commons-jxpath) | [commons-jxpath](https://commons.apache.org/proper/commons-jxpath) |
+| Apache Commons Lang | [commons-lang](https://github.com/apache/commons-lang) | [commons-lang](https://commons.apache.org/proper/commons-lang) |
+| Apache Commons Logging | [commons-logging](https://github.com/apache/commons-logging) | [commons-logging](https://commons.apache.org/proper/commons-logging) |
+| Apache Commons Math | [commons-math](https://github.com/apache/commons-math) | [commons-math](https://commons.apache.org/proper/commons-math) |
+| Apache Commons Net | [commons-net](https://github.com/apache/commons-net) | [commons-net](https://commons.apache.org/proper/commons-net) |
+| Apache Commons Numbers | [commons-numbers](https://github.com/apache/commons-numbers) | [commons-numbers](https://commons.apache.org/proper/commons-numbers) |
+| Apache Commons Parent | [commons-parent](https://github.com/apache/commons-parent) | [commons-parent](https://commons.apache.org/proper/commons-parent) |
+| Apache Commons Pool | [commons-pool](https://github.com/apache/commons-pool) | [commons-pool](https://commons.apache.org/proper/commons-pool) |
+| Apache Commons Proxy | [commons-proxy](https://github.com/apache/commons-proxy) | [commons-proxy](https://commons.apache.org/proper/commons-proxy) |
+| Apache Commons RDF | [commons-rdf](https://github.com/apache/commons-rdf) | [commons-rdf](https://commons.apache.org/proper/commons-rdf) |
+| Apache Commons Release-plugin | [commons-release-plugin](https://github.com/apache/commons-release-plugin) | [commons-release-plugin](https://commons.apache.org/proper/commons-release-plugin) |
+| Apache Commons Rng | [commons-rng](https://github.com/apache/commons-rng) | [commons-rng](https://commons.apache.org/proper/commons-rng) |
+| Apache Commons Scxml | [commons-scxml](https://github.com/apache/commons-scxml) | [commons-scxml](https://commons.apache.org/proper/commons-scxml) |
+| Apache Commons Signing | [commons-signing](https://github.com/apache/commons-signing) | [commons-signing](https://commons.apache.org/proper/commons-signing) |
+| Apache Commons Skin | [commons-skin](https://github.com/apache/commons-skin) | [commons-skin](https://commons.apache.org/proper/commons-skin) |
+| Apache Commons Statistics | [commons-statistics](https://github.com/apache/commons-statistics) | [commons-statistics](https://commons.apache.org/proper/commons-statistics) |
+| Apache Commons Testing | [commons-testing](https://github.com/apache/commons-testing) | [commons-testing](https://commons.apache.org/proper/commons-testing) |
+| Apache Commons Text | [commons-text](https://github.com/apache/commons-text) | [commons-text](https://commons.apache.org/proper/commons-text) |
+| Apache Commons Validator | [commons-validator](https://github.com/apache/commons-validator) | [commons-validator](https://commons.apache.org/proper/commons-validator) |
+| Apache Commons VFS | [commons-vfs](https://github.com/apache/commons-vfs) | [commons-vfs](https://commons.apache.org/proper/commons-vfs) |
+| Apache Commons Weaver | [commons-weaver](https://github.com/apache/commons-weaver) | [commons-weaver](https://commons.apache.org/proper/commons-weaver) |
