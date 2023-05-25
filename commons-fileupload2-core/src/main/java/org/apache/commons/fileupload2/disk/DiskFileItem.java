@@ -25,6 +25,7 @@ import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -222,7 +223,8 @@ public class DiskFileItem implements FileItem {
      *
      * @return The contents of the file as an array of bytes or {@code null} if the data cannot be read.
      * @throws UncheckedIOException if an I/O error occurs.
-     * @throws OutOfMemoryError     if an array of the required size cannot be allocated, for example the file is larger that {@code 2GB}
+     * @throws OutOfMemoryError     See {@link Files#readAllBytes(Path)}: If an array of the required size cannot be allocated, for example the file is larger
+     *                              that {@code 2GB}
      */
     @Override
     public byte[] get() throws UncheckedIOException {
