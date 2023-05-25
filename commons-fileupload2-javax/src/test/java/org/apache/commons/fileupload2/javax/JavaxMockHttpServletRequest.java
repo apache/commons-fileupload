@@ -134,17 +134,7 @@ public class JavaxMockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public int getContentLength() {
-        int iLength;
-
-        if (null == requestInputStream) {
-            iLength = -1;
-        } else {
-            if (requestLength > Integer.MAX_VALUE) {
-                throw new RuntimeException("Value '" + requestLength + "' is too large to be converted to int");
-            }
-            iLength = (int) requestLength;
-        }
-        return iLength;
+        return requestInputStream != null ? Math.toIntExact(requestLength) : -1;
     }
 
     /**

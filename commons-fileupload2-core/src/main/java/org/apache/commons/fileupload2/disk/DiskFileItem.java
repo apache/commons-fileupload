@@ -220,8 +220,9 @@ public class DiskFileItem implements FileItem {
      * Gets the contents of the file as an array of bytes. If the contents of the file were not yet cached in memory, they will be loaded from the disk storage
      * and cached.
      *
-     * @return The contents of the file as an array of bytes or {@code null} if the data cannot be read
-     * @throws UncheckedIOException if an I/O error occurs
+     * @return The contents of the file as an array of bytes or {@code null} if the data cannot be read.
+     * @throws UncheckedIOException if an I/O error occurs.
+     * @throws ArithmeticException if the file {@code size} overflows an int.
      */
     @Override
     public byte[] get() throws UncheckedIOException {
@@ -232,7 +233,7 @@ public class DiskFileItem implements FileItem {
             return cachedContent != null ? cachedContent.clone() : new byte[0];
         }
 
-        final byte[] fileData = new byte[(int) getSize()];
+        final byte[] fileData = new byte[Math.toIntExact(getSize())];
 
         try (InputStream fis = Files.newInputStream(dfos.getFile().toPath())) {
             IOUtils.readFully(fis, fileData);
