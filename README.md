@@ -67,7 +67,17 @@ Alternatively, you can pull it from the central Maven repositories:
 <dependency>
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.4</version>
+  <version>1.5</version>
+</dependency>
+```
+
+The upcoming version 2.0.0 will be:
+
+```xml
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-fileupload2</artifactId>
+  <version>2.0.0</version>
 </dependency>
 ```
 
