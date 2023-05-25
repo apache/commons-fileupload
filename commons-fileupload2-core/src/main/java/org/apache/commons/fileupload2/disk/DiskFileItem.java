@@ -35,7 +35,7 @@ import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.ParameterParser;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
 /**
@@ -222,7 +222,7 @@ public class DiskFileItem implements FileItem {
      *
      * @return The contents of the file as an array of bytes or {@code null} if the data cannot be read.
      * @throws UncheckedIOException if an I/O error occurs.
-     * @throws ArithmeticException if the file {@code size} overflows an int.
+     * @throws OutOfMemoryError     if an array of the required size cannot be allocated, for example the file is larger that {@code 2GB}
      */
     @Override
     public byte[] get() throws UncheckedIOException {
@@ -232,15 +232,7 @@ public class DiskFileItem implements FileItem {
             }
             return cachedContent != null ? cachedContent.clone() : new byte[0];
         }
-
-        final byte[] fileData = new byte[Math.toIntExact(getSize())];
-
-        try (InputStream fis = Files.newInputStream(dfos.getFile().toPath())) {
-            IOUtils.readFully(fis, fileData);
-        } catch (final IOException e) {
-            throw new UncheckedIOException(e);
-        }
-        return fileData;
+        return Uncheck.get(() -> Files.readAllBytes(dfos.getFile().toPath()));
     }
 
     /**
