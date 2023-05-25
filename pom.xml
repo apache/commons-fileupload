@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>57</version>
+    <version>58</version>
   </parent>
 
   <artifactId>commons-fileupload2</artifactId>
@@ -227,7 +227,7 @@
 	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload</commons.module.name>
-    <commons.release.version>2.0</commons.release.version>
+    <commons.release.version>2.0.0</commons.release.version>
     <commons.release.desc>(requires Java ${maven.compiler.target} or later)</commons.release.desc>
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
