@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload2.util;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -32,12 +31,7 @@ import org.apache.commons.fileupload2.FileItemHeaders;
  *
  * @since 1.2.1
  */
-public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
-
-    /**
-     * Serial version UID, being used, if serialized.
-     */
-    private static final long serialVersionUID = 2;
+public class FileItemHeadersImpl implements FileItemHeaders {
 
     /**
      * Map of {@code String} keys to a {@code List} of {@code String} instances.
