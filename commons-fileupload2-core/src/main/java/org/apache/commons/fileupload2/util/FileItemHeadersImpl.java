@@ -28,8 +28,6 @@ import org.apache.commons.fileupload2.FileItemHeaders;
 
 /**
  * Default implementation of the {@link FileItemHeaders} interface.
- *
- * @since 1.2.1
  */
 public class FileItemHeadersImpl implements FileItemHeaders {
 

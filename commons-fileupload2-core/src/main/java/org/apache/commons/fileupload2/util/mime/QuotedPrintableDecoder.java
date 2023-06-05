@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * @since 1.3
  */
 final class QuotedPrintableDecoder {
 

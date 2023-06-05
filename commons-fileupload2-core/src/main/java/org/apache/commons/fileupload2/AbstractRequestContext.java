@@ -54,7 +54,6 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
      * Gets the content length of the request.
      *
      * @return The content length of the request.
-     * @since 1.3
      */
     @Override
     public long getContentLength() {

@@ -24,8 +24,6 @@ import java.io.InputStream;
  * <p>
  * This interface should be implemented for each type of request that may be handled by FileUpload, such as servlets and portlets.
  * </p>
- *
- * @since 1.1
  */
 public interface RequestContext {
 
@@ -40,7 +38,6 @@ public interface RequestContext {
      * Gets the content length of the request.
      *
      * @return The content length of the request.
-     * @since 1.3
      */
     long getContentLength();
 

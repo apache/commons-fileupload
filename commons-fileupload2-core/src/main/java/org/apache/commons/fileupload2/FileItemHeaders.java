@@ -20,8 +20,6 @@ import java.util.Iterator;
 
 /**
  * This class provides support for accessing the headers for a file or form item that was received within a {@code multipart/form-data} POST request.
- *
- * @since 1.2.1
  */
 public interface FileItemHeaders {
 

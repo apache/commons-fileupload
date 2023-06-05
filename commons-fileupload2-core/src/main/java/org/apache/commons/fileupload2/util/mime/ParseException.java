@@ -17,7 +17,6 @@
 package org.apache.commons.fileupload2.util.mime;
 
 /**
- * @since 1.3
  */
 final class ParseException extends Exception {
 

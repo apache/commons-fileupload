@@ -21,7 +21,6 @@ package org.apache.commons.fileupload2;
  *
  * @see FileItem
  * @see FileItemStream
- * @since 1.2.1
  */
 public interface FileItemHeadersSupport {
 

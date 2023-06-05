@@ -569,7 +569,6 @@ public class MultipartStream {
      * @param bufferSize The size of the buffer to be used, in bytes.
      * @param notifier   The notifier, which is used for calling the progress listener, if any.
      * @throws IllegalArgumentException If the buffer size is too small.
-     * @since 1.3.1
      */
     public MultipartStream(final InputStream input, final byte[] boundary, final int bufferSize, final ProgressNotifier notifier) {
         if (boundary == null) {

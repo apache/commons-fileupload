@@ -50,8 +50,6 @@ import org.apache.commons.io.FileCleaningTracker;
  * the so-called reaper thread, which is started and stopped automatically by the {@link FileCleaningTracker} when there are files to be tracked. It might make
  * sense to terminate that thread, for example, if your web application ends. See the section on "Resource cleanup" in the users guide of commons-fileupload.
  * </p>
- *
- * @since 1.1
  */
 public class DiskFileItemFactory implements FileItemFactory {
 

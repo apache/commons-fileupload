@@ -38,8 +38,6 @@ import java.io.UnsupportedEncodingException;
  * specifically defined with the same signatures as methods in that interface. This allows an implementation of this interface to also implement
  * {@code javax.activation.DataSource} with minimal additional work.
  * </p>
- *
- * @since 1.3 additionally implements FileItemHeadersSupport
  */
 public interface FileItem extends FileItemHeadersSupport {
 
