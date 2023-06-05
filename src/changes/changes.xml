@@ -90,6 +90,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump commons-parent from 52 to 58, #167, #183, #194.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #160.</action>
     </release>
+    <release version="1.5" date="2023-02-01" description="1.5 Release">
+    </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
       <action issue="FILEUPLOAD-282" dev="chtompki" type="update">Upversion complier.source, compiler.target to 1.6</action>
