@@ -36,7 +36,7 @@ import org.apache.commons.fileupload2.javax.ServletRequestContext;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for {@link JavaxPortletFileUpload}.
+ * Tests {@link JavaxPortletFileUpload}.
  *
  * @see AbstractFileUploadTest
  * @since 1.4

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * Test for {@link JakartaServletFileUpload}.
+ * Tests {@link JakartaServletFileUpload}.
  *
  * @see AbstractFileUploadTest
  * @since 1.4
