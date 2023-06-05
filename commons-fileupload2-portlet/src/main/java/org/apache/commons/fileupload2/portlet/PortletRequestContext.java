@@ -25,8 +25,6 @@ import org.apache.commons.fileupload2.AbstractRequestContext;
 
 /**
  * Provides access to the request information needed for a request made to a portlet.
- *
- * @since 1.1
  */
 public class PortletRequestContext extends AbstractRequestContext<ActionRequest> {
 

@@ -40,8 +40,6 @@ import org.apache.commons.fileupload2.FileUploadException;
  * <p>
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
  * </p>
- *
- * @since 1.1
  */
 public class JavaxPortletFileUpload extends FileUpload<ActionRequest> {
 
@@ -94,7 +92,6 @@ public class JavaxPortletFileUpload extends FileUpload<ActionRequest> {
      * @param request The portlet request to be parsed.
      * @return A map of {@code FileItem} instances parsed from the request.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
-     * @since 1.3
      */
     @Override
     public Map<String, List<FileItem>> parseParameterMap(final ActionRequest request) throws FileUploadException {

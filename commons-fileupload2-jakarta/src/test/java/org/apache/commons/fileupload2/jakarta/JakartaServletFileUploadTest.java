@@ -36,7 +36,6 @@ import jakarta.servlet.http.HttpServletRequest;
  * Tests {@link JakartaServletFileUpload}.
  *
  * @see AbstractFileUploadTest
- * @since 1.4
  */
 public class JakartaServletFileUploadTest extends AbstractFileUploadTest<JakartaServletFileUpload> {
 

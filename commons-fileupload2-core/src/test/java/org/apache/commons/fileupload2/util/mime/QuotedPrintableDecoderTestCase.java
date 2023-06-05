@@ -28,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 /**
- * @since 1.3
  */
 public final class QuotedPrintableDecoderTestCase {
 

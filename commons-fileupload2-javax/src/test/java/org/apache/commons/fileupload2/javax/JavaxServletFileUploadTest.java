@@ -40,7 +40,6 @@ import org.junit.jupiter.api.Test;
  * Tests {@link JavaxServletFileUpload}.
  *
  * @see AbstractFileUploadTest
- * @since 1.4
  */
 public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServletFileUpload> {
 

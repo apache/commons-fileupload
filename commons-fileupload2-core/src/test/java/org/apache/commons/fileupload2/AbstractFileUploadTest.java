@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Test;
  * added as parameter in this class.
  *
  * @param <T> The type for {@link FileUpload}.
- * @since 1.4
  */
 public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends AbstractFileUploadWrapper<T> {
 

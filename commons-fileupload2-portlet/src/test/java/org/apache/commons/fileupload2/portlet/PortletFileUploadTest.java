@@ -39,7 +39,6 @@ import org.junit.jupiter.api.Test;
  * Tests {@link JavaxPortletFileUpload}.
  *
  * @see AbstractFileUploadTest
- * @since 1.4
  */
 public class PortletFileUploadTest extends AbstractFileUploadTest<JavaxPortletFileUpload> {
 
