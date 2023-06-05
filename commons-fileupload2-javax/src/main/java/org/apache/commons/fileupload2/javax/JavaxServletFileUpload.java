@@ -97,7 +97,6 @@ public class JavaxServletFileUpload extends FileUpload<HttpServletRequest> {
      * @param request The servlet request to be parsed.
      * @return A map of {@code FileItem} instances parsed from the request.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
-     * @since 1.3
      */
     @Override
     public Map<String, List<FileItem>> parseParameterMap(final HttpServletRequest request) throws FileUploadException {

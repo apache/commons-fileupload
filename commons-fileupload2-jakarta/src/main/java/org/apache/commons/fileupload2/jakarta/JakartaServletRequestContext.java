@@ -25,8 +25,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Provides access to the request information needed for a request made to an HTTP servlet.
- *
- * @since 1.1
  */
 public class JakartaServletRequestContext extends AbstractRequestContext<HttpServletRequest> {
 
