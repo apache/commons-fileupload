@@ -28,7 +28,7 @@ import org.apache.commons.fileupload2.AbstractRequestContext;
  *
  * @since 1.1
  */
-public class ServletRequestContext extends AbstractRequestContext {
+public class JavaxServletRequestContext extends AbstractRequestContext {
 
     /**
      * The request for which the context is being provided.
@@ -40,7 +40,7 @@ public class ServletRequestContext extends AbstractRequestContext {
      *
      * @param request The request to which this context applies.
      */
-    public ServletRequestContext(final HttpServletRequest request) {
+    public JavaxServletRequestContext(final HttpServletRequest request) {
         super(request::getHeader, request::getContentLength);
         this.request = request;
     }

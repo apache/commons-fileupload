@@ -55,7 +55,7 @@ public class JavaxServletFileUpload extends FileUpload<HttpServletRequest> {
      * @return {@code true} if the request is multipart; {@code false} otherwise.
      */
     public static final boolean isMultipartContent(final HttpServletRequest request) {
-        return POST_METHOD.equalsIgnoreCase(request.getMethod()) && AbstractFileUpload.isMultipartContent(new ServletRequestContext(request));
+        return POST_METHOD.equalsIgnoreCase(request.getMethod()) && AbstractFileUpload.isMultipartContent(new JavaxServletRequestContext(request));
     }
 
     /**
@@ -88,7 +88,7 @@ public class JavaxServletFileUpload extends FileUpload<HttpServletRequest> {
      */
     @Override
     public FileItemIterator getItemIterator(final HttpServletRequest request) throws FileUploadException, IOException {
-        return super.getItemIterator(new ServletRequestContext(request));
+        return super.getItemIterator(new JavaxServletRequestContext(request));
     }
 
     /**
@@ -101,7 +101,7 @@ public class JavaxServletFileUpload extends FileUpload<HttpServletRequest> {
      */
     @Override
     public Map<String, List<FileItem>> parseParameterMap(final HttpServletRequest request) throws FileUploadException {
-        return parseParameterMap(new ServletRequestContext(request));
+        return parseParameterMap(new JavaxServletRequestContext(request));
     }
 
     /**
@@ -113,7 +113,7 @@ public class JavaxServletFileUpload extends FileUpload<HttpServletRequest> {
      */
     @Override
     public List<FileItem> parseRequest(final HttpServletRequest request) throws FileUploadException {
-        return parseRequest(new ServletRequestContext(request));
+        return parseRequest(new JavaxServletRequestContext(request));
     }
 
 }

@@ -115,7 +115,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
     @Override
     public List<FileItem> parseUpload(final JavaxServletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
-        return upload.parseRequest(new ServletRequestContext(request));
+        return upload.parseRequest(new JavaxServletRequestContext(request));
     }
 
     /**
