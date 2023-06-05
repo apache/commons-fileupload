@@ -26,11 +26,11 @@ import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 /**
  * Unit test for items with varying sizes.
  */
-public class JavaxSizesTest extends AbstractSizesTest<ServletFileUpload, HttpServletRequest> {
+public class JavaxSizesTest extends AbstractSizesTest<JavaxServletFileUpload, HttpServletRequest> {
 
     @Override
-    protected ServletFileUpload newFileUpload() {
-        return new ServletFileUpload(new DiskFileItemFactory());
+    protected JavaxServletFileUpload newFileUpload() {
+        return new JavaxServletFileUpload(new DiskFileItemFactory());
     }
 
     @Override

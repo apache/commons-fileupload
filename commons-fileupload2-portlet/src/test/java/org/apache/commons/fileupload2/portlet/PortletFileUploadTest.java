@@ -36,15 +36,15 @@ import org.apache.commons.fileupload2.javax.ServletRequestContext;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for {@link PortletFileUpload}.
+ * Test for {@link JavaxPortletFileUpload}.
  *
  * @see AbstractFileUploadTest
  * @since 1.4
  */
-public class PortletFileUploadTest extends AbstractFileUploadTest<PortletFileUpload> {
+public class PortletFileUploadTest extends AbstractFileUploadTest<JavaxPortletFileUpload> {
 
     public PortletFileUploadTest() {
-        super(new PortletFileUpload(new DiskFileItemFactory()));
+        super(new JavaxPortletFileUpload(new DiskFileItemFactory()));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class PortletFileUploadTest extends AbstractFileUploadTest<PortletFileUpl
     }
 
     @Override
-    public List<FileItem> parseUpload(final PortletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
+    public List<FileItem> parseUpload(final JavaxPortletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new ServletRequestContext(request));
     }

@@ -37,15 +37,15 @@ import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for {@link ServletFileUpload}.
+ * Test for {@link JavaxServletFileUpload}.
  *
  * @see AbstractFileUploadTest
  * @since 1.4
  */
-public class JavaxServletFileUploadTest extends AbstractFileUploadTest<ServletFileUpload> {
+public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServletFileUpload> {
 
     public JavaxServletFileUploadTest() {
-        super(new ServletFileUpload(new DiskFileItemFactory()));
+        super(new JavaxServletFileUpload(new DiskFileItemFactory()));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<ServletFi
 
         final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
         fileItemFactory.setDefaultCharset("UTF-8");
-        final ServletFileUpload upload = new ServletFileUpload(fileItemFactory);
+        final JavaxServletFileUpload upload = new JavaxServletFileUpload(fileItemFactory);
         final List<FileItem> fileItems = upload.parseRequest(request);
         final FileItem fileItem = fileItems.get(0);
         assertTrue(fileItem.getString().contains("coñteñt"), fileItem.getString());
@@ -100,7 +100,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<ServletFi
         final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
-        final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        final JavaxServletFileUpload upload = new JavaxServletFileUpload(new DiskFileItemFactory());
         final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
@@ -113,7 +113,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<ServletFi
     }
 
     @Override
-    public List<FileItem> parseUpload(final ServletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
+    public List<FileItem> parseUpload(final JavaxServletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new ServletRequestContext(request));
     }
@@ -140,7 +140,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<ServletFi
         }
         baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
 
-        final List<FileItem> fileItems = parseUpload(new ServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
+        final List<FileItem> fileItems = parseUpload(new JavaxServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
         final Iterator<FileItem> fileIter = fileItems.iterator();
         add = 16;
         num = 0;

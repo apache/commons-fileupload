@@ -25,11 +25,11 @@ import org.apache.commons.fileupload2.AbstractStreamingTest;
 /**
  * Unit test for items with varying sizes.
  */
-public class JavaxStreamingTest extends AbstractStreamingTest<ServletFileUpload, HttpServletRequest, ServletRequestContext> {
+public class JavaxStreamingTest extends AbstractStreamingTest<JavaxServletFileUpload, HttpServletRequest, ServletRequestContext> {
 
     @Override
-    protected ServletFileUpload newFileUpload() {
-        return new ServletFileUpload();
+    protected JavaxServletFileUpload newFileUpload() {
+        return new JavaxServletFileUpload();
     }
 
     @Override

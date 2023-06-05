@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.javax;
+package org.apache.commons.fileupload2.portlet;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.portlet.ActionRequest;
 
 import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.FileItem;
@@ -33,29 +33,26 @@ import org.apache.commons.fileupload2.FileUploadException;
  * High level API for processing file uploads.
  * <p>
  * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
- * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(HttpServletRequest)} to acquire a list of
- * {@link org.apache.commons.fileupload2.FileItem}s associated with a given HTML widget.
+ * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link org.apache.commons.fileupload2.javax.JavaxServletFileUpload
+ * #parseRequest(javax.servlet.http.HttpServletRequest)} to acquire a list of {@link org.apache.commons.fileupload2.FileItem FileItems} associated with a given
+ * HTML widget.
  * </p>
  * <p>
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
  * </p>
+ *
+ * @since 1.1
  */
-public class ServletFileUpload extends FileUpload<HttpServletRequest> {
-
-    /**
-     * Constant for HTTP POST method.
-     */
-    private static final String POST_METHOD = "POST";
+public class JavaxPortletFileUpload extends FileUpload<ActionRequest> {
 
     /**
      * Tests whether the request contains multipart content.
      *
-     * @param request The servlet request to be evaluated. Must be non-null.
-     *
+     * @param request The portlet request to be evaluated. Must be non-null.
      * @return {@code true} if the request is multipart; {@code false} otherwise.
      */
-    public static final boolean isMultipartContent(final HttpServletRequest request) {
-        return POST_METHOD.equalsIgnoreCase(request.getMethod()) && AbstractFileUpload.isMultipartContent(new ServletRequestContext(request));
+    public static final boolean isMultipartContent(final ActionRequest request) {
+        return AbstractFileUpload.isMultipartContent(new PortletRequestContext(request));
     }
 
     /**
@@ -64,7 +61,7 @@ public class ServletFileUpload extends FileUpload<HttpServletRequest> {
      *
      * @see FileUpload#FileUpload(FileItemFactory)
      */
-    public ServletFileUpload() {
+    public JavaxPortletFileUpload() {
     }
 
     /**
@@ -73,47 +70,47 @@ public class ServletFileUpload extends FileUpload<HttpServletRequest> {
      * @see FileUpload#FileUpload()
      * @param fileItemFactory The factory to use for creating file items.
      */
-    public ServletFileUpload(final FileItemFactory fileItemFactory) {
+    public JavaxPortletFileUpload(final FileItemFactory fileItemFactory) {
         super(fileItemFactory);
     }
 
     /**
      * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} file item iterator.
      *
-     * @param request The servlet request to be parsed.
+     * @param request The portlet request to be parsed.
      * @return An iterator to instances of {@code FileItemStream} parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
      *                             uploaded content.
      */
     @Override
-    public FileItemIterator getItemIterator(final HttpServletRequest request) throws FileUploadException, IOException {
-        return super.getItemIterator(new ServletRequestContext(request));
+    public FileItemIterator getItemIterator(final ActionRequest request) throws FileUploadException, IOException {
+        return super.getItemIterator(new PortletRequestContext(request));
     }
 
     /**
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
-     * @param request The servlet request to be parsed.
+     * @param request The portlet request to be parsed.
      * @return A map of {@code FileItem} instances parsed from the request.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      * @since 1.3
      */
     @Override
-    public Map<String, List<FileItem>> parseParameterMap(final HttpServletRequest request) throws FileUploadException {
-        return parseParameterMap(new ServletRequestContext(request));
+    public Map<String, List<FileItem>> parseParameterMap(final ActionRequest request) throws FileUploadException {
+        return parseParameterMap(new PortletRequestContext(request));
     }
 
     /**
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
-     * @param request The servlet request to be parsed.
+     * @param request The portlet request to be parsed.
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
     @Override
-    public List<FileItem> parseRequest(final HttpServletRequest request) throws FileUploadException {
-        return parseRequest(new ServletRequestContext(request));
+    public List<FileItem> parseRequest(final ActionRequest request) throws FileUploadException {
+        return parseRequest(new PortletRequestContext(request));
     }
 
 }

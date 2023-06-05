@@ -26,11 +26,11 @@ import org.apache.commons.fileupload2.ProgressListener;
 /**
  * Tests the {@link ProgressListener}.
  */
-public class JavaxProgressListenerTest extends AbstractProgressListenerTest<ServletFileUpload, HttpServletRequest> {
+public class JavaxProgressListenerTest extends AbstractProgressListenerTest<JavaxServletFileUpload, HttpServletRequest> {
 
     @Override
-    protected ServletFileUpload newFileUpload() {
-        return new ServletFileUpload();
+    protected JavaxServletFileUpload newFileUpload() {
+        return new JavaxServletFileUpload();
     }
 
     @Override
