@@ -40,7 +40,7 @@
         make the results available in a manner easily used by the caller.
       </p>
       <p>
-        Starting with version <b>1.3</b>, FileUpload handles 
+        Starting with version 1.3, FileUpload handles 
         <a href="https://www.ietf.org/rfc/rfc2047.txt">RFC 2047</a> encoded header values.
       </p>
 
@@ -59,9 +59,8 @@
         <li><a href="./using.html">User Guide</a></li>
         <li><a href="./streaming.html">Streaming API</a></li>
         <li><a href="./faq.html">Frequently Asked Questions</a></li>
-        <li><a href="./javadocs/api-release/index.html">Javadoc API (Latest release)</a></li>
-        <li><a href="./apidocs/index.html">Javadoc API (Latest development)</a></li>
-        <li><a href="./project-reports.html">Project Reports</a></li>
+        <li><a href="./javadocs/api-release/index.html">Javadoc</a></li>
+        <li><a href="https://javadoc.io/doc/commons-fileupload/commons-fileupload/latest/index.html">Javadoc Archives</a></li>
         <li><a href="https://dist.apache.org/repos/dist/release/commons/fileupload/RELEASE-NOTES.txt">Release Notes</a></li>
       </ul>
       <p>You can also <a href="./scm.html">browse</a> the Subversion repository.</p>
