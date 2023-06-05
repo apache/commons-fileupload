@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
  *
  * @since 1.1
  */
-public class JakartaServletRequestContext extends AbstractRequestContext {
+public class JakartaServletRequestContext extends AbstractRequestContext<HttpServletRequest> {
 
     /**
      * The request for which the context is being provided.
@@ -41,7 +41,7 @@ public class JakartaServletRequestContext extends AbstractRequestContext {
      * @param request The request to which this context applies.
      */
     public JakartaServletRequestContext(final HttpServletRequest request) {
-        super(request::getHeader, request::getContentLength);
+        super(request::getHeader, request::getContentLength, request);
         this.request = request;
     }
 
@@ -69,7 +69,6 @@ public class JakartaServletRequestContext extends AbstractRequestContext {
      * Gets the input stream for the request.
      *
      * @return The input stream for the request.
-     *
      * @throws IOException if a problem occurs.
      */
     @Override

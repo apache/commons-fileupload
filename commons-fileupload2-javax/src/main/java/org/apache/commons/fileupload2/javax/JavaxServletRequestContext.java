@@ -28,12 +28,7 @@ import org.apache.commons.fileupload2.AbstractRequestContext;
  *
  * @since 1.1
  */
-public class JavaxServletRequestContext extends AbstractRequestContext {
-
-    /**
-     * The request for which the context is being provided.
-     */
-    private final HttpServletRequest request;
+public class JavaxServletRequestContext extends AbstractRequestContext<HttpServletRequest> {
 
     /**
      * Constructs a context for this request.
@@ -41,8 +36,7 @@ public class JavaxServletRequestContext extends AbstractRequestContext {
      * @param request The request to which this context applies.
      */
     public JavaxServletRequestContext(final HttpServletRequest request) {
-        super(request::getHeader, request::getContentLength);
-        this.request = request;
+        super(request::getHeader, request::getContentLength, request);
     }
 
     /**
@@ -52,7 +46,7 @@ public class JavaxServletRequestContext extends AbstractRequestContext {
      */
     @Override
     public String getCharacterEncoding() {
-        return request.getCharacterEncoding();
+        return getRequest().getCharacterEncoding();
     }
 
     /**
@@ -62,19 +56,18 @@ public class JavaxServletRequestContext extends AbstractRequestContext {
      */
     @Override
     public String getContentType() {
-        return request.getContentType();
+        return getRequest().getContentType();
     }
 
     /**
      * Gets the input stream for the request.
      *
      * @return The input stream for the request.
-     *
      * @throws IOException if a problem occurs.
      */
     @Override
     public InputStream getInputStream() throws IOException {
-        return request.getInputStream();
+        return getRequest().getInputStream();
     }
 
 }

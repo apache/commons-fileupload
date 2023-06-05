@@ -28,12 +28,7 @@ import org.apache.commons.fileupload2.AbstractRequestContext;
  *
  * @since 1.1
  */
-public class PortletRequestContext extends AbstractRequestContext {
-
-    /**
-     * The request for which the context is being provided.
-     */
-    private final ActionRequest request;
+public class PortletRequestContext extends AbstractRequestContext<ActionRequest> {
 
     /**
      * Constructs a context for this request.
@@ -41,8 +36,7 @@ public class PortletRequestContext extends AbstractRequestContext {
      * @param request The request to which this context applies.
      */
     public PortletRequestContext(final ActionRequest request) {
-        super(request::getProperty, request::getContentLength);
-        this.request = request;
+        super(request::getProperty, request::getContentLength, request);
     }
 
     /**
@@ -52,7 +46,7 @@ public class PortletRequestContext extends AbstractRequestContext {
      */
     @Override
     public String getCharacterEncoding() {
-        return request.getCharacterEncoding();
+        return getRequest().getCharacterEncoding();
     }
 
     /**
@@ -62,7 +56,7 @@ public class PortletRequestContext extends AbstractRequestContext {
      */
     @Override
     public String getContentType() {
-        return request.getContentType();
+        return getRequest().getContentType();
     }
 
     /**
@@ -73,7 +67,7 @@ public class PortletRequestContext extends AbstractRequestContext {
      */
     @Override
     public InputStream getInputStream() throws IOException {
-        return request.getPortletInputStream();
+        return getRequest().getPortletInputStream();
     }
 
 }
