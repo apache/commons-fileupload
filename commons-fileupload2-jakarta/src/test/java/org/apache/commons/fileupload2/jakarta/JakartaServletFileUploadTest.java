@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.fileupload2.AbstractFileUploadTest;
 import org.apache.commons.fileupload2.Constants;
 import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +38,11 @@ import jakarta.servlet.http.HttpServletRequest;
  * @see AbstractFileUploadTest
  * @since 1.4
  */
-public class JakartaServletFileUploadTest {
+public class JakartaServletFileUploadTest extends AbstractFileUploadTest<JakartaServletFileUpload> {
+
+    public JakartaServletFileUploadTest() {
+        super(new JakartaServletFileUpload(new DiskFileItemFactory()));
+    }
 
     @Test
     public void parseImpliedUtf8() throws Exception {
@@ -101,5 +106,11 @@ public class JakartaServletFileUploadTest {
 
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
+    }
+
+    @Override
+    public List<FileItem> parseUpload(final JakartaServletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
+        final HttpServletRequest request = new JakartaMockHttpServletRequest(bytes, contentType);
+        return upload.parseRequest(new JakartaServletRequestContext(request));
     }
 }
