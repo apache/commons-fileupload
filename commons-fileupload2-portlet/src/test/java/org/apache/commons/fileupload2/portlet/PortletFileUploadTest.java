@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload2.AbstractFileUploadTest;
 import org.apache.commons.fileupload2.Constants;
 import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.FileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload2.javax.JavaxMockHttpServletRequest;
@@ -42,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * @see AbstractFileUploadTest
  * @since 1.4
  */
-public class PortletFileUploadTest extends AbstractFileUploadTest {
+public class PortletFileUploadTest extends AbstractFileUploadTest<PortletFileUpload> {
 
     public PortletFileUploadTest() {
         super(new PortletFileUpload(new DiskFileItemFactory()));
@@ -74,7 +73,7 @@ public class PortletFileUploadTest extends AbstractFileUploadTest {
         final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
         final ActionRequest request = new MockPortletActionRequest(bytes, Constants.CONTENT_TYPE);
 
-        final Map<String, List<FileItem>> mappedParameters = ((PortletFileUpload) upload).parseParameterMap(request);
+        final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
 
@@ -86,7 +85,7 @@ public class PortletFileUploadTest extends AbstractFileUploadTest {
     }
 
     @Override
-    public List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
+    public List<FileItem> parseUpload(final PortletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new ServletRequestContext(request));
     }

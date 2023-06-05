@@ -22,22 +22,24 @@ import java.util.List;
 /**
  * Common tests for implementations of {@link FileUpload}. This is a parameterized test. Tests must be valid and common to all implementations of FileUpload
  * added as parameter in this class.
+ *
+ * @param <T> The type for {@link FileUpload}.
  */
-public abstract class AbstractFileUploadWrapper {
+public abstract class AbstractFileUploadWrapper<T extends FileUpload<?>> {
 
-    protected final FileUpload upload;
+    protected final T upload;
 
-    protected AbstractFileUploadWrapper(final FileUpload fileUpload) {
+    protected AbstractFileUploadWrapper(final T fileUpload) {
         this.upload = fileUpload;
     }
 
-    public List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes) throws FileUploadException {
+    public List<FileItem> parseUpload(final T upload, final byte[] bytes) throws FileUploadException {
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 
-    public abstract List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException;
+    public abstract List<FileItem> parseUpload(final T upload, final byte[] bytes, final String contentType) throws FileUploadException;
 
-    public List<FileItem> parseUpload(final FileUpload upload, final String content) throws FileUploadException {
+    public List<FileItem> parseUpload(final T upload, final String content) throws FileUploadException {
         final byte[] bytes = content.getBytes(StandardCharsets.US_ASCII);
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }

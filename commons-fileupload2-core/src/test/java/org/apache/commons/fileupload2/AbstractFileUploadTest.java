@@ -31,11 +31,12 @@ import org.junit.jupiter.api.Test;
  * Common tests for implementations of {@link FileUpload}. This is a parameterized test. Tests must be valid and common to all implementations of FileUpload
  * added as parameter in this class.
  *
+ * @param <T> The type for {@link FileUpload}.
  * @since 1.4
  */
-public abstract class AbstractFileUploadTest extends AbstractFileUploadWrapper {
+public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends AbstractFileUploadWrapper<T> {
 
-    protected AbstractFileUploadTest(final FileUpload fileUpload) {
+    protected AbstractFileUploadTest(final T fileUpload) {
         super(fileUpload);
     }
 
@@ -51,7 +52,7 @@ public abstract class AbstractFileUploadTest extends AbstractFileUploadWrapper {
     }
 
     /**
-     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
+     * Tests <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
      */
     @Test
     public void testContentTypeAttachment() throws IOException, FileUploadException {
