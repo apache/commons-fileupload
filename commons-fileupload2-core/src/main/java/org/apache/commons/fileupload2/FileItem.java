@@ -30,11 +30,11 @@ import java.io.UnsupportedEncodingException;
  * <p>
  * After retrieving an instance of this class from a {@link org.apache.commons.fileupload2.FileUpload FileUpload} instance (see
  * {@code org.apache.commons.fileupload2.servlet.ServletFileUpload #parseRequest(javax.servlet.http.HttpServletRequest)}), you may either request all contents
- * of the file at once using {@link #get()} or request an {@link java.io.InputStream InputStream} with {@link #getInputStream()} and process the file without
+ * of the file at once using {@link #get()} or request an {@link InputStream} with {@link #getInputStream()} and process the file without
  * attempting to load it into memory, which may come handy with large files.
  * </p>
  * <p>
- * While this interface does not extend {@code javax.activation.DataSource} per se (to avoid a seldom used dependency), several of the defined methods are
+ * While this interface does not extend {@code javax.activation.DataSource} (to avoid a seldom used dependency), several of the defined methods are
  * specifically defined with the same signatures as methods in that interface. This allows an implementation of this interface to also implement
  * {@code javax.activation.DataSource} with minimal additional work.
  * </p>
@@ -49,9 +49,9 @@ public interface FileItem extends FileItemHeadersSupport {
     void delete();
 
     /**
-     * Returns the contents of the file item as an array of bytes.
+     * Gets the contents of the file item as a byte array.
      *
-     * @return The contents of the file item as an array of bytes.
+     * @return The contents of the file item as a byte array.
      *
      * @throws UncheckedIOException if an I/O error occurs
      */
