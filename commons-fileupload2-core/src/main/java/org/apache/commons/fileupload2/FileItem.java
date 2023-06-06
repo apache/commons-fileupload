@@ -16,12 +16,12 @@
  */
 package org.apache.commons.fileupload2;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Path;
 
 /**
  * <p>
@@ -168,6 +168,6 @@ public interface FileItem extends FileItemHeadersSupport {
      * @param file The {@code File} into which the uploaded item should be stored.
      * @throws IOException if an error occurs.
      */
-    void write(File file) throws IOException;
+    void write(Path file) throws IOException;
 
 }

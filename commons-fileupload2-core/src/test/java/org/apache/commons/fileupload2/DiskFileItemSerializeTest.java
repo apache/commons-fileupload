@@ -27,12 +27,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.file.PathUtils;
+import org.apache.commons.io.file.SimplePathVisitor;
 import org.apache.commons.lang3.SerializationUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +46,9 @@ import org.junit.jupiter.api.Test;
  */
 public class DiskFileItemSerializeTest {
 
-    // Use a private repository to catch any files left over by tests
+    /**
+     * Use a private repository to catch any files left over by tests.
+     */
     private static final Path REPOSITORY = PathUtils.getTempDirectory().resolve("DiskFileItemRepo");
 
     /**
@@ -135,11 +140,17 @@ public class DiskFileItemSerializeTest {
 
     @AfterEach
     public void tearDown() throws IOException {
-        
-        for (final File file : FileUtils.listFiles(REPOSITORY.toFile(), null, true)) {
-            System.out.println("Found leftover file " + file);
+        if (Files.exists(REPOSITORY)) {
+            PathUtils.visitFileTree(new SimplePathVisitor() {
+                @Override
+                public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
+                    System.out.println("Found leftover file " + file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+            }, REPOSITORY);
+            PathUtils.deleteDirectory(REPOSITORY);
         }
-        PathUtils.deleteDirectory(REPOSITORY);
     }
 
     /**
@@ -227,10 +238,10 @@ public class DiskFileItemSerializeTest {
      * Helper method to test writing item contents to a file.
      */
     public void testWritingToFile(final FileItem item, final byte[] testFieldValueBytes) throws IOException {
-        final File temp = File.createTempFile("fileupload", null);
+        final Path temp = Files.createTempFile("fileupload", null);
         // Note that the file exists and is initially empty;
         // write() must be able to handle that.
         item.write(temp);
-        compareBytes("Initial", FileUtils.readFileToByteArray(temp), testFieldValueBytes);
+        compareBytes("Initial", Files.readAllBytes(temp), testFieldValueBytes);
     }
 }

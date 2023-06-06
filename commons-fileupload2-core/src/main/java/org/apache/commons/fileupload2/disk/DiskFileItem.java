@@ -17,7 +17,6 @@
 package org.apache.commons.fileupload2.disk;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,8 +25,10 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,7 +39,6 @@ import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.ParameterParser;
 import org.apache.commons.io.Charsets;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
@@ -212,10 +212,13 @@ public class DiskFileItem implements FileItem {
     @Override
     public void delete() {
         cachedContent = null;
-        final File outputFile = getStoreLocation();
-        if (outputFile != null && !isInMemory() && outputFile.exists() && !outputFile.delete()) {
-            final String desc = "Cannot delete " + outputFile.toString();
-            throw new UncheckedIOException(desc, new IOException(desc));
+        final Path outputFile = getStoreLocation();
+        if (outputFile != null && !isInMemory() && Files.exists(outputFile)) {
+            try {
+                Files.delete(outputFile);
+            } catch (final IOException e) {
+                throw new UncheckedIOException(outputFile.toString(), e);
+            }
         }
     }
 
@@ -356,20 +359,20 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets the {@link java.io.File} object for the {@code FileItem}'s data's temporary location on the disk. Note that for {@code FileItem}s that have their
-     * data stored in memory, this method will return {@code null}. When handling large files, you can use {@link java.io.File#renameTo(java.io.File)} to move
-     * the file to new location without copying the data, if the source and destination locations reside within the same logical volume.
+     * Gets the {@link Path} for the {@code FileItem}'s data's temporary location on the disk. Note that for {@code FileItem}s that have their data stored in
+     * memory, this method will return {@code null}. When handling large files, you can use {@link Files#move(Path,Path,CopyOption...)} to move the file to new
+     * location without copying the data, if the source and destination locations reside within the same logical volume.
      *
      * @return The data file, or {@code null} if the data is stored in memory.
      */
-    public File getStoreLocation() {
+    public Path getStoreLocation() {
         if (dfos == null) {
             return null;
         }
         if (isInMemory()) {
             return null;
         }
-        return dfos.getFile();
+        return dfos.getFile().toPath();
     }
 
     /**
@@ -512,15 +515,15 @@ public class DiskFileItem implements FileItem {
      * @throws IOException if an error occurs.
      */
     @Override
-    public void write(final File file) throws IOException {
+    public void write(final Path file) throws IOException {
         if (isInMemory()) {
-            try (OutputStream fout = Files.newOutputStream(file.toPath())) {
+            try (OutputStream fout = Files.newOutputStream(file)) {
                 fout.write(get());
             } catch (final IOException e) {
                 throw new IOException("Unexpected output data", e);
             }
         } else {
-            final File outputFile = getStoreLocation();
+            final Path outputFile = getStoreLocation();
             if (outputFile == null) {
                 /*
                  * For whatever reason we cannot write the file to disk.
@@ -528,14 +531,11 @@ public class DiskFileItem implements FileItem {
                 throw new FileUploadException("Cannot write uploaded file to disk.");
             }
             // Save the length of the file
-            size = outputFile.length();
-            /*
-             * The uploaded file is being stored on disk in a temporary location so move it to the desired file.
-             */
-            if (file.exists() && !file.delete()) {
-                throw new FileUploadException("Cannot write uploaded file to disk.");
-            }
-            FileUtils.moveFile(outputFile, file);
+            size = Files.size(outputFile);
+            //
+            // The uploaded file is being stored on disk in a temporary location so move it to the desired file.
+            //
+            Files.move(outputFile, file, StandardCopyOption.REPLACE_EXISTING);
         }
     }
 }
