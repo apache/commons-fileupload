@@ -153,7 +153,7 @@ public class DiskFileItem implements FileItem {
     /**
      * The threshold above which uploads will be stored on disk.
      */
-    private final int sizeThreshold;
+    private final int threshold;
 
     /**
      * The directory in which uploaded files will be stored, if stored on disk.
@@ -192,16 +192,16 @@ public class DiskFileItem implements FileItem {
      * @param contentType   The content type passed by the browser or {@code null} if not specified.
      * @param isFormField   Whether or not this item is a plain form field, as opposed to a file upload.
      * @param fileName      The original file name in the user's file system, or {@code null} if not specified.
-     * @param sizeThreshold The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
+     * @param threshold     The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
      * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
      */
-    public DiskFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName, final int sizeThreshold,
+    public DiskFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName, final int threshold,
             final Path repository) {
         this.fieldName = fieldName;
         this.contentType = contentType;
         this.isFormField = isFormField;
         this.fileName = fileName;
-        this.sizeThreshold = sizeThreshold;
+        this.threshold = threshold;
         this.repository = repository != null ? repository : PathUtils.getTempDirectory();
     }
 
@@ -334,7 +334,7 @@ public class DiskFileItem implements FileItem {
     @Override
     public OutputStream getOutputStream() {
         if (dfos == null) {
-            dfos = DeferredFileOutputStream.builder().setThreshold(sizeThreshold).setOutputFile(getTempFile().toFile()).get();
+            dfos = DeferredFileOutputStream.builder().setThreshold(threshold).setOutputFile(getTempFile().toFile()).get();
         }
         return dfos;
     }

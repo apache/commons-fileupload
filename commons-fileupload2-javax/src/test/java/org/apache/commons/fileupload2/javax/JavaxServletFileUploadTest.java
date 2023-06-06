@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
 public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServletFileUpload> {
 
     public JavaxServletFileUploadTest() {
-        super(new JavaxServletFileUpload(new DiskFileItemFactory()));
+        super(new JavaxServletFileUpload(DiskFileItemFactory.builder().get()));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
         final byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
-        final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
+        final DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder().get();
         fileItemFactory.setDefaultCharset(StandardCharsets.UTF_8);
         final JavaxServletFileUpload upload = new JavaxServletFileUpload(fileItemFactory);
         final List<FileItem> fileItems = upload.parseRequest(request);
@@ -99,7 +99,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
         final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
-        final JavaxServletFileUpload upload = new JavaxServletFileUpload(new DiskFileItemFactory());
+        final JavaxServletFileUpload upload = new JavaxServletFileUpload(DiskFileItemFactory.builder().get());
         final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
@@ -139,7 +139,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
         }
         baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
 
-        final List<FileItem> fileItems = parseUpload(new JavaxServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
+        final List<FileItem> fileItems = parseUpload(new JavaxServletFileUpload(DiskFileItemFactory.builder().get()), baos.toByteArray());
         final Iterator<FileItem> fileIter = fileItems.iterator();
         add = 16;
         num = 0;

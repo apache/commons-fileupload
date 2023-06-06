@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -33,7 +32,6 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.file.SimplePathVisitor;
 import org.apache.commons.lang3.SerializationUtils;
@@ -100,10 +98,10 @@ public class DiskFileItemSerializeTest {
      * Create a FileItem with the specfied content bytes and repository.
      */
     private FileItem createFileItem(final byte[] contentBytes, final Path repository) throws IOException {
-        final FileItemFactory factory = new DiskFileItemFactory(THRESHOLD, repository);
+        final FileItemFactory factory = DiskFileItemFactory.builder().setBufferSize(THRESHOLD).setPath(repository).get();
         final String textFieldName = "textField";
 
-        final FileItem item = factory.createItem(textFieldName, TEXT_CONTENT_TYPE, true, "My File Name");
+        final FileItem item = factory.createFileItem(textFieldName, TEXT_CONTENT_TYPE, true, "My File Name");
         try (OutputStream os = item.getOutputStream()) {
             os.write(contentBytes);
         }

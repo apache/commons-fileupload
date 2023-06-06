@@ -96,7 +96,7 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
         final String contentType = "multipart/form-data; boundary=---1234";
 
         final AbstractFileUpload upload = newFileUpload();
-        upload.setFileItemFactory(new DiskFileItemFactory());
+        upload.setFileItemFactory(DiskFileItemFactory.builder().get());
         final R request = newMockHttpServletRequest(inputStream, length, contentType, -1);
 
         return upload.parseRequest(newServletRequestContext(request));
@@ -106,7 +106,7 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
         final String contentType = "multipart/form-data; boundary=---1234";
 
         final AbstractFileUpload upload = newFileUpload();
-        upload.setFileItemFactory(new DiskFileItemFactory());
+        upload.setFileItemFactory(DiskFileItemFactory.builder().get());
         final R request = newMockHttpServletRequest(inputStream, length, contentType, -1);
 
         return upload.getItemIterator(newServletRequestContext(request));

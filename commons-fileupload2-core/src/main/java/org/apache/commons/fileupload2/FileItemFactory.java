@@ -33,6 +33,6 @@ public interface FileItemFactory {
      * @param fileName    The name of the uploaded file, if any, as supplied by the browser or other client.
      * @return The newly created file item.
      */
-    FileItem createItem(String fieldName, String contentType, boolean isFormField, String fileName);
+    FileItem createFileItem(String fieldName, String contentType, boolean isFormField, String fileName);
 
 }

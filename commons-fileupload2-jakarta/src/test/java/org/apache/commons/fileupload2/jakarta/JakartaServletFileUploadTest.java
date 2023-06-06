@@ -40,7 +40,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class JakartaServletFileUploadTest extends AbstractFileUploadTest<JakartaServletFileUpload> {
 
     public JakartaServletFileUploadTest() {
-        super(new JakartaServletFileUpload(new DiskFileItemFactory()));
+        super(new JakartaServletFileUpload(DiskFileItemFactory.builder().get()));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class JakartaServletFileUploadTest extends AbstractFileUploadTest<Jakarta
         final byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
         final HttpServletRequest request = new JakartaMockServletHttpRequest(bytes, Constants.CONTENT_TYPE);
 
-        final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
+        final DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder().get();
         fileItemFactory.setDefaultCharset(StandardCharsets.UTF_8);
         final JakartaServletFileUpload upload = new JakartaServletFileUpload(fileItemFactory);
         final List<FileItem> fileItems = upload.parseRequest(request);
@@ -95,7 +95,7 @@ public class JakartaServletFileUploadTest extends AbstractFileUploadTest<Jakarta
         final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new JakartaMockServletHttpRequest(bytes, Constants.CONTENT_TYPE);
 
-        final JakartaServletFileUpload upload = new JakartaServletFileUpload(new DiskFileItemFactory());
+        final JakartaServletFileUpload upload = new JakartaServletFileUpload(DiskFileItemFactory.builder().get());
         final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());

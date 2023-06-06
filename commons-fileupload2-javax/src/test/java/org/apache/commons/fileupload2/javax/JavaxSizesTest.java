@@ -30,7 +30,7 @@ public class JavaxSizesTest extends AbstractSizesTest<JavaxServletFileUpload, Ht
 
     @Override
     protected JavaxServletFileUpload newFileUpload() {
-        return new JavaxServletFileUpload(new DiskFileItemFactory());
+        return new JavaxServletFileUpload(DiskFileItemFactory.builder().get());
     }
 
     @Override

@@ -30,7 +30,7 @@ public class JakartaSizesTest extends AbstractSizesTest<JakartaServletFileUpload
 
     @Override
     protected JakartaServletFileUpload newFileUpload() {
-        return new JakartaServletFileUpload(new DiskFileItemFactory());
+        return new JakartaServletFileUpload(DiskFileItemFactory.builder().get());
     }
 
     @Override

@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
 public class PortletFileUploadTest extends AbstractFileUploadTest<JavaxPortletFileUpload> {
 
     public PortletFileUploadTest() {
-        super(new JavaxPortletFileUpload(new DiskFileItemFactory()));
+        super(new JavaxPortletFileUpload(DiskFileItemFactory.builder().get()));
     }
 
     @Test

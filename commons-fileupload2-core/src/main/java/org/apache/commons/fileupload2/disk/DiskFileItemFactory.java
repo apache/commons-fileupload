@@ -22,11 +22,14 @@ import java.nio.file.Path;
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
 import org.apache.commons.io.FileCleaningTracker;
+import org.apache.commons.io.build.AbstractOrigin;
+import org.apache.commons.io.build.AbstractStreamBuilder;
+import org.apache.commons.io.file.PathUtils;
 
 /**
- * The default {@link org.apache.commons.fileupload2.FileItemFactory} implementation.
+ * The default {@link FileItemFactory} implementation.
  * <p>
- * This implementation creates {@link org.apache.commons.fileupload2.FileItem} instances which keep their content either in memory, for smaller items, or in a
+ * This implementation creates {@link FileItem} instances which keep their content either in memory, for smaller items, or in a
  * temporary file on disk, for larger items. The size threshold, above which content will be stored on disk, is configurable, as is the directory in which
  * temporary files will be created.
  * </p>
@@ -34,11 +37,11 @@ import org.apache.commons.io.FileCleaningTracker;
  * If not otherwise configured, the default configuration values are as follows:
  * </p>
  * <ul>
- * <li>Size threshold is 10KB.</li>
- * <li>Repository is the system default temp directory, as returned by {@code System.getProperty("java.io.tmpdir")}.</li>
+ * <li>Size threshold is 10 KB.</li>
+ * <li>Repository is the system default temporary directory, as returned by {@code System.getProperty("java.io.tmpdir")}.</li>
  * </ul>
  * <p>
- * <b>NOTE</b>: Files are created in the system default temp directory with predictable names. This means that a local attacker with write access to that
+ * <b>NOTE</b>: Files are created in the system default temporary directory with predictable names. This means that a local attacker with write access to that
  * directory can perform a TOUTOC attack to replace any uploaded file with a file of the attackers choice. The implications of this will depend on how the
  * uploaded file is used but could be significant. When using this implementation in an environment with local, untrusted users, {@link #setRepository(Path)}
  * MUST be used to configure a repository location that is not publicly writable. In a Servlet container the location identified by the ServletContext attribute
@@ -51,13 +54,68 @@ import org.apache.commons.io.FileCleaningTracker;
  * the so-called reaper thread, which is started and stopped automatically by the {@link FileCleaningTracker} when there are files to be tracked. It might make
  * sense to terminate that thread, for example, if your web application ends. See the section on "Resource cleanup" in the users guide of Commons FileUpload.
  * </p>
+ * @see Builder
+ * @see Builder#get()
  */
-public class DiskFileItemFactory implements FileItemFactory {
+public final class DiskFileItemFactory implements FileItemFactory {
 
     /**
-     * The default threshold above which uploads will be stored on disk.
+     * Builds a new {@link DiskFileItemFactory} instance.
+     * <p>
+     * For example:
+     * </p>
+     *
+     * <pre>{@code
+     * DiskFileItemFactory factory = DiskFileItemFactory.builder()
+     *    .setPath(path)
+     *    .setBufferSize(DEFAULT_THRESHOLD)
+     *    .get();
+     * }
+     * </pre>
+     *
+     * @since 2.12.0
      */
-    public static final int DEFAULT_SIZE_THRESHOLD = 10_240;
+    public static class Builder extends AbstractStreamBuilder<DiskFileItemFactory, Builder> {
+
+        public Builder() {
+            setBufferSize(DEFAULT_THRESHOLD);
+            setPath(PathUtils.getTempDirectory());
+        }
+
+        /**
+         * Constructs a new instance.
+         * <p>
+         * This builder use the aspects Path and buffer size.
+         * </p>
+         * <p>
+         * You must provide an origin that can be converted to a Reader by this builder, otherwise, this call will throw an
+         * {@link UnsupportedOperationException}.
+         * </p>
+         *
+         * @return a new instance.
+         * @throws UnsupportedOperationException if the origin cannot provide a Path.
+         * @see AbstractOrigin#getReader(Charset)
+         */
+        @Override
+        public DiskFileItemFactory get() {
+            return new DiskFileItemFactory(getOrigin().getPath(), getBufferSize());
+        }
+
+    }
+
+    /**
+     * The default threshold in bytes above which uploads will be stored on disk.
+     */
+    public static final int DEFAULT_THRESHOLD = 10_240;
+
+    /**
+     * Constructs a new {@link Builder}.
+     *
+     * @return a new {@link Builder}.
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
 
     /**
      * The directory in which uploaded files will be stored, if stored on disk.
@@ -67,7 +125,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * The threshold above which uploads will be stored on disk.
      */
-    private int sizeThreshold = DEFAULT_SIZE_THRESHOLD;
+    private int threshold = DEFAULT_THRESHOLD;
 
     /**
      * The instance of {@link FileCleaningTracker}, which is responsible for deleting temporary files.
@@ -83,20 +141,12 @@ public class DiskFileItemFactory implements FileItemFactory {
     private Charset defaultCharset = DiskFileItem.DEFAULT_CHARSET;
 
     /**
-     * Constructs an unconfigured instance of this class. The resulting factory may be configured by calling the appropriate setter methods.
-     */
-    public DiskFileItemFactory() {
-        this(DEFAULT_SIZE_THRESHOLD, null);
-    }
-
-    /**
      * Constructs a preconfigured instance of this class.
-     *
-     * @param sizeThreshold The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
-     * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
+     * @param repository The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
+     * @param threshold  The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
      */
-    public DiskFileItemFactory(final int sizeThreshold, final Path repository) {
-        this.sizeThreshold = sizeThreshold;
+    private DiskFileItemFactory(final Path repository, final int threshold) {
+        this.threshold = threshold;
         this.repository = repository;
     }
 
@@ -110,8 +160,8 @@ public class DiskFileItemFactory implements FileItemFactory {
      * @return The newly created file item.
      */
     @Override
-    public FileItem createItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName) {
-        final DiskFileItem result = new DiskFileItem(fieldName, contentType, isFormField, fileName, sizeThreshold, repository);
+    public FileItem createFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName) {
+        final DiskFileItem result = new DiskFileItem(fieldName, contentType, isFormField, fileName, threshold, repository);
         result.setDefaultCharset(defaultCharset);
         final FileCleaningTracker tracker = getFileCleaningTracker();
         if (tracker != null) {
@@ -149,13 +199,13 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Gets the size threshold beyond which files are written directly to disk. The default value is 10240 bytes.
+     * Gets the size threshold beyond which files are written directly to disk. The default value is {@value #DEFAULT_THRESHOLD} bytes.
      *
-     * @return The size threshold, in bytes.
-     * @see #setSizeThreshold(int)
+     * @return The size threshold in bytes.
+     * @see #setThreshold(int)
      */
-    public int getSizeThreshold() {
-        return sizeThreshold;
+    public int getThreshold() {
+        return threshold;
     }
 
     /**
@@ -187,12 +237,12 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Sets the size threshold beyond which files are written directly to disk.
+     * Sets the size threshold beyond which files are written directly to disk. The default value is {@value #DEFAULT_THRESHOLD} bytes.
      *
-     * @param sizeThreshold The size threshold, in bytes.
-     * @see #getSizeThreshold()
+     * @param threshold The size threshold in bytes.
+     * @see #getThreshold()
      */
-    public void setSizeThreshold(final int sizeThreshold) {
-        this.sizeThreshold = sizeThreshold;
+    public void setThreshold(final int threshold) {
+        this.threshold = threshold;
     }
 }
