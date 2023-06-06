@@ -133,7 +133,7 @@ public class ParameterParser {
     }
 
     /**
-     * Extracts a map of name/value pairs from the given array of characters. Names are expected to be unique.
+     * Parses a map of name/value pairs from the given array of characters. Names are expected to be unique.
      *
      * @param charArray the array of characters that contains a sequence of name/value pairs
      * @param separator the name/value pairs separator
@@ -147,7 +147,7 @@ public class ParameterParser {
     }
 
     /**
-     * Extracts a map of name/value pairs from the given array of characters. Names are expected to be unique.
+     * Parses a map of name/value pairs from the given array of characters. Names are expected to be unique.
      *
      * @param charArray the array of characters that contains a sequence of name/value pairs
      * @param offset    - the initial offset.
@@ -197,7 +197,7 @@ public class ParameterParser {
     }
 
     /**
-     * Extracts a map of name/value pairs from the given string. Names are expected to be unique.
+     * Parses a map of name/value pairs from the given string. Names are expected to be unique.
      *
      * @param str       the string that contains a sequence of name/value pairs
      * @param separator the name/value pairs separator
@@ -211,7 +211,7 @@ public class ParameterParser {
     }
 
     /**
-     * Extracts a map of name/value pairs from the given string. Names are expected to be unique. Multiple separators may be specified and the earliest found in
+     * Parses a map of name/value pairs from the given string. Names are expected to be unique. Multiple separators may be specified and the earliest found in
      * the input string is used.
      *
      * @param str        the string that contains a sequence of name/value pairs
