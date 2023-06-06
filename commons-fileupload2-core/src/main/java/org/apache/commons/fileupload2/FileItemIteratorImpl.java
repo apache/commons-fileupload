@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.impl;
+package org.apache.commons.fileupload2;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,24 +24,13 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import org.apache.commons.fileupload2.AbstractFileUpload;
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.FileItemHeaders;
-import org.apache.commons.fileupload2.FileItemIterator;
-import org.apache.commons.fileupload2.FileItemStream;
-import org.apache.commons.fileupload2.FileUploadContentTypeException;
-import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.FileUploadSizeException;
-import org.apache.commons.fileupload2.MultipartStream;
-import org.apache.commons.fileupload2.ProgressListener;
-import org.apache.commons.fileupload2.RequestContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BoundedInputStream;
 
 /**
  * The iterator, which is returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */
-public class FileItemIteratorImpl implements FileItemIterator {
+class FileItemIteratorImpl implements FileItemIterator {
 
     /**
      * The file uploads processing utility.
@@ -115,7 +104,7 @@ public class FileItemIteratorImpl implements FileItemIterator {
      * @throws FileUploadException An error occurred while parsing the request.
      * @throws IOException         An I/O error occurred.
      */
-    public FileItemIteratorImpl(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
+    FileItemIteratorImpl(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         this.fileUploadBase = fileUploadBase;
         this.sizeMax = fileUploadBase.getSizeMax();
         this.fileSizeMax = fileUploadBase.getFileSizeMax();

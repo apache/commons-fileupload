@@ -14,16 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.impl;
+package org.apache.commons.fileupload2;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.fileupload2.FileItemHeaders;
-import org.apache.commons.fileupload2.FileItemStream;
-import org.apache.commons.fileupload2.FileUploadByteCountLimitException;
-import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
 import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.io.input.BoundedInputStream;
@@ -31,7 +26,7 @@ import org.apache.commons.io.input.BoundedInputStream;
 /**
  * Default implementation of {@link FileItemStream}.
  */
-public class FileItemStreamImpl implements FileItemStream {
+class FileItemStreamImpl implements FileItemStream {
 
     /**
      * The File Item iterator implementation.
@@ -87,7 +82,7 @@ public class FileItemStreamImpl implements FileItemStream {
      * @throws IOException         Creating the file item failed.
      * @throws FileUploadException Parsing the incoming data stream failed.
      */
-    public FileItemStreamImpl(final FileItemIteratorImpl fileItemIterator, final String fileName, final String fieldName, final String contentType,
+    FileItemStreamImpl(final FileItemIteratorImpl fileItemIterator, final String fileName, final String fieldName, final String contentType,
             final boolean formField, final long contentLength) throws FileUploadException, IOException {
         this.fileItemIteratorImpl = fileItemIterator;
         this.fileName = fileName;
