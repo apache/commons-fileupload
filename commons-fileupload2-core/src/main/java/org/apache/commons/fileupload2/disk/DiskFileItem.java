@@ -327,8 +327,7 @@ public class DiskFileItem implements FileItem {
     @Override
     public OutputStream getOutputStream() {
         if (dfos == null) {
-            final File outputFile = getTempFile();
-            dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
+            dfos = DeferredFileOutputStream.builder().setThreshold(sizeThreshold).setOutputFile(getTempFile()).get();
         }
         return dfos;
     }
