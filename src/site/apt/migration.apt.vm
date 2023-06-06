@@ -157,5 +157,4 @@ Migrating
 * Using Commons FileUpload 2 as a Java Module
 
   The library provides <<META-INF/versions/module-info.class>> that defines the required modules and exported packages.
-  All packages but <<org.apache.commons.fileupload2.impl>> are exported. All exception classes have been moved from
-  <<org.apache.commons.fileupload2.impl>> to <<org.apache.commons.fileupload2.pub>> package
+  All packages but <<org.apache.commons.fileupload2.impl>> are exported.

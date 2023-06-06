@@ -21,11 +21,11 @@ import java.io.InputStream;
 
 import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.fileupload2.FileItemStream;
+import org.apache.commons.fileupload2.FileUploadByteCountLimitException;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
 import org.apache.commons.fileupload2.disk.DiskFileItem;
-import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
 import org.apache.commons.io.input.BoundedInputStream;
 
 /**

@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.naming.SizeLimitExceededException;
 
-import org.apache.commons.fileupload2.pub.FileUploadByteCountLimitException;
-
 /**
  * An iterator, as returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.pub;
+package org.apache.commons.fileupload2;
 
 /**
  * Signals that a file size exceeds the configured maximum.
