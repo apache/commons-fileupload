@@ -203,7 +203,7 @@ public class DiskFileItemSerializeTest {
      * Fails when repository contains a null character.
      */
     @Test
-    public void testInvalidRepositoryWithNullChar() throws IOException {
+    public void testInvalidRepositoryWithNullChar() {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(FileUtils.getTempDirectory(), "\0");
