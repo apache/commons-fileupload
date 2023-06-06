@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
  * @see <a href="https://tools.ietf.org/html/rfc2231">RFC 2231</a>
  * @see <a href="https://tools.ietf.org/html/rfc5987">RFC 5987</a>
  */
-final class RFC2231Utility {
+final class RFC2231Utils {
 
     /**
      * The Hexadecimal values char array.
@@ -147,6 +147,6 @@ final class RFC2231Utility {
     /**
      * Private constructor so that no instances can be created. This class contains only static utility methods.
      */
-    private RFC2231Utility() {
+    private RFC2231Utils() {
     }
 }

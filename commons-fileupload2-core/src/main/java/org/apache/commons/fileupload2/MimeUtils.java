@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * Utility class to decode MIME texts.
  */
-final class MimeUtility {
+final class MimeUtils {
 
     /**
      * The marker to indicate text is encoded with BASE64 algorithm.
@@ -265,7 +265,7 @@ final class MimeUtility {
     /**
      * Hidden constructor, this class must not be instantiated.
      */
-    private MimeUtility() {
+    private MimeUtils() {
         // do nothing
     }
 

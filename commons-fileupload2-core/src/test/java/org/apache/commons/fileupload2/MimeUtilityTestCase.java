@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload2.MimeUtility;
+import org.apache.commons.fileupload2.MimeUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,12 +30,12 @@ import org.junit.jupiter.api.Test;
 public final class MimeUtilityTestCase {
 
     private static void assertEncoded(final String expected, final String encoded) throws Exception {
-        assertEquals(expected, MimeUtility.decodeText(encoded));
+        assertEquals(expected, MimeUtils.decodeText(encoded));
     }
 
     @Test
     public void decodeInvalidEncoding() {
-        assertThrows(UnsupportedEncodingException.class, () -> MimeUtility.decodeText("=?invalid?B?xyz-?="));
+        assertThrows(UnsupportedEncodingException.class, () -> MimeUtils.decodeText("=?invalid?B?xyz-?="));
     }
 
     @Test

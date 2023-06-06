@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload2.RFC2231Utility;
+import org.apache.commons.fileupload2.RFC2231Utils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -34,12 +34,12 @@ import org.junit.jupiter.api.Test;
 public final class RFC2231UtilityTestCase {
 
     private static void assertEncoded(final String expected, final String encoded) throws Exception {
-        assertEquals(expected, RFC2231Utility.decodeText(encoded));
+        assertEquals(expected, RFC2231Utils.decodeText(encoded));
     }
 
     @Test
     public void decodeInvalidEncoding() throws Exception {
-        assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utility.decodeText("abc'en'hello"));
+        assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utils.decodeText("abc'en'hello"));
     }
 
     @Test
@@ -60,27 +60,27 @@ public final class RFC2231UtilityTestCase {
     @Test
     public void testHasEncodedValue() {
         final String nameWithAsteriskAtEnd = "paramname*";
-        assertTrue(RFC2231Utility.hasEncodedValue(nameWithAsteriskAtEnd));
+        assertTrue(RFC2231Utils.hasEncodedValue(nameWithAsteriskAtEnd));
 
         final String nameWithAsteriskNotAtEnd = "param*name";
-        assertFalse(RFC2231Utility.hasEncodedValue(nameWithAsteriskNotAtEnd));
+        assertFalse(RFC2231Utils.hasEncodedValue(nameWithAsteriskNotAtEnd));
 
         final String nameWithoutAsterisk = "paramname";
-        assertFalse(RFC2231Utility.hasEncodedValue(nameWithoutAsterisk));
+        assertFalse(RFC2231Utils.hasEncodedValue(nameWithoutAsterisk));
     }
 
     @Test
     public void testStripDelimiter() {
         final String nameWithAsteriskAtEnd = "paramname*";
-        assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithAsteriskAtEnd));
+        assertEquals("paramname", RFC2231Utils.stripDelimiter(nameWithAsteriskAtEnd));
 
         final String nameWithAsteriskNotAtEnd = "param*name";
-        assertEquals("param*name", RFC2231Utility.stripDelimiter(nameWithAsteriskNotAtEnd));
+        assertEquals("param*name", RFC2231Utils.stripDelimiter(nameWithAsteriskNotAtEnd));
 
         final String nameWithTwoAsterisks = "param*name*";
-        assertEquals("param*name", RFC2231Utility.stripDelimiter(nameWithTwoAsterisks));
+        assertEquals("param*name", RFC2231Utils.stripDelimiter(nameWithTwoAsterisks));
 
         final String nameWithoutAsterisk = "paramname";
-        assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithoutAsterisk));
+        assertEquals("paramname", RFC2231Utils.stripDelimiter(nameWithoutAsterisk));
     }
 }

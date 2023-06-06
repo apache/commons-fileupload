@@ -176,7 +176,7 @@ public class ParameterParser {
 
                 if (paramValue != null) {
                     try {
-                        paramValue = RFC2231Utility.hasEncodedValue(paramName) ? RFC2231Utility.decodeText(paramValue) : MimeUtility.decodeText(paramValue);
+                        paramValue = RFC2231Utils.hasEncodedValue(paramName) ? RFC2231Utils.decodeText(paramValue) : MimeUtils.decodeText(paramValue);
                     } catch (final UnsupportedEncodingException ignored) {
                         // let's keep the original value in this case
                     }
@@ -186,7 +186,7 @@ public class ParameterParser {
                 pos++; // skip separator
             }
             if (paramName != null && !paramName.isEmpty()) {
-                paramName = RFC2231Utility.stripDelimiter(paramName);
+                paramName = RFC2231Utils.stripDelimiter(paramName);
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ENGLISH);
                 }
