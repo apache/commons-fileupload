@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload2.MimeUtils;
 import org.junit.jupiter.api.Test;
 
 /**

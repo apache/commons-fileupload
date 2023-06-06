@@ -25,7 +25,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.fileupload2.QuotedPrintableDecoder;
 import org.junit.jupiter.api.Test;
 
 /**
