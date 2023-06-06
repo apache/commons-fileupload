@@ -461,17 +461,9 @@ fix as well as a small number of bugfixes." date="2014-02-07">
 
       <action dev="martinc" type="update">
         Build updates:
-        <ul>
-          <li>
-            Include NOTICE.txt in the jar file and distributions.
-          </li>
-          <li>
-            Include xdocs in source distribution.
-          </li>
-          <li>
-            Create MD5 checksums for distributions.
-          </li>
-        </ul>
+          (1) Include NOTICE.txt in the jar file and distributions.
+          (2) Include xdocs in source distribution.
+          (3) Create MD5 checksums for distributions.
       </action>
 
       <action dev="martinc" type="add">
@@ -517,22 +509,12 @@ fix as well as a small number of bugfixes." date="2014-02-07">
 
       <action dev="martinc" type="update">
         Web site updates:
-        <ul>
-          <li>
-            Add detail pages for Source Repository and Issue Tracking, based on
-            those for IO and Validator.
-          </li>
-          <li>
-            Improvements to FileUpload home page, based on similar recent
+          (1) Add detail pages for Source Repository and Issue Tracking, based on
+              those for IO and Validator.
+          (2) Improvements to FileUpload home page, based on similar recent
             changes to IO and Validator home pages.
-          </li>
-          <li>
-            The Bugzilla component name has a space in it. Fix the URLs.
-          </li>
-          <li>
-            Add an FAQ page, using the Maven plugin to generate it.
-          </li>
-        </ul>
+          (3) The Bugzilla component name has a space in it. Fix the URLs.
+          (4) Add an FAQ page, using the Maven plugin to generate it.
       </action>
 
       <action dev="dion" type="fix" issue="COMMONSSITE-2">
@@ -570,39 +552,27 @@ fix as well as a small number of bugfixes." date="2014-02-07">
 
       <action dev="martinc" type="update">
         Substantial refactoring and additions:
-        <ul>
-          <li>
-            The core package is now independent of servlet / portlet / other
+          (1) The core package is now independent of servlet / portlet / other
             distinctions, as well as persistence schemes, other than deprecated
             classes and methods retained for backwards compatibility.
-          </li>
-          <li>
-            Servlet specific functionality has been moved to a new 'servlet'
+          (2) Servlet specific functionality has been moved to a new 'servlet'
             package. Existing users should migrate to this as soon as possible,
             since the servlet specific functionality in the generic package
             will be removed in the release after FileUpload 1.1.
-          </li>
-          <li>
-            Support for portlets (JSR 168) has been added, in a new 'portlet'
+          (3) Support for portlets (JSR 168) has been added, in a new 'portlet'
             package. This is not well tested at this point, and feedback would
             be very much appreciated. (This also resolves bug #23620.)
-          </li>
-          <li>
-            The disk-based file item implementation has been moved into a 'disk'
+          (4) The disk-based file item implementation has been moved into a 'disk'
             package, and renamed from Default* to Disk* to reflect what it
             really is. The Default* classes have been retained in the top level
             package for backwards compatibility, but are now deprecated, and
             will be removed in the release after FileUpload 1.1.
-          </li>
-          <li>
-            The isMultipartRequest method is an unfortunate casualty of this
+          (5) The isMultipartRequest method is an unfortunate casualty of this
             refactoring. That method should really be moved to ServletFileUpload,
             but since the method is static, it can only exist in either
             FileUploadBase or ServletFileUpload. Backwards compatibility dictates
             the former for now, but the latter is the desired state, which
             implies some future breakage. Fair warning...
-          </li>
-        </ul>
       </action>
 
       <action dev="martinc" type="fix" issue="FILEUPLOAD-4">
