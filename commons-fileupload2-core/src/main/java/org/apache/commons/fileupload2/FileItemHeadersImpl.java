@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.util;
+package org.apache.commons.fileupload2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,12 +24,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.FileItemHeaders;
-
 /**
  * Default implementation of the {@link FileItemHeaders} interface.
  */
-public class FileItemHeadersImpl implements FileItemHeaders {
+class FileItemHeadersImpl implements FileItemHeaders {
 
     /**
      * Map of {@code String} keys to a {@code List} of {@code String} instances.
