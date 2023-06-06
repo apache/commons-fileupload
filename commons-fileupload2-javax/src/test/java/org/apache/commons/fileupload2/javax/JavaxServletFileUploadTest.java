@@ -63,7 +63,7 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
         final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
-        fileItemFactory.setDefaultCharset("UTF-8");
+        fileItemFactory.setDefaultCharset(StandardCharsets.UTF_8);
         final JavaxServletFileUpload upload = new JavaxServletFileUpload(fileItemFactory);
         final List<FileItem> fileItems = upload.parseRequest(request);
         final FileItem fileItem = fileItems.get(0);

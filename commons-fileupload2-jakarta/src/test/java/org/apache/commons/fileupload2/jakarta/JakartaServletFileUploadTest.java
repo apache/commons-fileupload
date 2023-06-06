@@ -59,7 +59,7 @@ public class JakartaServletFileUploadTest extends AbstractFileUploadTest<Jakarta
         final HttpServletRequest request = new JakartaMockServletHttpRequest(bytes, Constants.CONTENT_TYPE);
 
         final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
-        fileItemFactory.setDefaultCharset("UTF-8");
+        fileItemFactory.setDefaultCharset(StandardCharsets.UTF_8);
         final JakartaServletFileUpload upload = new JakartaServletFileUpload(fileItemFactory);
         final List<FileItem> fileItems = upload.parseRequest(request);
         final FileItem fileItem = fileItems.get(0);

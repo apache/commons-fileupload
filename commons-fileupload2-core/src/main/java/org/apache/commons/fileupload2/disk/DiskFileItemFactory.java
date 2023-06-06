@@ -17,6 +17,7 @@
 package org.apache.commons.fileupload2.disk;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
@@ -79,7 +80,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * Default content charset to be used when no explicit charset parameter is provided by the sender.
      */
-    private String defaultCharset = DiskFileItem.DEFAULT_CHARSET;
+    private Charset defaultCharset = DiskFileItem.DEFAULT_CHARSET;
 
     /**
      * Constructs an unconfigured instance of this class. The resulting factory may be configured by calling the appropriate setter methods.
@@ -124,7 +125,7 @@ public class DiskFileItemFactory implements FileItemFactory {
      *
      * @return the default charset
      */
-    public String getDefaultCharset() {
+    public Charset getDefaultCharset() {
         return defaultCharset;
     }
 
@@ -162,7 +163,7 @@ public class DiskFileItemFactory implements FileItemFactory {
      *
      * @param charset the default charset
      */
-    public void setDefaultCharset(final String charset) {
+    public void setDefaultCharset(final Charset charset) {
         defaultCharset = charset;
     }
 

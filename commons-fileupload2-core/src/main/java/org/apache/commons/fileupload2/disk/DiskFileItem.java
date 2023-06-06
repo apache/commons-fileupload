@@ -23,7 +23,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -35,6 +37,7 @@ import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.ParameterParser;
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
@@ -63,7 +66,7 @@ public class DiskFileItem implements FileItem {
      * Default content charset to be used when no explicit charset parameter is provided by the sender. Media subtypes of the "text" type are defined to have a
      * default charset value of "ISO-8859-1" when received via HTTP.
      */
-    public static final String DEFAULT_CHARSET = StandardCharsets.ISO_8859_1.name();
+    public static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
 
     /**
      * UID used in unique file name generation.
@@ -179,7 +182,7 @@ public class DiskFileItem implements FileItem {
     /**
      * Default content charset to be used when no explicit charset parameter is provided by the sender.
      */
-    private String defaultCharset = DEFAULT_CHARSET;
+    private Charset defaultCharset = DEFAULT_CHARSET;
 
     /**
      * Constructs a new {@code DiskFileItem} instance.
@@ -240,12 +243,12 @@ public class DiskFileItem implements FileItem {
      *
      * @return The content charset passed by the agent or {@code null} if not defined.
      */
-    public String getCharset() {
+    public Charset getCharset() {
         final ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
         final Map<String, String> params = parser.parse(getContentType(), ';');
-        return params.get("charset");
+        return Charsets.toCharset(params.get("charset"), defaultCharset);
     }
 
     /**
@@ -263,7 +266,7 @@ public class DiskFileItem implements FileItem {
      *
      * @return the default charset
      */
-    public String getDefaultCharset() {
+    public Charset getDefaultCharset() {
         return defaultCharset;
     }
 
@@ -379,13 +382,8 @@ public class DiskFileItem implements FileItem {
     @Override
     public String getString() {
         try {
-            final byte[] rawData = get();
-            String charset = getCharset();
-            if (charset == null) {
-                charset = defaultCharset;
-            }
-            return new String(rawData, charset);
-        } catch (final IOException e) {
+            return new String(get(), getCharset());
+        } catch (final UnsupportedCharsetException e) {
             return "";
         }
     }
@@ -452,7 +450,7 @@ public class DiskFileItem implements FileItem {
      *
      * @param charset the default charset
      */
-    public void setDefaultCharset(final String charset) {
+    public void setDefaultCharset(final Charset charset) {
         defaultCharset = charset;
     }
 
