@@ -14,9 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.fileupload2.mime;
 
 /**
- * MIME decoder implementation, imported and retailed from <a href="http://svn.apache.org/repos/asf/geronimo/specs/tags/geronimo-javamail_1.4_spec-1.4/">Apache
- * Geronimo</a>.
  */
-package org.apache.commons.fileupload2.util.mime;
+final class ParseException extends Exception {
+
+    /**
+     * The UID to use when serializing this instance.
+     */
+    private static final long serialVersionUID = 2;
+
+    /**
+     * Constructs a new exception with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    ParseException(final String message) {
+        super(message);
+    }
+
+}
