@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.mime;
+package org.apache.commons.fileupload2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.fileupload2.MimeUtility;
 import org.junit.jupiter.api.Test;
 
 /**

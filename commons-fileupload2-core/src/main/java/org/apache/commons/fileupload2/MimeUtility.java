@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.mime;
+package org.apache.commons.fileupload2;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * Utility class to decode MIME texts.
  */
-public final class MimeUtility {
+final class MimeUtility {
 
     /**
      * The marker to indicate text is encoded with BASE64 algorithm.
@@ -82,7 +82,7 @@ public final class MimeUtility {
      * @return The decoded text string.
      * @throws UnsupportedEncodingException if the detected encoding in the input text is not supported.
      */
-    public static String decodeText(final String text) throws UnsupportedEncodingException {
+    static String decodeText(final String text) throws UnsupportedEncodingException {
         // if the text contains any encoded tokens, those tokens will be marked with "=?". If the
         // source string doesn't contain that sequent, no decoding is required.
         if (!text.contains(ENCODED_TOKEN_MARKER)) {

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.mime;
+package org.apache.commons.fileupload2;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
  * @see <a href="https://tools.ietf.org/html/rfc2231">RFC 2231</a>
  * @see <a href="https://tools.ietf.org/html/rfc5987">RFC 5987</a>
  */
-public final class RFC2231Utility {
+final class RFC2231Utility {
 
     /**
      * The Hexadecimal values char array.
@@ -70,7 +70,7 @@ public final class RFC2231Utility {
      * @return Decoded text based on charset encoding
      * @throws UnsupportedEncodingException The requested character set wasn't found.
      */
-    public static String decodeText(final String encodedText) throws UnsupportedEncodingException {
+    static String decodeText(final String encodedText) throws UnsupportedEncodingException {
         final int langDelimitStart = encodedText.indexOf('\'');
         if (langDelimitStart == -1) {
             // missing charset
@@ -122,7 +122,7 @@ public final class RFC2231Utility {
      * @param paramName The parameter, which is being checked.
      * @return {@code true}, if encoded as per RFC 2231, {@code false} otherwise
      */
-    public static boolean hasEncodedValue(final String paramName) {
+    static boolean hasEncodedValue(final String paramName) {
         if (paramName != null) {
             return paramName.lastIndexOf('*') == paramName.length() - 1;
         }
@@ -135,7 +135,7 @@ public final class RFC2231Utility {
      * @param paramName The parameter, which is being inspected.
      * @return stripped {@code paramName} of Asterisk (*), if RFC2231 encoded
      */
-    public static String stripDelimiter(final String paramName) {
+    static String stripDelimiter(final String paramName) {
         if (hasEncodedValue(paramName)) {
             final StringBuilder paramBuilder = new StringBuilder(paramName);
             paramBuilder.deleteCharAt(paramName.lastIndexOf('*'));
