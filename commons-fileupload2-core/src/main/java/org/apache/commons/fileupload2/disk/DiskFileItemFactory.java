@@ -16,8 +16,8 @@
  */
 package org.apache.commons.fileupload2.disk;
 
-import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
@@ -40,7 +40,7 @@ import org.apache.commons.io.FileCleaningTracker;
  * <p>
  * <b>NOTE</b>: Files are created in the system default temp directory with predictable names. This means that a local attacker with write access to that
  * directory can perform a TOUTOC attack to replace any uploaded file with a file of the attackers choice. The implications of this will depend on how the
- * uploaded file is used but could be significant. When using this implementation in an environment with local, untrusted users, {@link #setRepository(File)}
+ * uploaded file is used but could be significant. When using this implementation in an environment with local, untrusted users, {@link #setRepository(Path)}
  * MUST be used to configure a repository location that is not publicly writable. In a Servlet container the location identified by the ServletContext attribute
  * {@code javax.servlet.context.tempdir} may be used.
  * </p>
@@ -49,7 +49,7 @@ import org.apache.commons.io.FileCleaningTracker;
  * set on the {@link DiskFileItemFactory}. However, if you do use such a tracker, then you must consider the following: Temporary files are automatically
  * deleted as soon as they are no longer needed. (More precisely, when the corresponding instance of {@link java.io.File} is garbage collected.) This is done by
  * the so-called reaper thread, which is started and stopped automatically by the {@link FileCleaningTracker} when there are files to be tracked. It might make
- * sense to terminate that thread, for example, if your web application ends. See the section on "Resource cleanup" in the users guide of commons-fileupload.
+ * sense to terminate that thread, for example, if your web application ends. See the section on "Resource cleanup" in the users guide of Commons FileUpload.
  * </p>
  */
 public class DiskFileItemFactory implements FileItemFactory {
@@ -62,7 +62,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * The directory in which uploaded files will be stored, if stored on disk.
      */
-    private File repository;
+    private Path repository;
 
     /**
      * The threshold above which uploads will be stored on disk.
@@ -95,7 +95,7 @@ public class DiskFileItemFactory implements FileItemFactory {
      * @param sizeThreshold The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
      * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
      */
-    public DiskFileItemFactory(final int sizeThreshold, final File repository) {
+    public DiskFileItemFactory(final int sizeThreshold, final Path repository) {
         this.sizeThreshold = sizeThreshold;
         this.repository = repository;
     }
@@ -115,7 +115,7 @@ public class DiskFileItemFactory implements FileItemFactory {
         result.setDefaultCharset(defaultCharset);
         final FileCleaningTracker tracker = getFileCleaningTracker();
         if (tracker != null) {
-            tracker.track(result.getTempFile(), result);
+            tracker.track(result.getTempFile().toFile(), result);
         }
         return result;
     }
@@ -142,9 +142,9 @@ public class DiskFileItemFactory implements FileItemFactory {
      * Gets the directory used to temporarily store files that are larger than the configured size threshold.
      *
      * @return The directory in which temporary files will be located.
-     * @see #setRepository(File)
+     * @see #setRepository(Path)
      */
-    public File getRepository() {
+    public Path getRepository() {
         return repository;
     }
 
@@ -182,7 +182,7 @@ public class DiskFileItemFactory implements FileItemFactory {
      * @param repository The directory in which temporary files will be located.
      * @see #getRepository()
      */
-    public void setRepository(final File repository) {
+    public void setRepository(final Path repository) {
         this.repository = repository;
     }
 

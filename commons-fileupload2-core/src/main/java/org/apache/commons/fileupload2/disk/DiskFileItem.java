@@ -39,6 +39,7 @@ import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.ParameterParser;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -157,7 +158,7 @@ public class DiskFileItem implements FileItem {
     /**
      * The directory in which uploaded files will be stored, if stored on disk.
      */
-    private final File repository;
+    private final Path repository;
 
     /**
      * Cached contents of the file.
@@ -172,7 +173,7 @@ public class DiskFileItem implements FileItem {
     /**
      * The temporary file to use.
      */
-    private transient File tempFile;
+    private transient Path tempFile;
 
     /**
      * The file items headers.
@@ -195,13 +196,13 @@ public class DiskFileItem implements FileItem {
      * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
      */
     public DiskFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName, final int sizeThreshold,
-            final File repository) {
+            final Path repository) {
         this.fieldName = fieldName;
         this.contentType = contentType;
         this.isFormField = isFormField;
         this.fileName = fileName;
         this.sizeThreshold = sizeThreshold;
-        this.repository = repository;
+        this.repository = repository != null ? repository : PathUtils.getTempDirectory();
     }
 
     /**
@@ -330,7 +331,7 @@ public class DiskFileItem implements FileItem {
     @Override
     public OutputStream getOutputStream() {
         if (dfos == null) {
-            dfos = DeferredFileOutputStream.builder().setThreshold(sizeThreshold).setOutputFile(getTempFile()).get();
+            dfos = DeferredFileOutputStream.builder().setThreshold(sizeThreshold).setOutputFile(getTempFile().toFile()).get();
         }
         return dfos;
     }
@@ -409,14 +410,9 @@ public class DiskFileItem implements FileItem {
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
-    protected File getTempFile() {
+    protected Path getTempFile() {
         if (tempFile == null) {
-            File tempDir = repository;
-            if (tempDir == null) {
-                tempDir = FileUtils.getTempDirectory();
-            }
-            final String tempFileName = String.format("upload_%s_%s.tmp", UID, getUniqueId());
-            tempFile = new File(tempDir, tempFileName);
+            tempFile = repository.resolve(String.format("upload_%s_%s.tmp", UID, getUniqueId()));
         }
         return tempFile;
     }

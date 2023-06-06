@@ -27,10 +27,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.file.InvalidPathException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +44,7 @@ import org.junit.jupiter.api.Test;
 public class DiskFileItemSerializeTest {
 
     // Use a private repository to catch any files left over by tests
-    private static final File REPOSITORY = new File(FileUtils.getTempDirectory(), "DiskFileItemRepo");
+    private static final Path REPOSITORY = PathUtils.getTempDirectory().resolve("DiskFileItemRepo");
 
     /**
      * Content type for regular form items.
@@ -92,7 +94,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Create a FileItem with the specfied content bytes and repository.
      */
-    private FileItem createFileItem(final byte[] contentBytes, final File repository) throws IOException {
+    private FileItem createFileItem(final byte[] contentBytes, final Path repository) throws IOException {
         final FileItemFactory factory = new DiskFileItemFactory(THRESHOLD, repository);
         final String textFieldName = "textField";
 
@@ -124,18 +126,20 @@ public class DiskFileItemSerializeTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        if (REPOSITORY.exists()) {
-            FileUtils.deleteDirectory(REPOSITORY);
+        if (Files.exists(REPOSITORY)) {
+            PathUtils.deleteDirectory(REPOSITORY);
+        } else {
+            Files.createDirectories(REPOSITORY);
         }
-        FileUtils.forceMkdir(REPOSITORY);
     }
 
     @AfterEach
     public void tearDown() throws IOException {
-        for (final File file : FileUtils.listFiles(REPOSITORY, null, true)) {
+        
+        for (final File file : FileUtils.listFiles(REPOSITORY.toFile(), null, true)) {
             System.out.println("Found leftover file " + file);
         }
-        FileUtils.deleteDirectory(REPOSITORY);
+        PathUtils.deleteDirectory(REPOSITORY);
     }
 
     /**
@@ -176,7 +180,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Helper method to test creation of a field when a repository is used.
      */
-    public void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) throws IOException {
+    public void testInMemoryObject(final byte[] testFieldValueBytes, final Path repository) throws IOException {
         final FileItem item = createFileItem(testFieldValueBytes, repository);
 
         // Check state is as expected
@@ -194,20 +198,9 @@ public class DiskFileItemSerializeTest {
     public void testInvalidRepository() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
-        final File repository = new File(FileUtils.getTempDirectory(), "file");
+        final Path repository = PathUtils.getTempDirectory().resolve("file");
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         assertThrows(IOException.class, () -> deserialize(serialize(item)));
-    }
-
-    /**
-     * Fails when repository contains a null character.
-     */
-    @Test
-    public void testInvalidRepositoryWithNullChar() {
-        // Create the FileItem
-        final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
-        final File repository = new File(FileUtils.getTempDirectory(), "\0");
-        assertThrows(InvalidPathException.class, () -> createFileItem(testFieldValueBytes, repository));
     }
 
     /**
