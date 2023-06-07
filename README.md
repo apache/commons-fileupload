@@ -81,7 +81,12 @@ The upcoming version 2.0.0 will be:
 ```xml
 <dependency>
   <groupId>org.apache.commons</groupId>
-  <artifactId>commons-fileupload2</artifactId>
+  <artifactId>commons-fileupload2-jakarta</artifactId>
+  <version>2.0.0</version>
+</dependency>
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-fileupload2-javax</artifactId>
   <version>2.0.0</version>
 </dependency>
 ```
@@ -91,7 +96,12 @@ You can experiment today by building from git master or using a snapshot build:
 ```xml
 <dependency>
   <groupId>org.apache.commons</groupId>
-  <artifactId>commons-fileupload2</artifactId>
+  <artifactId>commons-fileupload2-jakarta</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+</dependency>
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-fileupload2-javax</artifactId>
   <version>2.0.0-SNAPSHOT</version>
 </dependency>
 ```
