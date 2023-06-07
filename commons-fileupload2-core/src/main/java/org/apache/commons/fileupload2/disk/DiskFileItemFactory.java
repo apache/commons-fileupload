@@ -72,8 +72,6 @@ public final class DiskFileItemFactory implements FileItemFactory {
      *    .get();
      * }
      * </pre>
-     *
-     * @since 2.12.0
      */
     public static class Builder extends AbstractStreamBuilder<DiskFileItemFactory, Builder> {
 
