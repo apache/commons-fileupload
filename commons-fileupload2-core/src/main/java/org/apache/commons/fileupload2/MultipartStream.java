@@ -411,9 +411,9 @@ public class MultipartStream {
          * @param byteCount Number of bytes, which have been read.
          */
         void noteBytesRead(final int byteCount) {
-            /*
-             * Indicates, that the given number of bytes have been read from the input stream.
-             */
+            //
+            // Indicates, that the given number of bytes have been read from the input stream.
+            //
             bytesRead += byteCount;
             notifyListener();
         }
