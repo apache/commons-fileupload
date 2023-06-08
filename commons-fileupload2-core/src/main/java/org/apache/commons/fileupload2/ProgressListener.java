@@ -19,7 +19,15 @@ package org.apache.commons.fileupload2;
 /**
  * Receives progress information. May be used to display a progress bar.
  */
+@FunctionalInterface
 public interface ProgressListener {
+
+    /**
+     * Nop implementation.
+     */
+    ProgressListener NOP = (bytesRead, contentLength, items) -> {
+        // nop
+    };
 
     /**
      * Updates the listeners status information.

@@ -401,7 +401,7 @@ public class MultipartStream {
          * @param contentLength    The expected content length.
          */
         public ProgressNotifier(final ProgressListener progressListener, final long contentLength) {
-            this.progressListener = progressListener;
+            this.progressListener = progressListener != null ? progressListener : ProgressListener.NOP;
             this.contentLength = contentLength;
         }
 
@@ -430,9 +430,7 @@ public class MultipartStream {
          * Called for notifying the listener.
          */
         private void notifyListener() {
-            if (progressListener != null) {
-                progressListener.update(bytesRead, contentLength, items);
-            }
+            progressListener.update(bytesRead, contentLength, items);
         }
 
     }

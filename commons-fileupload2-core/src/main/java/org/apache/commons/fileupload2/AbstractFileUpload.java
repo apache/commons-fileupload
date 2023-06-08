@@ -123,7 +123,7 @@ public abstract class AbstractFileUpload {
     /**
      * The progress listener.
      */
-    private ProgressListener listener;
+    private ProgressListener progressListener = ProgressListener.NOP;
 
     /**
      * Gets the boundary from the {@code Content-type} header.
@@ -316,7 +316,7 @@ public abstract class AbstractFileUpload {
      * @return The progress listener, if any, or null.
      */
     public ProgressListener getProgressListener() {
-        return listener;
+        return progressListener;
     }
 
     /**
@@ -490,10 +490,10 @@ public abstract class AbstractFileUpload {
     /**
      * Sets the progress listener.
      *
-     * @param listener The progress listener, if any. Defaults to null.
+     * @param progressListener The progress listener, if any. Defaults to null.
      */
-    public void setProgressListener(final ProgressListener listener) {
-        this.listener = listener;
+    public void setProgressListener(final ProgressListener progressListener) {
+        this.progressListener = progressListener != null ? progressListener : ProgressListener.NOP;
     }
 
     /**
