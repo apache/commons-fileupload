@@ -25,7 +25,7 @@ import java.io.InputStream;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests {@link org.apache.commons.fileupload2.MultipartStream}.
+ * Unit tests {@link MultipartStream}.
  */
 public class MultipartStreamTest {
 
@@ -38,8 +38,8 @@ public class MultipartStreamTest {
         final InputStream input = new ByteArrayInputStream(contents);
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
         final int iBufSize = 1;
-        assertThrows(IllegalArgumentException.class,
-                () -> new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length)));
+        assertThrows(IllegalArgumentException.class, () -> MultipartStream.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
+                .setProgressNotifier(new MultipartStream.ProgressNotifier(null, contents.length)).get());
     }
 
     @Test
@@ -49,7 +49,8 @@ public class MultipartStreamTest {
         final InputStream input = new ByteArrayInputStream(contents);
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
         final int iBufSize = boundary.length + MultipartStream.BOUNDARY_PREFIX.length + 1;
-        final MultipartStream ms = new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length));
+        final MultipartStream ms = MultipartStream.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
+                .setProgressNotifier(new MultipartStream.ProgressNotifier(null, contents.length)).get();
         assertNotNull(ms);
     }
 
@@ -59,7 +60,8 @@ public class MultipartStreamTest {
         final byte[] contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final MultipartStream ms = new MultipartStream(input, boundary, new MultipartStream.ProgressNotifier(null, contents.length));
+        final MultipartStream ms = MultipartStream.builder().setInputStream(input).setBoundary(boundary)
+                .setProgressNotifier(new MultipartStream.ProgressNotifier(null, contents.length)).get();
         assertNotNull(ms);
     }
 

@@ -282,7 +282,7 @@ class FileItemIteratorImpl implements FileItemIterator {
 
         progressNotifier = new MultipartStream.ProgressNotifier(fileUploadBase.getProgressListener(), requestSize);
         try {
-            multiPartStream = new MultipartStream(input, multiPartBoundary, progressNotifier);
+            multiPartStream = MultipartStream.builder().setInputStream(input).setBoundary(multiPartBoundary).setProgressNotifier(progressNotifier).get();
         } catch (final IllegalArgumentException e) {
             IOUtils.closeQuietly(input); // avoid possible resource leak
             throw new FileUploadContentTypeException(String.format("The boundary specified in the %s header is too long", AbstractFileUpload.CONTENT_TYPE), e);

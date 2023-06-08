@@ -21,8 +21,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.build.AbstractOrigin;
+import org.apache.commons.io.build.AbstractStreamBuilder;
 import org.apache.commons.io.output.NullOutputStream;
 
 /**
@@ -77,7 +80,81 @@ import org.apache.commons.io.output.NullOutputStream;
  * }
  * </pre>
  */
-public class MultipartStream {
+public final class MultipartStream {
+
+    /**
+     * Builds a new {@link MultipartStream} instance.
+     * <p>
+     * For example:
+     * </p>
+     *
+     * <pre>{@code
+     * MultipartStream factory = MultipartStream.builder()
+     *    .setPath(path)
+     *    .setBufferSize(DEFAULT_THRESHOLD)
+     *    .get();
+     * }
+     * </pre>
+     */
+    public static class Builder extends AbstractStreamBuilder<MultipartStream, Builder> {
+
+        /**
+         * Boundary.
+         */
+        private byte[] boundary;
+
+        /**
+         * Progress notifier.
+         */
+        private ProgressNotifier progressNotifier;
+
+        public Builder() {
+            setBufferSizeDefault(DEFAULT_BUFSIZE);
+        }
+
+        /**
+         * Constructs a new instance.
+         * <p>
+         * This builder uses the InputStream, buffer size, boundary and progress notifier aspects.
+         * </p>
+         * <p>
+         * You must provide an origin that can be converted to a Reader by this builder, otherwise, this call will throw an
+         * {@link UnsupportedOperationException}.
+         * </p>
+         *
+         * @return a new instance.
+         * @throws IOException if an I/O error occurs.
+         * @throws UnsupportedOperationException if the origin cannot provide a Path.
+         * @see AbstractOrigin#getReader(Charset)
+         */
+        @Override
+        public MultipartStream get() throws IOException {
+            return new MultipartStream(getInputStream(), boundary, getBufferSize(), progressNotifier);
+        }
+
+        /**
+         * Sets the boundary.
+         *
+         * @param boundary the boundary.
+         * @return this
+         */
+        public Builder setBoundary(final byte[] boundary) {
+            this.boundary = boundary;
+            return this;
+        }
+
+        /**
+         * Sets the progress notifier.
+         *
+         * @param progressNotifier progress notifier..
+         * @return this
+         */
+        public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
+            this.progressNotifier = progressNotifier;
+            return this;
+        }
+
+    }
 
     /**
      * Signals an attempt to set an invalid boundary token.
@@ -498,6 +575,15 @@ public class MultipartStream {
     }
 
     /**
+     * Constructs a new {@link Builder}.
+     *
+     * @return a new {@link Builder}.
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
      * The input stream from which data is read.
      */
     private final InputStream input;
@@ -567,7 +653,7 @@ public class MultipartStream {
      * @param notifier   The notifier, which is used for calling the progress listener, if any.
      * @throws IllegalArgumentException If the buffer size is too small.
      */
-    public MultipartStream(final InputStream input, final byte[] boundary, final int bufferSize, final ProgressNotifier notifier) {
+    private MultipartStream(final InputStream input, final byte[] boundary, final int bufferSize, final ProgressNotifier notifier) {
         if (boundary == null) {
             throw new IllegalArgumentException("boundary may not be null");
         }
@@ -593,18 +679,6 @@ public class MultipartStream {
 
         head = 0;
         tail = 0;
-    }
-
-    /**
-     * Constructs a {@code MultipartStream} with a default size buffer.
-     *
-     * @param input            The {@code InputStream} to serve as a data source.
-     * @param boundary         The token used for dividing the stream into {@code encapsulations}.
-     * @param progressNotifier An object for calling the progress listener, if any.
-     * @see #MultipartStream(InputStream, byte[], int, ProgressNotifier)
-     */
-    public MultipartStream(final InputStream input, final byte[] boundary, final ProgressNotifier progressNotifier) {
-        this(input, boundary, DEFAULT_BUFSIZE, progressNotifier);
     }
 
     /**
@@ -707,7 +781,7 @@ public class MultipartStream {
      * Reads {@code body-data} from the current {@code encapsulation} and writes its contents into the output {@code Stream}.
      * <p>
      * Arbitrary large amounts of data can be processed by this method using a constant size buffer. (see
-     * {@link #MultipartStream(InputStream,byte[],int, MultipartStream.ProgressNotifier) constructor}).
+     * {@link MultipartStream#builder()}).
      * </p>
      *
      * @param output The {@code Stream} to write data into. May be null, in which case this method is equivalent to {@link #discardBodyData()}.
