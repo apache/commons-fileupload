@@ -33,6 +33,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
+import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.file.SimplePathVisitor;
 import org.apache.commons.lang3.SerializationUtils;
@@ -178,6 +179,11 @@ public class DiskFileItemSerializeTest {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD - 1);
         testInMemoryObject(testFieldValueBytes);
+    }
+
+    @Test
+    public void testCheckFileName() {
+        assertThrows(InvalidFileNameException.class, () -> DiskFileItem.checkFileName("\0"));
     }
 
     /**
