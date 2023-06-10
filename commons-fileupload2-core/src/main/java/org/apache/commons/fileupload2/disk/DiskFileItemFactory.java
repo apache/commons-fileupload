@@ -165,7 +165,7 @@ public final class DiskFileItemFactory implements FileItemFactory {
         final DiskFileItem result = DiskFileItem.builder()
                 .setBufferSize(threshold)
                 .setContentType(contentType)
-                .setDefaultCharset(defaultCharset)
+                .setCharset(defaultCharset)
                 .setFieldName(fieldName)
                 .setFileItemHeaders(fileItemHeaders)
                 .setFileName(fileName)

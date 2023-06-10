@@ -228,6 +228,11 @@
         <module name="TodoComment"/>
         <module name="UpperEll"/>
 
+        <module name="ParameterNumber">
+          <property name="max" value="10"/>
+          <property name="tokens" value="CTOR_DEF"/>
+        </module>
+
     </module>
 
 </module>
