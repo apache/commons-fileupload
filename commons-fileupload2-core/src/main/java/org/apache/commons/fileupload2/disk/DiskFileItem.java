@@ -105,14 +105,11 @@ public final class DiskFileItem implements FileItem {
          */
         private FileItemHeaders fileItemHeaders;
 
-        /**
-         * Default Charest.
-         */
-        private Charset defaultCharset;
-
         public Builder() {
             setBufferSize(DiskFileItemFactory.DEFAULT_THRESHOLD);
             setPath(PathUtils.getTempDirectory());
+            setCharset(DEFAULT_CHARSET);
+            setCharsetDefault(DEFAULT_CHARSET);
         }
 
         /**
@@ -131,16 +128,11 @@ public final class DiskFileItem implements FileItem {
          */
         @Override
         public DiskFileItem get() {
-            return new DiskFileItem(fieldName, contentType, isFormField, fileName, getBufferSize(), getPath(), fileItemHeaders, defaultCharset);
+            return new DiskFileItem(fieldName, contentType, isFormField, fileName, getBufferSize(), getPath(), fileItemHeaders, getCharset());
         }
 
         public Builder setContentType(final String contentType) {
             this.contentType = contentType;
-            return this;
-        }
-
-        public Builder setDefaultCharset(final Charset defaultCharset) {
-            this.defaultCharset = defaultCharset;
             return this;
         }
 
