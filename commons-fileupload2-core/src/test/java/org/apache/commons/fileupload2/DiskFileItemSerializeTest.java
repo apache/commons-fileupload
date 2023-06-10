@@ -40,7 +40,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Serialization Unit tests for {@link org.apache.commons.fileupload2.disk.DiskFileItem}.
+ * Serialization Unit tests for {@link disk.DiskFileItem}.
  */
 public class DiskFileItemSerializeTest {
 

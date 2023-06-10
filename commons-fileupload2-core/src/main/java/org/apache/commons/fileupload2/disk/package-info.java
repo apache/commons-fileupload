@@ -17,12 +17,12 @@
 
 /**
  * <p>
- * A disk-based implementation of the {@link org.apache.commons.fileupload2.FileItem FileItem} interface. This implementation retains smaller items in memory,
+ * A disk-based implementation of the {@link FileItem FileItem} interface. This implementation retains smaller items in memory,
  * while writing larger ones to disk. The threshold between these two is configurable, as is the location of files that are written to disk.
  * </p>
  * <p>
- * In typical usage, an instance of {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory DiskFileItemFactory} would be created, configured, and then
- * passed to a {@link org.apache.commons.fileupload2.FileUpload FileUpload} implementation such as
+ * In typical usage, an instance of {@link disk.DiskFileItemFactory DiskFileItemFactory} would be created, configured, and then
+ * passed to a {@link FileUpload FileUpload} implementation such as
  * {@code org.apache.commons.fileupload2.servlet.ServletFileUpload ServletFileUpload} or
  * {@code org.apache.commons.fileupload2.portlet.PortletFileUpload PortletFileUpload}.
  * </p>

@@ -44,7 +44,7 @@ import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
 /**
- * The default implementation of the {@link org.apache.commons.fileupload2.FileItem FileItem} interface.
+ * The default implementation of the {@link FileItem FileItem} interface.
  *
  * <p>
  * After retrieving an instance of this class from a {@link DiskFileItemFactory} instance (see {@code org.apache.commons.fileupload2.servlet.ServletFileUpload
@@ -319,7 +319,7 @@ public class DiskFileItem implements FileItem {
      * @return The original file name in the client's file system.
      * @throws org.apache.commons.fileupload2.InvalidFileNameException The file name contains a NUL character, which might be an indicator of a security attack.
      *                                                                 If you intend to use the file name anyways, catch the exception and use
-     *                                                                 {@link org.apache.commons.fileupload2.InvalidFileNameException#getName()}.
+     *                                                                 {@link InvalidFileNameException#getName()}.
      */
     @Override
     public String getName() {
