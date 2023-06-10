@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
+import org.apache.commons.fileupload2.FileItemStream.ItemSkippedException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.build.AbstractStreamBuilder;
@@ -228,6 +229,12 @@ public final class MultipartStream {
             return pos - head;
         }
 
+        private void checkOpen() throws ItemSkippedException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
+        }
+
         /**
          * Closes the input stream.
          *
@@ -343,9 +350,7 @@ public final class MultipartStream {
          */
         @Override
         public int read() throws IOException {
-            if (closed) {
-                throw new FileItemStream.ItemSkippedException();
-            }
+            checkOpen();
             if (available() == 0 && makeAvailable() == 0) {
                 return -1;
             }
@@ -368,9 +373,7 @@ public final class MultipartStream {
          */
         @Override
         public int read(final byte[] b, final int off, final int len) throws IOException {
-            if (closed) {
-                throw new FileItemStream.ItemSkippedException();
-            }
+            checkOpen();
             if (len == 0) {
                 return 0;
             }
@@ -397,9 +400,7 @@ public final class MultipartStream {
          */
         @Override
         public long skip(final long bytes) throws IOException {
-            if (closed) {
-                throw new FileItemStream.ItemSkippedException();
-            }
+            checkOpen();
             int av = available();
             if (av == 0) {
                 av = makeAvailable();
