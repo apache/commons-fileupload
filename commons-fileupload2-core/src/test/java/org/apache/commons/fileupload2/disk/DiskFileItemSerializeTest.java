@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2;
+package org.apache.commons.fileupload2.disk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -31,8 +31,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import org.apache.commons.fileupload2.disk.DiskFileItem;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.FileItemFactory;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.file.SimplePathVisitor;
 import org.apache.commons.lang3.SerializationUtils;
