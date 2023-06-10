@@ -21,6 +21,7 @@ import java.nio.file.Path;
 
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
+import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.build.AbstractStreamBuilder;
@@ -158,9 +159,20 @@ public final class DiskFileItemFactory implements FileItemFactory {
      * @return The newly created file item.
      */
     @Override
-    public FileItem createFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName) {
-        final DiskFileItem result = new DiskFileItem(fieldName, contentType, isFormField, fileName, threshold, repository);
-        result.setDefaultCharset(defaultCharset);
+    public FileItem createFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName,
+            final FileItemHeaders fileItemHeaders) {
+        // @formatter:off
+        final DiskFileItem result = DiskFileItem.builder()
+                .setBufferSize(threshold)
+                .setContentType(contentType)
+                .setDefaultCharset(defaultCharset)
+                .setFieldName(fieldName)
+                .setFileItemHeaders(fileItemHeaders)
+                .setFileName(fileName)
+                .setFormField(isFormField)
+                .setPath(repository)
+                .get();
+        // @formatter:on
         final FileCleaningTracker tracker = getFileCleaningTracker();
         if (tracker != null) {
             tracker.track(result.getTempFile().toFile(), result);

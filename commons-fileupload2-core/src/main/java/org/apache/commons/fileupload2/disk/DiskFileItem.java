@@ -40,6 +40,8 @@ import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.ParameterParser;
 import org.apache.commons.io.Charsets;
+import org.apache.commons.io.build.AbstractOrigin;
+import org.apache.commons.io.build.AbstractStreamBuilder;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
@@ -62,8 +64,107 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * application ends. See the section on "Resource cleanup" in the users guide of Commons FileUpload.
  * </p>
  */
-public class DiskFileItem implements FileItem {
+public final class DiskFileItem implements FileItem {
 
+    /**
+     * Builds a new {@link DiskFileItem} instance.
+     * <p>
+     * For example:
+     * </p>
+     *
+     * <pre>{@code
+     * DiskFileItem diskFileItem = DiskFileItem.builder()
+     *    .get();
+     * }
+     * </pre>
+     */
+    public static class Builder extends AbstractStreamBuilder<DiskFileItem, Builder> {
+
+        /**
+         * Field name.
+         */
+        private String fieldName;
+
+        /**
+         * Content type.
+         */
+        private String contentType;
+
+        /**
+         * Is this a form field.
+         */
+        private boolean isFormField;
+
+        /**
+         * File name.
+         */
+        private String fileName;
+
+        /**
+         * File item headers.
+         */
+        private FileItemHeaders fileItemHeaders;
+
+        /**
+         * Default Charest.
+         */
+        private Charset defaultCharset;
+
+        public Builder() {
+            setBufferSize(DiskFileItemFactory.DEFAULT_THRESHOLD);
+            setPath(PathUtils.getTempDirectory());
+        }
+
+        /**
+         * Constructs a new instance.
+         * <p>
+         * This builder use the superclass aspects Path (repository) and buffer size (threshold).
+         * </p>
+         * <p>
+         * You must provide an origin that can be converted to a Reader by this builder, otherwise, this call will throw an
+         * {@link UnsupportedOperationException}.
+         * </p>
+         *
+         * @return a new instance.
+         * @throws UnsupportedOperationException if the origin cannot provide a Path.
+         * @see AbstractOrigin#getReader(Charset)
+         */
+        @Override
+        public DiskFileItem get() {
+            return new DiskFileItem(fieldName, contentType, isFormField, fileName, getBufferSize(), getPath(), fileItemHeaders, defaultCharset);
+        }
+
+        public Builder setContentType(String contentType) {
+            this.contentType = contentType;
+            return this;
+        }
+
+        public Builder setDefaultCharset(Charset defaultCharset) {
+            this.defaultCharset = defaultCharset;
+            return this;
+        }
+
+        public Builder setFieldName(String fieldName) {
+            this.fieldName = fieldName;
+            return this;
+        }
+
+        public Builder setFileItemHeaders(FileItemHeaders fileItemHeaders) {
+            this.fileItemHeaders = fileItemHeaders;
+            return this;
+        }
+
+        public Builder setFileName(String fileName) {
+            this.fileName = fileName;
+            return this;
+        }
+
+        public Builder setFormField(boolean isFormField) {
+            this.isFormField = isFormField;
+            return this;
+        }
+
+    }
     /**
      * Default content charset to be used when no explicit charset parameter is provided by the sender. Media subtypes of the "text" type are defined to have a
      * default charset value of "ISO-8859-1" when received via HTTP.
@@ -79,6 +180,15 @@ public class DiskFileItem implements FileItem {
      * Counter used in unique identifier generation.
      */
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
+
+    /**
+     * Constructs a new {@link Builder}.
+     *
+     * @return a new {@link Builder}.
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
 
     /**
      * Tests if the file name is valid. For example, if it contains a NUL characters, it's invalid. If the file name is valid, it will be returned without any
@@ -184,7 +294,7 @@ public class DiskFileItem implements FileItem {
     /**
      * The file items headers.
      */
-    private FileItemHeaders headers;
+    private FileItemHeaders fileItemHeaders;
 
     /**
      * Default content charset to be used when no explicit charset parameter is provided by the sender.
@@ -200,13 +310,17 @@ public class DiskFileItem implements FileItem {
      * @param fileName    The original file name in the user's file system, or {@code null} if not specified.
      * @param threshold   The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
      * @param repository  The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
+     * @param fileItemHeaders The file item headers.
+     * @param defaultCharset The default Charset.
      */
-    public DiskFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName, final int threshold,
-            final Path repository) {
+    private DiskFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName, final int threshold,
+            final Path repository, final FileItemHeaders fileItemHeaders, final Charset defaultCharset) {
         this.fieldName = fieldName;
         this.contentType = contentType;
+        this.defaultCharset = defaultCharset;
         this.isFormField = isFormField;
         this.fileName = fileName;
+        this.fileItemHeaders = fileItemHeaders;
         this.threshold = threshold;
         this.repository = repository != null ? repository : PathUtils.getTempDirectory();
     }
@@ -298,7 +412,7 @@ public class DiskFileItem implements FileItem {
      */
     @Override
     public FileItemHeaders getHeaders() {
-        return headers;
+        return fileItemHeaders;
     }
 
     /**
@@ -487,7 +601,7 @@ public class DiskFileItem implements FileItem {
      */
     @Override
     public void setHeaders(final FileItemHeaders headers) {
-        this.headers = headers;
+        this.fileItemHeaders = headers;
     }
 
     /**

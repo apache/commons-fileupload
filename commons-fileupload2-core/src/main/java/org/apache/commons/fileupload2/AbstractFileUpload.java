@@ -406,23 +406,24 @@ public abstract class AbstractFileUpload {
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
     public List<FileItem> parseRequest(final RequestContext ctx) throws FileUploadException {
-        final List<FileItem> items = new ArrayList<>();
+        final List<FileItem> itemList = new ArrayList<>();
         boolean successful = false;
         try {
             final FileItemIterator iter = getItemIterator(ctx);
             final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final byte[] buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {
-                if (items.size() == fileCountMax) {
+                if (itemList.size() == fileCountMax) {
                     // The next item will exceed the limit.
-                    throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), items.size());
+                    throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), itemList.size());
                 }
-                final FileItemStream item = iter.next();
+                final FileItemStream fileItemStream = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
-                final String fileName = item.getName();
-                final FileItem fileItem = fileItemFactory.createFileItem(item.getFieldName(), item.getContentType(), item.isFormField(), fileName);
-                items.add(fileItem);
-                try (InputStream inputStream = item.openStream();
+                final String fileName = fileItemStream.getName();
+                final FileItem fileItem = fileItemFactory.createFileItem(fileItemStream.getFieldName(), fileItemStream.getContentType(),
+                        fileItemStream.isFormField(), fileName, fileItemStream.getHeaders());
+                itemList.add(fileItem);
+                try (InputStream inputStream = fileItemStream.openStream();
                         OutputStream outputStream = fileItem.getOutputStream()) {
                     IOUtils.copyLarge(inputStream, outputStream, buffer);
                 } catch (final FileUploadException e) {
@@ -430,17 +431,16 @@ public abstract class AbstractFileUpload {
                 } catch (final IOException e) {
                     throw new FileUploadException(String.format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
-                fileItem.setHeaders(item.getHeaders());
             }
             successful = true;
-            return items;
+            return itemList;
         } catch (final FileUploadException e) {
             throw e;
         } catch (final IOException e) {
             throw new FileUploadException(e.getMessage(), e);
         } finally {
             if (!successful) {
-                for (final FileItem fileItem : items) {
+                for (final FileItem fileItem : itemList) {
                     try {
                         fileItem.delete();
                     } catch (final Exception ignored) {

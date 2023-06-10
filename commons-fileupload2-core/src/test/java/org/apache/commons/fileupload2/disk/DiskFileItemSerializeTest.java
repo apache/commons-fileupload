@@ -103,7 +103,7 @@ public class DiskFileItemSerializeTest {
         final FileItemFactory factory = DiskFileItemFactory.builder().setBufferSize(THRESHOLD).setPath(repository).get();
         final String textFieldName = "textField";
 
-        final FileItem item = factory.createFileItem(textFieldName, TEXT_CONTENT_TYPE, true, "My File Name");
+        final FileItem item = factory.createFileItem(textFieldName, TEXT_CONTENT_TYPE, true, "My File Name", null);
         try (OutputStream os = item.getOutputStream()) {
             os.write(contentBytes);
         }

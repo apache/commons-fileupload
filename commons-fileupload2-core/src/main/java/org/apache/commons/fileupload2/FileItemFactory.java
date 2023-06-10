@@ -27,12 +27,13 @@ public interface FileItemFactory {
     /**
      * Creates a new {@link FileItem} instance from the supplied parameters and any local factory configuration.
      *
-     * @param fieldName   The name of the form field.
-     * @param contentType The content type of the form field.
-     * @param isFormField {@code true} if this is a plain form field; {@code false} otherwise.
-     * @param fileName    The name of the uploaded file, if any, as supplied by the browser or other client.
+     * @param fieldName       The name of the form field.
+     * @param contentType     The content type of the form field.
+     * @param isFormField     {@code true} if this is a plain form field; {@code false} otherwise.
+     * @param fileName        The name of the uploaded file, if any, as supplied by the browser or other client.
+     * @param fileItemHeaders The file item headers.
      * @return The newly created file item.
      */
-    FileItem createFileItem(String fieldName, String contentType, boolean isFormField, String fileName);
+    FileItem createFileItem(String fieldName, String contentType, boolean isFormField, String fileName, FileItemHeaders fileItemHeaders);
 
 }
