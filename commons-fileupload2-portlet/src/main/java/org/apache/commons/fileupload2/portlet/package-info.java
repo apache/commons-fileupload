@@ -19,7 +19,7 @@
  * <p>
  * An implementation of {@link FileUpload FileUpload} for use in portlets conforming to JSR 168. This implementation requires
  * only access to the portlet's current {@code ActionRequest} instance, and a suitable {@link FileItemFactory FileItemFactory}
- * implementation, such as {@link disk.DiskFileItemFactory DiskFileItemFactory}.
+ * implementation, such as {@link DiskFileItemFactory DiskFileItemFactory}.
  * </p>
  * <p>
  * The following code fragment demonstrates typical usage.

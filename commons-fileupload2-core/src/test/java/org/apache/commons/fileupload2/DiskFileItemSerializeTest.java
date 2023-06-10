@@ -31,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.file.SimplePathVisitor;
@@ -40,7 +41,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Serialization Unit tests for {@link disk.DiskFileItem}.
+ * Serialization Unit tests for {@link DiskFileItem}.
  */
 public class DiskFileItemSerializeTest {
 

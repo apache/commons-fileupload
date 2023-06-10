@@ -21,7 +21,7 @@
  * while writing larger ones to disk. The threshold between these two is configurable, as is the location of files that are written to disk.
  * </p>
  * <p>
- * In typical usage, an instance of {@link disk.DiskFileItemFactory DiskFileItemFactory} would be created, configured, and then
+ * In typical usage, an instance of {@link DiskFileItemFactory DiskFileItemFactory} would be created, configured, and then
  * passed to a {@link FileUpload FileUpload} implementation such as
  * {@code org.apache.commons.fileupload2.servlet.ServletFileUpload ServletFileUpload} or
  * {@code org.apache.commons.fileupload2.portlet.PortletFileUpload PortletFileUpload}.

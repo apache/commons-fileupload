@@ -25,7 +25,7 @@
  * the provided extensions of {@link FileUpload FileUpload} such as
  * {@code org.apache.commons.fileupload2.servlet.ServletFileUpload ServletFileUpload} or
  * {@code org.apache.commons.fileupload2.portlet.PortletFileUpload PortletFileUpload}, together with a factory for
- * {@link FileItem FileItem} instances, such as {@link disk.DiskFileItemFactory
+ * {@link FileItem FileItem} instances, such as {@link DiskFileItemFactory
  * DiskFileItemFactory}.
  * </p>
  * <p>

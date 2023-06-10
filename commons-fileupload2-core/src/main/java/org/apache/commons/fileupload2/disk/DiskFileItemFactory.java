@@ -149,7 +149,7 @@ public final class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Creates a new {@link disk.DiskFileItem} instance from the supplied parameters and the local factory configuration.
+     * Creates a new {@link DiskFileItem} instance from the supplied parameters and the local factory configuration.
      *
      * @param fieldName   The name of the form field.
      * @param contentType The content type of the form field.
