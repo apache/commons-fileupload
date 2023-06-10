@@ -181,7 +181,7 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
             parseUpload(invalidRequest);
             fail("Expected EndOfStreamException");
         } catch (final FileUploadException e) {
-            assertTrue(e.getCause() instanceof MultipartStream.MalformedStreamException);
+            assertTrue(e.getSuppressed()[0] instanceof MultipartStream.MalformedStreamException, e.toString());
         }
     }
 
