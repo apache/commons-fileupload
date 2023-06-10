@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * Unit test for items with varying sizes.
  */
-public class JavaxStreamingTest extends AbstractStreamingTest<JakartaServletFileUpload, HttpServletRequest, JakartaServletRequestContext> {
+public class JakartaStreamingTest extends AbstractStreamingTest<JakartaServletFileUpload, HttpServletRequest, JakartaServletRequestContext> {
 
     @Override
     protected JakartaServletFileUpload newFileUpload() {

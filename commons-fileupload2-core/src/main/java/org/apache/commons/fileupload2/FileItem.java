@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 
 /**
@@ -85,7 +86,7 @@ public interface FileItem extends FileItemHeadersSupport {
      * name, without path information. However, some clients, such as the Opera browser, do include path information.
      *
      * @return The original file name in the client's file system.
-     * @throws InvalidFileNameException The file name contains a NUL character, which might be an indicator of a security attack. If you intend to use the file
+     * @throws InvalidPathException The file name contains a NUL character, which might be an indicator of a security attack. If you intend to use the file
      *                                  name anyways, catch the exception and use InvalidFileNameException#getName().
      */
     String getName();

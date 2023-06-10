@@ -28,12 +28,12 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
-import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.file.SimplePathVisitor;
 import org.apache.commons.lang3.SerializationUtils;
@@ -183,7 +183,7 @@ public class DiskFileItemSerializeTest {
 
     @Test
     public void testCheckFileName() {
-        assertThrows(InvalidFileNameException.class, () -> DiskFileItem.checkFileName("\0"));
+        assertThrows(InvalidPathException.class, () -> DiskFileItem.checkFileName("\0"));
     }
 
     /**

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.InvalidPathException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -185,7 +186,7 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
     }
 
     /**
-     * Tests, whether an {@link InvalidFileNameException} is thrown.
+     * Tests, whether an {@link InvalidPathException} is thrown.
      */
     @Test
     public void testInvalidFileNameException() throws Exception {
@@ -219,18 +220,20 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
         try {
             fileItemStream.getName();
             fail("Expected exception");
-        } catch (final InvalidFileNameException e) {
-            assertEquals(fileName, e.getName());
-            assertEquals(-1, e.getMessage().indexOf(fileName));
+        } catch (final InvalidPathException e) {
+            assertEquals(fileName, e.getInput());
+            assertEquals(26, e.getMessage().indexOf(fileName));
+            assertEquals(7, e.getIndex());
             assertTrue(e.getMessage().contains("foo.exe\\0.png"));
         }
 
         try {
             parseUpload(reqBytes);
             fail("Expected exception");
-        } catch (final InvalidFileNameException e) {
-            assertEquals(fileName, e.getName());
-            assertEquals(-1, e.getMessage().indexOf(fileName));
+        } catch (final InvalidPathException e) {
+            assertEquals(fileName, e.getInput());
+            assertEquals(26, e.getMessage().indexOf(fileName));
+            assertEquals(7, e.getIndex());
             assertTrue(e.getMessage().contains("foo.exe\\0.png"));
         }
     }

@@ -27,7 +27,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.UUID;
@@ -36,7 +38,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.InvalidFileNameException;
 import org.apache.commons.fileupload2.ParameterParser;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.file.PathUtils;
@@ -80,29 +81,34 @@ public class DiskFileItem implements FileItem {
     private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     /**
-     * Checks, whether the given file name is valid in the sense, that it doesn't contain any NUL characters. If the file name is valid, it will be returned
-     * without any modifications. Otherwise, an {@link InvalidFileNameException} is raised.
+     * Tests if the file name is valid. For example, if it contains a NUL characters, it's invalid. If the file name is valid, it will be returned without any
+     * modifications. Otherwise, throw an {@link InvalidPathException}.
      *
      * @param fileName The file name to check
      * @return Unmodified file name, if valid.
-     * @throws InvalidFileNameException The file name was found to be invalid.
+     * @throws InvalidPathException The file name is invalid.
      */
     public static String checkFileName(final String fileName) {
-        if (fileName != null && fileName.indexOf('\u0000') != -1) {
-            // fileName.replace("\u0000", "\\0")
-            final StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < fileName.length(); i++) {
-                final char c = fileName.charAt(i);
-                switch (c) {
-                case 0:
-                    sb.append("\\0");
-                    break;
-                default:
-                    sb.append(c);
-                    break;
+        if (fileName != null) {
+            // Specific NUL check to build a better exception message.
+            final int indexOf0 = fileName.indexOf(0);
+            if (indexOf0 != -1) {
+                final StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < fileName.length(); i++) {
+                    final char c = fileName.charAt(i);
+                    switch (c) {
+                    case 0:
+                        sb.append("\\0");
+                        break;
+                    default:
+                        sb.append(c);
+                        break;
+                    }
                 }
+                throw new InvalidPathException(fileName, sb.toString(), indexOf0);
             }
-            throw new InvalidFileNameException(fileName, "Invalid file name: " + sb);
+            // Throws InvalidPathException on invalid file names
+            Paths.get(fileName);
         }
         return fileName;
     }
@@ -188,12 +194,12 @@ public class DiskFileItem implements FileItem {
     /**
      * Constructs a new {@code DiskFileItem} instance.
      *
-     * @param fieldName     The name of the form field.
-     * @param contentType   The content type passed by the browser or {@code null} if not specified.
-     * @param isFormField   Whether or not this item is a plain form field, as opposed to a file upload.
-     * @param fileName      The original file name in the user's file system, or {@code null} if not specified.
-     * @param threshold     The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
-     * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
+     * @param fieldName   The name of the form field.
+     * @param contentType The content type passed by the browser or {@code null} if not specified.
+     * @param isFormField Whether or not this item is a plain form field, as opposed to a file upload.
+     * @param fileName    The original file name in the user's file system, or {@code null} if not specified.
+     * @param threshold   The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
+     * @param repository  The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
      */
     public DiskFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName, final int threshold,
             final Path repository) {
@@ -317,9 +323,8 @@ public class DiskFileItem implements FileItem {
      * Gets the original file name in the client's file system.
      *
      * @return The original file name in the client's file system.
-     * @throws org.apache.commons.fileupload2.InvalidFileNameException The file name contains a NUL character, which might be an indicator of a security attack.
-     *                                                                 If you intend to use the file name anyways, catch the exception and use
-     *                                                                 {@link InvalidFileNameException#getName()}.
+     * @throws InvalidPathException The file name contains a NUL character, which might be an indicator of a security attack. If you intend to use the file name
+     *                              anyways, catch the exception and use {@link InvalidPathException#getInput()}.
      */
     @Override
     public String getName() {

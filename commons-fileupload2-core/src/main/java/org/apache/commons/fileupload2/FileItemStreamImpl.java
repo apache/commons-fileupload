@@ -18,6 +18,7 @@ package org.apache.commons.fileupload2;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.InvalidPathException;
 
 import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
 import org.apache.commons.fileupload2.disk.DiskFileItem;
@@ -122,7 +123,7 @@ class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Gets the items content type, or null.
+     * Gets the content type, or null.
      *
      * @return Content type, if known, or null.
      */
@@ -142,7 +143,7 @@ class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Gets the file item headers.
+     * Gets the headers.
      *
      * @return The items header object
      */
@@ -152,11 +153,11 @@ class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
-     * Gets the items file name.
+     * Gets the file name.
      *
      * @return File name, if known, or null.
-     * @throws InvalidFileNameException The file name contains a NUL character, which might be an indicator of a security attack. If you intend to use the file
-     *                                  name anyways, catch the exception and use InvalidFileNameException#getName().
+     * @throws InvalidPathException The file name is invalid, for example it contains a NUL character, which might be an indicator of a security attack. If you
+     *                              intend to use the file name anyways, catch the exception and use InvalidPathException#getInput().
      */
     @Override
     public String getName() {
