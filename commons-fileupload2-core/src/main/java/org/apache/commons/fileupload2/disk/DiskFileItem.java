@@ -134,32 +134,32 @@ public final class DiskFileItem implements FileItem {
             return new DiskFileItem(fieldName, contentType, isFormField, fileName, getBufferSize(), getPath(), fileItemHeaders, defaultCharset);
         }
 
-        public Builder setContentType(String contentType) {
+        public Builder setContentType(final String contentType) {
             this.contentType = contentType;
             return this;
         }
 
-        public Builder setDefaultCharset(Charset defaultCharset) {
+        public Builder setDefaultCharset(final Charset defaultCharset) {
             this.defaultCharset = defaultCharset;
             return this;
         }
 
-        public Builder setFieldName(String fieldName) {
+        public Builder setFieldName(final String fieldName) {
             this.fieldName = fieldName;
             return this;
         }
 
-        public Builder setFileItemHeaders(FileItemHeaders fileItemHeaders) {
+        public Builder setFileItemHeaders(final FileItemHeaders fileItemHeaders) {
             this.fileItemHeaders = fileItemHeaders;
             return this;
         }
 
-        public Builder setFileName(String fileName) {
+        public Builder setFileName(final String fileName) {
             this.fileName = fileName;
             return this;
         }
 
-        public Builder setFormField(boolean isFormField) {
+        public Builder setFormField(final boolean isFormField) {
             this.isFormField = isFormField;
             return this;
         }
