@@ -284,12 +284,12 @@ public final class DiskFileItem implements FileItem {
     /**
      * Output stream for this item.
      */
-    private transient DeferredFileOutputStream dfos;
+    private DeferredFileOutputStream dfos;
 
     /**
      * The temporary file to use.
      */
-    private transient Path tempFile;
+    private Path tempFile;
 
     /**
      * The file items headers.
