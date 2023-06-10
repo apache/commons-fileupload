@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Locale;
@@ -178,20 +179,21 @@ final class MimeUtils {
      * @param word The possibly encoded word value.
      *
      * @return The decoded word.
-     * @throws ParseException               in case of a parse error of the RFC 2047
-     * @throws UnsupportedEncodingException Thrown when Invalid RFC 2047 encoding was found
+     * @throws ParseException               in case of a parse error of the RFC 2047.
+     * @throws UnsupportedEncodingException Thrown when Invalid RFC 2047 encoding was found.
      */
     private static String decodeWord(final String word) throws ParseException, UnsupportedEncodingException {
         // encoded words start with the characters "=?". If this not an encoded word, we throw a
         // ParseException for the caller.
 
-        if (!word.startsWith(ENCODED_TOKEN_MARKER)) {
-            throw new ParseException("Invalid RFC 2047 encoded-word: " + word);
+        final int etmPos = word.indexOf(ENCODED_TOKEN_MARKER);
+        if (etmPos != 0) {
+            throw new ParseException("Invalid RFC 2047 encoded-word: " + word, etmPos);
         }
 
         final int charsetPos = word.indexOf('?', 2);
         if (charsetPos == -1) {
-            throw new ParseException("Missing charset in RFC 2047 encoded-word: " + word);
+            throw new ParseException("Missing charset in RFC 2047 encoded-word: " + word, charsetPos);
         }
 
         // pull out the character set information (this is the MIME name at this point).
@@ -200,7 +202,7 @@ final class MimeUtils {
         // now pull out the encoding token the same way.
         final int encodingPos = word.indexOf('?', charsetPos + 1);
         if (encodingPos == -1) {
-            throw new ParseException("Missing encoding in RFC 2047 encoded-word: " + word);
+            throw new ParseException("Missing encoding in RFC 2047 encoded-word: " + word, encodingPos);
         }
 
         final String encoding = word.substring(charsetPos + 1, encodingPos);
@@ -208,7 +210,7 @@ final class MimeUtils {
         // and finally the encoded text.
         final int encodedTextPos = word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1);
         if (encodedTextPos == -1) {
-            throw new ParseException("Missing encoded text in RFC 2047 encoded-word: " + word);
+            throw new ParseException("Missing encoded text in RFC 2047 encoded-word: " + word, encodedTextPos);
         }
 
         final String encodedText = word.substring(encodingPos + 1, encodedTextPos);
@@ -252,14 +254,10 @@ final class MimeUtils {
         if (charset == null) {
             return null;
         }
-
         final String mappedCharset = MIME2JAVA.get(charset.toLowerCase(Locale.ENGLISH));
         // if there is no mapping, then the original name is used. Many of the MIME character set
         // names map directly back into Java. The reverse isn't necessarily true.
-        if (mappedCharset == null) {
-            return charset;
-        }
-        return mappedCharset;
+        return mappedCharset == null ? charset : mappedCharset;
     }
 
     /**
