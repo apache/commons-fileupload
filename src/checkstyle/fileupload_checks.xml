@@ -229,7 +229,7 @@
         <module name="UpperEll"/>
 
         <module name="ParameterNumber">
-          <property name="max" value="10"/>
+          <property name="max" value="8"/>
           <property name="tokens" value="CTOR_DEF"/>
         </module>
 
