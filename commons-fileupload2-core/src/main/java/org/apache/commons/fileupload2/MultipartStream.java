@@ -417,7 +417,7 @@ public final class MultipartStream {
     /**
      * Signals that the input stream fails to follow the required syntax.
      */
-    public static class MalformedStreamException extends IOException {
+    public static class MalformedStreamException extends FileUploadException {
 
         /**
          * The UID to use when serializing this instance.
