@@ -39,10 +39,10 @@ public interface RequestContext {
     String getCharacterEncoding();
 
     /**
-     * Gets the character encoding for the request.
+     * Gets the character encoding for the request or null if unspecified.
      *
-     * @return The character encoding for the request.
-     * @throws UnsupportedCharsetException If the named charset is unavailable (unchecked exception).
+     * @return The character encoding for the request or null.
+     * @throws UnsupportedCharsetException If the named Charset is unavailable.
      */
     default Charset getCharset() throws UnsupportedCharsetException {
         return Charsets.toCharset(getCharacterEncoding(), null);
@@ -66,7 +66,6 @@ public interface RequestContext {
      * Gets the input stream for the request.
      *
      * @return The input stream for the request.
-     *
      * @throws IOException if a problem occurs.
      */
     InputStream getInputStream() throws IOException;
