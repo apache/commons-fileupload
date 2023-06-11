@@ -28,14 +28,14 @@ import org.apache.commons.fileupload2.FileItemFactory;
 import org.apache.commons.fileupload2.FileItemIterator;
 import org.apache.commons.fileupload2.FileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
+import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
 
 /**
  * High level API for processing file uploads.
  * <p>
  * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
- * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link javax.JavaxServletFileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest)} to acquire a list of {@link FileItem FileItems} associated with a given
- * HTML widget.
+ * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link JavaxServletFileUpload#parseRequest(javax.servlet.http.HttpServletRequest)} to acquire
+ * a list of {@link FileItem}s associated with a given HTML widget.
  * </p>
  * <p>
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
