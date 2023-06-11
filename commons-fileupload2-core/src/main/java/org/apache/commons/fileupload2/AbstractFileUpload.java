@@ -44,6 +44,21 @@ import org.apache.commons.io.IOUtils;
 public abstract class AbstractFileUpload {
 
     /**
+     * Boundary parameter key.
+     */
+    private static final String BOUNDARY_KEY = "boundary";
+
+    /**
+     * Name parameter key.
+     */
+    private static final String NAME_KEY = "name";
+
+    /**
+     * File name parameter key.
+     */
+    private static final String FILENAME_KEY = "filename";
+
+    /**
      * HTTP content type header name.
      */
     public static final String CONTENT_TYPE = "Content-type";
@@ -137,7 +152,7 @@ public abstract class AbstractFileUpload {
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
         final Map<String, String> params = parser.parse(contentType, new char[] { ';', ',' });
-        final String boundaryStr = params.get("boundary");
+        final String boundaryStr = params.get(BOUNDARY_KEY);
 
         if (boundaryStr == null) {
             return null;
@@ -170,7 +185,7 @@ public abstract class AbstractFileUpload {
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
             final Map<String, String> params = parser.parse(contentDisposition, ';');
-            fieldName = params.get("name");
+            fieldName = params.get(NAME_KEY);
             if (fieldName != null) {
                 fieldName = fieldName.trim();
             }
@@ -220,8 +235,8 @@ public abstract class AbstractFileUpload {
                 parser.setLowerCaseNames(true);
                 // Parameter parser can handle null input
                 final Map<String, String> params = parser.parse(contentDisposition, ';');
-                if (params.containsKey("filename")) {
-                    fileName = params.get("filename");
+                if (params.containsKey(FILENAME_KEY)) {
+                    fileName = params.get(FILENAME_KEY);
                     if (fileName != null) {
                         fileName = fileName.trim();
                     } else {
@@ -392,7 +407,6 @@ public abstract class AbstractFileUpload {
         for (final FileItem fileItem : items) {
             final String fieldName = fileItem.getFieldName();
             final List<FileItem> mappedItems = itemsMap.computeIfAbsent(fieldName, k -> new ArrayList<>());
-
             mappedItems.add(fileItem);
         }
 
