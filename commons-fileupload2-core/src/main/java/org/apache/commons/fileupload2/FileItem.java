@@ -40,7 +40,7 @@ import java.nio.file.Path;
  * {@code javax.activation.DataSource} with minimal additional work.
  * </p>
  */
-public interface FileItem extends FileItemHeadersSupport {
+public interface FileItem extends FileItemHeadersProvider {
 
     /**
      * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. Although this storage will be deleted

@@ -17,12 +17,12 @@
 package org.apache.commons.fileupload2;
 
 /**
- * Accepts headers for an item type.
+ * Provides access to headers.
  *
  * @see FileItem
  * @see FileItemInput
  */
-public interface FileItemHeadersSupport {
+public interface FileItemHeadersProvider {
 
     /**
      * Gets the collection of headers defined locally within this item.

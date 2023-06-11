@@ -32,7 +32,7 @@ import java.io.InputStream;
  * {@link java.util.Iterator#hasNext()} on the iterator, you discard all data, which hasn't been read so far from the previous data.
  * </p>
  */
-public interface FileItemInput extends FileItemHeadersSupport {
+public interface FileItemInput extends FileItemHeadersProvider {
 
     /**
      * This exception is thrown, if an attempt is made to read data from the {@link InputStream}, which has been returned by
