@@ -57,16 +57,18 @@ public class JakartaServletFileUploadTest extends AbstractFileUploadTest<Jakarta
 
         final byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
         final HttpServletRequest request = new JakartaMockServletHttpRequest(bytes, Constants.CONTENT_TYPE);
-
-        final DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder().get();
-        fileItemFactory.setDefaultCharset(StandardCharsets.UTF_8);
+        // @formatter:off
+        final DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder()
+                .setCharset(StandardCharsets.UTF_8)
+                .get();
+        // @formatter:on
         final JakartaServletFileUpload upload = new JakartaServletFileUpload(fileItemFactory);
         final List<FileItem> fileItems = upload.parseRequest(request);
         final FileItem fileItem = fileItems.get(0);
         assertTrue(fileItem.getString().contains("coñteñt"), fileItem.getString());
     }
 
-    /**
+    /*
      * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-210">
      */
     @Test

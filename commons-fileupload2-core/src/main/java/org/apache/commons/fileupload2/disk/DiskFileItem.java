@@ -289,9 +289,9 @@ public final class DiskFileItem implements FileItem {
     private FileItemHeaders fileItemHeaders;
 
     /**
-     * Default content charset to be used when no explicit charset parameter is provided by the sender.
+     * Default content Charset to be used when no explicit Charset parameter is provided by the sender.
      */
-    private Charset defaultCharset = DEFAULT_CHARSET;
+    private Charset charsetDefault = DEFAULT_CHARSET;
 
     /**
      * Constructs a new {@code DiskFileItem} instance.
@@ -309,7 +309,7 @@ public final class DiskFileItem implements FileItem {
             final Path repository, final FileItemHeaders fileItemHeaders, final Charset defaultCharset) {
         this.fieldName = fieldName;
         this.contentType = contentType;
-        this.defaultCharset = defaultCharset;
+        this.charsetDefault = defaultCharset;
         this.isFormField = isFormField;
         this.fileName = fileName;
         this.fileItemHeaders = fileItemHeaders;
@@ -364,7 +364,7 @@ public final class DiskFileItem implements FileItem {
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
         final Map<String, String> params = parser.parse(getContentType(), ';');
-        return Charsets.toCharset(params.get("charset"), defaultCharset);
+        return Charsets.toCharset(params.get("charset"), charsetDefault);
     }
 
     /**
@@ -382,8 +382,8 @@ public final class DiskFileItem implements FileItem {
      *
      * @return the default charset
      */
-    public Charset getDefaultCharset() {
-        return defaultCharset;
+    public Charset getCharsetDefault() {
+        return charsetDefault;
     }
 
     /**
@@ -560,8 +560,8 @@ public final class DiskFileItem implements FileItem {
      *
      * @param charset the default charset
      */
-    public void setDefaultCharset(final Charset charset) {
-        defaultCharset = charset;
+    public void setCharsetDefault(final Charset charset) {
+        charsetDefault = charset;
     }
 
     /**
