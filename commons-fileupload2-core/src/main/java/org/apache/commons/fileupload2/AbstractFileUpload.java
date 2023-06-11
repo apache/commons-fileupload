@@ -418,13 +418,12 @@ public abstract class AbstractFileUpload {
                     throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), itemList.size());
                 }
                 // Don't use getName() here to prevent an InvalidFileNameException.
-                final String fileName = fileItemInput.getName();
                 // @formatter:off
                 final FileItem fileItem = fileItemFactory.fileItemBuilder()
                     .setFieldName(fileItemInput.getFieldName())
                     .setContentType(fileItemInput.getContentType())
                     .setFormField(fileItemInput.isFormField())
-                    .setFileName(fileName)
+                    .setFileName(fileItemInput.getName())
                     .setFileItemHeaders(fileItemInput.getHeaders())
                     .get();
                 // @formatter:on
