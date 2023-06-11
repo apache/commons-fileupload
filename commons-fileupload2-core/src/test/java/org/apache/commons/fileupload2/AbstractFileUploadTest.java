@@ -82,12 +82,12 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
         assertTrue(field.isFormField());
         assertEquals("Joe Blow", field.getString());
 
-        final FileItem file = fileItems.get(1);
-        assertEquals("pics", file.getFieldName());
-        assertFalse(file.isFormField());
-        assertEquals("... contents of file1.txt ...", file.getString());
-        assertEquals("text/plain", file.getContentType());
-        assertEquals("file1.txt", file.getName());
+        final FileItem fileItem = fileItems.get(1);
+        assertEquals("pics", fileItem.getFieldName());
+        assertFalse(fileItem.isFormField());
+        assertEquals("... contents of file1.txt ...", fileItem.getString());
+        assertEquals("text/plain", fileItem.getContentType());
+        assertEquals("file1.txt", fileItem.getName());
     }
 
     /**

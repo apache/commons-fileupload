@@ -401,15 +401,15 @@ public abstract class AbstractFileUpload {
     /**
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
-     * @param ctx The context for the request to be parsed.
+     * @param requestContext The context for the request to be parsed.
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
-    public List<FileItem> parseRequest(final RequestContext ctx) throws FileUploadException {
+    public List<FileItem> parseRequest(final RequestContext requestContext) throws FileUploadException {
         final List<FileItem> itemList = new ArrayList<>();
         boolean successful = false;
         try {
-            final FileItemIterator iter = getItemIterator(ctx);
+            final FileItemIterator iter = getItemIterator(requestContext);
             final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final byte[] buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {

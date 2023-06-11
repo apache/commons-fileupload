@@ -100,12 +100,15 @@ public class DiskFileItemSerializeTest {
      * Create a FileItem with the specfied content bytes and repository.
      */
     private FileItem createFileItem(final byte[] contentBytes, final Path repository) throws IOException {
-        final FileItemFactory factory = DiskFileItemFactory.builder().setBufferSize(THRESHOLD).setPath(repository).get();
-        final String textFieldName = "textField";
-
+        // @formatter:off
+        final FileItemFactory factory = DiskFileItemFactory.builder()
+                .setBufferSize(THRESHOLD)
+                .setPath(repository)
+                .get();
+        // @formatter:on
         // @formatter:off
         final FileItem item = factory.fileItemBuilder()
-                .setFieldName(textFieldName)
+                .setFieldName("textField")
                 .setContentType(TEXT_CONTENT_TYPE)
                 .setFormField(true)
                 .setFileName("My File Name")

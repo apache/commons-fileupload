@@ -74,7 +74,16 @@ public final class DiskFileItem implements FileItem {
      * </p>
      *
      * <pre>{@code
-     * DiskFileItem diskFileItem = DiskFileItem.builder().get();
+     * <pre>{@code
+     * final FileItem fileItem = fileItemFactory.fileItemBuilder()
+     *   .setFieldName("FieldName")
+     *   .setContentType("ContentType")
+     *   .setFormField(true)
+     *   .setFileName("FileName")
+     *   .setFileItemHeaders(...)
+     *   .get();
+     * }
+     * </pre>
      * }
      * </pre>
      */
@@ -89,9 +98,6 @@ public final class DiskFileItem implements FileItem {
 
         /**
          * Constructs a new instance.
-         * <p>
-         * This builder use the superclass aspects Path (repository) and buffer size (threshold).
-         * </p>
          * <p>
          * You must provide an origin that can be converted to a Reader by this builder, otherwise, this call will throw an
          * {@link UnsupportedOperationException}.

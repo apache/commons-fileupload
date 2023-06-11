@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload2;
 
-import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractStreamBuilder;
@@ -31,15 +30,7 @@ import org.apache.commons.io.file.PathUtils;
 public interface FileItemFactory {
 
     /**
-     * Builds a new {@link DiskFileItem} instance.
-     * <p>
-     * For example:
-     * </p>
-     *
-     * <pre>{@code
-     * DiskFileItem diskFileItem = DiskFileItem.builder().get();
-     * }
-     * </pre>
+     * Abstracts building for subclasses.
      *
      * @param <T> the type of instances to build.
      * @param <B> the type of builder subclass.
