@@ -19,6 +19,7 @@ package org.apache.commons.fileupload2;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,7 +119,7 @@ public abstract class AbstractFileUpload {
     /**
      * The content encoding to use when reading part headers.
      */
-    private String headerEncoding;
+    private Charset headerCharset;
 
     /**
      * The progress listener.
@@ -160,7 +161,7 @@ public abstract class AbstractFileUpload {
      * Gets the field name, which is given by the content-disposition header.
      *
      * @param contentDisposition The content-dispositions header value.
-     * @return The field jake
+     * @return The field name.
      */
     private String getFieldName(final String contentDisposition) {
         String fieldName = null;
@@ -251,8 +252,8 @@ public abstract class AbstractFileUpload {
      *
      * @return The encoding used to read part headers.
      */
-    public String getHeaderEncoding() {
-        return headerEncoding;
+    public Charset getHeaderCharset() {
+        return headerCharset;
     }
 
     /**
@@ -488,10 +489,10 @@ public abstract class AbstractFileUpload {
      * Specifies the character encoding to be used when reading the headers of individual part. When not specified, or {@code null}, the request encoding is
      * used. If that is also not specified, or {@code null}, the platform default encoding is used.
      *
-     * @param encoding The encoding used to read part headers.
+     * @param headerCharset The encoding used to read part headers.
      */
-    public void setHeaderEncoding(final String encoding) {
-        headerEncoding = encoding;
+    public void setHeaderCharset(final Charset headerCharset) {
+        this.headerCharset = headerCharset;
     }
 
     /**

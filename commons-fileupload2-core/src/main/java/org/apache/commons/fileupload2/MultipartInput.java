@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 import org.apache.commons.fileupload2.FileItemInput.ItemSkippedException;
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.build.AbstractStreamBuilder;
@@ -531,32 +532,32 @@ public final class MultipartInput {
     /**
      * The maximum length of {@code header-part} that will be processed (10 kilobytes = 10240 bytes.).
      */
-    public static final int HEADER_PART_SIZE_MAX = 10240;
+    public static final int HEADER_PART_SIZE_MAX = 10_240;
 
     /**
      * The default length of the buffer used for processing a request.
      */
-    protected static final int DEFAULT_BUFSIZE = 4096;
+    static final int DEFAULT_BUFSIZE = 4096;
 
     /**
      * A byte sequence that marks the end of {@code header-part} ({@code CRLFCRLF}).
      */
-    protected static final byte[] HEADER_SEPARATOR = { CR, LF, CR, LF };
+    static final byte[] HEADER_SEPARATOR = { CR, LF, CR, LF };
 
     /**
      * A byte sequence that that follows a delimiter that will be followed by an encapsulation ({@code CRLF}).
      */
-    protected static final byte[] FIELD_SEPARATOR = { CR, LF };
+    static final byte[] FIELD_SEPARATOR = { CR, LF };
 
     /**
      * A byte sequence that that follows a delimiter of the last encapsulation in the stream ({@code --}).
      */
-    protected static final byte[] STREAM_TERMINATOR = { DASH, DASH };
+    static final byte[] STREAM_TERMINATOR = { DASH, DASH };
 
     /**
      * A byte sequence that precedes a boundary ({@code CRLF--}).
      */
-    protected static final byte[] BOUNDARY_PREFIX = { CR, LF, DASH, DASH };
+    static final byte[] BOUNDARY_PREFIX = { CR, LF, DASH, DASH };
 
     /**
      * Compares {@code count} first bytes in the arrays {@code a} and {@code b}.
@@ -566,7 +567,7 @@ public final class MultipartInput {
      * @param count How many bytes should be compared.
      * @return {@code true} if {@code count} first bytes in arrays {@code a} and {@code b} are equal.
      */
-    public static boolean arrayEquals(final byte[] a, final byte[] b, final int count) {
+    static boolean arrayEquals(final byte[] a, final byte[] b, final int count) {
         for (int i = 0; i < count; i++) {
             if (a[i] != b[i]) {
                 return false;
@@ -634,7 +635,7 @@ public final class MultipartInput {
     /**
      * The content encoding to use when reading headers.
      */
-    private String headerEncoding;
+    private Charset headerCharset;
 
     /**
      * The progress notifier, if any, or null.
@@ -765,8 +766,8 @@ public final class MultipartInput {
      *
      * @return The encoding used to read part headers.
      */
-    public String getHeaderEncoding() {
-        return headerEncoding;
+    public Charset getHeaderCharset() {
+        return headerCharset;
     }
 
     /**
@@ -863,9 +864,6 @@ public final class MultipartInput {
      * <p>
      * Headers are returned verbatim to the input stream, including the trailing {@code CRLF} marker. Parsing is left to the application.
      * </p>
-     * <p>
-     * <strong>TODO</strong> allow limiting maximum header size to protect against abuse.
-     * </p>
      *
      * @return The {@code header-part} of the current encapsulation.
      * @throws FileUploadSizeException  if the bytes read from the stream exceeded the size limits.
@@ -898,19 +896,12 @@ public final class MultipartInput {
             baos.write(b);
         }
 
-        String headers;
-        if (headerEncoding != null) {
-            try {
-                headers = baos.toString(headerEncoding);
-            } catch (final UnsupportedEncodingException e) {
-                // Fall back to platform default if specified encoding is not supported.
-                headers = baos.toString();
-            }
-        } else {
-            headers = baos.toString();
+        try {
+            return baos.toString(Charsets.toCharset(headerCharset, Charset.defaultCharset()).name());
+        } catch (final UnsupportedEncodingException e) {
+            // not possible
+            throw new IllegalStateException(e);
         }
-
-        return headers;
     }
 
     /**
@@ -940,10 +931,10 @@ public final class MultipartInput {
      * Sets the character encoding to be used when reading the headers of individual parts. When not specified, or {@code null}, the platform default encoding
      * is used.
      *
-     * @param headerEncoding The encoding used to read part headers.
+     * @param headerCharset The encoding used to read part headers.
      */
-    public void setHeaderEncoding(final String headerEncoding) {
-        this.headerEncoding = headerEncoding;
+    public void setHeaderCharset(final Charset headerCharset) {
+        this.headerCharset = headerCharset;
     }
 
     /**

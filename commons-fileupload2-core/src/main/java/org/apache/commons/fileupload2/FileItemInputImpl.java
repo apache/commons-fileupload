@@ -96,7 +96,7 @@ class FileItemInputImpl implements FileItemInput {
                     contentLength, fileSizeMax, fileName, fieldName);
         }
         // OK to construct stream now
-        final ItemInputStream itemInputStream = fileItemInputIteratorImpl.getMultiPartStream().newInputStream();
+        final ItemInputStream itemInputStream = fileItemInputIteratorImpl.getMultiPartInput().newInputStream();
         InputStream istream = itemInputStream;
         if (fileSizeMax != -1) {
             istream = new BoundedInputStream(istream, fileSizeMax) {

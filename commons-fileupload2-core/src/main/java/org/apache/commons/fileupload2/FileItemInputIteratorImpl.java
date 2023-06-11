@@ -18,12 +18,14 @@ package org.apache.commons.fileupload2;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BoundedInputStream;
 
@@ -44,7 +46,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
      *
      * @see RequestContext
      */
-    private final RequestContext ctx;
+    private final RequestContext requestContext;
 
     /**
      * The maximum allowed size of a complete request.
@@ -59,7 +61,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
     /**
      * The multi part stream to process.
      */
-    private MultipartInput multiPartStream;
+    private MultipartInput multiPartInput;
 
     /**
      * The notifier, which used for triggering the {@link ProgressListener}.
@@ -108,7 +110,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         this.fileUpload = fileUploadBase;
         this.sizeMax = fileUploadBase.getSizeMax();
         this.fileSizeMax = fileUploadBase.getFileSizeMax();
-        this.ctx = Objects.requireNonNull(requestContext, "requestContext");
+        this.requestContext = Objects.requireNonNull(requestContext, "requestContext");
         this.skipPreamble = true;
         findNextItem();
     }
@@ -127,7 +129,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
             currentItem.close();
             currentItem = null;
         }
-        final MultipartInput multi = getMultiPartStream();
+        final MultipartInput multi = getMultiPartInput();
         for (;;) {
             final boolean nextPart;
             if (skipPreamble) {
@@ -214,11 +216,11 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         return fileSizeMax;
     }
 
-    public MultipartInput getMultiPartStream() throws FileUploadException, IOException {
-        if (multiPartStream == null) {
-            init(fileUpload, ctx);
+    public MultipartInput getMultiPartInput() throws FileUploadException, IOException {
+        if (multiPartInput == null) {
+            init(fileUpload, requestContext);
         }
-        return multiPartStream;
+        return multiPartInput;
     }
 
     @Override
@@ -244,21 +246,21 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         return findNextItem();
     }
 
-    protected void init(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
-        final String contentType = ctx.getContentType();
+    protected void init(final AbstractFileUpload fileUploadBase, final RequestContext initContext) throws FileUploadException, IOException {
+        final String contentType = requestContext.getContentType();
         if (null == contentType || !contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART)) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
                     AbstractFileUpload.MULTIPART_FORM_DATA, AbstractFileUpload.MULTIPART_MIXED, contentType), contentType);
         }
-        final long contentLengthInt = ctx.getContentLength();
+        final long contentLengthInt = requestContext.getContentLength();
         // @formatter:off
-        final long requestSize = RequestContext.class.isAssignableFrom(ctx.getClass())
+        final long requestSize = RequestContext.class.isAssignableFrom(requestContext.getClass())
                                  // Inline conditional is OK here CHECKSTYLE:OFF
-                                 ? ctx.getContentLength()
+                                 ? requestContext.getContentLength()
                                  : contentLengthInt;
                                  // CHECKSTYLE:ON
         // @formatter:on
-        final InputStream input; // N.B. this is eventually closed in MultipartInput processing
+        final InputStream inputStream; // N.B. this is eventually closed in MultipartInput processing
         if (sizeMax >= 0) {
             if (requestSize != -1 && requestSize > sizeMax) {
                 throw new FileUploadSizeException(
@@ -266,7 +268,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                         requestSize);
             }
             // N.B. this is eventually closed in MultipartInput processing
-            input = new BoundedInputStream(ctx.getInputStream(), sizeMax) {
+            inputStream = new BoundedInputStream(requestContext.getInputStream(), sizeMax) {
                 @Override
                 protected void onMaxLength(final long maxLen, final long count) throws IOException {
                     throw new FileUploadSizeException(
@@ -274,28 +276,24 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                 }
             };
         } else {
-            input = ctx.getInputStream();
+            inputStream = requestContext.getInputStream();
         }
 
-        String charEncoding = fileUploadBase.getHeaderEncoding();
-        if (charEncoding == null) {
-            charEncoding = ctx.getCharacterEncoding();
-        }
-
+        final Charset charset = Charsets.toCharset(fileUploadBase.getHeaderCharset(), requestContext.getCharset());
         multiPartBoundary = fileUploadBase.getBoundary(contentType);
         if (multiPartBoundary == null) {
-            IOUtils.closeQuietly(input); // avoid possible resource leak
+            IOUtils.closeQuietly(inputStream); // avoid possible resource leak
             throw new FileUploadException("the request was rejected because no multipart boundary was found");
         }
 
         progressNotifier = new MultipartInput.ProgressNotifier(fileUploadBase.getProgressListener(), requestSize);
         try {
-            multiPartStream = MultipartInput.builder().setInputStream(input).setBoundary(multiPartBoundary).setProgressNotifier(progressNotifier).get();
+            multiPartInput = MultipartInput.builder().setInputStream(inputStream).setBoundary(multiPartBoundary).setProgressNotifier(progressNotifier).get();
         } catch (final IllegalArgumentException e) {
-            IOUtils.closeQuietly(input); // avoid possible resource leak
+            IOUtils.closeQuietly(inputStream); // avoid possible resource leak
             throw new FileUploadContentTypeException(String.format("The boundary specified in the %s header is too long", AbstractFileUpload.CONTENT_TYPE), e);
         }
-        multiPartStream.setHeaderEncoding(charEncoding);
+        multiPartInput.setHeaderCharset(charset);
     }
 
     /**

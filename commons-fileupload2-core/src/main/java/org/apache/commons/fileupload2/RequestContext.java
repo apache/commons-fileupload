@@ -18,6 +18,10 @@ package org.apache.commons.fileupload2;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
+
+import org.apache.commons.io.Charsets;
 
 /**
  * Abstracts access to the request information needed for file uploads.
@@ -33,6 +37,16 @@ public interface RequestContext {
      * @return The character encoding for the request.
      */
     String getCharacterEncoding();
+
+    /**
+     * Gets the character encoding for the request.
+     *
+     * @return The character encoding for the request.
+     * @throws UnsupportedCharsetException If the named charset is unavailable (unchecked exception).
+     */
+    default Charset getCharset() throws UnsupportedCharsetException {
+        return Charsets.toCharset(getCharacterEncoding(), null);
+    }
 
     /**
      * Gets the content length of the request.

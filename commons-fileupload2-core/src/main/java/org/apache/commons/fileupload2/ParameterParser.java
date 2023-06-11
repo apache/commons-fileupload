@@ -288,10 +288,10 @@ public class ParameterParser {
     /**
      * Sets the flag if parameter names are to be converted to lower case when name/value pairs are parsed.
      *
-     * @param b {@code true} if parameter names are to be converted to lower case when name/value pairs are parsed. {@code false} otherwise.
+     * @param lowerCaseNames {@code true} if parameter names are to be converted to lower case when name/value pairs are parsed. {@code false} otherwise.
      */
-    public void setLowerCaseNames(final boolean b) {
-        this.lowerCaseNames = b;
+    public void setLowerCaseNames(final boolean lowerCaseNames) {
+        this.lowerCaseNames = lowerCaseNames;
     }
 
 }
