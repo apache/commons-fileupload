@@ -39,7 +39,16 @@ public interface FileItemStream extends FileItemHeadersSupport {
      * {@link FileItemStream#getInputStream()}, after {@link java.util.Iterator#hasNext()} has been invoked on the iterator, which created the
      * {@link FileItemStream}.
      */
-    class ItemSkippedException extends IOException {
+    class ItemSkippedException extends FileUploadException {
+
+        /**
+         * Constructs an instance with a given detail message.
+         *
+         * @param message The detail message (which is saved for later retrieval by the {@link #getMessage()} method)
+         */
+        ItemSkippedException(final String message) {
+            super(message);
+        }
 
         /**
          * The exceptions serial version UID, which is being used when serializing an exception instance.
