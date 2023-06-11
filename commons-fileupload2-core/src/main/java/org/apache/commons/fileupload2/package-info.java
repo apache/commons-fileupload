@@ -31,7 +31,7 @@
  * The following is a brief example of typical usage in a servlet, storing the uploaded files on disk.
  * </p>
  *
- * <pre>
+ * <pre>{@code
  * public void doPost(HttpServletRequest req, HttpServletResponse res) {
  *   DiskFileItemFactory factory = new DiskFileItemFactory.builder()
  *     // maximum size that will be stored in memory
@@ -59,7 +59,7 @@
  *   // write the file
  *   fi.write(new File("/www/uploads/", fileName));
  * }
- * </pre>
+ * }</pre>
  * <p>
  * In the example above, the first file is loaded into memory as a {@code String}. Before calling the {@code getString} method, the data may have been in memory
  * or on disk depending on its size. The second file we assume it will be large and therefore never explicitly load it into memory, though if it is less than

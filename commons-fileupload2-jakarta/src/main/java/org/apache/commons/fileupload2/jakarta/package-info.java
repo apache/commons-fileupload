@@ -24,13 +24,13 @@
  * The following code fragment demonstrates typical usage.
  * </p>
  *
- * <pre>
- * DiskFileItemFactory factory = new DiskFileItemFactory().builder().get();
+ * <pre>{@code
+ * DiskFileItemFactory factory = DiskFileItemFactory().builder().get();
  * // Configure the factory here, if desired.
  * JakSrvltFileUpload upload = new JakSrvltFileUpload(factory);
  * // Configure the uploader here, if desired.
  * List fileItems = upload.parseRequest(request);
- * </pre>
+ * }</pre>
  * <p>
  * Please see the FileUpload <a href="https://commons.apache.org/fileupload/using.html" target="_top">User Guide</a> for further details and examples of how to
  * use this package.

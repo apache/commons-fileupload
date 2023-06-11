@@ -17,21 +17,21 @@
 
 /**
  * <p>
- * An implementation of {@link org.apache.commons.fileupload2.FileUpload} for use in portlets conforming to JSR 168. This implementation requires
- * only access to the portlet's current {@code ActionRequest} instance, and a suitable {@link org.apache.commons.fileupload2.FileItemFactory}
- * implementation, such as {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory}.
+ * An implementation of {@link org.apache.commons.fileupload2.FileUpload} for use in portlets conforming to JSR 168. This implementation requires only access to
+ * the portlet's current {@code ActionRequest} instance, and a suitable {@link org.apache.commons.fileupload2.FileItemFactory} implementation, such as
+ * {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory}.
  * </p>
  * <p>
  * The following code fragment demonstrates typical usage.
  * </p>
  *
- * <pre>
- * DiskFileItemFactory factory = new DiskFileItemFactory();
+ * <pre>{@code
+ * DiskFileItemFactory factory = DiskFileItemFactory().builder().get();
  * // Configure the factory here, if desired.
  * PortletFileUpload upload = new PortletFileUpload(factory);
  * // Configure the uploader here, if desired.
  * List fileItems = upload.parseRequest(request);
- * </pre>
+ * }</pre>
  * <p>
  * Please see the FileUpload <a href="https://commons.apache.org/fileupload/using.html" target="_top">User Guide</a> for further details and examples of how to
  * use this package.
