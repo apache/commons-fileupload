@@ -17,7 +17,7 @@
 
 /**
  * <p>
- * An implementation of {@link FileUpload FileUpload} for use in servlets conforming to the namespace {@code jakarta.servlet}.
+ * An implementation of {@link org.apache.commons.fileupload2.FileUpload} for use in servlets conforming to the namespace {@code jakarta.servlet}.
  *
  * </p>
  * <p>
@@ -25,7 +25,7 @@
  * </p>
  *
  * <pre>
- * DiskFileItemFactory factory = new DiskFileItemFactory();
+ * DiskFileItemFactory factory = new DiskFileItemFactory().builder().get();
  * // Configure the factory here, if desired.
  * JakSrvltFileUpload upload = new JakSrvltFileUpload(factory);
  * // Configure the uploader here, if desired.

@@ -22,11 +22,10 @@
  * </p>
  * <p>
  * While this package provides the generic functionality for file uploads, these classes are not typically used directly. Instead, normal usage involves one of
- * the provided extensions of {@link FileUpload FileUpload} such as
+ * the provided extensions of {@link org.apache.commons.fileupload2.FileUpload} such as
  * {@code org.apache.commons.fileupload2.servlet.ServletFileUpload ServletFileUpload} or
  * {@code org.apache.commons.fileupload2.portlet.PortletFileUpload PortletFileUpload}, together with a factory for
- * {@link FileItem FileItem} instances, such as {@link DiskFileItemFactory
- * DiskFileItemFactory}.
+ * {@link org.apache.commons.fileupload2.FileItem} instances, such as {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory}.
  * </p>
  * <p>
  * The following is a brief example of typical usage in a servlet, storing the uploaded files on disk.
@@ -34,11 +33,13 @@
  *
  * <pre>
  * public void doPost(HttpServletRequest req, HttpServletResponse res) {
- *   DiskFileItemFactory factory = new DiskFileItemFactory();
- *   // maximum size that will be stored in memory
- *   factory.setSizeThreshold(4096);
- *   // the location for saving data that is larger than getSizeThreshold()
- *   factory.setRepository(new File("/tmp"));
+ *   DiskFileItemFactory factory = new DiskFileItemFactory.builder()
+ *     // maximum size that will be stored in memory
+ *     .setSizeThreshold(4096);
+ *     // the location for saving data that is larger than getSizeThreshold()
+ *     .setPath(Paths.get("/tmp"))
+ *     // build it
+ *     .get();
  *
  *   ServletFileUpload upload = new ServletFileUpload(factory);
  *   // maximum size before a FileUploadException will be thrown

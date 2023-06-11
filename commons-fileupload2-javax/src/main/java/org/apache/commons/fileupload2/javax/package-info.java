@@ -17,16 +17,16 @@
 
 /**
  * <p>
- * An implementation of {@link FileUpload FileUpload} for use in servlets conforming to JSR 53. This implementation requires only
+ * An implementation of {@link org.apache.commons.fileupload2.FileUpload} for use in servlets conforming to JSR 53. This implementation requires only
  * access to the servlet's current {@code HttpServletRequest} instance, and a suitable {@link FileItemFactory FileItemFactory}
- * implementation, such as {@link DiskFileItemFactory DiskFileItemFactory}.
+ * implementation, such as {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory}.
  * </p>
  * <p>
  * The following code fragment demonstrates typical usage.
  * </p>
  *
  * <pre>
- * DiskFileItemFactory factory = new DiskFileItemFactory();
+ * DiskFileItemFactory factory = new DiskFileItemFactory().builder().get();
  * // Configure the factory here, if desired.
  * ServletFileUpload upload = new ServletFileUpload(factory);
  * // Configure the uploader here, if desired.
