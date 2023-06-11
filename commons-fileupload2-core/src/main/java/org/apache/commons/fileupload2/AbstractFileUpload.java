@@ -153,13 +153,7 @@ public abstract class AbstractFileUpload {
         // Parameter parser can handle null input
         final Map<String, String> params = parser.parse(contentType, new char[] { ';', ',' });
         final String boundaryStr = params.get(BOUNDARY_KEY);
-
-        if (boundaryStr == null) {
-            return null;
-        }
-        final byte[] boundary;
-        boundary = boundaryStr.getBytes(StandardCharsets.ISO_8859_1);
-        return boundary;
+        return boundaryStr != null ? boundaryStr.getBytes(StandardCharsets.ISO_8859_1) : null;
     }
 
     /**
