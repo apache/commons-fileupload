@@ -402,7 +402,7 @@
           <configuration>
             <configLocation>${commons.parent.dir}/src/checkstyle/fileupload_checks.xml</configLocation>
             <suppressionsLocation>${commons.parent.dir}/src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
-            <includeTestSourceDirectory>false</includeTestSourceDirectory>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <enableRulesSummary>false</enableRulesSummary>
           </configuration>
         </plugin>

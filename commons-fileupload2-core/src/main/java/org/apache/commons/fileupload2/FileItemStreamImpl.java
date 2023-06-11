@@ -161,7 +161,7 @@ class FileItemStreamImpl implements FileItemStream {
     @Override
     public InputStream getInputStream() throws IOException {
         if (inputStreamClosed) {
-            throw new FileItemStream.ItemSkippedException();
+            throw new FileItemStream.ItemSkippedException("getInputStream()");
         }
         return inputStream;
     }

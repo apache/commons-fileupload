@@ -231,7 +231,7 @@ public final class MultipartStream {
 
         private void checkOpen() throws ItemSkippedException {
             if (closed) {
-                throw new FileItemStream.ItemSkippedException("checkOpen");
+                throw new FileItemStream.ItemSkippedException("checkOpen()");
             }
         }
 
