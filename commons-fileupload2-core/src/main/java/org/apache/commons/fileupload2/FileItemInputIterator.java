@@ -21,10 +21,12 @@ import java.util.List;
 
 import javax.naming.SizeLimitExceededException;
 
+import org.apache.commons.io.function.IOIterator;
+
 /**
  * An iterator, as returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */
-public interface FileItemInputIterator {
+public interface FileItemInputIterator extends IOIterator<FileItemInput> {
 
     List<FileItem> getFileItems() throws FileUploadException, IOException;
 
@@ -53,7 +55,8 @@ public interface FileItemInputIterator {
      * @throws IOException         Reading the file item failed.
      * @return True, if one or more additional file items are available, otherwise false.
      */
-    boolean hasNext() throws FileUploadException, IOException;
+    @Override
+    boolean hasNext() throws IOException;
 
     /**
      * Returns the next available {@link FileItemInput}.
@@ -63,7 +66,8 @@ public interface FileItemInputIterator {
      * @throws IOException                      Reading the file item failed.
      * @return FileItemInput instance, which provides access to the next file item.
      */
-    FileItemInput next() throws FileUploadException, IOException;
+    @Override
+    FileItemInput next() throws IOException;
 
     /**
      * Sets the maximum size of a single file. An {@link FileUploadByteCountLimitException} will be thrown, if there is an uploaded file, which is exceeding

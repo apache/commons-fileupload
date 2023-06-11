@@ -259,14 +259,14 @@ public abstract class AbstractFileUpload {
     /**
      * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
-     * @param ctx The context for the request to be parsed.
+     * @param requestContext The context for the request to be parsed.
      * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
      *                             uploaded content.
      */
-    public FileItemInputIterator getItemIterator(final RequestContext ctx) throws FileUploadException, IOException {
-        return new FileItemInputIteratorImpl(this, ctx);
+    public FileItemInputIterator getItemIterator(final RequestContext requestContext) throws FileUploadException, IOException {
+        return new FileItemInputIteratorImpl(this, requestContext);
     }
 
     /**
@@ -410,15 +410,13 @@ public abstract class AbstractFileUpload {
         final List<FileItem> itemList = new ArrayList<>();
         boolean successful = false;
         try {
-            final FileItemInputIterator iter = getItemIterator(requestContext);
             final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final byte[] buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
-            while (iter.hasNext()) {
+            getItemIterator(requestContext).forEachRemaining(fileItemInput -> {
                 if (itemList.size() == fileCountMax) {
                     // The next item will exceed the limit.
                     throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), itemList.size());
                 }
-                final FileItemInput fileItemInput = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = fileItemInput.getName();
                 // @formatter:off
@@ -439,7 +437,7 @@ public abstract class AbstractFileUpload {
                 } catch (final IOException e) {
                     throw new FileUploadException(String.format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
-            }
+            });
             successful = true;
             return itemList;
         } catch (final FileUploadException e) {

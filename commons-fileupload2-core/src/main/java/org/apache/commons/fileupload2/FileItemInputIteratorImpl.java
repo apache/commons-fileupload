@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
@@ -236,7 +237,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
      * @return True, if one or more additional file items are available, otherwise false.
      */
     @Override
-    public boolean hasNext() throws FileUploadException, IOException {
+    public boolean hasNext() throws IOException {
         if (eof) {
             return false;
         }
@@ -305,7 +306,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
      * @return FileItemInput instance, which provides access to the next file item.
      */
     @Override
-    public FileItemInput next() throws FileUploadException, IOException {
+    public FileItemInput next() throws IOException {
         if (eof || !itemValid && !hasNext()) {
             throw new NoSuchElementException();
         }
@@ -321,6 +322,12 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
     @Override
     public void setSizeMax(final long sizeMax) {
         this.sizeMax = sizeMax;
+    }
+
+    @Override
+    public Iterator<FileItemInput> unwrap() {
+        // TODO Something better?
+        return (Iterator<FileItemInput>) this;
     }
 
 }
