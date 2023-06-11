@@ -21,7 +21,6 @@ import java.nio.file.Path;
 
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
-import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.build.AbstractStreamBuilder;
@@ -172,35 +171,15 @@ public final class DiskFileItemFactory implements FileItemFactory {
         this.fileCleaningTracker = fileCleaningTracker;
     }
 
-    /**
-     * Creates a new {@link DiskFileItem} instance from the supplied parameters and the local factory configuration.
-     *
-     * @param fieldName   The name of the form field.
-     * @param contentType The content type of the form field.
-     * @param isFormField {@code true} if this is a plain form field; {@code false} otherwise.
-     * @param fileName    The name of the uploaded file, if any, as supplied by the browser or other client.
-     * @return The newly created file item.
-     */
     @Override
-    public FileItem createFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName,
-            final FileItemHeaders fileItemHeaders) {
+    public DiskFileItem.Builder fileItemBuilder() {
         // @formatter:off
-        final DiskFileItem result = DiskFileItem.builder()
+        return DiskFileItem.builder()
                 .setBufferSize(threshold)
-                .setContentType(contentType)
                 .setCharset(charsetDefault)
-                .setFieldName(fieldName)
-                .setFileItemHeaders(fileItemHeaders)
-                .setFileName(fileName)
-                .setFormField(isFormField)
-                .setPath(repository)
-                .get();
+                .setFileCleaningTracker(fileCleaningTracker)
+                .setPath(repository);
         // @formatter:on
-        final FileCleaningTracker tracker = getFileCleaningTracker();
-        if (tracker != null) {
-            tracker.track(result.getTempFile().toFile(), result);
-        }
-        return result;
     }
 
     /**

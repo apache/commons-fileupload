@@ -420,8 +420,15 @@ public abstract class AbstractFileUpload {
                 final FileItemStream fileItemStream = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = fileItemStream.getName();
-                final FileItem fileItem = fileItemFactory.createFileItem(fileItemStream.getFieldName(), fileItemStream.getContentType(),
-                        fileItemStream.isFormField(), fileName, fileItemStream.getHeaders());
+                // @formatter:off
+                final FileItem fileItem = fileItemFactory.fileItemBuilder()
+                    .setFieldName(fileItemStream.getFieldName())
+                    .setContentType(fileItemStream.getContentType())
+                    .setFormField(fileItemStream.isFormField())
+                    .setFileName(fileName)
+                    .setFileItemHeaders(fileItemStream.getHeaders())
+                    .get();
+                // @formatter:on
                 itemList.add(fileItem);
                 try (InputStream inputStream = fileItemStream.getInputStream();
                         OutputStream outputStream = fileItem.getOutputStream()) {

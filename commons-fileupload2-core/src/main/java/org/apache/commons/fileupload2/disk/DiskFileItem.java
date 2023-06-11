@@ -36,12 +36,13 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.FileItemFactory.FileItemBuilder;
 import org.apache.commons.fileupload2.FileItemHeaders;
 import org.apache.commons.fileupload2.FileUploadException;
 import org.apache.commons.fileupload2.ParameterParser;
 import org.apache.commons.io.Charsets;
+import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractOrigin;
-import org.apache.commons.io.build.AbstractStreamBuilder;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
@@ -73,37 +74,11 @@ public final class DiskFileItem implements FileItem {
      * </p>
      *
      * <pre>{@code
-     * DiskFileItem diskFileItem = DiskFileItem.builder()
-     *    .get();
+     * DiskFileItem diskFileItem = DiskFileItem.builder().get();
      * }
      * </pre>
      */
-    public static class Builder extends AbstractStreamBuilder<DiskFileItem, Builder> {
-
-        /**
-         * Field name.
-         */
-        private String fieldName;
-
-        /**
-         * Content type.
-         */
-        private String contentType;
-
-        /**
-         * Is this a form field.
-         */
-        private boolean isFormField;
-
-        /**
-         * File name.
-         */
-        private String fileName;
-
-        /**
-         * File item headers.
-         */
-        private FileItemHeaders fileItemHeaders;
+    public static class Builder extends FileItemBuilder<DiskFileItem, Builder> {
 
         public Builder() {
             setBufferSize(DiskFileItemFactory.DEFAULT_THRESHOLD);
@@ -128,32 +103,13 @@ public final class DiskFileItem implements FileItem {
          */
         @Override
         public DiskFileItem get() {
-            return new DiskFileItem(fieldName, contentType, isFormField, fileName, getBufferSize(), getPath(), fileItemHeaders, getCharset());
-        }
-
-        public Builder setContentType(final String contentType) {
-            this.contentType = contentType;
-            return this;
-        }
-
-        public Builder setFieldName(final String fieldName) {
-            this.fieldName = fieldName;
-            return this;
-        }
-
-        public Builder setFileItemHeaders(final FileItemHeaders fileItemHeaders) {
-            this.fileItemHeaders = fileItemHeaders;
-            return this;
-        }
-
-        public Builder setFileName(final String fileName) {
-            this.fileName = fileName;
-            return this;
-        }
-
-        public Builder setFormField(final boolean isFormField) {
-            this.isFormField = isFormField;
-            return this;
+            final DiskFileItem diskFileItem = new DiskFileItem(getFieldName(), getContentType(), isFormField(), getFileName(), getBufferSize(), getPath(),
+                    getFileItemHeaders(), getCharset());
+            final FileCleaningTracker tracker = getFileCleaningTracker();
+            if (tracker != null) {
+                tracker.track(diskFileItem.getTempFile().toFile(), diskFileItem);
+            }
+            return diskFileItem;
         }
 
     }
@@ -297,14 +253,14 @@ public final class DiskFileItem implements FileItem {
     /**
      * Constructs a new {@code DiskFileItem} instance.
      *
-     * @param fieldName   The name of the form field.
-     * @param contentType The content type passed by the browser or {@code null} if not specified.
-     * @param isFormField Whether or not this item is a plain form field, as opposed to a file upload.
-     * @param fileName    The original file name in the user's file system, or {@code null} if not specified.
-     * @param threshold   The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
-     * @param repository  The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
+     * @param fieldName       The name of the form field.
+     * @param contentType     The content type passed by the browser or {@code null} if not specified.
+     * @param isFormField     Whether or not this item is a plain form field, as opposed to a file upload.
+     * @param fileName        The original file name in the user's file system, or {@code null} if not specified.
+     * @param threshold       The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
+     * @param repository      The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
      * @param fileItemHeaders The file item headers.
-     * @param defaultCharset The default Charset.
+     * @param defaultCharset  The default Charset.
      */
     private DiskFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName, final int threshold,
             final Path repository, final FileItemHeaders fileItemHeaders, final Charset defaultCharset) {
@@ -369,6 +325,15 @@ public final class DiskFileItem implements FileItem {
     }
 
     /**
+     * Gets the default charset for use when no explicit charset parameter is provided by the sender.
+     *
+     * @return the default charset
+     */
+    public Charset getCharsetDefault() {
+        return charsetDefault;
+    }
+
+    /**
      * Gets the content type passed by the agent or {@code null} if not defined.
      *
      * @return The content type passed by the agent or {@code null} if not defined.
@@ -376,15 +341,6 @@ public final class DiskFileItem implements FileItem {
     @Override
     public String getContentType() {
         return contentType;
-    }
-
-    /**
-     * Gets the default charset for use when no explicit charset parameter is provided by the sender.
-     *
-     * @return the default charset
-     */
-    public Charset getCharsetDefault() {
-        return charsetDefault;
     }
 
     /**

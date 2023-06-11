@@ -103,7 +103,15 @@ public class DiskFileItemSerializeTest {
         final FileItemFactory factory = DiskFileItemFactory.builder().setBufferSize(THRESHOLD).setPath(repository).get();
         final String textFieldName = "textField";
 
-        final FileItem item = factory.createFileItem(textFieldName, TEXT_CONTENT_TYPE, true, "My File Name", null);
+        // @formatter:off
+        final FileItem item = factory.fileItemBuilder()
+                .setFieldName(textFieldName)
+                .setContentType(TEXT_CONTENT_TYPE)
+                .setFormField(true)
+                .setFileName("My File Name")
+                .get();
+        // @formatter:on
+
         try (OutputStream os = item.getOutputStream()) {
             os.write(contentBytes);
         }
@@ -111,14 +119,14 @@ public class DiskFileItemSerializeTest {
     }
 
     /**
-     * Do deserialization.
+     * Deserializes.
      */
     private Object deserialize(final ByteArrayOutputStream baos) {
         return SerializationUtils.deserialize(baos.toByteArray());
     }
 
     /**
-     * Do serialization.
+     * Serializes.
      */
     private ByteArrayOutputStream serialize(final Object target) throws IOException {
         try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -42,6 +42,11 @@ public interface FileItemStream extends FileItemHeadersSupport {
     class ItemSkippedException extends FileUploadException {
 
         /**
+         * The exceptions serial version UID, which is being used when serializing an exception instance.
+         */
+        private static final long serialVersionUID = 2;
+
+        /**
          * Constructs an instance with a given detail message.
          *
          * @param message The detail message (which is saved for later retrieval by the {@link #getMessage()} method)
@@ -49,11 +54,6 @@ public interface FileItemStream extends FileItemHeadersSupport {
         ItemSkippedException(final String message) {
             super(message);
         }
-
-        /**
-         * The exceptions serial version UID, which is being used when serializing an exception instance.
-         */
-        private static final long serialVersionUID = 2;
 
     }
 
