@@ -423,7 +423,7 @@ public abstract class AbstractFileUpload {
                 final FileItem fileItem = fileItemFactory.createFileItem(fileItemStream.getFieldName(), fileItemStream.getContentType(),
                         fileItemStream.isFormField(), fileName, fileItemStream.getHeaders());
                 itemList.add(fileItem);
-                try (InputStream inputStream = fileItemStream.openStream();
+                try (InputStream inputStream = fileItemStream.getInputStream();
                         OutputStream outputStream = fileItem.getOutputStream()) {
                     IOUtils.copyLarge(inputStream, outputStream, buffer);
                 } catch (final FileUploadException e) {

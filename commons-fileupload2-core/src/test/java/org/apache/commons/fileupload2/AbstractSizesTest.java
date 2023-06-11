@@ -219,7 +219,7 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
 
         {
             try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    final InputStream stream = item.openStream()) {
+                    final InputStream stream = item.getInputStream()) {
                 IOUtils.copy(stream, baos);
             }
 
@@ -232,7 +232,7 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
         assertThrows(FileUploadException.class, () -> {
             final FileItemStream item2 = it.next();
             try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    final InputStream stream = item2.openStream()) {
+                    final InputStream stream = item2.getInputStream()) {
                 IOUtils.copy(stream, baos);
             }
         });

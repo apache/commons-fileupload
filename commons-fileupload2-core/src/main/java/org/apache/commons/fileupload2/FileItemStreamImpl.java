@@ -153,6 +153,20 @@ class FileItemStreamImpl implements FileItemStream {
     }
 
     /**
+     * Gets the input stream, which may be used to read the items contents.
+     *
+     * @return Opened input stream.
+     * @throws IOException An I/O error occurred.
+     */
+    @Override
+    public InputStream getInputStream() throws IOException {
+        if (inputStreamClosed) {
+            throw new FileItemStream.ItemSkippedException();
+        }
+        return inputStream;
+    }
+
+    /**
      * Gets the file name.
      *
      * @return File name, if known, or null.
@@ -172,20 +186,6 @@ class FileItemStreamImpl implements FileItemStream {
     @Override
     public boolean isFormField() {
         return formField;
-    }
-
-    /**
-     * Gets the input stream, which may be used to read the items contents.
-     *
-     * @return Opened input stream.
-     * @throws IOException An I/O error occurred.
-     */
-    @Override
-    public InputStream openStream() throws IOException {
-        if (inputStreamClosed) {
-            throw new FileItemStream.ItemSkippedException();
-        }
-        return inputStream;
     }
 
     /**
