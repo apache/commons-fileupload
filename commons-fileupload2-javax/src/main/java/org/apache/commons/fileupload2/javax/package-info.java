@@ -18,7 +18,7 @@
 /**
  * <p>
  * An implementation of {@link org.apache.commons.fileupload2.FileUpload} for use in servlets conforming to JSR 53. This implementation requires only access to
- * the servlet's current {@code HttpServletRequest} instance, and a suitable {@link FileItemFactory FileItemFactory} implementation, such as
+ * the servlet's current {@code HttpServletRequest} instance, and a suitable {@link org.apache.commons.fileupload2.FileItemFactory} implementation, such as
  * {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory}.
  * </p>
  * <p>
