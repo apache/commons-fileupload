@@ -40,9 +40,11 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
 
     /**
      * Checks, whether limiting the file size works.
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testFileSizeLimit() throws IOException, FileUploadException {
+    public void testFileSizeLimit() throws IOException {
         // @formatter:off
         final String request =
             "-----1234\r\n" +
@@ -83,9 +85,11 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
 
     /**
      * Checks, whether a faked Content-Length header is detected.
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testFileSizeLimitWithFakedContentLength() throws IOException, FileUploadException {
+    public void testFileSizeLimitWithFakedContentLength() throws IOException {
         // @formatter:off
         final String request =
             "-----1234\r\n" +
@@ -139,9 +143,11 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
 
     /**
      * Checks whether maxSize works.
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testMaxSizeLimit() throws IOException, FileUploadException {
+    public void testMaxSizeLimit() throws IOException {
         // @formatter:off
         final String request =
             "-----1234\r\n" +
@@ -174,7 +180,7 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
     }
 
     @Test
-    public void testMaxSizeLimitUnknownContentLength() throws IOException, FileUploadException {
+    public void testMaxSizeLimitUnknownContentLength() throws IOException {
         // @formatter:off
         final String request =
             "-----1234\r\n" +

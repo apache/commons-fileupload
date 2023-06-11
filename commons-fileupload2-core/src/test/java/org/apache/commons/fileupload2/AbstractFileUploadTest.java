@@ -52,9 +52,11 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
 
     /**
      * Tests <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
+     *
+     * @throws IOException         Test failure.
      */
     @Test
-    public void testContentTypeAttachment() throws IOException, FileUploadException {
+    public void testContentTypeAttachment() throws IOException {
         // @formatter:off
         final List<FileItem> fileItems = parseUpload(upload,
                 "-----1234\r\n" +
@@ -90,6 +92,8 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
 
     /**
      * This is what the browser does if you submit the form without choosing a file.
+     *
+     * @throws FileUploadException Test failure.
      */
     @Test
     public void testEmptyFile() throws FileUploadException {
@@ -110,7 +114,7 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
     }
 
     @Test
-    public void testFilenameCaseSensitivity() throws IOException, FileUploadException {
+    public void testFilenameCaseSensitivity() throws IOException {
         // @formatter:off
         final List<FileItem> fileItems = parseUpload(upload,
                                                "-----1234\r\n" +
@@ -130,7 +134,7 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
     }
 
     @Test
-    public void testFileUpload() throws IOException, FileUploadException {
+    public void testFileUpload() throws IOException {
         // @formatter:off
         final List<FileItem> fileItems = parseUpload(upload,
                                                "-----1234\r\n" +
@@ -181,9 +185,11 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
 
     /**
      * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-130">
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testFileUpload130() throws Exception {
+    public void testFileUpload130() throws IOException {
         final String[] headerNames = { "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader" };
         final String[] headerValues = { "present", "Is there", "Here", "Is That" };
         // @formatter:off
@@ -232,9 +238,11 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
 
     /**
      * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testFILEUPLOAD62() throws Exception {
+    public void testFILEUPLOAD62() throws IOException {
         // @formatter:off
         final String contentType = "multipart/form-data; boundary=AaB03x";
         final String request =
@@ -278,9 +286,11 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
 
     /**
      * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testFoldedHeaders() throws IOException, FileUploadException {
+    public void testFoldedHeaders() throws IOException {
         // @formatter:off
         final List<FileItem> fileItems = parseUpload(upload, "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
@@ -332,6 +342,8 @@ public abstract class AbstractFileUploadTest<T extends FileUpload<?>> extends Ab
     /**
      * Internet Explorer 5 for the Mac has a bug where the carriage return is missing on any boundary line immediately preceding an input with type=image.
      * (type=submit does not have the bug.)
+     *
+     * @throws FileUploadException Test failure.
      */
     @Test
     public void testIE5MacBug() throws FileUploadException {

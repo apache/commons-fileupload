@@ -115,9 +115,11 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
 
     /**
      * Tests a file upload with varying file sizes.
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testFileUpload() throws IOException, FileUploadException {
+    public void testFileUpload() throws IOException {
         final byte[] request = newRequest();
         final List<FileItem> fileItems = parseUpload(request);
         final Iterator<FileItem> fileIter = fileItems.iterator();
@@ -140,9 +142,11 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
 
     /**
      * Test for FILEUPLOAD-135
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testFILEUPLOAD135() throws IOException, FileUploadException {
+    public void testFILEUPLOAD135() throws IOException {
         final byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
         final List<FileItem> fileItems = parseUpload(new InputStream() {
@@ -171,9 +175,11 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
 
     /**
      * Tests, whether an invalid request throws a proper exception.
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testFileUploadException() throws IOException, FileUploadException {
+    public void testFileUploadException() throws IOException {
         final byte[] request = newRequest();
         final byte[] invalidRequest = new byte[request.length - 11];
         System.arraycopy(request, 0, invalidRequest, 0, request.length - 11);
@@ -187,9 +193,11 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
 
     /**
      * Tests, whether an {@link InvalidPathException} is thrown.
+     *
+     * @throws IOException Test failure.
      */
     @Test
-    public void testInvalidFileNameException() throws Exception {
+    public void testInvalidFileNameException() throws IOException {
         final String fileName = "foo.exe\u0000.png";
         // @formatter:off
         final String request =
@@ -240,6 +248,8 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
 
     /**
      * Tests, whether an IOException is properly delegated.
+     *
+     * @throws IOException Test failure.
      */
     @Test
     public void testIOException() throws IOException {

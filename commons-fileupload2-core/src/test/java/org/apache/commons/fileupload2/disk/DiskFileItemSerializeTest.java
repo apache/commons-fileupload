@@ -155,6 +155,8 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test creation of a field for which the amount of data falls above the configured threshold.
+     *
+     * @throws IOException Test failure.
      */
     @Test
     public void testAboveThreshold() throws IOException {
@@ -173,6 +175,8 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test creation of a field for which the amount of data falls below the configured threshold.
+     *
+     * @throws IOException Test failure.
      */
     @Test
     public void testBelowThreshold() throws IOException {
@@ -196,7 +200,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Helper method to test creation of a field when a repository is used.
      */
-    public void testInMemoryObject(final byte[] testFieldValueBytes, final Path repository) throws IOException {
+    private void testInMemoryObject(final byte[] testFieldValueBytes, final Path repository) throws IOException {
         final FileItem item = createFileItem(testFieldValueBytes, repository);
 
         // Check state is as expected
@@ -209,6 +213,8 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test deserialization fails when repository is not valid.
+     *
+     * @throws IOException Test failure.
      */
     @Test
     public void testInvalidRepository() throws IOException {
@@ -221,6 +227,8 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test creation of a field for which the amount of data equals the configured threshold.
+     *
+     * @throws IOException Test failure.
      */
     @Test
     public void testThreshold() throws IOException {
@@ -231,6 +239,8 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test serialization and deserialization when repository is not null.
+     *
+     * @throws IOException Test failure.
      */
     @Test
     public void testValidRepository() throws IOException {
@@ -242,7 +252,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Helper method to test writing item contents to a file.
      */
-    public void testWritingToFile(final FileItem item, final byte[] testFieldValueBytes) throws IOException {
+    private void testWritingToFile(final FileItem item, final byte[] testFieldValueBytes) throws IOException {
         final Path temp = Files.createTempFile("fileupload", null);
         // Note that the file exists and is initially empty;
         // write() must be able to handle that.

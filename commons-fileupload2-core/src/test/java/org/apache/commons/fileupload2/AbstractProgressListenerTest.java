@@ -96,6 +96,8 @@ public abstract class AbstractProgressListenerTest<F extends FileUpload<R>, R> e
 
     /**
      * Parse a very long file upload by using a progress listener.
+     *
+     * @throws IOException Test failure.
      */
     @Test
     public void testProgressListener() throws IOException {

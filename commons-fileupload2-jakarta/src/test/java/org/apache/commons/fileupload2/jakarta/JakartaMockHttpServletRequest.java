@@ -59,7 +59,7 @@ public class JakartaMockHttpServletRequest implements HttpServletRequest {
         /**
          * Creates a new instance, which returns the given streams data.
          */
-        public MyServletInputStream(final InputStream inputStream, final int readLimit) {
+        MyServletInputStream(final InputStream inputStream, final int readLimit) {
             this.inputStream = inputStream;
             this.readLimit = readLimit;
         }
