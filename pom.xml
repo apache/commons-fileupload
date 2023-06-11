@@ -228,7 +228,7 @@
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload</commons.module.name>
     <commons.release.version>2.0.0</commons.release.version>
-    <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java ${maven.compiler.target} or later</commons.release.desc>
+    <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 8 or later</commons.release.desc>
 
     <commons.release.2.version>1.5</commons.release.2.version>
     <commons.release.2.desc>in the org.apache.commons.fileupload namespace for Java 6</commons.release.2.desc>
