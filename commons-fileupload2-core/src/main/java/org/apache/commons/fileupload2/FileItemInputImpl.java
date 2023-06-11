@@ -20,21 +20,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.InvalidPathException;
 
-import org.apache.commons.fileupload2.MultipartStream.ItemInputStream;
+import org.apache.commons.fileupload2.MultipartInput.ItemInputStream;
 import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.io.input.BoundedInputStream;
 
 /**
- * Default implementation of {@link FileItemStream}.
+ * Default implementation of {@link FileItemInput}.
  */
-class FileItemStreamImpl implements FileItemStream {
+class FileItemInputImpl implements FileItemInput {
 
     /**
      * The File Item iterator implementation.
      *
-     * @see FileItemIteratorImpl
+     * @see FileItemInputIteratorImpl
      */
-    private final FileItemIteratorImpl fileItemIteratorImpl;
+    private final FileItemInputIteratorImpl fileItemInputIteratorImpl;
 
     /**
      * The file items content type.
@@ -74,7 +74,7 @@ class FileItemStreamImpl implements FileItemStream {
     /**
      * Creates a new instance.
      *
-     * @param fileItemIterator The {@link FileItemIteratorImpl iterator}, which returned this file item.
+     * @param fileItemIterator The {@link FileItemInputIteratorImpl iterator}, which returned this file item.
      * @param fileName         The items file name, or null.
      * @param fieldName        The items field name.
      * @param contentType      The items content type, or null.
@@ -83,20 +83,20 @@ class FileItemStreamImpl implements FileItemStream {
      * @throws IOException         Creating the file item failed.
      * @throws FileUploadException Parsing the incoming data stream failed.
      */
-    FileItemStreamImpl(final FileItemIteratorImpl fileItemIterator, final String fileName, final String fieldName, final String contentType,
+    FileItemInputImpl(final FileItemInputIteratorImpl fileItemIterator, final String fileName, final String fieldName, final String contentType,
             final boolean formField, final long contentLength) throws FileUploadException, IOException {
-        this.fileItemIteratorImpl = fileItemIterator;
+        this.fileItemInputIteratorImpl = fileItemIterator;
         this.fileName = fileName;
         this.fieldName = fieldName;
         this.contentType = contentType;
         this.formField = formField;
-        final long fileSizeMax = fileItemIteratorImpl.getFileSizeMax();
+        final long fileSizeMax = fileItemInputIteratorImpl.getFileSizeMax();
         if (fileSizeMax != -1 && contentLength != -1 && contentLength > fileSizeMax) {
             throw new FileUploadByteCountLimitException(String.format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, fileSizeMax),
                     contentLength, fileSizeMax, fileName, fieldName);
         }
         // OK to construct stream now
-        final ItemInputStream itemInputStream = fileItemIteratorImpl.getMultiPartStream().newInputStream();
+        final ItemInputStream itemInputStream = fileItemInputIteratorImpl.getMultiPartStream().newInputStream();
         InputStream istream = itemInputStream;
         if (fileSizeMax != -1) {
             istream = new BoundedInputStream(istream, fileSizeMax) {
@@ -161,7 +161,7 @@ class FileItemStreamImpl implements FileItemStream {
     @Override
     public InputStream getInputStream() throws IOException {
         if (inputStreamClosed) {
-            throw new FileItemStream.ItemSkippedException("getInputStream()");
+            throw new FileItemInput.ItemSkippedException("getInputStream()");
         }
         return inputStream;
     }

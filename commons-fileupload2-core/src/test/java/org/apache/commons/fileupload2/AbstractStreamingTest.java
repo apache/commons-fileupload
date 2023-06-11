@@ -103,7 +103,7 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
         return upload.parseRequest(newServletRequestContext(request));
     }
 
-    protected FileItemIterator parseUpload(final int length, final InputStream inputStream) throws FileUploadException, IOException {
+    protected FileItemInputIterator parseUpload(final int length, final InputStream inputStream) throws FileUploadException, IOException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
         final AbstractFileUpload upload = newFileUpload();
@@ -187,7 +187,7 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
             parseUpload(invalidRequest);
             fail("Expected EndOfStreamException");
         } catch (final FileUploadException e) {
-            assertTrue(e.getSuppressed()[0] instanceof MultipartStream.MalformedStreamException, e.toString());
+            assertTrue(e.getSuppressed()[0] instanceof MultipartInput.MalformedStreamException, e.toString());
         }
     }
 
@@ -223,10 +223,10 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
         // @formatter:on
         final byte[] reqBytes = request.getBytes(StandardCharsets.US_ASCII);
 
-        final FileItemIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
-        final FileItemStream fileItemStream = fileItemIter.next();
+        final FileItemInputIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
+        final FileItemInput fileItemInput = fileItemIter.next();
         try {
-            fileItemStream.getName();
+            fileItemInput.getName();
             fail("Expected exception");
         } catch (final InvalidPathException e) {
             assertEquals(fileName, e.getInput());

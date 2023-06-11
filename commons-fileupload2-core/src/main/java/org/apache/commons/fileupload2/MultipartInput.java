@@ -23,7 +23,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
-import org.apache.commons.fileupload2.FileItemStream.ItemSkippedException;
+import org.apache.commons.fileupload2.FileItemInput.ItemSkippedException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.build.AbstractStreamBuilder;
@@ -64,7 +64,7 @@ import org.apache.commons.io.output.NullOutputStream;
  *
  * <pre>
  * try {
- *     MultipartStream multipartStream = new MultipartStream(input, boundary);
+ *     MultipartInput multipartStream = new MultipartInput(input, boundary);
  *     boolean nextPart = multipartStream.skipPreamble();
  *     OutputStream output;
  *     while (nextPart) {
@@ -74,30 +74,30 @@ import org.apache.commons.io.output.NullOutputStream;
  *         multipartStream.readBodyData(output);
  *         nextPart = multipartStream.readBoundary();
  *     }
- * } catch (MultipartStream.MalformedStreamException e) {
+ * } catch (MultipartInput.MalformedStreamException e) {
  *     // the stream failed to follow required syntax
  * } catch (IOException e) {
  *     // a read or write error occurred
  * }
  * </pre>
  */
-public final class MultipartStream {
+public final class MultipartInput {
 
     /**
-     * Builds a new {@link MultipartStream} instance.
+     * Builds a new {@link MultipartInput} instance.
      * <p>
      * For example:
      * </p>
      *
      * <pre>{@code
-     * MultipartStream factory = MultipartStream.builder()
+     * MultipartInput factory = MultipartInput.builder()
      *    .setPath(path)
      *    .setBufferSize(DEFAULT_THRESHOLD)
      *    .get();
      * }
      * </pre>
      */
-    public static class Builder extends AbstractStreamBuilder<MultipartStream, Builder> {
+    public static class Builder extends AbstractStreamBuilder<MultipartInput, Builder> {
 
         /**
          * Boundary.
@@ -129,8 +129,8 @@ public final class MultipartStream {
          * @see AbstractOrigin#getReader(Charset)
          */
         @Override
-        public MultipartStream get() throws IOException {
-            return new MultipartStream(getInputStream(), boundary, getBufferSize(), progressNotifier);
+        public MultipartInput get() throws IOException {
+            return new MultipartInput(getInputStream(), boundary, getBufferSize(), progressNotifier);
         }
 
         /**
@@ -231,7 +231,7 @@ public final class MultipartStream {
 
         private void checkOpen() throws ItemSkippedException {
             if (closed) {
-                throw new FileItemStream.ItemSkippedException("checkOpen()");
+                throw new FileItemInput.ItemSkippedException("checkOpen()");
             }
         }
 
@@ -277,7 +277,7 @@ public final class MultipartStream {
          * Called for finding the separator.
          */
         private void findSeparator() {
-            pos = MultipartStream.this.findSeparator();
+            pos = MultipartInput.this.findSeparator();
             if (pos == -1) {
                 if (tail - head > keepRegion) {
                     pad = keepRegion;
@@ -642,7 +642,7 @@ public final class MultipartStream {
     private final ProgressNotifier notifier;
 
     /**
-     * Constructs a {@code MultipartStream} with a custom size buffer.
+     * Constructs a {@code MultipartInput} with a custom size buffer.
      * <p>
      * Note that the buffer must be at least big enough to contain the boundary string, plus 4 characters for CR/LF and double dash, plus at least one byte of
      * data. Too small a buffer size setting will degrade performance.
@@ -654,7 +654,7 @@ public final class MultipartStream {
      * @param notifier   The notifier, which is used for calling the progress listener, if any.
      * @throws IllegalArgumentException If the buffer size is too small.
      */
-    private MultipartStream(final InputStream input, final byte[] boundary, final int bufferSize, final ProgressNotifier notifier) {
+    private MultipartInput(final InputStream input, final byte[] boundary, final int bufferSize, final ProgressNotifier notifier) {
         if (boundary == null) {
             throw new IllegalArgumentException("boundary may not be null");
         }
@@ -662,7 +662,7 @@ public final class MultipartStream {
         // body-data tokens.
         this.boundaryLength = boundary.length + BOUNDARY_PREFIX.length;
         if (bufferSize < this.boundaryLength + 1) {
-            throw new IllegalArgumentException("The buffer size specified for the MultipartStream is too small");
+            throw new IllegalArgumentException("The buffer size specified for the MultipartInput is too small");
         }
 
         this.input = input;
@@ -782,7 +782,7 @@ public final class MultipartStream {
      * Reads {@code body-data} from the current {@code encapsulation} and writes its contents into the output {@code Stream}.
      * <p>
      * Arbitrary large amounts of data can be processed by this method using a constant size buffer. (see
-     * {@link MultipartStream#builder()}).
+     * {@link MultipartInput#builder()}).
      * </p>
      *
      * @param output The {@code Stream} to write data into. May be null, in which case this method is equivalent to {@link #discardBodyData()}.
@@ -903,8 +903,7 @@ public final class MultipartStream {
             try {
                 headers = baos.toString(headerEncoding);
             } catch (final UnsupportedEncodingException e) {
-                // Fall back to platform default if specified encoding is not
-                // supported.
+                // Fall back to platform default if specified encoding is not supported.
                 headers = baos.toString();
             }
         } else {
@@ -941,10 +940,10 @@ public final class MultipartStream {
      * Sets the character encoding to be used when reading the headers of individual parts. When not specified, or {@code null}, the platform default encoding
      * is used.
      *
-     * @param encoding The encoding used to read part headers.
+     * @param headerEncoding The encoding used to read part headers.
      */
-    public void setHeaderEncoding(final String encoding) {
-        headerEncoding = encoding;
+    public void setHeaderEncoding(final String headerEncoding) {
+        this.headerEncoding = headerEncoding;
     }
 
     /**

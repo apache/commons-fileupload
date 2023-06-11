@@ -20,7 +20,7 @@ package org.apache.commons.fileupload2;
  * Accepts headers for an item type.
  *
  * @see FileItem
- * @see FileItemStream
+ * @see FileItemInput
  */
 public interface FileItemHeadersSupport {
 
@@ -32,8 +32,8 @@ public interface FileItemHeadersSupport {
     FileItemHeaders getHeaders();
 
     /**
-     * Sets the headers read from within an item. Implementations of {@link FileItem} or {@link FileItemStream} should implement this interface to be able to
-     * get the raw headers found within the item header block.
+     * Sets the headers read from within an item. Implementations of {@link FileItem} or {@link FileItemInput} should implement this interface to be able
+     * to get the raw headers found within the item header block.
      *
      * @param headers the instance that holds onto the headers for this instance.
      */

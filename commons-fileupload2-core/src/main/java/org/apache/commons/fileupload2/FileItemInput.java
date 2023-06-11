@@ -28,16 +28,16 @@ import java.io.InputStream;
  * Instances of this class are created by accessing the iterator, returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  * </p>
  * <p>
- * <em>Note</em>: There is an interaction between the iterator and its associated instances of {@link FileItemStream}: By invoking
+ * <em>Note</em>: There is an interaction between the iterator and its associated instances of {@link FileItemInput}: By invoking
  * {@link java.util.Iterator#hasNext()} on the iterator, you discard all data, which hasn't been read so far from the previous data.
  * </p>
  */
-public interface FileItemStream extends FileItemHeadersSupport {
+public interface FileItemInput extends FileItemHeadersSupport {
 
     /**
      * This exception is thrown, if an attempt is made to read data from the {@link InputStream}, which has been returned by
-     * {@link FileItemStream#getInputStream()}, after {@link java.util.Iterator#hasNext()} has been invoked on the iterator, which created the
-     * {@link FileItemStream}.
+     * {@link FileItemInput#getInputStream()}, after {@link java.util.Iterator#hasNext()} has been invoked on the iterator, which created the
+     * {@link FileItemInput}.
      */
     class ItemSkippedException extends FileUploadException {
 

@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
-import org.apache.commons.fileupload2.FileItemIterator;
+import org.apache.commons.fileupload2.FileItemInputIterator;
 import org.apache.commons.fileupload2.FileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
 
@@ -81,13 +81,13 @@ public class JavaxServletFileUpload extends FileUpload<HttpServletRequest> {
      * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} file item iterator.
      *
      * @param request The servlet request to be parsed.
-     * @return An iterator to instances of {@code FileItemStream} parsed from the request, in the order that they were transmitted.
+     * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
      *                             uploaded content.
      */
     @Override
-    public FileItemIterator getItemIterator(final HttpServletRequest request) throws FileUploadException, IOException {
+    public FileItemInputIterator getItemIterator(final HttpServletRequest request) throws FileUploadException, IOException {
         return super.getItemIterator(new JavaxServletRequestContext(request));
     }
 

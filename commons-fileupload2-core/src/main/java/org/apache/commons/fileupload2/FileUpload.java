@@ -73,12 +73,12 @@ public abstract class FileUpload<T> extends AbstractFileUpload {
      * Gets a file item iterator.
      *
      * @param request The servlet request to be parsed.
-     * @return An iterator to instances of {@code FileItemStream} parsed from the request, in the order that they were transmitted.
+     * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
      *                             uploaded content.
      */
-    public abstract FileItemIterator getItemIterator(T request) throws FileUploadException, IOException;
+    public abstract FileItemInputIterator getItemIterator(T request) throws FileUploadException, IOException;
 
     /**
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.

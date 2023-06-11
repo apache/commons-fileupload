@@ -72,11 +72,11 @@ public abstract class AbstractProgressListenerTest<F extends FileUpload<R>, R> e
         final F upload = newFileUpload();
         final ProgressListenerImpl listener = new ProgressListenerImpl(contentLength, itemCount);
         upload.setProgressListener(listener);
-        final FileItemIterator iter = upload.getItemIterator(request);
+        final FileItemInputIterator iter = upload.getItemIterator(request);
         for (int i = 0; i < itemCount; i++) {
             final int idxI = i;
-            final FileItemStream fileItemStream = iter.next();
-            try (final InputStream inputStream = fileItemStream.getInputStream()) {
+            final FileItemInput fileItemInput = iter.next();
+            try (final InputStream inputStream = fileItemInput.getInputStream()) {
                 for (int j = 0; j < 16_384 + i; j++) {
                     final int idxJ = j;
                     //

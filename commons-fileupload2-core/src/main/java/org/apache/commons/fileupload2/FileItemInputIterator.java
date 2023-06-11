@@ -24,7 +24,7 @@ import javax.naming.SizeLimitExceededException;
 /**
  * An iterator, as returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */
-public interface FileItemIterator {
+public interface FileItemInputIterator {
 
     List<FileItem> getFileItems() throws FileUploadException, IOException;
 
@@ -47,7 +47,7 @@ public interface FileItemIterator {
     long getSizeMax();
 
     /**
-     * Tests whether another instance of {@link FileItemStream} is available.
+     * Tests whether another instance of {@link FileItemInput} is available.
      *
      * @throws FileUploadException Parsing or processing the file item failed.
      * @throws IOException         Reading the file item failed.
@@ -56,14 +56,14 @@ public interface FileItemIterator {
     boolean hasNext() throws FileUploadException, IOException;
 
     /**
-     * Returns the next available {@link FileItemStream}.
+     * Returns the next available {@link FileItemInput}.
      *
      * @throws java.util.NoSuchElementException No more items are available. Use {@link #hasNext()} to prevent this exception.
      * @throws FileUploadException              Parsing or processing the file item failed.
      * @throws IOException                      Reading the file item failed.
-     * @return FileItemStream instance, which provides access to the next file item.
+     * @return FileItemInput instance, which provides access to the next file item.
      */
-    FileItemStream next() throws FileUploadException, IOException;
+    FileItemInput next() throws FileUploadException, IOException;
 
     /**
      * Sets the maximum size of a single file. An {@link FileUploadByteCountLimitException} will be thrown, if there is an uploaded file, which is exceeding

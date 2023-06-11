@@ -259,13 +259,13 @@ public abstract class AbstractFileUpload {
      * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
-     * @return An iterator to instances of {@code FileItemStream} parsed from the request, in the order that they were transmitted.
+     * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
      *                             uploaded content.
      */
-    public FileItemIterator getItemIterator(final RequestContext ctx) throws FileUploadException, IOException {
-        return new FileItemIteratorImpl(this, ctx);
+    public FileItemInputIterator getItemIterator(final RequestContext ctx) throws FileUploadException, IOException {
+        return new FileItemInputIteratorImpl(this, ctx);
     }
 
     /**
@@ -409,7 +409,7 @@ public abstract class AbstractFileUpload {
         final List<FileItem> itemList = new ArrayList<>();
         boolean successful = false;
         try {
-            final FileItemIterator iter = getItemIterator(requestContext);
+            final FileItemInputIterator iter = getItemIterator(requestContext);
             final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final byte[] buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {
@@ -417,20 +417,20 @@ public abstract class AbstractFileUpload {
                     // The next item will exceed the limit.
                     throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), itemList.size());
                 }
-                final FileItemStream fileItemStream = iter.next();
+                final FileItemInput fileItemInput = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
-                final String fileName = fileItemStream.getName();
+                final String fileName = fileItemInput.getName();
                 // @formatter:off
                 final FileItem fileItem = fileItemFactory.fileItemBuilder()
-                    .setFieldName(fileItemStream.getFieldName())
-                    .setContentType(fileItemStream.getContentType())
-                    .setFormField(fileItemStream.isFormField())
+                    .setFieldName(fileItemInput.getFieldName())
+                    .setContentType(fileItemInput.getContentType())
+                    .setFormField(fileItemInput.isFormField())
                     .setFileName(fileName)
-                    .setFileItemHeaders(fileItemStream.getHeaders())
+                    .setFileItemHeaders(fileItemInput.getHeaders())
                     .get();
                 // @formatter:on
                 itemList.add(fileItem);
-                try (InputStream inputStream = fileItemStream.getInputStream();
+                try (InputStream inputStream = fileItemInput.getInputStream();
                         OutputStream outputStream = fileItem.getOutputStream()) {
                     IOUtils.copyLarge(inputStream, outputStream, buffer);
                 } catch (final FileUploadException e) {

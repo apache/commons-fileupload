@@ -209,10 +209,10 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
 
         final R req = newMockHttpServletRequest(request, -1L, 10);
 
-        final FileItemIterator it = upload.getItemIterator(req);
+        final FileItemInputIterator it = upload.getItemIterator(req);
         assertTrue(it.hasNext());
 
-        final FileItemStream item = it.next();
+        final FileItemInput item = it.next();
         assertFalse(item.isFormField());
         assertEquals("file1", item.getFieldName());
         assertEquals("foo1.tab", item.getName());
@@ -230,7 +230,7 @@ public abstract class AbstractSizesTest<F extends FileUpload<R>, R> extends Abst
         assertTrue(it.hasNext());
 
         assertThrows(FileUploadException.class, () -> {
-            final FileItemStream item2 = it.next();
+            final FileItemInput item2 = it.next();
             try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     final InputStream stream = item2.getInputStream()) {
                 IOUtils.copy(stream, baos);
