@@ -24,7 +24,6 @@ import org.apache.commons.fileupload2.AbstractFileUpload;
 import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.fileupload2.FileItemFactory;
 import org.apache.commons.fileupload2.FileItemInputIterator;
-import org.apache.commons.fileupload2.FileUpload;
 import org.apache.commons.fileupload2.FileUploadException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,7 +39,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
  * </p>
  */
-public class JakartaServletFileUpload extends FileUpload<HttpServletRequest> {
+public class JakartaServletFileUpload extends AbstractFileUpload<HttpServletRequest> {
 
     /**
      * Constant for HTTP POST method.
@@ -62,7 +61,7 @@ public class JakartaServletFileUpload extends FileUpload<HttpServletRequest> {
      * Constructs an uninitialized instance of this class. A factory must be configured, using {@code setFileItemFactory()}, before attempting to parse
      * requests.
      *
-     * @see FileUpload#FileUpload(FileItemFactory)
+     * @see AbstractFileUpload#AbstractFileUpload()
      */
     public JakartaServletFileUpload() {
     }
@@ -70,11 +69,11 @@ public class JakartaServletFileUpload extends FileUpload<HttpServletRequest> {
     /**
      * Constructs an instance of this class which uses the supplied factory to create {@code FileItem} instances.
      *
-     * @see FileUpload#FileUpload()
+     * @see AbstractFileUpload#AbstractFileUpload()
      * @param fileItemFactory The factory to use for creating file items.
      */
     public JakartaServletFileUpload(final FileItemFactory fileItemFactory) {
-        super(fileItemFactory);
+        setFileItemFactory(fileItemFactory);
     }
 
     /**

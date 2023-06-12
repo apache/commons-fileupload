@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets;
  * @param <F> The subclass of FileUpload.
  * @param <R> The type of FileUpload request.
  */
-public abstract class AbstractTest<F extends FileUpload<R>, R> {
+public abstract class AbstractTest<F extends AbstractFileUpload<R>, R> {
 
     protected abstract F newFileUpload();
 

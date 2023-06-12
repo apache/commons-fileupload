@@ -20,12 +20,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
- * Common tests for implementations of {@link FileUpload}. This is a parameterized test. Tests must be valid and common to all implementations of FileUpload
+ * Common tests for implementations of {@link AbstractFileUpload}. This is a parameterized test. Tests must be valid and common to all implementations of FileUpload
  * added as parameter in this class.
  *
- * @param <T> The type for {@link FileUpload}.
+ * @param <T> The type for {@link AbstractFileUpload}.
  */
-public abstract class AbstractFileUploadWrapper<T extends FileUpload<?>> {
+public abstract class AbstractFileUploadWrapper<T extends AbstractFileUpload<?>> {
 
     protected final T upload;
 

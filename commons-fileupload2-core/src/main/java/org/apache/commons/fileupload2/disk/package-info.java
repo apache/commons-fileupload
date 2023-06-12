@@ -22,7 +22,7 @@
  * </p>
  * <p>
  * In typical usage, an instance of {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory} would be created, configured, and then
- * passed to a {@link org.apache.commons.fileupload2.FileUpload} implementation such as
+ * passed to a {@link org.apache.commons.fileupload2.AbstractFileUpload} implementation such as
  * {@code org.apache.commons.fileupload2.servlet.ServletFileUpload ServletFileUpload} or
  * {@code org.apache.commons.fileupload2.portlet.PortletFileUpload PortletFileUpload}.
  * </p>

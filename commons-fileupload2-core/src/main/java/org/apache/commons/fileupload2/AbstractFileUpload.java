@@ -40,8 +40,9 @@ import org.apache.commons.io.IOUtils;
  * <p>
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
  * </p>
+ * @param <T> the context type
  */
-public abstract class AbstractFileUpload {
+public abstract class AbstractFileUpload<T> {
 
     /**
      * Boundary parameter key.
@@ -142,6 +143,11 @@ public abstract class AbstractFileUpload {
     private ProgressListener progressListener = ProgressListener.NOP;
 
     /**
+     * The factory to use to create new form items.
+     */
+    private FileItemFactory fileItemFactory;
+
+    /**
      * Gets the boundary from the {@code Content-type} header.
      *
      * @param contentType The value of the content type header from which to extract the boundary value.
@@ -201,7 +207,9 @@ public abstract class AbstractFileUpload {
      *
      * @return The factory class for new file items.
      */
-    public abstract FileItemFactory getFileItemFactory();
+    public FileItemFactory getFileItemFactory() {
+        return fileItemFactory;
+    }
 
     /**
      * Gets the file name from the {@code Content-disposition} header.
@@ -277,6 +285,17 @@ public abstract class AbstractFileUpload {
     public FileItemInputIterator getItemIterator(final RequestContext requestContext) throws FileUploadException, IOException {
         return new FileItemInputIteratorImpl(this, requestContext);
     }
+
+    /**
+     * Gets a file item iterator.
+     *
+     * @param request The servlet request to be parsed.
+     * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
+     *                             uploaded content.
+     */
+    public abstract FileItemInputIterator getItemIterator(T request) throws FileUploadException, IOException;
 
     /**
      * Parses the {@code header-part} and returns as key/value pairs.
@@ -410,6 +429,15 @@ public abstract class AbstractFileUpload {
     /**
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
+     * @param request The servlet request to be parsed.
+     * @return A map of {@code FileItem} instances parsed from the request.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     */
+    public abstract Map<String, List<FileItem>> parseParameterMap(T request) throws FileUploadException;
+
+    /**
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     *
      * @param requestContext The context for the request to be parsed.
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
@@ -465,6 +493,15 @@ public abstract class AbstractFileUpload {
     }
 
     /**
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     *
+     * @param request The servlet request to be parsed.
+     * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     */
+    public abstract List<FileItem> parseRequest(T request) throws FileUploadException;
+
+    /**
      * Sets the maximum number of files allowed per request.
      *
      * @param fileCountMax The new limit. {@code -1} means no limit.
@@ -478,7 +515,9 @@ public abstract class AbstractFileUpload {
      *
      * @param factory The factory class for new file items.
      */
-    public abstract void setFileItemFactory(FileItemFactory factory);
+    public void setFileItemFactory(final FileItemFactory factory) {
+        this.fileItemFactory = factory;
+    }
 
     /**
      * Sets the maximum allowed size of a single uploaded file, as opposed to {@link #getSizeMax()}.

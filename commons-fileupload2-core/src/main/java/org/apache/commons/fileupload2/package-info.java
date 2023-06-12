@@ -22,7 +22,7 @@
  * </p>
  * <p>
  * While this package provides the generic functionality for file uploads, these classes are not typically used directly. Instead, normal usage involves one of
- * the provided extensions of {@link org.apache.commons.fileupload2.FileUpload} such as
+ * the provided extensions of {@link org.apache.commons.fileupload2.AbstractFileUpload} such as
  * {@code org.apache.commons.fileupload2.servlet.ServletFileUpload ServletFileUpload} or
  * {@code org.apache.commons.fileupload2.portlet.PortletFileUpload PortletFileUpload}, together with a factory for
  * {@link org.apache.commons.fileupload2.FileItem} instances, such as {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory}.

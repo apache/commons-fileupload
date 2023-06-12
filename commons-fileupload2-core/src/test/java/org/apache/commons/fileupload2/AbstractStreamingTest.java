@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * @param <R> The type of FileUpload request.
  * @param <C> The request context type.
  */
-public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extends AbstractRequestContext> extends AbstractTest<F, R> {
+public abstract class AbstractStreamingTest<F extends AbstractFileUpload<R>, R, C extends AbstractRequestContext<?>> extends AbstractTest<F, R> {
 
     protected String getFooter() {
         return "-----1234--\r\n";
@@ -96,7 +96,7 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
     protected List<FileItem> parseUpload(final InputStream inputStream, final int length) throws FileUploadException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
-        final AbstractFileUpload upload = newFileUpload();
+        final AbstractFileUpload<?> upload = newFileUpload();
         upload.setFileItemFactory(DiskFileItemFactory.builder().get());
         final R request = newMockHttpServletRequest(inputStream, length, contentType, -1);
 
@@ -106,7 +106,7 @@ public abstract class AbstractStreamingTest<F extends FileUpload<R>, R, C extend
     protected FileItemInputIterator parseUpload(final int length, final InputStream inputStream) throws FileUploadException, IOException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
-        final AbstractFileUpload upload = newFileUpload();
+        final AbstractFileUpload<?> upload = newFileUpload();
         upload.setFileItemFactory(DiskFileItemFactory.builder().get());
         final R request = newMockHttpServletRequest(inputStream, length, contentType, -1);
 

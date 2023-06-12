@@ -40,7 +40,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
      *
      * @see AbstractFileUpload
      */
-    private final AbstractFileUpload fileUpload;
+    private final AbstractFileUpload<?> fileUpload;
 
     /**
      * The request context.
@@ -107,7 +107,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
      * @throws FileUploadException An error occurred while parsing the request.
      * @throws IOException         An I/O error occurred.
      */
-    FileItemInputIteratorImpl(final AbstractFileUpload fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
+    FileItemInputIteratorImpl(final AbstractFileUpload<?> fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         this.fileUpload = fileUploadBase;
         this.sizeMax = fileUploadBase.getSizeMax();
         this.fileSizeMax = fileUploadBase.getFileSizeMax();
@@ -247,7 +247,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         return findNextItem();
     }
 
-    protected void init(final AbstractFileUpload fileUploadBase, final RequestContext initContext) throws FileUploadException, IOException {
+    protected void init(final AbstractFileUpload<?> fileUploadBase, final RequestContext initContext) throws FileUploadException, IOException {
         final String contentType = requestContext.getContentType();
         if (null == contentType || !contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART)) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",

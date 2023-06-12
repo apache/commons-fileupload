@@ -17,8 +17,8 @@
 
 /**
  * <p>
- * An implementation of {@link org.apache.commons.fileupload2.FileUpload} for use in portlets conforming to JSR 168. This implementation requires only access to
- * the portlet's current {@code ActionRequest} instance, and a suitable {@link org.apache.commons.fileupload2.FileItemFactory} implementation, such as
+ * An implementation of {@link org.apache.commons.fileupload2.AbstractFileUpload} for use in portlets conforming to JSR 168. This implementation requires only
+ * access to the portlet's current {@code ActionRequest} instance, and a suitable {@link org.apache.commons.fileupload2.FileItemFactory} implementation, such as
  * {@link org.apache.commons.fileupload2.disk.DiskFileItemFactory}.
  * </p>
  * <p>
