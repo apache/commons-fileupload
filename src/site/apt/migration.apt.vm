@@ -31,17 +31,19 @@ Migrating
 
    [[1]] Use Java 8 or above.
    
-   [[2]] Add one or more these dependencies with the <<<groupId>>> <<org.apache.commons>>, and set the artifactId to:
+   [[2]] Add one or more these dependencies with the <<<groupId>>> <<org.apache.commons>>, and set the <<<artifactId>>> to:
    
-        [[A]] <<commons-fileupload2-jakarta>> to use Jakarta servlets
+        [[A]] <<commons-fileupload2-jakarta>> to use Jakarta servlets.
         
-        [[B]] <<commons-fileupload2-javax>> to use Javax servlets
+        [[B]] <<commons-fileupload2-javax>> to use Javax servlets.
 
-        [[C]] <<commons-fileupload2-portlet>> to use Javax portlets
+        [[C]] <<commons-fileupload2-portlet>> to use Javax portlets.
+        
+        [[D]] All of the above automatically depends on <<commons-fileupload2-core>>.
 
    [[3]] The dependency version is <<${project.version}>>
 
-   [[4]] Change your imports from <<org.apache.commons.fileupload>> to <<org.apache.commons.fileupload2>>.
+   [[4]] Change your imports from the root <<org.apache.commons.fileupload>> to <<org.apache.commons.fileupload2>>.
    
    For example, change:
 
@@ -49,13 +51,13 @@ Migrating
    import org.apache.commons.fileupload.servlet.ServletFileUpload;
 +-------------------------------------------
 
-      to
+      to:
 
 +-------------------------------------------
    import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 +-------------------------------------------
 
-      or
+      or:
 
 +-------------------------------------------
    import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
