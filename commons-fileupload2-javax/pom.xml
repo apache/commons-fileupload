@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+212<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Licensed to the Apache Software Foundation (ASF) under one or more
  contributor license agreements.  See the NOTICE file distributed with
@@ -26,10 +26,10 @@
 
   <artifactId>commons-fileupload2-javax</artifactId>
 
-  <name>Apache Commons FileUpload Javax Servlet</name>
+  <name>Apache Commons FileUpload Javax</name>
   <description>
-    The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
-    file upload functionality to servlets and web applications.
+    The Apache Commons FileUpload Javax component provides a simple yet flexible means of adding support for multipart
+    file upload functionality to Javax servlets and web applications.
   </description>
 
   <properties>
