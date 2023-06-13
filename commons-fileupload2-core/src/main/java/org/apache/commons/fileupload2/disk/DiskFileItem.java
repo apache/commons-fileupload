@@ -24,7 +24,6 @@ import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -459,11 +458,7 @@ public final class DiskFileItem implements FileItem {
      */
     @Override
     public String getString() {
-        try {
-            return new String(get(), getCharset());
-        } catch (final UnsupportedCharsetException e) {
-            return "";
-        }
+        return new String(get(), getCharset());
     }
 
     /**
