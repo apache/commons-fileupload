@@ -17,7 +17,6 @@
 package org.apache.commons.fileupload2;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.naming.SizeLimitExceededException;
 
@@ -27,8 +26,6 @@ import org.apache.commons.io.function.IOIterator;
  * An iterator, as returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */
 public interface FileItemInputIterator extends IOIterator<FileItemInput> {
-
-    List<FileItem> getFileItems() throws FileUploadException, IOException;
 
     /**
      * Gets the maximum size of a single file. An {@link FileUploadByteCountLimitException} will be thrown, if there is an uploaded file, which is exceeding

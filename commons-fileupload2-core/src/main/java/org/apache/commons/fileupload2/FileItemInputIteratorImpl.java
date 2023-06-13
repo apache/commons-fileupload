@@ -19,9 +19,7 @@ package org.apache.commons.fileupload2;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -192,24 +190,6 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         } catch (final Exception e) {
             return -1;
         }
-    }
-
-    @Override
-    public List<FileItem> getFileItems() throws FileUploadException, IOException {
-        final List<FileItem> items = new ArrayList<>();
-        while (hasNext()) {
-            final FileItemInput fis = next();
-            // @formatter:off
-            final FileItem fileItem = fileUpload.getFileItemFactory().fileItemBuilder()
-                    .setFieldName(fis.getFieldName())
-                    .setContentType(fis.getContentType())
-                    .setFormField(fis.isFormField())
-                    .setFileName(fis.getName())
-                    .get();
-            // @formatter:on
-            items.add(fileItem);
-        }
-        return items;
     }
 
     @Override
