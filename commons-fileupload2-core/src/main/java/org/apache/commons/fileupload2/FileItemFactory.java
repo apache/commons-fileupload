@@ -37,6 +37,10 @@ public interface FileItemFactory {
      */
     abstract class FileItemBuilder<T extends FileItem, B extends FileItemBuilder<T, B>> extends AbstractStreamBuilder<T, B> {
 
+        static FileItemHeadersImpl newFileItemHeaders() {
+            return new FileItemHeadersImpl();
+        }
+
         /**
          * Field name.
          */
@@ -60,7 +64,7 @@ public interface FileItemFactory {
         /**
          * File item headers.
          */
-        private FileItemHeaders fileItemHeaders;
+        private FileItemHeaders fileItemHeaders = newFileItemHeaders();
 
         /**
          * The instance of {@link FileCleaningTracker}, which is responsible for deleting temporary files.
@@ -115,7 +119,7 @@ public interface FileItemFactory {
         }
 
         public B setFileItemHeaders(final FileItemHeaders fileItemHeaders) {
-            this.fileItemHeaders = fileItemHeaders;
+            this.fileItemHeaders = fileItemHeaders != null ? fileItemHeaders : newFileItemHeaders();
             return asThis();
         }
 

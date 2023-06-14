@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.fileupload2.FileItemFactory.FileItemBuilder;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -365,7 +366,7 @@ public abstract class AbstractFileUpload<T> {
      * @return The new instance.
      */
     protected FileItemHeadersImpl newFileItemHeaders() {
-        return new FileItemHeadersImpl();
+        return FileItemBuilder.newFileItemHeaders();
     }
 
     /**
