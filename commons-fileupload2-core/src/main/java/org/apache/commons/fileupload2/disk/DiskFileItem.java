@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.CopyOption;
@@ -243,7 +242,7 @@ public final class DiskFileItem implements FileItem {
     /**
      * The temporary file to use.
      */
-    private Path tempFile;
+    private final Path tempFile;
 
     /**
      * The file items headers.
@@ -277,6 +276,7 @@ public final class DiskFileItem implements FileItem {
         this.fileItemHeaders = fileItemHeaders;
         this.threshold = threshold;
         this.repository = repository != null ? repository : PathUtils.getTempDirectory();
+        this.tempFile = this.repository.resolve(String.format("upload_%s_%s.tmp", UID, getUniqueId()));
     }
 
     /**
@@ -466,11 +466,10 @@ public final class DiskFileItem implements FileItem {
      *
      * @param charset The charset to use.
      * @return The contents of the file, as a string.
-     * @throws UnsupportedEncodingException if the requested character encoding is not available.
      */
     @Override
-    public String getString(final String charset) throws UnsupportedEncodingException, IOException {
-        return new String(get(), charset);
+    public String getString(final Charset charset) throws IOException {
+        return new String(get(), Charsets.toCharset(charset, charsetDefault));
     }
 
     /**
@@ -483,9 +482,6 @@ public final class DiskFileItem implements FileItem {
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
     protected Path getTempFile() {
-        if (tempFile == null) {
-            tempFile = repository.resolve(String.format("upload_%s_%s.tmp", UID, getUniqueId()));
-        }
         return tempFile;
     }
 

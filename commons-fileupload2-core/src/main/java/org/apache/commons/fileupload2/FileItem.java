@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 
@@ -118,14 +118,13 @@ public interface FileItem extends FileItemHeadersProvider {
     /**
      * Gets the contents of the file item as a String, using the specified encoding. This method uses {@link #get()} to retrieve the contents of the item.
      *
-     * @param encoding The character encoding to use.
+     * @param toCharset The character encoding to use.
      *
      * @return The contents of the item, as a string.
      *
-     * @throws UnsupportedEncodingException if the requested character encoding is not available.
      * @throws IOException                  if an I/O error occurs
      */
-    String getString(String encoding) throws UnsupportedEncodingException, IOException;
+    String getString(Charset toCharset) throws IOException;
 
     /**
      * Tests whether or not a {@code FileItem} instance represents a simple form field.
