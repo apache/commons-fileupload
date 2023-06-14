@@ -37,7 +37,7 @@ public interface FileItemFactory {
      */
     abstract class FileItemBuilder<T extends FileItem, B extends FileItemBuilder<T, B>> extends AbstractStreamBuilder<T, B> {
 
-        static FileItemHeadersImpl newFileItemHeaders() {
+        public static FileItemHeaders newFileItemHeaders() {
             return new FileItemHeadersImpl();
         }
 

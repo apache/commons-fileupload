@@ -309,7 +309,7 @@ public abstract class AbstractFileUpload<T> {
      */
     public FileItemHeaders getParsedHeaders(final String headerPart) {
         final int len = headerPart.length();
-        final FileItemHeadersImpl headers = newFileItemHeaders();
+        final FileItemHeaders headers = newFileItemHeaders();
         int start = 0;
         for (;;) {
             int end = parseEndOfLine(headerPart, start);
@@ -365,7 +365,7 @@ public abstract class AbstractFileUpload<T> {
      *
      * @return The new instance.
      */
-    protected FileItemHeadersImpl newFileItemHeaders() {
+    protected FileItemHeaders newFileItemHeaders() {
         return FileItemBuilder.newFileItemHeaders();
     }
 
@@ -396,7 +396,7 @@ public abstract class AbstractFileUpload<T> {
      * @param headers String with all headers.
      * @param header  Map where to store the current header.
      */
-    private void parseHeaderLine(final FileItemHeadersImpl headers, final String header) {
+    private void parseHeaderLine(final FileItemHeaders headers, final String header) {
         final int colonOffset = header.indexOf(':');
         if (colonOffset == -1) {
             // This header line is malformed, skip it.

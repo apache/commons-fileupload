@@ -24,6 +24,14 @@ import java.util.Iterator;
 public interface FileItemHeaders {
 
     /**
+     * Adds a header.
+     *
+     * @param name  name
+     * @param value value.
+     */
+    void addHeader(String name, String value);
+
+    /**
      * Gets the value of the specified part header as a {@code String}.
      * <p>
      * If the part did not include a header of the specified name, this method return {@code null}. If there are multiple headers with the same name, this
