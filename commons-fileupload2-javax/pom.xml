@@ -34,6 +34,7 @@
 
   <properties>
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
+	<commons.module.name>org.apache.commons.fileupload2.javax</commons.module.name>
   </properties>
 
   <dependencies>

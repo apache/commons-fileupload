@@ -34,17 +34,18 @@
 
   <properties>
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
+	<commons.module.name>org.apache.commons.fileupload2.core</commons.module.name>
   </properties>
 
   <dependencies>
     <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -52,38 +53,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
-        <version>${moditect-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>add-module-infos</id>
-            <phase>package</phase>
-            <goals>
-              <goal>add-module-info</goal>
-            </goals>
-            <configuration>
-              <jvmVersion>9</jvmVersion>
-              <outputDirectory>${project.build.directory}</outputDirectory>
-              <overwriteExistingFiles>true</overwriteExistingFiles>
-              <module>
-                <moduleInfo>
-                  <name>org.apache.commons.fileupload2</name>
-                  <exports>
-                    !org.apache.commons.fileupload2.impl;
-                    *;
-                  </exports>
-                </moduleInfo>
-              </module>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

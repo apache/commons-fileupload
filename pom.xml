@@ -309,34 +309,6 @@
           </dependency>
         </dependencies>
       </plugin>
-      <plugin>
-        <groupId>org.moditect</groupId>
-        <artifactId>moditect-maven-plugin</artifactId>
-        <version>${moditect-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>add-module-infos</id>
-            <phase>package</phase>
-            <goals>
-              <goal>add-module-info</goal>
-            </goals>
-            <configuration>
-              <jvmVersion>9</jvmVersion>
-              <outputDirectory>${project.build.directory}</outputDirectory>
-              <overwriteExistingFiles>true</overwriteExistingFiles>
-              <module>
-                <moduleInfo>
-                  <name>org.apache.commons.fileupload2</name>
-                  <exports>
-                    !org.apache.commons.fileupload2.impl;
-                    *;
-                  </exports>
-                </moduleInfo>
-              </module>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -558,10 +530,42 @@
       </properties>
     </profile>
     <profile>
-      <id>release</id>
+      <id>moditect</id>
+      <activation>
+		<jdk>[9,)</jdk>
+	  </activation>
       <properties>
-        <moditect.skip>false</moditect.skip>
+		<!-- Disable JPMS junk heap until we can get it to work -->
+        <moditect.skip>true</moditect.skip>
       </properties>
+      <build>
+		<plugins>
+          <plugin>
+            <groupId>org.moditect</groupId>
+            <artifactId>moditect-maven-plugin</artifactId>
+            <version>${moditect-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>add-module-infos</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>add-module-info</goal>
+                </goals>
+                <configuration>
+                  <jvmVersion>9</jvmVersion>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <overwriteExistingFiles>true</overwriteExistingFiles>
+                  <module>
+                    <moduleInfo>
+                      <name>${commons.module.name}</name>
+                    </moduleInfo>
+                  </module>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+		</plugins>
+	  </build>
     </profile>
   </profiles>
   <modules>
