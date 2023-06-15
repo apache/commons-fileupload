@@ -20,8 +20,8 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.AbstractSizesTest;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.AbstractSizesTest;
+import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 
 /**
  * Unit test for items with varying sizes.

@@ -20,7 +20,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.AbstractStreamingTest;
+import org.apache.commons.fileupload2.core.AbstractStreamingTest;
 
 /**
  * Unit test for items with varying sizes.

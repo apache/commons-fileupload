@@ -27,7 +27,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.AbstractFileUpload;
+import org.apache.commons.fileupload2.core.AbstractFileUpload;
 
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;

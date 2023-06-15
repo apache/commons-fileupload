@@ -17,7 +17,8 @@
 
 /**
  * <p>
- * An implementation of {@link org.apache.commons.fileupload2.AbstractFileUpload} for use in servlets conforming to the namespace {@code jakarta.servlet}.
+ * An implementation of {@link org.apache.commons.fileupload2.core.AbstractFileUpload} for use in servlets conforming to the namespace
+ * {@code jakarta.servlet}.
  *
  * </p>
  * <p>

@@ -18,7 +18,7 @@ package org.apache.commons.fileupload2.jakarta;
 
 import java.io.InputStream;
 
-import org.apache.commons.fileupload2.AbstractStreamingTest;
+import org.apache.commons.fileupload2.core.AbstractStreamingTest;
 
 import jakarta.servlet.http.HttpServletRequest;
 

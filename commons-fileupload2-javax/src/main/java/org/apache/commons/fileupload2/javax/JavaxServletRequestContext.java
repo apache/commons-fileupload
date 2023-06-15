@@ -21,7 +21,7 @@ import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.AbstractRequestContext;
+import org.apache.commons.fileupload2.core.AbstractRequestContext;
 
 /**
  * Provides access to the request information needed for a request made to an HTTP servlet.

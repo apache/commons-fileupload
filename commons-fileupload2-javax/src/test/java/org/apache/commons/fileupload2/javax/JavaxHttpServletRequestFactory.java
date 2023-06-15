@@ -18,7 +18,7 @@ package org.apache.commons.fileupload2.javax;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.AbstractFileUpload;
+import org.apache.commons.fileupload2.core.AbstractFileUpload;
 
 final class JavaxHttpServletRequestFactory {
 

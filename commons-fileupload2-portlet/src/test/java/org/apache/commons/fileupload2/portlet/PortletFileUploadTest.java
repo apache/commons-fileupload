@@ -26,11 +26,11 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.AbstractFileUploadTest;
-import org.apache.commons.fileupload2.Constants;
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.AbstractFileUploadTest;
+import org.apache.commons.fileupload2.core.Constants;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload2.javax.JavaxMockHttpServletRequest;
 import org.apache.commons.fileupload2.javax.JavaxServletRequestContext;
 import org.junit.jupiter.api.Test;

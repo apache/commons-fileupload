@@ -37,7 +37,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.PortletSession;
 import javax.portlet.WindowState;
 
-import org.apache.commons.fileupload2.AbstractFileUpload;
+import org.apache.commons.fileupload2.core.AbstractFileUpload;
 
 /**
  * Mock class for tests. Implements an {@link ActionRequest}.

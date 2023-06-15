@@ -18,8 +18,8 @@ package org.apache.commons.fileupload2.jakarta;
 
 import java.io.InputStream;
 
-import org.apache.commons.fileupload2.AbstractProgressListenerTest;
-import org.apache.commons.fileupload2.ProgressListener;
+import org.apache.commons.fileupload2.core.AbstractProgressListenerTest;
+import org.apache.commons.fileupload2.core.ProgressListener;
 
 import jakarta.servlet.http.HttpServletRequest;
 

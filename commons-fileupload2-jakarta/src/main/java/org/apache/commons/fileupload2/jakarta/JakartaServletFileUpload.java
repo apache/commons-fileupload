@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.AbstractFileUpload;
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.FileItemFactory;
-import org.apache.commons.fileupload2.FileItemInputIterator;
-import org.apache.commons.fileupload2.FileUploadException;
+import org.apache.commons.fileupload2.core.AbstractFileUpload;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileItemFactory;
+import org.apache.commons.fileupload2.core.FileItemInputIterator;
+import org.apache.commons.fileupload2.core.FileUploadException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
