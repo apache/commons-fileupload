@@ -535,8 +535,7 @@
 		<jdk>[9,)</jdk>
 	  </activation>
       <properties>
-		<!-- Disable JPMS junk heap until we can get it to work -->
-        <moditect.skip>true</moditect.skip>
+        <moditect.java.version>9</moditect.java.version>
       </properties>
       <build>
 		<plugins>
@@ -552,7 +551,10 @@
                   <goal>add-module-info</goal>
                 </goals>
                 <configuration>
-                  <jvmVersion>9</jvmVersion>
+                  <jvmVersion>${moditect.java.version}</jvmVersion>
+                  <jdepsExtraArgs>
+                    <arg>--multi-release=${moditect.java.version}</arg>
+                  </jdepsExtraArgs>
                   <outputDirectory>${project.build.directory}</outputDirectory>
                   <overwriteExistingFiles>true</overwriteExistingFiles>
                   <module>
