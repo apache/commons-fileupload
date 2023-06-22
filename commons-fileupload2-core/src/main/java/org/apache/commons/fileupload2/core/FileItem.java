@@ -46,8 +46,10 @@ public interface FileItem extends FileItemHeadersProvider {
      * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. Although this storage will be deleted
      * automatically when the {@code FileItem} instance is garbage collected, this method can be used to ensure that this is done at an earlier time, thus
      * preserving system resources.
+     *
+     * @throws IOException if an error occurs.
      */
-    void delete();
+    void delete() throws IOException;
 
     /**
      * Gets the contents of the file item as a byte array.

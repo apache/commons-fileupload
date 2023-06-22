@@ -73,7 +73,6 @@ public final class DiskFileItem implements FileItem {
      * </p>
      *
      * <pre>{@code
-     * <pre>{@code
      * final FileItem fileItem = fileItemFactory.fileItemBuilder()
      *   .setFieldName("FieldName")
      *   .setContentType("ContentType")
@@ -81,8 +80,6 @@ public final class DiskFileItem implements FileItem {
      *   .setFileName("FileName")
      *   .setFileItemHeaders(...)
      *   .get();
-     * }
-     * </pre>
      * }
      * </pre>
      */
@@ -283,17 +280,15 @@ public final class DiskFileItem implements FileItem {
     /**
      * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. This method can be used to ensure that this is
      * done at an earlier time, thus preserving system resources.
+     *
+     * @throws IOException if an error occurs.
      */
     @Override
-    public void delete() {
+    public void delete() throws IOException {
         cachedContent = null;
         final Path outputFile = getStoreLocation();
         if (outputFile != null && !isInMemory() && Files.exists(outputFile)) {
-            try {
-                Files.delete(outputFile);
-            } catch (final IOException e) {
-                throw new UncheckedIOException(outputFile.toString(), e);
-            }
+            Files.delete(outputFile);
         }
     }
 
