@@ -40,6 +40,7 @@ class FileItemHeadersImpl implements FileItemHeaders {
      * @param name  name of this header
      * @param value value of this header
      */
+    @Override
     public synchronized void addHeader(final String name, final String value) {
         headerNameToValueListMap.computeIfAbsent(toLowerCase(name), k -> new ArrayList<>()).add(value);
     }
