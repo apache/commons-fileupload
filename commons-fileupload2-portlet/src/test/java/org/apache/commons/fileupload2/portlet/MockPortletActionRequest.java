@@ -60,11 +60,11 @@ public class MockPortletActionRequest implements ActionRequest {
         this(new ByteArrayInputStream(requestData), requestData.length, contentType);
     }
 
-    public MockPortletActionRequest(final ByteArrayInputStream byteArrayInputStream, final int requestLength, final String contentType) {
-        this.requestData = byteArrayInputStream;
-        length = requestLength;
+    public MockPortletActionRequest(final ByteArrayInputStream requestData, final int length, final String contentType) {
+        this.requestData = requestData;
+        this.length = length;
         this.contentType = contentType;
-        attributes.put(AbstractFileUpload.CONTENT_TYPE, contentType);
+        this.attributes.put(AbstractFileUpload.CONTENT_TYPE, contentType);
     }
 
     @Override
