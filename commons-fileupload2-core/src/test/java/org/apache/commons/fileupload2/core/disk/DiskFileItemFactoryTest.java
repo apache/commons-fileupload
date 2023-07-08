@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * Tests for {@link DiskFileItem}.
  */
 public class DiskFileItemFactoryTest {
-    
+
     @Test
     void testHeaders() {
         final DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
@@ -43,5 +43,5 @@ public class DiskFileItemFactoryTest {
         fileItem.setHeaders(fileItemHeaders);
         assertSame(fileItemHeaders, fileItem.getHeaders());
     }
-    
+
 }
