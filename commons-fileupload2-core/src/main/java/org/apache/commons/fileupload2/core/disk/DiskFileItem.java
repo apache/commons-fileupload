@@ -34,7 +34,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.fileupload2.core.FileItem;
-import org.apache.commons.fileupload2.core.FileItemFactory.FileItemBuilder;
+import org.apache.commons.fileupload2.core.FileItemFactory.AbstractFileItemBuilder;
 import org.apache.commons.fileupload2.core.FileItemHeaders;
 import org.apache.commons.fileupload2.core.FileUploadException;
 import org.apache.commons.fileupload2.core.ParameterParser;
@@ -82,7 +82,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * }
      * </pre>
      */
-    public static class Builder extends FileItemBuilder<DiskFileItem, Builder> {
+    public static class Builder extends AbstractFileItemBuilder<DiskFileItem, Builder> {
 
         public Builder() {
             setBufferSize(DiskFileItemFactory.DEFAULT_THRESHOLD);

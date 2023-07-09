@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.apache.commons.fileupload2.core.FileItemFactory.FileItemBuilder;
+import org.apache.commons.fileupload2.core.FileItemFactory.AbstractFileItemBuilder;
 import org.apache.commons.fileupload2.core.FileItemHeaders;
 import org.apache.commons.fileupload2.core.disk.DiskFileItem.Builder;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ public class DiskFileItemFactoryTest {
         final DiskFileItem fileItem = fileItemBuilder.get();
         assertNotNull(fileItem.getHeaders(), "Missing default headers (empty)");
         assertFalse(fileItem.getHeaders().getHeaderNames().hasNext());
-        final FileItemHeaders fileItemHeaders = FileItemBuilder.newFileItemHeaders();
+        final FileItemHeaders fileItemHeaders = AbstractFileItemBuilder.newFileItemHeaders();
         assertNotNull(fileItemHeaders);
         fileItem.setHeaders(fileItemHeaders);
         assertSame(fileItemHeaders, fileItem.getHeaders());

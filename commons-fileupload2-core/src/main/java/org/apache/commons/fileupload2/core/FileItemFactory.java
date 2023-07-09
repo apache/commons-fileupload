@@ -37,7 +37,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
      * @param <I> the type of {@link FileItem} to build.
      * @param <B> the type of builder subclass.
      */
-    abstract class FileItemBuilder<I extends FileItem<I>, B extends FileItemBuilder<I, B>> extends AbstractStreamBuilder<I, B> {
+    abstract class AbstractFileItemBuilder<I extends FileItem<I>, B extends AbstractFileItemBuilder<I, B>> extends AbstractStreamBuilder<I, B> {
 
         public static FileItemHeaders newFileItemHeaders() {
             return new FileItemHeadersImpl();
@@ -76,7 +76,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
          */
         private FileCleaningTracker fileCleaningTracker;
 
-        public FileItemBuilder() {
+        public AbstractFileItemBuilder() {
             setBufferSize(DiskFileItemFactory.DEFAULT_THRESHOLD);
             setPath(PathUtils.getTempDirectory());
         }
@@ -138,11 +138,11 @@ public interface FileItemFactory<I extends FileItem<I>> {
     }
 
     /**
-     * Creates a new FileItemBuilder.
+     * Creates a new AbstractFileItemBuilder.
      *
-     * @param <B> The type of FileItemBuilder.
-     * @return a new FileItemBuilder.
+     * @param <B> The type of AbstractFileItemBuilder.
+     * @return a new AbstractFileItemBuilder.
      */
-    <B extends FileItemBuilder<I, B>> FileItemBuilder<I, B> fileItemBuilder();
+    <B extends AbstractFileItemBuilder<I, B>> AbstractFileItemBuilder<I, B> fileItemBuilder();
 
 }
