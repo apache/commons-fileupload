@@ -21,20 +21,23 @@ import java.io.InputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.core.AbstractSizesTest;
+import org.apache.commons.fileupload2.core.disk.DiskFileItem;
 import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 
 /**
  * Unit test for items with varying sizes.
  */
-public class JavaxSizesTest extends AbstractSizesTest<JavaxServletFileUpload, HttpServletRequest> {
+public class JavaxSizesTest
+        extends AbstractSizesTest<JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     @Override
-    protected JavaxServletFileUpload newFileUpload() {
-        return new JavaxServletFileUpload(DiskFileItemFactory.builder().get());
+    protected JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory> newFileUpload() {
+        return new JavaxServletFileUpload<>(DiskFileItemFactory.builder().get());
     }
 
     @Override
-    protected JavaxMockHttpServletRequest newMockHttpServletRequest(final InputStream request, final long requestLength, final String contentType, final int readLimit) {
+    protected JavaxMockHttpServletRequest newMockHttpServletRequest(final InputStream request, final long requestLength, final String contentType,
+            final int readLimit) {
         return new JavaxMockHttpServletRequest(request, requestLength, contentType, readLimit);
     }
 

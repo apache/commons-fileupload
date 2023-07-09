@@ -31,15 +31,19 @@ import org.junit.jupiter.api.Test;
  * Common tests for implementations of {@link AbstractFileUpload}. This is a parameterized test. Tests must be valid and common to all implementations of
  * FileUpload added as parameter in this class.
  *
- * @param <T> The type for {@link AbstractFileUpload}.
+ * @param <AFU> The {@link AbstractFileUpload} type.
+ * @param <R>   The FileUpload request type.
+ * @param <I>   The FileItem type.
+ * @param <F>   The FileItemFactory type.
  */
-public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> extends AbstractFileUploadWrapper<T> {
+public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I, F>, R, I extends FileItem<I>, F extends FileItemFactory<I>>
+        extends AbstractFileUploadWrapper<AFU, R, I, F> {
 
-    protected AbstractFileUploadTest(final T fileUpload) {
+    protected AbstractFileUploadTest(final AFU fileUpload) {
         super(fileUpload);
     }
 
-    private void assertHeaders(final String[] headerNames, final String[] headerValues, final FileItem fileItems, final int index) {
+    private void assertHeaders(final String[] headerNames, final String[] headerValues, final I fileItems, final int index) {
         for (int i = 0; i < headerNames.length; i++) {
             final String value = fileItems.getHeaders().getHeader(headerNames[i]);
             if (i == index) {
@@ -58,7 +62,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
     @Test
     public void testContentTypeAttachment() throws IOException {
         // @formatter:off
-        final List<FileItem> fileItems = parseUpload(upload,
+        final List<I> fileItems = parseUpload(upload,
                 "-----1234\r\n" +
                 "content-disposition: form-data; name=\"field1\"\r\n" +
                 "\r\n" +
@@ -77,12 +81,12 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
         // @formatter:on
         assertEquals(2, fileItems.size());
 
-        final FileItem field = fileItems.get(0);
+        final I field = fileItems.get(0);
         assertEquals("field1", field.getFieldName());
         assertTrue(field.isFormField());
         assertEquals("Joe Blow", field.getString());
 
-        final FileItem fileItem = fileItems.get(1);
+        final I fileItem = fileItems.get(1);
         assertEquals("pics", fileItem.getFieldName());
         assertFalse(fileItem.isFormField());
         assertEquals("... contents of file1.txt ...", fileItem.getString());
@@ -98,7 +102,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
     @Test
     public void testEmptyFile() throws FileUploadException {
         // @formatter:off
-        final List<FileItem> fileItems = parseUpload (upload,
+        final List<I> fileItems = parseUpload (upload,
                                                 "-----1234\r\n" +
                                                 "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" +
                                                 "\r\n" +
@@ -107,7 +111,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
         // @formatter:on
         assertEquals(1, fileItems.size());
 
-        final FileItem file = fileItems.get(0);
+        final I file = fileItems.get(0);
         assertFalse(file.isFormField());
         assertEquals("", file.getString());
         assertEquals("", file.getName());
@@ -116,7 +120,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
     @Test
     public void testFilenameCaseSensitivity() throws IOException {
         // @formatter:off
-        final List<FileItem> fileItems = parseUpload(upload,
+        final List<I> fileItems = parseUpload(upload,
                                                "-----1234\r\n" +
                                                "Content-Disposition: form-data; "
                                              + "name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
@@ -128,7 +132,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
         // @formatter:on
         assertEquals(1, fileItems.size());
 
-        final FileItem file = fileItems.get(0);
+        final I file = fileItems.get(0);
         assertEquals("FiLe", file.getFieldName());
         assertEquals("FOO.tab", file.getName());
     }
@@ -136,7 +140,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
     @Test
     public void testFileUpload() throws IOException {
         // @formatter:off
-        final List<FileItem> fileItems = parseUpload(upload,
+        final List<I> fileItems = parseUpload(upload,
                                                "-----1234\r\n" +
                                                "Content-Disposition: "
                                                + "form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
@@ -160,24 +164,24 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
         // @formatter:on
         assertEquals(4, fileItems.size());
 
-        final FileItem file = fileItems.get(0);
+        final I file = fileItems.get(0);
         assertEquals("file", file.getFieldName());
         assertFalse(file.isFormField());
         assertEquals("This is the content of the file\n", file.getString());
         assertEquals("text/whatever", file.getContentType());
         assertEquals("foo.tab", file.getName());
 
-        final FileItem field = fileItems.get(1);
+        final I field = fileItems.get(1);
         assertEquals("field", field.getFieldName());
         assertTrue(field.isFormField());
         assertEquals("fieldValue", field.getString());
 
-        final FileItem multi0 = fileItems.get(2);
+        final I multi0 = fileItems.get(2);
         assertEquals("multi", multi0.getFieldName());
         assertTrue(multi0.isFormField());
         assertEquals("value1", multi0.getString());
 
-        final FileItem multi1 = fileItems.get(3);
+        final I multi1 = fileItems.get(3);
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
@@ -193,7 +197,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
         final String[] headerNames = { "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader" };
         final String[] headerValues = { "present", "Is there", "Here", "Is That" };
         // @formatter:off
-        final List<FileItem> fileItems = parseUpload(upload,
+        final List<I> fileItems = parseUpload(upload,
                                                "-----1234\r\n" +
                                                "Content-Disposition: form-data; name=\"file\"; "
                                              + "filename=\"foo.tab\"\r\n" +
@@ -223,16 +227,16 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
         // @formatter:on
         assertEquals(4, fileItems.size());
 
-        final FileItem file = fileItems.get(0);
+        final I file = fileItems.get(0);
         assertHeaders(headerNames, headerValues, file, 0);
 
-        final FileItem field = fileItems.get(1);
+        final I field = fileItems.get(1);
         assertHeaders(headerNames, headerValues, field, 1);
 
-        final FileItem multi0 = fileItems.get(2);
+        final I multi0 = fileItems.get(2);
         assertHeaders(headerNames, headerValues, multi0, 2);
 
-        final FileItem multi1 = fileItems.get(3);
+        final I multi1 = fileItems.get(3);
         assertHeaders(headerNames, headerValues, multi1, 3);
     }
 
@@ -268,17 +272,17 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
             "--BbC04y--\r\n" +
             "--AaB03x--";
         // @formatter:on
-        final List<FileItem> fileItems = parseUpload(upload, request.getBytes(StandardCharsets.US_ASCII), contentType);
+        final List<I> fileItems = parseUpload(upload, request.getBytes(StandardCharsets.US_ASCII), contentType);
         assertEquals(3, fileItems.size());
-        final FileItem item0 = fileItems.get(0);
+        final I item0 = fileItems.get(0);
         assertEquals("field1", item0.getFieldName());
         assertNull(item0.getName());
         assertEquals("Joe Blow", new String(item0.get()));
-        final FileItem item1 = fileItems.get(1);
+        final I item1 = fileItems.get(1);
         assertEquals("pics", item1.getFieldName());
         assertEquals("file1.txt", item1.getName());
         assertEquals("... contents of file1.txt ...", new String(item1.get()));
-        final FileItem item2 = fileItems.get(2);
+        final I item2 = fileItems.get(2);
         assertEquals("pics", item2.getFieldName());
         assertEquals("file2.gif", item2.getName());
         assertEquals("...contents of file2.gif...", new String(item2.get()));
@@ -292,7 +296,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
     @Test
     public void testFoldedHeaders() throws IOException {
         // @formatter:off
-        final List<FileItem> fileItems = parseUpload(upload, "-----1234\r\n" +
+        final List<I> fileItems = parseUpload(upload, "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                 "Content-Type: text/whatever\r\n" +
                 "\r\n" +
@@ -316,24 +320,24 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
         // @formatter:on
         assertEquals(4, fileItems.size());
 
-        final FileItem file = fileItems.get(0);
+        final I file = fileItems.get(0);
         assertEquals("file", file.getFieldName());
         assertFalse(file.isFormField());
         assertEquals("This is the content of the file\n", file.getString());
         assertEquals("text/whatever", file.getContentType());
         assertEquals("foo.tab", file.getName());
 
-        final FileItem field = fileItems.get(1);
+        final I field = fileItems.get(1);
         assertEquals("field", field.getFieldName());
         assertTrue(field.isFormField());
         assertEquals("fieldValue", field.getString());
 
-        final FileItem multi0 = fileItems.get(2);
+        final I multi0 = fileItems.get(2);
         assertEquals("multi", multi0.getFieldName());
         assertTrue(multi0.isFormField());
         assertEquals("value1", multi0.getString());
 
-        final FileItem multi1 = fileItems.get(3);
+        final I multi1 = fileItems.get(3);
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
@@ -347,7 +351,7 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
      */
     @Test
     public void testIE5MacBug() throws FileUploadException {
-        final List<FileItem> fileItems = parseUpload(upload,
+        final List<I> fileItems = parseUpload(upload,
         // @formatter:off
                 "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"field1\"\r\n" +
@@ -370,22 +374,22 @@ public abstract class AbstractFileUploadTest<T extends AbstractFileUpload<?>> ex
 
         assertEquals(4, fileItems.size());
 
-        final FileItem field1 = fileItems.get(0);
+        final I field1 = fileItems.get(0);
         assertEquals("field1", field1.getFieldName());
         assertTrue(field1.isFormField());
         assertEquals("fieldValue", field1.getString());
 
-        final FileItem submitX = fileItems.get(1);
+        final I submitX = fileItems.get(1);
         assertEquals("submitName.x", submitX.getFieldName());
         assertTrue(submitX.isFormField());
         assertEquals("42", submitX.getString());
 
-        final FileItem submitY = fileItems.get(2);
+        final I submitY = fileItems.get(2);
         assertEquals("submitName.y", submitY.getFieldName());
         assertTrue(submitY.isFormField());
         assertEquals("21", submitY.getString());
 
-        final FileItem field2 = fileItems.get(3);
+        final I field2 = fileItems.get(3);
         assertEquals("field2", field2.getFieldName());
         assertTrue(field2.isFormField());
         assertEquals("fieldValue2", field2.getString());

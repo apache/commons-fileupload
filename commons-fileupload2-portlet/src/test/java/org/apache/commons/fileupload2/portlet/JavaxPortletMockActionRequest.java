@@ -42,10 +42,10 @@ import org.apache.commons.fileupload2.core.AbstractFileUpload;
 /**
  * Mock class for tests. Implements an {@link ActionRequest}.
  *
- * @see PortletFileUploadTest
+ * @see JavaxPortletFileUploadTest
  */
 @SuppressWarnings("rawtypes") // because of the portlet ActionRequest API does not use generics
-public class MockPortletActionRequest implements ActionRequest {
+public class JavaxPortletMockActionRequest implements ActionRequest {
 
     private final Hashtable<String, Object> attributes = new Hashtable<>();
 
@@ -56,11 +56,11 @@ public class MockPortletActionRequest implements ActionRequest {
     private final String contentType;
     private final InputStream requestData;
 
-    public MockPortletActionRequest(final byte[] requestData, final String contentType) {
+    public JavaxPortletMockActionRequest(final byte[] requestData, final String contentType) {
         this(new ByteArrayInputStream(requestData), requestData.length, contentType);
     }
 
-    public MockPortletActionRequest(final ByteArrayInputStream requestData, final int length, final String contentType) {
+    public JavaxPortletMockActionRequest(final ByteArrayInputStream requestData, final int length, final String contentType) {
         this.requestData = requestData;
         this.length = length;
         this.contentType = contentType;

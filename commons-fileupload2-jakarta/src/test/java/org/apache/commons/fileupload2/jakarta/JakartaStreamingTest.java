@@ -19,17 +19,25 @@ package org.apache.commons.fileupload2.jakarta;
 import java.io.InputStream;
 
 import org.apache.commons.fileupload2.core.AbstractStreamingTest;
+import org.apache.commons.fileupload2.core.disk.DiskFileItem;
+import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Unit test for items with varying sizes.
  */
-public class JakartaStreamingTest extends AbstractStreamingTest<JakartaServletFileUpload, HttpServletRequest, JakartaServletRequestContext> {
+public class JakartaStreamingTest extends
+        AbstractStreamingTest<JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, JakartaServletRequestContext, DiskFileItem, DiskFileItemFactory> {
 
     @Override
-    protected JakartaServletFileUpload newFileUpload() {
-        return new JakartaServletFileUpload();
+    protected DiskFileItemFactory newDiskFileItemFactory() {
+        return DiskFileItemFactory.builder().get();
+    }
+
+    @Override
+    protected JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> newFileUpload() {
+        return new JakartaServletFileUpload<>();
     }
 
     @Override

@@ -29,10 +29,13 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests the {@link ProgressListener}.
  *
- * @param <F> The subclass of FileUpload.
- * @param <R> The type of FileUpload request.
+ * @param <AFU> The subclass of FileUpload.
+ * @param <R>   The FileUpload request type.
+ * @param <I>   The FileItem type.
+ * @param <F>   The FileItemFactory type.
  */
-public abstract class AbstractProgressListenerTest<F extends AbstractFileUpload<R>, R> extends AbstractTest<F, R> {
+public abstract class AbstractProgressListenerTest<AFU extends AbstractFileUpload<R, I, F>, R, I extends FileItem<I>, F extends FileItemFactory<I>>
+        extends AbstractTest<AFU, R, I, F> {
 
     protected static class ProgressListenerImpl implements ProgressListener {
 
@@ -69,7 +72,7 @@ public abstract class AbstractProgressListenerTest<F extends AbstractFileUpload<
     }
 
     protected void runTest(final int itemCount, final long contentLength, final R request) throws FileUploadException, IOException {
-        final F upload = newFileUpload();
+        final AFU upload = newFileUpload();
         final ProgressListenerImpl listener = new ProgressListenerImpl(contentLength, itemCount);
         upload.setProgressListener(listener);
         final FileItemInputIterator iter = upload.getItemIterator(request);

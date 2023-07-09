@@ -39,8 +39,11 @@ import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
  * <p>
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
  * </p>
+ *
+ * @param <I> The FileItem type.
+ * @param <F> the FileItemFactory type.
  */
-public class JavaxPortletFileUpload extends AbstractFileUpload<ActionRequest> {
+public class JavaxPortletFileUpload<I extends FileItem<I>, F extends FileItemFactory<I>> extends AbstractFileUpload<ActionRequest, I, F> {
 
     /**
      * Tests whether the request contains multipart content.
@@ -49,7 +52,7 @@ public class JavaxPortletFileUpload extends AbstractFileUpload<ActionRequest> {
      * @return {@code true} if the request is multipart; {@code false} otherwise.
      */
     public static final boolean isMultipartContent(final ActionRequest request) {
-        return AbstractFileUpload.isMultipartContent(new PortletRequestContext(request));
+        return AbstractFileUpload.isMultipartContent(new JavaxPortletRequestContext(request));
     }
 
     /**
@@ -67,7 +70,7 @@ public class JavaxPortletFileUpload extends AbstractFileUpload<ActionRequest> {
      * @see AbstractFileUpload#AbstractFileUpload()
      * @param fileItemFactory The factory to use for creating file items.
      */
-    public JavaxPortletFileUpload(final FileItemFactory fileItemFactory) {
+    public JavaxPortletFileUpload(final F fileItemFactory) {
         setFileItemFactory(fileItemFactory);
     }
 
@@ -82,7 +85,7 @@ public class JavaxPortletFileUpload extends AbstractFileUpload<ActionRequest> {
      */
     @Override
     public FileItemInputIterator getItemIterator(final ActionRequest request) throws FileUploadException, IOException {
-        return super.getItemIterator(new PortletRequestContext(request));
+        return super.getItemIterator(new JavaxPortletRequestContext(request));
     }
 
     /**
@@ -93,8 +96,8 @@ public class JavaxPortletFileUpload extends AbstractFileUpload<ActionRequest> {
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
     @Override
-    public Map<String, List<FileItem>> parseParameterMap(final ActionRequest request) throws FileUploadException {
-        return parseParameterMap(new PortletRequestContext(request));
+    public Map<String, List<I>> parseParameterMap(final ActionRequest request) throws FileUploadException {
+        return parseParameterMap(new JavaxPortletRequestContext(request));
     }
 
     /**
@@ -105,8 +108,8 @@ public class JavaxPortletFileUpload extends AbstractFileUpload<ActionRequest> {
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
     @Override
-    public List<FileItem> parseRequest(final ActionRequest request) throws FileUploadException {
-        return parseRequest(new PortletRequestContext(request));
+    public List<I> parseRequest(final ActionRequest request) throws FileUploadException {
+        return parseRequest(new JavaxPortletRequestContext(request));
     }
 
 }

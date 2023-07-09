@@ -33,10 +33,13 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit test for items with varying sizes.
  *
- * @param <F> The subclass of FileUpload.
- * @param <R> The type of FileUpload request.
+ * @param <AFU> The FileUpload type.
+ * @param <R>   The FileUpload request type.
+ * @param <I>   The FileItem type.
+ * @param <F>   The FileItemFactory type.
  */
-public abstract class AbstractSizesTest<F extends AbstractFileUpload<R>, R> extends AbstractTest<F, R> {
+public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>, R, I extends FileItem<I>, F extends FileItemFactory<I>>
+        extends AbstractTest<AFU, R, I, F> {
 
     /**
      * Checks, whether limiting the file size works.
@@ -56,12 +59,12 @@ public abstract class AbstractSizesTest<F extends AbstractFileUpload<R>, R> exte
             "-----1234--\r\n";
         // @formatter:on
 
-        F upload = newFileUpload();
+        AFU upload = newFileUpload();
         upload.setFileSizeMax(-1);
         R req = newMockHttpServletRequest(request, null, null);
-        List<FileItem> fileItems = upload.parseRequest(req);
+        List<I> fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
-        FileItem item = fileItems.get(0);
+        I item = fileItems.get(0);
         assertEquals("This is the content of the file\n", new String(item.get()));
 
         upload = newFileUpload();
@@ -102,12 +105,12 @@ public abstract class AbstractSizesTest<F extends AbstractFileUpload<R>, R> exte
             "-----1234--\r\n";
         // @formatter:on
 
-        F upload = newFileUpload();
+        AFU upload = newFileUpload();
         upload.setFileSizeMax(-1);
         R req = newMockHttpServletRequest(request, null, null);
-        List<FileItem> fileItems = upload.parseRequest(req);
+        List<I> fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
-        FileItem item = fileItems.get(0);
+        I item = fileItems.get(0);
         assertEquals("This is the content of the file\n", new String(item.get()));
 
         upload = newFileUpload();
@@ -166,7 +169,7 @@ public abstract class AbstractSizesTest<F extends AbstractFileUpload<R>, R> exte
             "-----1234--\r\n";
         // @formatter:on
 
-        final F upload = newFileUpload();
+        final AFU upload = newFileUpload();
         upload.setFileSizeMax(-1);
         upload.setSizeMax(200);
 
@@ -199,7 +202,7 @@ public abstract class AbstractSizesTest<F extends AbstractFileUpload<R>, R> exte
             "-----1234--\r\n";
         // @formatter:on
 
-        final F upload = newFileUpload();
+        final AFU upload = newFileUpload();
         upload.setFileSizeMax(-1);
         upload.setSizeMax(300);
 

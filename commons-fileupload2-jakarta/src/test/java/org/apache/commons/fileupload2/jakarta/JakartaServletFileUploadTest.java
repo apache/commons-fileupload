@@ -25,8 +25,8 @@ import java.util.Map;
 
 import org.apache.commons.fileupload2.core.AbstractFileUploadTest;
 import org.apache.commons.fileupload2.core.Constants;
-import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.disk.DiskFileItem;
 import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
@@ -37,10 +37,11 @@ import jakarta.servlet.http.HttpServletRequest;
  *
  * @see AbstractFileUploadTest
  */
-public class JakartaServletFileUploadTest extends AbstractFileUploadTest<JakartaServletFileUpload> {
+public class JakartaServletFileUploadTest
+        extends AbstractFileUploadTest<JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     public JakartaServletFileUploadTest() {
-        super(new JakartaServletFileUpload(DiskFileItemFactory.builder().get()));
+        super(new JakartaServletFileUpload<>(DiskFileItemFactory.builder().get()));
     }
 
     @Test
@@ -62,9 +63,9 @@ public class JakartaServletFileUploadTest extends AbstractFileUploadTest<Jakarta
                 .setCharset(StandardCharsets.UTF_8)
                 .get();
         // @formatter:on
-        final JakartaServletFileUpload upload = new JakartaServletFileUpload(fileItemFactory);
-        final List<FileItem> fileItems = upload.parseRequest(request);
-        final FileItem fileItem = fileItems.get(0);
+        final JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> upload = new JakartaServletFileUpload<>(fileItemFactory);
+        final List<DiskFileItem> fileItems = upload.parseRequest(request);
+        final DiskFileItem fileItem = fileItems.get(0);
         assertTrue(fileItem.getString().contains("coñteñt"), fileItem.getString());
     }
 
@@ -97,8 +98,8 @@ public class JakartaServletFileUploadTest extends AbstractFileUploadTest<Jakarta
         final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new JakartaMockServletHttpRequest(bytes, Constants.CONTENT_TYPE);
 
-        final JakartaServletFileUpload upload = new JakartaServletFileUpload(DiskFileItemFactory.builder().get());
-        final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
+        final JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> upload = new JakartaServletFileUpload<>(DiskFileItemFactory.builder().get());
+        final Map<String, List<DiskFileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
 
@@ -110,7 +111,8 @@ public class JakartaServletFileUploadTest extends AbstractFileUploadTest<Jakarta
     }
 
     @Override
-    public List<FileItem> parseUpload(final JakartaServletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
+    public List<DiskFileItem> parseUpload(final JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> upload, final byte[] bytes,
+            final String contentType) throws FileUploadException {
         final HttpServletRequest request = new JakartaMockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new JakartaServletRequestContext(request));
     }

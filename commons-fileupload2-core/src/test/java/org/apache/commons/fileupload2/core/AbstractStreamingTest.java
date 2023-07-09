@@ -31,17 +31,19 @@ import java.nio.file.InvalidPathException;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for items with varying sizes.
  *
- * @param <F> The subclass of FileUpload.
- * @param <R> The type of FileUpload request.
- * @param <C> The request context type.
+ * @param <AFU> The subclass of FileUpload.
+ * @param <R>   The type of FileUpload request.
+ * @param <C>   The request context type.
+ * @param <I>   The FileItem type.
+ * @param <F>   The FileItemFactory type.
  */
-public abstract class AbstractStreamingTest<F extends AbstractFileUpload<R>, R, C extends AbstractRequestContext<?>> extends AbstractTest<F, R> {
+public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I, F>, R, C extends AbstractRequestContext<?>, I extends FileItem<I>, F extends FileItemFactory<I>>
+        extends AbstractTest<AFU, R, I, F> {
 
     protected String getFooter() {
         return "-----1234--\r\n";
@@ -54,6 +56,8 @@ public abstract class AbstractStreamingTest<F extends AbstractFileUpload<R>, R, 
             + "\r\n";
         // @formatter:on
     }
+
+    protected abstract F newDiskFileItemFactory();
 
     protected byte[] newRequest() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -89,15 +93,15 @@ public abstract class AbstractStreamingTest<F extends AbstractFileUpload<R>, R, 
         return baos.toByteArray();
     }
 
-    protected List<FileItem> parseUpload(final byte[] bytes) throws FileUploadException {
+    protected List<I> parseUpload(final byte[] bytes) throws FileUploadException {
         return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
     }
 
-    protected List<FileItem> parseUpload(final InputStream inputStream, final int length) throws FileUploadException {
+    protected List<I> parseUpload(final InputStream inputStream, final int length) throws FileUploadException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
-        final AbstractFileUpload<?> upload = newFileUpload();
-        upload.setFileItemFactory(DiskFileItemFactory.builder().get());
+        final AFU upload = newFileUpload();
+        upload.setFileItemFactory(newDiskFileItemFactory());
         final R request = newMockHttpServletRequest(inputStream, length, contentType, -1);
 
         return upload.parseRequest(newServletRequestContext(request));
@@ -106,8 +110,8 @@ public abstract class AbstractStreamingTest<F extends AbstractFileUpload<R>, R, 
     protected FileItemInputIterator parseUpload(final int length, final InputStream inputStream) throws FileUploadException, IOException {
         final String contentType = "multipart/form-data; boundary=---1234";
 
-        final AbstractFileUpload<?> upload = newFileUpload();
-        upload.setFileItemFactory(DiskFileItemFactory.builder().get());
+        final AFU upload = newFileUpload();
+        upload.setFileItemFactory(newDiskFileItemFactory());
         final R request = newMockHttpServletRequest(inputStream, length, contentType, -1);
 
         return upload.getItemIterator(newServletRequestContext(request));
@@ -121,15 +125,15 @@ public abstract class AbstractStreamingTest<F extends AbstractFileUpload<R>, R, 
     @Test
     public void testFileUpload() throws IOException {
         final byte[] request = newRequest();
-        final List<FileItem> fileItems = parseUpload(request);
-        final Iterator<FileItem> fileIter = fileItems.iterator();
+        final List<I> fileItems = parseUpload(request);
+        final Iterator<I> fileIter = fileItems.iterator();
         int add = 16;
         int num = 0;
         for (int i = 0; i < 16384; i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            final FileItem item = fileIter.next();
+            final I item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
             final byte[] bytes = item.get();
             assertEquals(i, bytes.length);
@@ -149,7 +153,7 @@ public abstract class AbstractStreamingTest<F extends AbstractFileUpload<R>, R, 
     public void testFILEUPLOAD135() throws IOException {
         final byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
-        final List<FileItem> fileItems = parseUpload(new InputStream() {
+        final List<I> fileItems = parseUpload(new InputStream() {
             @Override
             public int read() throws IOException {
                 return bais.read();
@@ -161,9 +165,9 @@ public abstract class AbstractStreamingTest<F extends AbstractFileUpload<R>, R, 
             }
 
         }, request.length);
-        final Iterator<FileItem> fileIter = fileItems.iterator();
+        final Iterator<I> fileIter = fileItems.iterator();
         assertTrue(fileIter.hasNext());
-        final FileItem item = fileIter.next();
+        final I item = fileIter.next();
         assertEquals("field", item.getFieldName());
         final byte[] bytes = item.get();
         assertEquals(3, bytes.length);

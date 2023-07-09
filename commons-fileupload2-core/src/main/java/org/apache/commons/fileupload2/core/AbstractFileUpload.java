@@ -35,15 +35,18 @@ import org.apache.commons.io.IOUtils;
  * High level API for processing file uploads.
  * <p>
  * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
- * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(RequestContext)} to acquire a list of
- * {@link FileItem}s associated with a given HTML widget.
+ * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(RequestContext)} to acquire a list of {@link FileItem}s associated with
+ * a given HTML widget.
  * </p>
  * <p>
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
  * </p>
- * @param <T> the context type
+ *
+ * @param <R> The request context type.
+ * @param <I> The FileItem type.
+ * @param <F> the FileItemFactory type.
  */
-public abstract class AbstractFileUpload<T> {
+public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends FileItemFactory<I>> {
 
     /**
      * Boundary parameter key.
@@ -146,7 +149,7 @@ public abstract class AbstractFileUpload<T> {
     /**
      * The factory to use to create new form items.
      */
-    private FileItemFactory fileItemFactory;
+    private F fileItemFactory;
 
     /**
      * Gets the boundary from the {@code Content-type} header.
@@ -208,7 +211,7 @@ public abstract class AbstractFileUpload<T> {
      *
      * @return The factory class for new file items.
      */
-    public FileItemFactory getFileItemFactory() {
+    public F getFileItemFactory() {
         return fileItemFactory;
     }
 
@@ -275,6 +278,17 @@ public abstract class AbstractFileUpload<T> {
     }
 
     /**
+     * Gets a file item iterator.
+     *
+     * @param request The servlet request to be parsed.
+     * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
+     *                             uploaded content.
+     */
+    public abstract FileItemInputIterator getItemIterator(R request) throws FileUploadException, IOException;
+
+    /**
      * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param requestContext The context for the request to be parsed.
@@ -286,17 +300,6 @@ public abstract class AbstractFileUpload<T> {
     public FileItemInputIterator getItemIterator(final RequestContext requestContext) throws FileUploadException, IOException {
         return new FileItemInputIteratorImpl(this, requestContext);
     }
-
-    /**
-     * Gets a file item iterator.
-     *
-     * @param request The servlet request to be parsed.
-     * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
-     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
-     * @throws IOException         An I/O error occurred. This may be a network error while communicating with the client or a problem while storing the
-     *                             uploaded content.
-     */
-    public abstract FileItemInputIterator getItemIterator(T request) throws FileUploadException, IOException;
 
     /**
      * Parses the {@code header-part} and returns as key/value pairs.
@@ -410,17 +413,26 @@ public abstract class AbstractFileUpload<T> {
     /**
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
+     * @param request The servlet request to be parsed.
+     * @return A map of {@code FileItem} instances parsed from the request.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     */
+    public abstract Map<String, List<I>> parseParameterMap(R request) throws FileUploadException;
+
+    /**
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     *
      * @param ctx The context for the request to be parsed.
      * @return A map of {@code FileItem} instances parsed from the request.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
-    public Map<String, List<FileItem>> parseParameterMap(final RequestContext ctx) throws FileUploadException {
-        final List<FileItem> items = parseRequest(ctx);
-        final Map<String, List<FileItem>> itemsMap = new HashMap<>(items.size());
+    public Map<String, List<I>> parseParameterMap(final RequestContext ctx) throws FileUploadException {
+        final List<I> items = parseRequest(ctx);
+        final Map<String, List<I>> itemsMap = new HashMap<>(items.size());
 
-        for (final FileItem fileItem : items) {
+        for (final I fileItem : items) {
             final String fieldName = fileItem.getFieldName();
-            final List<FileItem> mappedItems = itemsMap.computeIfAbsent(fieldName, k -> new ArrayList<>());
+            final List<I> mappedItems = itemsMap.computeIfAbsent(fieldName, k -> new ArrayList<>());
             mappedItems.add(fileItem);
         }
 
@@ -431,10 +443,10 @@ public abstract class AbstractFileUpload<T> {
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param request The servlet request to be parsed.
-     * @return A map of {@code FileItem} instances parsed from the request.
+     * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
-    public abstract Map<String, List<FileItem>> parseParameterMap(T request) throws FileUploadException;
+    public abstract List<I> parseRequest(R request) throws FileUploadException;
 
     /**
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
@@ -443,11 +455,11 @@ public abstract class AbstractFileUpload<T> {
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
-    public List<FileItem> parseRequest(final RequestContext requestContext) throws FileUploadException {
-        final List<FileItem> itemList = new ArrayList<>();
+    public List<I> parseRequest(final RequestContext requestContext) throws FileUploadException {
+        final List<I> itemList = new ArrayList<>();
         boolean successful = false;
         try {
-            final FileItemFactory fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
+            final F fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final byte[] buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             getItemIterator(requestContext).forEachRemaining(fileItemInput -> {
                 if (itemList.size() == fileCountMax) {
@@ -456,7 +468,7 @@ public abstract class AbstractFileUpload<T> {
                 }
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 // @formatter:off
-                final FileItem fileItem = fileItemFactory.fileItemBuilder()
+                final I fileItem = fileItemFactory.fileItemBuilder()
                     .setFieldName(fileItemInput.getFieldName())
                     .setContentType(fileItemInput.getContentType())
                     .setFormField(fileItemInput.isFormField())
@@ -482,7 +494,7 @@ public abstract class AbstractFileUpload<T> {
             throw new FileUploadException(e.getMessage(), e);
         } finally {
             if (!successful) {
-                for (final FileItem fileItem : itemList) {
+                for (final I fileItem : itemList) {
                     try {
                         fileItem.delete();
                     } catch (final Exception ignored) {
@@ -492,15 +504,6 @@ public abstract class AbstractFileUpload<T> {
             }
         }
     }
-
-    /**
-     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
-     *
-     * @param request The servlet request to be parsed.
-     * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
-     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
-     */
-    public abstract List<FileItem> parseRequest(T request) throws FileUploadException;
 
     /**
      * Sets the maximum number of files allowed per request.
@@ -516,7 +519,7 @@ public abstract class AbstractFileUpload<T> {
      *
      * @param factory The factory class for new file items.
      */
-    public void setFileItemFactory(final FileItemFactory factory) {
+    public void setFileItemFactory(final F factory) {
         this.fileItemFactory = factory;
     }
 

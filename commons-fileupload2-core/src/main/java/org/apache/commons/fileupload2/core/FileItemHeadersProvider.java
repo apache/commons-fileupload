@@ -19,10 +19,11 @@ package org.apache.commons.fileupload2.core;
 /**
  * Provides access to headers.
  *
+ * @param <T> The FileItemHeadersProvider type.
  * @see FileItem
  * @see FileItemInput
  */
-public interface FileItemHeadersProvider {
+public interface FileItemHeadersProvider<T extends FileItemHeadersProvider<T>> {
 
     /**
      * Gets the collection of headers defined locally within this item.
@@ -36,7 +37,8 @@ public interface FileItemHeadersProvider {
      * the raw headers found within the item header block.
      *
      * @param headers the instance that holds onto the headers for this instance.
+     * @return this
      */
-    void setHeaders(FileItemHeaders headers);
+    T setHeaders(FileItemHeaders headers);
 
 }

@@ -91,10 +91,7 @@ public final class MultipartInput {
      * </p>
      *
      * <pre>{@code
-     * MultipartInput factory = MultipartInput.builder()
-     *    .setPath(path)
-     *    .setBufferSize(DEFAULT_THRESHOLD)
-     *    .get();
+     * MultipartInput factory = MultipartInput.builder().setPath(path).setBufferSize(DEFAULT_THRESHOLD).get();
      * }
      * </pre>
      */
@@ -125,7 +122,7 @@ public final class MultipartInput {
          * </p>
          *
          * @return a new instance.
-         * @throws IOException if an I/O error occurs.
+         * @throws IOException                   if an I/O error occurs.
          * @throws UnsupportedOperationException if the origin cannot provide a Path.
          * @see AbstractOrigin#getReader(Charset)
          */
@@ -782,8 +779,7 @@ public final class MultipartInput {
     /**
      * Reads {@code body-data} from the current {@code encapsulation} and writes its contents into the output {@code Stream}.
      * <p>
-     * Arbitrary large amounts of data can be processed by this method using a constant size buffer. (see
-     * {@link MultipartInput#builder()}).
+     * Arbitrary large amounts of data can be processed by this method using a constant size buffer. (see {@link MultipartInput#builder()}).
      * </p>
      *
      * @param output The {@code Stream} to write data into. May be null, in which case this method is equivalent to {@link #discardBodyData()}.

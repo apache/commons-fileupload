@@ -21,15 +21,23 @@ import java.io.InputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.core.AbstractStreamingTest;
+import org.apache.commons.fileupload2.core.disk.DiskFileItem;
+import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 
 /**
  * Unit test for items with varying sizes.
  */
-public class JavaxStreamingTest extends AbstractStreamingTest<JavaxServletFileUpload, HttpServletRequest, JavaxServletRequestContext> {
+public class JavaxStreamingTest extends
+        AbstractStreamingTest<JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, JavaxServletRequestContext, DiskFileItem, DiskFileItemFactory> {
 
     @Override
-    protected JavaxServletFileUpload newFileUpload() {
-        return new JavaxServletFileUpload();
+    protected DiskFileItemFactory newDiskFileItemFactory() {
+        return DiskFileItemFactory.builder().get();
+    }
+
+    @Override
+    protected JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory> newFileUpload() {
+        return new JavaxServletFileUpload<>();
     }
 
     @Override

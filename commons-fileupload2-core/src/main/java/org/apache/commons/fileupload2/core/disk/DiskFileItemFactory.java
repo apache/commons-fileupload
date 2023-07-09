@@ -57,18 +57,16 @@ import org.apache.commons.io.file.PathUtils;
  * @see Builder
  * @see Builder#get()
  */
-public final class DiskFileItemFactory implements FileItemFactory {
+public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> {
 
     /**
      * Builds a new {@link DiskFileItemFactory} instance.
      * <p>
      * For example:
      * </p>
+     *
      * <pre>{@code
-     * DiskFileItemFactory factory = DiskFileItemFactory.builder()
-     *   .setPath(path)
-     *   .setBufferSize(DEFAULT_THRESHOLD)
-     *   .get();
+     * DiskFileItemFactory factory = DiskFileItemFactory.builder().setPath(path).setBufferSize(DEFAULT_THRESHOLD).get();
      * }
      * </pre>
      */
@@ -173,6 +171,7 @@ public final class DiskFileItemFactory implements FileItemFactory {
         this.fileCleaningTracker = fileCleaningTracker;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public DiskFileItem.Builder fileItemBuilder() {
         // @formatter:off

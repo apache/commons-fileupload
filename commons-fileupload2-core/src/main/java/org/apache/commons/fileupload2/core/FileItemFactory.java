@@ -26,16 +26,18 @@ import org.apache.commons.io.file.PathUtils;
  * <p>
  * Factories can provide their own custom configuration, over and above that provided by the default file upload implementation.
  * </p>
+ *
+ * @param <I> The {@link FileItem} type this factory creates.
  */
-public interface FileItemFactory {
+public interface FileItemFactory<I extends FileItem<I>> {
 
     /**
      * Abstracts building for subclasses.
      *
-     * @param <T> the type of instances to build.
+     * @param <I> the type of {@link FileItem} to build.
      * @param <B> the type of builder subclass.
      */
-    abstract class FileItemBuilder<T extends FileItem, B extends FileItemBuilder<T, B>> extends AbstractStreamBuilder<T, B> {
+    abstract class FileItemBuilder<I extends FileItem<I>, B extends FileItemBuilder<I, B>> extends AbstractStreamBuilder<I, B> {
 
         public static FileItemHeaders newFileItemHeaders() {
             return new FileItemHeadersImpl();
@@ -135,6 +137,12 @@ public interface FileItemFactory {
 
     }
 
-    <T extends FileItem, B extends FileItemBuilder<T, B>> FileItemBuilder<T, B> fileItemBuilder();
+    /**
+     * Creates a new FileItemBuilder.
+     *
+     * @param <B> The type of FileItemBuilder.
+     * @return a new FileItemBuilder.
+     */
+    <B extends FileItemBuilder<I, B>> FileItemBuilder<I, B> fileItemBuilder();
 
 }

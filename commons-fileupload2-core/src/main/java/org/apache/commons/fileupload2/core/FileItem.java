@@ -39,17 +39,19 @@ import java.nio.file.Path;
  * defined with the same signatures as methods in that interface. This allows an implementation of this interface to also implement
  * {@code javax.activation.DataSource} with minimal additional work.
  * </p>
+ *
+ * @param <F> The FileItem type.
  */
-public interface FileItem extends FileItemHeadersProvider {
+public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider<F> {
 
     /**
-     * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. Although this storage will be deleted
-     * automatically when the {@code FileItem} instance is garbage collected, this method can be used to ensure that this is done at an earlier time, thus
-     * preserving system resources.
+     * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. Use this method to ensure that this is done at an
+     * earlier time, to preserve resources.
      *
+     * @return this
      * @throws IOException if an error occurs.
      */
-    void delete() throws IOException;
+    F delete() throws IOException;
 
     /**
      * Gets the contents of the file item as a byte array.
@@ -88,8 +90,8 @@ public interface FileItem extends FileItemHeadersProvider {
      * name, without path information. However, some clients, such as the Opera browser, do include path information.
      *
      * @return The original file name in the client's file system.
-     * @throws InvalidPathException The file name contains a NUL character, which might be an indicator of a security attack. If you intend to use the file
-     *                                  name anyways, catch the exception and use InvalidFileNameException#getName().
+     * @throws InvalidPathException The file name contains a NUL character, which might be an indicator of a security attack. If you intend to use the file name
+     *                              anyways, catch the exception and use InvalidFileNameException#getName().
      */
     String getName();
 
@@ -124,7 +126,7 @@ public interface FileItem extends FileItemHeadersProvider {
      *
      * @return The contents of the item, as a string.
      *
-     * @throws IOException                  if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     String getString(Charset toCharset) throws IOException;
 
@@ -146,15 +148,17 @@ public interface FileItem extends FileItemHeadersProvider {
      * Sets the field name used to reference this file item.
      *
      * @param name The name of the form field.
+     * @return this
      */
-    void setFieldName(String name);
+    F setFieldName(String name);
 
     /**
      * Sets whether or not a {@code FileItem} instance represents a simple form field.
      *
      * @param state {@code true} if the instance represents a simple form field; {@code false} if it represents an uploaded file.
+     * @return this
      */
-    void setFormField(boolean state);
+    F setFormField(boolean state);
 
     /**
      * Writes an uploaded item to disk.
@@ -169,7 +173,8 @@ public interface FileItem extends FileItemHeadersProvider {
      *
      * @param file The {@code File} into which the uploaded item should be stored.
      * @throws IOException if an error occurs.
+     * @return this
      */
-    void write(Path file) throws IOException;
+    F write(Path file) throws IOException;
 
 }

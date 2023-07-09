@@ -20,17 +20,20 @@ import java.io.InputStream;
 
 import org.apache.commons.fileupload2.core.AbstractProgressListenerTest;
 import org.apache.commons.fileupload2.core.ProgressListener;
+import org.apache.commons.fileupload2.core.disk.DiskFileItem;
+import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Tests the {@link ProgressListener}.
  */
-public class JakartaProgressListenerTest extends AbstractProgressListenerTest<JakartaServletFileUpload, HttpServletRequest> {
+public class JakartaProgressListenerTest extends
+        AbstractProgressListenerTest<JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     @Override
-    protected JakartaServletFileUpload newFileUpload() {
-        return new JakartaServletFileUpload();
+    protected JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> newFileUpload() {
+        return new JakartaServletFileUpload<>();
     }
 
     @Override

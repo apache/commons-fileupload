@@ -32,7 +32,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.fileupload2.core.FileItemFactory;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.file.SimplePathVisitor;
@@ -92,22 +91,22 @@ public class DiskFileItemSerializeTest {
     /**
      * Create a FileItem with the specfied content bytes.
      */
-    private FileItem createFileItem(final byte[] contentBytes) throws IOException {
+    private DiskFileItem createFileItem(final byte[] contentBytes) throws IOException {
         return createFileItem(contentBytes, REPOSITORY);
     }
 
     /**
      * Create a FileItem with the specfied content bytes and repository.
      */
-    private FileItem createFileItem(final byte[] contentBytes, final Path repository) throws IOException {
+    private DiskFileItem createFileItem(final byte[] contentBytes, final Path repository) throws IOException {
         // @formatter:off
-        final FileItemFactory factory = DiskFileItemFactory.builder()
+        final FileItemFactory<DiskFileItem> factory = DiskFileItemFactory.builder()
                 .setBufferSize(THRESHOLD)
                 .setPath(repository)
                 .get();
         // @formatter:on
         // @formatter:off
-        final FileItem item = factory.fileItemBuilder()
+        final DiskFileItem item = factory.fileItemBuilder()
                 .setFieldName("textField")
                 .setContentType(TEXT_CONTENT_TYPE)
                 .setFormField(true)
@@ -173,7 +172,7 @@ public class DiskFileItemSerializeTest {
     public void testAboveThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD + 1);
-        final FileItem item = createFileItem(testFieldValueBytes);
+        final DiskFileItem item = createFileItem(testFieldValueBytes);
 
         // Check state is as expected
         assertFalse(item.isInMemory(), "Initial: in memory");
@@ -212,7 +211,7 @@ public class DiskFileItemSerializeTest {
      * Helper method to test creation of a field when a repository is used.
      */
     private void testInMemoryObject(final byte[] testFieldValueBytes, final Path repository) throws IOException {
-        final FileItem item = createFileItem(testFieldValueBytes, repository);
+        final DiskFileItem item = createFileItem(testFieldValueBytes, repository);
 
         // Check state is as expected
         assertTrue(item.isInMemory(), "Initial: in memory");
@@ -232,7 +231,7 @@ public class DiskFileItemSerializeTest {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final Path repository = PathUtils.getTempDirectory().resolve("file");
-        final FileItem item = createFileItem(testFieldValueBytes, repository);
+        final DiskFileItem item = createFileItem(testFieldValueBytes, repository);
         assertThrows(IOException.class, () -> deserialize(serialize(item)));
     }
 
@@ -263,7 +262,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Helper method to test writing item contents to a file.
      */
-    private void testWritingToFile(final FileItem item, final byte[] testFieldValueBytes) throws IOException {
+    private void testWritingToFile(final DiskFileItem item, final byte[] testFieldValueBytes) throws IOException {
         final Path temp = Files.createTempFile("fileupload", null);
         // Note that the file exists and is initially empty;
         // write() must be able to handle that.

@@ -47,7 +47,6 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
 
 /**
  * The default implementation of the {@link FileItem FileItem} interface.
- *
  * <p>
  * After retrieving an instance of this class from a {@link DiskFileItemFactory} instance (see
  * {@code org.apache.commons.fileupload2.core.servlet.ServletFileUpload
@@ -64,7 +63,7 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
  * application ends. See the section on "Resource cleanup" in the users guide of Commons FileUpload.
  * </p>
  */
-public final class DiskFileItem implements FileItem {
+public final class DiskFileItem implements FileItem<DiskFileItem> {
 
     /**
      * Builds a new {@link DiskFileItem} instance.
@@ -284,12 +283,13 @@ public final class DiskFileItem implements FileItem {
      * @throws IOException if an error occurs.
      */
     @Override
-    public void delete() throws IOException {
+    public DiskFileItem delete() throws IOException {
         cachedContent = null;
-        final Path outputFile = getStoreLocation();
+        final Path outputFile = getPath();
         if (outputFile != null && !isInMemory() && Files.exists(outputFile)) {
             Files.delete(outputFile);
         }
+        return this;
     }
 
     /**
@@ -409,6 +409,23 @@ public final class DiskFileItem implements FileItem {
     }
 
     /**
+     * Gets the {@link Path} for the {@code FileItem}'s data's temporary location on the disk. Note that for {@code FileItem}s that have their data stored in
+     * memory, this method will return {@code null}. When handling large files, you can use {@link Files#move(Path,Path,CopyOption...)} to move the file to new
+     * location without copying the data, if the source and destination locations reside within the same logical volume.
+     *
+     * @return The data file, or {@code null} if the data is stored in memory.
+     */
+    public Path getPath() {
+        if (dfos == null) {
+            return null;
+        }
+        if (isInMemory()) {
+            return null;
+        }
+        return dfos.getFile().toPath();
+    }
+
+    /**
      * Gets the size of the file.
      *
      * @return The size of the file, in bytes.
@@ -421,27 +438,7 @@ public final class DiskFileItem implements FileItem {
         if (cachedContent != null) {
             return cachedContent.length;
         }
-        if (dfos.isInMemory()) {
-            return dfos.getData().length;
-        }
-        return dfos.getFile().length();
-    }
-
-    /**
-     * Gets the {@link Path} for the {@code FileItem}'s data's temporary location on the disk. Note that for {@code FileItem}s that have their data stored in
-     * memory, this method will return {@code null}. When handling large files, you can use {@link Files#move(Path,Path,CopyOption...)} to move the file to new
-     * location without copying the data, if the source and destination locations reside within the same logical volume.
-     *
-     * @return The data file, or {@code null} if the data is stored in memory.
-     */
-    public Path getStoreLocation() {
-        if (dfos == null) {
-            return null;
-        }
-        if (isInMemory()) {
-            return null;
-        }
-        return dfos.getFile().toPath();
+        return dfos.getByteCount();
     }
 
     /**
@@ -509,9 +506,11 @@ public final class DiskFileItem implements FileItem {
      * Sets the default charset for use when no explicit charset parameter is provided by the sender.
      *
      * @param charset the default charset
+     * @return this
      */
-    public void setCharsetDefault(final Charset charset) {
+    public DiskFileItem setCharsetDefault(final Charset charset) {
         charsetDefault = charset;
+        return this;
     }
 
     /**
@@ -521,8 +520,9 @@ public final class DiskFileItem implements FileItem {
      * @see #getFieldName()
      */
     @Override
-    public void setFieldName(final String fieldName) {
+    public DiskFileItem setFieldName(final String fieldName) {
         this.fieldName = fieldName;
+        return this;
     }
 
     /**
@@ -532,8 +532,9 @@ public final class DiskFileItem implements FileItem {
      * @see #isFormField()
      */
     @Override
-    public void setFormField(final boolean state) {
+    public DiskFileItem setFormField(final boolean state) {
         isFormField = state;
+        return this;
     }
 
     /**
@@ -542,8 +543,9 @@ public final class DiskFileItem implements FileItem {
      * @param headers The file items headers.
      */
     @Override
-    public void setHeaders(final FileItemHeaders headers) {
+    public DiskFileItem setHeaders(final FileItemHeaders headers) {
         this.fileItemHeaders = headers;
+        return this;
     }
 
     /**
@@ -553,7 +555,7 @@ public final class DiskFileItem implements FileItem {
      */
     @Override
     public String toString() {
-        return String.format("name=%s, StoreLocation=%s, size=%s bytes, isFormField=%s, FieldName=%s", getName(), getStoreLocation(), getSize(), isFormField(),
+        return String.format("name=%s, StoreLocation=%s, size=%s bytes, isFormField=%s, FieldName=%s", getName(), getPath(), getSize(), isFormField(),
                 getFieldName());
     }
 
@@ -576,7 +578,7 @@ public final class DiskFileItem implements FileItem {
      * @throws IOException if an error occurs.
      */
     @Override
-    public void write(final Path file) throws IOException {
+    public DiskFileItem write(final Path file) throws IOException {
         if (isInMemory()) {
             try (OutputStream fout = Files.newOutputStream(file)) {
                 fout.write(get());
@@ -584,7 +586,7 @@ public final class DiskFileItem implements FileItem {
                 throw new IOException("Unexpected output data", e);
             }
         } else {
-            final Path outputFile = getStoreLocation();
+            final Path outputFile = getPath();
             if (outputFile == null) {
                 /*
                  * For whatever reason we cannot write the file to disk.
@@ -598,5 +600,6 @@ public final class DiskFileItem implements FileItem {
             //
             Files.move(outputFile, file, StandardCopyOption.REPLACE_EXISTING);
         }
+        return this;
     }
 }

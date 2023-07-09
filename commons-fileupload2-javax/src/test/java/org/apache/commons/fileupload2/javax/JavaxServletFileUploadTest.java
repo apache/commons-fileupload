@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.core.AbstractFileUploadTest;
 import org.apache.commons.fileupload2.core.Constants;
-import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.disk.DiskFileItem;
 import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
@@ -41,10 +41,11 @@ import org.junit.jupiter.api.Test;
  *
  * @see AbstractFileUploadTest
  */
-public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServletFileUpload> {
+public class JavaxServletFileUploadTest
+        extends AbstractFileUploadTest<JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     public JavaxServletFileUploadTest() {
-        super(new JavaxServletFileUpload(DiskFileItemFactory.builder().get()));
+        super(new JavaxServletFileUpload<>(DiskFileItemFactory.builder().get()));
     }
 
     @Test
@@ -66,9 +67,9 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
                 .setCharset(StandardCharsets.UTF_8)
                 .get();
         // @formatter:on
-        final JavaxServletFileUpload upload = new JavaxServletFileUpload(fileItemFactory);
-        final List<FileItem> fileItems = upload.parseRequest(request);
-        final FileItem fileItem = fileItems.get(0);
+        final JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory> upload = new JavaxServletFileUpload<>(fileItemFactory);
+        final List<DiskFileItem> fileItems = upload.parseRequest(request);
+        final DiskFileItem fileItem = fileItems.get(0);
         assertTrue(fileItem.getString().contains("coñteñt"), fileItem.getString());
     }
 
@@ -101,8 +102,8 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
         final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
-        final JavaxServletFileUpload upload = new JavaxServletFileUpload(DiskFileItemFactory.builder().get());
-        final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
+        final JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory> upload = new JavaxServletFileUpload<>(DiskFileItemFactory.builder().get());
+        final Map<String, List<DiskFileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
 
@@ -114,7 +115,8 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
     }
 
     @Override
-    public List<FileItem> parseUpload(final JavaxServletFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
+    public List<DiskFileItem> parseUpload(final JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory> upload, final byte[] bytes, final String contentType)
+            throws FileUploadException {
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new JavaxServletRequestContext(request));
     }
@@ -141,15 +143,15 @@ public class JavaxServletFileUploadTest extends AbstractFileUploadTest<JavaxServ
         }
         baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
 
-        final List<FileItem> fileItems = parseUpload(new JavaxServletFileUpload(DiskFileItemFactory.builder().get()), baos.toByteArray());
-        final Iterator<FileItem> fileIter = fileItems.iterator();
+        final List<DiskFileItem> fileItems = parseUpload(new JavaxServletFileUpload<>(DiskFileItemFactory.builder().get()), baos.toByteArray());
+        final Iterator<DiskFileItem> fileIter = fileItems.iterator();
         add = 16;
         num = 0;
         for (int i = 0; i < 16384; i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            final FileItem item = fileIter.next();
+            final DiskFileItem item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
             final byte[] bytes = item.get();
             assertEquals(i, bytes.length);

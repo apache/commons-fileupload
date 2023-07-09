@@ -19,6 +19,7 @@ package org.apache.commons.fileupload2.jakarta;
 import java.io.InputStream;
 
 import org.apache.commons.fileupload2.core.AbstractSizesTest;
+import org.apache.commons.fileupload2.core.disk.DiskFileItem;
 import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,15 +27,17 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * Unit test for items with varying sizes.
  */
-public class JakartaSizesTest extends AbstractSizesTest<JakartaServletFileUpload, HttpServletRequest> {
+public class JakartaSizesTest
+        extends AbstractSizesTest<JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     @Override
-    protected JakartaServletFileUpload newFileUpload() {
-        return new JakartaServletFileUpload(DiskFileItemFactory.builder().get());
+    protected JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> newFileUpload() {
+        return new JakartaServletFileUpload<>(DiskFileItemFactory.builder().get());
     }
 
     @Override
-    protected JakartaMockHttpServletRequest newMockHttpServletRequest(final InputStream request, final long requestLength, final String contentType, final int readLimit) {
+    protected JakartaMockHttpServletRequest newMockHttpServletRequest(final InputStream request, final long requestLength, final String contentType,
+            final int readLimit) {
         return new JakartaMockHttpServletRequest(request, requestLength, contentType, readLimit);
     }
 

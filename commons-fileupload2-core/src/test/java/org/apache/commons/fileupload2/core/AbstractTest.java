@@ -23,12 +23,14 @@ import java.nio.charset.StandardCharsets;
 /**
  * Abstract test.
  *
- * @param <F> The subclass of FileUpload.
- * @param <R> The type of FileUpload request.
+ * @param <AFU> The AbstractFileUpload type.
+ * @param <R>   The FileUpload request type.
+ * @param <I>   The FileItem type.
+ * @param <F>   The FileItemFactory type.
  */
-public abstract class AbstractTest<F extends AbstractFileUpload<R>, R> {
+public abstract class AbstractTest<AFU extends AbstractFileUpload<R, I, F>, R, I extends FileItem<I>, F extends FileItemFactory<I>> {
 
-    protected abstract F newFileUpload();
+    protected abstract AFU newFileUpload();
 
     protected R newMockHttpServletRequest(final byte[] request, final Long overrideContenLength, final String contentType, final Integer overrideReadLimit) {
         return newMockHttpServletRequest(new ByteArrayInputStream(request), overrideContenLength != null ? overrideContenLength : request.length, contentType,
