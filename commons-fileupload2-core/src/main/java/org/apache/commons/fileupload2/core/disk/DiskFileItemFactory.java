@@ -103,7 +103,7 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          */
         @Override
         public DiskFileItemFactory get() {
-            return new DiskFileItemFactory(getOrigin().getPath(), getBufferSize(), getCharset(), fileCleaningTracker);
+            return new DiskFileItemFactory(getPath(), getBufferSize(), getCharset(), fileCleaningTracker);
         }
 
         /**
