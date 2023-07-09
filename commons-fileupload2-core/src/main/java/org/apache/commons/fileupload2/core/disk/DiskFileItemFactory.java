@@ -64,7 +64,6 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
      * <p>
      * For example:
      * </p>
-     *
      * <pre>{@code
      * DiskFileItemFactory factory = DiskFileItemFactory.builder().setPath(path).setBufferSize(DEFAULT_THRESHOLD).get();
      * }
