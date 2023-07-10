@@ -31,14 +31,20 @@
       <item name="Migration"                href="./migration.html"/>
       <item name="Streaming API"            href="./streaming.html" />
       <item name="FAQ"                      href="./faq.html" />
-      <item name="Javadoc"                  href="./javadocs/api-release/index.html" />
-      <item name="Javadoc Archives"         href="https://javadoc.io/doc/commons-fileupload/commons-fileupload/latest/index.html" />
+      <item name="Javadoc Archives v2"      href="https://javadoc.io/doc/org.apache.commons/commons-fileupload2" />
+      <item name="Javadoc Archives v1"      href="https://javadoc.io/doc/commons-fileupload/commons-fileupload" />
       <item name="Download"                 href="./download_fileupload.cgi" />
       <item name="Security Reports"         href="./security-reports.html"/>
       <item name="Mailing lists"            href="./mail-lists.html" />
       <item name="Issue Tracking"           href="./issue-tracking.html" />
       <item name="Team"                     href="./team.html" />
       <item name="Source repository"        href="./scm.html" />
+    </menu>
+    <menu name="Modules">
+      <item name="FileUpload Core"          href="commons-fileupload2-core/index.html" />
+      <item name="FileUpload Jakarta"       href="commons-fileupload2-jakarta/index.html" />
+      <item name="FileUpload Javax"         href="commons-fileupload2-javax/index.html" />
+      <item name="FileUpload Portlet"       href="commons-fileupload2-portlet/index.html" />
     </menu>
   </body>
 
