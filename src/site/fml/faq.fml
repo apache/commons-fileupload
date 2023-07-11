@@ -187,7 +187,7 @@ try {
           </p>
           <p>
             It is true, that this class exists, and can be serialized/deserialized in FileUpload versions, up to, and
-            including 1.3.2. It is also true, that a malicious attacker can abuse this possibility to create abitraryly
+            including 1.3.2. It is also true, that a malicious attacker can abuse this possibility to create arbitrarily
             located files (assuming the required permissions) with arbitrary contents, if he gets the opportunity to
             provide specially crafted data, which is being deserialized by a Java application, which has either of the
             above versions of Commons FileUpload in the classpath, and which puts no limitations on the classes being
