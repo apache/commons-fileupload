@@ -52,6 +52,12 @@
         href="https://commons.apache.org/security.html">security page
         of the Apache Commons project</a>.</p>
 
+        <subsection name="Fixed in Apache Commons FileUpload 2.0.0-M1">
+          <p>
+            Starting in version 2.0.0-M1, no FileUpload classes implement Serializable.
+          </p>
+        </subsection>
+
         <subsection name="Fixed in Apache Commons FileUpload 1.5">
           <p><b>Important: Denial of Service</b> <a
           href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-24998">CVE-2023-24998</a></p>

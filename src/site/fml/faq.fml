@@ -183,6 +183,9 @@ try {
         </question>
         <answer>
           <p>
+          	Starting in version 2.0.0-M1, no FileUpload classes implement Serializable.
+          </p>
+          <p>
             It is true, that this class exists, and can be serialized/deserialized in FileUpload versions, up to, and
             including 1.3.2. It is also true, that a malicious attacker can abuse this possibility to create abitraryly
             located files (assuming the required permissions) with arbitrary contents, if he gets the opportunity to
