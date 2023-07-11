@@ -20,7 +20,7 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>Fileupload Overview</title>
+    <title>FileUpload Overview</title>
     <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
   </properties>
 

@@ -91,7 +91,7 @@
           </p>
           <p>
             We acknowledge that the likelihood of application container vendors taking such a simple security measure is extremely 
-            low. In order to better support Commons Fileupload users, we chose a different approach.
+            low. In order to better support Commons FileUpload users, we chose a different approach.
           </p>
           <p>
             Starting with version 1.3.3, the class DiskFileItem still implements the interface java.io.Serializable but attempts 

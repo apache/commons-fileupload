@@ -201,7 +201,7 @@ try {
           </p>
           <p>
             On the other hand, we acknowledge, that the likelyhood of application container vendors taking such a
-            simple security measure is extremely low. So, in order to support the Commons Fileupload users, we have
+            simple security measure is extremely low. So, in order to support the Commons FileUpload users, we have
             decided to choose a different approach:
           </p>
           <p>
