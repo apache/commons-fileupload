@@ -21,9 +21,9 @@ import java.io.InputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.core.AbstractProgressListenerTest;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.ProgressListener;
-import org.apache.commons.fileupload2.core.disk.DiskFileItem;
-import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 
 /**
  * Tests the {@link ProgressListener}.

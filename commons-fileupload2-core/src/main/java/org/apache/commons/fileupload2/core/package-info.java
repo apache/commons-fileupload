@@ -25,7 +25,7 @@
  * the provided extensions of {@link org.apache.commons.fileupload2.core.AbstractFileUpload} such as
  * {@code org.apache.commons.fileupload2.core.servlet.ServletFileUpload ServletFileUpload} or
  * {@code org.apache.commons.fileupload2.core.portlet.PortletFileUpload PortletFileUpload}, together with a factory for
- * {@link org.apache.commons.fileupload2.core.FileItem} instances, such as {@link org.apache.commons.fileupload2.core.disk.DiskFileItemFactory}.
+ * {@link org.apache.commons.fileupload2.core.FileItem} instances, such as {@link org.apache.commons.fileupload2.core.DiskFileItemFactory}.
  * </p>
  * <p>
  * The following is a brief example of typical usage in a servlet, storing the uploaded files on disk.

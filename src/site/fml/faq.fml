@@ -206,7 +206,7 @@ try {
             In other words, it still declares itself as serializable, and deserializable to the JVM. In practice,
             however, an attempt to deserialize an instance of DiskFileItem will trigger an Exception. In the unlikely
             case, that your application depends on the deserialization of DiskFileItems, you can revert to the
-            previous behavior by setting the system property "org.apache.commons.fileupload.disk.DiskFileItem.serializable"
+            previous behavior by setting the system property "org.apache.commons.fileupload.DiskFileItem.serializable"
             to "true".
           </p>
         </answer>

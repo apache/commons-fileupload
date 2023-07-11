@@ -25,12 +25,12 @@ import org.apache.commons.io.FileCleaningTracker;
 /**
  * A servlet context listener, which ensures that the {@link FileCleaningTracker}'s reaper thread is terminated, when the web application is destroyed.
  */
-public class JavaxFileCleanerCleanup implements ServletContextListener {
+public class JavaxFileCleaner implements ServletContextListener {
 
     /**
      * Attribute name, which is used for storing an instance of {@link FileCleaningTracker} in the web application.
      */
-    public static final String FILE_CLEANING_TRACKER_ATTRIBUTE = JavaxFileCleanerCleanup.class.getName() + ".FileCleaningTracker";
+    public static final String FILE_CLEANING_TRACKER_ATTRIBUTE = JavaxFileCleaner.class.getName() + ".FileCleaningTracker";
 
     /**
      * Gets the instance of {@link FileCleaningTracker}, which is associated with the given {@link ServletContext}.

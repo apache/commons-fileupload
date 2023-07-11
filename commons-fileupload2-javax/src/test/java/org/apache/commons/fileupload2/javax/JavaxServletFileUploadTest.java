@@ -31,9 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.core.AbstractFileUploadTest;
 import org.apache.commons.fileupload2.core.Constants;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileUploadException;
-import org.apache.commons.fileupload2.core.disk.DiskFileItem;
-import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
 /**

@@ -50,7 +50,7 @@
         <Bug pattern="DLS_DEAD_LOCAL_STORE" />
     </Match>
     <Match>
-        <Class name="org.apache.commons.fileupload2.jaksrvlt.JakSrvltFileUpload" />
+        <Class name="org.apache.commons.fileupload2.jaksrvlt.JakartaServletFileUpload " />
         <Bug pattern="NM_WRONG_PACKAGE" />
     </Match>
     <Match>

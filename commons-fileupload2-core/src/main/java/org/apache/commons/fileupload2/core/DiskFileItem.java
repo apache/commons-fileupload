@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.core.disk;
+package org.apache.commons.fileupload2.core;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -33,11 +33,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.fileupload2.core.FileItemFactory.AbstractFileItemBuilder;
-import org.apache.commons.fileupload2.core.FileItemHeaders;
-import org.apache.commons.fileupload2.core.FileUploadException;
-import org.apache.commons.fileupload2.core.ParameterParser;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractOrigin;

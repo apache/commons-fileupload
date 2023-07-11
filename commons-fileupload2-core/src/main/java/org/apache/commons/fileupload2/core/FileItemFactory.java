@@ -16,7 +16,6 @@
  */
 package org.apache.commons.fileupload2.core;
 
-import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractStreamBuilder;
 import org.apache.commons.io.file.PathUtils;

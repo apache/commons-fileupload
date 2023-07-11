@@ -23,6 +23,7 @@
   <properties>
     <title>Using FileUpload</title>
     <author email="martinc@apache.org">Martin Cooper</author>
+    <author email="ggregory@apache.org">Gary Gregory</author>
   </properties>
 
   <body>
@@ -96,8 +97,8 @@
         distinctions you should make as you read this document:</p>
         <ul>
           <li>
-            Where you see references to the <code>ServletFileUpload</code> class,
-            substitute the <code>PortletFileUpload</code> class.
+            Where you see references to the <code>JakartaServletFileUpload</code> class,
+            substitute the <code>JavaxPortletFileUpload</code> class.
           </li>
           <li>
             Where you see references to the <code>HttpServletRequest</code> class,
@@ -112,18 +113,17 @@
          <ul>
           <li>
             Where you see references to the <code>ServletFileUpload</code> class,
-            substitute the <code>JakSrvltFileUpload</code> class.
+            substitute the <code>JakartaServletFileUpload </code> class.
           </li>
           <li>
             Likewise, references to the <code>FileCleanerCleanup</code> class should
-            be substituted with the <code>JakSrvltFileCleaner</code> class.
+            be substituted with the <code>JakartaServletFileCleaner</code> class.
           </li>
           <li>
             Where you see references to the <code>HttpServletRequest</code> class
             (as in javax.servlet.http.HttpServletRequest), then substitute the
-            <code>jakarta.servlet.http.HttpServletRequest</code> class. For well
-            written code, this should be as simple as changing a single import
-            statement.
+            <code>jakarta.servlet.http.HttpServletRequest</code> class. 
+            This could be as simple as changing a single import statement.
           </li>
          </ul>
     </section>
@@ -167,14 +167,14 @@ DiskFileItemFactory factory = new DiskFileItemFactory();
 
 // Configure a repository (to ensure a secure temp location is used)
 ServletContext servletContext = this.getServletConfig().getServletContext();
-File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+File repository = (File) servletContext.getAttribute("jakarta.servlet.context.tempdir"); // Or "javax.servlet.context.tempdir" for javax
 factory.setRepository(repository);
 
 // Create a new file upload handler
-ServletFileUpload upload = new ServletFileUpload(factory);
+JakartaServletDiskFileUpload upload = new JakartaServletDiskFileUpload(factory);
 
 // Parse the request
-List<FileItem> items = upload.parseRequest(request);]]></source>
+List<DiskFileItem> items = upload.parseRequest(request);]]></source>
         <p>
           That's all that's needed. Really!
         </p>
@@ -193,27 +193,31 @@ List<FileItem> items = upload.parseRequest(request);]]></source>
           following example shows several configuration options:
         </p>
 <source><![CDATA[// Create a factory for disk-based file items
-DiskFileItemFactory factory = new DiskFileItemFactory();
-
-// Set factory constraints
-factory.setSizeThreshold(yourMaxMemorySize);
-factory.setRepository(yourTempDirectory);
+DiskFileItemFactory factory = new DiskFileItemFactory()
+  // Set factory constraints
+  .setSizeThreshold(yourMaxMemorySize)
+  .setPath(yourTempDirectoryPath)
+  .get();
 
 // Create a new file upload handler
-ServletFileUpload upload = new ServletFileUpload(factory);
+JakartaServletDiskFileUpload upload = new JakartaServletDiskFileUpload(factory);
 
 // Set overall request size constraint
-upload.setSizeMax(yourMaxRequestSize);
+upload.setFileSizeMax(yourMaxRequestSize);
 
 // Parse the request
-List<FileItem> items = upload.parseRequest(request);]]></source>
+List<DiskFileItem> items = upload.parseRequest(request);]]></source>
         <p>
           Of course, each of the configuration methods is independent of the
           others, but if you want to configure the factory all at once, you can
           do that with an alternative constructor, like this:
         </p>
   <source><![CDATA[// Create a factory for disk-based file items
-DiskFileItemFactory factory = new DiskFileItemFactory(yourMaxMemorySize, yourTempDirectory);]]></source>
+DiskFileItemFactory factory = new DiskFileItemFactory()
+  // Set factory constraints
+  .setSizeThreshold(yourMaxMemorySize)
+  .setPath(yourTempDirectoryPath)
+  .get();]]></source>
         <p>
           Should you need further control over the parsing of the request, such
           as storing the items elsewhere - for example, in a database - you will
@@ -230,10 +234,7 @@ DiskFileItemFactory factory = new DiskFileItemFactory(yourMaxMemorySize, yourTem
         the list like this:
       </p>
   <source><![CDATA[// Process the uploaded items
-Iterator<FileItem> iter = items.iterator();
-while (iter.hasNext()) {
-    FileItem item = iter.next();
-
+for (FileItem item : items.iterator()) {
     if (item.isFormField()) {
         processFormField(item);
     } else {
@@ -274,7 +275,7 @@ if (!item.isFormField()) {
       </p>
   <source><![CDATA[// Process a file upload
 if (writeToFile) {
-    File uploadedFile = new File(...);
+    Path uploadedFile = Paths.get(...);
     item.write(uploadedFile);
 } else {
     InputStream uploadedStream = item.getInputStream();
@@ -314,14 +315,14 @@ byte[] data = item.get();
         This reaper thread should be stopped, if it is no longer needed. In
         a servlet environment, this is done by using a special servlet
         context listener, called
-        <a href="./apidocs/org/apache/commons/fileupload/servlet/FileCleanerCleanup.html">FileCleanerCleanup</a>.
+        <a href="./apidocs/org/apache/commons/fileupload2/jakarta/JakartaFileCleaner.html">JakartaFileCleaner</a>.
         To do so, add a section like the following to your <code>web.xml</code>:
       </p>
   <source><![CDATA[<web-app>
   ...
   <listener>
     <listener-class>
-      org.apache.commons.fileupload.servlet.FileCleanerCleanup
+      org.apache.commons.fileupload2.jakarta.JakartaFileCleaner
     </listener-class>
   </listener>
   ...
@@ -329,19 +330,19 @@ byte[] data = item.get();
 
       <subsection name="Creating a DiskFileItemFactory">
         <p>
-          The FileCleanerCleanup provides an instance of
+          The JakartaFileCleaner provides an instance of
           <code>org.apache.commons.io.FileCleaningTracker</code>. This
           instance must be used when creating a
-          <code>org.apache.commons.fileupload.disk.DiskFileItemFactory</code>.
+          <code>org.apache.commons.fileupload2.core.DiskFileItemFactory</code>.
           This should be done by calling a method like the following:
         </p>
   <source><![CDATA[public static DiskFileItemFactory newDiskFileItemFactory(ServletContext context,
                                                          File repository) {
-    FileCleaningTracker fileCleaningTracker
-        = FileCleanerCleanup.getFileCleaningTracker(context);
-    DiskFileItemFactory factory
-        = new DiskFileItemFactory(DiskFileItemFactory.DEFAULT_SIZE_THRESHOLD,
-                                  repository);
+    FileCleaningTracker fileCleaningTracker = JakartaFileCleaner.getFileCleaningTracker(context);
+    DiskFileItemFactory factory = new DiskFileItemFactory()
+      .setSizeThreshold(DiskFileItemFactory.DEFAULT_THRESHOLD)
+      .setPath(repository)
+      .get();
     factory.setFileCleaningTracker(fileCleaningTracker);
     return factory;
 }]]></source>
@@ -402,12 +403,12 @@ byte[] data = item.get();
       </p>
   <source><![CDATA[//Create a progress listener
 ProgressListener progressListener = new ProgressListener(){
-   public void update(long pBytesRead, long pContentLength, int pItems) {
-       System.out.println("We are currently reading item " + pItems);
-       if (pContentLength == -1) {
-           System.out.println("So far, " + pBytesRead + " bytes have been read.");
+   public void update(long bytesRead, long contentLength, int items) {
+       System.out.println("We are currently reading item " + items);
+       if (contentLength == -1) {
+           System.out.println("So far, " + bytesRead + " bytes have been read.");
        } else {
-           System.out.println("So far, " + pBytesRead + " of " + pContentLength
+           System.out.println("So far, " + bytesRead + " of " + contentLength
                               + " bytes have been read.");
        }
    }
@@ -426,17 +427,17 @@ upload.setProgressListener(progressListener);]]></source>
   <source><![CDATA[//Create a progress listener
 ProgressListener progressListener = new ProgressListener(){
    private long megaBytes = -1;
-   public void update(long pBytesRead, long pContentLength, int pItems) {
-       long mBytes = pBytesRead / 1000000;
+   public void update(long bytesRead, long contentLength, int items) {
+       long mBytes = bytesRead / 1000000;
        if (megaBytes == mBytes) {
            return;
        }
        megaBytes = mBytes;
-       System.out.println("We are currently reading item " + pItems);
-       if (pContentLength == -1) {
-           System.out.println("So far, " + pBytesRead + " bytes have been read.");
+       System.out.println("We are currently reading item " + items);
+       if (contentLength == -1) {
+           System.out.println("So far, " + bytesRead + " bytes have been read.");
        } else {
-           System.out.println("So far, " + pBytesRead + " of " + pContentLength
+           System.out.println("So far, " + bytesRead + " of " + contentLength
                               + " bytes have been read.");
        }
    }

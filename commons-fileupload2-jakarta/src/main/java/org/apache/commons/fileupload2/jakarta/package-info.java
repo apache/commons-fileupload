@@ -27,7 +27,7 @@
  * <pre>{@code
  * DiskFileItemFactory factory = DiskFileItemFactory().builder().get();
  * // Configure the factory here, if desired.
- * JakSrvltFileUpload upload = new JakSrvltFileUpload(factory);
+ * JakartaServletFileUpload  upload = new JakartaServletFileUpload (factory);
  * // Configure the uploader here, if desired.
  * List fileItems = upload.parseRequest(request);
  * }</pre>

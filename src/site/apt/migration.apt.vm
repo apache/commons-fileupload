@@ -127,22 +127,23 @@ Migrating
     import org.apache.commons.fileupload2.FileItemFactory;
     import org.apache.commons.fileupload2.FileUpload;
     import org.apache.commons.fileupload2.FileUploadException;
-    import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-    import org.apache.commons.fileupload2.jakarta.JavaxServletFileUpload;
-    import org.apache.commons.fileupload2.jakarta.JavaxServletRequestContext;
+    import org.apache.commons.fileupload2.DiskFileItemFactory;
+    import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
+    import org.apache.commons.fileupload2.jakarta.JakartaServletRequestContext;
 
     import jakarta.servlet.ServletException;
     import jakarta.servlet.http.HttpServlet;
     import jakarta.servlet.http.HttpServletRequest;
     import jakarta.servlet.http.HttpServletResponse;
+
     public class SampleServlet extends HttpServlet {
-	    private static final long serialVersionUID = -8899322882932916888L;
+	    private static final long serialVersionUID = 2;
 
 	    @Override
 	    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		    if (JavaxServletFileUpload.isMultipartContent(req)) {
-			    final FileItemFactory fileItemfactory = new DiskFileItemFactory();
-			    final FileUpload fileUpload = new JavaxServletFileUpload(fileItemfactory);
+		    if (JakartaServletFileUpload.isMultipartContent(req)) {
+			    final DiskFileItemFactory fileItemfactory = new DiskFileItemFactory();
+			    final JakartaServletFileUpload fileUpload = new JakartaServletFileUpload(fileItemfactory);
 			    final List<FileItem> items;
 			    try {
 				    items = fileUpload.parseRequest(new JavaxServletRequestContext(req));
@@ -156,7 +157,6 @@ Migrating
 
 +-------------------------------------------
 
-* Using Commons FileUpload 2 as a Java Module
+* Using Commons FileUpload 2 as a JPMS Module
 
   The library provides <<META-INF/versions/module-info.class>> that defines the required modules and exported packages.
-  All packages but <<org.apache.commons.fileupload2.impl>> are exported.

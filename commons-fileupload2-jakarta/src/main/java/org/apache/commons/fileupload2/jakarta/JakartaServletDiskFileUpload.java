@@ -17,8 +17,8 @@
 
 package org.apache.commons.fileupload2.jakarta;
 
-import org.apache.commons.fileupload2.core.disk.DiskFileItem;
-import org.apache.commons.fileupload2.core.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 
 /**
  * A JakartaServletFileUpload for {@link DiskFileItem} and {@link DiskFileItemFactory}.

@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.core.disk;
+package org.apache.commons.fileupload2.core;
 
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 
-import org.apache.commons.fileupload2.core.FileItem;
-import org.apache.commons.fileupload2.core.FileItemFactory;
 import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.build.AbstractStreamBuilder;

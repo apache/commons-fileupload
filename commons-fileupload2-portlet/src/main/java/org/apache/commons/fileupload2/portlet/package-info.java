@@ -19,7 +19,7 @@
  * <p>
  * An implementation of {@link org.apache.commons.fileupload2.core.AbstractFileUpload} for use in portlets conforming to JSR 168. This implementation requires
  * only access to the portlet's current {@code ActionRequest} instance, and a suitable {@link org.apache.commons.fileupload2.core.FileItemFactory}
- * implementation, such as {@link org.apache.commons.fileupload2.core.disk.DiskFileItemFactory}.
+ * implementation, such as {@link org.apache.commons.fileupload2.core.DiskFileItemFactory}.
  * </p>
  * <p>
  * The following code fragment demonstrates typical usage.

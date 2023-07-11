@@ -19,7 +19,7 @@
  * <p>
  * An implementation of {@link org.apache.commons.fileupload2.core.AbstractFileUpload} for use in servlets conforming to JSR 53. This implementation requires
  * only access to the servlet's current {@code HttpServletRequest} instance, and a suitable {@link org.apache.commons.fileupload2.core.FileItemFactory}
- * implementation, such as {@link org.apache.commons.fileupload2.core.disk.DiskFileItemFactory}.
+ * implementation, such as {@link org.apache.commons.fileupload2.core.DiskFileItemFactory}.
  * </p>
  * <p>
  * The following code fragment demonstrates typical usage.
