@@ -46,7 +46,7 @@ Apache Commons FileUpload Parent
 [![GitHub Actions Status](https://github.com/apache/commons-fileupload/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-fileupload/actions)
 [![Coverage Status](https://codecov.io/gh/apache/commons-fileupload/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-fileupload)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-fileupload2/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-fileupload2/?gav=true)
-[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2/2.0.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2/2.0.0)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2/2.0.0-M1.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2/2.0.0-M1)
 [![CodeQL](https://github.com/apache/commons-fileupload/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload)
 
@@ -64,43 +64,13 @@ Where can I get the latest release?
 -----------------------------------
 You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-fileupload/download_fileupload.cgi).
 
-Alternatively, you can pull it from the central Maven repositories:
-
-```xml
-<dependency>
-  <groupId>commons-fileupload</groupId>
-  <artifactId>commons-fileupload</artifactId>
-  <version>1.5</version>
-</dependency>
-```
-
-The upcoming version 2.0.0 will be:
+Alternatively, you can pull it from  the central Maven repositories:
 
 ```xml
 <dependency>
   <groupId>org.apache.commons</groupId>
-  <artifactId>commons-fileupload2-jakarta</artifactId>
-  <version>2.0.0</version>
-</dependency>
-<dependency>
-  <groupId>org.apache.commons</groupId>
-  <artifactId>commons-fileupload2-javax</artifactId>
-  <version>2.0.0</version>
-</dependency>
-```
-
-You can experiment today by building from git master or using a snapshot build:
-
-```xml
-<dependency>
-  <groupId>org.apache.commons</groupId>
-  <artifactId>commons-fileupload2-jakarta</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
-</dependency>
-<dependency>
-  <groupId>org.apache.commons</groupId>
-  <artifactId>commons-fileupload2-javax</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <artifactId>commons-fileupload2</artifactId>
+  <version>2.0.0-M1</version>
 </dependency>
 ```
 

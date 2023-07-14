@@ -58,11 +58,11 @@ limitations under the License.
 -->
 <document>
   <properties>
-    <title>Download Apache Commons FileUpload</title>
+    <title>Download Apache Commons FileUpload Parent</title>
     <author email="dev@commons.apache.org">Apache Commons Documentation Team</author>
   </properties>
   <body>
-    <section name="Download Apache Commons FileUpload">
+    <section name="Download Apache Commons FileUpload Parent">
     <subsection name="Using a Mirror">
       <p>
         We recommend you use a mirror to download our release
@@ -113,37 +113,37 @@ limitations under the License.
       </p>
     </subsection>
     </section>
-    <section name="Apache Commons FileUpload 2.0.0 in the org.apache.commons.fileupload2 namespace for Java 1.8 or later">
+    <section name="Apache Commons FileUpload Parent 2.0.0-M1 in the org.apache.commons.fileupload2 namespace for Java 8 or later">
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/fileupload/binaries/commons-fileupload2-2.0.0-bin.tar.gz">commons-fileupload2-2.0.0-bin.tar.gz</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-bin.tar.gz.sha512">sha512</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-bin.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/fileupload/binaries/commons-fileupload2-2.0.0-M1-bin.tar.gz">commons-fileupload2-2.0.0-M1-bin.tar.gz</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M1-bin.tar.gz.sha512">sha512</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M1-bin.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/fileupload/binaries/commons-fileupload2-2.0.0-bin.zip">commons-fileupload2-2.0.0-bin.zip</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-bin.zip.sha512">sha512</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-bin.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/fileupload/binaries/commons-fileupload2-2.0.0-M1-bin.zip">commons-fileupload2-2.0.0-M1-bin.zip</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M1-bin.zip.sha512">sha512</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M1-bin.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
       <subsection name="Source">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/fileupload/source/commons-fileupload2-2.0.0-src.tar.gz">commons-fileupload2-2.0.0-src.tar.gz</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-src.tar.gz.sha512">sha512</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-src.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/fileupload/source/commons-fileupload2-2.0.0-M1-src.tar.gz">commons-fileupload2-2.0.0-M1-src.tar.gz</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M1-src.tar.gz.sha512">sha512</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M1-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/fileupload/source/commons-fileupload2-2.0.0-src.zip">commons-fileupload2-2.0.0-src.zip</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-src.zip.sha512">sha512</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-src.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/fileupload/source/commons-fileupload2-2.0.0-M1-src.zip">commons-fileupload2-2.0.0-M1-src.zip</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M1-src.zip.sha512">sha512</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M1-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
     </section>
-    <section name="Apache Commons FileUpload 1.5 in the org.apache.commons.fileupload namespace for Java 6">
+    <section name="Apache Commons FileUpload Parent 1.5 in the org.apache.commons.fileupload namespace for Java 6">
       <subsection name="Binaries">
         <table>
           <tr>

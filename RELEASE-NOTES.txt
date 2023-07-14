@@ -1,3 +1,77 @@
+              Apache Commons FileUpload Parent 2.0.0-M1 RELEASE NOTES
+
+The Apache Commons FileUpload Parent team is pleased to announce the release of Apache Commons FileUpload Parent 2.0.0-M1.
+
+The Apache Commons FileUpload component provides a simple yet flexible means of
+adding support for multipart file upload functionality to servlets and web
+applications. This version requires Java 8 or later.
+
+No client code changes are required to migrate from version 1.3.0 to 1.3.1.
+
+
+2.0.0-M1 Release
+
+Changes in version 2.0.0-M1 include:
+
+New features:
+o                  Add github/codeql-action from #144. Thanks to Gary Gregory.
+o                  Add the package org.apache.fileupload2.jaksrvlt, for compliance with Jakarta Servlet API 5.0.
+o                  Making FileUploadException a subclass of IOException. (Mibor API simplification.)
+o                  Add a configurable limit (disabled by default) for the number of files to upload per request.
+
+Fixed Bugs:
+o                  Changing Maven coordinates, and package name, due to binary incompatible changes.
+o FILEUPLOAD-293:  DiskFileItem.write(File) had been changed to use FileUtils.moveFile internally, preventing an existing file as the target.
+o FILEUPLOAD-296:  Performance gains by reusing an internal buffer. Thanks to David Georg Reochelt.
+o FILEUPLOAD-274:  RFC 5987 compliance Thanks to Merbin J Anselm.
+o                  Slight optim: resuse the index position instead of recomputing it #49. Thanks to Emmanuel Lécharny.
+o FILEUPLOAD-340:  Make commons-fileupload2 a JPMS module by adding module-info.class.
+o FILEUPLOAD-341:  Move Exception classes out of the impl package. Thanks to Martin Grigorov.
+o                  Rework exceptions to use propagated exception causes (introduced in Java 1.4). Thanks to Gary Gregory.
+o                  All custom exception extend FileUploadException. Thanks to Gary Gregory.
+o                  All custom exceptions serialVersionUID value is now 2. Thanks to Gary Gregory.
+o FILEUPLOAD-350:  FileUploadByteCountLimitException ctor switches fileName and fieldName parameters #216. Thanks to Ernesto Reinaldo Barreiro.
+o                  [StepSecurity] ci: Harden GitHub Actions #224. Thanks to step-security-bot, Gary Gregory.
+
+Changes:
+o                  Bump actions/cache from 2.1.6 to 3.0.8 #128, #140. Thanks to Dependabot, Gary Gregory.
+o                  Bump actions/checkout from 2.3.4 to 3.0.2 #125. Thanks to Dependabot, Gary Gregory.
+o                  Bump build actions/setup-java from 1.4.3 to 3.8.0 #142, #175, #180, #182. Thanks to Gary Gregory.
+o                  Bump Java compiler level to 1.8.
+o                  Bump commons-io:commons-io 2.6 to 2.13.0, #104, #221. Thanks to Gary Gregory, Dependabot.
+o                  Bump junit-jupiter from 5.5.2 to 5.9.1 #31, #130, #156, #166. Thanks to Dependabot.
+o                  Bump maven-pmd-plugin from 3.13.0 to 3.19.0 #48, #162. Thanks to Dependabot.
+o                  Bump commons.japicmp.version from 0.13.0 to 0.16.0. Thanks to Gary Gregory.
+o                  Bump spotbugs-maven-plugin from 4.2.3 to 4.7.3.0 #103, #133, #141, #146, #155, #163, #179. Thanks to Dependabot.
+o                  Bump spotbugs from 4.2.3 to 4.7.3, ignore EI_EXPOSE_REP, and EI_EXPOSE_REP2, #152, #161, #174. Thanks to Dependabot.
+o                  Bump biz.aQute.bndlib from 6.0.0 to 6.4.0 #129, #181. Thanks to Dependabot.
+o                  Bump commons-parent from 52 to 58, #167, #183, #194. Thanks to Gary Gregory, Dependabot.
+o                  Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #160. Thanks to Dependabot.
+
+Removed:
+o                  Remove deprecated constructors in MultipartStream. Thanks to Gary Gregory.
+o                  Remove deprecated RequestContext.getContentLength(). Thanks to Gary Gregory.
+o                  Remove deprecated JakSrvltRequestContext.getContentLength(). Thanks to Gary Gregory.
+o                  Remove deprecated PortletRequestContext.getContentLength(). Thanks to Gary Gregory.
+o                  Remove deprecated ServletRequestContext.getContentLength(). Thanks to Gary Gregory.
+o                  Remove deprecated FileUploadBase.MAX_HEADER_SIZE. Thanks to Gary Gregory.
+o                  Remove deprecated FileUploadBase.createItem(Map, boolean). Thanks to Gary Gregory.
+o                  Remove deprecated FileUploadBase.getFieldName(Map). Thanks to Gary Gregory.
+o                  Remove deprecated FileUploadBase.getFileName(Map). Thanks to Gary Gregory.
+o                  Remove deprecated FileUploadBase.getHeader(Map, String). Thanks to Gary Gregory.
+o                  Remove deprecated FileUploadBase.parseHeaders(String). Thanks to Gary Gregory.
+o                  Replace org.apache.commons.fileupload2.util.mime.Base64Decoder with java.util.Base64. Thanks to Gary Gregory.
+o                  Replace LimitedInputStream with BoundedInputStream. Thanks to Gary Gregory.
+o                  FileItemHeadersImpl is no longer Serializable. Thanks to Gary Gregory.
+o                  Reuse Java's InvalidPathException instead of the custom InvalidFileNameException. Thanks to Gary Gregory.
+
+For complete information on Apache Commons FileUpload Parent, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons FileUpload Parent website:
+
+https://commons.apache.org/proper/commons-fileupload/
+
+------------------------------------------------------------------------------
+
               Apache Commons FileUpload 1.4 RELEASE NOTES
 
 The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 1.4.
