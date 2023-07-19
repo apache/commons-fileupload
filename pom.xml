@@ -25,10 +25,10 @@
   </parent>
 
   <artifactId>commons-fileupload2</artifactId>
-  <version>2.0.0-M1-SNAPSHOT</version>
+  <version>2.0.0-M2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Apache Commons FileUpload Parent</name>
+  <name>Apache Commons FileUpload</name>
   <description>
     The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
     file upload functionality to servlets and web applications.
@@ -208,6 +208,7 @@
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-fileupload.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-fileupload.git</url>
   </scm>
+
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/FILEUPLOAD</url>
@@ -226,18 +227,22 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
-    <commons.module.name>org.apache.commons.fileupload</commons.module.name>
+    <commons.module.name>org.apache.commons.fileupload2</commons.module.name>
     <commons.release.version>2.0.0-M1</commons.release.version>
     <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 8 or later</commons.release.desc>
 
     <commons.release.2.version>1.5</commons.release.2.version>
-    <commons.release.2.desc>in the org.apache.commons.fileupload namespace for Java 6</commons.release.2.desc>
+    <commons.release.2.desc>in the org.apache.commons.fileupload namespace for Java 6 or later</commons.release.2.desc>
 
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
     <commons.site.path>fileupload</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-fileupload</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
+    
+    <commons.siteOutputDirectory>${basedir}/target/site</commons.siteOutputDirectory>
+    <commons.releaseNotesLocation>${commons.parent.dir}/RELEASE-NOTES.txt</commons.releaseNotesLocation>
+
     <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version};-noimport:=true</commons.osgi.export>
     <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
@@ -252,9 +257,10 @@
     <commons.bc.version>1.5</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.release.isDistModule>true</commons.release.isDistModule>
+    <commons.release.isDistModule>false</commons.release.isDistModule>
     <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
-    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>  </properties>
+    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
+  </properties>
 
   <dependencyManagement>
 	<dependencies>
@@ -278,25 +284,6 @@
   </dependencyManagement>
 
   <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptors>
-            <descriptor>${commons.parent.dir}/src/main/assembly/bin.xml</descriptor>
-            <descriptor>${commons.parent.dir}/src/main/assembly/src.xml</descriptor>
-          </descriptors>
-          <tarLongFileMode>gnu</tarLongFileMode>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <preparationGoals>clean site verify</preparationGoals>
-          <goals>clean site deploy</goals>
-        </configuration>
-      </plugin>
-    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -309,50 +296,13 @@
               <exclude>src/checkstyle/license-header.txt</exclude>
             </excludes>
           </configuration>
-        </plugin><!-- override skip property of parent pom -->
+        </plugin>
+        <!-- override skip property of parent pom for new major release -->
         <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
           <configuration>
             <skip>true</skip>
-          </configuration>
-        </plugin>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <versionRange>[1.8,)</versionRange>
-                    <goals>
-                      <goal>run</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <execute/>
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <versionRange>[1.10,)</versionRange>
-                    <goals>
-                      <goal>parse-version</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <execute/>
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
           </configuration>
         </plugin>
         <plugin>
@@ -464,41 +414,16 @@
 
   <profiles>
     <profile>
-      <id>setup-checkout</id>
-      <activation>
-        <file>
-          <missing>site-content</missing>
-        </file>
-      </activation>
+      <id>release</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
+            <artifactId>maven-assembly-plugin</artifactId>
             <executions>
+              <!-- Don't build the archives here. They are constructed in the dist project -->
               <execution>
-                <id>prepare-checkout</id>
-                <phase>pre-site</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
                 <configuration>
-                  <target>
-                    <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
-                    </exec>
-
-                    <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"/>
-                    </exec>
-
-                    <pathconvert pathsep=" " property="dirs">
-                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
-                    </pathconvert>
-                    <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}"/>
-                    </exec>
-                  </target>
+                  <skipAssembly>true</skipAssembly>
                 </configuration>
               </execution>
             </executions>
@@ -544,6 +469,7 @@
                   </jdepsExtraArgs>
                   <outputDirectory>${project.build.directory}</outputDirectory>
                   <overwriteExistingFiles>true</overwriteExistingFiles>
+                  <failOnWarning>false</failOnWarning>
                   <module>
                     <moduleInfo>
                       <name>${commons.module.name}</name>
@@ -562,5 +488,6 @@
 	<module>commons-fileupload2-jakarta</module>
 	<module>commons-fileupload2-javax</module>
 	<module>commons-fileupload2-portlet</module>
+	<module>commons-fileupload2-distribution</module>
   </modules>
 </project>
