@@ -32,9 +32,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.DiskFileItemFactory;
-import org.apache.commons.fileupload2.core.FileItemFactory;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.file.SimplePathVisitor;
 import org.apache.commons.lang3.SerializationUtils;

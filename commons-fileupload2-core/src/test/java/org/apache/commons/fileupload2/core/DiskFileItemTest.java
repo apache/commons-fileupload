@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.apache.commons.fileupload2.core.FileItemFactory.AbstractFileItemBuilder;
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItemHeaders;
 import org.apache.commons.fileupload2.core.DiskFileItem.Builder;
 import org.junit.jupiter.api.Test;
 
