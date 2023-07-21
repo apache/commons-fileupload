@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload2.core.disk;
+package org.apache.commons.fileupload2.core;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.apache.commons.fileupload2.core.FileItemFactory.AbstractFileItemBuilder;
 import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileItemHeaders;
 import org.apache.commons.fileupload2.core.DiskFileItem.Builder;
 import org.junit.jupiter.api.Test;
@@ -30,16 +29,16 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link DiskFileItem}.
  */
-public class DiskFileItemFactoryTest {
+public class DiskFileItemTest {
 
     @Test
-    void testHeaders() {
-        final DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
-        final Builder fileItemBuilder = factory.fileItemBuilder();
-        assertNotNull(fileItemBuilder.getFileItemHeaders());
-        final DiskFileItem fileItem = fileItemBuilder.get();
+    void testBuilderHeaders() {
+        final Builder builder = DiskFileItem.builder();
+        assertNotNull(builder.getFileItemHeaders());
+        final DiskFileItem fileItem = builder.get();
         assertNotNull(fileItem.getHeaders(), "Missing default headers (empty)");
         assertFalse(fileItem.getHeaders().getHeaderNames().hasNext());
+        assertNotNull(fileItem.getHeaders());
         final FileItemHeaders fileItemHeaders = AbstractFileItemBuilder.newFileItemHeaders();
         assertNotNull(fileItemHeaders);
         fileItem.setHeaders(fileItemHeaders);
