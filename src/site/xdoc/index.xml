@@ -66,88 +66,16 @@
       <p>You can also <a href="./scm.html">browse</a> the Subversion repository.</p>
     </section>
 
-    <section name="Downloading">
-      <subsection name="Releases">
-        <p><strong>FileUpload 2.0.0</strong> - DD MMMMMM 2023</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://commons.apache.org/fileupload/download_fileupload.cgi">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.5</strong> - 01 February 2023</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.4</strong> - 23 December 2018</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.3.3</strong> - 13 June 2017</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.3.2</strong> - 26 May 2016</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.3.1</strong> - 7 February 2014</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.3</strong> - 27 March 2013</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.2.2</strong> - 29 July 2010</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.2.1</strong> - 18 January 2008</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.2</strong> - 13 February 2007</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.1.1</strong> - 08 June 2006</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.1</strong> - 22 Dec 2005</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-        <p><strong>FileUpload 1.0</strong> - 24 Jun 2003</p>
-        <ul>
-          <li>Download the binary and source distributions from the site
-            <a href="https://archive.apache.org/dist/commons/fileupload/">here</a>
-          </li>
-        </ul>
-      </subsection>
-
+    <section name="Releases">
+      <ul>
+        <li>Download the binary and source distributions from the
+          <a href="./download_fileupload.cgi">download site</a>.
+        </li>
+      </ul>
+      <ul>
+        <li>Read the <a href=".changes-report.html">changes report</a>.
+        </li>
+      </ul>
     </section>
 
     <section name="Support">
