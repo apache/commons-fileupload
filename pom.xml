@@ -228,7 +228,7 @@
 	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload2</commons.module.name>
-    <commons.release.version>2.0.0-M1</commons.release.version>
+    <commons.release.version>2.0.0-M2</commons.release.version>
     <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 8 or later</commons.release.desc>
 
     <commons.release.2.version>1.5</commons.release.2.version>
@@ -254,7 +254,7 @@
     <moditect-maven-plugin.version>1.0.0.Final</moditect-maven-plugin.version>
 
     <!-- Commons Release Plugin -->
-    <commons.bc.version>1.5</commons.bc.version>
+    <commons.bc.version>2.0.0</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.release.isDistModule>false</commons.release.isDistModule>
