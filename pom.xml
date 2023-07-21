@@ -223,8 +223,9 @@
   </distributionManagement>
 
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <commons.compiler.release>11</commons.compiler.release>
 	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload2</commons.module.name>
@@ -251,7 +252,10 @@
     <commons.lang3.version>3.12.0</commons.lang3.version>
     <japicmp.skip>true</japicmp.skip>
     <clirr.skip>true</clirr.skip>
+    <animal.sniffer.skip>true</animal.sniffer.skip>
     <moditect-maven-plugin.version>1.0.0.Final</moditect-maven-plugin.version>
+    <commons.javadoc.java.link>${commons.javadoc11.java.link}</commons.javadoc.java.link>
+    <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>2.0.0</commons.bc.version>
@@ -323,7 +327,8 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <defaultGoal>clean verify apache-rat:check checkstyle:check pmd:check javadoc:javadoc spotbugs:check</defaultGoal>
+    <!-- javadoc:javadoc fails if later in the sequence -->
+    <defaultGoal>clean javadoc:javadoc verify apache-rat:check checkstyle:check pmd:check spotbugs:check</defaultGoal>
   </build>
 
   <reporting>
