@@ -132,7 +132,7 @@ public class JavaxServletFileUploadTest
             if (++add == 32) {
                 add = 16;
             }
-            final var header = "-----1234\r\n" + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n" + "\r\n";
+            final var header = "-----1234\r\n" + "Content-Disposition: form-data; name=\"field" + num++ + "\"\r\n" + "\r\n";
             baos.write(header.getBytes(StandardCharsets.US_ASCII));
             for (var j = 0; j < i; j++) {
                 baos.write((byte) j);
@@ -150,7 +150,7 @@ public class JavaxServletFileUploadTest
                 add = 16;
             }
             final var item = fileIter.next();
-            assertEquals("field" + (num++), item.getFieldName());
+            assertEquals("field" + num++, item.getFieldName());
             final var bytes = item.get();
             assertEquals(i, bytes.length);
             for (var j = 0; j < i; j++) {

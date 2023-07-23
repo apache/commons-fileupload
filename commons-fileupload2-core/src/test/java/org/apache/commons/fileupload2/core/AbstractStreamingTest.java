@@ -67,7 +67,7 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
                 if (++add == 32) {
                     add = 16;
                 }
-                osw.write(getHeader("field" + (num++)));
+                osw.write(getHeader("field" + num++));
                 osw.flush();
                 for (var j = 0; j < i; j++) {
                     baos.write((byte) j);
@@ -133,7 +133,7 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
                 add = 16;
             }
             final var item = fileIter.next();
-            assertEquals("field" + (num++), item.getFieldName());
+            assertEquals("field" + num++, item.getFieldName());
             final var bytes = item.get();
             assertEquals(i, bytes.length);
             for (var j = 0; j < i; j++) {
