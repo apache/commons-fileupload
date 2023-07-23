@@ -29,13 +29,11 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.fileupload2.core.FileItemFactory.AbstractFileItemBuilder;
 import org.apache.commons.io.Charsets;
-import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.function.Uncheck;
@@ -100,9 +98,9 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
          */
         @Override
         public DiskFileItem get() {
-            final DiskFileItem diskFileItem = new DiskFileItem(getFieldName(), getContentType(), isFormField(), getFileName(), getBufferSize(), getPath(),
+            final var diskFileItem = new DiskFileItem(getFieldName(), getContentType(), isFormField(), getFileName(), getBufferSize(), getPath(),
                     getFileItemHeaders(), getCharset());
-            final FileCleaningTracker tracker = getFileCleaningTracker();
+            final var tracker = getFileCleaningTracker();
             if (tracker != null) {
                 tracker.track(diskFileItem.getTempFile().toFile(), diskFileItem);
             }
@@ -147,11 +145,11 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     public static String checkFileName(final String fileName) {
         if (fileName != null) {
             // Specific NUL check to build a better exception message.
-            final int indexOf0 = fileName.indexOf(0);
+            final var indexOf0 = fileName.indexOf(0);
             if (indexOf0 != -1) {
-                final StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < fileName.length(); i++) {
-                    final char c = fileName.charAt(i);
+                final var sb = new StringBuilder();
+                for (var i = 0; i < fileName.length(); i++) {
+                    final var c = fileName.charAt(i);
                     switch (c) {
                     case 0:
                         sb.append("\\0");
@@ -175,9 +173,9 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * @return A String with the non-random looking instance identifier.
      */
     private static String getUniqueId() {
-        final int limit = 100_000_000;
-        final int current = COUNTER.getAndIncrement();
-        String id = Integer.toString(current);
+        final var limit = 100_000_000;
+        final var current = COUNTER.getAndIncrement();
+        var id = Integer.toString(current);
 
         // If you manage to get more than 100 million of ids, you'll
         // start getting ids longer than 8 characters.
@@ -281,7 +279,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     @Override
     public DiskFileItem delete() throws IOException {
         cachedContent = null;
-        final Path outputFile = getPath();
+        final var outputFile = getPath();
         if (outputFile != null && !isInMemory() && Files.exists(outputFile)) {
             Files.delete(outputFile);
         }
@@ -314,10 +312,10 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * @return The content charset passed by the agent or {@code null} if not defined.
      */
     public Charset getCharset() {
-        final ParameterParser parser = new ParameterParser();
+        final var parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
-        final Map<String, String> params = parser.parse(getContentType(), ';');
+        final var params = parser.parse(getContentType(), ';');
         return Charsets.toCharset(params.get("charset"), charsetDefault);
     }
 
@@ -576,13 +574,13 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     @Override
     public DiskFileItem write(final Path file) throws IOException {
         if (isInMemory()) {
-            try (OutputStream fout = Files.newOutputStream(file)) {
+            try (var fout = Files.newOutputStream(file)) {
                 fout.write(get());
             } catch (final IOException e) {
                 throw new IOException("Unexpected output data", e);
             }
         } else {
-            final Path outputFile = getPath();
+            final var outputFile = getPath();
             if (outputFile == null) {
                 /*
                  * For whatever reason we cannot write the file to disk.

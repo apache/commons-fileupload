@@ -58,28 +58,28 @@ public final class RFC2231UtilityTestCase {
 
     @Test
     public void testHasEncodedValue() {
-        final String nameWithAsteriskAtEnd = "paramname*";
+        final var nameWithAsteriskAtEnd = "paramname*";
         assertTrue(RFC2231Utils.hasEncodedValue(nameWithAsteriskAtEnd));
 
-        final String nameWithAsteriskNotAtEnd = "param*name";
+        final var nameWithAsteriskNotAtEnd = "param*name";
         assertFalse(RFC2231Utils.hasEncodedValue(nameWithAsteriskNotAtEnd));
 
-        final String nameWithoutAsterisk = "paramname";
+        final var nameWithoutAsterisk = "paramname";
         assertFalse(RFC2231Utils.hasEncodedValue(nameWithoutAsterisk));
     }
 
     @Test
     public void testStripDelimiter() {
-        final String nameWithAsteriskAtEnd = "paramname*";
+        final var nameWithAsteriskAtEnd = "paramname*";
         assertEquals("paramname", RFC2231Utils.stripDelimiter(nameWithAsteriskAtEnd));
 
-        final String nameWithAsteriskNotAtEnd = "param*name";
+        final var nameWithAsteriskNotAtEnd = "param*name";
         assertEquals("param*name", RFC2231Utils.stripDelimiter(nameWithAsteriskNotAtEnd));
 
-        final String nameWithTwoAsterisks = "param*name*";
+        final var nameWithTwoAsterisks = "param*name*";
         assertEquals("param*name", RFC2231Utils.stripDelimiter(nameWithTwoAsterisks));
 
-        final String nameWithoutAsterisk = "paramname";
+        final var nameWithoutAsterisk = "paramname";
         assertEquals("paramname", RFC2231Utils.stripDelimiter(nameWithoutAsterisk));
     }
 }

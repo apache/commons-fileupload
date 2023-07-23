@@ -51,7 +51,7 @@ final class RFC2231Utils {
 
     // create a ASCII decoded array of Hexadecimal values
     static {
-        for (int i = 0; i < HEX_DIGITS.length; i++) {
+        for (var i = 0; i < HEX_DIGITS.length; i++) {
             HEX_DECODE[HEX_DIGITS[i]] = (byte) i;
             HEX_DECODE[Character.toLowerCase(HEX_DIGITS[i])] = (byte) i;
         }
@@ -71,18 +71,18 @@ final class RFC2231Utils {
      * @throws UnsupportedEncodingException The requested character set wasn't found.
      */
     static String decodeText(final String encodedText) throws UnsupportedEncodingException {
-        final int langDelimitStart = encodedText.indexOf('\'');
+        final var langDelimitStart = encodedText.indexOf('\'');
         if (langDelimitStart == -1) {
             // missing charset
             return encodedText;
         }
-        final String mimeCharset = encodedText.substring(0, langDelimitStart);
-        final int langDelimitEnd = encodedText.indexOf('\'', langDelimitStart + 1);
+        final var mimeCharset = encodedText.substring(0, langDelimitStart);
+        final var langDelimitEnd = encodedText.indexOf('\'', langDelimitStart + 1);
         if (langDelimitEnd == -1) {
             // missing language
             return encodedText;
         }
-        final byte[] bytes = fromHex(encodedText.substring(langDelimitEnd + 1));
+        final var bytes = fromHex(encodedText.substring(langDelimitEnd + 1));
         return new String(bytes, getJavaCharset(mimeCharset));
     }
 
@@ -93,16 +93,16 @@ final class RFC2231Utils {
      * @return Byte array of characters decoded from ASCII table
      */
     private static byte[] fromHex(final String text) {
-        final int shift = 4;
-        final ByteArrayOutputStream out = new ByteArrayOutputStream(text.length());
-        for (int i = 0; i < text.length();) {
-            final char c = text.charAt(i++);
+        final var shift = 4;
+        final var out = new ByteArrayOutputStream(text.length());
+        for (var i = 0; i < text.length();) {
+            final var c = text.charAt(i++);
             if (c == '%') {
                 if (i > text.length() - 2) {
                     break; // unterminated sequence
                 }
-                final byte b1 = HEX_DECODE[text.charAt(i++) & MASK];
-                final byte b2 = HEX_DECODE[text.charAt(i++) & MASK];
+                final var b1 = HEX_DECODE[text.charAt(i++) & MASK];
+                final var b2 = HEX_DECODE[text.charAt(i++) & MASK];
                 out.write(b1 << shift | b2);
             } else {
                 out.write((byte) c);
@@ -137,7 +137,7 @@ final class RFC2231Utils {
      */
     static String stripDelimiter(final String paramName) {
         if (hasEncodedValue(paramName)) {
-            final StringBuilder paramBuilder = new StringBuilder(paramName);
+            final var paramBuilder = new StringBuilder(paramName);
             paramBuilder.deleteCharAt(paramName.lastIndexOf('*'));
             return paramBuilder.toString();
         }

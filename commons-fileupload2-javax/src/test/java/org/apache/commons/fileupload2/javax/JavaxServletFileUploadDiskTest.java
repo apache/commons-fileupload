@@ -23,9 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -51,7 +49,7 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
     public void parseImpliedUtf8() throws Exception {
         // utf8 encoded form-data without explicit content-type encoding
         // @formatter:off
-        final String text = "-----1234\r\n" +
+        final var text = "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
                 "\r\n" +
                 "Thís ís the coñteñt of the fíle\n" +
@@ -59,16 +57,16 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
                 "-----1234--\r\n";
         // @formatter:on
 
-        final byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
+        final var bytes = text.getBytes(StandardCharsets.UTF_8);
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
         // @formatter:off
-        final DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder()
+        final var fileItemFactory = DiskFileItemFactory.builder()
                 .setCharset(StandardCharsets.UTF_8)
                 .get();
         // @formatter:on
-        final JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory> upload = new JavaxServletFileUpload<>(fileItemFactory);
-        final List<DiskFileItem> fileItems = upload.parseRequest(request);
-        final DiskFileItem fileItem = fileItems.get(0);
+        final var upload = new JavaxServletFileUpload<>(fileItemFactory);
+        final var fileItems = upload.parseRequest(request);
+        final var fileItem = fileItems.get(0);
         assertTrue(fileItem.getString().contains("coñteñt"), fileItem.getString());
     }
 
@@ -78,7 +76,7 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
     @Test
     public void parseParameterMap() throws Exception {
         // @formatter:off
-        final String text = "-----1234\r\n" +
+        final var text = "-----1234\r\n" +
                       "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                       "Content-Type: text/whatever\r\n" +
                       "\r\n" +
@@ -98,11 +96,11 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
                       "value2\r\n" +
                       "-----1234--\r\n";
         // @formatter:on
-        final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
+        final var bytes = text.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
 
-        final JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory> upload = new JavaxServletFileUpload<>(DiskFileItemFactory.builder().get());
-        final Map<String, List<DiskFileItem>> mappedParameters = upload.parseParameterMap(request);
+        final var upload = new JavaxServletFileUpload<>(DiskFileItemFactory.builder().get());
+        final var mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
 
@@ -125,35 +123,35 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
     @Override
     @Test
     public void testFileUpload() throws IOException, FileUploadException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int add = 16;
-        int num = 0;
-        for (int i = 0; i < 16384; i += add) {
+        final var baos = new ByteArrayOutputStream();
+        var add = 16;
+        var num = 0;
+        for (var i = 0; i < 16384; i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            final String header = "-----1234\r\n" + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n" + "\r\n";
+            final var header = "-----1234\r\n" + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n" + "\r\n";
             baos.write(header.getBytes(StandardCharsets.US_ASCII));
-            for (int j = 0; j < i; j++) {
+            for (var j = 0; j < i; j++) {
                 baos.write((byte) j);
             }
             baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
         }
         baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
 
-        final List<DiskFileItem> fileItems = parseUpload(new JavaxServletDiskFileUpload(), baos.toByteArray());
-        final Iterator<DiskFileItem> fileIter = fileItems.iterator();
+        final var fileItems = parseUpload(new JavaxServletDiskFileUpload(), baos.toByteArray());
+        final var fileIter = fileItems.iterator();
         add = 16;
         num = 0;
-        for (int i = 0; i < 16384; i += add) {
+        for (var i = 0; i < 16384; i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            final DiskFileItem item = fileIter.next();
+            final var item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
-            final byte[] bytes = item.get();
+            final var bytes = item.get();
             assertEquals(i, bytes.length);
-            for (int j = 0; j < i; j++) {
+            for (var j = 0; j < i; j++) {
                 assertEquals((byte) j, bytes[j]);
             }
         }

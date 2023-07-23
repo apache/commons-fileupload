@@ -493,7 +493,7 @@ public class JakartaMockServletHttpRequest implements HttpServletRequest {
 
     @Override
     public ServletContext getServletContext() {
-        final HttpSession session = getSession();
+        final var session = getSession();
         if (session == null) {
             return null;
         }

@@ -24,8 +24,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
@@ -49,7 +47,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
     @Test
     public void testFileSizeLimit() throws IOException {
         // @formatter:off
-        final String request =
+        final var request =
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" +
@@ -59,12 +57,12 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
             "-----1234--\r\n";
         // @formatter:on
 
-        AFU upload = newFileUpload();
+        var upload = newFileUpload();
         upload.setFileSizeMax(-1);
-        R req = newMockHttpServletRequest(request, null, null);
-        List<I> fileItems = upload.parseRequest(req);
+        var req = newMockHttpServletRequest(request, null, null);
+        var fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
-        I item = fileItems.get(0);
+        var item = fileItems.get(0);
         assertEquals("This is the content of the file\n", new String(item.get()));
 
         upload = newFileUpload();
@@ -94,7 +92,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
     @Test
     public void testFileSizeLimitWithFakedContentLength() throws IOException {
         // @formatter:off
-        final String request =
+        final var request =
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" +
@@ -105,12 +103,12 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
             "-----1234--\r\n";
         // @formatter:on
 
-        AFU upload = newFileUpload();
+        var upload = newFileUpload();
         upload.setFileSizeMax(-1);
-        R req = newMockHttpServletRequest(request, null, null);
-        List<I> fileItems = upload.parseRequest(req);
+        var req = newMockHttpServletRequest(request, null, null);
+        var fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
-        I item = fileItems.get(0);
+        var item = fileItems.get(0);
         assertEquals("This is the content of the file\n", new String(item.get()));
 
         upload = newFileUpload();
@@ -152,7 +150,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
     @Test
     public void testMaxSizeLimit() throws IOException {
         // @formatter:off
-        final String request =
+        final var request =
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file1\"; filename=\"foo1.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" +
@@ -169,11 +167,11 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
             "-----1234--\r\n";
         // @formatter:on
 
-        final AFU upload = newFileUpload();
+        final var upload = newFileUpload();
         upload.setFileSizeMax(-1);
         upload.setSizeMax(200);
 
-        final R req = newMockHttpServletRequest(request, null, null);
+        final var req = newMockHttpServletRequest(request, null, null);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
@@ -185,7 +183,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
     @Test
     public void testMaxSizeLimitUnknownContentLength() throws IOException {
         // @formatter:off
-        final String request =
+        final var request =
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file1\"; filename=\"foo1.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" +
@@ -202,7 +200,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
             "-----1234--\r\n";
         // @formatter:on
 
-        final AFU upload = newFileUpload();
+        final var upload = newFileUpload();
         upload.setFileSizeMax(-1);
         upload.setSizeMax(300);
 
@@ -210,19 +208,19 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         // set the read limit to 10 to simulate a "real" stream
         // otherwise the buffer would be immediately filled
 
-        final R req = newMockHttpServletRequest(request, -1L, 10);
+        final var req = newMockHttpServletRequest(request, -1L, 10);
 
-        final FileItemInputIterator it = upload.getItemIterator(req);
+        final var it = upload.getItemIterator(req);
         assertTrue(it.hasNext());
 
-        final FileItemInput item = it.next();
+        final var item = it.next();
         assertFalse(item.isFormField());
         assertEquals("file1", item.getFieldName());
         assertEquals("foo1.tab", item.getName());
 
         {
-            try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    final InputStream stream = item.getInputStream()) {
+            try (final var baos = new ByteArrayOutputStream();
+                    final var stream = item.getInputStream()) {
                 IOUtils.copy(stream, baos);
             }
 
@@ -233,9 +231,9 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         assertTrue(it.hasNext());
 
         assertThrows(FileUploadException.class, () -> {
-            final FileItemInput item2 = it.next();
-            try (final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    final InputStream stream = item2.getInputStream()) {
+            final var item2 = it.next();
+            try (final var baos = new ByteArrayOutputStream();
+                    final var stream = item2.getInputStream()) {
                 IOUtils.copy(stream, baos);
             }
         });

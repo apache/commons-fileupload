@@ -122,7 +122,7 @@ public class ParameterParser {
      * @return {@code true} if the character is present in the array of characters, {@code false} otherwise.
      */
     private boolean isOneOf(final char ch, final char[] charray) {
-        boolean result = false;
+        var result = false;
         for (final char element : charray) {
             if (ch == element) {
                 result = true;
@@ -160,7 +160,7 @@ public class ParameterParser {
         if (charArray == null) {
             return new HashMap<>();
         }
-        final HashMap<String, String> params = new HashMap<>();
+        final var params = new HashMap<String, String>();
         this.chars = charArray.clone();
         this.pos = offset;
         this.len = length;
@@ -222,11 +222,11 @@ public class ParameterParser {
         if (separators == null || separators.length == 0) {
             return new HashMap<>();
         }
-        char separator = separators[0];
+        var separator = separators[0];
         if (str != null) {
-            int idx = str.length();
+            var idx = str.length();
             for (final char separator2 : separators) {
-                final int tmp = str.indexOf(separator2);
+                final var tmp = str.indexOf(separator2);
                 if (tmp != -1 && tmp < idx) {
                     idx = tmp;
                     separator = separator2;
@@ -246,8 +246,8 @@ public class ParameterParser {
         char ch;
         i1 = pos;
         i2 = pos;
-        boolean quoted = false;
-        boolean charEscaped = false;
+        var quoted = false;
+        var charEscaped = false;
         while (hasChar()) {
             ch = chars[pos];
             if (!quoted && isOneOf(ch, terminators)) {

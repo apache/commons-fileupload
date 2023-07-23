@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
@@ -72,22 +71,22 @@ public abstract class AbstractProgressListenerTest<AFU extends AbstractFileUploa
     }
 
     protected void runTest(final int itemCount, final long contentLength, final R request) throws FileUploadException, IOException {
-        final AFU upload = newFileUpload();
-        final ProgressListenerImpl listener = new ProgressListenerImpl(contentLength, itemCount);
+        final var upload = newFileUpload();
+        final var listener = new ProgressListenerImpl(contentLength, itemCount);
         upload.setProgressListener(listener);
-        final FileItemInputIterator iter = upload.getItemIterator(request);
-        for (int i = 0; i < itemCount; i++) {
-            final int idxI = i;
-            final FileItemInput fileItemInput = iter.next();
-            try (final InputStream inputStream = fileItemInput.getInputStream()) {
-                for (int j = 0; j < 16_384 + i; j++) {
-                    final int idxJ = j;
+        final var iter = upload.getItemIterator(request);
+        for (var i = 0; i < itemCount; i++) {
+            final var idxI = i;
+            final var fileItemInput = iter.next();
+            try (final var inputStream = fileItemInput.getInputStream()) {
+                for (var j = 0; j < 16_384 + i; j++) {
+                    final var idxJ = j;
                     //
                     // This used to be assertEquals((byte) j, (byte) istream.read()); but this seems to trigger a bug in JRockit, so we express the same like
                     // this:
                     //
-                    final byte b1 = (byte) j;
-                    final byte b2 = (byte) inputStream.read();
+                    final var b1 = (byte) j;
+                    final var b2 = (byte) inputStream.read();
                     assertEquals(b1, b2, () -> String.format("itemCount = %,d, i = %,d, j = %,d", itemCount, idxI, idxJ));
                 }
                 assertEquals(-1, inputStream.read());
@@ -104,20 +103,20 @@ public abstract class AbstractProgressListenerTest<AFU extends AbstractFileUploa
      */
     @Test
     public void testProgressListener() throws IOException {
-        final int numItems = 512;
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (int i = 0; i < numItems; i++) {
-            final String header = "-----1234\r\n" + "Content-Disposition: form-data; name=\"field" + (i + 1) + "\"\r\n" + "\r\n";
+        final var numItems = 512;
+        final var baos = new ByteArrayOutputStream();
+        for (var i = 0; i < numItems; i++) {
+            final var header = "-----1234\r\n" + "Content-Disposition: form-data; name=\"field" + (i + 1) + "\"\r\n" + "\r\n";
             baos.write(header.getBytes(StandardCharsets.US_ASCII));
-            for (int j = 0; j < 16384 + i; j++) {
+            for (var j = 0; j < 16384 + i; j++) {
                 baos.write((byte) j);
             }
             baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
         }
         baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
-        final byte[] requestBytes = baos.toByteArray();
+        final var requestBytes = baos.toByteArray();
 
-        R request = newMockHttpServletRequest(requestBytes, null, Constants.CONTENT_TYPE, null);
+        var request = newMockHttpServletRequest(requestBytes, null, Constants.CONTENT_TYPE, null);
         runTest(numItems, requestBytes.length, request);
         request = newMockHttpServletRequest(requestBytes, -1L, Constants.CONTENT_TYPE, null);
         runTest(numItems, requestBytes.length, request);

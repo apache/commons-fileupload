@@ -33,34 +33,34 @@ public class MultipartStreamTest {
 
     @Test
     public void testSmallBuffer() {
-        final String strData = "foobar";
-        final byte[] contents = strData.getBytes();
+        final var strData = "foobar";
+        final var contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
-        final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final int iBufSize = 1;
+        final var boundary = BOUNDARY_TEXT.getBytes();
+        final var iBufSize = 1;
         assertThrows(IllegalArgumentException.class, () -> MultipartInput.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
                 .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get());
     }
 
     @Test
     public void testThreeParamConstructor() throws Exception {
-        final String strData = "foobar";
-        final byte[] contents = strData.getBytes();
+        final var strData = "foobar";
+        final var contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
-        final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final int iBufSize = boundary.length + MultipartInput.BOUNDARY_PREFIX.length + 1;
-        final MultipartInput ms = MultipartInput.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
+        final var boundary = BOUNDARY_TEXT.getBytes();
+        final var iBufSize = boundary.length + MultipartInput.BOUNDARY_PREFIX.length + 1;
+        final var ms = MultipartInput.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
                 .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get();
         assertNotNull(ms);
     }
 
     @Test
     public void testTwoParamConstructor() throws Exception {
-        final String strData = "foobar";
-        final byte[] contents = strData.getBytes();
+        final var strData = "foobar";
+        final var contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
-        final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final MultipartInput ms = MultipartInput.builder().setInputStream(input).setBoundary(boundary)
+        final var boundary = BOUNDARY_TEXT.getBytes();
+        final var ms = MultipartInput.builder().setInputStream(input).setBoundary(boundary)
                 .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get();
         assertNotNull(ms);
     }

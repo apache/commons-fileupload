@@ -43,7 +43,7 @@ public abstract class AbstractFileUploadWrapper<AFU extends AbstractFileUpload<R
     public abstract List<I> parseUpload(final AFU upload, final byte[] bytes, final String contentType) throws FileUploadException;
 
     public List<I> parseUpload(final AFU upload, final String content) throws FileUploadException {
-        final byte[] bytes = content.getBytes(StandardCharsets.US_ASCII);
+        final var bytes = content.getBytes(StandardCharsets.US_ASCII);
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 

@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.InvalidPathException;
 
-import org.apache.commons.fileupload2.core.MultipartInput.ItemInputStream;
 import org.apache.commons.io.input.BoundedInputStream;
 
 /**
@@ -89,13 +88,13 @@ class FileItemInputImpl implements FileItemInput {
         this.fieldName = fieldName;
         this.contentType = contentType;
         this.formField = formField;
-        final long fileSizeMax = fileItemInputIteratorImpl.getFileSizeMax();
+        final var fileSizeMax = fileItemInputIteratorImpl.getFileSizeMax();
         if (fileSizeMax != -1 && contentLength != -1 && contentLength > fileSizeMax) {
             throw new FileUploadByteCountLimitException(String.format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, fileSizeMax),
                     contentLength, fileSizeMax, fileName, fieldName);
         }
         // OK to construct stream now
-        final ItemInputStream itemInputStream = fileItemInputIteratorImpl.getMultiPartInput().newInputStream();
+        final var itemInputStream = fileItemInputIteratorImpl.getMultiPartInput().newInputStream();
         InputStream istream = itemInputStream;
         if (fileSizeMax != -1) {
             istream = new BoundedInputStream(istream, fileSizeMax) {

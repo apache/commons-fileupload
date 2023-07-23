@@ -35,7 +35,7 @@ public class FileItemHeadersTest {
      */
     @Test
     public void testFileItemHeaders() throws Exception {
-        final FileItemHeadersImpl mutableFileItemHeaders = new FileItemHeadersImpl();
+        final var mutableFileItemHeaders = new FileItemHeadersImpl();
         mutableFileItemHeaders.addHeader("Content-Disposition", "form-data; name=\"FileItem\"; filename=\"file1.txt\"");
         mutableFileItemHeaders.addHeader("Content-Type", "text/plain");
 
@@ -44,7 +44,7 @@ public class FileItemHeadersTest {
         mutableFileItemHeaders.addHeader("TestHeader", "headerValue3");
         mutableFileItemHeaders.addHeader("testheader", "headerValue4");
 
-        final Iterator<String> headerNameIterator = mutableFileItemHeaders.getHeaderNames();
+        final var headerNameIterator = mutableFileItemHeaders.getHeaderNames();
         assertEquals("content-disposition", headerNameIterator.next());
         assertEquals("content-type", headerNameIterator.next());
         assertEquals("testheader", headerNameIterator.next());

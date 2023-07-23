@@ -18,7 +18,6 @@ package org.apache.commons.fileupload2.core;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.NoSuchElementException;
@@ -128,7 +127,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
             currentItem.close();
             currentItem = null;
         }
-        final MultipartInput multi = getMultiPartInput();
+        final var multi = getMultiPartInput();
         for (;;) {
             final boolean nextPart;
             if (skipPreamble) {
@@ -147,21 +146,21 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                 currentFieldName = null;
                 continue;
             }
-            final FileItemHeaders headers = fileUpload.getParsedHeaders(multi.readHeaders());
+            final var headers = fileUpload.getParsedHeaders(multi.readHeaders());
             if (currentFieldName == null) {
                 // We're parsing the outer multipart
-                final String fieldName = fileUpload.getFieldName(headers);
+                final var fieldName = fileUpload.getFieldName(headers);
                 if (fieldName != null) {
-                    final String subContentType = headers.getHeader(AbstractFileUpload.CONTENT_TYPE);
+                    final var subContentType = headers.getHeader(AbstractFileUpload.CONTENT_TYPE);
                     if (subContentType != null && subContentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART_MIXED)) {
                         currentFieldName = fieldName;
                         // Multiple files associated with this field name
-                        final byte[] subBoundary = fileUpload.getBoundary(subContentType);
+                        final var subBoundary = fileUpload.getBoundary(subContentType);
                         multi.setBoundary(subBoundary);
                         skipPreamble = true;
                         continue;
                     }
-                    final String fileName = fileUpload.getFileName(headers);
+                    final var fileName = fileUpload.getFileName(headers);
                     currentItem = new FileItemInputImpl(this, fileName, fieldName, headers.getHeader(AbstractFileUpload.CONTENT_TYPE), fileName == null,
                             getContentLength(headers));
                     currentItem.setHeaders(headers);
@@ -170,7 +169,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                     return true;
                 }
             } else {
-                final String fileName = fileUpload.getFileName(headers);
+                final var fileName = fileUpload.getFileName(headers);
                 if (fileName != null) {
                     currentItem = new FileItemInputImpl(this, fileName, currentFieldName, headers.getHeader(AbstractFileUpload.CONTENT_TYPE), false,
                             getContentLength(headers));
@@ -228,14 +227,14 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
     }
 
     protected void init(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext initContext) throws FileUploadException, IOException {
-        final String contentType = requestContext.getContentType();
+        final var contentType = requestContext.getContentType();
         if (null == contentType || !contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART)) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
                     AbstractFileUpload.MULTIPART_FORM_DATA, AbstractFileUpload.MULTIPART_MIXED, contentType), contentType);
         }
-        final long contentLengthInt = requestContext.getContentLength();
+        final var contentLengthInt = requestContext.getContentLength();
         // @formatter:off
-        final long requestSize = RequestContext.class.isAssignableFrom(requestContext.getClass())
+        final var requestSize = RequestContext.class.isAssignableFrom(requestContext.getClass())
                                  // Inline conditional is OK here CHECKSTYLE:OFF
                                  ? requestContext.getContentLength()
                                  : contentLengthInt;
@@ -260,7 +259,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
             inputStream = requestContext.getInputStream();
         }
 
-        final Charset charset = Charsets.toCharset(fileUploadBase.getHeaderCharset(), requestContext.getCharset());
+        final var charset = Charsets.toCharset(fileUploadBase.getHeaderCharset(), requestContext.getCharset());
         multiPartBoundary = fileUploadBase.getBoundary(contentType);
         if (multiPartBoundary == null) {
             IOUtils.closeQuietly(inputStream); // avoid possible resource leak

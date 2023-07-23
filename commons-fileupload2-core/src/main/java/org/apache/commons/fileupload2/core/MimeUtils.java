@@ -90,18 +90,18 @@ final class MimeUtils {
             return text;
         }
 
-        int offset = 0;
-        final int endOffset = text.length();
+        var offset = 0;
+        final var endOffset = text.length();
 
-        int startWhiteSpace = -1;
-        int endWhiteSpace = -1;
+        var startWhiteSpace = -1;
+        var endWhiteSpace = -1;
 
-        final StringBuilder decodedText = new StringBuilder(text.length());
+        final var decodedText = new StringBuilder(text.length());
 
-        boolean previousTokenEncoded = false;
+        var previousTokenEncoded = false;
 
         while (offset < endOffset) {
-            char ch = text.charAt(offset);
+            var ch = text.charAt(offset);
 
             // is this a whitespace character?
             if (LINEAR_WHITESPACE.indexOf(ch) != -1) { // whitespace found
@@ -119,7 +119,7 @@ final class MimeUtils {
                 }
             } else {
                 // we have a word token. We need to scan over the word and then try to parse it.
-                final int wordStart = offset;
+                final var wordStart = offset;
 
                 while (offset < endOffset) {
                     // step over the non white space characters.
@@ -132,12 +132,12 @@ final class MimeUtils {
                     // NB: Trailing whitespace on these header strings will just be discarded.
                 }
                 // pull out the word token.
-                final String word = text.substring(wordStart, offset);
+                final var word = text.substring(wordStart, offset);
                 // is the token encoded? decode the word
                 if (word.startsWith(ENCODED_TOKEN_MARKER)) {
                     try {
                         // if this gives a parsing failure, treat it like a non-encoded word.
-                        final String decodedWord = decodeWord(word);
+                        final var decodedWord = decodeWord(word);
 
                         // are any whitespace characters significant? Append 'em if we've got 'em.
                         if (!previousTokenEncoded && startWhiteSpace != -1) {
@@ -186,34 +186,34 @@ final class MimeUtils {
         // encoded words start with the characters "=?". If this not an encoded word, we throw a
         // ParseException for the caller.
 
-        final int etmPos = word.indexOf(ENCODED_TOKEN_MARKER);
+        final var etmPos = word.indexOf(ENCODED_TOKEN_MARKER);
         if (etmPos != 0) {
             throw new ParseException("Invalid RFC 2047 encoded-word: " + word, etmPos);
         }
 
-        final int charsetPos = word.indexOf('?', 2);
+        final var charsetPos = word.indexOf('?', 2);
         if (charsetPos == -1) {
             throw new ParseException("Missing charset in RFC 2047 encoded-word: " + word, charsetPos);
         }
 
         // pull out the character set information (this is the MIME name at this point).
-        final String charset = word.substring(2, charsetPos).toLowerCase(Locale.ENGLISH);
+        final var charset = word.substring(2, charsetPos).toLowerCase(Locale.ENGLISH);
 
         // now pull out the encoding token the same way.
-        final int encodingPos = word.indexOf('?', charsetPos + 1);
+        final var encodingPos = word.indexOf('?', charsetPos + 1);
         if (encodingPos == -1) {
             throw new ParseException("Missing encoding in RFC 2047 encoded-word: " + word, encodingPos);
         }
 
-        final String encoding = word.substring(charsetPos + 1, encodingPos);
+        final var encoding = word.substring(charsetPos + 1, encodingPos);
 
         // and finally the encoded text.
-        final int encodedTextPos = word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1);
+        final var encodedTextPos = word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1);
         if (encodedTextPos == -1) {
             throw new ParseException("Missing encoded text in RFC 2047 encoded-word: " + word, encodedTextPos);
         }
 
-        final String encodedText = word.substring(encodingPos + 1, encodedTextPos);
+        final var encodedText = word.substring(encodingPos + 1, encodedTextPos);
 
         // seems a bit silly to encode a null string, but easy to deal with.
         if (encodedText.isEmpty()) {
@@ -222,9 +222,9 @@ final class MimeUtils {
 
         try {
             // the decoder writes directly to an output stream.
-            final ByteArrayOutputStream out = new ByteArrayOutputStream(encodedText.length());
+            final var out = new ByteArrayOutputStream(encodedText.length());
 
-            final byte[] encodedData = encodedText.getBytes(StandardCharsets.US_ASCII);
+            final var encodedData = encodedText.getBytes(StandardCharsets.US_ASCII);
 
             // Base64 encoded?
             if (encoding.equals(BASE64_ENCODING_MARKER)) {
@@ -235,7 +235,7 @@ final class MimeUtils {
                 throw new UnsupportedEncodingException("Unknown RFC 2047 encoding: " + encoding);
             }
             // get the decoded byte data and convert into a string.
-            final byte[] decodedData = out.toByteArray();
+            final var decodedData = out.toByteArray();
             return new String(decodedData, javaCharset(charset));
         } catch (final IOException e) {
             throw new UnsupportedEncodingException("Invalid RFC 2047 encoding");
@@ -254,7 +254,7 @@ final class MimeUtils {
         if (charset == null) {
             return null;
         }
-        final String mappedCharset = MIME2JAVA.get(charset.toLowerCase(Locale.ENGLISH));
+        final var mappedCharset = MIME2JAVA.get(charset.toLowerCase(Locale.ENGLISH));
         // if there is no mapping, then the original name is used. Many of the MIME character set
         // names map directly back into Java. The reverse isn't necessarily true.
         return mappedCharset == null ? charset : mappedCharset;

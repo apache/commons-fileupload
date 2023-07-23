@@ -258,7 +258,7 @@ public final class MultipartInput {
                 input.close();
             } else {
                 for (;;) {
-                    int av = available();
+                    var av = available();
                     if (av == 0) {
                         av = makeAvailable();
                         if (av == 0) {
@@ -318,12 +318,12 @@ public final class MultipartInput {
             tail = pad;
 
             for (;;) {
-                final int bytesRead = input.read(buffer, tail, bufSize - tail);
+                final var bytesRead = input.read(buffer, tail, bufSize - tail);
                 if (bytesRead == -1) {
                     // The last pad amount is left in the buffer.
                     // Boundary can't be in there so signal an error
                     // condition.
-                    final String msg = "Stream ended unexpectedly";
+                    final var msg = "Stream ended unexpectedly";
                     throw new MalformedStreamException(msg);
                 }
                 if (notifier != null) {
@@ -332,7 +332,7 @@ public final class MultipartInput {
                 tail += bytesRead;
 
                 findSeparator();
-                final int av = available();
+                final var av = available();
 
                 if (av > 0 || pos != -1) {
                     return av;
@@ -375,7 +375,7 @@ public final class MultipartInput {
             if (len == 0) {
                 return 0;
             }
-            int res = available();
+            var res = available();
             if (res == 0) {
                 res = makeAvailable();
                 if (res == 0) {
@@ -399,14 +399,14 @@ public final class MultipartInput {
         @Override
         public long skip(final long bytes) throws IOException {
             checkOpen();
-            int av = available();
+            var av = available();
             if (av == 0) {
                 av = makeAvailable();
                 if (av == 0) {
                     return 0;
                 }
             }
-            final long res = Math.min(av, bytes);
+            final var res = Math.min(av, bytes);
             head += res;
             return res;
         }
@@ -565,7 +565,7 @@ public final class MultipartInput {
      * @return {@code true} if {@code count} first bytes in arrays {@code a} and {@code b} are equal.
      */
     static boolean arrayEquals(final byte[] a, final byte[] b, final int count) {
-        for (int i = 0; i < count; i++) {
+        for (var i = 0; i < count; i++) {
             if (a[i] != b[i]) {
                 return false;
             }
@@ -684,8 +684,8 @@ public final class MultipartInput {
      * Computes the table used for Knuth-Morris-Pratt search algorithm.
      */
     private void computeBoundaryTable() {
-        int position = 2;
-        int candidate = 0;
+        var position = 2;
+        var candidate = 0;
 
         boundaryTable[0] = -1;
         boundaryTable[1] = 0;
@@ -727,7 +727,7 @@ public final class MultipartInput {
      * @return The position of byte found, counting from beginning of the {@code buffer}, or {@code -1} if not found.
      */
     protected int findByte(final byte value, final int pos) {
-        for (int i = pos; i < tail; i++) {
+        for (var i = pos; i < tail; i++) {
             if (buffer[i] == value) {
                 return i;
             }
@@ -742,8 +742,8 @@ public final class MultipartInput {
      * @return The position of the boundary found, counting from the beginning of the {@code buffer}, or {@code -1} if not found.
      */
     protected int findSeparator() {
-        int bufferPos = this.head;
-        int tablePos = 0;
+        var bufferPos = this.head;
+        var tablePos = 0;
         while (bufferPos < this.tail) {
             while (tablePos >= 0 && buffer[bufferPos] != boundary[tablePos]) {
                 tablePos = boundaryTable[tablePos];
@@ -788,7 +788,7 @@ public final class MultipartInput {
      * @throws IOException              if an i/o error occurs.
      */
     public long readBodyData(final OutputStream output) throws MalformedStreamException, IOException {
-        try (ItemInputStream inputStream = newInputStream()) {
+        try (var inputStream = newInputStream()) {
             return IOUtils.copyLarge(inputStream, output);
         }
     }
@@ -801,7 +801,7 @@ public final class MultipartInput {
      * @throws MalformedStreamException if the stream ends unexpectedly or fails to follow required syntax.
      */
     public boolean readBoundary() throws FileUploadSizeException, MalformedStreamException {
-        final byte[] marker = new byte[2];
+        final var marker = new byte[2];
         final boolean nextChunk;
         head += boundaryLength;
         try {
@@ -866,11 +866,11 @@ public final class MultipartInput {
      * @throws MalformedStreamException if the stream ends unexpectedly.
      */
     public String readHeaders() throws FileUploadSizeException, MalformedStreamException {
-        int i = 0;
+        var i = 0;
         byte b;
         // to support multi-byte characters
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int size = 0;
+        final var baos = new ByteArrayOutputStream();
+        var size = 0;
         while (i < HEADER_SEPARATOR.length) {
             try {
                 b = readByte();

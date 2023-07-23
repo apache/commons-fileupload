@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 
 import javax.portlet.ActionRequest;
 
@@ -47,7 +46,7 @@ public class JavaxPortletFileUploadTest
     @Test
     public void parseParameterMap() throws Exception {
         // @formatter:off
-        final String text = "-----1234\r\n" +
+        final var text = "-----1234\r\n" +
                       "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                       "Content-Type: text/whatever\r\n" +
                       "\r\n" +
@@ -67,10 +66,10 @@ public class JavaxPortletFileUploadTest
                       "value2\r\n" +
                       "-----1234--\r\n";
         // @formatter:on
-        final byte[] bytes = text.getBytes(StandardCharsets.US_ASCII);
+        final var bytes = text.getBytes(StandardCharsets.US_ASCII);
         final ActionRequest request = new JavaxPortletMockActionRequest(bytes, Constants.CONTENT_TYPE);
 
-        final Map<String, List<DiskFileItem>> mappedParameters = upload.parseParameterMap(request);
+        final var mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
 

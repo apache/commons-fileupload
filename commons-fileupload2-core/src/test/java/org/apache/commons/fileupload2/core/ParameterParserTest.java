@@ -19,8 +19,6 @@ package org.apache.commons.fileupload2.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,19 +28,19 @@ public class ParameterParserTest {
 
     @Test
     public void testContentTypeParsing() {
-        final String s = "text/plain; Charset=UTF-8";
-        final ParameterParser parser = new ParameterParser();
+        final var s = "text/plain; Charset=UTF-8";
+        final var parser = new ParameterParser();
         parser.setLowerCaseNames(true);
-        final Map<String, String> params = parser.parse(s, ';');
+        final var params = parser.parse(s, ';');
         assertEquals("UTF-8", params.get("charset"));
     }
 
     // See: https://issues.apache.org/jira/browse/FILEUPLOAD-139
     @Test
     public void testFileUpload139() {
-        final ParameterParser parser = new ParameterParser();
-        String s = "Content-type: multipart/form-data , boundary=AaB03x";
-        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        final var parser = new ParameterParser();
+        var s = "Content-type: multipart/form-data , boundary=AaB03x";
+        var params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("AaB03x", params.get("boundary"));
 
         s = "Content-type: multipart/form-data, boundary=AaB03x";
@@ -59,10 +57,10 @@ public class ParameterParserTest {
      */
     @Test
     public void testFileUpload199() {
-        final ParameterParser parser = new ParameterParser();
-        final String s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-"
+        final var parser = new ParameterParser();
+        final var s = "Content-Disposition: form-data; name=\"file\"; filename=\"=?ISO-8859-"
                 + "1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
-        final Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        final var params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("If you can read this you understand the example.", params.get("filename"));
     }
 
@@ -71,11 +69,11 @@ public class ParameterParserTest {
      */
     @Test
     public void testFileUpload274() {
-        final ParameterParser parser = new ParameterParser();
+        final var parser = new ParameterParser();
 
         // Should parse a UTF-8 charset
-        String s = "Content-Disposition: form-data; " + "name=\"file\"; filename*=UTF-8''%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";
-        Map<String, String> params = parser.parse(s, new char[] { ',', ';' });
+        var s = "Content-Disposition: form-data; " + "name=\"file\"; filename*=UTF-8''%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";
+        var params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("\u3053\u3093\u306B\u3061\u306F", params.get("filename")); // filename = "こんにちは" in japanese
 
         // Should parse ISO-8859-1 charset
@@ -101,9 +99,9 @@ public class ParameterParserTest {
 
     @Test
     public void testParsing() {
-        String s = "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
-        final ParameterParser parser = new ParameterParser();
-        Map<String, String> params = parser.parse(s, ';');
+        var s = "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
+        final var parser = new ParameterParser();
+        var params = parser.parse(s, ';');
         assertNull(params.get("test"));
         assertEquals("stuff", params.get("test1"));
         assertEquals("stuff; stuff", params.get("test2"));
@@ -137,9 +135,9 @@ public class ParameterParserTest {
 
     @Test
     public void testParsingEscapedChars() {
-        String s = "param = \"stuff\\\"; more stuff\"";
-        final ParameterParser parser = new ParameterParser();
-        Map<String, String> params = parser.parse(s, ';');
+        var s = "param = \"stuff\\\"; more stuff\"";
+        final var parser = new ParameterParser();
+        var params = parser.parse(s, ';');
         assertEquals(1, params.size());
         assertEquals("stuff\\\"; more stuff", params.get("param"));
 

@@ -17,8 +17,6 @@
 package org.apache.commons.fileupload2.core;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -114,7 +112,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      * @return {@code true} if the request is multipart; {@code false} otherwise.
      */
     public static final boolean isMultipartContent(final RequestContext ctx) {
-        final String contentType = ctx.getContentType();
+        final var contentType = ctx.getContentType();
         if (contentType == null) {
             return false;
         }
@@ -158,11 +156,11 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      * @return The boundary, as a byte array.
      */
     public byte[] getBoundary(final String contentType) {
-        final ParameterParser parser = new ParameterParser();
+        final var parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
-        final Map<String, String> params = parser.parse(contentType, new char[] { ';', ',' });
-        final String boundaryStr = params.get(BOUNDARY_KEY);
+        final var params = parser.parse(contentType, new char[] { ';', ',' });
+        final var boundaryStr = params.get(BOUNDARY_KEY);
         return boundaryStr != null ? boundaryStr.getBytes(StandardCharsets.ISO_8859_1) : null;
     }
 
@@ -185,10 +183,10 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     private String getFieldName(final String contentDisposition) {
         String fieldName = null;
         if (contentDisposition != null && contentDisposition.toLowerCase(Locale.ENGLISH).startsWith(FORM_DATA)) {
-            final ParameterParser parser = new ParameterParser();
+            final var parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
-            final Map<String, String> params = parser.parse(contentDisposition, ';');
+            final var params = parser.parse(contentDisposition, ';');
             fieldName = params.get(NAME_KEY);
             if (fieldName != null) {
                 fieldName = fieldName.trim();
@@ -235,12 +233,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     private String getFileName(final String contentDisposition) {
         String fileName = null;
         if (contentDisposition != null) {
-            final String cdl = contentDisposition.toLowerCase(Locale.ENGLISH);
+            final var cdl = contentDisposition.toLowerCase(Locale.ENGLISH);
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
-                final ParameterParser parser = new ParameterParser();
+                final var parser = new ParameterParser();
                 parser.setLowerCaseNames(true);
                 // Parameter parser can handle null input
-                final Map<String, String> params = parser.parse(contentDisposition, ';');
+                final var params = parser.parse(contentDisposition, ';');
                 if (params.containsKey(FILENAME_KEY)) {
                     fileName = params.get(FILENAME_KEY);
                     if (fileName != null) {
@@ -311,20 +309,20 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      * @return A {@code Map} containing the parsed HTTP request headers.
      */
     public FileItemHeaders getParsedHeaders(final String headerPart) {
-        final int len = headerPart.length();
-        final FileItemHeaders headers = newFileItemHeaders();
-        int start = 0;
+        final var len = headerPart.length();
+        final var headers = newFileItemHeaders();
+        var start = 0;
         for (;;) {
-            int end = parseEndOfLine(headerPart, start);
+            var end = parseEndOfLine(headerPart, start);
             if (start == end) {
                 break;
             }
-            final StringBuilder header = new StringBuilder(headerPart.substring(start, end));
+            final var header = new StringBuilder(headerPart.substring(start, end));
             start = end + 2;
             while (start < len) {
-                int nonWs = start;
+                var nonWs = start;
                 while (nonWs < len) {
-                    final char c = headerPart.charAt(nonWs);
+                    final var c = headerPart.charAt(nonWs);
                     if (c != ' ' && c != '\t') {
                         break;
                     }
@@ -380,9 +378,9 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      * @return Index of the \r\n sequence, which indicates end of line.
      */
     private int parseEndOfLine(final String headerPart, final int end) {
-        int index = end;
+        var index = end;
         for (;;) {
-            final int offset = headerPart.indexOf('\r', index);
+            final var offset = headerPart.indexOf('\r', index);
             if (offset == -1 || offset + 1 >= headerPart.length()) {
                 throw new IllegalStateException("Expected headers to be terminated by an empty line.");
             }
@@ -400,13 +398,13 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      * @param header  Map where to store the current header.
      */
     private void parseHeaderLine(final FileItemHeaders headers, final String header) {
-        final int colonOffset = header.indexOf(':');
+        final var colonOffset = header.indexOf(':');
         if (colonOffset == -1) {
             // This header line is malformed, skip it.
             return;
         }
-        final String headerName = header.substring(0, colonOffset).trim();
-        final String headerValue = header.substring(colonOffset + 1).trim();
+        final var headerName = header.substring(0, colonOffset).trim();
+        final var headerValue = header.substring(colonOffset + 1).trim();
         headers.addHeader(headerName, headerValue);
     }
 
@@ -427,12 +425,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
     public Map<String, List<I>> parseParameterMap(final RequestContext ctx) throws FileUploadException {
-        final List<I> items = parseRequest(ctx);
+        final var items = parseRequest(ctx);
         final Map<String, List<I>> itemsMap = new HashMap<>(items.size());
 
         for (final I fileItem : items) {
-            final String fieldName = fileItem.getFieldName();
-            final List<I> mappedItems = itemsMap.computeIfAbsent(fieldName, k -> new ArrayList<>());
+            final var fieldName = fileItem.getFieldName();
+            final var mappedItems = itemsMap.computeIfAbsent(fieldName, k -> new ArrayList<>());
             mappedItems.add(fileItem);
         }
 
@@ -457,10 +455,10 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      */
     public List<I> parseRequest(final RequestContext requestContext) throws FileUploadException {
         final List<I> itemList = new ArrayList<>();
-        boolean successful = false;
+        var successful = false;
         try {
-            final F fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
-            final byte[] buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
+            final var fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
+            final var buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             getItemIterator(requestContext).forEachRemaining(fileItemInput -> {
                 if (itemList.size() == fileCountMax) {
                     // The next item will exceed the limit.
@@ -468,7 +466,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
                 }
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 // @formatter:off
-                final I fileItem = fileItemFactory.fileItemBuilder()
+                final var fileItem = fileItemFactory.fileItemBuilder()
                     .setFieldName(fileItemInput.getFieldName())
                     .setContentType(fileItemInput.getContentType())
                     .setFormField(fileItemInput.isFormField())
@@ -477,8 +475,8 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
                     .get();
                 // @formatter:on
                 itemList.add(fileItem);
-                try (InputStream inputStream = fileItemInput.getInputStream();
-                        OutputStream outputStream = fileItem.getOutputStream()) {
+                try (var inputStream = fileItemInput.getInputStream();
+                        var outputStream = fileItem.getOutputStream()) {
                     IOUtils.copyLarge(inputStream, outputStream, buffer);
                 } catch (final FileUploadException e) {
                     throw e;

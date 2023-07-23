@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -60,17 +59,17 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
     protected abstract F newDiskFileItemFactory();
 
     protected byte[] newRequest() throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (final OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII)) {
-            int add = 16;
-            int num = 0;
-            for (int i = 0; i < 16384; i += add) {
+        final var baos = new ByteArrayOutputStream();
+        try (final var osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII)) {
+            var add = 16;
+            var num = 0;
+            for (var i = 0; i < 16384; i += add) {
                 if (++add == 32) {
                     add = 16;
                 }
                 osw.write(getHeader("field" + (num++)));
                 osw.flush();
-                for (int j = 0; j < i; j++) {
+                for (var j = 0; j < i; j++) {
                     baos.write((byte) j);
                 }
                 osw.write("\r\n");
@@ -83,8 +82,8 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
     protected abstract C newServletRequestContext(final R request);
 
     protected byte[] newShortRequest() throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (final OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII)) {
+        final var baos = new ByteArrayOutputStream();
+        try (final var osw = new OutputStreamWriter(baos, StandardCharsets.US_ASCII)) {
             osw.write(getHeader("field"));
             osw.write("123");
             osw.write("\r\n");
@@ -98,21 +97,21 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
     }
 
     protected List<I> parseUpload(final InputStream inputStream, final int length) throws FileUploadException {
-        final String contentType = "multipart/form-data; boundary=---1234";
+        final var contentType = "multipart/form-data; boundary=---1234";
 
-        final AFU upload = newFileUpload();
+        final var upload = newFileUpload();
         upload.setFileItemFactory(newDiskFileItemFactory());
-        final R request = newMockHttpServletRequest(inputStream, length, contentType, -1);
+        final var request = newMockHttpServletRequest(inputStream, length, contentType, -1);
 
         return upload.parseRequest(newServletRequestContext(request));
     }
 
     protected FileItemInputIterator parseUpload(final int length, final InputStream inputStream) throws FileUploadException, IOException {
-        final String contentType = "multipart/form-data; boundary=---1234";
+        final var contentType = "multipart/form-data; boundary=---1234";
 
-        final AFU upload = newFileUpload();
+        final var upload = newFileUpload();
         upload.setFileItemFactory(newDiskFileItemFactory());
-        final R request = newMockHttpServletRequest(inputStream, length, contentType, -1);
+        final var request = newMockHttpServletRequest(inputStream, length, contentType, -1);
 
         return upload.getItemIterator(newServletRequestContext(request));
     }
@@ -124,20 +123,20 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      */
     @Test
     public void testFileUpload() throws IOException {
-        final byte[] request = newRequest();
-        final List<I> fileItems = parseUpload(request);
-        final Iterator<I> fileIter = fileItems.iterator();
-        int add = 16;
-        int num = 0;
-        for (int i = 0; i < 16384; i += add) {
+        final var request = newRequest();
+        final var fileItems = parseUpload(request);
+        final var fileIter = fileItems.iterator();
+        var add = 16;
+        var num = 0;
+        for (var i = 0; i < 16384; i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            final I item = fileIter.next();
+            final var item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
-            final byte[] bytes = item.get();
+            final var bytes = item.get();
             assertEquals(i, bytes.length);
-            for (int j = 0; j < i; j++) {
+            for (var j = 0; j < i; j++) {
                 assertEquals((byte) j, bytes[j]);
             }
         }
@@ -151,9 +150,9 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      */
     @Test
     public void testFILEUPLOAD135() throws IOException {
-        final byte[] request = newShortRequest();
-        final ByteArrayInputStream bais = new ByteArrayInputStream(request);
-        final List<I> fileItems = parseUpload(new InputStream() {
+        final var request = newShortRequest();
+        final var bais = new ByteArrayInputStream(request);
+        final var fileItems = parseUpload(new InputStream() {
             @Override
             public int read() throws IOException {
                 return bais.read();
@@ -165,11 +164,11 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
             }
 
         }, request.length);
-        final Iterator<I> fileIter = fileItems.iterator();
+        final var fileIter = fileItems.iterator();
         assertTrue(fileIter.hasNext());
-        final I item = fileIter.next();
+        final var item = fileIter.next();
         assertEquals("field", item.getFieldName());
-        final byte[] bytes = item.get();
+        final var bytes = item.get();
         assertEquals(3, bytes.length);
         assertEquals((byte) '1', bytes[0]);
         assertEquals((byte) '2', bytes[1]);
@@ -184,8 +183,8 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      */
     @Test
     public void testFileUploadException() throws IOException {
-        final byte[] request = newRequest();
-        final byte[] invalidRequest = new byte[request.length - 11];
+        final var request = newRequest();
+        final var invalidRequest = new byte[request.length - 11];
         System.arraycopy(request, 0, invalidRequest, 0, request.length - 11);
         try {
             parseUpload(invalidRequest);
@@ -202,9 +201,9 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      */
     @Test
     public void testInvalidFileNameException() throws IOException {
-        final String fileName = "foo.exe\u0000.png";
+        final var fileName = "foo.exe\u0000.png";
         // @formatter:off
-        final String request =
+        final var request =
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\n" +
             "Content-Type: text/whatever\r\n" +
@@ -225,10 +224,10 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
             "value2\r\n" +
             "-----1234--\r\n";
         // @formatter:on
-        final byte[] reqBytes = request.getBytes(StandardCharsets.US_ASCII);
+        final var reqBytes = request.getBytes(StandardCharsets.US_ASCII);
 
-        final FileItemInputIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
-        final FileItemInput fileItemInput = fileItemIter.next();
+        final var fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
+        final var fileItemInput = fileItemIter.next();
         try {
             fileItemInput.getName();
             fail("Expected exception");
@@ -257,7 +256,7 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      */
     @Test
     public void testIOException() throws IOException {
-        final byte[] request = newRequest();
+        final var request = newRequest();
         final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)) {
             private int num;
 
@@ -271,8 +270,8 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
 
             @Override
             public int read(final byte[] buffer, final int offset, final int length) throws IOException {
-                for (int i = 0; i < length; i++) {
-                    final int res = read();
+                for (var i = 0; i < length; i++) {
+                    final var res = read();
                     if (res == -1) {
                         return i == 0 ? -1 : i;
                     }

@@ -32,24 +32,24 @@ import org.junit.jupiter.api.Test;
 public final class QuotedPrintableDecoderTestCase {
 
     private static void assertEncoded(final String clearText, final String encoded) throws Exception {
-        final byte[] expected = clearText.getBytes(StandardCharsets.US_ASCII);
+        final var expected = clearText.getBytes(StandardCharsets.US_ASCII);
 
-        final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        final byte[] encodedData = encoded.getBytes(StandardCharsets.US_ASCII);
+        final var out = new ByteArrayOutputStream(encoded.length());
+        final var encodedData = encoded.getBytes(StandardCharsets.US_ASCII);
         QuotedPrintableDecoder.decode(encodedData, out);
-        final byte[] actual = out.toByteArray();
+        final var actual = out.toByteArray();
 
         assertArrayEquals(expected, actual);
     }
 
     private static void assertIOException(final String messageText, final String encoded) {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        final byte[] encodedData = encoded.getBytes(StandardCharsets.US_ASCII);
+        final var out = new ByteArrayOutputStream(encoded.length());
+        final var encodedData = encoded.getBytes(StandardCharsets.US_ASCII);
         try {
             QuotedPrintableDecoder.decode(encodedData, out);
             fail("Expected IOException");
         } catch (final IOException e) {
-            final String em = e.getMessage();
+            final var em = e.getMessage();
             assertTrue(em.contains(messageText), "Expected to find " + messageText + " in '" + em + "'");
         }
     }
