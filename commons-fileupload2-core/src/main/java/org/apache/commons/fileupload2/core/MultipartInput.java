@@ -399,14 +399,14 @@ public final class MultipartInput {
         @Override
         public long skip(final long bytes) throws IOException {
             checkOpen();
-            var av = available();
-            if (av == 0) {
-                av = makeAvailable();
-                if (av == 0) {
+            var available = available();
+            if (available == 0) {
+                available = makeAvailable();
+                if (available == 0) {
                     return 0;
                 }
             }
-            final var res = Math.min(av, bytes);
+            final var res = Math.min(available, bytes);
             head += res;
             return res;
         }
