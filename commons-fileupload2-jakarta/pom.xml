@@ -26,6 +26,7 @@
   </parent>
 
   <artifactId>commons-fileupload2-jakarta</artifactId>
+  <version>3.0.0-SNAPSHOT</version>
 
   <name>Apache Commons FileUpload Jakarta</name>
   <description>
@@ -34,8 +35,21 @@
   </description>
 
   <properties>
-	<commons.parent.dir>${basedir}/..</commons.parent.dir>
+    <commons.parent.dir>${basedir}/..</commons.parent.dir>
 	<commons.module.name>org.apache.commons.fileupload2.jakarta</commons.module.name>
+
+	<!-- Override properties for the OSGi maven-bundle-plugin to generate proper manifest -->
+    <commons.osgi.symbolicName>org.apache.commons.${commons.packageId}</commons.osgi.symbolicName>
+    <commons.osgi.export>org.apache.commons.*;version=${project.version}</commons.osgi.export>
+    <commons.osgi.export>*;version=${project.version}</commons.osgi.export>
+    <commons.osgi.import>*</commons.osgi.import>
+    <commons.osgi.dynamicImport />
+    <commons.osgi.private />
+    <!-- setting to true has a side effect of removing version information from 'Import-Package' manifest headers, which is incorrect -->
+    <commons.osgi.excludeDependencies>false</commons.osgi.excludeDependencies>
+
+    <!-- Override link to Jakarta EE -->
+    <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/10/apidocs/</commons.javadoc.javaee.link>
   </properties>
 
   <dependencies>
@@ -63,8 +77,7 @@
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
-      <!-- Version 6.0.0 requires Java 11 -->
-      <version>5.0.0</version>
+      <version>6.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -104,6 +117,23 @@
         </includes>
       </testResource>
     </testResources>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <excludeDependencies>${commons.osgi.excludeDependencies}</excludeDependencies>
+          <instructions>
+            <Require-Capability>
+                osgi.contract;filter:="(&amp;(osgi.contract=JakartaServlet)(version=6.0))"
+            </Require-Capability>
+            <_noimportjava>true</_noimportjava>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+        
   </build>
   
 </project>

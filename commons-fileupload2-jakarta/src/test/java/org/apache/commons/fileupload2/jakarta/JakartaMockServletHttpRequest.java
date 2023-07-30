@@ -33,6 +33,7 @@ import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -393,11 +394,6 @@ public class JakartaMockServletHttpRequest implements HttpServletRequest {
         return null;
     }
 
-    @Override
-    public String getRealPath(final String path) {
-        return null;
-    }
-
     /**
      * @see ServletRequest#getRemoteAddr()
      */
@@ -551,16 +547,6 @@ public class JakartaMockServletHttpRequest implements HttpServletRequest {
     }
 
     /**
-     * @see HttpServletRequest#isRequestedSessionIdFromUrl()
-     * @deprecated
-     */
-    @Override
-    @Deprecated
-    public boolean isRequestedSessionIdFromUrl() {
-        return false;
-    }
-
-    /**
      * @see HttpServletRequest#isRequestedSessionIdFromURL()
      */
     @Override
@@ -654,8 +640,8 @@ public class JakartaMockServletHttpRequest implements HttpServletRequest {
         throw new IllegalStateException("Not implemented");
     }
 
-//    @Override
-//    public ServletConnection getServletConnection() {
-//        throw new IllegalStateException("Not implemented 6.0.0");
-//    }
+    @Override
+    public ServletConnection getServletConnection() {
+        throw new IllegalStateException("Not implemented");
+    }
 }

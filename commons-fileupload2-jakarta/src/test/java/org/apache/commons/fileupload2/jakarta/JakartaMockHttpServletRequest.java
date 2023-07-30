@@ -34,6 +34,7 @@ import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -395,16 +396,6 @@ public class JakartaMockHttpServletRequest implements HttpServletRequest {
     }
 
     /**
-     * @see ServletRequest#getRealPath(String)
-     * @deprecated
-     */
-    @Override
-    @Deprecated
-    public String getRealPath(final String arg0) {
-        return null;
-    }
-
-    /**
      * @see ServletRequest#getRemoteAddr()
      */
     @Override
@@ -549,16 +540,6 @@ public class JakartaMockHttpServletRequest implements HttpServletRequest {
     }
 
     /**
-     * @see HttpServletRequest#isRequestedSessionIdFromUrl()
-     * @deprecated
-     */
-    @Override
-    @Deprecated
-    public boolean isRequestedSessionIdFromUrl() {
-        return false;
-    }
-
-    /**
      * @see HttpServletRequest#isRequestedSessionIdFromURL()
      */
     @Override
@@ -636,4 +617,18 @@ public class JakartaMockHttpServletRequest implements HttpServletRequest {
         return null;
     }
 
+    @Override
+    public String getRequestId() {
+        return null;
+    }
+
+    @Override
+    public String getProtocolRequestId() {
+        return null;
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
+        return null;
+    }
 }
