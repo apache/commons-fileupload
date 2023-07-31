@@ -39,10 +39,11 @@
       <item name="Issue Tracking"           href="./issue-tracking.html" />
     </menu>
     <menu name="Modules">
-      <item name="FileUpload Core"          href="commons-fileupload2-core/index.html" />
-      <item name="FileUpload Jakarta"       href="commons-fileupload2-jakarta/index.html" />
-      <item name="FileUpload Javax"         href="commons-fileupload2-javax/index.html" />
-      <item name="FileUpload Portlet"       href="commons-fileupload2-portlet/index.html" />
+      <item name="FileUpload Core"              href="commons-fileupload2-core/index.html" />
+      <item name="FileUpload Jakarta Servlet 5" href="commons-fileupload2-jakarta-servlet5/index.html" />
+      <item name="FileUpload Jakarta Servlet 6" href="commons-fileupload2-jakarta-servlet6/index.html" />
+      <item name="FileUpload Javax"             href="commons-fileupload2-javax/index.html" />
+      <item name="FileUpload Portlet"           href="commons-fileupload2-portlet/index.html" />
     </menu>
   </body>
 

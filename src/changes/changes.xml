@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
     <release version="2.0.0-M2" date="2023-MM-DD" description="2.0.0-M2 Release">
       <!-- FIX -->
       <!-- ADD -->
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Refactor to support Jakarta Servlet 5 and 6.</action>
       <!-- UDPATE -->
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump Java from 8 to 11.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-parent from 58 to 59.</action>

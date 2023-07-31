@@ -33,13 +33,15 @@ Migrating
    
    [[2]] Add one or more these dependencies with the <<<groupId>>> <<org.apache.commons>>, and set the <<<artifactId>>> to:
    
-        [[A]] <<commons-fileupload2-jakarta>> to use Jakarta servlets.
+        [[A]] <<commons-fileupload2-jakarta-serverl5>> to use Jakarta Servlets 5.
         
-        [[B]] <<commons-fileupload2-javax>> to use Javax servlets.
+        [[B]] <<commons-fileupload2-jakarta-serverl6>> to use Jakarta Servlets 6.
+        
+        [[C]] <<commons-fileupload2-javax>> to use Javax Servlets.
 
-        [[C]] <<commons-fileupload2-portlet>> to use Javax portlets.
+        [[D]] <<commons-fileupload2-portlet>> to use Javax Portlets.
         
-        [[D]] All of the above automatically depends on <<commons-fileupload2-core>>.
+        [[E]] All of the above automatically depends on <<commons-fileupload2-core>>.
 
    [[3]] The dependency version is <<${project.version}>>
 
@@ -54,7 +56,13 @@ Migrating
       to:
 
 +-------------------------------------------
-   import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
+   import org.apache.commons.fileupload2.jakarta.servlet5.JakartaServletFileUpload;
++-------------------------------------------
+
+      or:
+
++-------------------------------------------
+   import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
 +-------------------------------------------
 
       or:
@@ -95,18 +103,28 @@ Migrating
   [[2]] Replace the classes from <<org.apache.commons.fileupload.servlet>> to either
         <<org.apache.commons.fileupload2.jakarta>> or <<org.apache.commons.fileupload2.javax>>.
  
-*------------------------------------------------------------- *---------------------------------------------------------------------*
-| <<Version 1 Name>>                                           | <<Version 2 Jakarta Name>>                                          |
-*------------------------------------------------------------- *---------------------------------------------------------------------*
-| org.apache.commons.fileupload.servlet.ServletFileUpload      | org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload     |
-*------------------------------------------------------------- *---------------------------------------------------------------------*
-| org.apache.commons.fileupload.servlet.ServletRequestContext  | org.apache.commons.fileupload2.jakarta.JakartaServletRequestContext |
-*--------------------------------------------------------------*---------------------------------------------------------------------*
-| org.apache.commons.fileupload2.servlet.FileCleanerCleanup    | org.apache.commons.fileupload2.jakarta.JakartaServletFileCleaner    |
-*--------------------------------------------------------------*---------------------------------------------------------------------*
+*------------------------------------------------------------- *------------------------------------------------------------------------------*
+| <<Version 1 Name>>                                           | <<Version 2 Jakarta Servlet 5 Name>>                                         |
+*------------------------------------------------------------- *------------------------------------------------------------------------------*
+| org.apache.commons.fileupload.servlet.ServletFileUpload      | org.apache.commons.fileupload2.jakarta.servlet5.JakartaServletFileUpload     |
+*------------------------------------------------------------- *------------------------------------------------------------------------------*
+| org.apache.commons.fileupload.servlet.ServletRequestContext  | org.apache.commons.fileupload2.jakarta.servlet5.JakartaServletRequestContext |
+*--------------------------------------------------------------*------------------------------------------------------------------------------*
+| org.apache.commons.fileupload2.servlet.FileCleanerCleanup    | org.apache.commons.fileupload2.jakarta.servlet5.JakartaServletFileCleaner    |
+*--------------------------------------------------------------*------------------------------------------------------------------------------*
+
+*------------------------------------------------------------- *------------------------------------------------------------------------------*
+| <<Version 1 Name>>                                           | <<Version 2 Jakarta Servlet 6 Name>>                                         |
+*------------------------------------------------------------- *------------------------------------------------------------------------------*
+| org.apache.commons.fileupload.servlet.ServletFileUpload      | org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload     |
+*------------------------------------------------------------- *------------------------------------------------------------------------------*
+| org.apache.commons.fileupload.servlet.ServletRequestContext  | org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletRequestContext |
+*--------------------------------------------------------------*------------------------------------------------------------------------------*
+| org.apache.commons.fileupload2.servlet.FileCleanerCleanup    | org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileCleaner    |
+*--------------------------------------------------------------*------------------------------------------------------------------------------*
 
 *------------------------------------------------------------- *---------------------------------------------------------------------*
-| <<Version 1 Name>>                                           | <<Version 2 Javax   Name>>                                          |
+| <<Version 1 Name>>                                           | <<Version 2 Javax  Name>>                                           |
 *------------------------------------------------------------- *---------------------------------------------------------------------*
 | org.apache.commons.fileupload.servlet.ServletFileUpload      | org.apache.commons.fileupload2.javax.JavaxServletFileUpload         |
 *------------------------------------------------------------- *---------------------------------------------------------------------*
@@ -117,7 +135,7 @@ Migrating
 
 * Example
 
-  The following example demonstrates, how to use Commons FileUpload with the Jakarta Servlet API, version 5:
+  The following example demonstrates, how to use Commons FileUpload with the Jakarta Servlet API, version 6:
 
 +-------------------------------------------
     import java.io.IOException;
@@ -128,8 +146,8 @@ Migrating
     import org.apache.commons.fileupload2.FileUpload;
     import org.apache.commons.fileupload2.FileUploadException;
     import org.apache.commons.fileupload2.DiskFileItemFactory;
-    import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
-    import org.apache.commons.fileupload2.jakarta.JakartaServletRequestContext;
+    import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
+    import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletRequestContext;
 
     import jakarta.servlet.ServletException;
     import jakarta.servlet.http.HttpServlet;

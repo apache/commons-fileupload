@@ -105,33 +105,63 @@ limitations under the License.
           <version>${project.version}</version>
           <classifier>test-sources</classifier>
         </dependency>
-		<!-- commons-fileupload2-jakarta -->
+		<!-- commons-fileupload2-jakarta-servlet5 -->
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-fileupload2-jakarta</artifactId>
+          <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
           <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-fileupload2-jakarta</artifactId>
+          <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
           <version>${project.version}</version>
           <classifier>sources</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-fileupload2-jakarta</artifactId>
+          <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-fileupload2-jakarta</artifactId>
+          <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
           <version>${project.version}</version>
           <classifier>tests</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-fileupload2-jakarta</artifactId>
+          <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
+          <version>${project.version}</version>
+          <classifier>test-sources</classifier>
+        </dependency>
+		<!-- commons-fileupload2-jakarta-servlet6 -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+          <version>${project.version}</version>
+          <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
           <version>${project.version}</version>
           <classifier>test-sources</classifier>
         </dependency>

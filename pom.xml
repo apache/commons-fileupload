@@ -448,7 +448,8 @@
   </profiles>
   <modules>
 	<module>commons-fileupload2-core</module>
-	<module>commons-fileupload2-jakarta</module>
+	<module>commons-fileupload2-jakarta-servlet5</module>
+	<module>commons-fileupload2-jakarta-servlet6</module>
 	<module>commons-fileupload2-javax</module>
 	<module>commons-fileupload2-portlet</module>
 	<module>commons-fileupload2-distribution</module>
