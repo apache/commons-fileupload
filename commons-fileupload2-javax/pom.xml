@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-fileupload2</artifactId>
-    <version>2.0.0-M2-SNAPSHOT</version>
+    <version>2.0.0-M3-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -36,18 +36,22 @@
   <properties>
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
 	<commons.module.name>org.apache.commons.fileupload2.javax</commons.module.name>
+
+	<!-- Override properties for the OSGi maven-bundle-plugin to generate proper manifest -->
+    <commons.osgi.import>javax.servlet.*;version=${commons.servlet-api.version},*</commons.osgi.import>
+    <commons.osgi.requireCapability>osgi.contract;filter:="(&amp;(osgi.contract=JavaServlet)(version=${commons.servlet-api.version}))"</commons.osgi.requireCapability>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-fileupload2-core</artifactId>
-      <version>2.0.0-M2-SNAPSHOT</version>
+      <version>2.0.0-M3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-fileupload2-core</artifactId>
-      <version>2.0.0-M2-SNAPSHOT</version>
+      <version>2.0.0-M3-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>

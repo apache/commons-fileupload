@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-fileupload2</artifactId>
-    <version>2.0.0-M2-SNAPSHOT</version>
+    <version>2.0.0-M3-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -35,19 +35,25 @@
 
   <properties>
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
-	<commons.module.name>org.apache.commons.fileupload2.jakarta.servlet6.servlet6.servlet6</commons.module.name>
+	<commons.module.name>org.apache.commons.fileupload2.jakarta.servlet6</commons.module.name>
+
+	<!-- Override properties for the OSGi maven-bundle-plugin to generate proper manifest -->
+    <commons.osgi.requireCapability>osgi.contract;filter:="(&amp;(osgi.contract=JakartaServlet)(version=6.0))"</commons.osgi.requireCapability>
+
+    <!-- Override link to Jakarta EE -->
+    <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/10/apidocs/</commons.javadoc.javaee.link>	
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-fileupload2-core</artifactId>
-      <version>2.0.0-M2-SNAPSHOT</version>
+      <version>2.0.0-M3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-fileupload2-core</artifactId>
-      <version>2.0.0-M2-SNAPSHOT</version>
+      <version>2.0.0-M3-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>

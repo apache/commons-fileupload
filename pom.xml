@@ -25,7 +25,7 @@
   </parent>
 
   <artifactId>commons-fileupload2</artifactId>
-  <version>2.0.0-M2-SNAPSHOT</version>
+  <version>2.0.0-M3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache Commons FileUpload</name>
@@ -229,7 +229,7 @@
 	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload2</commons.module.name>
-    <commons.release.version>2.0.0-M2</commons.release.version>
+    <commons.release.version>2.0.0-M3</commons.release.version>
     <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 8 or later</commons.release.desc>
 
     <commons.release.2.version>1.5</commons.release.2.version>
@@ -244,9 +244,10 @@
     <commons.siteOutputDirectory>${basedir}/target/site</commons.siteOutputDirectory>
     <commons.releaseNotesLocation>${commons.parent.dir}/RELEASE-NOTES.txt</commons.releaseNotesLocation>
 
-    <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version};-noimport:=true</commons.osgi.export>
-    <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
-    <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
+    <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version}</commons.osgi.export>
+    <!-- setting to true has a side effect of removing version information from 'Import-Package' manifest headers, which is incorrect -->
+    <commons.osgi.excludeDependencies>false</commons.osgi.excludeDependencies>
+
     <commons.servlet-api.version>2.5</commons.servlet-api.version>
     <commons.io.version>2.13.0</commons.io.version>
     <commons.lang3.version>3.13.0</commons.lang3.version>
@@ -323,6 +324,16 @@
           <artifactId>spotbugs-maven-plugin</artifactId>
           <configuration>
             <excludeFilterFile>${commons.parent.dir}/spotbugs-exclude-filter.xml</excludeFilterFile>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <configuration>
+            <excludeDependencies>${commons.osgi.excludeDependencies}</excludeDependencies>
+            <instructions>
+              <Require-Capability>${commons.osgi.requireCapability}</Require-Capability>
+            </instructions>
           </configuration>
         </plugin>
       </plugins>
