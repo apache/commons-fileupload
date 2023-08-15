@@ -46,13 +46,16 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
      */
     @Test
     public void testFileSizeLimit() throws IOException {
+        var content = "This is the content of the file\n";
+        var contentSize = content.getBytes().length;
+
         // @formatter:off
         final var request =
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" +
             "\r\n" +
-            "This is the content of the file\n" +
+            content +
             "\r\n" +
             "-----1234--\r\n";
         // @formatter:on
@@ -63,7 +66,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         var fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         var item = fileItems.get(0);
-        assertEquals("This is the content of the file\n", new String(item.get()));
+        assertEquals(content, new String(item.get()));
 
         upload = newFileUpload();
         upload.setFileSizeMax(40);
@@ -71,7 +74,25 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
         item = fileItems.get(0);
-        assertEquals("This is the content of the file\n", new String(item.get()));
+        assertEquals(content, new String(item.get()));
+
+        upload = newFileUpload();
+        upload.setFileSizeMax(contentSize);
+        req = newMockHttpServletRequest(request, null, null);
+        fileItems = upload.parseRequest(req);
+        assertEquals(1, fileItems.size());
+        item = fileItems.get(0);
+        assertEquals(content, new String(item.get()));
+
+        upload = newFileUpload();
+        upload.setFileSizeMax(contentSize - 1);
+        req = newMockHttpServletRequest(request, null, null);
+        try {
+            upload.parseRequest(req);
+            fail("Expected exception.");
+        } catch (final FileUploadByteCountLimitException e) {
+            assertEquals(contentSize - 1, e.getPermitted());
+        }
 
         upload = newFileUpload();
         upload.setFileSizeMax(30);
