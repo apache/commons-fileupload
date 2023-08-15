@@ -36,6 +36,10 @@
   <properties>
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
 	<commons.module.name>org.apache.commons.fileupload2.javax</commons.module.name>
+
+	<!-- Override properties for the OSGi maven-bundle-plugin to generate proper manifest -->
+    <commons.osgi.import>javax.servlet.*;version=${commons.servlet-api.version},*</commons.osgi.import>
+    <commons.osgi.requireCapability>osgi.contract;filter:="(&amp;(osgi.contract=JavaServlet)(version=${commons.servlet-api.version}))"</commons.osgi.requireCapability>
   </properties>
 
   <dependencies>

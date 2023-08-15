@@ -48,6 +48,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="add" due-to="James Reeves">Fix off-by-one error when checking fileSizeMax in FileItemInputImpl #235.</action>
       <!-- ADD -->
       <action                        dev="ggregory" type="add" due-to="Gary Gregory">Refactor to support Jakarta Servlet 5 and 6.</action>
+      <action                        dev="ggregory" type="add" due-to="Michal H Siemaszko, Gary Gregory">Generate some OSGi metadata.</action>
       <!-- UDPATE -->
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump Java from 8 to 11.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-parent from 58 to 59.</action>
