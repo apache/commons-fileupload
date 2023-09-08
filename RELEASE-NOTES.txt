@@ -6,8 +6,6 @@ The Apache Commons FileUpload component provides a simple yet flexible means of
 adding support for multipart file upload functionality to servlets and web
 applications. This version requires Java 8 or later.
 
-No client code changes are required to migrate from version 1.3.0 to 1.3.1.
-
 
 2.0.0-M1 Release
 
@@ -24,7 +22,7 @@ o                  Changing Maven coordinates, and package name, due to binary i
 o FILEUPLOAD-293:  DiskFileItem.write(File) had been changed to use FileUtils.moveFile internally, preventing an existing file as the target.
 o FILEUPLOAD-296:  Performance gains by reusing an internal buffer. Thanks to David Georg Reochelt.
 o FILEUPLOAD-274:  RFC 5987 compliance Thanks to Merbin J Anselm.
-o                  Slight optim: resuse the index position instead of recomputing it #49. Thanks to Emmanuel Lécharny.
+o                  Slight optim: resuse the index position instead of recomputing it #49. Thanks to Emmanuel Lï¿½charny.
 o FILEUPLOAD-340:  Make commons-fileupload2 a JPMS module by adding module-info.class.
 o FILEUPLOAD-341:  Move Exception classes out of the impl package. Thanks to Martin Grigorov.
 o                  Rework exceptions to use propagated exception causes (introduced in Java 1.4). Thanks to Gary Gregory.
@@ -107,7 +105,7 @@ Changes:
 o FILEUPLOAD-292:  Don't create un-needed resources in FileUploadBase.java
 o FILEUPLOAD-282:  Upversion complier.source, compiler.target to 1.6
 o FILEUPLOAD-246:  FileUpload should use IOUtils.closeQuietly where relevant
-o FILEUPLOAD-243:  Make some MultipartStream private fields final Thanks to Ville Skyttä.
+o FILEUPLOAD-243:  Make some MultipartStream private fields final Thanks to Ville Skyttï¿½.
 
 
 For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
