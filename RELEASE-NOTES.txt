@@ -4,7 +4,10 @@ The Apache Commons FileUpload Parent team is pleased to announce the release of 
 
 The Apache Commons FileUpload component provides a simple yet flexible means of
 adding support for multipart file upload functionality to servlets and web
-applications. This version requires Java 8 or later.
+applications. 
+
+This version requires Java 11 or later.
+Note also that the Maven coordinates have changed.
 
 
 2.0.0-M1 Release
