@@ -46,8 +46,8 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
      */
     @Test
     public void testFileSizeLimit() throws IOException {
-        var content = "This is the content of the file\n";
-        var contentSize = content.getBytes().length;
+        final var content = "This is the content of the file\n";
+        final var contentSize = content.getBytes().length;
 
         // @formatter:off
         final var request =
