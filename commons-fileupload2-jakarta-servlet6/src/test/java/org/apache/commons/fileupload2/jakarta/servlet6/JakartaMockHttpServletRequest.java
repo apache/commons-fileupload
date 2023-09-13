@@ -545,7 +545,7 @@ public class JakartaMockHttpServletRequest implements HttpServletRequest {
     public boolean isAsyncSupported() {
         return false;
     }
-    
+
     /**
      * @see HttpServletRequest#isRequestedSessionIdFromCookie()
      */

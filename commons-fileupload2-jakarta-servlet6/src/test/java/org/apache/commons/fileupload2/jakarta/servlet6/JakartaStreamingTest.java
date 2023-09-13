@@ -21,9 +21,6 @@ import java.io.InputStream;
 import org.apache.commons.fileupload2.core.AbstractStreamingTest;
 import org.apache.commons.fileupload2.core.DiskFileItem;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
-import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
-import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletRequestContext;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 /**

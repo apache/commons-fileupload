@@ -21,8 +21,6 @@ import java.io.InputStream;
 import org.apache.commons.fileupload2.core.AbstractSizesTest;
 import org.apache.commons.fileupload2.core.DiskFileItem;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
-import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletDiskFileUpload;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 /**

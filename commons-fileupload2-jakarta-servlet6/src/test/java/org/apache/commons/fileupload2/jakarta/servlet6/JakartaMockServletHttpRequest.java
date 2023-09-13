@@ -374,6 +374,7 @@ public class JakartaMockServletHttpRequest implements HttpServletRequest {
         return null;
     }
 
+    @Override
     public String getProtocolRequestId() {
         throw new IllegalStateException("Not implemented 6.0.0");
     }
@@ -443,6 +444,7 @@ public class JakartaMockServletHttpRequest implements HttpServletRequest {
         return null;
     }
 
+    @Override
     public String getRequestId() {
         throw new IllegalStateException("Not implemented 6.0.0");
     }
