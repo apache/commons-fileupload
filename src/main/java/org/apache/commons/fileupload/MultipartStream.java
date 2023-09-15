@@ -580,7 +580,7 @@ public class MultipartStream {
             baos.write(b);
         }
 
-        String headers = null;
+        String headers;
         if (headerEncoding != null) {
             try {
                 headers = baos.toString(headerEncoding);
@@ -761,7 +761,6 @@ public class MultipartStream {
          * detail message.
          */
         public MalformedStreamException() {
-            super();
         }
 
         /**
@@ -791,7 +790,6 @@ public class MultipartStream {
          * detail message.
          */
         public IllegalBoundaryException() {
-            super();
         }
 
         /**

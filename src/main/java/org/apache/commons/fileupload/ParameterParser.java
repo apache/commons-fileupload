@@ -71,7 +71,6 @@ public class ParameterParser {
      * Default ParameterParser constructor.
      */
     public ParameterParser() {
-        super();
     }
 
     /**
@@ -304,8 +303,8 @@ public class ParameterParser {
         this.pos = offset;
         this.len = length;
 
-        String paramName = null;
-        String paramValue = null;
+        String paramName;
+        String paramValue;
         while (hasChar()) {
             paramName = parseToken(new char[] {
                     '=', separator });

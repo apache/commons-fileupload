@@ -79,7 +79,6 @@ public class ServletFileUpload extends FileUpload {
      * @see FileUpload#FileUpload(FileItemFactory)
      */
     public ServletFileUpload() {
-        super();
     }
 
     /**
