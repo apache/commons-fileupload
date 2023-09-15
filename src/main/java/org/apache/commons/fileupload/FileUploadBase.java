@@ -77,10 +77,7 @@ public abstract class FileUploadBase {
         if (contentType == null) {
             return false;
         }
-        if (contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART)) {
-            return true;
-        }
-        return false;
+        return contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART);
     }
 
     /**
@@ -709,8 +706,7 @@ public abstract class FileUploadBase {
             return;
         }
         final String headerName = header.substring(0, colonOffset).trim();
-        final String headerValue =
-            header.substring(header.indexOf(':') + 1).trim();
+        final String headerValue = header.substring(colonOffset + 1).trim();
         headers.addHeader(headerName, headerValue);
     }
 

@@ -389,7 +389,6 @@ public class DiskFileItem
             try {
                 fout = new FileOutputStream(file);
                 fout.write(get());
-                fout.close();
             } finally {
                 IOUtils.closeQuietly(fout);
             }

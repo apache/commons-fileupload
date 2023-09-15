@@ -52,7 +52,6 @@ public class FileUpload
      * @see #FileUpload(FileItemFactory)
      */
     public FileUpload() {
-        super();
     }
 
     /**
@@ -63,7 +62,6 @@ public class FileUpload
      * @param fileItemFactory The factory to use for creating file items.
      */
     public FileUpload(final FileItemFactory fileItemFactory) {
-        super();
         this.fileItemFactory = fileItemFactory;
     }
 
