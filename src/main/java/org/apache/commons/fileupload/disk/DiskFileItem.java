@@ -303,7 +303,7 @@ public class DiskFileItem
             if (cachedContent == null && dfos != null) {
                 cachedContent = dfos.getData();
             }
-            return cachedContent;
+            return cachedContent != null ? cachedContent.clone() : new byte[0];
         }
 
         byte[] fileData = new byte[(int) getSize()];
@@ -350,15 +350,15 @@ public class DiskFileItem
      */
     @Override
     public String getString() {
-        final byte[] rawdata = get();
+        final byte[] rawData = get();
         String charset = getCharSet();
         if (charset == null) {
             charset = defaultCharset;
         }
         try {
-            return new String(rawdata, charset);
+            return new String(rawData, charset);
         } catch (final UnsupportedEncodingException e) {
-            return new String(rawdata);
+            return "";
         }
     }
 
