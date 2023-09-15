@@ -262,7 +262,6 @@ public abstract class FileUploadBase {
         this.fileCountMax = fileCountMax;
     }
 
-
     /**
      * Retrieves the character encoding used when reading the headers of an
      * individual part. When not specified, or {@code null}, the request
