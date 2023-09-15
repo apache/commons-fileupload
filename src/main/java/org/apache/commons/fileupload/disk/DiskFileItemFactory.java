@@ -181,7 +181,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     // --------------------------------------------------------- Public Methods
 
     /**
-     * Create a new {@link org.apache.commons.fileupload.disk.DiskFileItem}
+     * Create a new {@link DiskFileItem}
      * instance from the supplied parameters and the local factory
      * configuration.
      *

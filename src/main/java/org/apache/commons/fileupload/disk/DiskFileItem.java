@@ -436,7 +436,7 @@ public class DiskFileItem
      *
      * @return The name of the form field.
      *
-     * @see #setFieldName(java.lang.String)
+     * @see #setFieldName(String)
      *
      */
     @Override
