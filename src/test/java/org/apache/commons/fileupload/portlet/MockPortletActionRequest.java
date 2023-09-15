@@ -61,7 +61,7 @@ public class MockPortletActionRequest implements ActionRequest {
         this(new ByteArrayInputStream(requestData), requestData.length, contentType);
     }
 
-    public MockPortletActionRequest(ByteArrayInputStream byteArrayInputStream, int requestLength, String contentType) {
+    public MockPortletActionRequest(final ByteArrayInputStream byteArrayInputStream, final int requestLength, final String contentType) {
         this.requestData = byteArrayInputStream;
         length = requestLength;
         this.contentType = contentType;
@@ -69,7 +69,7 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
-    public Object getAttribute(String key) {
+    public Object getAttribute(final String key) {
         return attributes.get(key);
     }
 
@@ -99,7 +99,7 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
-    public String getParameter(String key) {
+    public String getParameter(final String key) {
         return parameters.get(key);
     }
 
@@ -114,7 +114,7 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
-    public String[] getParameterValues(String arg0) {
+    public String[] getParameterValues(final String arg0) {
         return null;
     }
 
@@ -134,7 +134,7 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
-    public PortletSession getPortletSession(boolean arg0) {
+    public PortletSession getPortletSession(final boolean arg0) {
         return null;
     }
 
@@ -144,12 +144,12 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
-    public Enumeration getProperties(String arg0) {
+    public Enumeration getProperties(final String arg0) {
         return null;
     }
 
     @Override
-    public String getProperty(String arg0) {
+    public String getProperty(final String arg0) {
         return null;
     }
 
@@ -204,7 +204,7 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
-    public boolean isPortletModeAllowed(PortletMode arg0) {
+    public boolean isPortletModeAllowed(final PortletMode arg0) {
         return false;
     }
 
@@ -219,22 +219,22 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
-    public boolean isUserInRole(String arg0) {
+    public boolean isUserInRole(final String arg0) {
         return false;
     }
 
     @Override
-    public boolean isWindowStateAllowed(WindowState arg0) {
+    public boolean isWindowStateAllowed(final WindowState arg0) {
         return false;
     }
 
     @Override
-    public void removeAttribute(String key) {
+    public void removeAttribute(final String key) {
         attributes.remove(key);
     }
 
     @Override
-    public void setAttribute(String key, Object value) {
+    public void setAttribute(final String key, final Object value) {
         attributes.put(key, value);
     }
 
@@ -264,7 +264,7 @@ public class MockPortletActionRequest implements ActionRequest {
     }
 
     @Override
-    public void setCharacterEncoding(String characterEncoding) throws UnsupportedEncodingException {
+    public void setCharacterEncoding(final String characterEncoding) throws UnsupportedEncodingException {
         this.characterEncoding = characterEncoding;
     }
 

@@ -49,7 +49,7 @@ public class PortletRequestContext implements UploadContext {
      *
      * @param request The request to which this context applies.
      */
-    public PortletRequestContext(ActionRequest request) {
+    public PortletRequestContext(final ActionRequest request) {
         this.request = request;
     }
 
@@ -99,7 +99,7 @@ public class PortletRequestContext implements UploadContext {
         long size;
         try {
             size = Long.parseLong(request.getProperty(FileUploadBase.CONTENT_LENGTH));
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             size = request.getContentLength();
         }
         return size;

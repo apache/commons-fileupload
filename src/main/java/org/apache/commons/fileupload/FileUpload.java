@@ -62,7 +62,7 @@ public class FileUpload
      * @see #FileUpload()
      * @param fileItemFactory The factory to use for creating file items.
      */
-    public FileUpload(FileItemFactory fileItemFactory) {
+    public FileUpload(final FileItemFactory fileItemFactory) {
         super();
         this.fileItemFactory = fileItemFactory;
     }
@@ -85,7 +85,7 @@ public class FileUpload
      * @param factory The factory class for new file items.
      */
     @Override
-    public void setFileItemFactory(FileItemFactory factory) {
+    public void setFileItemFactory(final FileItemFactory factory) {
         this.fileItemFactory = factory;
     }
 

@@ -31,7 +31,7 @@ final class ParseException extends Exception {
      *
      * @param message the detail message.
      */
-    ParseException(String message) {
+    ParseException(final String message) {
         super(message);
     }
 

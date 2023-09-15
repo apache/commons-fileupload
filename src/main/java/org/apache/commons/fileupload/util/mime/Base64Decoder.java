@@ -103,12 +103,12 @@ final class Base64Decoder {
      * @return the number of bytes produced.
      * @throws IOException thrown when the padding is incorrect or the input is truncated.
      */
-    public static int decode(byte[] data, OutputStream out) throws IOException {
+    public static int decode(final byte[] data, final OutputStream out) throws IOException {
         int outLen = 0;
-        byte[] cache = new byte[INPUT_BYTES_PER_CHUNK];
+        final byte[] cache = new byte[INPUT_BYTES_PER_CHUNK];
         int cachedBytes = 0;
 
-        for (byte b : data) {
+        for (final byte b : data) {
             final byte d = DECODING_TABLE[MASK_BYTE_UNSIGNED & b];
             if (d == INVALID_BYTE) {
                 continue; // Ignore invalid bytes

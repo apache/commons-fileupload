@@ -47,14 +47,14 @@ public class SizesTest {
     @Test
     public void testFileUpload()
             throws IOException, FileUploadException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int add = 16;
         int num = 0;
         for (int i = 0;  i < 16384;  i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            String header = "-----1234\r\n"
+            final String header = "-----1234\r\n"
                 + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n"
                 + "\r\n";
             baos.write(header.getBytes("US-ASCII"));
@@ -65,18 +65,18 @@ public class SizesTest {
         }
         baos.write("-----1234--\r\n".getBytes("US-ASCII"));
 
-        List<FileItem> fileItems =
+        final List<FileItem> fileItems =
                 Util.parseUpload(new ServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
-        Iterator<FileItem> fileIter = fileItems.iterator();
+        final Iterator<FileItem> fileIter = fileItems.iterator();
         add = 16;
         num = 0;
         for (int i = 0;  i < 16384;  i += add) {
             if (++add == 32) {
                 add = 16;
             }
-            FileItem item = fileIter.next();
+            final FileItem item = fileIter.next();
             assertEquals("field" + (num++), item.getFieldName());
-            byte[] bytes = item.get();
+            final byte[] bytes = item.get();
             assertEquals(i, bytes.length);
             for (int j = 0;  j < i;  j++) {
                 assertEquals((byte) j, bytes[j]);
@@ -122,7 +122,7 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (FileUploadBase.FileSizeLimitExceededException e) {
+        } catch (final FileUploadBase.FileSizeLimitExceededException e) {
             assertEquals(30, e.getPermittedSize());
         }
     }
@@ -166,7 +166,7 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (FileUploadBase.FileSizeLimitExceededException e) {
+        } catch (final FileUploadBase.FileSizeLimitExceededException e) {
             assertEquals(5, e.getPermittedSize());
         }
 
@@ -177,7 +177,7 @@ public class SizesTest {
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (FileUploadBase.FileSizeLimitExceededException e) {
+        } catch (final FileUploadBase.FileSizeLimitExceededException e) {
             assertEquals(15, e.getPermittedSize());
         }
     }
@@ -203,16 +203,16 @@ public class SizesTest {
             "\r\n" +
             "-----1234--\r\n";
 
-        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(-1);
         upload.setSizeMax(200);
 
-        MockHttpServletRequest req = new MockHttpServletRequest(
+        final MockHttpServletRequest req = new MockHttpServletRequest(
                 request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
         try {
             upload.parseRequest(req);
             fail("Expected exception.");
-        } catch (FileUploadBase.SizeLimitExceededException e) {
+        } catch (final FileUploadBase.SizeLimitExceededException e) {
             assertEquals(200, e.getPermittedSize());
         }
     }
@@ -236,7 +236,7 @@ public class SizesTest {
             "\r\n" +
             "-----1234--\r\n";
 
-        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(-1);
         upload.setSizeMax(300);
 
@@ -244,12 +244,12 @@ public class SizesTest {
         // set the read limit to 10 to simulate a "real" stream
         // otherwise the buffer would be immediately filled
 
-        MockHttpServletRequest req = new MockHttpServletRequest(
+        final MockHttpServletRequest req = new MockHttpServletRequest(
                 request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
         req.setContentLength(-1);
         req.setReadLimit(10);
 
-        FileItemIterator it = upload.getItemIterator(req);
+        final FileItemIterator it = upload.getItemIterator(req);
         assertTrue(it.hasNext());
 
         FileItemStream item = it.next();
@@ -258,8 +258,8 @@ public class SizesTest {
         assertEquals("foo1.tab", item.getName());
 
         {
-            InputStream stream = item.openStream();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            final InputStream stream = item.openStream();
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Streams.copy(stream, baos, true);
         }
 
@@ -267,18 +267,18 @@ public class SizesTest {
         try {
             // the header is still within size max -> this shall still succeed
             assertTrue(it.hasNext());
-        } catch (SizeException e) {
+        } catch (final SizeException e) {
             fail();
         }
 
         item = it.next();
 
         try {
-            InputStream stream = item.openStream();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            final InputStream stream = item.openStream();
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Streams.copy(stream, baos, true);
             fail();
-        } catch (FileUploadIOException e) {
+        } catch (final FileUploadIOException e) {
             // expected
         }
     }

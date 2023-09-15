@@ -67,7 +67,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
-    public DefaultFileItemFactory(int sizeThreshold, File repository) {
+    public DefaultFileItemFactory(final int sizeThreshold, final File repository) {
         super(sizeThreshold, repository);
     }
 
@@ -92,10 +92,10 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
     @Override
     @Deprecated
     public FileItem createItem(
-            String fieldName,
-            String contentType,
-            boolean isFormField,
-            String fileName
+            final String fieldName,
+            final String contentType,
+            final boolean isFormField,
+            final String fileName
             ) {
         return new DefaultFileItem(fieldName, contentType,
                 isFormField, fileName, getSizeThreshold(), getRepository());

@@ -72,8 +72,8 @@ public abstract class FileUploadBase {
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      */
-    public static final boolean isMultipartContent(RequestContext ctx) {
-        String contentType = ctx.getContentType();
+    public static final boolean isMultipartContent(final RequestContext ctx) {
+        final String contentType = ctx.getContentType();
         if (contentType == null) {
             return false;
         }
@@ -95,7 +95,7 @@ public abstract class FileUploadBase {
      * @deprecated 1.1 Use the method on {@code ServletFileUpload} instead.
      */
     @Deprecated
-    public static boolean isMultipartContent(HttpServletRequest req) {
+    public static boolean isMultipartContent(final HttpServletRequest req) {
         return ServletFileUpload.isMultipartContent(req);
     }
 
@@ -221,7 +221,7 @@ public abstract class FileUploadBase {
      * @see #getSizeMax()
      *
      */
-    public void setSizeMax(long sizeMax) {
+    public void setSizeMax(final long sizeMax) {
         this.sizeMax = sizeMax;
     }
 
@@ -243,7 +243,7 @@ public abstract class FileUploadBase {
      * @see #getFileSizeMax()
      * @param fileSizeMax Maximum size of a single uploaded file.
      */
-    public void setFileSizeMax(long fileSizeMax) {
+    public void setFileSizeMax(final long fileSizeMax) {
         this.fileSizeMax = fileSizeMax;
     }
 
@@ -286,7 +286,7 @@ public abstract class FileUploadBase {
      *
      * @param encoding The encoding used to read part headers.
      */
-    public void setHeaderEncoding(String encoding) {
+    public void setHeaderEncoding(final String encoding) {
         headerEncoding = encoding;
     }
 
@@ -307,7 +307,7 @@ public abstract class FileUploadBase {
      * @deprecated 1.1 Use {@link ServletFileUpload#parseRequest(HttpServletRequest)} instead.
      */
     @Deprecated
-    public List<FileItem> parseRequest(HttpServletRequest req)
+    public List<FileItem> parseRequest(final HttpServletRequest req)
     throws FileUploadException {
         return parseRequest(new ServletRequestContext(req));
     }
@@ -328,11 +328,11 @@ public abstract class FileUploadBase {
      *   error while communicating with the client or a problem while
      *   storing the uploaded content.
      */
-    public FileItemIterator getItemIterator(RequestContext ctx)
+    public FileItemIterator getItemIterator(final RequestContext ctx)
     throws FileUploadException, IOException {
         try {
             return new FileItemIteratorImpl(ctx);
-        } catch (FileUploadIOException e) {
+        } catch (final FileUploadIOException e) {
             // unwrap encapsulated SizeException
             throw (FileUploadException) e.getCause();
         }
@@ -350,13 +350,13 @@ public abstract class FileUploadBase {
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */
-    public List<FileItem> parseRequest(RequestContext ctx)
+    public List<FileItem> parseRequest(final RequestContext ctx)
             throws FileUploadException {
-        List<FileItem> items = new ArrayList<FileItem>();
+        final List<FileItem> items = new ArrayList<FileItem>();
         boolean successful = false;
         try {
-            FileItemIterator iter = getItemIterator(ctx);
-            FileItemFactory fac = getFileItemFactory();
+            final FileItemIterator iter = getItemIterator(ctx);
+            final FileItemFactory fac = getFileItemFactory();
             final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
             if (fac == null) {
                 throw new NullPointerException("No FileItemFactory has been set.");
@@ -369,14 +369,14 @@ public abstract class FileUploadBase {
                 final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = ((FileItemIteratorImpl.FileItemStreamImpl) item).name;
-                FileItem fileItem = fac.createItem(item.getFieldName(), item.getContentType(),
+                final FileItem fileItem = fac.createItem(item.getFieldName(), item.getContentType(),
                                                    item.isFormField(), fileName);
                 items.add(fileItem);
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer);
-                } catch (FileUploadIOException e) {
+                } catch (final FileUploadIOException e) {
                     throw (FileUploadException) e.getCause();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     throw new IOFileUploadException(format("Processing of %s request failed. %s",
                                                            MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
@@ -385,16 +385,16 @@ public abstract class FileUploadBase {
             }
             successful = true;
             return items;
-        } catch (FileUploadIOException e) {
+        } catch (final FileUploadIOException e) {
             throw (FileUploadException) e.getCause();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new FileUploadException(e.getMessage(), e);
         } finally {
             if (!successful) {
-                for (FileItem fileItem : items) {
+                for (final FileItem fileItem : items) {
                     try {
                         fileItem.delete();
-                    } catch (Exception ignored) {
+                    } catch (final Exception ignored) {
                         // ignored TODO perhaps add to tracker delete failure list somehow?
                     }
                 }
@@ -415,13 +415,13 @@ public abstract class FileUploadBase {
      *
      * @since 1.3
      */
-    public Map<String, List<FileItem>> parseParameterMap(RequestContext ctx)
+    public Map<String, List<FileItem>> parseParameterMap(final RequestContext ctx)
             throws FileUploadException {
         final List<FileItem> items = parseRequest(ctx);
         final Map<String, List<FileItem>> itemsMap = new HashMap<String, List<FileItem>>(items.size());
 
-        for (FileItem fileItem : items) {
-            String fieldName = fileItem.getFieldName();
+        for (final FileItem fileItem : items) {
+            final String fieldName = fileItem.getFieldName();
             List<FileItem> mappedItems = itemsMap.get(fieldName);
 
             if (mappedItems == null) {
@@ -445,12 +445,12 @@ public abstract class FileUploadBase {
      *
      * @return The boundary, as a byte array.
      */
-    protected byte[] getBoundary(String contentType) {
-        ParameterParser parser = new ParameterParser();
+    protected byte[] getBoundary(final String contentType) {
+        final ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
-        Map<String, String> params = parser.parse(contentType, new char[] {';', ','});
-        String boundaryStr = params.get("boundary");
+        final Map<String, String> params = parser.parse(contentType, new char[] {';', ','});
+        final String boundaryStr = params.get("boundary");
 
         if (boundaryStr == null) {
             return null;
@@ -458,7 +458,7 @@ public abstract class FileUploadBase {
         byte[] boundary;
         try {
             boundary = boundaryStr.getBytes("ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             boundary = boundaryStr.getBytes(); // Intentionally falls back to default charset
         }
         return boundary;
@@ -474,7 +474,7 @@ public abstract class FileUploadBase {
      * @deprecated 1.2.1 Use {@link #getFileName(FileItemHeaders)}.
      */
     @Deprecated
-    protected String getFileName(Map<String, String> headers) {
+    protected String getFileName(final Map<String, String> headers) {
         return getFileName(getHeader(headers, CONTENT_DISPOSITION));
     }
 
@@ -486,7 +486,7 @@ public abstract class FileUploadBase {
      *
      * @return The file name for the current {@code encapsulation}.
      */
-    protected String getFileName(FileItemHeaders headers) {
+    protected String getFileName(final FileItemHeaders headers) {
         return getFileName(headers.getHeader(CONTENT_DISPOSITION));
     }
 
@@ -495,15 +495,15 @@ public abstract class FileUploadBase {
      * @param pContentDisposition The content-disposition headers value.
      * @return The file name
      */
-    private String getFileName(String pContentDisposition) {
+    private String getFileName(final String pContentDisposition) {
         String fileName = null;
         if (pContentDisposition != null) {
-            String cdl = pContentDisposition.toLowerCase(Locale.ENGLISH);
+            final String cdl = pContentDisposition.toLowerCase(Locale.ENGLISH);
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
-                ParameterParser parser = new ParameterParser();
+                final ParameterParser parser = new ParameterParser();
                 parser.setLowerCaseNames(true);
                 // Parameter parser can handle null input
-                Map<String, String> params = parser.parse(pContentDisposition, ';');
+                final Map<String, String> params = parser.parse(pContentDisposition, ';');
                 if (params.containsKey("filename")) {
                     fileName = params.get("filename");
                     if (fileName != null) {
@@ -528,7 +528,7 @@ public abstract class FileUploadBase {
      *
      * @return The field name for the current {@code encapsulation}.
      */
-    protected String getFieldName(FileItemHeaders headers) {
+    protected String getFieldName(final FileItemHeaders headers) {
         return getFieldName(headers.getHeader(CONTENT_DISPOSITION));
     }
 
@@ -538,14 +538,14 @@ public abstract class FileUploadBase {
      * @param pContentDisposition The content-dispositions header value.
      * @return The field jake
      */
-    private String getFieldName(String pContentDisposition) {
+    private String getFieldName(final String pContentDisposition) {
         String fieldName = null;
         if (pContentDisposition != null
                 && pContentDisposition.toLowerCase(Locale.ENGLISH).startsWith(FORM_DATA)) {
-            ParameterParser parser = new ParameterParser();
+            final ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
-            Map<String, String> params = parser.parse(pContentDisposition, ';');
+            final Map<String, String> params = parser.parse(pContentDisposition, ';');
             fieldName = params.get("name");
             if (fieldName != null) {
                 fieldName = fieldName.trim();
@@ -564,7 +564,7 @@ public abstract class FileUploadBase {
      * @deprecated 1.2.1 Use {@link #getFieldName(FileItemHeaders)}.
      */
     @Deprecated
-    protected String getFieldName(Map<String, String> headers) {
+    protected String getFieldName(final Map<String, String> headers) {
         return getFieldName(getHeader(headers, CONTENT_DISPOSITION));
     }
 
@@ -583,8 +583,8 @@ public abstract class FileUploadBase {
      *   internally created instances of {@link FileItem}.
      */
     @Deprecated
-    protected FileItem createItem(Map<String, String> headers,
-                                  boolean isFormField)
+    protected FileItem createItem(final Map<String, String> headers,
+                                  final boolean isFormField)
         throws FileUploadException {
         return getFileItemFactory().createItem(getFieldName(headers),
                 getHeader(headers, CONTENT_TYPE),
@@ -604,21 +604,21 @@ public abstract class FileUploadBase {
      *
      * @return A {@code Map} containing the parsed HTTP request headers.
      */
-    protected FileItemHeaders getParsedHeaders(String headerPart) {
+    protected FileItemHeaders getParsedHeaders(final String headerPart) {
         final int len = headerPart.length();
-        FileItemHeadersImpl headers = newFileItemHeaders();
+        final FileItemHeadersImpl headers = newFileItemHeaders();
         int start = 0;
         for (;;) {
             int end = parseEndOfLine(headerPart, start);
             if (start == end) {
                 break;
             }
-            StringBuilder header = new StringBuilder(headerPart.substring(start, end));
+            final StringBuilder header = new StringBuilder(headerPart.substring(start, end));
             start = end + 2;
             while (start < len) {
                 int nonWs = start;
                 while (nonWs < len) {
-                    char c = headerPart.charAt(nonWs);
+                    final char c = headerPart.charAt(nonWs);
                     if (c != ' '  &&  c != '\t') {
                         break;
                     }
@@ -659,13 +659,13 @@ public abstract class FileUploadBase {
      * @deprecated 1.2.1 Use {@link #getParsedHeaders(String)}
      */
     @Deprecated
-    protected Map<String, String> parseHeaders(String headerPart) {
-        FileItemHeaders headers = getParsedHeaders(headerPart);
-        Map<String, String> result = new HashMap<String, String>();
-        for (Iterator<String> iter = headers.getHeaderNames();  iter.hasNext();) {
-            String headerName = iter.next();
-            Iterator<String> iter2 = headers.getHeaders(headerName);
-            StringBuilder headerValue = new StringBuilder(iter2.next());
+    protected Map<String, String> parseHeaders(final String headerPart) {
+        final FileItemHeaders headers = getParsedHeaders(headerPart);
+        final Map<String, String> result = new HashMap<String, String>();
+        for (final Iterator<String> iter = headers.getHeaderNames();  iter.hasNext();) {
+            final String headerName = iter.next();
+            final Iterator<String> iter2 = headers.getHeaders(headerName);
+            final StringBuilder headerValue = new StringBuilder(iter2.next());
             while (iter2.hasNext()) {
                 headerValue.append(",").append(iter2.next());
             }
@@ -682,10 +682,10 @@ public abstract class FileUploadBase {
      * @return Index of the \r\n sequence, which indicates
      *   end of line.
      */
-    private int parseEndOfLine(String headerPart, int end) {
+    private int parseEndOfLine(final String headerPart, final int end) {
         int index = end;
         for (;;) {
-            int offset = headerPart.indexOf('\r', index);
+            final int offset = headerPart.indexOf('\r', index);
             if (offset == -1  ||  offset + 1 >= headerPart.length()) {
                 throw new IllegalStateException(
                     "Expected headers to be terminated by an empty line.");
@@ -702,14 +702,14 @@ public abstract class FileUploadBase {
      * @param headers String with all headers.
      * @param header Map where to store the current header.
      */
-    private void parseHeaderLine(FileItemHeadersImpl headers, String header) {
+    private void parseHeaderLine(final FileItemHeadersImpl headers, final String header) {
         final int colonOffset = header.indexOf(':');
         if (colonOffset == -1) {
             // This header line is malformed, skip it.
             return;
         }
-        String headerName = header.substring(0, colonOffset).trim();
-        String headerValue =
+        final String headerName = header.substring(0, colonOffset).trim();
+        final String headerValue =
             header.substring(header.indexOf(':') + 1).trim();
         headers.addHeader(headerName, headerValue);
     }
@@ -726,8 +726,8 @@ public abstract class FileUploadBase {
      * @deprecated 1.2.1 Use {@link FileItemHeaders#getHeader(String)}.
      */
     @Deprecated
-    protected final String getHeader(Map<String, String> headers,
-            String name) {
+    protected final String getHeader(final Map<String, String> headers,
+            final String name) {
         return headers.get(name.toLowerCase(Locale.ENGLISH));
     }
 
@@ -787,9 +787,9 @@ public abstract class FileUploadBase {
              * @param pContentLength The items content length, if known, or -1
              * @throws IOException Creating the file item failed.
              */
-            FileItemStreamImpl(String pName, String pFieldName,
-                    String pContentType, boolean pFormField,
-                    long pContentLength) throws IOException {
+            FileItemStreamImpl(final String pName, final String pFieldName,
+                    final String pContentType, final boolean pFormField,
+                    final long pContentLength) throws IOException {
                 name = pName;
                 fieldName = pFieldName;
                 contentType = pContentType;
@@ -797,7 +797,7 @@ public abstract class FileUploadBase {
                 if (fileSizeMax != -1) { // Check if limit is already exceeded
                     if (pContentLength != -1
                             && pContentLength > fileSizeMax) {
-                        FileSizeLimitExceededException e =
+                        final FileSizeLimitExceededException e =
                                 new FileSizeLimitExceededException(
                                         format("The field %s exceeds its maximum permitted size of %s bytes.",
                                                 fieldName, Long.valueOf(fileSizeMax)),
@@ -813,10 +813,10 @@ public abstract class FileUploadBase {
                 if (fileSizeMax != -1) {
                     istream = new LimitedInputStream(istream, fileSizeMax) {
                         @Override
-                        protected void raiseError(long pSizeMax, long pCount)
+                        protected void raiseError(final long pSizeMax, final long pCount)
                                 throws IOException {
                             itemStream.close(true);
-                            FileSizeLimitExceededException e =
+                            final FileSizeLimitExceededException e =
                                 new FileSizeLimitExceededException(
                                     format("The field %s exceeds its maximum permitted size of %s bytes.",
                                            fieldName, Long.valueOf(pSizeMax)),
@@ -919,7 +919,7 @@ public abstract class FileUploadBase {
              * @param pHeaders The items header object
              */
             @Override
-            public void setHeaders(FileItemHeaders pHeaders) {
+            public void setHeaders(final FileItemHeaders pHeaders) {
                 headers = pHeaders;
             }
 
@@ -974,13 +974,13 @@ public abstract class FileUploadBase {
          *   parsing the request.
          * @throws IOException An I/O error occurred.
          */
-        FileItemIteratorImpl(RequestContext ctx)
+        FileItemIteratorImpl(final RequestContext ctx)
                 throws FileUploadException, IOException {
             if (ctx == null) {
                 throw new NullPointerException("ctx parameter");
             }
 
-            String contentType = ctx.getContentType();
+            final String contentType = ctx.getContentType();
             if ((null == contentType)
                     || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART))) {
                 throw new InvalidContentTypeException(
@@ -1009,9 +1009,9 @@ public abstract class FileUploadBase {
                 // N.B. this is eventually closed in MultipartStream processing
                 input = new LimitedInputStream(ctx.getInputStream(), sizeMax) {
                     @Override
-                    protected void raiseError(long pSizeMax, long pCount)
+                    protected void raiseError(final long pSizeMax, final long pCount)
                             throws IOException {
-                        FileUploadException ex = new SizeLimitExceededException(
+                        final FileUploadException ex = new SizeLimitExceededException(
                         format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
                                 Long.valueOf(pCount), Long.valueOf(pSizeMax)),
                                pCount, pSizeMax);
@@ -1036,7 +1036,7 @@ public abstract class FileUploadBase {
             notifier = new MultipartStream.ProgressNotifier(listener, requestSize);
             try {
                 multi = new MultipartStream(input, boundary, notifier);
-            } catch (IllegalArgumentException iae) {
+            } catch (final IllegalArgumentException iae) {
                 IOUtils.closeQuietly(input); // avoid possible resource leak
                 throw new InvalidContentTypeException(
                         format("The boundary specified in the %s header is too long", CONTENT_TYPE), iae);
@@ -1079,23 +1079,23 @@ public abstract class FileUploadBase {
                     currentFieldName = null;
                     continue;
                 }
-                FileItemHeaders headers = getParsedHeaders(multi.readHeaders());
+                final FileItemHeaders headers = getParsedHeaders(multi.readHeaders());
                 if (currentFieldName == null) {
                     // We're parsing the outer multipart
-                    String fieldName = getFieldName(headers);
+                    final String fieldName = getFieldName(headers);
                     if (fieldName != null) {
-                        String subContentType = headers.getHeader(CONTENT_TYPE);
+                        final String subContentType = headers.getHeader(CONTENT_TYPE);
                         if (subContentType != null
                                 &&  subContentType.toLowerCase(Locale.ENGLISH)
                                         .startsWith(MULTIPART_MIXED)) {
                             currentFieldName = fieldName;
                             // Multiple files associated with this field name
-                            byte[] subBoundary = getBoundary(subContentType);
+                            final byte[] subBoundary = getBoundary(subContentType);
                             multi.setBoundary(subBoundary);
                             skipPreamble = true;
                             continue;
                         }
-                        String fileName = getFileName(headers);
+                        final String fileName = getFileName(headers);
                         currentItem = new FileItemStreamImpl(fileName,
                                 fieldName, headers.getHeader(CONTENT_TYPE),
                                 fileName == null, getContentLength(headers));
@@ -1105,7 +1105,7 @@ public abstract class FileUploadBase {
                         return true;
                     }
                 } else {
-                    String fileName = getFileName(headers);
+                    final String fileName = getFileName(headers);
                     if (fileName != null) {
                         currentItem = new FileItemStreamImpl(fileName,
                                 currentFieldName,
@@ -1121,10 +1121,10 @@ public abstract class FileUploadBase {
             }
         }
 
-        private long getContentLength(FileItemHeaders pHeaders) {
+        private long getContentLength(final FileItemHeaders pHeaders) {
             try {
                 return Long.parseLong(pHeaders.getHeader(CONTENT_LENGTH));
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 return -1;
             }
         }
@@ -1149,7 +1149,7 @@ public abstract class FileUploadBase {
             }
             try {
                 return findNextItem();
-            } catch (FileUploadIOException e) {
+            } catch (final FileUploadIOException e) {
                 // unwrap encapsulated SizeException
                 throw (FileUploadException) e.getCause();
             }
@@ -1201,7 +1201,7 @@ public abstract class FileUploadBase {
          *
          * @param pCause The exceptions cause, if any, or null.
          */
-        public FileUploadIOException(FileUploadException pCause) {
+        public FileUploadIOException(final FileUploadException pCause) {
             // We're not doing super(pCause) cause of 1.3 compatibility.
             cause = pCause;
         }
@@ -1243,7 +1243,7 @@ public abstract class FileUploadBase {
          *
          * @param message The detail message.
          */
-        public InvalidContentTypeException(String message) {
+        public InvalidContentTypeException(final String message) {
             super(message);
         }
 
@@ -1256,7 +1256,7 @@ public abstract class FileUploadBase {
          *
          * @since 1.3.1
          */
-        public InvalidContentTypeException(String msg, Throwable cause) {
+        public InvalidContentTypeException(final String msg, final Throwable cause) {
             super(msg, cause);
         }
     }
@@ -1284,7 +1284,7 @@ public abstract class FileUploadBase {
          * @param pMsg The detail message.
          * @param pException The exceptions cause.
          */
-        public IOFileUploadException(String pMsg, IOException pException) {
+        public IOFileUploadException(final String pMsg, final IOException pException) {
             super(pMsg);
             cause = pException;
         }
@@ -1329,7 +1329,7 @@ public abstract class FileUploadBase {
          * @param actual The actual number of bytes in the request.
          * @param permitted The requests size limit, in bytes.
          */
-        protected SizeException(String message, long actual, long permitted) {
+        protected SizeException(final String message, final long actual, final long permitted) {
             super(message);
             this.actual = actual;
             this.permitted = permitted;
@@ -1388,7 +1388,7 @@ public abstract class FileUploadBase {
          *
          * @param message The detail message.
          */
-        public UnknownSizeException(String message) {
+        public UnknownSizeException(final String message) {
             super(message);
         }
 
@@ -1420,7 +1420,7 @@ public abstract class FileUploadBase {
          * @param message The exceptions detail message.
          */
         @Deprecated
-        public SizeLimitExceededException(String message) {
+        public SizeLimitExceededException(final String message) {
             this(message, 0, 0);
         }
 
@@ -1432,8 +1432,8 @@ public abstract class FileUploadBase {
          * @param actual    The actual request size.
          * @param permitted The maximum permitted request size.
          */
-        public SizeLimitExceededException(String message, long actual,
-                long permitted) {
+        public SizeLimitExceededException(final String message, final long actual,
+                final long permitted) {
             super(message, actual, permitted);
         }
 
@@ -1468,8 +1468,8 @@ public abstract class FileUploadBase {
          * @param actual    The actual request size.
          * @param permitted The maximum permitted request size.
          */
-        public FileSizeLimitExceededException(String message, long actual,
-                long permitted) {
+        public FileSizeLimitExceededException(final String message, final long actual,
+                final long permitted) {
             super(message, actual, permitted);
         }
 
@@ -1489,7 +1489,7 @@ public abstract class FileUploadBase {
          *
          * @param pFileName the file name of the item, which caused the exception.
          */
-        public void setFileName(String pFileName) {
+        public void setFileName(final String pFileName) {
             fileName = pFileName;
         }
 
@@ -1510,7 +1510,7 @@ public abstract class FileUploadBase {
          * @param pFieldName the field name of the item,
          *        which caused the exception.
          */
-        public void setFieldName(String pFieldName) {
+        public void setFieldName(final String pFieldName) {
             fieldName = pFieldName;
         }
 
@@ -1530,7 +1530,7 @@ public abstract class FileUploadBase {
      *
      * @param pListener The progress listener, if any. Defaults to null.
      */
-    public void setProgressListener(ProgressListener pListener) {
+    public void setProgressListener(final ProgressListener pListener) {
         listener = pListener;
     }
 

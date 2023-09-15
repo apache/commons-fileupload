@@ -74,7 +74,7 @@ public class DiskFileUpload
      * @deprecated 1.1 Use {@code FileUpload} instead.
      */
     @Deprecated
-    public DiskFileUpload(DefaultFileItemFactory fileItemFactory) {
+    public DiskFileUpload(final DefaultFileItemFactory fileItemFactory) {
         super();
         this.fileItemFactory = fileItemFactory;
     }
@@ -105,7 +105,7 @@ public class DiskFileUpload
      */
     @Override
     @Deprecated
-    public void setFileItemFactory(FileItemFactory factory) {
+    public void setFileItemFactory(final FileItemFactory factory) {
         this.fileItemFactory = (DefaultFileItemFactory) factory;
     }
 
@@ -134,7 +134,7 @@ public class DiskFileUpload
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
-    public void setSizeThreshold(int sizeThreshold) {
+    public void setSizeThreshold(final int sizeThreshold) {
         fileItemFactory.setSizeThreshold(sizeThreshold);
     }
 
@@ -164,7 +164,7 @@ public class DiskFileUpload
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
-    public void setRepositoryPath(String repositoryPath) {
+    public void setRepositoryPath(final String repositoryPath) {
         fileItemFactory.setRepository(new File(repositoryPath));
     }
 
@@ -189,9 +189,9 @@ public class DiskFileUpload
      * @deprecated 1.1 Use {@code ServletFileUpload} instead.
      */
     @Deprecated
-    public List<FileItem> parseRequest(HttpServletRequest req,
-                                            int sizeThreshold,
-                                            long sizeMax, String path)
+    public List<FileItem> parseRequest(final HttpServletRequest req,
+                                            final int sizeThreshold,
+                                            final long sizeMax, final String path)
         throws FileUploadException {
         setSizeThreshold(sizeThreshold);
         setSizeMax(sizeMax);

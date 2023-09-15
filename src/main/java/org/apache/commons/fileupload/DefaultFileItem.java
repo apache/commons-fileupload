@@ -60,9 +60,9 @@ public class DefaultFileItem
      * @deprecated 1.1 Use {@code DiskFileItem} instead.
      */
     @Deprecated
-    public DefaultFileItem(String fieldName, String contentType,
-            boolean isFormField, String fileName, int sizeThreshold,
-            File repository) {
+    public DefaultFileItem(final String fieldName, final String contentType,
+            final boolean isFormField, final String fileName, final int sizeThreshold,
+            final File repository) {
         super(fieldName, contentType, isFormField, fileName, sizeThreshold,
                 repository);
     }

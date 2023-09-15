@@ -34,11 +34,11 @@ public class MultipartStreamTest {
     public void testThreeParamConstructor() throws Exception {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
-        InputStream input = new ByteArrayInputStream(contents);
-        byte[] boundary = BOUNDARY_TEXT.getBytes();
-        int iBufSize =
+        final InputStream input = new ByteArrayInputStream(contents);
+        final byte[] boundary = BOUNDARY_TEXT.getBytes();
+        final int iBufSize =
                 boundary.length + MultipartStream.BOUNDARY_PREFIX.length + 1;
-        MultipartStream ms = new MultipartStream(
+        final MultipartStream ms = new MultipartStream(
                 input,
                 boundary,
                 iBufSize,
@@ -50,9 +50,9 @@ public class MultipartStreamTest {
     public void testSmallBuffer() throws Exception {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
-        InputStream input = new ByteArrayInputStream(contents);
-        byte[] boundary = BOUNDARY_TEXT.getBytes();
-        int iBufSize = 1;
+        final InputStream input = new ByteArrayInputStream(contents);
+        final byte[] boundary = BOUNDARY_TEXT.getBytes();
+        final int iBufSize = 1;
         new MultipartStream(
                 input,
                 boundary,
@@ -64,9 +64,9 @@ public class MultipartStreamTest {
     public void testTwoParamConstructor() throws Exception {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
-        InputStream input = new ByteArrayInputStream(contents);
-        byte[] boundary = BOUNDARY_TEXT.getBytes();
-        MultipartStream ms = new MultipartStream(
+        final InputStream input = new ByteArrayInputStream(contents);
+        final byte[] boundary = BOUNDARY_TEXT.getBytes();
+        final MultipartStream ms = new MultipartStream(
                 input,
                 boundary,
                 new MultipartStream.ProgressNotifier(null, contents.length));

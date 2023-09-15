@@ -57,10 +57,10 @@ public class DefaultFileItemTest {
      */
     @Test
     public void testTextFieldConstruction() {
-        FileItemFactory factory = createFactory(null);
-        String textFieldName = "textField";
+        final FileItemFactory factory = createFactory(null);
+        final String textFieldName = "textField";
 
-        FileItem item = factory.createItem(
+        final FileItem item = factory.createItem(
                 textFieldName,
                 textContentType,
                 true,
@@ -78,11 +78,11 @@ public class DefaultFileItemTest {
      */
     @Test
     public void testFileFieldConstruction() {
-        FileItemFactory factory = createFactory(null);
-        String fileFieldName = "fileField";
-        String fileName = "originalFileName";
+        final FileItemFactory factory = createFactory(null);
+        final String fileFieldName = "fileField";
+        final String fileName = "originalFileName";
 
-        FileItem item = factory.createItem(
+        final FileItem item = factory.createItem(
                 fileFieldName,
                 fileContentType,
                 false,
@@ -101,12 +101,12 @@ public class DefaultFileItemTest {
      */
     @Test
     public void testBelowThreshold() {
-        FileItemFactory factory = createFactory(null);
-        String textFieldName = "textField";
-        String textFieldValue = "0123456789";
-        byte[] testFieldValueBytes = textFieldValue.getBytes();
+        final FileItemFactory factory = createFactory(null);
+        final String textFieldName = "textField";
+        final String textFieldValue = "0123456789";
+        final byte[] testFieldValueBytes = textFieldValue.getBytes();
 
-        FileItem item = factory.createItem(
+        final FileItem item = factory.createItem(
                 textFieldName,
                 textContentType,
                 true,
@@ -115,10 +115,10 @@ public class DefaultFileItemTest {
         assertNotNull(item);
 
         try {
-            OutputStream os = item.getOutputStream();
+            final OutputStream os = item.getOutputStream();
             os.write(testFieldValueBytes);
             os.close();
-        } catch(IOException e) {
+        } catch(final IOException e) {
             fail("Unexpected IOException");
         }
         assertTrue(item.isInMemory());
@@ -142,9 +142,9 @@ public class DefaultFileItemTest {
      */
     @Test
     public void testAboveThresholdSpecifiedRepository() throws IOException {
-        String tempPath = System.getProperty("java.io.tmpdir");
-        String tempDirName = "testAboveThresholdSpecifiedRepository";
-        File tempDir = new File(tempPath, tempDirName);
+        final String tempPath = System.getProperty("java.io.tmpdir");
+        final String tempDirName = "testAboveThresholdSpecifiedRepository";
+        final File tempDir = new File(tempPath, tempDirName);
         FileUtils.forceMkdir(tempDir);
         doTestAboveThreshold(tempDir);
         assertTrue(tempDir.delete());
@@ -158,13 +158,13 @@ public class DefaultFileItemTest {
      * @param repository The directory within which temporary files will be
      *                   created.
      */
-    public void doTestAboveThreshold(File repository) {
-        FileItemFactory factory = createFactory(repository);
-        String textFieldName = "textField";
-        String textFieldValue = "01234567890123456789";
-        byte[] testFieldValueBytes = textFieldValue.getBytes();
+    public void doTestAboveThreshold(final File repository) {
+        final FileItemFactory factory = createFactory(repository);
+        final String textFieldName = "textField";
+        final String textFieldValue = "01234567890123456789";
+        final byte[] testFieldValueBytes = textFieldValue.getBytes();
 
-        FileItem item = factory.createItem(
+        final FileItem item = factory.createItem(
                 textFieldName,
                 textContentType,
                 true,
@@ -173,10 +173,10 @@ public class DefaultFileItemTest {
         assertNotNull(item);
 
         try {
-            OutputStream os = item.getOutputStream();
+            final OutputStream os = item.getOutputStream();
             os.write(testFieldValueBytes);
             os.close();
-        } catch(IOException e) {
+        } catch(final IOException e) {
             fail("Unexpected IOException");
         }
         assertFalse(item.isInMemory());
@@ -185,8 +185,8 @@ public class DefaultFileItemTest {
         assertEquals(item.getString(), textFieldValue);
 
         assertTrue(item instanceof DefaultFileItem);
-        DefaultFileItem dfi = (DefaultFileItem) item;
-        File storeLocation = dfi.getStoreLocation();
+        final DefaultFileItem dfi = (DefaultFileItem) item;
+        final File storeLocation = dfi.getStoreLocation();
         assertNotNull(storeLocation);
         assertTrue(storeLocation.exists());
         assertEquals(storeLocation.length(), testFieldValueBytes.length);
@@ -207,7 +207,7 @@ public class DefaultFileItemTest {
      *                   created.
      * @return the new {@code FileItemFactory} instance.
      */
-    protected FileItemFactory createFactory(File repository) {
+    protected FileItemFactory createFactory(final File repository) {
         return new DefaultFileItemFactory(threshold, repository);
     }
 
@@ -255,10 +255,10 @@ public class DefaultFileItemTest {
         0xE5, 0xF2
     };
 
-    private static String constructString(int[] unicodeChars) {
-        StringBuilder buffer = new StringBuilder();
+    private static String constructString(final int[] unicodeChars) {
+        final StringBuilder buffer = new StringBuilder();
         if (unicodeChars != null) {
-            for (int unicodeChar : unicodeChars) {
+            for (final int unicodeChar : unicodeChars) {
                 buffer.append((char) unicodeChar);
             }
         }
@@ -269,7 +269,7 @@ public class DefaultFileItemTest {
      * Test construction of content charset.
      */
     public void testContentCharSet() throws Exception {
-        FileItemFactory factory = createFactory(null);
+        final FileItemFactory factory = createFactory(null);
 
         String teststr = constructString(SWISS_GERMAN_STUFF_UNICODE);
 
@@ -280,7 +280,7 @@ public class DefaultFileItemTest {
                 true,
                 null);
         OutputStream outstream = item.getOutputStream();
-        for (int element : SWISS_GERMAN_STUFF_ISO8859_1) {
+        for (final int element : SWISS_GERMAN_STUFF_ISO8859_1) {
             outstream.write(element);
         }
         outstream.close();
@@ -293,7 +293,7 @@ public class DefaultFileItemTest {
                 true,
                 null);
         outstream = item.getOutputStream();
-        for (int element : SWISS_GERMAN_STUFF_UTF8) {
+        for (final int element : SWISS_GERMAN_STUFF_UTF8) {
             outstream.write(element);
         }
         outstream.close();
@@ -308,7 +308,7 @@ public class DefaultFileItemTest {
                 true,
                 null);
         outstream = item.getOutputStream();
-        for (int element : RUSSIAN_STUFF_KOI8R) {
+        for (final int element : RUSSIAN_STUFF_KOI8R) {
             outstream.write(element);
         }
         outstream.close();
@@ -321,7 +321,7 @@ public class DefaultFileItemTest {
                 true,
                 null);
         outstream = item.getOutputStream();
-        for (int element : RUSSIAN_STUFF_WIN1251) {
+        for (final int element : RUSSIAN_STUFF_WIN1251) {
             outstream.write(element);
         }
         outstream.close();
@@ -334,7 +334,7 @@ public class DefaultFileItemTest {
                 true,
                 null);
         outstream = item.getOutputStream();
-        for (int element : RUSSIAN_STUFF_UTF8) {
+        for (final int element : RUSSIAN_STUFF_UTF8) {
             outstream.write(element);
         }
         outstream.close();

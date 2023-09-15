@@ -46,7 +46,7 @@ public class FileItemHeadersTest {
         aMutableFileItemHeaders.addHeader("TestHeader", "headerValue3");
         aMutableFileItemHeaders.addHeader("testheader", "headerValue4");
 
-        Iterator<String> headerNameEnumeration = aMutableFileItemHeaders.getHeaderNames();
+        final Iterator<String> headerNameEnumeration = aMutableFileItemHeaders.getHeaderNames();
         assertEquals("content-disposition", headerNameEnumeration.next());
         assertEquals("content-type", headerNameEnumeration.next());
         assertEquals("testheader", headerNameEnumeration.next());

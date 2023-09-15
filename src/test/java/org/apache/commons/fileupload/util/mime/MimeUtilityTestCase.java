@@ -57,7 +57,7 @@ public final class MimeUtilityTestCase {
                 "=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?=\t  \r\n   =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n");
     }
 
-    private static void assertEncoded(String expected, String encoded) throws Exception {
+    private static void assertEncoded(final String expected, final String encoded) throws Exception {
         assertEquals(expected, MimeUtility.decodeText(encoded));
     }
 
