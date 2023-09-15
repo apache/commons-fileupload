@@ -99,7 +99,7 @@ public final class MimeUtility {
     public static String decodeText(final String text) throws UnsupportedEncodingException {
         // if the text contains any encoded tokens, those tokens will be marked with "=?".  If the
         // source string doesn't contain that sequent, no decoding is required.
-        if (text.indexOf(ENCODED_TOKEN_MARKER) < 0) {
+        if (!text.contains(ENCODED_TOKEN_MARKER)) {
             return text;
         }
 
@@ -154,7 +154,7 @@ public final class MimeUtility {
 
                         // are any whitespace characters significant?  Append 'em if we've got 'em.
                         if (!previousTokenEncoded && startWhiteSpace != -1) {
-                            decodedText.append(text.substring(startWhiteSpace, endWhiteSpace));
+                            decodedText.append(text, startWhiteSpace, endWhiteSpace);
                             startWhiteSpace = -1;
                         }
                         // this is definitely a decoded token.
@@ -172,7 +172,7 @@ public final class MimeUtility {
                 // this is a normal token, so it doesn't matter what the previous token was.  Add the white space
                 // if we have it.
                 if (startWhiteSpace != -1) {
-                    decodedText.append(text.substring(startWhiteSpace, endWhiteSpace));
+                    decodedText.append(text, startWhiteSpace, endWhiteSpace);
                     startWhiteSpace = -1;
                 }
                 // this is not a decoded token.
@@ -229,7 +229,7 @@ public final class MimeUtility {
         final String encodedText = word.substring(encodingPos + 1, encodedTextPos);
 
         // seems a bit silly to encode a null string, but easy to deal with.
-        if (encodedText.length() == 0) {
+        if (encodedText.isEmpty()) {
             return "";
         }
 
