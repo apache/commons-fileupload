@@ -17,6 +17,7 @@
 
 package org.apache.commons.fileupload2.core;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.LongSupplier;
 
@@ -42,12 +43,12 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
      *
      * @param contentLengthString  How to get the content length string.
      * @param contentLengthDefault How to get the content length default.
-     * @param request              TODO
+     * @param request              The request.
      */
     protected AbstractRequestContext(final Function<String, String> contentLengthString, final LongSupplier contentLengthDefault, final T request) {
-        this.contentLengthString = contentLengthString;
-        this.contentLengthDefault = contentLengthDefault;
-        this.request = request;
+        this.contentLengthString = Objects.requireNonNull(contentLengthString, "contentLengthString");
+        this.contentLengthDefault = Objects.requireNonNull(contentLengthDefault, "contentLengthDefault");
+        this.request = Objects.requireNonNull(request, "request");
     }
 
     /**
