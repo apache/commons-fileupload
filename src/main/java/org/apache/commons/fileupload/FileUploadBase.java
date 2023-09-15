@@ -353,10 +353,10 @@ public abstract class FileUploadBase {
         try {
             final FileItemIterator iter = getItemIterator(ctx);
             final FileItemFactory fac = getFileItemFactory();
-            final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
             if (fac == null) {
                 throw new NullPointerException("No FileItemFactory has been set.");
             }
+            final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {
                 if (items.size() == fileCountMax) {
                     // The next item will exceed the limit.
