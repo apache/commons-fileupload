@@ -48,7 +48,7 @@ public class DefaultFileItem
      *                      {@code null} if not specified.
      * @param isFormField   Whether or not this item is a plain form field, as
      *                      opposed to a file upload.
-     * @param fileName      The original filename in the user's filesystem, or
+     * @param fileName      The original file name in the user's filesystem, or
      *                      {@code null} if not specified.
      * @param sizeThreshold The threshold, in bytes, below which items will be
      *                      retained in memory and above which they will be
