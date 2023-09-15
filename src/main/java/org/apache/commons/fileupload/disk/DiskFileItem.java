@@ -496,11 +496,10 @@ public class DiskFileItem
      * @return An {@link java.io.OutputStream OutputStream} that can be used
      *         for storing the contents of the file.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException if an error occurs (never happens).
      */
     @Override
-    public OutputStream getOutputStream()
-        throws IOException {
+    public OutputStream getOutputStream() throws IOException {
         if (dfos == null) {
             final File outputFile = getTempFile();
             dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
