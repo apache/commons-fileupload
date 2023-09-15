@@ -279,13 +279,14 @@ public class DiskFileItem
     public long getSize() {
         if (size >= 0) {
             return size;
-        } else if (cachedContent != null) {
-            return cachedContent.length;
-        } else if (dfos.isInMemory()) {
-            return dfos.getData().length;
-        } else {
-            return dfos.getFile().length();
         }
+        if (cachedContent != null) {
+            return cachedContent.length;
+        }
+        if (dfos.isInMemory()) {
+            return dfos.getData().length;
+        }
+        return dfos.getFile().length();
     }
 
     /**
@@ -394,19 +395,7 @@ public class DiskFileItem
             }
         } else {
             final File outputFile = getStoreLocation();
-            if (outputFile != null) {
-                // Save the length of the file
-                size = outputFile.length();
-                /*
-                 * The uploaded file is being stored on disk
-                 * in a temporary location so move it to the
-                 * desired file.
-                 */
-                if (file.exists()) {
-                    file.delete();
-                }
-                FileUtils.moveFile(outputFile, file);
-            } else {
+            if (outputFile == null) {
                 /*
                  * For whatever reason we cannot write the
                  * file to disk.
@@ -414,6 +403,17 @@ public class DiskFileItem
                 throw new FileUploadException(
                     "Cannot write uploaded file to disk!");
             }
+            // Save the length of the file
+            size = outputFile.length();
+            /*
+             * The uploaded file is being stored on disk
+             * in a temporary location so move it to the
+             * desired file.
+             */
+            if (file.exists()) {
+                file.delete();
+            }
+            FileUtils.moveFile(outputFile, file);
         }
     }
 

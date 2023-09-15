@@ -122,14 +122,13 @@ public final class MimeUtility {
                 while (offset < endOffset) {
                     // step over the white space characters.
                     ch = text.charAt(offset);
-                    if (LINEAR_WHITESPACE.indexOf(ch) != -1) { // whitespace found
-                        offset++;
-                    } else {
+                    if (LINEAR_WHITESPACE.indexOf(ch) == -1) {
                         // record the location of the first non lwsp and drop down to process the
                         // token characters.
                         endWhiteSpace = offset;
                         break;
                     }
+                    offset++;
                 }
             } else {
                 // we have a word token.  We need to scan over the word and then try to parse it.
@@ -138,11 +137,10 @@ public final class MimeUtility {
                 while (offset < endOffset) {
                     // step over the non white space characters.
                     ch = text.charAt(offset);
-                    if (LINEAR_WHITESPACE.indexOf(ch) == -1) { // not white space
-                        offset++;
-                    } else {
+                    if (LINEAR_WHITESPACE.indexOf(ch) != -1) {
                         break;
                     }
+                    offset++;
 
                     //NB:  Trailing whitespace on these header strings will just be discarded.
                 }
