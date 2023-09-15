@@ -432,7 +432,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         if (cachedContent != null) {
             return cachedContent.length;
         }
-        return dfos.getByteCount();
+        return dfos != null ? dfos.getByteCount() : 0;
     }
 
     /**

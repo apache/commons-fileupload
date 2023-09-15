@@ -46,6 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
     <release version="2.0.0-M2" date="2023-MM-DD" description="2.0.0-M2 Release">
       <!-- FIX -->
       <action                        dev="ggregory" type="add" due-to="James Reeves">Fix off-by-one error when checking fileSizeMax in FileItemInputImpl #235.</action>
+      <action issue="FILEUPLOAD-352" dev="ggregory" type="add" due-to="Björn Kautler, Gary Gregory">NullPointerException in DiskFileItem#toString.</action>
       <!-- ADD -->
       <action                        dev="ggregory" type="add" due-to="Gary Gregory">Refactor to support Jakarta Servlet 5 and 6.</action>
       <action                        dev="ggregory" type="add" due-to="Michal H Siemaszko, Gary Gregory">Generate some OSGi metadata.</action>
