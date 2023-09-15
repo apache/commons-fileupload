@@ -29,18 +29,12 @@ import jakarta.servlet.http.HttpServletRequest;
 public class JakartaServletRequestContext extends AbstractRequestContext<HttpServletRequest> {
 
     /**
-     * The request for which the context is being provided.
-     */
-    private final HttpServletRequest request;
-
-    /**
      * Constructs a context for this request.
      *
      * @param request The request to which this context applies.
      */
     public JakartaServletRequestContext(final HttpServletRequest request) {
         super(request::getHeader, request::getContentLength, request);
-        this.request = request;
     }
 
     /**
@@ -50,7 +44,7 @@ public class JakartaServletRequestContext extends AbstractRequestContext<HttpSer
      */
     @Override
     public String getCharacterEncoding() {
-        return request.getCharacterEncoding();
+        return getRequest().getCharacterEncoding();
     }
 
     /**
@@ -60,7 +54,7 @@ public class JakartaServletRequestContext extends AbstractRequestContext<HttpSer
      */
     @Override
     public String getContentType() {
-        return request.getContentType();
+        return getRequest().getContentType();
     }
 
     /**
@@ -71,7 +65,7 @@ public class JakartaServletRequestContext extends AbstractRequestContext<HttpSer
      */
     @Override
     public InputStream getInputStream() throws IOException {
-        return request.getInputStream();
+        return getRequest().getInputStream();
     }
 
 }
