@@ -409,8 +409,8 @@ public class DiskFileItem
              * in a temporary location so move it to the
              * desired file.
              */
-            if (file.exists()) {
-                file.delete();
+            if (file.exists() && !file.delete()) {
+                throw new FileUploadException("Cannot write uploaded file to disk!");
             }
             FileUtils.moveFile(outputFile, file);
         }
