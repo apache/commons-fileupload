@@ -37,14 +37,14 @@ public class FileUploadException extends Exception {
     private final Throwable cause;
 
     /**
-     * Constructs a new <code>FileUploadException</code> without message.
+     * Constructs a new {@code FileUploadException} without message.
      */
     public FileUploadException() {
         this(null, null);
     }
 
     /**
-     * Constructs a new <code>FileUploadException</code> with specified detail
+     * Constructs a new {@code FileUploadException} with specified detail
      * message.
      *
      * @param msg the error message.
@@ -54,7 +54,7 @@ public class FileUploadException extends Exception {
     }
 
     /**
-     * Creates a new <code>FileUploadException</code> with the given
+     * Creates a new {@code FileUploadException} with the given
      * detail message and cause.
      *
      * @param msg The exceptions detail message.
@@ -68,7 +68,7 @@ public class FileUploadException extends Exception {
     /**
      * Prints this throwable and its backtrace to the specified print stream.
      *
-     * @param stream <code>PrintStream</code> to use for output
+     * @param stream {@code PrintStream} to use for output
      */
     @Override
     public void printStackTrace(PrintStream stream) {
@@ -83,7 +83,7 @@ public class FileUploadException extends Exception {
      * Prints this throwable and its backtrace to the specified
      * print writer.
      *
-     * @param writer <code>PrintWriter</code> to use for output
+     * @param writer {@code PrintWriter} to use for output
      */
     @Override
     public void printStackTrace(PrintWriter writer) {

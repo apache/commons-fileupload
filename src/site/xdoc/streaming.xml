@@ -41,9 +41,9 @@
   
     <section name="How it works">
       <p>
-        Again, the <code>FileUpload</code> class is used for accessing the
+        Again, the {@code FileUpload} class is used for accessing the
         form fields and fields in the order in which they have been sent
-        by the client. However, the <code>FileItemFactory</code> is completely
+        by the client. However, the {@code FileItemFactory} is completely
         ignored.
       </p>
     </section>

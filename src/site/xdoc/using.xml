@@ -55,7 +55,7 @@
         <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>,
         "Form-based File Upload in HTML". FileUpload can parse such a request
         and provide your application with a list of the individual uploaded
-        items. Each such item implements the <code>FileItem</code> interface,
+        items. Each such item implements the {@code FileItem} interface,
         regardless of its underlying implementation.
       </p>
       <p>
@@ -67,15 +67,15 @@
       <p>
         Each file item has a number of properties that might be of interest for
         your application. For example, every item has a name and a content type,
-        and can provide an <code>InputStream</code> to access its data. On the
+        and can provide an {@code InputStream} to access its data. On the
         other hand, you may need to process items differently, depending upon
         whether the item is a regular form field - that is, the data came from
         an ordinary text box or similar HTML field - or an uploaded file. The
-        <code>FileItem</code> interface provides the methods to make such a
+        {@code FileItem} interface provides the methods to make such a
         determination, and to access the data in the most appropriate manner.
       </p>
       <p>
-        FileUpload creates new file items using a <code>FileItemFactory</code>.
+        FileUpload creates new file items using a {@code FileItemFactory}.
         This is what gives FileUpload most of its flexibility. The factory has
         ultimate control over how each item is created. The factory implementation
         that currently ships with FileUpload stores the item's data in memory or
@@ -96,12 +96,12 @@
         distinctions you should make as you read this document:</p>
         <ul>
           <li>
-            Where you see references to the <code>ServletFileUpload</code> class,
-            substitute the <code>PortletFileUpload</code> class.
+            Where you see references to the {@code ServletFileUpload} class,
+            substitute the {@code PortletFileUpload} class.
           </li>
           <li>
-            Where you see references to the <code>HttpServletRequest</code> class,
-            substitute the <code>ActionRequest</code> class.
+            Where you see references to the {@code HttpServletRequest} class,
+            substitute the {@code ActionRequest} class.
           </li>
         </ul>
     </section>
@@ -157,8 +157,8 @@ List<FileItem> items = upload.parseRequest(request);]]></source>
           That's all that's needed. Really!
         </p>
         <p>
-          The result of the parse is a <code>List</code> of file items, each of
-          which implements the <code>FileItem</code> interface. Processing these
+          The result of the parse is a {@code List} of file items, each of
+          which implements the {@code FileItem} interface. Processing these
           items is discussed below.
         </p>
       </subsection>
@@ -202,7 +202,7 @@ DiskFileItemFactory factory = new DiskFileItemFactory(yourMaxMemorySize, yourTem
 
     <section name="Processing the uploaded items">
       <p>
-        Once the parse has completed, you will have a <code>List</code> of file
+        Once the parse has completed, you will have a {@code List} of file
         items that you need to process. In most cases, you will want to handle
         file uploads differently from regular form fields, so you might process
         the list like this:
@@ -220,7 +220,7 @@ while (iter.hasNext()) {
 }]]></source>
       <p>
         For a regular form field, you will most likely be interested only in the
-        name of the item, and its <code>String</code> value. As you might expect,
+        name of the item, and its {@code String} value. As you might expect,
         accessing these is very simple.
       </p>
   <source><![CDATA[// Process a regular form field
@@ -260,14 +260,14 @@ if (writeToFile) {
     uploadedStream.close();
 }]]></source>
       <p>
-        Note that, in the default implementation of FileUpload, <code>write()</code>
+        Note that, in the default implementation of FileUpload, {@code write()}
         will attempt to rename the file to the specified destination, if the data
         is already in a temporary file. Actually copying the data is only done if
         the the rename fails, for some reason, or if the data was in memory.
       </p>
       <p>
         If you do need to access the uploaded data in memory, you need simply
-        call the <code>get()</code> method to obtain the data as an array of
+        call the {@code get()} method to obtain the data as an array of
         bytes.
       </p>
   <source><![CDATA[// Process a file upload in memory
@@ -284,8 +284,8 @@ byte[] data = item.get();
       </p>
       <p>
         Such temporary files are deleted automatically, if they are no longer
-        used (more precisely, if the corresponding instance of <code>DiskFileItem</code>
-        is garbage collected. This is done silently by the <code>org.apache.commons.io.FileCleanerTracker</code>
+        used (more precisely, if the corresponding instance of {@code DiskFileItem}
+        is garbage collected. This is done silently by the {@code org.apache.commons.io.FileCleanerTracker}
         class, which starts a reaper thread.
       </p>
       <p>
@@ -293,7 +293,7 @@ byte[] data = item.get();
         a servlet environment, this is done by using a special servlet
         context listener, called
         <a href="./apidocs/org/apache/commons/fileupload/servlet/FileCleanerCleanup.html">FileCleanerCleanup</a>.
-        To do so, add a section like the following to your <code>web.xml</code>:
+        To do so, add a section like the following to your {@code web.xml}:
       </p>
   <source><![CDATA[<web-app>
   ...
@@ -308,9 +308,9 @@ byte[] data = item.get();
       <subsection name="Creating a DiskFileItemFactory">
         <p>
           The FileCleanerCleanup provides an instance of
-          <code>org.apache.commons.io.FileCleaningTracker</code>. This
+          {@code org.apache.commons.io.FileCleaningTracker}. This
           instance must be used when creating a
-          <code>org.apache.commons.fileupload.disk.DiskFileItemFactory</code>.
+          {@code org.apache.commons.fileupload.disk.DiskFileItemFactory}.
           This should be done by calling a method like the following:
         </p>
   <source><![CDATA[public static DiskFileItemFactory newDiskFileItemFactory(ServletContext context,
@@ -328,7 +328,7 @@ byte[] data = item.get();
       <subsection name="Disabling cleanup of temporary files">
         <p>
           To disable tracking of temporary files, you may set the
-          <code>FileCleaningTracker</code> to null. Consequently,
+          {@code FileCleaningTracker} to null. Consequently,
           created files will no longer be tracked. In particular,
           they will no longer be deleted automatically.</p>
       </subsection>

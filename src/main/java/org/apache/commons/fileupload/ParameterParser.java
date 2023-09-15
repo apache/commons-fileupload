@@ -31,7 +31,7 @@ import org.apache.commons.fileupload.util.mime.MimeUtility;
  * Parameter values are optional and can be omitted.
  *
  * <p>
- *  <code>param1 = value; param2 = "anything goes; really"; param3</code>
+ *  {@code param1 = value; param2 = "anything goes; really"; param3}
  * </p>
  */
 public class ParameterParser {

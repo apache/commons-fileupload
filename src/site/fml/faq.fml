@@ -59,7 +59,7 @@
         jar in your classpath. FileUpload depends on IO (see 
         <a href="dependencies.html">dependencies</a>) - you can tell if 
         this is the case if the missing class is within the 
-        <code>org.apache.commons.io</code> package. </p>
+        {@code org.apache.commons.io} package. </p>
 
         <p>Secondly this happens when attempting to rely on a shared copy of
         the Commons FileUpload jar file provided by your web container. The

@@ -33,10 +33,10 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
  * <ul>
  *   <li>Size threshold is 10KB.</li>
  *   <li>Repository is the system default temp directory, as returned by
- *       <code>System.getProperty("java.io.tmpdir")</code>.</li>
+ *       {@code System.getProperty("java.io.tmpdir")}.</li>
  * </ul>
  *
- * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
+ * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
  */
 @Deprecated
 public class DefaultFileItemFactory extends DiskFileItemFactory {
@@ -47,7 +47,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      * Constructs an unconfigured instance of this class. The resulting factory
      * may be configured by calling the appropriate setter methods.
      *
-     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
     public DefaultFileItemFactory() {
@@ -64,7 +64,7 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *                      which files will be created, should the item size
      *                      exceed the threshold.
      *
-     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
     public DefaultFileItemFactory(int sizeThreshold, File repository) {
@@ -80,14 +80,14 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *
      * @param fieldName   The name of the form field.
      * @param contentType The content type of the form field.
-     * @param isFormField <code>true</code> if this is a plain form field;
-     *                    <code>false</code> otherwise.
+     * @param isFormField {@code true} if this is a plain form field;
+     *                    {@code false} otherwise.
      * @param fileName    The name of the uploaded file, if any, as supplied
      *                    by the browser or other client.
      *
      * @return The newly created file item.
      *
-     * @deprecated 1.1 Use <code>DiskFileItemFactory</code> instead.
+     * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Override
     @Deprecated

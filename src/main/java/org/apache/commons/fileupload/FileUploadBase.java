@@ -44,7 +44,7 @@ import org.apache.commons.io.IOUtils;
  * <p>High level API for processing file uploads.</p>
  *
  * <p>This class handles multiple files per single HTML widget, sent using
- * <code>multipart/mixed</code> encoding type, as specified by
+ * {@code multipart/mixed} encoding type, as specified by
  * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
  * #parseRequest(RequestContext)} to acquire a list of {@link
  * org.apache.commons.fileupload.FileItem}s associated with a given HTML
@@ -63,14 +63,14 @@ public abstract class FileUploadBase {
      * content.</p>
      *
      * <p><strong>NOTE:</strong>This method will be moved to the
-     * <code>ServletFileUpload</code> class after the FileUpload 1.1 release.
+     * {@code ServletFileUpload} class after the FileUpload 1.1 release.
      * Unfortunately, since this method is static, it is not possible to
      * provide its replacement until this method is removed.</p>
      *
      * @param ctx The request context to be evaluated. Must be non-null.
      *
-     * @return <code>true</code> if the request is multipart;
-     *         <code>false</code> otherwise.
+     * @return {@code true} if the request is multipart;
+     *         {@code false} otherwise.
      */
     public static final boolean isMultipartContent(RequestContext ctx) {
         String contentType = ctx.getContentType();
@@ -89,10 +89,10 @@ public abstract class FileUploadBase {
      *
      * @param req The servlet request to be evaluated. Must be non-null.
      *
-     * @return <code>true</code> if the request is multipart;
-     *         <code>false</code> otherwise.
+     * @return {@code true} if the request is multipart;
+     *         {@code false} otherwise.
      *
-     * @deprecated 1.1 Use the method on <code>ServletFileUpload</code> instead.
+     * @deprecated 1.1 Use the method on {@code ServletFileUpload} instead.
      */
     @Deprecated
     public static boolean isMultipartContent(HttpServletRequest req) {
@@ -268,8 +268,8 @@ public abstract class FileUploadBase {
 
     /**
      * Retrieves the character encoding used when reading the headers of an
-     * individual part. When not specified, or <code>null</code>, the request
-     * encoding is used. If that is also not specified, or <code>null</code>,
+     * individual part. When not specified, or {@code null}, the request
+     * encoding is used. If that is also not specified, or {@code null},
      * the platform default encoding is used.
      *
      * @return The encoding used to read part headers.
@@ -280,8 +280,8 @@ public abstract class FileUploadBase {
 
     /**
      * Specifies the character encoding to be used when reading the headers of
-     * individual part. When not specified, or <code>null</code>, the request
-     * encoding is used. If that is also not specified, or <code>null</code>,
+     * individual part. When not specified, or {@code null}, the request
+     * encoding is used. If that is also not specified, or {@code null},
      * the platform default encoding is used.
      *
      * @param encoding The encoding used to read part headers.
@@ -294,11 +294,11 @@ public abstract class FileUploadBase {
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
-     * compliant <code>multipart/form-data</code> stream.
+     * compliant {@code multipart/form-data} stream.
      *
      * @param req The servlet request to be parsed.
      *
-     * @return A list of <code>FileItem</code> instances parsed from the
+     * @return A list of {@code FileItem} instances parsed from the
      *         request, in the order that they were transmitted.
      *
      * @throws FileUploadException if there are problems reading/parsing
@@ -314,11 +314,11 @@ public abstract class FileUploadBase {
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
-     * compliant <code>multipart/form-data</code> stream.
+     * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
      *
-     * @return An iterator to instances of <code>FileItemStream</code>
+     * @return An iterator to instances of {@code FileItemStream}
      *         parsed from the request, in the order that they were
      *         transmitted.
      *
@@ -340,11 +340,11 @@ public abstract class FileUploadBase {
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
-     * compliant <code>multipart/form-data</code> stream.
+     * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
      *
-     * @return A list of <code>FileItem</code> instances parsed from the
+     * @return A list of {@code FileItem} instances parsed from the
      *         request, in the order that they were transmitted.
      *
      * @throws FileUploadException if there are problems reading/parsing
@@ -404,11 +404,11 @@ public abstract class FileUploadBase {
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
-     * compliant <code>multipart/form-data</code> stream.
+     * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
      *
-     * @return A map of <code>FileItem</code> instances parsed from the request.
+     * @return A map of {@code FileItem} instances parsed from the request.
      *
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
@@ -438,7 +438,7 @@ public abstract class FileUploadBase {
     // ------------------------------------------------------ Protected methods
 
     /**
-     * Retrieves the boundary from the <code>Content-type</code> header.
+     * Retrieves the boundary from the {@code Content-type} header.
      *
      * @param contentType The value of the content type header from which to
      *                    extract the boundary value.
@@ -465,12 +465,12 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the file name from the <code>Content-disposition</code>
+     * Retrieves the file name from the {@code Content-disposition}
      * header.
      *
-     * @param headers A <code>Map</code> containing the HTTP request headers.
+     * @param headers A {@code Map} containing the HTTP request headers.
      *
-     * @return The file name for the current <code>encapsulation</code>.
+     * @return The file name for the current {@code encapsulation}.
      * @deprecated 1.2.1 Use {@link #getFileName(FileItemHeaders)}.
      */
     @Deprecated
@@ -479,12 +479,12 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the file name from the <code>Content-disposition</code>
+     * Retrieves the file name from the {@code Content-disposition}
      * header.
      *
      * @param headers The HTTP headers object.
      *
-     * @return The file name for the current <code>encapsulation</code>.
+     * @return The file name for the current {@code encapsulation}.
      */
     protected String getFileName(FileItemHeaders headers) {
         return getFileName(headers.getHeader(CONTENT_DISPOSITION));
@@ -521,12 +521,12 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the field name from the <code>Content-disposition</code>
+     * Retrieves the field name from the {@code Content-disposition}
      * header.
      *
-     * @param headers A <code>Map</code> containing the HTTP request headers.
+     * @param headers A {@code Map} containing the HTTP request headers.
      *
-     * @return The field name for the current <code>encapsulation</code>.
+     * @return The field name for the current {@code encapsulation}.
      */
     protected String getFieldName(FileItemHeaders headers) {
         return getFieldName(headers.getHeader(CONTENT_DISPOSITION));
@@ -555,12 +555,12 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the field name from the <code>Content-disposition</code>
+     * Retrieves the field name from the {@code Content-disposition}
      * header.
      *
-     * @param headers A <code>Map</code> containing the HTTP request headers.
+     * @param headers A {@code Map} containing the HTTP request headers.
      *
-     * @return The field name for the current <code>encapsulation</code>.
+     * @return The field name for the current {@code encapsulation}.
      * @deprecated 1.2.1 Use {@link #getFieldName(FileItemHeaders)}.
      */
     @Deprecated
@@ -571,12 +571,12 @@ public abstract class FileUploadBase {
     /**
      * Creates a new {@link FileItem} instance.
      *
-     * @param headers       A <code>Map</code> containing the HTTP request
+     * @param headers       A {@code Map} containing the HTTP request
      *                      headers.
      * @param isFormField   Whether or not this item is a form field, as
      *                      opposed to a file.
      *
-     * @return A newly created <code>FileItem</code> instance.
+     * @return A newly created {@code FileItem} instance.
      *
      * @throws FileUploadException if an error occurs.
      * @deprecated 1.2 This method is no longer used in favour of
@@ -593,16 +593,16 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * <p> Parses the <code>header-part</code> and returns as key/value
+     * <p> Parses the {@code header-part} and returns as key/value
      * pairs.
      *
      * <p> If there are multiple headers of the same names, the name
      * will map to a comma-separated list containing the values.
      *
-     * @param headerPart The <code>header-part</code> of the current
-     *                   <code>encapsulation</code>.
+     * @param headerPart The {@code header-part} of the current
+     *                   {@code encapsulation}.
      *
-     * @return A <code>Map</code> containing the parsed HTTP request headers.
+     * @return A {@code Map} containing the parsed HTTP request headers.
      */
     protected FileItemHeaders getParsedHeaders(String headerPart) {
         final int len = headerPart.length();
@@ -646,16 +646,16 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * <p> Parses the <code>header-part</code> and returns as key/value
+     * <p> Parses the {@code header-part} and returns as key/value
      * pairs.
      *
      * <p> If there are multiple headers of the same names, the name
      * will map to a comma-separated list containing the values.
      *
-     * @param headerPart The <code>header-part</code> of the current
-     *                   <code>encapsulation</code>.
+     * @param headerPart The {@code header-part} of the current
+     *                   {@code encapsulation}.
      *
-     * @return A <code>Map</code> containing the parsed HTTP request headers.
+     * @return A {@code Map} containing the parsed HTTP request headers.
      * @deprecated 1.2.1 Use {@link #getParsedHeaders(String)}
      */
     @Deprecated
@@ -718,7 +718,7 @@ public abstract class FileUploadBase {
      * Returns the header with the specified name from the supplied map. The
      * header lookup is case-insensitive.
      *
-     * @param headers A <code>Map</code> containing the HTTP request headers.
+     * @param headers A {@code Map} containing the HTTP request headers.
      * @param name    The name of the header to return.
      *
      * @return The value of specified header, or a comma-separated list if
@@ -1196,7 +1196,7 @@ public abstract class FileUploadBase {
         private final FileUploadException cause;
 
         /**
-         * Creates a <code>FileUploadIOException</code> with the
+         * Creates a {@code FileUploadIOException} with the
          * given cause.
          *
          * @param pCause The exceptions cause, if any, or null.
@@ -1230,7 +1230,7 @@ public abstract class FileUploadBase {
         private static final long serialVersionUID = -9073026332015646668L;
 
         /**
-         * Constructs a <code>InvalidContentTypeException</code> with no
+         * Constructs a {@code InvalidContentTypeException} with no
          * detail message.
          */
         public InvalidContentTypeException() {
@@ -1238,7 +1238,7 @@ public abstract class FileUploadBase {
         }
 
         /**
-         * Constructs an <code>InvalidContentTypeException</code> with
+         * Constructs an {@code InvalidContentTypeException} with
          * the specified detail message.
          *
          * @param message The detail message.
@@ -1248,7 +1248,7 @@ public abstract class FileUploadBase {
         }
 
         /**
-         * Constructs an <code>InvalidContentTypeException</code> with
+         * Constructs an {@code InvalidContentTypeException} with
          * the specified detail message and cause.
          *
          * @param msg The detail message.
@@ -1375,7 +1375,7 @@ public abstract class FileUploadBase {
         private static final long serialVersionUID = 7062279004812015273L;
 
         /**
-         * Constructs a <code>UnknownSizeException</code> with no
+         * Constructs a {@code UnknownSizeException} with no
          * detail message.
          */
         public UnknownSizeException() {
@@ -1383,7 +1383,7 @@ public abstract class FileUploadBase {
         }
 
         /**
-         * Constructs an <code>UnknownSizeException</code> with
+         * Constructs an {@code UnknownSizeException} with
          * the specified detail message.
          *
          * @param message The detail message.
@@ -1425,7 +1425,7 @@ public abstract class FileUploadBase {
         }
 
         /**
-         * Constructs a <code>SizeExceededException</code> with
+         * Constructs a {@code SizeExceededException} with
          * the specified detail message, and actual and permitted sizes.
          *
          * @param message   The detail message.
@@ -1461,7 +1461,7 @@ public abstract class FileUploadBase {
         private String fieldName;
 
         /**
-         * Constructs a <code>SizeExceededException</code> with
+         * Constructs a {@code SizeExceededException} with
          * the specified detail message, and actual and permitted sizes.
          *
          * @param message   The detail message.
