@@ -16,8 +16,6 @@
  */
 package org.apache.commons.fileupload;
 
-import static java.lang.String.format;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -570,9 +568,9 @@ public class MultipartStream {
                 throw new MalformedStreamException("Stream ended unexpectedly");
             }
             if (++size > HEADER_PART_SIZE_MAX) {
-                throw new MalformedStreamException(
-                        format("Header section has more than %s bytes (maybe it is not properly terminated)",
-                               Integer.valueOf(HEADER_PART_SIZE_MAX)));
+                throw new MalformedStreamException(String.format(
+                        "Header section has more than %s bytes (maybe it is not properly terminated)",
+                        Integer.valueOf(HEADER_PART_SIZE_MAX)));
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++;

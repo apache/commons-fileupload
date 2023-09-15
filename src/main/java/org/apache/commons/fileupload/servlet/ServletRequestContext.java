@@ -16,8 +16,6 @@
  */
 package org.apache.commons.fileupload.servlet;
 
-import static java.lang.String.format;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -122,9 +120,8 @@ public class ServletRequestContext implements UploadContext {
      */
     @Override
     public String toString() {
-        return format("ContentLength=%s, ContentType=%s",
-                Long.valueOf(this.contentLength()),
-                this.getContentType());
+        return String.format("ContentLength=%s, ContentType=%s",
+                Long.valueOf(this.contentLength()), this.getContentType());
     }
 
 }
