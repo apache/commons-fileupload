@@ -416,7 +416,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getLocalName()
      */
     @Override
-    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
     public String getLocalName() {
         return null;
     }
@@ -433,7 +432,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getLocalPort()
      */
     @Override
-    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
     public int getLocalPort() {
         return 0;
     }
@@ -442,7 +440,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getRemotePort()
      */
     @Override
-    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
     public int getRemotePort() {
         return 0;
     }
@@ -467,7 +464,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
      * @see javax.servlet.ServletRequest#getLocalAddr()
      */
     @Override
-    @SuppressWarnings("javadoc") // This is a Servlet 2.4 method
     public String getLocalAddr() {
         return null;
     }

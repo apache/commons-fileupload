@@ -53,7 +53,8 @@ public class MultipartStreamTest {
         final InputStream input = new ByteArrayInputStream(contents);
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
         final int iBufSize = 1;
-        new MultipartStream(
+        @SuppressWarnings("unused")
+        MultipartStream unused = new MultipartStream(
                 input,
                 boundary,
                 iBufSize,
