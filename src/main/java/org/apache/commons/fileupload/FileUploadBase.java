@@ -1206,6 +1206,7 @@ public abstract class FileUploadBase {
          *
          * @return The exceptions cause, if any, or null.
          */
+        @SuppressWarnings("sync-override")
         @Override
         public Throwable getCause() {
             return cause;
