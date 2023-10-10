@@ -52,7 +52,7 @@ import jakarta.servlet.http.Part;
  */
 public class JakartaMockHttpServletRequest implements HttpServletRequest {
 
-    private static class MyServletInputStream extends ServletInputStream {
+    private static final class MyServletInputStream extends ServletInputStream {
 
         private final InputStream inputStream;
         private final int readLimit;

@@ -41,7 +41,7 @@ import org.apache.commons.fileupload2.core.AbstractFileUpload;
  */
 public class JavaxMockHttpServletRequest implements HttpServletRequest {
 
-    private static class MyServletInputStream extends ServletInputStream {
+    private static final class MyServletInputStream extends ServletInputStream {
 
         private final InputStream inputStream;
         private final int readLimit;

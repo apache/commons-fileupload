@@ -48,7 +48,7 @@ import jakarta.servlet.http.Part;
 
 public class JakartaMockServletHttpRequest implements HttpServletRequest {
 
-    private static class MyServletInputStream extends jakarta.servlet.ServletInputStream {
+    private static final class MyServletInputStream extends jakarta.servlet.ServletInputStream {
 
         private final InputStream inputStream;
         private final int readLimit;
