@@ -85,11 +85,11 @@ final class QuotedPrintableDecoder {
     }
 
     /**
-     * Converts a hex digit to the binary value it represents.
+     * Converts a hexadecimal digit to the binary value it represents.
      *
-     * @param b the ascii hex byte to convert (0-0, A-F, a-f)
-     * @return the int value of the hex byte, 0-15
-     * @throws IOException if the byte is not a valid hex digit.
+     * @param b the ascii hexadecimal byte to convert (0-0, A-F, a-f)
+     * @return the int value of the hexadecimal byte, 0-15
+     * @throws IOException if the byte is not a valid hexadecimal digit.
      */
     private static int hexToBinary(final byte b) throws IOException {
         // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
