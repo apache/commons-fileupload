@@ -24,7 +24,7 @@ import java.io.OutputStream;
 final class QuotedPrintableDecoder {
 
     /**
-     * The shift value required to create the upper nibble from the first of 2 byte values converted from ascii hex.
+     * The shift value required to create the upper nibble from the first of 2 byte values converted from ASCII hex.
      */
     private static final int UPPER_NIBBLE_SHIFT = Byte.SIZE / 2;
 
@@ -87,7 +87,7 @@ final class QuotedPrintableDecoder {
     /**
      * Converts a hexadecimal digit to the binary value it represents.
      *
-     * @param b the ascii hexadecimal byte to convert (0-0, A-F, a-f)
+     * @param b the ASCII hexadecimal byte to convert (0-0, A-F, a-f)
      * @return the int value of the hexadecimal byte, 0-15
      * @throws IOException if the byte is not a valid hexadecimal digit.
      */

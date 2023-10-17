@@ -50,8 +50,8 @@ import org.apache.commons.io.output.NullOutputStream;
  *   body := header-part CRLF body-part<br>
  *   header-part := 1*header CRLF<br>
  *   header := header-name ":" header-value<br>
- *   header-name := &lt;printable ascii characters except ":"&gt;<br>
- *   header-value := &lt;any ascii characters except CR &amp; LF&gt;<br>
+ *   header-name := &lt;printable ASCII characters except ":"&gt;<br>
+ *   header-value := &lt;any ASCII characters except CR &amp; LF&gt;<br>
  *   body-data := &lt;arbitrary data&gt;<br>
  * </code>
  *
