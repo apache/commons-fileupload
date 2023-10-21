@@ -43,11 +43,11 @@
 Apache Commons FileUpload Parent
 ===================
 
-[![GitHub Actions Status](https://github.com/apache/commons-fileupload/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-fileupload/actions)
+[![Java CI](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml)
 [![Coverage Status](https://codecov.io/gh/apache/commons-fileupload/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-fileupload)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-fileupload2/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-fileupload2/?gav=true)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2/2.0.0-M1.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2/2.0.0-M1)
-[![CodeQL](https://github.com/apache/commons-fileupload/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
+[![CodeQL](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload)
 
 The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
