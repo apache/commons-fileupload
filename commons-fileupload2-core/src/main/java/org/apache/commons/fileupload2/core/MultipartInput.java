@@ -406,7 +406,10 @@ public final class MultipartInput {
                     return 0;
                 }
             }
-            final var res = Math.min(available, bytes);
+            // Fix "Implicit narrowing conversion in compound assignment"
+            // https://github.com/apache/commons-fileupload/security/code-scanning/118
+            // Math.min always returns an int because available is an int.
+            final var res = Math.toIntExact(Math.min(available, bytes));
             head += res;
             return res;
         }
