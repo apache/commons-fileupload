@@ -91,6 +91,8 @@
 
   <module name="TreeWalker">
 
+    <module name="ExplicitInitializationCheck" />
+
     <module name="FinalLocalVariable">
       <property name="tokens" value="VARIABLE_DEF,PARAMETER_DEF" />
       <property name="validateEnhancedForLoopVariable" value="true" />
