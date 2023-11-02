@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.fileupload2.core.AbstractFileUploadTest;
 import org.apache.commons.fileupload2.core.Constants;
@@ -107,6 +108,14 @@ public class JakartaServletFileUploadTest
 
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
+
+        final var itemCount = new AtomicInteger();
+        // Replace iterator with this one to make test passed
+        JakartaMockServletHttpRequest request2 = new JakartaMockServletHttpRequest(bytes, Constants.CONTENT_TYPE);
+        upload.parseParameterMap(request);
+        upload.getItemIterator(request2).forEachRemaining(item -> itemCount.incrementAndGet());
+        upload.getItemIterator(request).forEachRemaining(item -> itemCount.incrementAndGet());
+        assertEquals(4, itemCount.get());
     }
 
     @Override
