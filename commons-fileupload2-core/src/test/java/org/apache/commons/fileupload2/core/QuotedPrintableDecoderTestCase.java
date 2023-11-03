@@ -55,37 +55,37 @@ public final class QuotedPrintableDecoderTestCase {
     }
 
     @Test
-    public void basicEncodeDecode() throws Exception {
+    public void testBasicEncodeDecode() throws Exception {
         assertEncoded("= Hello there =\r\n", "=3D Hello there =3D=0D=0A");
     }
 
     @Test
-    public void emptyDecode() throws Exception {
+    public void testEmptyDecode() throws Exception {
         assertEncoded("", "");
     }
 
     @Test
-    public void invalidCharDecode() {
+    public void testInvalidCharDecode() {
         assertThrows(IOException.class, () -> assertEncoded("=\r\n", "=3D=XD=XA"));
     }
 
     @Test
-    public void invalidQuotedPrintableEncoding() throws Exception {
+    public void testInvalidQuotedPrintableEncoding() throws Exception {
         assertIOException("truncated escape sequence", "YWJjMTIzXy0uKn4hQCMkJV4mKCkre31cIlxcOzpgLC9bXQ==");
     }
 
     @Test
-    public void invalidSoftBreak1() throws Exception {
+    public void testInvalidSoftBreak1() throws Exception {
         assertIOException("CR must be followed by LF", "=\r\r");
     }
 
     @Test
-    public void invalidSoftBreak2() throws Exception {
+    public void testInvalidSoftBreak2() throws Exception {
         assertIOException("CR must be followed by LF", "=\rn");
     }
 
     @Test
-    public void plainDecode() throws Exception {
+    public void testPlainDecode() throws Exception {
         // spaces are allowed in encoded data
         // There are special rules for trailing spaces; these are not currently implemented.
         assertEncoded("The quick brown fox jumps over the lazy dog.", "The quick brown fox jumps over the lazy dog.");
@@ -98,7 +98,7 @@ public final class QuotedPrintableDecoderTestCase {
      * @see <a href="https://issues.apache.org/jira/browse/CODEC-121">CODEC-121</a>
      */
     @Test
-    public void softLineBreakDecode() throws Exception {
+    public void testSoftLineBreakDecode() throws Exception {
         assertEncoded("If you believe that truth=beauty, then surely mathematics is the most " + "beautiful branch of philosophy.",
                 "If you believe that truth=3Dbeauty, then " + "surely=20=\r\nmathematics is the most beautiful branch of philosophy.");
     }
@@ -109,12 +109,12 @@ public final class QuotedPrintableDecoderTestCase {
     }
 
     @Test
-    public void unsafeDecode() throws Exception {
+    public void testUnsafeDecode() throws Exception {
         assertEncoded("=\r\n", "=3D=0D=0A");
     }
 
     @Test
-    public void unsafeDecodeLowerCase() throws Exception {
+    public void testUnsafeDecodeLowerCase() throws Exception {
         assertEncoded("=\r\n", "=3d=0d=0a");
     }
 
