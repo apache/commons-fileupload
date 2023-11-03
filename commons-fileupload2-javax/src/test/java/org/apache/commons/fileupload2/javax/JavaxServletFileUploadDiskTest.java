@@ -45,6 +45,53 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
         super(new JavaxServletDiskFileUpload());
     }
 
+    @Override
+    public List<DiskFileItem> parseUpload(final JavaxServletDiskFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
+        return upload.parseRequest(new JavaxServletRequestContext(request));
+    }
+
+    /**
+     * Runs a test with varying file sizes.
+     */
+    @Override
+    @Test
+    public void testFileUpload() throws IOException, FileUploadException {
+        final var baos = new ByteArrayOutputStream();
+        var add = 16;
+        var num = 0;
+        for (var i = 0; i < 16384; i += add) {
+            if (++add == 32) {
+                add = 16;
+            }
+            final var header = "-----1234\r\n" + "Content-Disposition: form-data; name=\"field" + num++ + "\"\r\n" + "\r\n";
+            baos.write(header.getBytes(StandardCharsets.US_ASCII));
+            for (var j = 0; j < i; j++) {
+                baos.write((byte) j);
+            }
+            baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
+        }
+        baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
+
+        final var fileItems = parseUpload(new JavaxServletDiskFileUpload(), baos.toByteArray());
+        final var fileIter = fileItems.iterator();
+        add = 16;
+        num = 0;
+        for (var i = 0; i < 16384; i += add) {
+            if (++add == 32) {
+                add = 16;
+            }
+            final var item = fileIter.next();
+            assertEquals("field" + num++, item.getFieldName());
+            final var bytes = item.get();
+            assertEquals(i, bytes.length);
+            for (var j = 0; j < i; j++) {
+                assertEquals((byte) j, bytes[j]);
+            }
+        }
+        assertTrue(!fileIter.hasNext());
+    }
+
     @Test
     public void testParseImpliedUtf8() throws Exception {
         // utf8 encoded form-data without explicit content-type encoding
@@ -109,53 +156,6 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
 
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
-    }
-
-    @Override
-    public List<DiskFileItem> parseUpload(final JavaxServletDiskFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
-        final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
-        return upload.parseRequest(new JavaxServletRequestContext(request));
-    }
-
-    /**
-     * Runs a test with varying file sizes.
-     */
-    @Override
-    @Test
-    public void testFileUpload() throws IOException, FileUploadException {
-        final var baos = new ByteArrayOutputStream();
-        var add = 16;
-        var num = 0;
-        for (var i = 0; i < 16384; i += add) {
-            if (++add == 32) {
-                add = 16;
-            }
-            final var header = "-----1234\r\n" + "Content-Disposition: form-data; name=\"field" + num++ + "\"\r\n" + "\r\n";
-            baos.write(header.getBytes(StandardCharsets.US_ASCII));
-            for (var j = 0; j < i; j++) {
-                baos.write((byte) j);
-            }
-            baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
-        }
-        baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
-
-        final var fileItems = parseUpload(new JavaxServletDiskFileUpload(), baos.toByteArray());
-        final var fileIter = fileItems.iterator();
-        add = 16;
-        num = 0;
-        for (var i = 0; i < 16384; i += add) {
-            if (++add == 32) {
-                add = 16;
-            }
-            final var item = fileIter.next();
-            assertEquals("field" + num++, item.getFieldName());
-            final var bytes = item.get();
-            assertEquals(i, bytes.length);
-            for (var j = 0; j < i; j++) {
-                assertEquals((byte) j, bytes[j]);
-            }
-        }
-        assertTrue(!fileIter.hasNext());
     }
 
 }

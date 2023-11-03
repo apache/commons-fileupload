@@ -52,11 +52,6 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
-    public void testNoNeedToDecode() throws Exception {
-        assertEncoded("abc", "abc");
-    }
-
-    @Test
     public void testHasEncodedValue() {
         final var nameWithAsteriskAtEnd = "paramname*";
         assertTrue(RFC2231Utils.hasEncodedValue(nameWithAsteriskAtEnd));
@@ -66,6 +61,11 @@ public final class RFC2231UtilityTestCase {
 
         final var nameWithoutAsterisk = "paramname";
         assertFalse(RFC2231Utils.hasEncodedValue(nameWithoutAsterisk));
+    }
+
+    @Test
+    public void testNoNeedToDecode() throws Exception {
+        assertEncoded("abc", "abc");
     }
 
     @Test

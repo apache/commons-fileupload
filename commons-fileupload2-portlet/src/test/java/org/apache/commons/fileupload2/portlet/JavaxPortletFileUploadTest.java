@@ -43,6 +43,13 @@ public class JavaxPortletFileUploadTest
         super(new JavaxPortletFileUpload<>(DiskFileItemFactory.builder().get()));
     }
 
+    @Override
+    public List<DiskFileItem> parseUpload(final JavaxPortletFileUpload<DiskFileItem, DiskFileItemFactory> upload, final byte[] bytes, final String contentType)
+            throws FileUploadException {
+        final ActionRequest request = new JavaxPortletMockActionRequest(bytes, contentType);
+        return upload.parseRequest(new JavaxPortletRequestContext(request));
+    }
+
     @Test
     public void testParseParameterMap() throws Exception {
         // @formatter:off
@@ -78,13 +85,6 @@ public class JavaxPortletFileUploadTest
 
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
-    }
-
-    @Override
-    public List<DiskFileItem> parseUpload(final JavaxPortletFileUpload<DiskFileItem, DiskFileItemFactory> upload, final byte[] bytes, final String contentType)
-            throws FileUploadException {
-        final ActionRequest request = new JavaxPortletMockActionRequest(bytes, contentType);
-        return upload.parseRequest(new JavaxPortletRequestContext(request));
     }
 
 }

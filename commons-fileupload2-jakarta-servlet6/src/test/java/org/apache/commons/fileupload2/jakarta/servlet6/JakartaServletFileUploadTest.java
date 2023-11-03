@@ -43,6 +43,13 @@ public class JakartaServletFileUploadTest
         super(new JakartaServletFileUpload<>(DiskFileItemFactory.builder().get()));
     }
 
+    @Override
+    public List<DiskFileItem> parseUpload(final JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> upload, final byte[] bytes,
+            final String contentType) throws FileUploadException {
+        final HttpServletRequest request = new JakartaMockHttpServletRequest(bytes, contentType);
+        return upload.parseRequest(new JakartaServletRequestContext(request));
+    }
+
     @Test
     public void testParseImpliedUtf8() throws Exception {
         // utf8 encoded form-data without explicit content-type encoding
@@ -107,12 +114,5 @@ public class JakartaServletFileUploadTest
 
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
-    }
-
-    @Override
-    public List<DiskFileItem> parseUpload(final JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> upload, final byte[] bytes,
-            final String contentType) throws FileUploadException {
-        final HttpServletRequest request = new JakartaMockHttpServletRequest(bytes, contentType);
-        return upload.parseRequest(new JakartaServletRequestContext(request));
     }
 }
