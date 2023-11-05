@@ -114,7 +114,7 @@ public final class QuotedPrintableDecoderTestCase {
     }
 
     @Test
-    public void truncatedEscape() throws Exception {
+    public void testTruncatedEscape() throws Exception {
         assertIOException("truncated", "=1");
     }
 
