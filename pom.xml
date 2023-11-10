@@ -253,7 +253,6 @@
     <japicmp.skip>true</japicmp.skip>
     <clirr.skip>true</clirr.skip>
     <animal.sniffer.skip>true</animal.sniffer.skip>
-    <moditect-maven-plugin.version>1.0.0.Final</moditect-maven-plugin.version>
     <commons.javadoc.java.link>${commons.javadoc11.java.link}</commons.javadoc.java.link>
     <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
 
