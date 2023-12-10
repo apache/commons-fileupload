@@ -19,6 +19,8 @@ package org.apache.commons.fileupload2.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.nio.charset.StandardCharsets;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -32,7 +34,7 @@ public class ParameterParserTest {
         final var parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         final var params = parser.parse(s, ';');
-        assertEquals("UTF-8", params.get("charset"));
+        assertEquals(StandardCharsets.UTF_8.name(), params.get("charset"));
     }
 
     // See: https://issues.apache.org/jira/browse/FILEUPLOAD-139
