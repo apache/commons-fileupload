@@ -70,8 +70,8 @@ final class MimeUtils {
         MIME2JAVA.put("ja_jp.eucjp", "EUCJIS");
         MIME2JAVA.put("euc-kr", "KSC5601");
         MIME2JAVA.put("euckr", "KSC5601");
-        MIME2JAVA.put("us-ascii", "ISO-8859-1");
-        MIME2JAVA.put("x-us-ascii", "ISO-8859-1");
+        MIME2JAVA.put("us-ascii", StandardCharsets.ISO_8859_1.name());
+        MIME2JAVA.put("x-us-ascii", StandardCharsets.ISO_8859_1.name());
     }
 
     /**
