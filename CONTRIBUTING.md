@@ -49,13 +49,13 @@ Getting Started
 ---------------
 
 + Make sure you have a [JIRA account](https://issues.apache.org/jira/).
-+ Make sure you have a [GitHub account](https://github.com/signup/free).
++ Make sure you have a [GitHub account](https://github.com/signup/free). This is not essential, but makes providing patches much easier.
 + If you're planning to implement a new feature it makes sense to discuss your changes on the [dev list](https://commons.apache.org/mail-lists.html) first. This way you can make sure you're not wasting your time on something that isn't considered to be in Apache Commons FileUpload's scope.
 + Submit a [Jira Ticket][jira] for your issue, assuming one does not already exist.
   + Clearly describe the issue including steps to reproduce when it is a bug.
   + Make sure you fill in the earliest version that you know has the issue.
-+ Find the corresponding [repository on GitHub](https://github.com/apache/commons-fileupload),
-[fork](https://help.github.com/articles/fork-a-repo/) and check out your forked repository.
++ Find the corresponding [repository on GitHub](https://github.com/apache/?query=commons-),
+[fork](https://help.github.com/articles/fork-a-repo/) and check out your forked repository. If you don't have a GitHub account, you can still clone the Commons repository.
 
 Making Changes
 --------------
@@ -72,12 +72,12 @@ Making Changes
   + Create minimal diffs - disable _On Save_ actions like _Reformat Source Code_ or _Organize Imports_. If you feel the source code should be reformatted create a separate PR for this change first.
   + Check for unnecessary whitespace with `git diff` -- check before committing.
 + Make sure you have added the necessary tests for your changes, typically in `src/test/java`.
-+ Run all the checks with `mvn` or at least `mvn clean verify` to assure nothing was accidentally broken.
++ Run all the tests with `mvn clean verify` to assure nothing else was accidentally broken.
 
 Making Trivial Changes
 ----------------------
 
-The JIRA tickets are used to generate the change log for the next release.
+The JIRA tickets are used to generate the changelog for the next release.
 
 For changes of a trivial nature to comments and documentation, it is not always necessary to create a new ticket in JIRA.
 In this case, it is appropriate to start the first line of a commit with '(doc)' instead of a ticket number.
@@ -109,7 +109,6 @@ Additional Resources
 + [General GitHub documentation](https://help.github.com/)
 + [GitHub pull request documentation](https://help.github.com/articles/creating-a-pull-request/)
 + [Apache Commons Twitter Account](https://twitter.com/ApacheCommons)
-+ `#apache-commons` IRC channel on `irc.freenode.net`
 
 [cla]:https://www.apache.org/licenses/#clas
 [jira]:https://issues.apache.org/jira/browse/FILEUPLOAD

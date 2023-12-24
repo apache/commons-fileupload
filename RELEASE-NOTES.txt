@@ -1,3 +1,42 @@
+              Apache Commons FileUpload 2.0.0-M2 RELEASE NOTES
+
+The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 2.0.0-M2.
+
+The Apache Commons FileUpload component provides a simple yet flexible means of
+adding support for multipart file upload functionality to Servlets and web
+applications. This version requires Java 11 or above.
+
+
+2.0.0-M2 Release
+
+Changes in version 2.0.0-M2 include:
+
+New features:
+o                  Fix off-by-one error when checking fileSizeMax in FileItemInputImpl #235. Thanks to James Reeves.
+o FILEUPLOAD-352:  NullPointerException in DiskFileItem#toString. Thanks to Björn Kautler, Gary Gregory.
+o                  Fail fast on null inputs to org.apache.commons.fileupload2.core.AbstractRequestContext.AbstractRequestContext(Function, LongSupplier, T). Thanks to Gary Gregory.
+o                  Complete refactoring in JakartaServletRequestContext. Thanks to Gary Gregory.
+o                  Fix "Implicit narrowing conversion in compound assignment" from https://github.com/apache/commons-fileupload/security/code-scanning/118. Thanks to Gary Gregory.
+o                  Refactor to support Jakarta Servlet 5 and 6. Thanks to Gary Gregory.
+o                  Generate some OSGi metadata. Thanks to Michal H Siemaszko, Gary Gregory.
+
+Fixed Bugs:
+o                  Pick up Maven Moditect plugin version from parent POM. Thanks to Gary Gregory.
+
+Changes:
+o                  Bump Java from 8 to 11. Thanks to Dependabot.
+o                  Bump commons-parent from 58 to 65. Thanks to Gary Gregory.
+o                  Bump commons-lang3 from 3.12.0 to 3.14.0. Thanks to Gary Gregory.
+o                  Bump commons-io from 2.13.0 to 2.15.1. Thanks to Gary Gregory.
+
+
+For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons FileUpload website:
+
+https://commons.apache.org/proper/commons-fileupload/
+
+------------------------------------------------------------------------------
+
               Apache Commons FileUpload Parent 2.0.0-M1 RELEASE NOTES
 
 The Apache Commons FileUpload Parent team is pleased to announce the release of Apache Commons FileUpload Parent 2.0.0-M1.
