@@ -23,7 +23,7 @@ limitations under the License.
   <name>Apache Commons FileUpload Distribution</name>
   <artifactId>commons-fileupload2-distribution</artifactId>
   <packaging>pom</packaging>
-  <description>Apache Commons FIleUpload Distribution archives.</description>
+  <description>Apache Commons FileUpload Distribution archives.</description>
 
   <parent>
     <groupId>org.apache.commons</groupId>
