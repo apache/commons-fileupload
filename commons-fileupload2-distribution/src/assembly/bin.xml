@@ -28,7 +28,8 @@ limitations under the License.
     <dependencySet>
       <includes>
         <include>org.apache.commons:commons-fileupload2-core</include>
-        <include>org.apache.commons:commons-fileupload2-jakarta</include>
+        <include>org.apache.commons:commons-fileupload2-jakarta-servlet5</include>
+        <include>org.apache.commons:commons-fileupload2-jakarta-servlet6</include>
         <include>org.apache.commons:commons-fileupload2-javax</include>
         <include>org.apache.commons:commons-fileupload2-portlet</include>
       </includes>
