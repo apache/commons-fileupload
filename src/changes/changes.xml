@@ -43,12 +43,12 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.0.0" date="2024-MM-DD" description="2.0.0 Release">
+    <release version="2.0.0" date="2024-MM-DD" description="2.0.0 Release, requires Java 11.">
       <!-- FIX -->
       <!-- ADD -->
       <!-- UDPATE -->
     </release>
-    <release version="2.0.0-M2" date="2023-12-24" description="2.0.0-M2 Release">
+    <release version="2.0.0-M2" date="2023-12-24" description="2.0.0-M2 Release, requires Java 11.">
       <!-- FIX -->
       <action                        dev="ggregory" type="add" due-to="James Reeves">Fix off-by-one error when checking fileSizeMax in FileItemInputImpl #235.</action>
       <action issue="FILEUPLOAD-352" dev="ggregory" type="add" due-to="Björn Kautler, Gary Gregory">NullPointerException in DiskFileItem#toString.</action>
@@ -65,7 +65,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-lang3 from 3.12.0 to 3.14.0.</action>      
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-io from 2.13.0 to 2.15.1.</action>      
     </release>
-    <release version="2.0.0-M1" date="2023-07-14" description="2.0.0-M1 Release">
+    <release version="2.0.0-M1" date="2023-07-14" description="2.0.0-M1 Release, requires Java 8.">
       <!-- FIX -->
       <action                        dev="jochen" type="fix">Changing Maven coordinates, and package name, due to binary incompatible changes.</action>
       <action issue="FILEUPLOAD-293" dev="jochen" type="fix">DiskFileItem.write(File) had been changed to use FileUtils.moveFile internally, preventing an existing file as the target.</action>
