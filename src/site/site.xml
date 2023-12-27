@@ -31,7 +31,7 @@
       <item name="Migration"                href="./migration.html"/>
       <item name="Streaming API"            href="./streaming.html" />
       <item name="FAQ"                      href="./faq.html" />
-      <item name="Javadoc Archives v2"      href="https://javadoc.io/doc/org.apache.commons/commons-fileupload2" />
+      <item name="Javadoc Archives v2"      href="https://javadoc.io/doc/org.apache.commons/commons-fileupload2-core" />
       <item name="Javadoc Archives v1"      href="https://javadoc.io/doc/commons-fileupload/commons-fileupload" />
       <item name="Download"                 href="./download_fileupload.cgi" />
       <item name="Security Reports"         href="./security-reports.html"/>

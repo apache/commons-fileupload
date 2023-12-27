@@ -187,7 +187,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
     }
 
     /**
-     * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-130">
+     * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-130">FILEUPLOAD-130</a>.
      *
      * @throws IOException Test failure.
      */

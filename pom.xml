@@ -25,7 +25,7 @@
   </parent>
 
   <artifactId>commons-fileupload2</artifactId>
-  <version>2.0.0-M2-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache Commons FileUpload</name>
@@ -230,6 +230,7 @@
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload2</commons.module.name>
     <commons.release.version>2.0.0-M2</commons.release.version>
+    <commons.release.next>2.0.0</commons.release.next>
     <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 8 or later</commons.release.desc>
 
     <commons.release.2.version>1.5</commons.release.2.version>
@@ -255,9 +256,10 @@
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <commons.javadoc.java.link>${commons.javadoc11.java.link}</commons.javadoc.java.link>
     <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
+    <commons.javadoc.version>3.6.3</commons.javadoc.version>
 
     <!-- Commons Release Plugin -->
-    <commons.bc.version>2.0.0</commons.bc.version>
+    <commons.bc.version>2.0.0-M1</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.release.isDistModule>false</commons.release.isDistModule>
@@ -322,6 +324,10 @@
             <excludeFilterFile>${commons.parent.dir}/spotbugs-exclude-filter.xml</excludeFilterFile>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+        </plugin>
       </plugins>
     </pluginManagement>
     <!-- javadoc:javadoc fails if later in the sequence -->
@@ -329,7 +335,21 @@
   </build>
 
   <reporting>
+    <excludeDefaults>true</excludeDefaults>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.3</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc-no-fork</report>
+              <report>test-javadoc-no-fork</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
@@ -410,6 +430,25 @@
             </tagClasses>
           </tagListOptions>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>default</id>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>

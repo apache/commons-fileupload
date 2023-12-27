@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * The expected characters are encoded in UTF16, while the actual characters may be encoded in UTF-8/ISO-8859-1
  *
- * RFC 5987 recommends to support both UTF-8 & ISO 8859-1. Test values are taken from https://tools.ietf.org/html/rfc5987#section-3.2.2
+ * RFC 5987 recommends to support both UTF-8 and ISO 8859-1. Test values are taken from https://tools.ietf.org/html/rfc5987#section-3.2.2
  */
 public final class RFC2231UtilityTestCase {
 
