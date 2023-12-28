@@ -110,4 +110,6 @@ patches, or suggestions for improvement, see the ${project.name} website:
 
 ${project.url}
 
+Download it from ${project.url}download_fileupload.cgi
+
 ------------------------------------------------------------------------------

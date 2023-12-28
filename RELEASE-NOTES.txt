@@ -13,7 +13,7 @@ Changes in version 2.0.0-M2 include:
 
 New features:
 o                  Fix off-by-one error when checking fileSizeMax in FileItemInputImpl #235. Thanks to James Reeves.
-o FILEUPLOAD-352:  NullPointerException in DiskFileItem#toString. Thanks to Björn Kautler, Gary Gregory.
+o FILEUPLOAD-352:  NullPointerException in DiskFileItem#toString. Thanks to Bjï¿½rn Kautler, Gary Gregory.
 o                  Fail fast on null inputs to org.apache.commons.fileupload2.core.AbstractRequestContext.AbstractRequestContext(Function, LongSupplier, T). Thanks to Gary Gregory.
 o                  Complete refactoring in JakartaServletRequestContext. Thanks to Gary Gregory.
 o                  Fix "Implicit narrowing conversion in compound assignment" from https://github.com/apache/commons-fileupload/security/code-scanning/118. Thanks to Gary Gregory.
@@ -34,6 +34,8 @@ For complete information on Apache Commons FileUpload, including instructions on
 patches, or suggestions for improvement, see the Apache Commons FileUpload website:
 
 https://commons.apache.org/proper/commons-fileupload/
+
+Download it from https://commons.apache.org/proper/commons-fileupload/download_fileupload.cgi
 
 ------------------------------------------------------------------------------
 
