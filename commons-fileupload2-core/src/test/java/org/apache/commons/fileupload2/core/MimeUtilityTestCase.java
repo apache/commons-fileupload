@@ -24,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 
 /**
- * Use the online <a href="http://dogmamix.com/MimeHeadersDecoder/">MimeHeadersDecoder</a> to validate expected values.
+ * Use the online <a href="https://dogmamix.com/MimeHeadersDecoder/">MimeHeadersDecoder</a> to validate expected values.
  */
 public final class MimeUtilityTestCase {
 
