@@ -355,7 +355,6 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      *
      * @return The maximum allowed size, in bytes. The default value of -1 indicates, that there is no limit.
      * @see #setSizeMax(long)
-     *
      */
     public long getSizeMax() {
         return sizeMax;
