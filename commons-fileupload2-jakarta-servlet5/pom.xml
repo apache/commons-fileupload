@@ -42,6 +42,7 @@
 
 	<!-- Override link to Jakarta EE -->
 	<commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
+    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>

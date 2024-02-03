@@ -40,6 +40,7 @@
 	<!-- Override properties for the OSGi maven-bundle-plugin to generate proper manifest -->
     <commons.osgi.import>javax.servlet.*;version=${commons.servlet-api.version},*</commons.osgi.import>
     <commons.osgi.requireCapability>osgi.contract;filter:="(&amp;(osgi.contract=JavaServlet)(version=${commons.servlet-api.version}))"</commons.osgi.requireCapability>
+    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
