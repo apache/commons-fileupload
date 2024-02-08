@@ -160,7 +160,7 @@ Migrating
 	    @Override
 	    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		    if (JakartaServletFileUpload.isMultipartContent(req)) {
-			    final DiskFileItemFactory fileItemfactory = new DiskFileItemFactory();
+			    final DiskFileItemFactory fileItemfactory = DiskFileItemFactory.builder().get();
 			    final JakartaServletFileUpload fileUpload = new JakartaServletFileUpload(fileItemfactory);
 			    final List<FileItem> items;
 			    try {
