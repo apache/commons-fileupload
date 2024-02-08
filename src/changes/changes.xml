@@ -45,16 +45,17 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.0.0" date="2024-MM-DD" description="2.0.0 Release, requires Java 11.">
       <!-- FIX -->
+      <action                        dev="ggregory" type="fix" due-to="Gregor Dschung">[site] Fix instantiation of DiskFileItemFactory in migration guide #273.</action>
       <!-- ADD -->
       <!-- UDPATE -->
     </release>
     <release version="2.0.0-M2" date="2023-12-24" description="2.0.0-M2 Release, requires Java 11.">
       <!-- FIX -->
-      <action                        dev="ggregory" type="add" due-to="James Reeves">Fix off-by-one error when checking fileSizeMax in FileItemInputImpl #235.</action>
-      <action issue="FILEUPLOAD-352" dev="ggregory" type="add" due-to="Björn Kautler, Gary Gregory">NullPointerException in DiskFileItem#toString.</action>
-      <action                        dev="ggregory" type="add" due-to="Gary Gregory">Fail fast on null inputs to org.apache.commons.fileupload2.core.AbstractRequestContext.AbstractRequestContext(Function, LongSupplier, T).</action>
-      <action                        dev="ggregory" type="add" due-to="Gary Gregory">Complete refactoring in JakartaServletRequestContext.</action>
-      <action                        dev="ggregory" type="add" due-to="Gary Gregory">Fix "Implicit narrowing conversion in compound assignment" from https://github.com/apache/commons-fileupload/security/code-scanning/118.</action>
+      <action                        dev="ggregory" type="fix" due-to="James Reeves">Fix off-by-one error when checking fileSizeMax in FileItemInputImpl #235.</action>
+      <action issue="FILEUPLOAD-352" dev="ggregory" type="fix" due-to="Björn Kautler, Gary Gregory">NullPointerException in DiskFileItem#toString.</action>
+      <action                        dev="ggregory" type="fix" due-to="Gary Gregory">Fail fast on null inputs to org.apache.commons.fileupload2.core.AbstractRequestContext.AbstractRequestContext(Function, LongSupplier, T).</action>
+      <action                        dev="ggregory" type="fix" due-to="Gary Gregory">Complete refactoring in JakartaServletRequestContext.</action>
+      <action                        dev="ggregory" type="fix" due-to="Gary Gregory">Fix "Implicit narrowing conversion in compound assignment" from https://github.com/apache/commons-fileupload/security/code-scanning/118.</action>
       <action                        dev="ggregory" type="fix" due-to="Gary Gregory">Pick up Maven Moditect plugin version from parent POM.</action>
       <!-- ADD -->
       <action                        dev="ggregory" type="add" due-to="Gary Gregory">Refactor to support Jakarta Servlet 5 and 6.</action>
