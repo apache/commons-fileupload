@@ -123,7 +123,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     /**
      * Counter used in unique identifier generation.
      */
-    private static final AtomicInteger COUNTER = new AtomicInteger(0);
+    private static final AtomicInteger COUNTER = new AtomicInteger();
 
     /**
      * Constructs a new {@link Builder}.
