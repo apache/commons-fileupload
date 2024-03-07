@@ -26,7 +26,7 @@
 
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.5</version>
+  <version>1.5.1-SNAPSHOT</version>
 
   <name>Apache Commons FileUpload</name>
   <description>

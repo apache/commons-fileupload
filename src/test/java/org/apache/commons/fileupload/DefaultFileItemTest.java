@@ -18,6 +18,7 @@ package org.apache.commons.fileupload;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -27,6 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
+
+import org.apache.commons.fileupload.util.crypto.CipherSpiLoader;
 import org.apache.commons.io.FileUtils;
 
 import org.junit.Test;
@@ -133,7 +136,8 @@ public class DefaultFileItemTest {
      */
     @Test
     public void testAboveThresholdDefaultRepository() {
-        doTestAboveThreshold(null);
+        doTestAboveThreshold(null, false);
+        doTestAboveThreshold(null, true);
     }
 
     /**
@@ -146,7 +150,8 @@ public class DefaultFileItemTest {
         String tempDirName = "testAboveThresholdSpecifiedRepository";
         File tempDir = new File(tempPath, tempDirName);
         FileUtils.forceMkdir(tempDir);
-        doTestAboveThreshold(tempDir);
+        doTestAboveThreshold(tempDir, false);
+        doTestAboveThreshold(tempDir, true);
         assertTrue(tempDir.delete());
     }
 
@@ -158,7 +163,11 @@ public class DefaultFileItemTest {
      * @param repository The directory within which temporary files will be
      *                   created.
      */
-    public void doTestAboveThreshold(File repository) {
+    public void doTestAboveThreshold(File repository, boolean withCipher) {
+        if (withCipher) {
+            CipherSpiLoader.changeCipherProvider(new TestCipherServiceProvider());
+        }
+        
         FileItemFactory factory = createFactory(repository);
         String textFieldName = "textField";
         String textFieldValue = "01234567890123456789";
@@ -189,13 +198,23 @@ public class DefaultFileItemTest {
         File storeLocation = dfi.getStoreLocation();
         assertNotNull(storeLocation);
         assertTrue(storeLocation.exists());
-        assertEquals(storeLocation.length(), testFieldValueBytes.length);
+        if (withCipher) {
+            assertNotEquals(storeLocation.length(), testFieldValueBytes.length);
+            assertEquals(item.getSize(), testFieldValueBytes.length);
+        }
+        else {
+            assertEquals(storeLocation.length(), testFieldValueBytes.length);
+        }
 
         if (repository != null) {
             assertEquals(storeLocation.getParentFile(), repository);
         }
 
         item.delete();
+        
+        if (withCipher) {
+            CipherSpiLoader.changeCipherProvider(null);
+        }
     }
 
 
