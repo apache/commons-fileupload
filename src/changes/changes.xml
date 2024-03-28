@@ -64,8 +64,8 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- UDPATE -->
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump Java from 8 to 11.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-parent from 58 to 65.</action>
-      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-lang3 from 3.12.0 to 3.14.0.</action>      
-      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-io from 2.13.0 to 2.15.1.</action>      
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-lang3 from 3.12.0 to 3.14.0.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-io from 2.13.0 to 2.16.0 #291.</action>
     </release>
     <release version="2.0.0-M1" date="2023-07-14" description="2.0.0-M1 Release, requires Java 8.">
       <!-- FIX -->
