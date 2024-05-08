@@ -36,15 +36,19 @@
   <properties>
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
 	<commons.module.name>org.apache.commons.fileupload2.jakarta.servlet5</commons.module.name>
-
 	<!-- Override properties for the OSGi maven-bundle-plugin to generate proper manifest -->
     <commons.osgi.requireCapability>osgi.contract;filter:="(&amp;(osgi.contract=JakartaServlet)(version=5.0))"</commons.osgi.requireCapability>
-
 	<!-- Override link to Jakarta EE -->
 	<commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
     <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
+    <!-- JaCoCo: Don't make code coverage worse than: -->
+    <commons.jacoco.classRatio>0.75</commons.jacoco.classRatio>
+    <commons.jacoco.instructionRatio>0.60</commons.jacoco.instructionRatio>
+    <commons.jacoco.methodRatio>0.61</commons.jacoco.methodRatio>
+    <commons.jacoco.branchRatio>0.00</commons.jacoco.branchRatio>
+    <commons.jacoco.lineRatio>0.62</commons.jacoco.lineRatio>
+    <commons.jacoco.complexityRatio>0.55</commons.jacoco.complexityRatio>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
