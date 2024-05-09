@@ -61,6 +61,9 @@ boolean isMultipart = JakartaServletFileUpload.isMultipartContent(request);]]></
         how we do it:
       </p>
   <source><![CDATA[// Create a new file upload handler
+import java.nio.charset.Charset;
+import org.apache.commons.io.IOUtils;
+
 JakartaServletFileUpload upload = new JakartaServletFileUpload();
 
 // Parse the request
@@ -69,7 +72,7 @@ upload.getItemIterator(request).forEachRemaining(item -> {
     InputStream stream = item.getInputStream();
     if (item.isFormField()) {
         System.out.println("Form field " + name + " with value "
-            + Streams.asString(stream) + " detected.");
+            + IOUtils.toString(stream, Charset.defaultCharset()) + " detected.");
     } else {
         System.out.println("File field " + name + " with file name "
             + item.getName() + " detected.");
