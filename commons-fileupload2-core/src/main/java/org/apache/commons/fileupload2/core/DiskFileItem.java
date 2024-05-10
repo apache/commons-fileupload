@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.CopyOption;
@@ -36,7 +35,6 @@ import org.apache.commons.fileupload2.core.FileItemFactory.AbstractFileItemBuild
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.file.PathUtils;
-import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
 /**
@@ -291,19 +289,19 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * and cached.
      *
      * @return The contents of the file as an array of bytes or {@code null} if the data cannot be read.
-     * @throws UncheckedIOException if an I/O error occurs.
+     * @throws IOException if an I/O error occurs.
      * @throws OutOfMemoryError     See {@link Files#readAllBytes(Path)}: If an array of the required size cannot be allocated, for example the file is larger
      *                              that {@code 2GB}
      */
     @Override
-    public byte[] get() throws UncheckedIOException {
+    public byte[] get() throws IOException {
         if (isInMemory()) {
             if (cachedContent == null && dfos != null) {
                 cachedContent = dfos.getData();
             }
             return cachedContent != null ? cachedContent.clone() : new byte[0];
         }
-        return Uncheck.get(() -> Files.readAllBytes(dfos.getFile().toPath()));
+        return Files.readAllBytes(dfos.getFile().toPath());
     }
 
     /**
@@ -442,9 +440,10 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * </p>
      *
      * @return The contents of the file, as a string.
+     * @throws IOException if an I/O error occurs
      */
     @Override
-    public String getString() {
+    public String getString() throws IOException {
         return new String(get(), getCharset());
     }
 
@@ -453,6 +452,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      *
      * @param charset The charset to use.
      * @return The contents of the file, as a string.
+     * @throws IOException if an I/O error occurs
      */
     @Override
     public String getString(final Charset charset) throws IOException {
