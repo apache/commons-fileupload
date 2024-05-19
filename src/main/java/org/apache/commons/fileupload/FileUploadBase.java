@@ -140,6 +140,7 @@ public abstract class FileUploadBase {
 
     /**
      * HTTP content type header for multiple related data.
+     * @since 1.6
      */
     public static final String MULTIPART_RELATED = "multipart/related";
 
@@ -1080,7 +1081,6 @@ public abstract class FileUploadBase {
                         eof = true;
                         return false;
                     }
-
                     // Inner multipart terminated -> Return to parsing the outer
                     multi.setBoundary(boundary);
                     currentFieldName = null;
