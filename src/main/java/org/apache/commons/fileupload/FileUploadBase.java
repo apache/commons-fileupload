@@ -969,7 +969,7 @@ public abstract class FileUploadBase {
         /**
          * Is this a multipart/related Request.
          */
-        private boolean multipartRelated;
+        private final boolean multipartRelated;
 
         /**
          * Creates a new instance.
