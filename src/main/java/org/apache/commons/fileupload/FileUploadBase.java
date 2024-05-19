@@ -1080,9 +1080,6 @@ public abstract class FileUploadBase {
                         eof = true;
                         return false;
                     }
-                    if (multipartRelated) {
-                      currentFieldName = null;
-                    }
 
                     // Inner multipart terminated -> Return to parsing the outer
                     multi.setBoundary(boundary);
