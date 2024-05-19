@@ -430,7 +430,8 @@ public class FileUploadTest {
                 "-----1234--\r\n";
 
         final List<FileItem> fileItems = Util.parseUpload(upload, content.getBytes(StandardCharsets.US_ASCII),
-                "multipart/related; boundary=---1234; type=\"application/xop+xml\"; start-info=\"application/soap+xml\"");
+                "multipart/related; boundary=---1234;" +
+                    " type=\"application/xop+xml\"; start-info=\"application/soap+xml\"");
         assertEquals(2, fileItems.size());
 
         final FileItem part1 = fileItems.get(0);
