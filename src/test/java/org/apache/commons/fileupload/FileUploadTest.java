@@ -407,16 +407,16 @@ public class FileUploadTest {
     public void testMultipartRelated() throws FileUploadException {
         final String soapEnvelope =
                 "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">\r\n" +
-                        "  <soap:Header></soap:Header>\r\n" +
-                        "  <soap:Body>\r\n" +
-                        "    <ns1:Test xmlns:ns1=\"http://www.test.org/some-test-namespace\">\r\n" +
-                        "      <ns1:Attachment>\r\n" +
-                        "        <xop:Include xmlns:xop=\"http://www.w3.org/2004/08/xop/include\"" +
-                        " href=\"ref-to-attachment%40some.domain.org\"/>\r\n" +
-                        "      </ns1:Attachment>\r\n" +
-                        "    </ns1:Test>\r\n" +
-                        "  </soap:Body>\r\n" +
-                        "</soap:Envelope>";
+                "  <soap:Header></soap:Header>\r\n" +
+                "  <soap:Body>\r\n" +
+                "    <ns1:Test xmlns:ns1=\"http://www.test.org/some-test-namespace\">\r\n" +
+                "      <ns1:Attachment>\r\n" +
+                "        <xop:Include xmlns:xop=\"http://www.w3.org/2004/08/xop/include\"" +
+                " href=\"ref-to-attachment%40some.domain.org\"/>\r\n" +
+                "      </ns1:Attachment>\r\n" +
+                "    </ns1:Test>\r\n" +
+                "  </soap:Body>\r\n" +
+                "</soap:Envelope>";
 
         final String content = "-----1234\r\n" +
                 "content-type: application/xop+xml; type=\"application/soap+xml\"\r\n" +
