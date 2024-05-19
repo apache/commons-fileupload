@@ -68,4 +68,13 @@ public class JavaxServletRequestContext extends AbstractRequestContext<HttpServl
         return getRequest().getInputStream();
     }
 
+    /**
+     * Is the Request of type <code>multipart/related</code>?
+     *
+     * @return the Request is of type <code>multipart/related</code>
+     */
+    @Override
+    public boolean isMultipartRelated() {
+        return isMultipartRelated(getRequest().getContentType());
+    }
 }

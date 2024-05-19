@@ -393,4 +393,54 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
         assertTrue(field2.isFormField());
         assertEquals("fieldValue2", field2.getString());
     }
+
+    /**
+     * Test for multipart/related without any content-disposition Header.
+     * <p/>
+     * This kind of Content-Type is commonly used by SOAP-Requests with Attachments (MTOM)
+     */
+    @Test
+    public void testMultipleRelated() throws Exception {
+        final String soapEnvelope =
+                "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">\r\n" +
+                "  <soap:Header></soap:Header>\r\n" +
+                "  <soap:Body>\r\n" +
+                "    <ns1:Test xmlns:ns1=\"http://www.test.org/some-test-namespace\">\r\n" +
+                "      <ns1:Attachment>\r\n" +
+                "        <xop:Include xmlns:xop=\"http://www.w3.org/2004/08/xop/include\"" +
+                " href=\"ref-to-attachment%40some.domain.org\"/>\r\n" +
+                "      </ns1:Attachment>\r\n" +
+                "    </ns1:Test>\r\n" +
+                "  </soap:Body>\r\n" +
+                "</soap:Envelope>";
+
+        final String text =
+                "-----1234\r\n" +
+                "content-type: application/xop+xml; type=\"application/soap+xml\"\r\n" +
+                "\r\n" +
+                soapEnvelope + "\r\n" +
+                "-----1234\r\n" +
+                "Content-type: text/plain\r\n" +
+                "content-id: <ref-to-attachment@some.domain.org>\r\n" +
+                "\r\n" +
+                "some text/plain content\r\n" +
+                "-----1234--\r\n";
+
+        final var bytes = text.getBytes(StandardCharsets.US_ASCII);
+        final var fileItems = parseUpload(upload, bytes, "multipart/related; boundary=---1234;" +
+                " type=\"application/xop+xml\"; start-info=\"application/soap+xml\"");
+        assertEquals(2, fileItems.size());
+
+        final var part1 = fileItems.get(0);
+        assertNull(part1.getFieldName());
+        assertFalse(part1.isFormField());
+        assertEquals(soapEnvelope, part1.getString());
+
+        final var part2 = fileItems.get(1);
+        assertNull(part2.getFieldName());
+        assertFalse(part2.isFormField());
+        assertEquals("some text/plain content", part2.getString());
+        assertEquals("text/plain", part2.getContentType());
+        assertNull(part2.getName());
+    }
 }

@@ -70,4 +70,10 @@ public interface RequestContext {
      */
     InputStream getInputStream() throws IOException;
 
+    /**
+     * Is the Request of type <code>multipart/related</code>?
+     *
+     * @return the Request is of type <code>multipart/related</code>
+     */
+    boolean isMultipartRelated();
 }
