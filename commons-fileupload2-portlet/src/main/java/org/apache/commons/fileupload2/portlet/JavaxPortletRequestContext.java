@@ -67,15 +67,4 @@ public class JavaxPortletRequestContext extends AbstractRequestContext<ActionReq
     public InputStream getInputStream() throws IOException {
         return getRequest().getPortletInputStream();
     }
-
-    /**
-     * Is the Request of type <code>multipart/related</code>?
-     *
-     * @return the Request is of type <code>multipart/related</code>
-     * @since 2.0.0
-     */
-    @Override
-    public boolean isMultipartRelated() {
-        return isMultipartRelated(getRequest().getContentType());
-    }
 }

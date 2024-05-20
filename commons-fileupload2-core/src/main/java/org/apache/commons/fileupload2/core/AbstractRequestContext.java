@@ -86,11 +86,13 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
     }
 
     /**
-     * Test the given <code>content-type</code> Value if it is of type <code>multipart/related</code>.
-     * @param contentType <code>content-type</code> to be tested
-     * @return does the given <code>content-type</code> Value start with <code>multipart/related</code>
+     * Is the Request of type <code>multipart/related</code>?
+     *
+     * @return the Request is of type <code>multipart/related</code>
+     * @since 2.0.0
      */
-    protected boolean isMultipartRelated(final String contentType) {
-        return MULTIPART_RELATED.matcher(contentType).matches();
+    @Override
+    public boolean isMultipartRelated() {
+        return MULTIPART_RELATED.matcher(getContentType()).matches();
     }
 }
