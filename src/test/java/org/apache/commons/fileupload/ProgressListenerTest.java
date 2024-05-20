@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class ProgressListenerTest {
 
-    private class ProgressListenerImpl implements ProgressListener {
+    private static class ProgressListenerImpl implements ProgressListener {
 
         private final long expectedContentLength;
 

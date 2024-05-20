@@ -55,7 +55,7 @@ public class SizesTest {
                 add = 16;
             }
             final String header = "-----1234\r\n"
-                + "Content-Disposition: form-data; name=\"field" + (num++) + "\"\r\n"
+                + "Content-Disposition: form-data; name=\"field" + num++ + "\"\r\n"
                 + "\r\n";
             baos.write(header.getBytes("US-ASCII"));
             for (int j = 0;  j < i;  j++) {
@@ -75,7 +75,7 @@ public class SizesTest {
                 add = 16;
             }
             final FileItem item = fileIter.next();
-            assertEquals("field" + (num++), item.getFieldName());
+            assertEquals("field" + num++, item.getFieldName());
             final byte[] bytes = item.get();
             assertEquals(i, bytes.length);
             for (int j = 0;  j < i;  j++) {

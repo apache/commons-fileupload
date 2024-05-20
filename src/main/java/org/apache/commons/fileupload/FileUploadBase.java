@@ -348,7 +348,7 @@ public abstract class FileUploadBase {
      */
     public List<FileItem> parseRequest(final RequestContext ctx)
             throws FileUploadException {
-        final List<FileItem> items = new ArrayList<FileItem>();
+        final List<FileItem> items = new ArrayList<>();
         boolean successful = false;
         try {
             final FileItemIterator iter = getItemIterator(ctx);
@@ -414,14 +414,14 @@ public abstract class FileUploadBase {
     public Map<String, List<FileItem>> parseParameterMap(final RequestContext ctx)
             throws FileUploadException {
         final List<FileItem> items = parseRequest(ctx);
-        final Map<String, List<FileItem>> itemsMap = new HashMap<String, List<FileItem>>(items.size());
+        final Map<String, List<FileItem>> itemsMap = new HashMap<>(items.size());
 
         for (final FileItem fileItem : items) {
             final String fieldName = fileItem.getFieldName();
             List<FileItem> mappedItems = itemsMap.get(fieldName);
 
             if (mappedItems == null) {
-                mappedItems = new ArrayList<FileItem>();
+                mappedItems = new ArrayList<>();
                 itemsMap.put(fieldName, mappedItems);
             }
 
@@ -657,7 +657,7 @@ public abstract class FileUploadBase {
     @Deprecated
     protected Map<String, String> parseHeaders(final String headerPart) {
         final FileItemHeaders headers = getParsedHeaders(headerPart);
-        final Map<String, String> result = new HashMap<String, String>();
+        final Map<String, String> result = new HashMap<>();
         for (final Iterator<String> iter = headers.getHeaderNames();  iter.hasNext();) {
             final String headerName = iter.next();
             final Iterator<String> iter2 = headers.getHeaders(headerName);
@@ -789,18 +789,14 @@ public abstract class FileUploadBase {
                 fieldName = pFieldName;
                 contentType = pContentType;
                 formField = pFormField;
-                if (fileSizeMax != -1) { // Check if limit is already exceeded
-                    if (pContentLength != -1
-                            && pContentLength > fileSizeMax) {
-                        final FileSizeLimitExceededException e =
-                                new FileSizeLimitExceededException(
-                                        format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                                fieldName, Long.valueOf(fileSizeMax)),
-                                        pContentLength, fileSizeMax);
-                        e.setFileName(pName);
-                        e.setFieldName(pFieldName);
-                        throw new FileUploadIOException(e);
-                    }
+                // Check if limit is already exceeded
+                if (fileSizeMax != -1 && pContentLength != -1 && pContentLength > fileSizeMax) {
+                    final FileSizeLimitExceededException e = new FileSizeLimitExceededException(
+                            format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, Long.valueOf(fileSizeMax)), pContentLength,
+                            fileSizeMax);
+                    e.setFileName(pName);
+                    e.setFieldName(pFieldName);
+                    throw new FileUploadIOException(e);
                 }
                 // OK to construct stream now
                 final ItemInputStream itemStream = multi.newInputStream();
@@ -808,14 +804,11 @@ public abstract class FileUploadBase {
                 if (fileSizeMax != -1) {
                     istream = new LimitedInputStream(istream, fileSizeMax) {
                         @Override
-                        protected void raiseError(final long pSizeMax, final long pCount)
-                                throws IOException {
+                        protected void raiseError(final long pSizeMax, final long pCount) throws IOException {
                             itemStream.close(true);
-                            final FileSizeLimitExceededException e =
-                                new FileSizeLimitExceededException(
-                                    format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                           fieldName, Long.valueOf(pSizeMax)),
-                                    pCount, pSizeMax);
+                            final FileSizeLimitExceededException e = new FileSizeLimitExceededException(
+                                    format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, Long.valueOf(pSizeMax)), pCount,
+                                    pSizeMax);
                             e.setFieldName(fieldName);
                             e.setFileName(name);
                             throw new FileUploadIOException(e);
@@ -976,8 +969,8 @@ public abstract class FileUploadBase {
             }
 
             final String contentType = ctx.getContentType();
-            if ((null == contentType)
-                    || (!contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART))) {
+            if (null == contentType
+                    || !contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART)) {
                 throw new InvalidContentTypeException(
                         format("the request doesn't contain a %s or %s stream, content type header is %s",
                                MULTIPART_FORM_DATA, MULTIPART_MIXED, contentType));
@@ -993,7 +986,7 @@ public abstract class FileUploadBase {
                                      : contentLengthInt;
                                      // CHECKSTYLE:ON
 
-            InputStream input; // N.B. this is eventually closed in MultipartStream processing
+            final InputStream input; // this is eventually closed in MultipartStream processing
             if (sizeMax >= 0) {
                 if (requestSize != -1 && requestSize > sizeMax) {
                     throw new SizeLimitExceededException(
@@ -1057,7 +1050,7 @@ public abstract class FileUploadBase {
                 currentItem = null;
             }
             for (;;) {
-                boolean nextPart;
+                final boolean nextPart;
                 if (skipPreamble) {
                     nextPart = multi.skipPreamble();
                 } else {
@@ -1163,7 +1156,7 @@ public abstract class FileUploadBase {
          */
         @Override
         public FileItemStream next() throws FileUploadException, IOException {
-            if (eof  ||  (!itemValid && !hasNext())) {
+            if (eof  ||  !itemValid && !hasNext()) {
                 throw new NoSuchElementException();
             }
             itemValid = false;
@@ -1230,7 +1223,6 @@ public abstract class FileUploadBase {
          * detail message.
          */
         public InvalidContentTypeException() {
-            super();
         }
 
         /**
@@ -1375,7 +1367,6 @@ public abstract class FileUploadBase {
          * detail message.
          */
         public UnknownSizeException() {
-            super();
         }
 
         /**

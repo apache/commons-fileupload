@@ -16,11 +16,11 @@
  */
 package org.apache.commons.fileupload.util.mime;
 
-import java.io.UnsupportedEncodingException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
@@ -33,28 +33,28 @@ public final class RFC2231UtilityTestCase {
 
     @Test
     public void testHasEncodedValue() {
-        String nameWithAsteriskAtEnd = "paramname*";
+        final String nameWithAsteriskAtEnd = "paramname*";
         assertTrue(RFC2231Utility.hasEncodedValue(nameWithAsteriskAtEnd));
 
-        String nameWithAsteriskNotAtEnd = "param*name";
+        final String nameWithAsteriskNotAtEnd = "param*name";
         assertFalse(RFC2231Utility.hasEncodedValue(nameWithAsteriskNotAtEnd));
 
-        String nameWithoutAsterisk = "paramname";
+        final String nameWithoutAsterisk = "paramname";
         assertFalse(RFC2231Utility.hasEncodedValue(nameWithoutAsterisk));
     }
 
     @Test
     public void testStripDelimiter() {
-        String nameWithAsteriskAtEnd = "paramname*";
+        final String nameWithAsteriskAtEnd = "paramname*";
         assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithAsteriskAtEnd));
 
-        String nameWithAsteriskNotAtEnd = "param*name";
+        final String nameWithAsteriskNotAtEnd = "param*name";
         assertEquals("param*name", RFC2231Utility.stripDelimiter(nameWithAsteriskNotAtEnd));
 
-        String nameWithTwoAsterisks = "param*name*";
+        final String nameWithTwoAsterisks = "param*name*";
         assertEquals("param*name", RFC2231Utility.stripDelimiter(nameWithTwoAsterisks));
 
-        String nameWithoutAsterisk = "paramname";
+        final String nameWithoutAsterisk = "paramname";
         assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithoutAsterisk));
     }
 
@@ -78,7 +78,7 @@ public final class RFC2231UtilityTestCase {
         RFC2231Utility.decodeText("abc'en'hello");
     }
 
-    private static void assertEncoded(String expected, String encoded) throws Exception {
+    private static void assertEncoded(final String expected, final String encoded) throws Exception {
         assertEquals(expected, RFC2231Utility.decodeText(encoded));
     }
 }

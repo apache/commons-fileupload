@@ -18,6 +18,7 @@ package org.apache.commons.fileupload;
 
 import java.io.File;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -60,7 +61,6 @@ public class DiskFileUpload
      */
     @Deprecated
     public DiskFileUpload() {
-        super();
         this.fileItemFactory = new DefaultFileItemFactory();
     }
 
@@ -75,7 +75,6 @@ public class DiskFileUpload
      */
     @Deprecated
     public DiskFileUpload(final DefaultFileItemFactory fileItemFactory) {
-        super();
         this.fileItemFactory = fileItemFactory;
     }
 

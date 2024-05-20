@@ -42,7 +42,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     private int readLimit = -1;
 
-    private final Map<String, String> m_headers = new java.util.HashMap<String, String>();
+    private final Map<String, String> m_headers = new java.util.HashMap<>();
 
     /**
      * Creates a new instance with the given request data
@@ -343,8 +343,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        final ServletInputStream sis = new MyServletInputStream(m_requestData, readLimit);
-        return sis;
+        return new MyServletInputStream(m_requestData, readLimit);
     }
 
     /**

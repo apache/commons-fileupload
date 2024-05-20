@@ -74,7 +74,6 @@ public class PortletFileUpload extends FileUpload {
      * @see FileUpload#FileUpload(FileItemFactory)
      */
     public PortletFileUpload() {
-        super();
     }
 
     /**

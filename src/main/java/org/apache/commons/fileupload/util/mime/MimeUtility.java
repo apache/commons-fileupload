@@ -63,7 +63,7 @@ public final class MimeUtility {
     /**
      * Mappings between MIME and Java charset.
      */
-    private static final Map<String, String> MIME2JAVA = new HashMap<String, String>();
+    private static final Map<String, String> MIME2JAVA = new HashMap<>();
 
     static {
         MIME2JAVA.put("iso-2022-cn", "ISO2022CN");
