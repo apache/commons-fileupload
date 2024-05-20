@@ -396,7 +396,6 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
 
     /**
      * Test for multipart/related without any content-disposition Header.
-     * <p/>
      * This kind of Content-Type is commonly used by SOAP-Requests with Attachments (MTOM)
      */
     @Test
