@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>69</version>
+    <version>70</version>
   </parent>
 
   <groupId>commons-fileupload</groupId>
@@ -256,6 +256,7 @@
   </dependencies>
 
   <build>
+    <defaultGoal>clean javadoc:javadoc verify apache-rat:check checkstyle:check</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
