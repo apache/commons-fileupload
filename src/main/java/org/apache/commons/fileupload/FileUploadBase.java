@@ -139,6 +139,13 @@ public abstract class FileUploadBase {
     public static final String MULTIPART_MIXED = "multipart/mixed";
 
     /**
+     * HTTP content type header for multiple related data.
+     *
+     * @since 1.6.0
+     */
+    public static final String MULTIPART_RELATED = "multipart/related";
+
+    /**
      * The maximum length of a single header line that will be parsed
      * (1024 bytes).
      * @deprecated This constant is no longer used. As of commons-fileupload
@@ -955,6 +962,11 @@ public abstract class FileUploadBase {
         private boolean eof;
 
         /**
+         * Is this a multipart/related Request.
+         */
+        private final boolean multipartRelated;
+
+        /**
          * Creates a new instance.
          *
          * @param ctx The request context.
@@ -972,10 +984,11 @@ public abstract class FileUploadBase {
             if (null == contentType
                     || !contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART)) {
                 throw new InvalidContentTypeException(
-                        format("the request doesn't contain a %s or %s stream, content type header is %s",
-                               MULTIPART_FORM_DATA, MULTIPART_MIXED, contentType));
+                        format("the request neither contains a %s nor a %s nor a %s stream, content type header is %s",
+                               MULTIPART_FORM_DATA, MULTIPART_MIXED, MULTIPART_RELATED, contentType));
             }
 
+            multipartRelated = contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART_RELATED);
 
             @SuppressWarnings("deprecation") // still has to be backward compatible
             final int contentLengthInt = ctx.getContentLength();
@@ -1068,7 +1081,16 @@ public abstract class FileUploadBase {
                     continue;
                 }
                 final FileItemHeaders headers = getParsedHeaders(multi.readHeaders());
-                if (currentFieldName == null) {
+                if (multipartRelated) {
+                    currentFieldName = "";
+                    currentItem = new FileItemStreamImpl(
+                        null, null, headers.getHeader(CONTENT_TYPE),
+                        false, getContentLength(headers));
+                    currentItem.setHeaders(headers);
+                    notifier.noteItem();
+                    itemValid = true;
+                    return true;
+                } else if (currentFieldName == null) {
                     // We're parsing the outer multipart
                     final String fieldName = getFieldName(headers);
                     if (fieldName != null) {
