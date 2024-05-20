@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public abstract class AbstractRequestContext<T> implements RequestContext {
     /**
-     * the Content-Type Pattern for multipart/related Requests.
+     * The Content-Type Pattern for multipart/related Requests.
      */
     private static final Pattern MULTIPART_RELATED =
             Pattern.compile("^\\s*multipart/related.*", Pattern.CASE_INSENSITIVE);
@@ -85,6 +85,11 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
         return String.format("%s [ContentLength=%s, ContentType=%s]", getClass().getSimpleName(), getContentLength(), getContentType());
     }
 
+    /**
+     * Test the given <code>content-type</code> Value if it is of type <code>multipart/related</code>.
+     * @param contentType <code>content-type</code> to be tested
+     * @return does the given <code>content-type</code> Value start with <code>multipart/related</code>
+     */
     protected boolean isMultipartRelated(final String contentType) {
         return MULTIPART_RELATED.matcher(contentType).matches();
     }

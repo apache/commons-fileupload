@@ -72,6 +72,7 @@ public class JakartaServletRequestContext extends AbstractRequestContext<HttpSer
      * Is the Request of type <code>multipart/related</code>?
      *
      * @return the Request is of type <code>multipart/related</code>
+     * @since 2.0.0
      */
     @Override
     public boolean isMultipartRelated() {
