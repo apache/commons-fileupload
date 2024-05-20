@@ -67,5 +67,4 @@ public class JavaxServletRequestContext extends AbstractRequestContext<HttpServl
     public InputStream getInputStream() throws IOException {
         return getRequest().getInputStream();
     }
-
 }

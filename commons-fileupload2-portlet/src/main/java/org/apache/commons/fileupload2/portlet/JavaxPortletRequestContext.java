@@ -67,5 +67,4 @@ public class JavaxPortletRequestContext extends AbstractRequestContext<ActionReq
     public InputStream getInputStream() throws IOException {
         return getRequest().getPortletInputStream();
     }
-
 }
