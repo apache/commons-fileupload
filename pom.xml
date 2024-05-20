@@ -356,6 +356,16 @@
             <enableRulesSummary>false</enableRulesSummary>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <configuration>
+            <targetJdk>${maven.compiler.target}</targetJdk>
+            <rulesets>
+              <ruleset>${basedir}/src/checkstyle/fileupload_basic.xml</ruleset>
+            </rulesets>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -395,12 +405,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <configuration>
-          <targetJdk>${maven.compiler.target}</targetJdk>
-          <rulesets>
-            <ruleset>${basedir}/src/checkstyle/fileupload_basic.xml</ruleset>
-          </rulesets>
-        </configuration>
       </plugin>
     </plugins>
   </reporting>
