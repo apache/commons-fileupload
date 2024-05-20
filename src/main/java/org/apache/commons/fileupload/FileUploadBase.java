@@ -140,7 +140,8 @@ public abstract class FileUploadBase {
 
     /**
      * HTTP content type header for multiple related data.
-     * @since 1.6
+     *
+     * @since 1.6.0
      */
     public static final String MULTIPART_RELATED = "multipart/related";
 
