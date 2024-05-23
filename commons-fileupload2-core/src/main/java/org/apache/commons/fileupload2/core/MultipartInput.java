@@ -135,7 +135,7 @@ public final class MultipartInput {
          * Sets the boundary.
          *
          * @param boundary the boundary.
-         * @return this
+         * @return {@code this} instance.
          */
         public Builder setBoundary(final byte[] boundary) {
             this.boundary = boundary;
@@ -146,7 +146,7 @@ public final class MultipartInput {
          * Sets the progress notifier.
          *
          * @param progressNotifier progress notifier..
-         * @return this
+         * @return {@code this} instance.
          */
         public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
             this.progressNotifier = progressNotifier;
