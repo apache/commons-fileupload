@@ -283,8 +283,8 @@ public class ParameterParser {
      *
      * @param charArray the array of characters that contains a sequence of
      * name/value pairs
-     * @param offset - the initial offset.
-     * @param length - the length.
+     * @param offset   the initial offset.
+     * @param length   the length.
      * @param separator the name/value pairs separator
      *
      * @return a map of name/value pairs

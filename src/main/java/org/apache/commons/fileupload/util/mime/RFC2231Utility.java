@@ -102,7 +102,7 @@ public final class RFC2231Utility {
      * <b>Eg 3.</b> {@code UTF-8''%c2%a3%20and%20%e2%82%ac%20rates}
      * will be decoded to {@code £ and € rates}
      *
-     * @param encodedText - Text to be decoded has a format of {@code <charset>'<language>'<encoded_value>}
+     * @param encodedText   Text to be decoded has a format of {@code <charset>'<language>'<encoded_value>}
      * and ASCII only
      * @return Decoded text based on charset encoding
      * @throws UnsupportedEncodingException The requested character set wasn't found.
@@ -125,7 +125,7 @@ public final class RFC2231Utility {
 
     /**
      * Convert {@code text} to their corresponding Hex value.
-     * @param text - ASCII text input
+     * @param text   ASCII text input
      * @return Byte array of characters decoded from ASCII table
      */
     private static byte[] fromHex(final String text) {
