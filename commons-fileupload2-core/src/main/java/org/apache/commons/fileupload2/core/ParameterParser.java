@@ -150,8 +150,8 @@ public class ParameterParser {
      * Parses a map of name/value pairs from the given array of characters. Names are expected to be unique.
      *
      * @param charArray the array of characters that contains a sequence of name/value pairs
-     * @param offset    - the initial offset.
-     * @param length    - the length.
+     * @param offset      the initial offset.
+     * @param length      the length.
      * @param separator the name/value pairs separator
      * @return a map of name/value pairs
      */
