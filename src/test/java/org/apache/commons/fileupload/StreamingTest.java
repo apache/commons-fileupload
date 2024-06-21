@@ -24,14 +24,15 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.fileupload.FileUploadBase.IOFileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
-
-import junit.framework.TestCase;
 
 /**
  * Unit test for items with varying sizes.
@@ -53,7 +54,7 @@ public class StreamingTest extends TestCase {
                 add = 16;
             }
             final FileItem item = fileIter.next();
-            assertEquals("field" + (num++), item.getFieldName());
+            assertEquals("field" + num++, item.getFieldName());
             final byte[] bytes = item.get();
             assertEquals(i, bytes.length);
             for (int j = 0;  j < i;  j++) {
@@ -175,8 +176,7 @@ public class StreamingTest extends TestCase {
         final HttpServletRequest request = new MockHttpServletRequest(pStream,
                 pLength, contentType);
 
-        final List<FileItem> fileItems = upload.parseRequest(new ServletRequestContext(request));
-        return fileItems;
+        return upload.parseRequest(new ServletRequestContext(request));
     }
 
     private String getHeader(final String pField) {
@@ -210,7 +210,7 @@ public class StreamingTest extends TestCase {
             if (++add == 32) {
                 add = 16;
             }
-            osw.write(getHeader("field" + (num++)));
+            osw.write(getHeader("field" + num++));
             osw.flush();
             for (int j = 0;  j < i;  j++) {
                 baos.write((byte) j);

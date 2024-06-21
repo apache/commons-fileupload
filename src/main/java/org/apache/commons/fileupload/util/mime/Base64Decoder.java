@@ -125,15 +125,15 @@ final class Base64Decoder {
                 }
                 // Convert 4 6-bit bytes to 3 8-bit bytes
                 // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                out.write((b1 << 2) | (b2 >> 4)); // 6 bits of b1 plus 2 bits of b2
+                out.write(b1 << 2 | b2 >> 4); // 6 bits of b1 plus 2 bits of b2
                 outLen++;
                 if (b3 != PAD_BYTE) {
                     // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                    out.write((b2 << 4) | (b3 >> 2)); // 4 bits of b2 plus 4 bits of b3
+                    out.write(b2 << 4 | b3 >> 2); // 4 bits of b2 plus 4 bits of b3
                     outLen++;
                     if (b4 != PAD_BYTE) {
                         // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE
-                        out.write((b3 << 6) | b4);        // 2 bits of b3 plus 6 bits of b4
+                        out.write(b3 << 6 | b4);        // 2 bits of b3 plus 6 bits of b4
                         outLen++;
                     }
                 } else if (b4 != PAD_BYTE) { // if byte 3 is pad, byte 4 must be pad too

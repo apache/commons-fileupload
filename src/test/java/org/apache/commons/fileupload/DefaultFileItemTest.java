@@ -28,10 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
-
 import org.apache.commons.fileupload.util.crypto.CipherSpiLoader;
 import org.apache.commons.io.FileUtils;
-
 import org.junit.Test;
 
 /**

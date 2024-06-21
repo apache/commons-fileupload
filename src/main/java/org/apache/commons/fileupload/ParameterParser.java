@@ -40,32 +40,32 @@ public class ParameterParser {
     /**
      * String to be parsed.
      */
-    private char[] chars = null;
+    private char[] chars;
 
     /**
      * Current position in the string.
      */
-    private int pos = 0;
+    private int pos;
 
     /**
      * Maximum position in the string.
      */
-    private int len = 0;
+    private int len;
 
     /**
      * Start of a token.
      */
-    private int i1 = 0;
+    private int i1;
 
     /**
      * End of a token.
      */
-    private int i2 = 0;
+    private int i2;
 
     /**
      * Whether names stored in the map should be converted to lower case.
      */
-    private boolean lowerCaseNames = false;
+    private boolean lowerCaseNames;
 
     /**
      * Default ParameterParser constructor.
@@ -94,18 +94,18 @@ public class ParameterParser {
      */
     private String getToken(final boolean quoted) {
         // Trim leading white spaces
-        while ((i1 < i2) && (Character.isWhitespace(chars[i1]))) {
+        while (i1 < i2 && Character.isWhitespace(chars[i1])) {
             i1++;
         }
         // Trim trailing white spaces
-        while ((i2 > i1) && (Character.isWhitespace(chars[i2 - 1]))) {
+        while (i2 > i1 && Character.isWhitespace(chars[i2 - 1])) {
             i2--;
         }
         // Strip away quotation marks if necessary
         if (quoted
-            && ((i2 - i1) >= 2)
-            && (chars[i1] == '"')
-            && (chars[i2 - 1] == '"')) {
+            && i2 - i1 >= 2
+            && chars[i1] == '"'
+            && chars[i2 - 1] == '"') {
             i1++;
             i2--;
         }
@@ -184,7 +184,7 @@ public class ParameterParser {
             if (!charEscaped && ch == '"') {
                 quoted = !quoted;
             }
-            charEscaped = (!charEscaped && ch == '\\');
+            charEscaped = !charEscaped && ch == '\\';
             i2++;
             pos++;
 
@@ -228,7 +228,7 @@ public class ParameterParser {
      */
     public Map<String, String> parse(final String str, final char[] separators) {
         if (separators == null || separators.length == 0) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
         char separator = separators[0];
         if (str != null) {
@@ -255,7 +255,7 @@ public class ParameterParser {
      */
     public Map<String, String> parse(final String str, final char separator) {
         if (str == null) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
         return parse(str.toCharArray(), separator);
     }
@@ -272,7 +272,7 @@ public class ParameterParser {
      */
     public Map<String, String> parse(final char[] charArray, final char separator) {
         if (charArray == null) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
         return parse(charArray, 0, charArray.length, separator);
     }
@@ -283,8 +283,8 @@ public class ParameterParser {
      *
      * @param charArray the array of characters that contains a sequence of
      * name/value pairs
-     * @param offset - the initial offset.
-     * @param length - the length.
+     * @param offset   the initial offset.
+     * @param length   the length.
      * @param separator the name/value pairs separator
      *
      * @return a map of name/value pairs
@@ -296,9 +296,9 @@ public class ParameterParser {
         final char separator) {
 
         if (charArray == null) {
-            return new HashMap<String, String>();
+            return new HashMap<>();
         }
-        final HashMap<String, String> params = new HashMap<String, String>();
+        final HashMap<String, String> params = new HashMap<>();
         this.chars = charArray.clone();
         this.pos = offset;
         this.len = length;
@@ -309,7 +309,7 @@ public class ParameterParser {
             paramName = parseToken(new char[] {
                     '=', separator });
             paramValue = null;
-            if (hasChar() && (charArray[pos] == '=')) {
+            if (hasChar() && charArray[pos] == '=') {
                 pos++; // skip '='
                 paramValue = parseQuotedToken(new char[] {
                         separator });
@@ -323,10 +323,10 @@ public class ParameterParser {
                     }
                 }
             }
-            if (hasChar() && (charArray[pos] == separator)) {
+            if (hasChar() && charArray[pos] == separator) {
                 pos++; // skip separator
             }
-            if ((paramName != null) && !paramName.isEmpty()) {
+            if (paramName != null && !paramName.isEmpty()) {
                 paramName = RFC2231Utility.stripDelimiter(paramName);
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ENGLISH);

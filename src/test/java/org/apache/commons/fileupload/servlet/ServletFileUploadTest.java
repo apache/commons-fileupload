@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.Constants;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadTest;
 import org.apache.commons.fileupload.MockHttpServletRequest;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.junit.Test;

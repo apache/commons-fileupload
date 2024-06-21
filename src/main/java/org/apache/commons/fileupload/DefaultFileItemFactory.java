@@ -17,6 +17,7 @@
 package org.apache.commons.fileupload;
 
 import java.io.File;
+
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 
 /**
@@ -51,7 +52,6 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      */
     @Deprecated
     public DefaultFileItemFactory() {
-        super();
     }
 
     /**

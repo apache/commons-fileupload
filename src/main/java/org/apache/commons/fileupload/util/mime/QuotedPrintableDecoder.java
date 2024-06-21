@@ -79,7 +79,7 @@ final class QuotedPrintableDecoder {
                     // this is a hex pair we need to convert back to a single byte.
                     final int c1 = hexToBinary(b1);
                     final int c2 = hexToBinary(b2);
-                    out.write((c1 << UPPER_NIBBLE_SHIFT) | c2);
+                    out.write(c1 << UPPER_NIBBLE_SHIFT | c2);
                     // 3 bytes in, one byte out
                     bytesWritten++;
                 }

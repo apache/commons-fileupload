@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
@@ -299,12 +300,10 @@ public class FileUploadTest {
     @Test
     public void testFileUpload130()
             throws Exception {
-        final String[] headerNames = new String[]
-        {
+        final String[] headerNames = {
             "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader"
         };
-        final String[] headerValues = new String[]
-        {
+        final String[] headerValues = {
             "present", "Is there", "Here", "Is That"
         };
         final List<FileItem> fileItems = Util.parseUpload(upload,
@@ -395,5 +394,53 @@ public class FileUploadTest {
                 assertNull(value);
             }
         }
+    }
+
+    /**
+     * Test for multipart/related without any content-disposition Header.
+     * This kind of Content-Type is commonly used by SOAP-Requests with Attachments (MTOM)
+     */
+    @Test
+    public void testMultipartRelated() throws FileUploadException {
+        final String soapEnvelope =
+                "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">\r\n" +
+                "  <soap:Header></soap:Header>\r\n" +
+                "  <soap:Body>\r\n" +
+                "    <ns1:Test xmlns:ns1=\"http://www.test.org/some-test-namespace\">\r\n" +
+                "      <ns1:Attachment>\r\n" +
+                "        <xop:Include xmlns:xop=\"http://www.w3.org/2004/08/xop/include\"" +
+                " href=\"ref-to-attachment%40some.domain.org\"/>\r\n" +
+                "      </ns1:Attachment>\r\n" +
+                "    </ns1:Test>\r\n" +
+                "  </soap:Body>\r\n" +
+                "</soap:Envelope>";
+
+        final String content = "-----1234\r\n" +
+                "content-type: application/xop+xml; type=\"application/soap+xml\"\r\n" +
+                "\r\n" +
+                soapEnvelope + "\r\n" +
+                "-----1234\r\n" +
+                "Content-type: text/plain\r\n" +
+                "content-id: <ref-to-attachment@some.domain.org>\r\n" +
+                "\r\n" +
+                "some text/plain content\r\n" +
+                "-----1234--\r\n";
+
+        final List<FileItem> fileItems = Util.parseUpload(upload, content.getBytes(StandardCharsets.US_ASCII),
+                "multipart/related; boundary=---1234;" +
+                    " type=\"application/xop+xml\"; start-info=\"application/soap+xml\"");
+        assertEquals(2, fileItems.size());
+
+        final FileItem part1 = fileItems.get(0);
+        assertNull(part1.getFieldName());
+        assertFalse(part1.isFormField());
+        assertEquals(soapEnvelope, part1.getString());
+
+        final FileItem part2 = fileItems.get(1);
+        assertNull(part2.getFieldName());
+        assertFalse(part2.isFormField());
+        assertEquals("some text/plain content", part2.getString());
+        assertEquals("text/plain", part2.getContentType());
+        assertNull(part2.getName());
     }
 }

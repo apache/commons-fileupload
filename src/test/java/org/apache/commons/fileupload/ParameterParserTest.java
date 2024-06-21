@@ -124,7 +124,7 @@ public class ParameterParserTest {
      */
     @Test
     public void testFileUpload274() {
-        ParameterParser parser = new ParameterParser();
+        final ParameterParser parser = new ParameterParser();
 
         // Should parse a UTF-8 charset
         String s = "Content-Disposition: form-data; name=\"file\"; filename*=UTF-8\'\'%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF\r\n";
