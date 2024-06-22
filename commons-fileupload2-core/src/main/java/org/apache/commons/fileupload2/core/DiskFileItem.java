@@ -386,7 +386,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public String getName() {
-        return DiskFileItem.checkFileName(fileName);
+        return checkFileName(fileName);
     }
 
     /**
