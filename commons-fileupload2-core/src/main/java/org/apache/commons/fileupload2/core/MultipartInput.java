@@ -258,14 +258,16 @@ public final class MultipartInput {
                 input.close();
             } else {
                 for (;;) {
-                    var av = available();
-                    if (av == 0) {
-                        av = makeAvailable();
-                        if (av == 0) {
+                    var avail = available();
+                    if (avail == 0) {
+                        avail = makeAvailable();
+                        if (avail == 0) {
                             break;
                         }
                     }
-                    skip(av);
+                    if (skip(avail) != avail) {
+                        // TODO What to do?
+                    }
                 }
             }
             closed = true;
