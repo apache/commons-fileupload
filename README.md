@@ -44,7 +44,6 @@ Apache Commons FileUpload
 ===================
 
 [![Java CI](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml)
-[![Coverage Status](https://codecov.io/gh/apache/commons-fileupload/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-fileupload)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-fileupload2/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-fileupload2/?gav=true)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2/2.0.0-M2.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2/2.0.0-M2)
 [![CodeQL](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml)

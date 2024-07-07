@@ -386,7 +386,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public String getName() {
-        return DiskFileItem.checkFileName(fileName);
+        return checkFileName(fileName);
     }
 
     /**
@@ -500,7 +500,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * Sets the default charset for use when no explicit charset parameter is provided by the sender.
      *
      * @param charset the default charset
-     * @return this
+     * @return {@code this} instance.
      */
     public DiskFileItem setCharsetDefault(final Charset charset) {
         charsetDefault = charset;

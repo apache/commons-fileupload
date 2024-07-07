@@ -48,7 +48,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. Use this method to ensure that this is done at an
      * earlier time, to preserve resources.
      *
-     * @return this
+     * @return {@code this} instance.
      * @throws IOException if an error occurs.
      */
     F delete() throws IOException;
@@ -148,7 +148,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Sets the field name used to reference this file item.
      *
      * @param name The name of the form field.
-     * @return this
+     * @return {@code this} instance.
      */
     F setFieldName(String name);
 
@@ -156,7 +156,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Sets whether or not a {@code FileItem} instance represents a simple form field.
      *
      * @param state {@code true} if the instance represents a simple form field; {@code false} if it represents an uploaded file.
-     * @return this
+     * @return {@code this} instance.
      */
     F setFormField(boolean state);
 
@@ -173,7 +173,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      *
      * @param file The {@code File} into which the uploaded item should be stored.
      * @throws IOException if an error occurs.
-     * @return this
+     * @return {@code this} instance.
      */
     F write(Path file) throws IOException;
 

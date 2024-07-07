@@ -20,8 +20,14 @@ package org.apache.commons.fileupload2.core;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.LongSupplier;
+import java.util.regex.Pattern;
 
 public abstract class AbstractRequestContext<T> implements RequestContext {
+    /**
+     * The Content-Type Pattern for multipart/related Requests.
+     */
+    private static final Pattern MULTIPART_RELATED =
+            Pattern.compile("^\\s*multipart/related.*", Pattern.CASE_INSENSITIVE);
 
     /**
      * Supplies the content length default.
@@ -79,4 +85,14 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
         return String.format("%s [ContentLength=%s, ContentType=%s]", getClass().getSimpleName(), getContentLength(), getContentType());
     }
 
+    /**
+     * Is the Request of type <code>multipart/related</code>?
+     *
+     * @return the Request is of type <code>multipart/related</code>
+     * @since 2.0.0
+     */
+    @Override
+    public boolean isMultipartRelated() {
+        return MULTIPART_RELATED.matcher(getContentType()).matches();
+    }
 }

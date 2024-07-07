@@ -108,7 +108,7 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          * Sets the tracker, which is responsible for deleting temporary files.
          *
          * @param fileCleaningTracker Callback to track files created, or null (default) to disable tracking.
-         * @return this
+         * @return {@code this} instance.
          */
         public Builder setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
             this.fileCleaningTracker = fileCleaningTracker;

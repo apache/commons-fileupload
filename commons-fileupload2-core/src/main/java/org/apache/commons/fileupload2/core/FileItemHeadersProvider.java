@@ -37,7 +37,7 @@ public interface FileItemHeadersProvider<T extends FileItemHeadersProvider<T>> {
      * the raw headers found within the item header block.
      *
      * @param headers the instance that holds onto the headers for this instance.
-     * @return this
+     * @return {@code this} instance.
      */
     T setHeaders(FileItemHeaders headers);
 

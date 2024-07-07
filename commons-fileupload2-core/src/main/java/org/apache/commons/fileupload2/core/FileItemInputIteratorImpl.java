@@ -31,7 +31,6 @@ import org.apache.commons.io.input.BoundedInputStream;
  * The iterator returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */
 class FileItemInputIteratorImpl implements FileItemInputIterator {
-
     /**
      * The file uploads processing utility.
      *
@@ -97,6 +96,11 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
     private boolean eof;
 
     /**
+     * Is the Request of type <code>multipart/related</code>.
+     */
+    private final boolean multipartRelated;
+
+    /**
      * Constructs a new instance.
      *
      * @param fileUploadBase Main processor.
@@ -109,6 +113,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         this.sizeMax = fileUploadBase.getSizeMax();
         this.fileSizeMax = fileUploadBase.getFileSizeMax();
         this.requestContext = Objects.requireNonNull(requestContext, "requestContext");
+        this.multipartRelated = this.requestContext.isMultipartRelated();
         this.skipPreamble = true;
         findNextItem();
     }
@@ -147,7 +152,16 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                 continue;
             }
             final var headers = fileUpload.getParsedHeaders(multi.readHeaders());
-            if (currentFieldName == null) {
+            if (multipartRelated) {
+                currentFieldName = "";
+                currentItem = new FileItemInputImpl(
+                        this, null, null, headers.getHeader(AbstractFileUpload.CONTENT_TYPE),
+                        false, getContentLength(headers));
+                currentItem.setHeaders(headers);
+                progressNotifier.noteItem();
+                itemValid = true;
+                return true;
+            } else  if (currentFieldName == null) {
                 // We're parsing the outer multipart
                 final var fieldName = fileUpload.getFieldName(headers);
                 if (fieldName != null) {

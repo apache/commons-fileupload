@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>69</version>
+    <version>71</version>
   </parent>
 
   <artifactId>commons-fileupload2</artifactId>
@@ -201,6 +201,10 @@
       <name>Martin Grigorov</name>
       <email>mgrigorov@apache.org</email>
     </contributor>
+    <contributor>
+      <name>mufasa1976</name>
+      <email>mufasa1976@coolstuff.software</email>
+    </contributor>
   </contributors>
 
   <scm>
@@ -254,9 +258,8 @@
     <japicmp.skip>true</japicmp.skip>
     <clirr.skip>true</clirr.skip>
     <animal.sniffer.skip>true</animal.sniffer.skip>
-    <commons.javadoc.java.link>${commons.javadoc11.java.link}</commons.javadoc.java.link>
     <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
-    <commons.javadoc.version>3.6.3</commons.javadoc.version>
+    <commons.javadoc.version>3.7.0</commons.javadoc.version>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>2.0.0-M1</commons.bc.version>
@@ -335,6 +338,16 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <configuration>
+            <targetJdk>${maven.compiler.target}</targetJdk>
+            <rulesets>
+              <ruleset>${commons.parent.dir}/src/conf/pmd-ruleset.xml</ruleset>
+            </rulesets>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
         </plugin>
       </plugins>
@@ -349,7 +362,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.6.3</version>
+        <version>3.7.0</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -391,14 +404,14 @@
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <rulesets>
-            <ruleset>${commons.parent.dir}/src/checkstyle/fileupload_basic.xml</ruleset>
+            <ruleset>${commons.parent.dir}/src/conf/pmd-ruleset.xml</ruleset>
           </rulesets>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <configuration>
           <tagListOptions>
             <tagClasses>

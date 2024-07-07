@@ -48,9 +48,12 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="fix" due-to="Gregor Dschung">[site] Fix instantiation of DiskFileItemFactory in migration guide #273.</action>
       <action issue="FILEUPLOAD-355" dev="ggregory" type="fix" due-to="Ana, Gary Gregory">[site] Update code example: Use IOUtils instead of Streams utils class.</action>
       <!-- ADD -->
+      <action                        dev="ggregory" type="add" due-to="mufasa1976, Gary Gregory">Handle multipart/related Requests without content-disposition header.</action>
       <!-- UDPATE -->
-      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 66 to 69 #283, #294.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 66 to 71 #283, #294.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-io:commons-io from 2.16.0 to 2.16.1 #297.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.maven.plugins:maven-javadoc-plugin from 3.6.3 to 3.7.0 #319.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump org.codehaus.mojo:taglist-maven-plugin from 3.0.0 to 3.1.0 #327.</action> 
     </release>
     <release version="2.0.0-M2" date="2023-12-24" description="2.0.0-M2 Release, requires Java 11.">
       <!-- FIX -->
