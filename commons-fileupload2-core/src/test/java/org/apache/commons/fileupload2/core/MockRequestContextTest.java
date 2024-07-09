@@ -142,12 +142,12 @@ public class MockRequestContextTest {
         private final String contentType;
         private final InputStream inputStream;
 
-        private MockRequestContext(Function<String, String> contentLengthString,
-                                   LongSupplier contentLengthDefault,
-                                   Object request,
-                                   String characterEncoding,
-                                   String contentType,
-                                   InputStream inputStream) {
+        private MockRequestContext(final Function<String, String> contentLengthString,
+                                   final LongSupplier contentLengthDefault,
+                                   final Object request,
+                                   final String characterEncoding,
+                                   final String contentType,
+                                   final InputStream inputStream) {
             super(contentLengthString, contentLengthDefault, request);
             this.characterEncoding = characterEncoding;
             this.contentType = contentType;
