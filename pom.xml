@@ -254,7 +254,7 @@
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
     <commons.servlet-api.version>2.5</commons.servlet-api.version>
     <commons.io.version>2.16.1</commons.io.version>
-    <commons.lang3.version>3.14.0</commons.lang3.version>
+    <commons.lang3.version>3.15.0</commons.lang3.version>
     <japicmp.skip>true</japicmp.skip>
     <clirr.skip>true</clirr.skip>
     <animal.sniffer.skip>true</animal.sniffer.skip>
