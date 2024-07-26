@@ -259,7 +259,6 @@
     <clirr.skip>true</clirr.skip>
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
-    <commons.javadoc.version>3.7.0</commons.javadoc.version>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>2.0.0-M1</commons.bc.version>
@@ -362,7 +361,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.8.0</version>
         <reportSets>
           <reportSet>
             <reports>
