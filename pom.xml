@@ -259,6 +259,8 @@
     <clirr.skip>true</clirr.skip>
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
+    <!-- Until commons-parent 73 -->
+    <commons.javadoc.options></commons.javadoc.options>
 
     <!-- Commons Release Plugin -->
     <commons.bc.version>2.0.0-M1</commons.bc.version>
