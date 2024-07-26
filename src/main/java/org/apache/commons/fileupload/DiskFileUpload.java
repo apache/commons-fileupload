@@ -42,14 +42,10 @@ import javax.servlet.http.HttpServletRequest;
 public class DiskFileUpload
     extends FileUploadBase {
 
-    // ----------------------------------------------------------- Data members
-
     /**
      * The factory to use to create new form items.
      */
     private DefaultFileItemFactory fileItemFactory;
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Constructs an instance of this class which uses the default factory to
@@ -77,8 +73,6 @@ public class DiskFileUpload
     public DiskFileUpload(final DefaultFileItemFactory fileItemFactory) {
         this.fileItemFactory = fileItemFactory;
     }
-
-    // ----------------------------------------------------- Property accessors
 
     /**
      * Returns the factory class used when creating file items.
@@ -166,8 +160,6 @@ public class DiskFileUpload
     public void setRepositoryPath(final String repositoryPath) {
         fileItemFactory.setRepository(new File(repositoryPath));
     }
-
-    // --------------------------------------------------------- Public methods
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>

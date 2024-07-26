@@ -34,15 +34,10 @@ import org.apache.commons.fileupload.UploadContext;
  */
 public class PortletRequestContext implements UploadContext {
 
-    // ----------------------------------------------------- Instance Variables
-
     /**
      * The request for which the context is being provided.
      */
     private final ActionRequest request;
-
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Construct a context for this request.
@@ -52,9 +47,6 @@ public class PortletRequestContext implements UploadContext {
     public PortletRequestContext(final ActionRequest request) {
         this.request = request;
     }
-
-
-    // --------------------------------------------------------- Public Methods
 
     /**
      * Retrieve the character encoding for the request.

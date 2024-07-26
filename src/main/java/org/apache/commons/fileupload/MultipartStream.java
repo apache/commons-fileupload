@@ -151,8 +151,6 @@ public class MultipartStream {
 
     }
 
-    // ----------------------------------------------------- Manifest constants
-
     /**
      * The Carriage Return ASCII character value.
      */
@@ -201,8 +199,6 @@ public class MultipartStream {
      * A byte sequence that precedes a boundary ({@code CRLF--}).
      */
     protected static final byte[] BOUNDARY_PREFIX = {CR, LF, DASH, DASH};
-
-    // ----------------------------------------------------------- Data members
 
     /**
      * The input stream from which data is read.
@@ -263,8 +259,6 @@ public class MultipartStream {
      * The progress notifier, if any, or null.
      */
     private final ProgressNotifier notifier;
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Creates a new instance.
@@ -385,8 +379,6 @@ public class MultipartStream {
             final byte[] boundary) {
         this(input, boundary, DEFAULT_BUFSIZE, null);
     }
-
-    // --------------------------------------------------------- Public methods
 
     /**
      * Retrieves the character encoding used when reading the headers of an

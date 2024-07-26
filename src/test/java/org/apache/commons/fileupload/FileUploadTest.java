@@ -60,8 +60,6 @@ public class FileUploadTest {
     @Parameter
     public FileUpload upload;
 
-    // --- Test methods common to all implementations of a FileUpload
-
     @Test
     public void testFileUpload()
             throws IOException, FileUploadException {

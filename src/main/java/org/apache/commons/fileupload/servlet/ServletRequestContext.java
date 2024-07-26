@@ -32,14 +32,10 @@ import org.apache.commons.fileupload.UploadContext;
  */
 public class ServletRequestContext implements UploadContext {
 
-    // ----------------------------------------------------- Instance Variables
-
     /**
      * The request for which the context is being provided.
      */
     private final HttpServletRequest request;
-
-    // ----------------------------------------------------------- Constructors
 
     /**
      * Construct a context for this request.
@@ -49,8 +45,6 @@ public class ServletRequestContext implements UploadContext {
     public ServletRequestContext(final HttpServletRequest request) {
         this.request = request;
     }
-
-    // --------------------------------------------------------- Public Methods
 
     /**
      * Retrieve the character encoding for the request.

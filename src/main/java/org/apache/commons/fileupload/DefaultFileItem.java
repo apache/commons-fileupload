@@ -39,8 +39,6 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
 public class DefaultFileItem
     extends DiskFileItem {
 
-    // ----------------------------------------------------------- Constructors
-
     /**
      * Constructs a new {@code DefaultFileItem} instance.
      *

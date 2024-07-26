@@ -46,8 +46,6 @@ import java.io.UnsupportedEncodingException;
  */
 public interface FileItem extends FileItemHeadersSupport {
 
-    // ------------------------------- Methods from javax.activation.DataSource
-
     /**
      * Returns an {@link java.io.InputStream InputStream} that can be
      * used to retrieve the contents of the file.
@@ -81,8 +79,6 @@ public interface FileItem extends FileItemHeadersSupport {
      *   InvalidFileNameException#getName().
      */
     String getName();
-
-    // ------------------------------------------------------- FileItem methods
 
     /**
      * Provides a hint as to whether or not the file contents will be read

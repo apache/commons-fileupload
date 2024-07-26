@@ -56,8 +56,6 @@ import org.apache.commons.io.IOUtils;
  */
 public abstract class FileUploadBase {
 
-    // ---------------------------------------------------------- Class methods
-
     /**
      * <p>Utility method that determines whether the request contains multipart
      * content.</p>
@@ -95,8 +93,6 @@ public abstract class FileUploadBase {
     public static boolean isMultipartContent(final HttpServletRequest req) {
         return ServletFileUpload.isMultipartContent(req);
     }
-
-    // ----------------------------------------------------- Manifest constants
 
     /**
      * HTTP content type header name.
@@ -155,8 +151,6 @@ public abstract class FileUploadBase {
     @Deprecated
     public static final int MAX_HEADER_SIZE = 1024;
 
-    // ----------------------------------------------------------- Data members
-
     /**
      * The maximum size permitted for the complete request, as opposed to
      * {@link #fileSizeMax}. A value of -1 indicates no maximum.
@@ -184,8 +178,6 @@ public abstract class FileUploadBase {
      * The progress listener.
      */
     private ProgressListener listener;
-
-    // ----------------------------------------------------- Property accessors
 
     /**
      * Returns the factory class used when creating file items.
@@ -292,8 +284,6 @@ public abstract class FileUploadBase {
     public void setHeaderEncoding(final String encoding) {
         headerEncoding = encoding;
     }
-
-    // --------------------------------------------------------- Public methods
 
     /**
      * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
@@ -437,8 +427,6 @@ public abstract class FileUploadBase {
 
         return itemsMap;
     }
-
-    // ------------------------------------------------------ Protected methods
 
     /**
      * Retrieves the boundary from the {@code Content-type} header.

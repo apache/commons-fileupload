@@ -69,8 +69,6 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
 public class DiskFileItem
     implements FileItem {
 
-    // ----------------------------------------------------- Manifest constants
-
     /**
      * Default content charset to be used when no explicit charset
      * parameter is provided by the sender. Media subtypes of the
@@ -78,8 +76,6 @@ public class DiskFileItem
      * "ISO-8859-1" when received via HTTP.
      */
     public static final String DEFAULT_CHARSET = "ISO-8859-1";
-
-    // ----------------------------------------------------------- Data members
 
     /**
      * UID used in unique file name generation.
@@ -156,8 +152,6 @@ public class DiskFileItem
      */
     private String defaultCharset = DEFAULT_CHARSET;
 
-    // ----------------------------------------------------------- Constructors
-
     /**
      * Constructs a new {@code DiskFileItem} instance.
      *
@@ -185,8 +179,6 @@ public class DiskFileItem
         this.sizeThreshold = sizeThreshold;
         this.repository = repository;
     }
-
-    // ------------------------------- Methods from javax.activation.DataSource
 
     /**
      * Returns an {@link java.io.InputStream InputStream} that can be
@@ -250,8 +242,6 @@ public class DiskFileItem
     public String getName() {
         return Streams.checkFileName(fileName);
     }
-
-    // ------------------------------------------------------- FileItem methods
 
     /**
      * Provides a hint as to whether or not the file contents will be read
@@ -505,8 +495,6 @@ public class DiskFileItem
         return dfos;
     }
 
-    // --------------------------------------------------------- Public methods
-
     /**
      * Returns the {@link java.io.File} object for the {@code FileItem}'s
      * data's temporary location on the disk. Note that for
@@ -529,8 +517,6 @@ public class DiskFileItem
         }
         return dfos.getFile();
     }
-
-    // ------------------------------------------------------ Protected methods
 
     /**
      * Removes the file contents from the temporary storage.
@@ -571,8 +557,6 @@ public class DiskFileItem
         }
         return tempFile;
     }
-
-    // -------------------------------------------------------- Private methods
 
     /**
      * Returns an identifier that is unique within the class loader used to
