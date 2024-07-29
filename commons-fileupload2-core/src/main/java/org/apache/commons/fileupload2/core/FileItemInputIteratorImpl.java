@@ -96,7 +96,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
     private boolean eof;
 
     /**
-     * Is the Request of type <code>multipart/related</code>.
+     * Is the Request of type {@code multipart/related}.
      */
     private final boolean multipartRelated;
 
