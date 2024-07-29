@@ -40,7 +40,7 @@ import org.apache.commons.io.output.NullOutputStream;
  * <p>
  * The format of the stream is defined in the following way:
  * </p>
- * <code>
+ * <pre>
  *   multipart-body := preamble 1*encapsulation close-delimiter epilogue<br>
  *   encapsulation := delimiter body CRLF<br>
  *   delimiter := "--" boundary CRLF<br>
@@ -53,7 +53,7 @@ import org.apache.commons.io.output.NullOutputStream;
  *   header-name := &lt;printable ASCII characters except ":"&gt;<br>
  *   header-value := &lt;any ASCII characters except CR &amp; LF&gt;<br>
  *   body-data := &lt;arbitrary data&gt;<br>
- * </code>
+ * </pre>
  *
  * <p>
  * Note that body-data can contain another mulipart entity. There is limited support for single pass processing of such nested streams. The nested stream is
