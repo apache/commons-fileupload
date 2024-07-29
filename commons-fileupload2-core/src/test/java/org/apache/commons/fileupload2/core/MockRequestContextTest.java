@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MockRequestContextTest {
     /**
-     * Test if the <code>content-length</code> Value is numeric.
+     * Test if the {@code content-length} Value is numeric.
      */
     @Test
     public void getContentLengthByParsing() {
@@ -46,7 +46,7 @@ public class MockRequestContextTest {
     }
 
     /**
-     * Test if the <code>content-length</code> Value is not numeric
+     * Test if the {@code content-length} Value is not numeric
      * and the Default will be taken.
      */
     @Test
@@ -62,7 +62,7 @@ public class MockRequestContextTest {
     }
 
     /**
-     * Test if the given <code>character-encoding</code> is a valid CharEncoding
+     * Test if the given {@code character-encoding} is a valid CharEncoding
      */
     @Test
     public void getCharset() {
@@ -77,7 +77,7 @@ public class MockRequestContextTest {
     }
 
     /**
-     * Test if the given <code>character-encoding</code> is an invalid CharEncoding
+     * Test if the given {@code character-encoding} is an invalid CharEncoding
      * and leads to {@link UnsupportedCharsetException}
      */
     @Test
@@ -93,7 +93,7 @@ public class MockRequestContextTest {
     }
 
     /**
-     * Test the <code>toString()</code> Output
+     * Test the {@code toString()} Output
      */
     @Test
     public void testToString() {
@@ -108,7 +108,7 @@ public class MockRequestContextTest {
     }
 
     /**
-     * Test if the <code>content-type</code> is <code>multipart/related</code>
+     * Test if the {@code content-type} is {@code multipart/related}
      */
     @Test
     public void testIsMultipartRelated() {
@@ -123,7 +123,7 @@ public class MockRequestContextTest {
     }
 
     /**
-     * Test if the <code>content-type</code> is not <code>multipart/related</code>
+     * Test if the {@code content-type} is not {@code multipart/related}
      */
     @Test
     public void testIsNotMultipartRelated() {
