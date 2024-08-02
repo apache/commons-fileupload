@@ -44,6 +44,9 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="1.6.0" date="YYYY-MM-DD" description="1.6.0 Release, requires Java 8.">
+      <!-- ADD -->
+      <action dev="ggregory" type="add" due-to="mufasa1976, Jochen Wiedmann, Gary Gregory">[1.x] Enable multipart/related on FileUpload #314.</action>
+      <!--  UPDATE -->
       <action dev="ggregory" type="update">Bump Java from 6 to 8.</action>
       <action dev="ggregory" type="update">Bump commons-parent from 62 to 70.</action>
       <action dev="ggregory" type="update">Bump commons-io from 2.11.0 to 2.16.1.</action>
