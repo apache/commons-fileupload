@@ -75,7 +75,7 @@ public abstract class FileUploadBase {
         if (contentType == null) {
             return false;
         }
-        return contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART);
+        return contentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART);
     }
 
     /**
@@ -489,7 +489,7 @@ public abstract class FileUploadBase {
     private String getFileName(final String pContentDisposition) {
         String fileName = null;
         if (pContentDisposition != null) {
-            final String cdl = pContentDisposition.toLowerCase(Locale.ENGLISH);
+            final String cdl = pContentDisposition.toLowerCase(Locale.ROOT);
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
                 final ParameterParser parser = new ParameterParser();
                 parser.setLowerCaseNames(true);
@@ -532,7 +532,7 @@ public abstract class FileUploadBase {
     private String getFieldName(final String pContentDisposition) {
         String fieldName = null;
         if (pContentDisposition != null
-                && pContentDisposition.toLowerCase(Locale.ENGLISH).startsWith(FORM_DATA)) {
+                && pContentDisposition.toLowerCase(Locale.ROOT).startsWith(FORM_DATA)) {
             final ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
@@ -718,7 +718,7 @@ public abstract class FileUploadBase {
     @Deprecated
     protected final String getHeader(final Map<String, String> headers,
             final String name) {
-        return headers.get(name.toLowerCase(Locale.ENGLISH));
+        return headers.get(name.toLowerCase(Locale.ROOT));
     }
 
     /**
@@ -970,13 +970,13 @@ public abstract class FileUploadBase {
 
             final String contentType = ctx.getContentType();
             if (null == contentType
-                    || !contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART)) {
+                    || !contentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART)) {
                 throw new InvalidContentTypeException(
                         format("the request neither contains a %s nor a %s nor a %s stream, content type header is %s",
                                MULTIPART_FORM_DATA, MULTIPART_MIXED, MULTIPART_RELATED, contentType));
             }
 
-            multipartRelated = contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART_RELATED);
+            multipartRelated = contentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART_RELATED);
 
             @SuppressWarnings("deprecation") // still has to be backward compatible
             final int contentLengthInt = ctx.getContentLength();
@@ -1084,7 +1084,7 @@ public abstract class FileUploadBase {
                     if (fieldName != null) {
                         final String subContentType = headers.getHeader(CONTENT_TYPE);
                         if (subContentType != null
-                                &&  subContentType.toLowerCase(Locale.ENGLISH)
+                                &&  subContentType.toLowerCase(Locale.ROOT)
                                         .startsWith(MULTIPART_MIXED)) {
                             currentFieldName = fieldName;
                             // Multiple files associated with this field name
