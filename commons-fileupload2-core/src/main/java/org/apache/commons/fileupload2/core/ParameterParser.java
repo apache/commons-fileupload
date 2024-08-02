@@ -188,7 +188,7 @@ public class ParameterParser {
             if (paramName != null && !paramName.isEmpty()) {
                 paramName = RFC2231Utils.stripDelimiter(paramName);
                 if (this.lowerCaseNames) {
-                    paramName = paramName.toLowerCase(Locale.ENGLISH);
+                    paramName = paramName.toLowerCase(Locale.ROOT);
                 }
                 params.put(paramName, paramValue);
             }

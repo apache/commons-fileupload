@@ -197,7 +197,7 @@ final class MimeUtils {
         }
 
         // pull out the character set information (this is the MIME name at this point).
-        final var charset = word.substring(2, charsetPos).toLowerCase(Locale.ENGLISH);
+        final var charset = word.substring(2, charsetPos).toLowerCase(Locale.ROOT);
 
         // now pull out the encoding token the same way.
         final var encodingPos = word.indexOf('?', charsetPos + 1);
@@ -254,7 +254,7 @@ final class MimeUtils {
         if (charset == null) {
             return null;
         }
-        final var mappedCharset = MIME2JAVA.get(charset.toLowerCase(Locale.ENGLISH));
+        final var mappedCharset = MIME2JAVA.get(charset.toLowerCase(Locale.ROOT));
         // if there is no mapping, then the original name is used. Many of the MIME character set
         // names map directly back into Java. The reverse isn't necessarily true.
         return mappedCharset == null ? charset : mappedCharset;

@@ -166,7 +166,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                 final var fieldName = fileUpload.getFieldName(headers);
                 if (fieldName != null) {
                     final var subContentType = headers.getHeader(AbstractFileUpload.CONTENT_TYPE);
-                    if (subContentType != null && subContentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART_MIXED)) {
+                    if (subContentType != null && subContentType.toLowerCase(Locale.ROOT).startsWith(AbstractFileUpload.MULTIPART_MIXED)) {
                         currentFieldName = fieldName;
                         // Multiple files associated with this field name
                         final var subBoundary = fileUpload.getBoundary(subContentType);
@@ -242,7 +242,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
 
     protected void init(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext initContext) throws FileUploadException, IOException {
         final var contentType = requestContext.getContentType();
-        if (null == contentType || !contentType.toLowerCase(Locale.ENGLISH).startsWith(AbstractFileUpload.MULTIPART)) {
+        if (null == contentType || !contentType.toLowerCase(Locale.ROOT).startsWith(AbstractFileUpload.MULTIPART)) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
                     AbstractFileUpload.MULTIPART_FORM_DATA, AbstractFileUpload.MULTIPART_MIXED, contentType), contentType);
         }

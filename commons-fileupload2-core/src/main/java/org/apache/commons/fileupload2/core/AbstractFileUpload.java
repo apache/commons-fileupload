@@ -116,7 +116,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
         if (contentType == null) {
             return false;
         }
-        return contentType.toLowerCase(Locale.ENGLISH).startsWith(MULTIPART);
+        return contentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART);
     }
 
     /**
@@ -182,7 +182,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      */
     private String getFieldName(final String contentDisposition) {
         String fieldName = null;
-        if (contentDisposition != null && contentDisposition.toLowerCase(Locale.ENGLISH).startsWith(FORM_DATA)) {
+        if (contentDisposition != null && contentDisposition.toLowerCase(Locale.ROOT).startsWith(FORM_DATA)) {
             final var parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
@@ -233,7 +233,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     private String getFileName(final String contentDisposition) {
         String fileName = null;
         if (contentDisposition != null) {
-            final var cdl = contentDisposition.toLowerCase(Locale.ENGLISH);
+            final var cdl = contentDisposition.toLowerCase(Locale.ROOT);
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
                 final var parser = new ParameterParser();
                 parser.setLowerCaseNames(true);

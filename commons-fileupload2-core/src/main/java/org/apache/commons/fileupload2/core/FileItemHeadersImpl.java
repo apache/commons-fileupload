@@ -82,7 +82,7 @@ class FileItemHeadersImpl implements FileItemHeaders {
     }
 
     private String toLowerCase(final String value) {
-        return value.toLowerCase(Locale.ENGLISH);
+        return value.toLowerCase(Locale.ROOT);
     }
 
 }
