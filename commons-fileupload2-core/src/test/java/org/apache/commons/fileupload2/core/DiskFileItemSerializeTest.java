@@ -77,7 +77,7 @@ public class DiskFileItemSerializeTest {
         final var buffer = new StringBuilder(size);
         byte count = 0;
         for (var i = 0; i < size; i++) {
-            buffer.append(count + "");
+            buffer.append(Byte.toString(count));
             count++;
             if (count > 9) {
                 count = 0;
