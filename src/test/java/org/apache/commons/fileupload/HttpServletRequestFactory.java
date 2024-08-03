@@ -29,7 +29,7 @@ final class HttpServletRequestFactory {
 
     static public HttpServletRequest createValidHttpServletRequest(
             final String[] strFileNames) {
-        // todo - provide a real implementation
+        // TODO provide a real implementation
 
         final StringBuilder sbRequestData = new StringBuilder();
 
