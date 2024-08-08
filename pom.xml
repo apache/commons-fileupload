@@ -35,178 +35,6 @@
   </description>
   <url>https://commons.apache.org/proper/commons-fileupload/</url>
   <inceptionYear>2002</inceptionYear>
-
-  <developers>
-    <developer>
-      <name>Martin Cooper</name>
-      <id>martinc</id>
-      <email>martinc@apache.org</email>
-      <organization>Yahoo!</organization>
-    </developer>
-    <developer>
-      <name>dIon Gillard</name>
-      <id>dion</id>
-      <email>dion@apache.org</email>
-      <organization>Multitask Consulting</organization>
-    </developer>
-    <developer>
-      <name>John McNally</name>
-      <id>jmcnally</id>
-      <email>jmcnally@collab.net</email>
-      <organization>CollabNet</organization>
-    </developer>
-    <developer>
-      <name>Daniel Rall</name>
-      <id>dlr</id>
-      <email>dlr@finemaltcoding.com</email>
-      <organization>CollabNet</organization>
-    </developer>
-    <developer>
-      <name>Jason van Zyl</name>
-      <id>jvanzyl</id>
-      <email>jason@zenplex.com</email>
-      <organization>Zenplex</organization>
-    </developer>
-    <developer>
-      <name>Robert Burrell Donkin</name>
-      <id>rdonkin</id>
-      <email>rdonkin@apache.org</email>
-      <organization />
-    </developer>
-    <developer>
-      <name>Sean C. Sullivan</name>
-      <id>sullis</id>
-      <email>sean |at| seansullivan |dot| com</email>
-      <organization />
-    </developer>
-    <developer>
-      <name>Jochen Wiedmann</name>
-      <id>jochen</id>
-      <email>jochen.wiedmann@gmail.com</email>
-      <organization />
-    </developer>
-    <developer>
-      <name>Simone Tripodi</name>
-      <id>simonetripodi</id>
-      <email>simonetripodi@apache.org</email>
-      <organization>Adobe</organization>
-    </developer>
-    <developer>
-      <id>ggregory</id>
-      <name>Gary Gregory</name>
-      <email>ggregory at apache.org</email>
-      <url>https://www.garygregory.com</url>
-      <organization>The Apache Software Foundation</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>      
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-      <timezone>America/New_York</timezone>
-      <properties>
-        <picUrl>https://people.apache.org/~ggregory/img/garydgregory80.png</picUrl>
-      </properties>
-    </developer>
-    <developer>
-      <name>Rob Tompkins</name>
-      <id>chtompki</id>
-      <email>chtompki@apache.org</email>
-    </developer>
-  </developers>
-
-  <contributors>
-    <contributor>
-      <name>Aaron Freeman</name>
-      <email>aaron@sendthisfile.com</email>
-    </contributor>
-    <contributor>
-      <name>Daniel Fabian</name>
-      <email>dfabian@google.com</email>
-    </contributor>
-    <contributor>
-      <name>Jörg Heinicke</name>
-      <email>joerg.heinicke@gmx.de</email>
-    </contributor>
-    <contributor>
-      <name>Stepan Koltsov</name>
-      <email>yozh@mx1.ru</email>
-    </contributor>
-    <contributor>
-      <name>Michael Macaluso</name>
-      <email>michael.public@wavecorp.com</email>
-    </contributor>
-    <contributor>
-      <name>Amichai Rothman</name>
-      <email>amichai2@amichais.net</email>
-    </contributor>
-    <contributor>
-      <name>Alexander Sova</name>
-      <email>bird@noir.crocodile.org</email>
-    </contributor>
-    <contributor>
-      <name>Paul Spurr</name>
-      <email>pspurr@gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>Thomas Vandahl</name>
-      <email>tv@apache.org</email>
-    </contributor>
-    <contributor>
-      <name>Henry Yandell</name>
-      <email>bayard@apache.org</email>
-    </contributor>
-    <contributor>
-      <name>Jan Novotný</name>
-      <email>novotnaci@gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>frank</name>
-      <email>mailsurfie@gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>maxxedev</name>
-      <email>maxxedev@gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>Rafal Krzewski</name>
-      <email>Rafal.Krzewski@e-point.pl</email>
-    </contributor>
-    <contributor>
-      <name>Sean Legassick</name>
-      <email>sean@informage.net</email>
-    </contributor>
-    <contributor>
-      <name>Oleg Kalnichevski</name>
-      <email>oleg@ural.ru</email>
-    </contributor>
-    <contributor>
-      <name>David Sean Taylor</name>
-      <email>taylor@apache.org</email>
-    </contributor>
-    <contributor>
-      <name>fangwentong</name>
-      <email>fangwentong2012@gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>David Georg Reichelt</name>
-    </contributor>
-    <contributor>
-      <name>Merbin J Anselm</name>
-      <email>merbinjanselm@gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>Arturo Bernal</name>
-      <email>arturobernalg@gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>Martin Grigorov</name>
-      <email>mgrigorov@apache.org</email>
-    </contributor>
-    <contributor>
-      <name>mufasa1976</name>
-      <email>mufasa1976@coolstuff.software</email>
-    </contributor>
-  </contributors>
-
   <scm>
     <connection>scm:git:http://gitbox.apache.org/repos/asf/commons-fileupload.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-fileupload.git</developerConnection>
@@ -502,4 +330,173 @@
 	<module>commons-fileupload2-portlet</module>
 	<module>commons-fileupload2-distribution</module>
   </modules>
+  <developers>
+    <developer>
+      <name>Martin Cooper</name>
+      <id>martinc</id>
+      <email>martinc@apache.org</email>
+      <organization>Yahoo!</organization>
+    </developer>
+    <developer>
+      <name>dIon Gillard</name>
+      <id>dion</id>
+      <email>dion@apache.org</email>
+      <organization>Multitask Consulting</organization>
+    </developer>
+    <developer>
+      <name>John McNally</name>
+      <id>jmcnally</id>
+      <email>jmcnally@collab.net</email>
+      <organization>CollabNet</organization>
+    </developer>
+    <developer>
+      <name>Daniel Rall</name>
+      <id>dlr</id>
+      <email>dlr@finemaltcoding.com</email>
+      <organization>CollabNet</organization>
+    </developer>
+    <developer>
+      <name>Jason van Zyl</name>
+      <id>jvanzyl</id>
+      <email>jason@zenplex.com</email>
+      <organization>Zenplex</organization>
+    </developer>
+    <developer>
+      <name>Robert Burrell Donkin</name>
+      <id>rdonkin</id>
+      <email>rdonkin@apache.org</email>
+      <organization />
+    </developer>
+    <developer>
+      <name>Sean C. Sullivan</name>
+      <id>sullis</id>
+      <email>sean |at| seansullivan |dot| com</email>
+      <organization />
+    </developer>
+    <developer>
+      <name>Jochen Wiedmann</name>
+      <id>jochen</id>
+      <email>jochen.wiedmann@gmail.com</email>
+      <organization />
+    </developer>
+    <developer>
+      <name>Simone Tripodi</name>
+      <id>simonetripodi</id>
+      <email>simonetripodi@apache.org</email>
+      <organization>Adobe</organization>
+    </developer>
+    <developer>
+      <id>ggregory</id>
+      <name>Gary Gregory</name>
+      <email>ggregory at apache.org</email>
+      <url>https://www.garygregory.com</url>
+      <organization>The Apache Software Foundation</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>      
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+      <timezone>America/New_York</timezone>
+      <properties>
+        <picUrl>https://people.apache.org/~ggregory/img/garydgregory80.png</picUrl>
+      </properties>
+    </developer>
+    <developer>
+      <name>Rob Tompkins</name>
+      <id>chtompki</id>
+      <email>chtompki@apache.org</email>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Aaron Freeman</name>
+      <email>aaron@sendthisfile.com</email>
+    </contributor>
+    <contributor>
+      <name>Daniel Fabian</name>
+      <email>dfabian@google.com</email>
+    </contributor>
+    <contributor>
+      <name>Jörg Heinicke</name>
+      <email>joerg.heinicke@gmx.de</email>
+    </contributor>
+    <contributor>
+      <name>Stepan Koltsov</name>
+      <email>yozh@mx1.ru</email>
+    </contributor>
+    <contributor>
+      <name>Michael Macaluso</name>
+      <email>michael.public@wavecorp.com</email>
+    </contributor>
+    <contributor>
+      <name>Amichai Rothman</name>
+      <email>amichai2@amichais.net</email>
+    </contributor>
+    <contributor>
+      <name>Alexander Sova</name>
+      <email>bird@noir.crocodile.org</email>
+    </contributor>
+    <contributor>
+      <name>Paul Spurr</name>
+      <email>pspurr@gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>Thomas Vandahl</name>
+      <email>tv@apache.org</email>
+    </contributor>
+    <contributor>
+      <name>Henry Yandell</name>
+      <email>bayard@apache.org</email>
+    </contributor>
+    <contributor>
+      <name>Jan Novotný</name>
+      <email>novotnaci@gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>frank</name>
+      <email>mailsurfie@gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>maxxedev</name>
+      <email>maxxedev@gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>Rafal Krzewski</name>
+      <email>Rafal.Krzewski@e-point.pl</email>
+    </contributor>
+    <contributor>
+      <name>Sean Legassick</name>
+      <email>sean@informage.net</email>
+    </contributor>
+    <contributor>
+      <name>Oleg Kalnichevski</name>
+      <email>oleg@ural.ru</email>
+    </contributor>
+    <contributor>
+      <name>David Sean Taylor</name>
+      <email>taylor@apache.org</email>
+    </contributor>
+    <contributor>
+      <name>fangwentong</name>
+      <email>fangwentong2012@gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>David Georg Reichelt</name>
+    </contributor>
+    <contributor>
+      <name>Merbin J Anselm</name>
+      <email>merbinjanselm@gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>Arturo Bernal</name>
+      <email>arturobernalg@gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>Martin Grigorov</name>
+      <email>mgrigorov@apache.org</email>
+    </contributor>
+    <contributor>
+      <name>mufasa1976</name>
+      <email>mufasa1976@coolstuff.software</email>
+    </contributor>
+  </contributors>
 </project>
