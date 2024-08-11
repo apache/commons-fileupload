@@ -33,7 +33,7 @@ limitations under the License.
   </parent>
 
   <properties>
-    <!--  dist module contains no code and no checkstyle config -->
+    <!--  distribution module contains no code and no checkstyle config -->
     <checkstyle.skip>true</checkstyle.skip>
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
     <commons.release.isDistModule>true</commons.release.isDistModule>
