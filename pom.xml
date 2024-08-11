@@ -310,7 +310,7 @@
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
-              <!-- Don't build the archives here. They are constructed in the dist project -->
+              <!-- Don't build the archives here. They are constructed in the distribution project -->
               <execution>
                 <configuration>
                   <skipAssembly>true</skipAssembly>
