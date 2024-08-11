@@ -23,7 +23,6 @@ limitations under the License.
     <format>zip</format>
   </formats>
   <includeSiteDirectory>false</includeSiteDirectory>
-
   <dependencySets>
     <dependencySet>
       <includes>
@@ -36,7 +35,6 @@ limitations under the License.
       <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
   </dependencySets>
-
   <fileSets>
     <fileSet>
       <directory>..</directory>
@@ -47,5 +45,4 @@ limitations under the License.
       </includes>
     </fileSet>
   </fileSets>
-
 </assembly>
