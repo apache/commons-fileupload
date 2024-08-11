@@ -61,7 +61,7 @@
 	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload2</commons.module.name>
-    <commons.release.version>2.0.0-M2</commons.release.version>
+    <commons.release.version>2.0.0-M3</commons.release.version>
     <commons.release.next>2.0.0</commons.release.next>
     <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 8 or later</commons.release.desc>
 
@@ -91,7 +91,7 @@
     <commons.javadoc.options></commons.javadoc.options>
 
     <!-- Commons Release Plugin -->
-    <commons.bc.version>2.0.0-M1</commons.bc.version>
+    <commons.bc.version>2.0.0-M2</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.release.isDistModule>false</commons.release.isDistModule>
