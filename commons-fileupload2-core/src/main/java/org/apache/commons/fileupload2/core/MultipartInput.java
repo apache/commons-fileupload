@@ -145,7 +145,7 @@ public final class MultipartInput {
         /**
          * Sets the progress notifier.
          *
-         * @param progressNotifier progress notifier..
+         * @param progressNotifier progress notifier.
          * @return {@code this} instance.
          */
         public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
