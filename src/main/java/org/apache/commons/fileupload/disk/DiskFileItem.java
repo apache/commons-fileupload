@@ -18,7 +18,6 @@ package org.apache.commons.fileupload.disk;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +34,8 @@ import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.DeferredFileOutputStream;
+import org.apache.commons.io.output.CipheredDeferredFileOutputStream;
+
 
 /**
  * <p> The default implementation of the
@@ -134,7 +134,7 @@ public class DiskFileItem
     /**
      * Output stream for this item.
      */
-    private transient DeferredFileOutputStream dfos;
+    private transient CipheredDeferredFileOutputStream dfos;
 
     /**
      * The temporary file to use.
@@ -193,7 +193,7 @@ public class DiskFileItem
     public InputStream getInputStream()
         throws IOException {
         if (!isInMemory()) {
-            return new FileInputStream(dfos.getFile());
+            return dfos.createCipheredInputStream();
         }
 
         if (cachedContent == null) {
@@ -274,7 +274,7 @@ public class DiskFileItem
         if (dfos.isInMemory()) {
             return dfos.getData().length;
         }
-        return dfos.getFile().length();
+        return dfos.getByteCount();
     }
 
     /**
@@ -298,7 +298,7 @@ public class DiskFileItem
         InputStream fis = null;
 
         try {
-            fis = new FileInputStream(dfos.getFile());
+            fis = dfos.createCipheredInputStream();
             IOUtils.readFully(fis, fileData);
         } catch (final IOException e) {
             fileData = null;
@@ -490,7 +490,7 @@ public class DiskFileItem
     public OutputStream getOutputStream() throws IOException {
         if (dfos == null) {
             final File outputFile = getTempFile();
-            dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
+            dfos = new CipheredDeferredFileOutputStream(sizeThreshold, outputFile);
         }
         return dfos;
     }
