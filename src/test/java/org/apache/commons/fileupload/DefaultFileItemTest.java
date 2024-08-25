@@ -209,10 +209,8 @@ public class DefaultFileItemTest {
         );
         assertNotNull(item);
 
-        try {
-            final OutputStream os = item.getOutputStream();
+        try (OutputStream os = item.getOutputStream()) {
             os.write(testFieldValueBytes);
-            os.close();
         } catch(final IOException e) {
             fail("Unexpected IOException");
         }
