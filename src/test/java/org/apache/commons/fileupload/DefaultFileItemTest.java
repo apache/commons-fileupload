@@ -195,7 +195,7 @@ public class DefaultFileItemTest {
      * configured threshold.
      */
     @Test
-    public void testBelowThreshold() {
+    public void testBelowThreshold() throws IOException {
         final FileItemFactory factory = createFactory(null);
         final String textFieldName = "textField";
         final String textFieldValue = "0123456789";
@@ -211,8 +211,6 @@ public class DefaultFileItemTest {
 
         try (OutputStream os = item.getOutputStream()) {
             os.write(testFieldValueBytes);
-        } catch(final IOException e) {
-            fail("Unexpected IOException");
         }
         assertTrue(item.isInMemory());
         assertEquals(item.getSize(), testFieldValueBytes.length);
