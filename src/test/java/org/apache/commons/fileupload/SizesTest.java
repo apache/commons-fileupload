@@ -272,8 +272,7 @@ public class SizesTest {
 
         item = it.next();
 
-        try {
-            final InputStream stream = item.openStream();
+        try (InputStream stream = item.openStream()) {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Streams.copy(stream, baos, true);
             fail();
