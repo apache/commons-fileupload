@@ -48,6 +48,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="add" due-to="mufasa1976, Jochen Wiedmann, Gary Gregory">[1.x] Enable multipart/related on FileUpload #314.</action>
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Replace use of Locale.ENGLISH with Locale.ROOT.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove unused exception from FileUploadBase.createItem(Map, boolean).</action>
       <!--  UPDATE -->
       <action dev="ggregory" type="update">Bump Java from 6 to 8.</action>
       <action dev="ggregory" type="update">Bump commons-parent from 62 to 73.</action>

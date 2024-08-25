@@ -987,13 +987,8 @@ public abstract class FileUploadBase {
      *   internally created instances of {@link FileItem}.
      */
     @Deprecated
-    protected FileItem createItem(final Map<String, String> headers,
-                                  final boolean isFormField)
-        throws FileUploadException {
-        return getFileItemFactory().createItem(getFieldName(headers),
-                getHeader(headers, CONTENT_TYPE),
-                isFormField,
-                getFileName(headers));
+    protected FileItem createItem(final Map<String, String> headers, final boolean isFormField) {
+        return getFileItemFactory().createItem(getFieldName(headers), getHeader(headers, CONTENT_TYPE), isFormField, getFileName(headers));
     }
 
     /**
