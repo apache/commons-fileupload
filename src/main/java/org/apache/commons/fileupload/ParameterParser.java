@@ -113,7 +113,7 @@ public class ParameterParser {
      *         {@code false} otherwise.
      */
     private boolean hasChar() {
-        return this.pos < this.len;
+        return pos < len;
     }
 
     /**
@@ -125,7 +125,7 @@ public class ParameterParser {
      * Otherwise returns {@code false}
      */
     public boolean isLowerCaseNames() {
-        return this.lowerCaseNames;
+        return lowerCaseNames;
     }
 
     /**
@@ -187,9 +187,9 @@ public class ParameterParser {
             return new HashMap<>();
         }
         final HashMap<String, String> params = new HashMap<>();
-        this.chars = charArray.clone();
-        this.pos = offset;
-        this.len = length;
+        chars = charArray.clone();
+        pos = offset;
+        len = length;
 
         String paramName;
         String paramValue;
@@ -216,7 +216,7 @@ public class ParameterParser {
             }
             if (paramName != null && !paramName.isEmpty()) {
                 paramName = RFC2231Utility.stripDelimiter(paramName);
-                if (this.lowerCaseNames) {
+                if (lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ROOT);
                 }
                 params.put(paramName, paramValue);
@@ -334,7 +334,7 @@ public class ParameterParser {
      * {@code false} otherwise.
      */
     public void setLowerCaseNames(final boolean b) {
-        this.lowerCaseNames = b;
+        lowerCaseNames = b;
     }
 
 }
