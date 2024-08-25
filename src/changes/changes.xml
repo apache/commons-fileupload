@@ -53,6 +53,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="update">Bump commons-parent from 62 to 73.</action>
       <action dev="ggregory" type="update">Bump commons-io from 2.11.0 to 2.16.1.</action>
       <action dev="ggregory" type="update">Bump javax.servlet:servlet-api from 2.4 to 2.5.</action>
+      <action dev="ggregory" type="update">Bump JUnit from junit:junit:4.13.2 org.junit.vintage:junit-vintage-engine from parent POM.</action>
     </release>
     <release version="1.5" date="2023-02-13" description="1.5 Release">
       <action                        dev="markt" type="update">Bump Commons IO to 2.11.0</action>

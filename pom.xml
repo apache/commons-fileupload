@@ -60,6 +60,7 @@
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload</commons.module.name>
     <commons.release.version>1.6.0</commons.release.version>
+    <commons.next.version>1.6.1</commons.next.version>
     <commons.release.desc>(requires Java ${maven.compiler.target} or later)</commons.release.desc>
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
@@ -87,9 +88,8 @@
     <commons.jacoco.complexityRatio>0.66</commons.jacoco.complexityRatio>  </properties>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
