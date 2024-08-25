@@ -74,11 +74,11 @@ public class FileUpload
     /**
      * Sets the factory class to use when creating file items.
      *
-     * @param factory The factory class for new file items.
+     * @param fileItemFactory The factory class for new file items.
      */
     @Override
-    public void setFileItemFactory(final FileItemFactory factory) {
-        this.fileItemFactory = factory;
+    public void setFileItemFactory(final FileItemFactory fileItemFactory) {
+        this.fileItemFactory = fileItemFactory;
     }
 
 }
