@@ -56,41 +56,6 @@ public final class RFC2231Utility {
     }
 
     /**
-     * Private constructor so that no instances can be created. This class
-     * contains only static utility methods.
-     */
-    private RFC2231Utility() {
-    }
-
-    /**
-     * Checks if Asterisk (*) at the end of parameter name to indicate,
-     * if it has charset and language information to decode the value.
-     * @param paramName The parameter, which is being checked.
-     * @return {@code true}, if encoded as per RFC 2231, {@code false} otherwise
-     */
-    public static boolean hasEncodedValue(final String paramName) {
-        if (paramName != null) {
-            return paramName.lastIndexOf('*') == paramName.length() - 1;
-        }
-        return false;
-    }
-
-    /**
-     * If {@code paramName} has Asterisk (*) at the end, it will be stripped off,
-     * else the passed value will be returned.
-     * @param paramName The parameter, which is being inspected.
-     * @return stripped {@code paramName} of Asterisk (*), if RFC2231 encoded
-     */
-    public static String stripDelimiter(final String paramName) {
-        if (hasEncodedValue(paramName)) {
-            final StringBuilder paramBuilder = new StringBuilder(paramName);
-            paramBuilder.deleteCharAt(paramName.lastIndexOf('*'));
-            return paramBuilder.toString();
-        }
-        return paramName;
-    }
-
-    /**
      * Decode a string of text obtained from a HTTP header as per RFC 2231
      * <p>
      * <b>Eg 1.</b> {@code us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A}
@@ -150,5 +115,40 @@ public final class RFC2231Utility {
     private static String getJavaCharset(final String mimeCharset) {
         // good enough for standard values
         return mimeCharset;
+    }
+
+    /**
+     * Checks if Asterisk (*) at the end of parameter name to indicate,
+     * if it has charset and language information to decode the value.
+     * @param paramName The parameter, which is being checked.
+     * @return {@code true}, if encoded as per RFC 2231, {@code false} otherwise
+     */
+    public static boolean hasEncodedValue(final String paramName) {
+        if (paramName != null) {
+            return paramName.lastIndexOf('*') == paramName.length() - 1;
+        }
+        return false;
+    }
+
+    /**
+     * If {@code paramName} has Asterisk (*) at the end, it will be stripped off,
+     * else the passed value will be returned.
+     * @param paramName The parameter, which is being inspected.
+     * @return stripped {@code paramName} of Asterisk (*), if RFC2231 encoded
+     */
+    public static String stripDelimiter(final String paramName) {
+        if (hasEncodedValue(paramName)) {
+            final StringBuilder paramBuilder = new StringBuilder(paramName);
+            paramBuilder.deleteCharAt(paramName.lastIndexOf('*'));
+            return paramBuilder.toString();
+        }
+        return paramName;
+    }
+
+    /**
+     * Private constructor so that no instances can be created. This class
+     * contains only static utility methods.
+     */
+    private RFC2231Utility() {
     }
 }

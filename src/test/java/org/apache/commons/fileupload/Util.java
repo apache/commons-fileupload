@@ -34,6 +34,16 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
  */
 public class Util {
 
+    /**
+     * Return a list of {@link FileUpload} implementations for parameterized tests.
+     * @return a list of {@link FileUpload} implementations
+     */
+    public static List<FileUpload> fileUploadImplementations() {
+        return Arrays.asList(
+                new ServletFileUpload(new DiskFileItemFactory()),
+                new PortletFileUpload(new DiskFileItemFactory()));
+    }
+
     public static List<FileItem> parseUpload(final FileUpload upload, final byte[] bytes) throws FileUploadException {
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
@@ -47,15 +57,5 @@ public class Util {
         throws UnsupportedEncodingException, FileUploadException {
         final byte[] bytes = content.getBytes("US-ASCII");
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
-    }
-
-    /**
-     * Return a list of {@link FileUpload} implementations for parameterized tests.
-     * @return a list of {@link FileUpload} implementations
-     */
-    public static List<FileUpload> fileUploadImplementations() {
-        return Arrays.asList(
-                new ServletFileUpload(new DiskFileItemFactory()),
-                new PortletFileUpload(new DiskFileItemFactory()));
     }
 }

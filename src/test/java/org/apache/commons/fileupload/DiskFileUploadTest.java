@@ -44,6 +44,31 @@ public class DiskFileUploadTest {
         upload = new DiskFileUpload();
     }
 
+    /** Proposed test for FILEUPLOAD-293. As of yet, doesn't reproduce the problem.
+     */
+    @Test
+    public void testMoveFile() throws Exception {
+        final DiskFileUpload myUpload = new DiskFileUpload();
+        myUpload.setSizeThreshold(0);
+    	final String content =
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"file\";"
+                		+ "filename=\"foo.tab\"\r\n" +
+                "Content-Type: text/whatever\r\n" +
+                "\r\n" +
+                "This is the content of the file\n" +
+                "\r\n" +
+                "-----1234--\r\n";
+    	final byte[] contentBytes = content.getBytes("US-ASCII");
+        final HttpServletRequest request = new MockHttpServletRequest(contentBytes, Constants.CONTENT_TYPE);
+        final List<FileItem> items = myUpload.parseRequest(request);
+        assertNotNull(items);
+        assertFalse(items.isEmpty());
+        final DiskFileItem dfi = (DiskFileItem) items.get(0);
+        final File out = File.createTempFile("install", ".tmp");
+        dfi.write(out);
+    }
+
     @Test
     public void testWithInvalidRequest() {
         final HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
@@ -68,30 +93,5 @@ public class DiskFileUploadTest {
         } catch (final FileUploadException unexpected) {
             fail("testWithNullContentType: unexpected exception was thrown");
         }
-    }
-
-    /** Proposed test for FILEUPLOAD-293. As of yet, doesn't reproduce the problem.
-     */
-    @Test
-    public void testMoveFile() throws Exception {
-        final DiskFileUpload myUpload = new DiskFileUpload();
-        myUpload.setSizeThreshold(0);
-    	final String content =
-                "-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"file\";"
-                		+ "filename=\"foo.tab\"\r\n" +
-                "Content-Type: text/whatever\r\n" +
-                "\r\n" +
-                "This is the content of the file\n" +
-                "\r\n" +
-                "-----1234--\r\n";
-    	final byte[] contentBytes = content.getBytes("US-ASCII");
-        final HttpServletRequest request = new MockHttpServletRequest(contentBytes, Constants.CONTENT_TYPE);
-        final List<FileItem> items = myUpload.parseRequest(request);
-        assertNotNull(items);
-        assertFalse(items.isEmpty());
-        final DiskFileItem dfi = (DiskFileItem) items.get(0);
-        final File out = File.createTempFile("install", ".tmp");
-        dfi.write(out);
     }
 }

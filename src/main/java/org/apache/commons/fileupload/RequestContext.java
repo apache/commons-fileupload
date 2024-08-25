@@ -36,13 +36,6 @@ public interface RequestContext {
     String getCharacterEncoding();
 
     /**
-     * Retrieve the content type of the request.
-     *
-     * @return The content type of the request.
-     */
-    String getContentType();
-
-    /**
      * Retrieve the content length of the request.
      *
      * @return The content length of the request.
@@ -50,6 +43,13 @@ public interface RequestContext {
      */
     @Deprecated
     int getContentLength();
+
+    /**
+     * Retrieve the content type of the request.
+     *
+     * @return The content type of the request.
+     */
+    String getContentType();
 
     /**
      * Retrieve the input stream for the request.

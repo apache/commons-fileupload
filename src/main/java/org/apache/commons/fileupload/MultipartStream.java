@@ -82,6 +82,315 @@ import org.apache.commons.fileupload.util.Streams;
 public class MultipartStream {
 
     /**
+     * Thrown upon attempt of setting an invalid boundary token.
+     */
+    public static class IllegalBoundaryException extends IOException {
+
+        /**
+         * The UID to use when serializing this instance.
+         */
+        private static final long serialVersionUID = -161533165102632918L;
+
+        /**
+         * Constructs an {@code IllegalBoundaryException} with no
+         * detail message.
+         */
+        public IllegalBoundaryException() {
+        }
+
+        /**
+         * Constructs an {@code IllegalBoundaryException} with
+         * the specified detail message.
+         *
+         * @param message The detail message.
+         */
+        public IllegalBoundaryException(final String message) {
+            super(message);
+        }
+
+    }
+
+    /**
+     * An {@link InputStream} for reading an items contents.
+     */
+    public class ItemInputStream extends InputStream implements Closeable {
+
+        /**
+         * Offset when converting negative bytes to integers.
+         */
+        private static final int BYTE_POSITIVE_OFFSET = 256;
+
+        /**
+         * The number of bytes, which have been read so far.
+         */
+        private long total;
+
+        /**
+         * The number of bytes, which must be hold, because
+         * they might be a part of the boundary.
+         */
+        private int pad;
+
+        /**
+         * The current offset in the buffer.
+         */
+        private int pos;
+
+        /**
+         * Whether the stream is already closed.
+         */
+        private boolean closed;
+
+        /**
+         * Creates a new instance.
+         */
+        ItemInputStream() {
+            findSeparator();
+        }
+
+        /**
+         * Returns the number of bytes, which are currently
+         * available, without blocking.
+         *
+         * @throws IOException An I/O error occurs.
+         * @return Number of bytes in the buffer.
+         */
+        @Override
+        public int available() throws IOException {
+            if (pos == -1) {
+                return tail - head - pad;
+            }
+            return pos - head;
+        }
+
+        /**
+         * Closes the input stream.
+         *
+         * @throws IOException An I/O error occurred.
+         */
+        @Override
+        public void close() throws IOException {
+            close(false);
+        }
+
+        /**
+         * Closes the input stream.
+         *
+         * @param pCloseUnderlying Whether to close the underlying stream
+         *   (hard close)
+         * @throws IOException An I/O error occurred.
+         */
+        public void close(final boolean pCloseUnderlying) throws IOException {
+            if (closed) {
+                return;
+            }
+            if (pCloseUnderlying) {
+                closed = true;
+                input.close();
+            } else {
+                for (;;) {
+                    int av = available();
+                    if (av == 0) {
+                        av = makeAvailable();
+                        if (av == 0) {
+                            break;
+                        }
+                    }
+                    skip(av);
+                }
+            }
+            closed = true;
+        }
+
+        /**
+         * Called for finding the separator.
+         */
+        private void findSeparator() {
+            pos = MultipartStream.this.findSeparator();
+            if (pos == -1) {
+                if (tail - head > keepRegion) {
+                    pad = keepRegion;
+                } else {
+                    pad = tail - head;
+                }
+            }
+        }
+
+        /**
+         * Returns the number of bytes, which have been read
+         * by the stream.
+         *
+         * @return Number of bytes, which have been read so far.
+         */
+        public long getBytesRead() {
+            return total;
+        }
+
+        /**
+         * Returns, whether the stream is closed.
+         *
+         * @return True, if the stream is closed, otherwise false.
+         */
+        @Override
+        public boolean isClosed() {
+            return closed;
+        }
+
+        /**
+         * Attempts to read more data.
+         *
+         * @return Number of available bytes
+         * @throws IOException An I/O error occurred.
+         */
+        private int makeAvailable() throws IOException {
+            if (pos != -1) {
+                return 0;
+            }
+
+            // Move the data to the beginning of the buffer.
+            total += tail - head - pad;
+            System.arraycopy(buffer, tail - pad, buffer, 0, pad);
+
+            // Refill buffer with new data.
+            head = 0;
+            tail = pad;
+
+            for (;;) {
+                final int bytesRead = input.read(buffer, tail, bufSize - tail);
+                if (bytesRead == -1) {
+                    // The last pad amount is left in the buffer.
+                    // Boundary can't be in there so signal an error
+                    // condition.
+                    final String msg = "Stream ended unexpectedly";
+                    throw new MalformedStreamException(msg);
+                }
+                if (notifier != null) {
+                    notifier.noteBytesRead(bytesRead);
+                }
+                tail += bytesRead;
+
+                findSeparator();
+                final int av = available();
+
+                if (av > 0 || pos != -1) {
+                    return av;
+                }
+            }
+        }
+
+        /**
+         * Returns the next byte in the stream.
+         *
+         * @return The next byte in the stream, as a non-negative
+         *   integer, or -1 for EOF.
+         * @throws IOException An I/O error occurred.
+         */
+        @Override
+        public int read() throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
+            if (available() == 0 && makeAvailable() == 0) {
+                return -1;
+            }
+            ++total;
+            final int b = buffer[head++];
+            if (b >= 0) {
+                return b;
+            }
+            return b + BYTE_POSITIVE_OFFSET;
+        }
+
+        /**
+         * Reads bytes into the given buffer.
+         *
+         * @param b The destination buffer, where to write to.
+         * @param off Offset of the first byte in the buffer.
+         * @param len Maximum number of bytes to read.
+         * @return Number of bytes, which have been actually read,
+         *   or -1 for EOF.
+         * @throws IOException An I/O error occurred.
+         */
+        @Override
+        public int read(final byte[] b, final int off, final int len) throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
+            if (len == 0) {
+                return 0;
+            }
+            int res = available();
+            if (res == 0) {
+                res = makeAvailable();
+                if (res == 0) {
+                    return -1;
+                }
+            }
+            res = Math.min(res, len);
+            System.arraycopy(buffer, head, b, off, res);
+            head += res;
+            total += res;
+            return res;
+        }
+
+        /**
+         * Skips the given number of bytes.
+         *
+         * @param bytes Number of bytes to skip.
+         * @return The number of bytes, which have actually been
+         *   skipped.
+         * @throws IOException An I/O error occurred.
+         */
+        @Override
+        public long skip(final long bytes) throws IOException {
+            if (closed) {
+                throw new FileItemStream.ItemSkippedException();
+            }
+            int av = available();
+            if (av == 0) {
+                av = makeAvailable();
+                if (av == 0) {
+                    return 0;
+                }
+            }
+            final long res = Math.min(av, bytes);
+            head += res;
+            return res;
+        }
+
+    }
+
+    /**
+     * Thrown to indicate that the input stream fails to follow the
+     * required syntax.
+     */
+    public static class MalformedStreamException extends IOException {
+
+        /**
+         * The UID to use when serializing this instance.
+         */
+        private static final long serialVersionUID = 6466926458059796677L;
+
+        /**
+         * Constructs a {@code MalformedStreamException} with no
+         * detail message.
+         */
+        public MalformedStreamException() {
+        }
+
+        /**
+         * Constructs an {@code MalformedStreamException} with
+         * the specified detail message.
+         *
+         * @param message The detail message.
+         */
+        public MalformedStreamException(final String message) {
+            super(message);
+        }
+
+    }
+
+    /**
      * Internal class, which is used to invoke the
      * {@link ProgressListener}.
      */
@@ -201,6 +510,28 @@ public class MultipartStream {
     protected static final byte[] BOUNDARY_PREFIX = {CR, LF, DASH, DASH};
 
     /**
+     * Compares {@code count} first bytes in the arrays
+     * {@code a} and {@code b}.
+     *
+     * @param a     The first array to compare.
+     * @param b     The second array to compare.
+     * @param count How many bytes should be compared.
+     *
+     * @return {@code true} if {@code count} first bytes in arrays
+     *         {@code a} and {@code b} are equal.
+     */
+    public static boolean arrayequals(final byte[] a,
+            final byte[] b,
+            final int count) {
+        for (int i = 0; i < count; i++) {
+            if (a[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * The input stream from which data is read.
      */
     private final InputStream input;
@@ -269,6 +600,22 @@ public class MultipartStream {
     @Deprecated
     public MultipartStream() {
         this(null, null, null);
+    }
+
+    /**
+     * <p> Constructs a {@code MultipartStream} with a default size buffer.
+     *
+     * @param input    The {@code InputStream} to serve as a data source.
+     * @param boundary The token used for dividing the stream into
+     *                 {@code encapsulations}.
+     *
+     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int,
+     *  ProgressNotifier)}.
+     */
+    @Deprecated
+    public MultipartStream(final InputStream input,
+            final byte[] boundary) {
+        this(input, boundary, DEFAULT_BUFSIZE, null);
     }
 
     /**
@@ -365,19 +712,90 @@ public class MultipartStream {
     }
 
     /**
-     * <p> Constructs a {@code MultipartStream} with a default size buffer.
-     *
-     * @param input    The {@code InputStream} to serve as a data source.
-     * @param boundary The token used for dividing the stream into
-     *                 {@code encapsulations}.
-     *
-     * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int,
-     *  ProgressNotifier)}.
+     * Compute the table used for Knuth-Morris-Pratt search algorithm.
      */
-    @Deprecated
-    public MultipartStream(final InputStream input,
-            final byte[] boundary) {
-        this(input, boundary, DEFAULT_BUFSIZE, null);
+    private void computeBoundaryTable() {
+        int position = 2;
+        int candidate = 0;
+
+        boundaryTable[0] = -1;
+        boundaryTable[1] = 0;
+
+        while (position <= boundaryLength) {
+            if (boundary[position - 1] == boundary[candidate]) {
+                boundaryTable[position] = candidate + 1;
+                candidate++;
+                position++;
+            } else if (candidate > 0) {
+                candidate = boundaryTable[candidate];
+            } else {
+                boundaryTable[position] = 0;
+                position++;
+            }
+        }
+    }
+
+    /**
+     * <p> Reads {@code body-data} from the current
+     * {@code encapsulation} and discards it.
+     *
+     * <p>Use this method to skip encapsulations you don't need or don't
+     * understand.
+     *
+     * @return The amount of data discarded.
+     *
+     * @throws MalformedStreamException if the stream ends unexpectedly.
+     * @throws IOException              if an i/o error occurs.
+     */
+    public int discardBodyData() throws MalformedStreamException, IOException {
+        return readBodyData(null);
+    }
+
+    /**
+     * Searches for a byte of specified value in the {@code buffer},
+     * starting at the specified {@code position}.
+     *
+     * @param value The value to find.
+     * @param pos   The starting position for searching.
+     *
+     * @return The position of byte found, counting from beginning of the
+     *         {@code buffer}, or {@code -1} if not found.
+     */
+    protected int findByte(final byte value,
+            final int pos) {
+        for (int i = pos; i < tail; i++) {
+            if (buffer[i] == value) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Searches for the {@code boundary} in the {@code buffer}
+     * region delimited by {@code head} and {@code tail}.
+     *
+     * @return The position of the boundary found, counting from the
+     *         beginning of the {@code buffer}, or {@code -1} if
+     *         not found.
+     */
+    protected int findSeparator() {
+
+        int bufferPos = this.head;
+        int tablePos = 0;
+
+        while (bufferPos < this.tail) {
+            while (tablePos >= 0 && buffer[bufferPos] != boundary[tablePos]) {
+                tablePos = boundaryTable[tablePos];
+            }
+            bufferPos++;
+            tablePos++;
+            if (tablePos == boundaryLength) {
+                return bufferPos - boundaryLength;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -392,39 +810,35 @@ public class MultipartStream {
     }
 
     /**
-     * Specifies the character encoding to be used when reading the headers of
-     * individual parts. When not specified, or {@code null}, the platform
-     * default encoding is used.
-     *
-     * @param encoding The encoding used to read part headers.
+     * Creates a new {@link ItemInputStream}.
+     * @return A new instance of {@link ItemInputStream}.
      */
-    public void setHeaderEncoding(final String encoding) {
-        headerEncoding = encoding;
+    ItemInputStream newInputStream() {
+        return new ItemInputStream();
     }
 
     /**
-     * Reads a byte from the {@code buffer}, and refills it as
-     * necessary.
+     * <p>Reads {@code body-data} from the current
+     * {@code encapsulation} and writes its contents into the
+     * output {@code Stream}.
      *
-     * @return The next byte from the input stream.
+     * <p>Arbitrary large amounts of data can be processed by this
+     * method using a constant size buffer. (see {@link
+     * #MultipartStream(InputStream,byte[],int,
+     *   MultipartStream.ProgressNotifier) constructor}).
      *
-     * @throws IOException if there is no more data available.
+     * @param output The {@code Stream} to write data into. May
+     *               be null, in which case this method is equivalent
+     *               to {@link #discardBodyData()}.
+     *
+     * @return the amount of data written.
+     *
+     * @throws MalformedStreamException if the stream ends unexpectedly.
+     * @throws IOException              if an i/o error occurs.
      */
-    public byte readByte() throws IOException {
-        // Buffer depleted ?
-        if (head == tail) {
-            head = 0;
-            // Refill.
-            tail = input.read(buffer, head, bufSize);
-            if (tail == -1) {
-                // No more data available.
-                throw new IOException("No more data is available");
-            }
-            if (notifier != null) {
-                notifier.noteBytesRead(tail);
-            }
-        }
-        return buffer[head++];
+    public int readBodyData(final OutputStream output)
+            throws MalformedStreamException, IOException {
+        return (int) Streams.copy(newInputStream(), output, false); // N.B. Streams.copy closes the input stream
     }
 
     /**
@@ -475,57 +889,28 @@ public class MultipartStream {
     }
 
     /**
-     * <p>Changes the boundary token used for partitioning the stream.
+     * Reads a byte from the {@code buffer}, and refills it as
+     * necessary.
      *
-     * <p>This method allows single pass processing of nested multipart
-     * streams.
+     * @return The next byte from the input stream.
      *
-     * <p>The boundary token of the nested stream is {@code required}
-     * to be of the same length as the boundary token in parent stream.
-     *
-     * <p>Restoring the parent stream boundary token after processing of a
-     * nested stream is left to the application.
-     *
-     * @param boundary The boundary to be used for parsing of the nested
-     *                 stream.
-     *
-     * @throws IllegalBoundaryException if the {@code boundary}
-     *                                  has a different length than the one
-     *                                  being currently parsed.
+     * @throws IOException if there is no more data available.
      */
-    public void setBoundary(final byte[] boundary)
-            throws IllegalBoundaryException {
-        if (boundary.length != boundaryLength - BOUNDARY_PREFIX.length) {
-            throw new IllegalBoundaryException(
-            "The length of a boundary token cannot be changed");
-        }
-        System.arraycopy(boundary, 0, this.boundary, BOUNDARY_PREFIX.length,
-                boundary.length);
-        computeBoundaryTable();
-    }
-
-    /**
-     * Compute the table used for Knuth-Morris-Pratt search algorithm.
-     */
-    private void computeBoundaryTable() {
-        int position = 2;
-        int candidate = 0;
-
-        boundaryTable[0] = -1;
-        boundaryTable[1] = 0;
-
-        while (position <= boundaryLength) {
-            if (boundary[position - 1] == boundary[candidate]) {
-                boundaryTable[position] = candidate + 1;
-                candidate++;
-                position++;
-            } else if (candidate > 0) {
-                candidate = boundaryTable[candidate];
-            } else {
-                boundaryTable[position] = 0;
-                position++;
+    public byte readByte() throws IOException {
+        // Buffer depleted ?
+        if (head == tail) {
+            head = 0;
+            // Refill.
+            tail = input.read(buffer, head, bufSize);
+            if (tail == -1) {
+                // No more data available.
+                throw new IOException("No more data is available");
+            }
+            if (notifier != null) {
+                notifier.noteBytesRead(tail);
             }
         }
+        return buffer[head++];
     }
 
     /**
@@ -589,51 +974,44 @@ public class MultipartStream {
     }
 
     /**
-     * <p>Reads {@code body-data} from the current
-     * {@code encapsulation} and writes its contents into the
-     * output {@code Stream}.
+     * <p>Changes the boundary token used for partitioning the stream.
      *
-     * <p>Arbitrary large amounts of data can be processed by this
-     * method using a constant size buffer. (see {@link
-     * #MultipartStream(InputStream,byte[],int,
-     *   MultipartStream.ProgressNotifier) constructor}).
+     * <p>This method allows single pass processing of nested multipart
+     * streams.
      *
-     * @param output The {@code Stream} to write data into. May
-     *               be null, in which case this method is equivalent
-     *               to {@link #discardBodyData()}.
+     * <p>The boundary token of the nested stream is {@code required}
+     * to be of the same length as the boundary token in parent stream.
      *
-     * @return the amount of data written.
+     * <p>Restoring the parent stream boundary token after processing of a
+     * nested stream is left to the application.
      *
-     * @throws MalformedStreamException if the stream ends unexpectedly.
-     * @throws IOException              if an i/o error occurs.
+     * @param boundary The boundary to be used for parsing of the nested
+     *                 stream.
+     *
+     * @throws IllegalBoundaryException if the {@code boundary}
+     *                                  has a different length than the one
+     *                                  being currently parsed.
      */
-    public int readBodyData(final OutputStream output)
-            throws MalformedStreamException, IOException {
-        return (int) Streams.copy(newInputStream(), output, false); // N.B. Streams.copy closes the input stream
+    public void setBoundary(final byte[] boundary)
+            throws IllegalBoundaryException {
+        if (boundary.length != boundaryLength - BOUNDARY_PREFIX.length) {
+            throw new IllegalBoundaryException(
+            "The length of a boundary token cannot be changed");
+        }
+        System.arraycopy(boundary, 0, this.boundary, BOUNDARY_PREFIX.length,
+                boundary.length);
+        computeBoundaryTable();
     }
 
     /**
-     * Creates a new {@link ItemInputStream}.
-     * @return A new instance of {@link ItemInputStream}.
+     * Specifies the character encoding to be used when reading the headers of
+     * individual parts. When not specified, or {@code null}, the platform
+     * default encoding is used.
+     *
+     * @param encoding The encoding used to read part headers.
      */
-    ItemInputStream newInputStream() {
-        return new ItemInputStream();
-    }
-
-    /**
-     * <p> Reads {@code body-data} from the current
-     * {@code encapsulation} and discards it.
-     *
-     * <p>Use this method to skip encapsulations you don't need or don't
-     * understand.
-     *
-     * @return The amount of data discarded.
-     *
-     * @throws MalformedStreamException if the stream ends unexpectedly.
-     * @throws IOException              if an i/o error occurs.
-     */
-    public int discardBodyData() throws MalformedStreamException, IOException {
-        return readBodyData(null);
+    public void setHeaderEncoding(final String encoding) {
+        headerEncoding = encoding;
     }
 
     /**
@@ -666,384 +1044,6 @@ public class MultipartStream {
             boundary[1] = LF;
             computeBoundaryTable();
         }
-    }
-
-    /**
-     * Compares {@code count} first bytes in the arrays
-     * {@code a} and {@code b}.
-     *
-     * @param a     The first array to compare.
-     * @param b     The second array to compare.
-     * @param count How many bytes should be compared.
-     *
-     * @return {@code true} if {@code count} first bytes in arrays
-     *         {@code a} and {@code b} are equal.
-     */
-    public static boolean arrayequals(final byte[] a,
-            final byte[] b,
-            final int count) {
-        for (int i = 0; i < count; i++) {
-            if (a[i] != b[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Searches for a byte of specified value in the {@code buffer},
-     * starting at the specified {@code position}.
-     *
-     * @param value The value to find.
-     * @param pos   The starting position for searching.
-     *
-     * @return The position of byte found, counting from beginning of the
-     *         {@code buffer}, or {@code -1} if not found.
-     */
-    protected int findByte(final byte value,
-            final int pos) {
-        for (int i = pos; i < tail; i++) {
-            if (buffer[i] == value) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * Searches for the {@code boundary} in the {@code buffer}
-     * region delimited by {@code head} and {@code tail}.
-     *
-     * @return The position of the boundary found, counting from the
-     *         beginning of the {@code buffer}, or {@code -1} if
-     *         not found.
-     */
-    protected int findSeparator() {
-
-        int bufferPos = this.head;
-        int tablePos = 0;
-
-        while (bufferPos < this.tail) {
-            while (tablePos >= 0 && buffer[bufferPos] != boundary[tablePos]) {
-                tablePos = boundaryTable[tablePos];
-            }
-            bufferPos++;
-            tablePos++;
-            if (tablePos == boundaryLength) {
-                return bufferPos - boundaryLength;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * Thrown to indicate that the input stream fails to follow the
-     * required syntax.
-     */
-    public static class MalformedStreamException extends IOException {
-
-        /**
-         * The UID to use when serializing this instance.
-         */
-        private static final long serialVersionUID = 6466926458059796677L;
-
-        /**
-         * Constructs a {@code MalformedStreamException} with no
-         * detail message.
-         */
-        public MalformedStreamException() {
-        }
-
-        /**
-         * Constructs an {@code MalformedStreamException} with
-         * the specified detail message.
-         *
-         * @param message The detail message.
-         */
-        public MalformedStreamException(final String message) {
-            super(message);
-        }
-
-    }
-
-    /**
-     * Thrown upon attempt of setting an invalid boundary token.
-     */
-    public static class IllegalBoundaryException extends IOException {
-
-        /**
-         * The UID to use when serializing this instance.
-         */
-        private static final long serialVersionUID = -161533165102632918L;
-
-        /**
-         * Constructs an {@code IllegalBoundaryException} with no
-         * detail message.
-         */
-        public IllegalBoundaryException() {
-        }
-
-        /**
-         * Constructs an {@code IllegalBoundaryException} with
-         * the specified detail message.
-         *
-         * @param message The detail message.
-         */
-        public IllegalBoundaryException(final String message) {
-            super(message);
-        }
-
-    }
-
-    /**
-     * An {@link InputStream} for reading an items contents.
-     */
-    public class ItemInputStream extends InputStream implements Closeable {
-
-        /**
-         * The number of bytes, which have been read so far.
-         */
-        private long total;
-
-        /**
-         * The number of bytes, which must be hold, because
-         * they might be a part of the boundary.
-         */
-        private int pad;
-
-        /**
-         * The current offset in the buffer.
-         */
-        private int pos;
-
-        /**
-         * Whether the stream is already closed.
-         */
-        private boolean closed;
-
-        /**
-         * Creates a new instance.
-         */
-        ItemInputStream() {
-            findSeparator();
-        }
-
-        /**
-         * Called for finding the separator.
-         */
-        private void findSeparator() {
-            pos = MultipartStream.this.findSeparator();
-            if (pos == -1) {
-                if (tail - head > keepRegion) {
-                    pad = keepRegion;
-                } else {
-                    pad = tail - head;
-                }
-            }
-        }
-
-        /**
-         * Returns the number of bytes, which have been read
-         * by the stream.
-         *
-         * @return Number of bytes, which have been read so far.
-         */
-        public long getBytesRead() {
-            return total;
-        }
-
-        /**
-         * Returns the number of bytes, which are currently
-         * available, without blocking.
-         *
-         * @throws IOException An I/O error occurs.
-         * @return Number of bytes in the buffer.
-         */
-        @Override
-        public int available() throws IOException {
-            if (pos == -1) {
-                return tail - head - pad;
-            }
-            return pos - head;
-        }
-
-        /**
-         * Offset when converting negative bytes to integers.
-         */
-        private static final int BYTE_POSITIVE_OFFSET = 256;
-
-        /**
-         * Returns the next byte in the stream.
-         *
-         * @return The next byte in the stream, as a non-negative
-         *   integer, or -1 for EOF.
-         * @throws IOException An I/O error occurred.
-         */
-        @Override
-        public int read() throws IOException {
-            if (closed) {
-                throw new FileItemStream.ItemSkippedException();
-            }
-            if (available() == 0 && makeAvailable() == 0) {
-                return -1;
-            }
-            ++total;
-            final int b = buffer[head++];
-            if (b >= 0) {
-                return b;
-            }
-            return b + BYTE_POSITIVE_OFFSET;
-        }
-
-        /**
-         * Reads bytes into the given buffer.
-         *
-         * @param b The destination buffer, where to write to.
-         * @param off Offset of the first byte in the buffer.
-         * @param len Maximum number of bytes to read.
-         * @return Number of bytes, which have been actually read,
-         *   or -1 for EOF.
-         * @throws IOException An I/O error occurred.
-         */
-        @Override
-        public int read(final byte[] b, final int off, final int len) throws IOException {
-            if (closed) {
-                throw new FileItemStream.ItemSkippedException();
-            }
-            if (len == 0) {
-                return 0;
-            }
-            int res = available();
-            if (res == 0) {
-                res = makeAvailable();
-                if (res == 0) {
-                    return -1;
-                }
-            }
-            res = Math.min(res, len);
-            System.arraycopy(buffer, head, b, off, res);
-            head += res;
-            total += res;
-            return res;
-        }
-
-        /**
-         * Closes the input stream.
-         *
-         * @throws IOException An I/O error occurred.
-         */
-        @Override
-        public void close() throws IOException {
-            close(false);
-        }
-
-        /**
-         * Closes the input stream.
-         *
-         * @param pCloseUnderlying Whether to close the underlying stream
-         *   (hard close)
-         * @throws IOException An I/O error occurred.
-         */
-        public void close(final boolean pCloseUnderlying) throws IOException {
-            if (closed) {
-                return;
-            }
-            if (pCloseUnderlying) {
-                closed = true;
-                input.close();
-            } else {
-                for (;;) {
-                    int av = available();
-                    if (av == 0) {
-                        av = makeAvailable();
-                        if (av == 0) {
-                            break;
-                        }
-                    }
-                    skip(av);
-                }
-            }
-            closed = true;
-        }
-
-        /**
-         * Skips the given number of bytes.
-         *
-         * @param bytes Number of bytes to skip.
-         * @return The number of bytes, which have actually been
-         *   skipped.
-         * @throws IOException An I/O error occurred.
-         */
-        @Override
-        public long skip(final long bytes) throws IOException {
-            if (closed) {
-                throw new FileItemStream.ItemSkippedException();
-            }
-            int av = available();
-            if (av == 0) {
-                av = makeAvailable();
-                if (av == 0) {
-                    return 0;
-                }
-            }
-            final long res = Math.min(av, bytes);
-            head += res;
-            return res;
-        }
-
-        /**
-         * Attempts to read more data.
-         *
-         * @return Number of available bytes
-         * @throws IOException An I/O error occurred.
-         */
-        private int makeAvailable() throws IOException {
-            if (pos != -1) {
-                return 0;
-            }
-
-            // Move the data to the beginning of the buffer.
-            total += tail - head - pad;
-            System.arraycopy(buffer, tail - pad, buffer, 0, pad);
-
-            // Refill buffer with new data.
-            head = 0;
-            tail = pad;
-
-            for (;;) {
-                final int bytesRead = input.read(buffer, tail, bufSize - tail);
-                if (bytesRead == -1) {
-                    // The last pad amount is left in the buffer.
-                    // Boundary can't be in there so signal an error
-                    // condition.
-                    final String msg = "Stream ended unexpectedly";
-                    throw new MalformedStreamException(msg);
-                }
-                if (notifier != null) {
-                    notifier.noteBytesRead(bytesRead);
-                }
-                tail += bytesRead;
-
-                findSeparator();
-                final int av = available();
-
-                if (av > 0 || pos != -1) {
-                    return av;
-                }
-            }
-        }
-
-        /**
-         * Returns, whether the stream is closed.
-         *
-         * @return True, if the stream is closed, otherwise false.
-         */
-        @Override
-        public boolean isClosed() {
-            return closed;
-        }
-
     }
 
 }

@@ -33,6 +33,102 @@ public final class Base64DecoderTestCase {
 
     private static final String US_ASCII_CHARSET = "US-ASCII";
 
+    private static void assertEncoded(final String clearText, final String encoded) throws Exception {
+        final byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
+
+        final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
+        final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+        Base64Decoder.decode(encodedData, out);
+        final byte[] actual = out.toByteArray();
+
+        assertArrayEquals(expected, actual);
+    }
+
+    private static void assertIOException(final String messageText, final String encoded) throws UnsupportedEncodingException {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
+        final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
+        try {
+            Base64Decoder.decode(encodedData, out);
+            fail("Expected IOException");
+        } catch (final IOException e) {
+            final String em = e.getMessage();
+            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));
+        }
+    }
+
+    // This input causes java.lang.ArrayIndexOutOfBoundsException: 1
+    // in the Java 6 method DatatypeConverter.parseBase64Binary(String)
+    // currently reported as truncated (the last chunk consists just of '=')
+    @Test
+    public void badLength() throws Exception {
+        assertIOException("truncated", "Zm8==");
+    }
+
+    @Test
+    public void badPadding() throws Exception {
+        assertIOException("incorrect padding, 4th byte", "Zg=a");
+    }
+
+    @Test
+    public void badPaddingLeading1() throws Exception {
+        assertIOException("incorrect padding, first two bytes cannot be padding", "=A==");
+    }
+
+    @Test
+    public void badPaddingLeading2() throws Exception {
+        assertIOException("incorrect padding, first two bytes cannot be padding", "====");
+    }
+
+    // If there are valid trailing Base64 chars, complain
+    @Test
+    public void decodeTrailing1() throws Exception {
+        assertIOException("truncated", "Zm9vYmFy1");
+    }
+
+    // If there are valid trailing Base64 chars, complain
+    @Test
+    public void decodeTrailing2() throws Exception {
+        assertIOException("truncated", "Zm9vYmFy12");
+    }
+
+    // If there are valid trailing Base64 chars, complain
+    @Test
+    public void decodeTrailing3() throws Exception {
+        assertIOException("truncated", "Zm9vYmFy123");
+    }
+
+    @Test
+    public void decodeTrailingJunk() throws Exception {
+        assertEncoded("foobar", "Zm9vYmFy!!!");
+    }
+
+    /**
+     * Test our decode with pad character in the middle.
+     * Continues provided that the padding is in the correct place,
+     * i.e. concatenated valid strings decode OK.
+     */
+    @Test
+    public void decodeWithInnerPad() throws Exception {
+        assertEncoded("Hello WorldHello World", "SGVsbG8gV29ybGQ=SGVsbG8gV29ybGQ=");
+    }
+
+    // These inputs cause java.lang.ArrayIndexOutOfBoundsException
+    // in the Java 6 method DatatypeConverter.parseBase64Binary(String)
+    // The non-ASCII characters should just be ignored
+    @Test
+    public void nonASCIIcharacter() throws Exception {
+        assertEncoded("f","Zg=�="); // A-grave
+        assertEncoded("f","Zg=\u0100=");
+    }
+
+    /**
+     * Ignores non-BASE64 bytes.
+     */
+    @Test
+    public void nonBase64Bytes() throws Exception {
+        assertEncoded("Hello World", "S?G!V%sbG 8g\rV\t\n29ybGQ*=");
+    }
+
     /**
      * Tests RFC 4648 section 10 test vectors.
      * <ul>
@@ -58,106 +154,10 @@ public final class Base64DecoderTestCase {
         assertEncoded("foobar", "Zm9vYmFy");
     }
 
-    /**
-     * Test our decode with pad character in the middle.
-     * Continues provided that the padding is in the correct place,
-     * i.e. concatenated valid strings decode OK.
-     */
-    @Test
-    public void decodeWithInnerPad() throws Exception {
-        assertEncoded("Hello WorldHello World", "SGVsbG8gV29ybGQ=SGVsbG8gV29ybGQ=");
-    }
-
-    /**
-     * Ignores non-BASE64 bytes.
-     */
-    @Test
-    public void nonBase64Bytes() throws Exception {
-        assertEncoded("Hello World", "S?G!V%sbG 8g\rV\t\n29ybGQ*=");
-    }
-
     @Test(expected = IOException.class)
     public void truncatedString() throws Exception {
         final byte[] x = {'n'};
         Base64Decoder.decode(x, new ByteArrayOutputStream());
-    }
-
-    @Test
-    public void decodeTrailingJunk() throws Exception {
-        assertEncoded("foobar", "Zm9vYmFy!!!");
-    }
-
-    // If there are valid trailing Base64 chars, complain
-    @Test
-    public void decodeTrailing1() throws Exception {
-        assertIOException("truncated", "Zm9vYmFy1");
-    }
-
-    // If there are valid trailing Base64 chars, complain
-    @Test
-    public void decodeTrailing2() throws Exception {
-        assertIOException("truncated", "Zm9vYmFy12");
-    }
-
-    // If there are valid trailing Base64 chars, complain
-    @Test
-    public void decodeTrailing3() throws Exception {
-        assertIOException("truncated", "Zm9vYmFy123");
-    }
-
-    @Test
-    public void badPadding() throws Exception {
-        assertIOException("incorrect padding, 4th byte", "Zg=a");
-    }
-
-    @Test
-    public void badPaddingLeading1() throws Exception {
-        assertIOException("incorrect padding, first two bytes cannot be padding", "=A==");
-    }
-
-    @Test
-    public void badPaddingLeading2() throws Exception {
-        assertIOException("incorrect padding, first two bytes cannot be padding", "====");
-    }
-
-    // This input causes java.lang.ArrayIndexOutOfBoundsException: 1
-    // in the Java 6 method DatatypeConverter.parseBase64Binary(String)
-    // currently reported as truncated (the last chunk consists just of '=')
-    @Test
-    public void badLength() throws Exception {
-        assertIOException("truncated", "Zm8==");
-    }
-
-    // These inputs cause java.lang.ArrayIndexOutOfBoundsException
-    // in the Java 6 method DatatypeConverter.parseBase64Binary(String)
-    // The non-ASCII characters should just be ignored
-    @Test
-    public void nonASCIIcharacter() throws Exception {
-        assertEncoded("f","Zg=�="); // A-grave
-        assertEncoded("f","Zg=\u0100=");
-    }
-
-    private static void assertEncoded(final String clearText, final String encoded) throws Exception {
-        final byte[] expected = clearText.getBytes(US_ASCII_CHARSET);
-
-        final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
-        Base64Decoder.decode(encodedData, out);
-        final byte[] actual = out.toByteArray();
-
-        assertArrayEquals(expected, actual);
-    }
-
-    private static void assertIOException(final String messageText, final String encoded) throws UnsupportedEncodingException {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
-        final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
-        try {
-            Base64Decoder.decode(encodedData, out);
-            fail("Expected IOException");
-        } catch (final IOException e) {
-            final String em = e.getMessage();
-            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));
-        }
     }
 
 }

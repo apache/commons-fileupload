@@ -88,50 +88,6 @@ public class DiskFileUpload
     }
 
     /**
-     * Sets the factory class to use when creating file items. The factory must
-     * be an instance of {@code DefaultFileItemFactory} or a subclass
-     * thereof, or else a {@code ClassCastException} will be thrown.
-     *
-     * @param factory The factory class for new file items.
-     *
-     * @deprecated 1.1 Use {@code FileUpload} instead.
-     */
-    @Override
-    @Deprecated
-    public void setFileItemFactory(final FileItemFactory factory) {
-        this.fileItemFactory = (DefaultFileItemFactory) factory;
-    }
-
-    /**
-     * Returns the size threshold beyond which files are written directly to
-     * disk.
-     *
-     * @return The size threshold, in bytes.
-     *
-     * @see #setSizeThreshold(int)
-     *
-     * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
-     */
-    @Deprecated
-    public int getSizeThreshold() {
-        return fileItemFactory.getSizeThreshold();
-    }
-
-    /**
-     * Sets the size threshold beyond which files are written directly to disk.
-     *
-     * @param sizeThreshold The size threshold, in bytes.
-     *
-     * @see #getSizeThreshold()
-     *
-     * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
-     */
-    @Deprecated
-    public void setSizeThreshold(final int sizeThreshold) {
-        fileItemFactory.setSizeThreshold(sizeThreshold);
-    }
-
-    /**
      * Returns the location used to temporarily store files that are larger
      * than the configured size threshold.
      *
@@ -147,18 +103,18 @@ public class DiskFileUpload
     }
 
     /**
-     * Sets the location used to temporarily store files that are larger
-     * than the configured size threshold.
+     * Returns the size threshold beyond which files are written directly to
+     * disk.
      *
-     * @param repositoryPath The path to the temporary file location.
+     * @return The size threshold, in bytes.
      *
-     * @see #getRepositoryPath()
+     * @see #setSizeThreshold(int)
      *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
-    public void setRepositoryPath(final String repositoryPath) {
-        fileItemFactory.setRepository(new File(repositoryPath));
+    public int getSizeThreshold() {
+        return fileItemFactory.getSizeThreshold();
     }
 
     /**
@@ -188,6 +144,50 @@ public class DiskFileUpload
         setSizeMax(sizeMax);
         setRepositoryPath(path);
         return parseRequest(req);
+    }
+
+    /**
+     * Sets the factory class to use when creating file items. The factory must
+     * be an instance of {@code DefaultFileItemFactory} or a subclass
+     * thereof, or else a {@code ClassCastException} will be thrown.
+     *
+     * @param factory The factory class for new file items.
+     *
+     * @deprecated 1.1 Use {@code FileUpload} instead.
+     */
+    @Override
+    @Deprecated
+    public void setFileItemFactory(final FileItemFactory factory) {
+        this.fileItemFactory = (DefaultFileItemFactory) factory;
+    }
+
+    /**
+     * Sets the location used to temporarily store files that are larger
+     * than the configured size threshold.
+     *
+     * @param repositoryPath The path to the temporary file location.
+     *
+     * @see #getRepositoryPath()
+     *
+     * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
+     */
+    @Deprecated
+    public void setRepositoryPath(final String repositoryPath) {
+        fileItemFactory.setRepository(new File(repositoryPath));
+    }
+
+    /**
+     * Sets the size threshold beyond which files are written directly to disk.
+     *
+     * @param sizeThreshold The size threshold, in bytes.
+     *
+     * @see #getSizeThreshold()
+     *
+     * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
+     */
+    @Deprecated
+    public void setSizeThreshold(final int sizeThreshold) {
+        fileItemFactory.setSizeThreshold(sizeThreshold);
     }
 
 }

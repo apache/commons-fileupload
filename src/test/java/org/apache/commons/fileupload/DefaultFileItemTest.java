@@ -52,102 +52,71 @@ public class DefaultFileItemTest {
      */
     private static final int threshold = 16;
 
-    /**
-     * Test construction of a regular text field.
-     */
-    @Test
-    public void testTextFieldConstruction() {
-        final FileItemFactory factory = createFactory(null);
-        final String textFieldName = "textField";
+    static final String CHARSET_ISO88591 = "ISO-8859-1";
 
-        final FileItem item = factory.createItem(
-                textFieldName,
-                textContentType,
-                true,
-                null
-        );
-        assertNotNull(item);
-        assertEquals(item.getFieldName(), textFieldName);
-        assertEquals(item.getContentType(), textContentType);
-        assertTrue(item.isFormField());
-        assertNull(item.getName());
-    }
+    static final String CHARSET_ASCII = "US-ASCII";
 
-    /**
-     * Test construction of a file field.
-     */
-    @Test
-    public void testFileFieldConstruction() {
-        final FileItemFactory factory = createFactory(null);
-        final String fileFieldName = "fileField";
-        final String fileName = "originalFileName";
+    static final String CHARSET_UTF8 = "UTF-8";
 
-        final FileItem item = factory.createItem(
-                fileFieldName,
-                fileContentType,
-                false,
-                fileName
-        );
-        assertNotNull(item);
-        assertEquals(item.getFieldName(), fileFieldName);
-        assertEquals(item.getContentType(), fileContentType);
-        assertFalse(item.isFormField());
-        assertEquals(item.getName(), fileName);
-    }
+    static final String CHARSET_KOI8_R = "KOI8_R";
 
-    /**
-     * Test creation of a field for which the amount of data falls below the
-     * configured threshold.
-     */
-    @Test
-    public void testBelowThreshold() {
-        final FileItemFactory factory = createFactory(null);
-        final String textFieldName = "textField";
-        final String textFieldValue = "0123456789";
-        final byte[] testFieldValueBytes = textFieldValue.getBytes();
+    static final String CHARSET_WIN1251 = "Cp1251";
 
-        final FileItem item = factory.createItem(
-                textFieldName,
-                textContentType,
-                true,
-                null
-        );
-        assertNotNull(item);
+    static final int SWISS_GERMAN_STUFF_UNICODE [] = {
+        0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4
+    };
 
-        try {
-            final OutputStream os = item.getOutputStream();
-            os.write(testFieldValueBytes);
-            os.close();
-        } catch(final IOException e) {
-            fail("Unexpected IOException");
+
+    static final int SWISS_GERMAN_STUFF_ISO8859_1 [] = {
+        0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4
+    };
+
+    static final int SWISS_GERMAN_STUFF_UTF8 [] = {
+        0x47, 0x72, 0xC3, 0xBC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xC3, 0xA4,
+        0x6D, 0xC3, 0xA4
+    };
+
+    static final int RUSSIAN_STUFF_UNICODE [] = {
+        0x412, 0x441, 0x435, 0x43C, 0x5F, 0x43F, 0x440, 0x438,
+        0x432, 0x435, 0x442
+    };
+
+    static final int RUSSIAN_STUFF_UTF8 [] = {
+        0xD0, 0x92, 0xD1, 0x81, 0xD0, 0xB5, 0xD0, 0xBC, 0x5F,
+        0xD0, 0xBF, 0xD1, 0x80, 0xD0, 0xB8, 0xD0, 0xB2, 0xD0,
+        0xB5, 0xD1, 0x82
+    };
+
+    static final int RUSSIAN_STUFF_KOI8R [] = {
+        0xF7, 0xD3, 0xC5, 0xCD, 0x5F, 0xD0, 0xD2, 0xC9, 0xD7,
+        0xC5, 0xD4
+    };
+
+    static final int RUSSIAN_STUFF_WIN1251 [] = {
+        0xC2, 0xF1, 0xE5, 0xEC, 0x5F, 0xEF, 0xF0, 0xE8, 0xE2,
+        0xE5, 0xF2
+    };
+
+    private static String constructString(final int[] unicodeChars) {
+        final StringBuilder buffer = new StringBuilder();
+        if (unicodeChars != null) {
+            for (final int unicodeChar : unicodeChars) {
+                buffer.append((char) unicodeChar);
+            }
         }
-        assertTrue(item.isInMemory());
-        assertEquals(item.getSize(), testFieldValueBytes.length);
-        assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
-        assertEquals(item.getString(), textFieldValue);
+        return buffer.toString();
     }
 
     /**
-     * Test creation of a field for which the amount of data falls above the
-     * configured threshold, where no specific repository is configured.
+     * Creates a new {@code FileItemFactory} and returns it, obscuring
+     * from the caller the underlying implementation of this interface.
+     *
+     * @param repository The directory within which temporary files will be
+     *                   created.
+     * @return the new {@code FileItemFactory} instance.
      */
-    @Test
-    public void testAboveThresholdDefaultRepository() {
-        doTestAboveThreshold(null);
-    }
-
-    /**
-     * Test creation of a field for which the amount of data falls above the
-     * configured threshold, where a specific repository is configured.
-     */
-    @Test
-    public void testAboveThresholdSpecifiedRepository() throws IOException {
-        final String tempPath = System.getProperty("java.io.tmpdir");
-        final String tempDirName = "testAboveThresholdSpecifiedRepository";
-        final File tempDir = new File(tempPath, tempDirName);
-        FileUtils.forceMkdir(tempDir);
-        doTestAboveThreshold(tempDir);
-        assertTrue(tempDir.delete());
+    protected FileItemFactory createFactory(final File repository) {
+        return new DefaultFileItemFactory(threshold, repository);
     }
 
     /**
@@ -198,71 +167,59 @@ public class DefaultFileItemTest {
         item.delete();
     }
 
-
     /**
-     * Creates a new {@code FileItemFactory} and returns it, obscuring
-     * from the caller the underlying implementation of this interface.
-     *
-     * @param repository The directory within which temporary files will be
-     *                   created.
-     * @return the new {@code FileItemFactory} instance.
+     * Test creation of a field for which the amount of data falls above the
+     * configured threshold, where no specific repository is configured.
      */
-    protected FileItemFactory createFactory(final File repository) {
-        return new DefaultFileItemFactory(threshold, repository);
+    @Test
+    public void testAboveThresholdDefaultRepository() {
+        doTestAboveThreshold(null);
     }
 
-    static final String CHARSET_ISO88591 = "ISO-8859-1";
+    /**
+     * Test creation of a field for which the amount of data falls above the
+     * configured threshold, where a specific repository is configured.
+     */
+    @Test
+    public void testAboveThresholdSpecifiedRepository() throws IOException {
+        final String tempPath = System.getProperty("java.io.tmpdir");
+        final String tempDirName = "testAboveThresholdSpecifiedRepository";
+        final File tempDir = new File(tempPath, tempDirName);
+        FileUtils.forceMkdir(tempDir);
+        doTestAboveThreshold(tempDir);
+        assertTrue(tempDir.delete());
+    }
 
-    static final String CHARSET_ASCII = "US-ASCII";
+    /**
+     * Test creation of a field for which the amount of data falls below the
+     * configured threshold.
+     */
+    @Test
+    public void testBelowThreshold() {
+        final FileItemFactory factory = createFactory(null);
+        final String textFieldName = "textField";
+        final String textFieldValue = "0123456789";
+        final byte[] testFieldValueBytes = textFieldValue.getBytes();
 
-    static final String CHARSET_UTF8 = "UTF-8";
+        final FileItem item = factory.createItem(
+                textFieldName,
+                textContentType,
+                true,
+                null
+        );
+        assertNotNull(item);
 
-    static final String CHARSET_KOI8_R = "KOI8_R";
-
-    static final String CHARSET_WIN1251 = "Cp1251";
-
-    static final int SWISS_GERMAN_STUFF_UNICODE [] = {
-        0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4
-    };
-
-    static final int SWISS_GERMAN_STUFF_ISO8859_1 [] = {
-        0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4
-    };
-
-    static final int SWISS_GERMAN_STUFF_UTF8 [] = {
-        0x47, 0x72, 0xC3, 0xBC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xC3, 0xA4,
-        0x6D, 0xC3, 0xA4
-    };
-
-    static final int RUSSIAN_STUFF_UNICODE [] = {
-        0x412, 0x441, 0x435, 0x43C, 0x5F, 0x43F, 0x440, 0x438,
-        0x432, 0x435, 0x442
-    };
-
-    static final int RUSSIAN_STUFF_UTF8 [] = {
-        0xD0, 0x92, 0xD1, 0x81, 0xD0, 0xB5, 0xD0, 0xBC, 0x5F,
-        0xD0, 0xBF, 0xD1, 0x80, 0xD0, 0xB8, 0xD0, 0xB2, 0xD0,
-        0xB5, 0xD1, 0x82
-    };
-
-    static final int RUSSIAN_STUFF_KOI8R [] = {
-        0xF7, 0xD3, 0xC5, 0xCD, 0x5F, 0xD0, 0xD2, 0xC9, 0xD7,
-        0xC5, 0xD4
-    };
-
-    static final int RUSSIAN_STUFF_WIN1251 [] = {
-        0xC2, 0xF1, 0xE5, 0xEC, 0x5F, 0xEF, 0xF0, 0xE8, 0xE2,
-        0xE5, 0xF2
-    };
-
-    private static String constructString(final int[] unicodeChars) {
-        final StringBuilder buffer = new StringBuilder();
-        if (unicodeChars != null) {
-            for (final int unicodeChar : unicodeChars) {
-                buffer.append((char) unicodeChar);
-            }
+        try {
+            final OutputStream os = item.getOutputStream();
+            os.write(testFieldValueBytes);
+            os.close();
+        } catch(final IOException e) {
+            fail("Unexpected IOException");
         }
-        return buffer.toString();
+        assertTrue(item.isInMemory());
+        assertEquals(item.getSize(), testFieldValueBytes.length);
+        assertTrue(Arrays.equals(item.get(), testFieldValueBytes));
+        assertEquals(item.getString(), textFieldValue);
     }
 
     /**
@@ -339,6 +296,49 @@ public class DefaultFileItemTest {
         }
         outstream.close();
         assertEquals(teststr, teststr, item.getString());
+    }
+
+    /**
+     * Test construction of a file field.
+     */
+    @Test
+    public void testFileFieldConstruction() {
+        final FileItemFactory factory = createFactory(null);
+        final String fileFieldName = "fileField";
+        final String fileName = "originalFileName";
+
+        final FileItem item = factory.createItem(
+                fileFieldName,
+                fileContentType,
+                false,
+                fileName
+        );
+        assertNotNull(item);
+        assertEquals(item.getFieldName(), fileFieldName);
+        assertEquals(item.getContentType(), fileContentType);
+        assertFalse(item.isFormField());
+        assertEquals(item.getName(), fileName);
+    }
+
+    /**
+     * Test construction of a regular text field.
+     */
+    @Test
+    public void testTextFieldConstruction() {
+        final FileItemFactory factory = createFactory(null);
+        final String textFieldName = "textField";
+
+        final FileItem item = factory.createItem(
+                textFieldName,
+                textContentType,
+                true,
+                null
+        );
+        assertNotNull(item);
+        assertEquals(item.getFieldName(), textFieldName);
+        assertEquals(item.getContentType(), textContentType);
+        assertTrue(item.isFormField());
+        assertNull(item.getName());
     }
 
 }

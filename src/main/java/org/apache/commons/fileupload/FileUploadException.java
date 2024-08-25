@@ -65,6 +65,12 @@ public class FileUploadException extends Exception {
         this.cause = cause;
     }
 
+    @SuppressWarnings("sync-override")
+    @Override
+    public Throwable getCause() {
+        return cause;
+    }
+
     /**
      * Prints this throwable and its backtrace to the specified print stream.
      *
@@ -92,12 +98,6 @@ public class FileUploadException extends Exception {
             writer.println("Caused by:");
             cause.printStackTrace(writer);
         }
-    }
-
-    @SuppressWarnings("sync-override")
-    @Override
-    public Throwable getCause() {
-        return cause;
     }
 
 }

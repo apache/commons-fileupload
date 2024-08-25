@@ -79,13 +79,6 @@ public final class MimeUtility {
     }
 
     /**
-     * Hidden constructor, this class must not be instantiated.
-     */
-    private MimeUtility() {
-        // do nothing
-    }
-
-    /**
      * Decode a string of text obtained from a mail header into
      * its proper form.  The text generally will consist of a
      * string of tokens, some of which may be encoded using
@@ -276,6 +269,13 @@ public final class MimeUtility {
             return charset;
         }
         return mappedCharset;
+    }
+
+    /**
+     * Hidden constructor, this class must not be instantiated.
+     */
+    private MimeUtility() {
+        // do nothing
     }
 
 }

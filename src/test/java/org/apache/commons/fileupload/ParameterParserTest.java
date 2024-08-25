@@ -30,64 +30,12 @@ import org.junit.Test;
 public class ParameterParserTest {
 
     @Test
-    public void testParsing() {
-        String s =
-            "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
-        final ParameterParser parser = new ParameterParser();
-        Map<String, String> params = parser.parse(s, ';');
-        assertEquals(null, params.get("test"));
-        assertEquals("stuff", params.get("test1"));
-        assertEquals("stuff; stuff", params.get("test2"));
-        assertEquals("\"stuff", params.get("test3"));
-
-        params = parser.parse(s, new char[] { ',', ';' });
-        assertEquals(null, params.get("test"));
-        assertEquals("stuff", params.get("test1"));
-        assertEquals("stuff; stuff", params.get("test2"));
-        assertEquals("\"stuff", params.get("test3"));
-
-        s = "  test  , test1=stuff   ,  , test2=, test3, ";
-        params = parser.parse(s, ',');
-        assertEquals(null, params.get("test"));
-        assertEquals("stuff", params.get("test1"));
-        assertEquals(null, params.get("test2"));
-        assertEquals(null, params.get("test3"));
-
-        s = "  test";
-        params = parser.parse(s, ';');
-        assertEquals(null, params.get("test"));
-
-        s = "  ";
-        params = parser.parse(s, ';');
-        assertEquals(0, params.size());
-
-        s = " = stuff ";
-        params = parser.parse(s, ';');
-        assertEquals(0, params.size());
-    }
-
-    @Test
     public void testContentTypeParsing() {
         final String s = "text/plain; Charset=UTF-8";
         final ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         final Map<String, String> params = parser.parse(s, ';');
         assertEquals("UTF-8", params.get("charset"));
-    }
-
-    @Test
-    public void testParsingEscapedChars() {
-        String s = "param = \"stuff\\\"; more stuff\"";
-        final ParameterParser parser = new ParameterParser();
-        Map<String, String> params = parser.parse(s, ';');
-        assertEquals(1, params.size());
-        assertEquals("stuff\\\"; more stuff", params.get("param"));
-
-        s = "param = \"stuff\\\\\"; anotherparam";
-        params = parser.parse(s, ';');
-        assertEquals(2, params.size());
-        assertEquals("stuff\\\\", params.get("param"));
-        assertNull(params.get("anotherparam"));
     }
 
     // See: http://issues.apache.org/jira/browse/FILEUPLOAD-139
@@ -150,6 +98,58 @@ public class ParameterParserTest {
         s = "Content-Disposition: form-data; name=\"file\"; filename=a\'b\'c\r\n";
         params = parser.parse(s, new char[] { ',', ';' });
         assertEquals("a\'b\'c", params.get("filename"));
+    }
+
+    @Test
+    public void testParsing() {
+        String s =
+            "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
+        final ParameterParser parser = new ParameterParser();
+        Map<String, String> params = parser.parse(s, ';');
+        assertEquals(null, params.get("test"));
+        assertEquals("stuff", params.get("test1"));
+        assertEquals("stuff; stuff", params.get("test2"));
+        assertEquals("\"stuff", params.get("test3"));
+
+        params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals(null, params.get("test"));
+        assertEquals("stuff", params.get("test1"));
+        assertEquals("stuff; stuff", params.get("test2"));
+        assertEquals("\"stuff", params.get("test3"));
+
+        s = "  test  , test1=stuff   ,  , test2=, test3, ";
+        params = parser.parse(s, ',');
+        assertEquals(null, params.get("test"));
+        assertEquals("stuff", params.get("test1"));
+        assertEquals(null, params.get("test2"));
+        assertEquals(null, params.get("test3"));
+
+        s = "  test";
+        params = parser.parse(s, ';');
+        assertEquals(null, params.get("test"));
+
+        s = "  ";
+        params = parser.parse(s, ';');
+        assertEquals(0, params.size());
+
+        s = " = stuff ";
+        params = parser.parse(s, ';');
+        assertEquals(0, params.size());
+    }
+
+    @Test
+    public void testParsingEscapedChars() {
+        String s = "param = \"stuff\\\"; more stuff\"";
+        final ParameterParser parser = new ParameterParser();
+        Map<String, String> params = parser.parse(s, ';');
+        assertEquals(1, params.size());
+        assertEquals("stuff\\\"; more stuff", params.get("param"));
+
+        s = "param = \"stuff\\\\\"; anotherparam";
+        params = parser.parse(s, ';');
+        assertEquals(2, params.size());
+        assertEquals("stuff\\\\", params.get("param"));
+        assertNull(params.get("anotherparam"));
     }
 
 }

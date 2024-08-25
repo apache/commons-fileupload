@@ -45,6 +45,22 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
      */
     private final Map<String, List<String>> headerNameToValueListMap = new LinkedHashMap<>();
 
+    /**
+     * Method to add header values to this instance.
+     *
+     * @param name name of this header
+     * @param value value of this header
+     */
+    public synchronized void addHeader(final String name, final String value) {
+        final String nameLower = name.toLowerCase(Locale.ROOT);
+        List<String> headerValueList = headerNameToValueListMap.get(nameLower);
+        if (null == headerValueList) {
+            headerValueList = new ArrayList<>();
+            headerNameToValueListMap.put(nameLower, headerValueList);
+        }
+        headerValueList.add(value);
+    }
+
     @Override
     public String getHeader(final String name) {
         final String nameLower = name.toLowerCase(Locale.ROOT);
@@ -68,22 +84,6 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
             headerValueList = Collections.emptyList();
         }
         return headerValueList.iterator();
-    }
-
-    /**
-     * Method to add header values to this instance.
-     *
-     * @param name name of this header
-     * @param value value of this header
-     */
-    public synchronized void addHeader(final String name, final String value) {
-        final String nameLower = name.toLowerCase(Locale.ROOT);
-        List<String> headerValueList = headerNameToValueListMap.get(nameLower);
-        if (null == headerValueList) {
-            headerValueList = new ArrayList<>();
-            headerNameToValueListMap.put(nameLower, headerValueList);
-        }
-        headerValueList.add(value);
     }
 
 }

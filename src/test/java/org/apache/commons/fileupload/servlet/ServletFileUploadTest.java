@@ -39,6 +39,29 @@ import org.junit.Test;
  */
 public class ServletFileUploadTest {
 
+    @Test
+    public void parseImpliedUtf8()
+	    throws Exception {
+        // utf8 encoded form-data without explicit content-type encoding
+        final String text = "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
+                "\r\n" +
+                "Th�s �s the co�te�t of the f�le\n" +
+                "\r\n" +
+                "-----1234--\r\n";
+
+        final byte[] bytes = text.getBytes("UTF-8");
+        final HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
+
+        final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
+        fileItemFactory.setDefaultCharset("UTF-8");
+        final ServletFileUpload upload = new ServletFileUpload(fileItemFactory);
+        final List<FileItem> fileItems = upload.parseRequest(request);
+        final FileItem fileItem = fileItems.get(0);
+        assertTrue(fileItem.getString(), fileItem.getString().contains("co�te�t"));
+    }
+
+
     /**
      * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-210">
      */
@@ -77,28 +100,5 @@ public class ServletFileUploadTest {
 
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
-    }
-
-
-    @Test
-    public void parseImpliedUtf8()
-	    throws Exception {
-        // utf8 encoded form-data without explicit content-type encoding
-        final String text = "-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
-                "\r\n" +
-                "Th�s �s the co�te�t of the f�le\n" +
-                "\r\n" +
-                "-----1234--\r\n";
-
-        final byte[] bytes = text.getBytes("UTF-8");
-        final HttpServletRequest request = new MockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
-
-        final DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
-        fileItemFactory.setDefaultCharset("UTF-8");
-        final ServletFileUpload upload = new ServletFileUpload(fileItemFactory);
-        final List<FileItem> fileItems = upload.parseRequest(request);
-        final FileItem fileItem = fileItems.get(0);
-        assertTrue(fileItem.getString(), fileItem.getString().contains("co�te�t"));
     }
 }

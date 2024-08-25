@@ -121,56 +121,6 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the directory used to temporarily store files that are larger
-     * than the configured size threshold.
-     *
-     * @return The directory in which temporary files will be located.
-     *
-     * @see #setRepository(java.io.File)
-     *
-     */
-    public File getRepository() {
-        return repository;
-    }
-
-    /**
-     * Sets the directory used to temporarily store files that are larger
-     * than the configured size threshold.
-     *
-     * @param repository The directory in which temporary files will be located.
-     *
-     * @see #getRepository()
-     *
-     */
-    public void setRepository(final File repository) {
-        this.repository = repository;
-    }
-
-    /**
-     * Returns the size threshold beyond which files are written directly to
-     * disk. The default value is 10240 bytes.
-     *
-     * @return The size threshold, in bytes.
-     *
-     * @see #setSizeThreshold(int)
-     */
-    public int getSizeThreshold() {
-        return sizeThreshold;
-    }
-
-    /**
-     * Sets the size threshold beyond which files are written directly to disk.
-     *
-     * @param sizeThreshold The size threshold, in bytes.
-     *
-     * @see #getSizeThreshold()
-     *
-     */
-    public void setSizeThreshold(final int sizeThreshold) {
-        this.sizeThreshold = sizeThreshold;
-    }
-
-    /**
      * Create a new {@link DiskFileItem}
      * instance from the supplied parameters and the local factory
      * configuration.
@@ -198,6 +148,15 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
+     * Returns the default charset for use when no explicit charset
+     * parameter is provided by the sender.
+     * @return the default charset
+     */
+    public String getDefaultCharset() {
+        return defaultCharset;
+    }
+
+    /**
      * Returns the tracker, which is responsible for deleting temporary
      * files.
      *
@@ -206,6 +165,40 @@ public class DiskFileItemFactory implements FileItemFactory {
      */
     public FileCleaningTracker getFileCleaningTracker() {
         return fileCleaningTracker;
+    }
+
+    /**
+     * Returns the directory used to temporarily store files that are larger
+     * than the configured size threshold.
+     *
+     * @return The directory in which temporary files will be located.
+     *
+     * @see #setRepository(java.io.File)
+     *
+     */
+    public File getRepository() {
+        return repository;
+    }
+
+    /**
+     * Returns the size threshold beyond which files are written directly to
+     * disk. The default value is 10240 bytes.
+     *
+     * @return The size threshold, in bytes.
+     *
+     * @see #setSizeThreshold(int)
+     */
+    public int getSizeThreshold() {
+        return sizeThreshold;
+    }
+
+    /**
+     * Sets the default charset for use when no explicit charset
+     * parameter is provided by the sender.
+     * @param pCharset the default charset
+     */
+    public void setDefaultCharset(final String pCharset) {
+        defaultCharset = pCharset;
     }
 
     /**
@@ -221,20 +214,27 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the default charset for use when no explicit charset
-     * parameter is provided by the sender.
-     * @return the default charset
+     * Sets the directory used to temporarily store files that are larger
+     * than the configured size threshold.
+     *
+     * @param repository The directory in which temporary files will be located.
+     *
+     * @see #getRepository()
+     *
      */
-    public String getDefaultCharset() {
-        return defaultCharset;
+    public void setRepository(final File repository) {
+        this.repository = repository;
     }
 
     /**
-     * Sets the default charset for use when no explicit charset
-     * parameter is provided by the sender.
-     * @param pCharset the default charset
+     * Sets the size threshold beyond which files are written directly to disk.
+     *
+     * @param sizeThreshold The size threshold, in bytes.
+     *
+     * @see #getSizeThreshold()
+     *
      */
-    public void setDefaultCharset(final String pCharset) {
-        defaultCharset = pCharset;
+    public void setSizeThreshold(final int sizeThreshold) {
+        this.sizeThreshold = sizeThreshold;
     }
 }

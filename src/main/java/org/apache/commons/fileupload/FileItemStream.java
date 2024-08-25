@@ -51,19 +51,6 @@ public interface FileItemStream extends FileItemHeadersSupport {
     }
 
     /**
-     * Creates an {@link InputStream}, which allows to read the
-     * items contents.
-     *
-     * @return The input stream, from which the items data may
-     *   be read.
-     * @throws IllegalStateException The method was already invoked on
-     * this item. It is not possible to recreate the data stream.
-     * @throws IOException An I/O error occurred.
-     * @see ItemSkippedException
-     */
-    InputStream openStream() throws IOException;
-
-    /**
      * Returns the content type passed by the browser or {@code null} if
      * not defined.
      *
@@ -71,6 +58,14 @@ public interface FileItemStream extends FileItemHeadersSupport {
      *         not defined.
      */
     String getContentType();
+
+    /**
+     * Returns the name of the field in the multipart form corresponding to
+     * this file item.
+     *
+     * @return The name of the form field.
+     */
+    String getFieldName();
 
     /**
      * Returns the original file name in the client's file system, as provided by
@@ -83,14 +78,6 @@ public interface FileItemStream extends FileItemHeadersSupport {
     String getName();
 
     /**
-     * Returns the name of the field in the multipart form corresponding to
-     * this file item.
-     *
-     * @return The name of the form field.
-     */
-    String getFieldName();
-
-    /**
      * Determines whether or not a {@code FileItem} instance represents
      * a simple form field.
      *
@@ -98,5 +85,18 @@ public interface FileItemStream extends FileItemHeadersSupport {
      *         field; {@code false} if it represents an uploaded file.
      */
     boolean isFormField();
+
+    /**
+     * Creates an {@link InputStream}, which allows to read the
+     * items contents.
+     *
+     * @return The input stream, from which the items data may
+     *   be read.
+     * @throws IllegalStateException The method was already invoked on
+     * this item. It is not possible to recreate the data stream.
+     * @throws IOException An I/O error occurred.
+     * @see ItemSkippedException
+     */
+    InputStream openStream() throws IOException;
 
 }

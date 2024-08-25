@@ -41,11 +41,6 @@ public class PortletFileUploadTest {
 
     private PortletFileUpload upload;
 
-    @Before
-    public void setUp() {
-        upload = new PortletFileUpload(new DiskFileItemFactory());
-    }
-
     @Test
     public void parseParameterMap()
             throws Exception {
@@ -80,6 +75,11 @@ public class PortletFileUploadTest {
 
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
+    }
+
+    @Before
+    public void setUp() {
+        upload = new PortletFileUpload(new DiskFileItemFactory());
     }
 
 }
