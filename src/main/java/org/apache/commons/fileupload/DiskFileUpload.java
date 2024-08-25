@@ -151,14 +151,14 @@ public class DiskFileUpload
      * be an instance of {@code DefaultFileItemFactory} or a subclass
      * thereof, or else a {@code ClassCastException} will be thrown.
      *
-     * @param factory The factory class for new file items.
+     * @param fileItemFactory The factory class for new file items.
      *
      * @deprecated 1.1 Use {@code FileUpload} instead.
      */
     @Override
     @Deprecated
-    public void setFileItemFactory(final FileItemFactory factory) {
-        this.fileItemFactory = (DefaultFileItemFactory) factory;
+    public void setFileItemFactory(final FileItemFactory fileItemFactory) {
+        this.fileItemFactory = (DefaultFileItemFactory) fileItemFactory;
     }
 
     /**
