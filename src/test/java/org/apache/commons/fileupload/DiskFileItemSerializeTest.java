@@ -128,10 +128,10 @@ public class DiskFileItemSerializeTest {
      */
     private ByteArrayOutputStream serialize(final Object target) throws Exception {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(target);
-        oos.flush();
-        oos.close();
+        try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+            oos.writeObject(target);
+            oos.flush();
+        }
         return baos;
     }
 
