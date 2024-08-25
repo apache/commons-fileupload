@@ -55,22 +55,22 @@ public class StreamingTest {
 
     private byte[] newRequest() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII");
-        int add = 16;
-        int num = 0;
-        for (int i = 0;  i < 16384;  i += add) {
-            if (++add == 32) {
-                add = 16;
+        try (OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII")) {
+            int add = 16;
+            int num = 0;
+            for (int i = 0; i < 16384; i += add) {
+                if (++add == 32) {
+                    add = 16;
+                }
+                osw.write(getHeader("field" + num++));
+                osw.flush();
+                for (int j = 0; j < i; j++) {
+                    baos.write((byte) j);
+                }
+                osw.write("\r\n");
             }
-            osw.write(getHeader("field" + num++));
-            osw.flush();
-            for (int j = 0;  j < i;  j++) {
-                baos.write((byte) j);
-            }
-            osw.write("\r\n");
+            osw.write(getFooter());
         }
-        osw.write(getFooter());
-        osw.close();
         return baos.toByteArray();
     }
 
