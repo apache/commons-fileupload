@@ -53,6 +53,22 @@ public class StreamingTest {
 
     }
 
+    private InputStream newInputStream(final ByteArrayInputStream bais) {
+        return new InputStream() {
+
+            @Override
+            public int read() throws IOException {
+                return bais.read();
+            }
+
+            @Override
+            public int read(final byte b[], final int off, final int len) throws IOException {
+                return bais.read(b, off, Math.min(len, 3));
+            }
+
+        };
+    }
+
     private byte[] newRequest() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII")) {
@@ -147,30 +163,19 @@ public class StreamingTest {
             throws IOException, FileUploadException {
         final byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
-        final List<FileItem> fileItems = parseUpload(new InputStream() {
-            @Override
-            public int read()
-            throws IOException
-            {
-                return bais.read();
-            }
-            @Override
-            public int read(final byte b[], final int off, final int len) throws IOException
-            {
-                return bais.read(b, off, Math.min(len, 3));
-            }
-
-        }, request.length);
-        final Iterator<FileItem> fileIter = fileItems.iterator();
-        assertTrue(fileIter.hasNext());
-        final FileItem item = fileIter.next();
-        assertEquals("field", item.getFieldName());
-        final byte[] bytes = item.get();
-        assertEquals(3, bytes.length);
-        assertEquals((byte)'1', bytes[0]);
-        assertEquals((byte)'2', bytes[1]);
-        assertEquals((byte)'3', bytes[2]);
-        assertTrue(!fileIter.hasNext());
+        try (InputStream inputStream = newInputStream(bais)) {
+            final List<FileItem> fileItems = parseUpload(inputStream, request.length);
+            final Iterator<FileItem> fileIter = fileItems.iterator();
+            assertTrue(fileIter.hasNext());
+            final FileItem item = fileIter.next();
+            assertEquals("field", item.getFieldName());
+            final byte[] bytes = item.get();
+            assertEquals(3, bytes.length);
+            assertEquals((byte) '1', bytes[0]);
+            assertEquals((byte) '2', bytes[1]);
+            assertEquals((byte) '3', bytes[2]);
+            assertTrue(!fileIter.hasNext());
+        }
     }
 
     /**
