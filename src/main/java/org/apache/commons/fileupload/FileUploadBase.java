@@ -982,7 +982,7 @@ public abstract class FileUploadBase {
      *
      * @return A newly created {@code FileItem} instance.
      *
-     * @deprecated 1.2 This method is no longer used in favour of
+     * @deprecated 1.2 This method is no longer used in favor of
      *   internally created instances of {@link FileItem}.
      */
     @Deprecated
