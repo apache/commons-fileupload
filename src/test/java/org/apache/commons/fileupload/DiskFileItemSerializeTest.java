@@ -197,7 +197,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Helper method to test creation of a field when a repository is used.
      */
-    public void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) {
+    private void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) {
         final FileItem item = createFileItem(testFieldValueBytes, repository);
 
         // Check state is as expected
