@@ -19,7 +19,6 @@ package org.apache.commons.fileupload;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import org.junit.Test;
@@ -68,7 +67,6 @@ public class ParameterParserTest {
 
     /**
      * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-274">FILEUPLOAD-274</a>
-     * @throws UnsupportedEncodingException
      */
     @Test
     public void testFileUpload274() {
