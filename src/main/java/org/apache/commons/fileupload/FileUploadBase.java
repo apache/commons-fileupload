@@ -982,7 +982,6 @@ public abstract class FileUploadBase {
      *
      * @return A newly created {@code FileItem} instance.
      *
-     * @throws FileUploadException if an error occurs.
      * @deprecated 1.2 This method is no longer used in favour of
      *   internally created instances of {@link FileItem}.
      */
