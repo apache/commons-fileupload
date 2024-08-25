@@ -413,7 +413,8 @@ public abstract class FileUploadBase {
                     notifier.noteItem();
                     itemValid = true;
                     return true;
-                } else if (currentFieldName == null) {
+                }
+                if (currentFieldName == null) {
                     // We're parsing the outer multipart
                     final String fieldName = getFieldName(headers);
                     if (fieldName != null) {
