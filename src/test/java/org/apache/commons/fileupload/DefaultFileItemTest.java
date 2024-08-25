@@ -225,76 +225,72 @@ public class DefaultFileItemTest {
     /**
      * Test construction of content charset.
      */
+    @Test
     public void testContentCharSet() throws Exception {
         final FileItemFactory factory = createFactory(null);
 
         String teststr = constructString(SWISS_GERMAN_STUFF_UNICODE);
 
-        FileItem item =
-            factory.createItem(
+        FileItem item = factory.createItem(
                 "doesnotmatter",
                 "text/plain; charset=" + CHARSET_ISO88591,
                 true,
                 null);
-        OutputStream outstream = item.getOutputStream();
-        for (final int element : SWISS_GERMAN_STUFF_ISO8859_1) {
-            outstream.write(element);
+        try (OutputStream out = item.getOutputStream()) {
+            for (final int element : SWISS_GERMAN_STUFF_ISO8859_1) {
+                out.write(element);
+            }
         }
-        outstream.close();
         assertEquals(teststr, teststr, item.getString());
 
-        item =
-            factory.createItem(
+        item = factory.createItem(
                 "doesnotmatter",
                 "text/plain; charset=" + CHARSET_UTF8,
                 true,
                 null);
-        outstream = item.getOutputStream();
-        for (final int element : SWISS_GERMAN_STUFF_UTF8) {
-            outstream.write(element);
+        try (OutputStream out = item.getOutputStream()) {
+            for (final int element : SWISS_GERMAN_STUFF_UTF8) {
+                out.write(element);
+            }
         }
-        outstream.close();
         assertEquals(teststr, teststr, item.getString());
 
         teststr = constructString(RUSSIAN_STUFF_UNICODE);
 
-        item =
-            factory.createItem(
+        item = factory.createItem(
                 "doesnotmatter",
                 "text/plain; charset=" + CHARSET_KOI8_R,
                 true,
                 null);
-        outstream = item.getOutputStream();
-        for (final int element : RUSSIAN_STUFF_KOI8R) {
-            outstream.write(element);
+        try (OutputStream out = item.getOutputStream()) {
+            for (final int element : RUSSIAN_STUFF_KOI8R) {
+                out.write(element);
+            }
         }
-        outstream.close();
         assertEquals(teststr, teststr, item.getString());
 
-        item =
-            factory.createItem(
+        item = factory.createItem(
                 "doesnotmatter",
                 "text/plain; charset=" + CHARSET_WIN1251,
                 true,
                 null);
-        outstream = item.getOutputStream();
-        for (final int element : RUSSIAN_STUFF_WIN1251) {
-            outstream.write(element);
+        try (OutputStream out = item.getOutputStream()) {
+            for (final int element : RUSSIAN_STUFF_WIN1251) {
+                out.write(element);
+            }
         }
-        outstream.close();
         assertEquals(teststr, teststr, item.getString());
 
-        item =
-            factory.createItem(
+        item = factory.createItem(
                 "doesnotmatter",
                 "text/plain; charset=" + CHARSET_UTF8,
                 true,
                 null);
-        outstream = item.getOutputStream();
-        for (final int element : RUSSIAN_STUFF_UTF8) {
-            outstream.write(element);
+        try (OutputStream out = item.getOutputStream()) {
+            for (final int element : RUSSIAN_STUFF_UTF8) {
+                out.write(element);
+            }
         }
-        outstream.close();
         assertEquals(teststr, teststr, item.getString());
     }
 
