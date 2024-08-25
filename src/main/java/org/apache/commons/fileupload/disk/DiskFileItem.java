@@ -370,7 +370,12 @@ public class DiskFileItem
     public OutputStream getOutputStream() throws IOException {
         if (dfos == null) {
             final File outputFile = getTempFile();
-            dfos = new DeferredFileOutputStream(sizeThreshold, outputFile);
+            // @formatter:off
+            dfos = DeferredFileOutputStream.builder()
+                    .setThreshold(sizeThreshold)
+                    .setOutputFile(outputFile)
+                    .get();
+            // @formatter:on
         }
         return dfos;
     }
