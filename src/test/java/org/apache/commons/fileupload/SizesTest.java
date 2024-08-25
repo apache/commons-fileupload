@@ -257,8 +257,7 @@ public class SizesTest {
         assertEquals("file1", item.getFieldName());
         assertEquals("foo1.tab", item.getName());
 
-        {
-            final InputStream stream = item.openStream();
+        try (InputStream stream = item.openStream()) {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Streams.copy(stream, baos, true);
         }
