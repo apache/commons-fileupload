@@ -97,23 +97,18 @@ public class DiskFileItemSerializeTest {
     private FileItem createFileItem(final byte[] contentBytes, final File repository) {
         final FileItemFactory factory = new DiskFileItemFactory(threshold, repository);
         final String textFieldName = "textField";
-
         final FileItem item = factory.createItem(
                 textFieldName,
                 textContentType,
                 true,
                 "My File Name"
         );
-        try {
-            final OutputStream os = item.getOutputStream();
+        try (OutputStream os = item.getOutputStream()) {
             os.write(contentBytes);
-            os.close();
         } catch(final IOException e) {
             fail("Unexpected IOException" + e);
         }
-
         return item;
-
     }
 
     /**
@@ -121,12 +116,10 @@ public class DiskFileItemSerializeTest {
      */
     private Object deserialize(final ByteArrayOutputStream baos) throws Exception {
         Object result = null;
-        final ByteArrayInputStream bais =
-                new ByteArrayInputStream(baos.toByteArray());
+        final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
         final ObjectInputStream ois = new ObjectInputStream(bais);
         result = ois.readObject();
         bais.close();
-
         return result;
     }
 
