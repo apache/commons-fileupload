@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Replace use of Locale.ENGLISH with Locale.ROOT.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove unused exception from FileUploadBase.createItem(Map, boolean).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Migrate from deprecated API in DiskFileItem.getOutputStream().</action>
       <!--  UPDATE -->
       <action dev="ggregory" type="update">Bump Java from 6 to 8.</action>
       <action dev="ggregory" type="update">Bump commons-parent from 62 to 73.</action>
