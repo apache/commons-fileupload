@@ -16,6 +16,10 @@
  */
 package org.apache.commons.fileupload;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FilterInputStream;
@@ -27,17 +31,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.fileupload.FileUploadBase.IOFileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.junit.Test;
 
 /**
  * Unit test for items with varying sizes.
  */
-public class StreamingTest extends TestCase {
+public class StreamingTest {
 
     private String getFooter() {
         return "-----1234--\r\n";
@@ -73,12 +76,12 @@ public class StreamingTest extends TestCase {
 
     private byte[] newShortRequest() throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII");
-        osw.write(getHeader("field"));
-        osw.write("123");
-        osw.write("\r\n");
-        osw.write(getFooter());
-        osw.close();
+        try (OutputStreamWriter osw = new OutputStreamWriter(baos, "US-ASCII")) {
+            osw.write(getHeader("field"));
+            osw.write("123");
+            osw.write("\r\n");
+            osw.write(getFooter());
+        }
         return baos.toByteArray();
     }
 
@@ -113,6 +116,7 @@ public class StreamingTest extends TestCase {
     /**
      * Tests a file upload with varying file sizes.
      */
+    @Test
     public void testFileUpload()
             throws IOException, FileUploadException {
         final byte[] request = newRequest();
@@ -138,6 +142,7 @@ public class StreamingTest extends TestCase {
     /**
      * Test for FILEUPLOAD-135
      */
+    @Test
     public void testFILEUPLOAD135()
             throws IOException, FileUploadException {
         final byte[] request = newShortRequest();
@@ -172,6 +177,7 @@ public class StreamingTest extends TestCase {
      * Tests, whether an invalid request throws a proper
      * exception.
      */
+    @Test
     public void testFileUploadException()
             throws IOException, FileUploadException {
         final byte[] request = newRequest();
@@ -188,6 +194,7 @@ public class StreamingTest extends TestCase {
     /**
      * Tests, whether an {@link InvalidFileNameException} is thrown.
      */
+    @Test
     public void testInvalidFileNameException() throws Exception {
         final String fileName = "foo.exe\u0000.png";
         final String request =
@@ -238,6 +245,7 @@ public class StreamingTest extends TestCase {
     /**
      * Tests, whether an IOException is properly delegated.
      */
+    @Test
     public void testIOException()
             throws IOException {
         final byte[] request = newRequest();
