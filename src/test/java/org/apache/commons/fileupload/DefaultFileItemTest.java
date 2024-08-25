@@ -127,7 +127,7 @@ public class DefaultFileItemTest {
      * @param repository The directory within which temporary files will be
      *                   created.
      */
-    public void doTestAboveThreshold(final File repository) {
+    private void doTestAboveThreshold(final File repository) throws IOException {
         final FileItemFactory factory = createFactory(repository);
         final String textFieldName = "textField";
         final String textFieldValue = "01234567890123456789";
@@ -143,8 +143,6 @@ public class DefaultFileItemTest {
 
         try (OutputStream os = item.getOutputStream()) {
             os.write(testFieldValueBytes);
-        } catch(final IOException e) {
-            fail("Unexpected IOException");
         }
         assertFalse(item.isInMemory());
         assertEquals(item.getSize(), testFieldValueBytes.length);
@@ -170,7 +168,7 @@ public class DefaultFileItemTest {
      * configured threshold, where no specific repository is configured.
      */
     @Test
-    public void testAboveThresholdDefaultRepository() {
+    public void testAboveThresholdDefaultRepository() throws IOException {
         doTestAboveThreshold(null);
     }
 
