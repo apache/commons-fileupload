@@ -23,7 +23,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -35,6 +37,7 @@ import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
 /**
@@ -231,12 +234,12 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the contents of the file as an array of bytes.  If the
-     * contents of the file were not yet cached in memory, they will be
-     * loaded from the disk storage and cached.
+     * Gets the contents of the file as an array of bytes. If the contents of the file were not yet cached in memory, they will be loaded from the disk storage
+     * and cached.
      *
-     * @return The contents of the file as an array of bytes
-     * or {@code null} if the data cannot be read
+     * @return The contents of the file as an array of bytes or {@code null} if the data cannot be read.
+     * @throws UncheckedIOException if an I/O error occurs.
+     * @throws OutOfMemoryError     if an array of the required size cannot be allocated, for example the file is larger that {@code 2GB}.
      */
     @Override
     public byte[] get() {
@@ -246,20 +249,7 @@ public class DiskFileItem
             }
             return cachedContent != null ? cachedContent.clone() : new byte[0];
         }
-
-        byte[] fileData = new byte[(int) getSize()];
-        InputStream fis = null;
-
-        try {
-            fis = new FileInputStream(dfos.getFile());
-            IOUtils.readFully(fis, fileData);
-        } catch (final IOException e) {
-            fileData = null;
-        } finally {
-            IOUtils.closeQuietly(fis);
-        }
-
-        return fileData;
+        return Uncheck.get(() -> Files.readAllBytes(dfos.getFile().toPath()));
     }
 
     /**
