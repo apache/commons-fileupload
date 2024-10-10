@@ -51,6 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove unused exception from FileUploadBase.createItem(Map, boolean).</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Migrate from deprecated API in DiskFileItem.getOutputStream().</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Use try-with-resources.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Port to Java 1.4 Throwable APIs (!).</action>
       <!--  UPDATE -->
       <action dev="ggregory" type="update">Bump Java from 6 to 8.</action>
       <action dev="ggregory" type="update">Bump commons-parent from 62 to 76.</action>

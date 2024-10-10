@@ -16,9 +16,6 @@
  */
 package org.apache.commons.fileupload;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-
 /**
  * Exception for errors encountered while processing the request.
  */
@@ -31,73 +28,31 @@ public class FileUploadException extends Exception {
     private static final long serialVersionUID = 8881893724388807504L;
 
     /**
-     * The exceptions cause. We overwrite the cause of
-     * the super class, which isn't available in Java 1.3.
-     */
-    private final Throwable cause;
-
-    /**
      * Constructs a new {@code FileUploadException} without message.
      */
     public FileUploadException() {
-        this(null, null);
+        // empty
     }
 
     /**
      * Constructs a new {@code FileUploadException} with specified detail
      * message.
      *
-     * @param msg the error message.
+     * @param message the error message.
      */
-    public FileUploadException(final String msg) {
-        this(msg, null);
+    public FileUploadException(final String message) {
+        super(message);
     }
 
     /**
      * Creates a new {@code FileUploadException} with the given
      * detail message and cause.
      *
-     * @param msg The exceptions detail message.
+     * @param message The exceptions detail message.
      * @param cause The exceptions cause.
      */
-    public FileUploadException(final String msg, final Throwable cause) {
-        super(msg);
-        this.cause = cause;
-    }
-
-    @SuppressWarnings("sync-override")
-    @Override
-    public Throwable getCause() {
-        return cause;
-    }
-
-    /**
-     * Prints this throwable and its backtrace to the specified print stream.
-     *
-     * @param stream {@code PrintStream} to use for output
-     */
-    @Override
-    public void printStackTrace(final PrintStream stream) {
-        super.printStackTrace(stream);
-        if (cause != null) {
-            stream.println("Caused by:");
-            cause.printStackTrace(stream);
-        }
-    }
-
-    /**
-     * Prints this throwable and its backtrace to the specified
-     * print writer.
-     *
-     * @param writer {@code PrintWriter} to use for output
-     */
-    @Override
-    public void printStackTrace(final PrintWriter writer) {
-        super.printStackTrace(writer);
-        if (cause != null) {
-            writer.println("Caused by:");
-            cause.printStackTrace(writer);
-        }
+    public FileUploadException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
 }
