@@ -17,17 +17,14 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
     <version>77</version>
   </parent>
-
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
   <version>1.6.0-SNAPSHOT</version>
-
   <name>Apache Commons FileUpload</name>
   <description>
     The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
@@ -45,7 +42,6 @@
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/FILEUPLOAD</url>
   </issueManagement>
-
   <distributionManagement>
     <site>
       <id>apache.website</id>
@@ -53,7 +49,6 @@
       <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-fileupload/</url>
     </site>
   </distributionManagement>
-
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -110,7 +105,6 @@
       <version>2.17.0</version>
     </dependency>
   </dependencies>
-
   <build>
     <defaultGoal>clean javadoc:javadoc verify apache-rat:check checkstyle:check</defaultGoal>
     <plugins>
@@ -225,7 +219,6 @@
       </plugins>
     </pluginManagement>
   </build>
-
   <reporting>
     <plugins>
       <plugin>
@@ -264,7 +257,6 @@
       </plugin>
     </plugins>
   </reporting>
-
   <profiles>
     <profile>
       <id>setup-checkout</id>
@@ -294,7 +286,6 @@
                     <exec executable="svn">
                       <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
                     </exec>
-
                     <pathconvert pathsep=" " property="dirs">
                       <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*" />
                     </pathconvert>
@@ -310,7 +301,6 @@
       </build>
     </profile>
   </profiles>
-
   <developers>
     <developer>
       <name>Martin Cooper</name>
