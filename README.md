@@ -46,7 +46,7 @@ Apache Commons FileUpload
 [![Travis-CI Status](https://travis-ci.org/apache/commons-fileupload.svg)](https://travis-ci.org/apache/commons-fileupload)
 [![GitHub Actions Status](https://github.com/apache/commons-fileupload/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-fileupload/actions)
 [![Coverage Status](https://coveralls.io/repos/apache/commons-fileupload/badge.svg)](https://coveralls.io/r/apache/commons-fileupload)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/badge.svg)](https://maven-badges.herokuapp.com/maven-central/commons-fileupload/commons-fileupload/)
+[![Maven Central](https://img.shields.io/maven-central/v/commons-fileupload/commons-fileupload?label=Maven%20Central)](https://search.maven.org/artifact/commons-fileupload/commons-fileupload)
 [![Javadocs](https://javadoc.io/badge/commons-fileupload/commons-fileupload/1.5.svg)](https://javadoc.io/doc/commons-fileupload/commons-fileupload/1.5)
 
 The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
