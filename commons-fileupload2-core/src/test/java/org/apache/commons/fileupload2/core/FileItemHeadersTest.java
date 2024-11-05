@@ -26,7 +26,7 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests {@link FileItemHeaders} and {@link FileItemHeadersImpl}.
+ * Tests {@link FileItemHeaders} and {@link FileItemHeadersImpl}.
  */
 public class FileItemHeadersTest {
 

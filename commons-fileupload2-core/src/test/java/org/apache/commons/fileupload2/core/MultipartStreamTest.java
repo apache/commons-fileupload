@@ -25,7 +25,7 @@ import java.io.InputStream;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests {@link MultipartInput}.
+ * Tests {@link MultipartInput}.
  */
 public class MultipartStreamTest {
 

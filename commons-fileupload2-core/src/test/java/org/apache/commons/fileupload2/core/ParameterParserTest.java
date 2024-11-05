@@ -24,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link ParameterParser}.
+ * Tests for {@link ParameterParser}.
  */
 public class ParameterParserTest {
 
