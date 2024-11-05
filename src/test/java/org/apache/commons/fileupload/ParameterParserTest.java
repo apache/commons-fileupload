@@ -24,7 +24,7 @@ import java.util.Map;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link ParameterParser}.
+ * Tests for {@link ParameterParser}.
  */
 public class ParameterParserTest {
 

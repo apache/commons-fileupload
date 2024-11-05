@@ -24,7 +24,7 @@ import java.io.InputStream;
 import org.junit.Test;
 
 /**
- * Unit tests {@link org.apache.commons.fileupload.MultipartStream}.
+ * Tests {@link org.apache.commons.fileupload.MultipartStream}.
  */
 public class MultipartStreamTest {
 

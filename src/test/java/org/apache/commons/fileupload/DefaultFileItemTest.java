@@ -31,7 +31,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link org.apache.commons.fileupload.DefaultFileItem}.
+ * Tests for {@link org.apache.commons.fileupload.DefaultFileItem}.
  */
 @SuppressWarnings({"deprecation"}) // unit tests for deprecated class
 public class DefaultFileItemTest {

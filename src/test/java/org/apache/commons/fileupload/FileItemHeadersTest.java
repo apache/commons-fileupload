@@ -27,7 +27,7 @@ import org.apache.commons.fileupload.util.FileItemHeadersImpl;
 import org.junit.Test;
 
 /**
- * Unit tests {@link FileItemHeaders} and
+ * Tests {@link FileItemHeaders} and
  * {@link FileItemHeadersImpl}.
  */
 public class FileItemHeadersTest {
