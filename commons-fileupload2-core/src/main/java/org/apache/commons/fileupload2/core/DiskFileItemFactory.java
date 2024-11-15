@@ -38,11 +38,11 @@ import org.apache.commons.io.file.PathUtils;
  * <li>Repository is the system default temporary directory, as returned by {@code System.getProperty("java.io.tmpdir")}.</li>
  * </ul>
  * <p>
- * <b>NOTE</b>: Files are created in the system default temporary directory with predictable names. This means that a local attacker with write access to that
- * directory can perform a TOUTOC attack to replace any uploaded file with a file of the attackers choice. The implications of this will depend on how the
- * uploaded file is used but could be significant. When using this implementation in an environment with local, untrusted users, {@link Builder#setPath(Path)}
- * MUST be used to configure a repository location that is not publicly writable. In a Servlet container the location identified by the ServletContext attribute
- * {@code javax.servlet.context.tempdir} may be used.
+ * <strong>NOTE</strong>: Files are created in the system default temporary directory with predictable names. This means that a local attacker with write access
+ * to that directory can perform a TOUTOC attack to replace any uploaded file with a file of the attackers choice. The implications of this will depend on how
+ * the uploaded file is used but could be significant. When using this implementation in an environment with local, untrusted users,
+ * {@link Builder#setPath(Path)} MUST be used to configure a repository location that is not publicly writable. In a Servlet container the location identified
+ * by the ServletContext attribute {@code javax.servlet.context.tempdir} may be used.
  * </p>
  * <p>
  * Temporary files, which are created for file items, should be deleted later on. The best way to do this is using a {@link FileCleaningTracker}, which you can

@@ -438,7 +438,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     /**
      * Gets the contents of the file as a String, using the default character encoding. This method uses {@link #get()} to retrieve the contents of the file.
      * <p>
-     * <b>TODO</b> Consider making this method throw UnsupportedEncodingException.
+     * <strong>TODO</strong> Consider making this method throw UnsupportedEncodingException.
      * </p>
      *
      * @return The contents of the file, as a string.
@@ -463,7 +463,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * Creates and returns a {@link java.io.File File} representing a uniquely named temporary file in the configured repository path. The lifetime of the file
      * is tied to the lifetime of the {@code FileItem} instance; the file will be deleted when the instance is garbage collected.
      * <p>
-     * <b>Note: Subclasses that override this method must ensure that they return the same File each time.</b>
+     * <strong>Note: Subclasses that override this method must ensure that they return the same File each time.</strong>
      * </p>
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
