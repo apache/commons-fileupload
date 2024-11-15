@@ -39,7 +39,7 @@ import org.apache.commons.io.FileCleaningTracker;
  *       {@code System.getProperty("java.io.tmpdir")}.</li>
  * </ul>
  * <p>
- * <b>NOTE</b>: Files are created in the system default temp directory with
+ * <strong>NOTE</strong>: Files are created in the system default temp directory with
  * predictable names. This means that a local attacker with write access to that
  * directory can perform a TOUTOC attack to replace any uploaded file with a
  * file of the attackers choice. The implications of this will depend on how the

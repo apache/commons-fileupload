@@ -417,7 +417,7 @@ public class DiskFileItem
      * character encoding.  This method uses {@link #get()} to retrieve the
      * contents of the file.
      *
-     * <b>TODO</b> Consider making this method throw UnsupportedEncodingException.
+     * <strong>TODO</strong> Consider making this method throw UnsupportedEncodingException.
      *
      * @return The contents of the file, as a string.
      */

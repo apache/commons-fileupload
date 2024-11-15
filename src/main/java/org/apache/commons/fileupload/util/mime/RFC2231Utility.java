@@ -58,13 +58,13 @@ public final class RFC2231Utility {
     /**
      * Decode a string of text obtained from a HTTP header as per RFC 2231
      * <p>
-     * <b>Eg 1.</b> {@code us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A}
+     * <strong>Eg 1.</strong> {@code us-ascii'en-us'This%20is%20%2A%2A%2Afun%2A%2A%2A}
      * will be decoded to {@code This is ***fun***}
      * <p>
-     * <b>Eg 2.</b> {@code iso-8859-1'en'%A3%20rate}
+     * <strong>Eg 2.</strong> {@code iso-8859-1'en'%A3%20rate}
      * will be decoded to {@code £ rate}
      * <p>
-     * <b>Eg 3.</b> {@code UTF-8''%c2%a3%20and%20%e2%82%ac%20rates}
+     * <strong>Eg 3.</strong> {@code UTF-8''%c2%a3%20and%20%e2%82%ac%20rates}
      * will be decoded to {@code £ and € rates}
      *
      * @param encodedText   Text to be decoded has a format of {@code <charset>'<language>'<encoded_value>}
