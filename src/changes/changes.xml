@@ -52,7 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="add" due-to="mufasa1976, Gary Gregory">Handle multipart/related Requests without content-disposition header.</action>
       <!-- UDPATE -->
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 66 to 78 #283, #294, #335, #343, #345, #351, #356, #360, #368.</action>
-      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-io:commons-io from 2.16.0 to 2.17.0 #297, #352.</action>
+      <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-io:commons-io from 2.16.0 to 2.18.0 #297, #352, #377.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.maven.plugins:maven-javadoc-plugin from 3.6.3 to 3.7.0 #319.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump org.codehaus.mojo:taglist-maven-plugin from 3.0.0 to 3.1.0 #327.</action>
       <action                        dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.14.0 to 3.17.0 #331, #338, #346.</action>
