@@ -52,7 +52,6 @@ public class DiskFileUpload
      * create {@code FileItem} instances.
      *
      * @see #DiskFileUpload(DefaultFileItemFactory fileItemFactory)
-     *
      * @deprecated 1.1 Use {@code FileUpload} instead.
      */
     @Deprecated
@@ -66,7 +65,6 @@ public class DiskFileUpload
      *
      * @see #DiskFileUpload()
      * @param fileItemFactory The file item factory to use.
-     *
      * @deprecated 1.1 Use {@code FileUpload} instead.
      */
     @Deprecated
@@ -78,7 +76,6 @@ public class DiskFileUpload
      * Returns the factory class used when creating file items.
      *
      * @return The factory class for new file items.
-     *
      * @deprecated 1.1 Use {@code FileUpload} instead.
      */
     @Override
@@ -92,7 +89,6 @@ public class DiskFileUpload
      * than the configured size threshold.
      *
      * @return The path to the temporary file location.
-     *
      * @see #setRepositoryPath(String)
      *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
@@ -107,7 +103,6 @@ public class DiskFileUpload
      * disk.
      *
      * @return The size threshold, in bytes.
-     *
      * @see #setSizeThreshold(int)
      *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
@@ -126,7 +121,6 @@ public class DiskFileUpload
      * @param sizeThreshold The max size in bytes to be stored in memory.
      * @param sizeMax       The maximum allowed upload size, in bytes.
      * @param path          The location where the files should be stored.
-     *
      * @return A list of {@code FileItem} instances parsed from the
      *         request, in the order that they were transmitted.
      *
@@ -152,7 +146,6 @@ public class DiskFileUpload
      * thereof, or else a {@code ClassCastException} will be thrown.
      *
      * @param fileItemFactory The factory class for new file items.
-     *
      * @deprecated 1.1 Use {@code FileUpload} instead.
      */
     @Override
@@ -166,7 +159,6 @@ public class DiskFileUpload
      * than the configured size threshold.
      *
      * @param repositoryPath The path to the temporary file location.
-     *
      * @see #getRepositoryPath()
      *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
@@ -180,7 +172,6 @@ public class DiskFileUpload
      * Sets the size threshold beyond which files are written directly to disk.
      *
      * @param sizeThreshold The size threshold, in bytes.
-     *
      * @see #getSizeThreshold()
      *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.

@@ -293,7 +293,6 @@ public class DiskFileItem
      * this file item.
      *
      * @return The name of the form field.
-     *
      * @see #setFieldName(String)
      *
      */
@@ -441,7 +440,6 @@ public class DiskFileItem
      * contents of the file.
      *
      * @param charset The charset to use.
-     *
      * @return The contents of the file, as a string.
      *
      * @throws UnsupportedEncodingException if the requested character
@@ -521,7 +519,6 @@ public class DiskFileItem
      * Sets the field name used to reference this file item.
      *
      * @param fieldName The name of the form field.
-     *
      * @see #getFieldName()
      *
      */

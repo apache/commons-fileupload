@@ -172,7 +172,6 @@ public class DiskFileItemFactory implements FileItemFactory {
      * than the configured size threshold.
      *
      * @return The directory in which temporary files will be located.
-     *
      * @see #setRepository(java.io.File)
      *
      */
@@ -185,7 +184,6 @@ public class DiskFileItemFactory implements FileItemFactory {
      * disk. The default value is 10240 bytes.
      *
      * @return The size threshold, in bytes.
-     *
      * @see #setSizeThreshold(int)
      */
     public int getSizeThreshold() {
@@ -218,7 +216,6 @@ public class DiskFileItemFactory implements FileItemFactory {
      * than the configured size threshold.
      *
      * @param repository The directory in which temporary files will be located.
-     *
      * @see #getRepository()
      *
      */
@@ -230,7 +227,6 @@ public class DiskFileItemFactory implements FileItemFactory {
      * Sets the size threshold beyond which files are written directly to disk.
      *
      * @param sizeThreshold The size threshold, in bytes.
-     *
      * @see #getSizeThreshold()
      *
      */

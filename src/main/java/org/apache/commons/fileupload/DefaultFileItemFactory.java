@@ -82,7 +82,6 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
      *                    by the browser or other client.
      *
      * @return The newly created file item.
-     *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Override

@@ -137,7 +137,6 @@ public interface FileItem extends FileItemHeadersSupport {
      * contents of the item.
      *
      * @param encoding The character encoding to use.
-     *
      * @return The contents of the item, as a string.
      *
      * @throws UnsupportedEncodingException if the requested character

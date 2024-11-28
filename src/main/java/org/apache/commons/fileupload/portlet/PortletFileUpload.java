@@ -53,7 +53,6 @@ public class PortletFileUpload extends FileUpload {
      * content.
      *
      * @param request The portlet request to be evaluated. Must be non-null.
-     *
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      */
@@ -88,7 +87,6 @@ public class PortletFileUpload extends FileUpload {
      * compliant {@code multipart/form-data} stream.
      *
      * @param request The portlet request to be parsed.
-     *
      * @return An iterator to instances of {@code FileItemStream}
      *         parsed from the request, in the order that they were
      *         transmitted.
@@ -109,7 +107,6 @@ public class PortletFileUpload extends FileUpload {
      * compliant {@code multipart/form-data} stream.
      *
      * @param request The portlet request to be parsed.
-     *
      * @return A map of {@code FileItem} instances parsed from the request.
      *
      * @throws FileUploadException if there are problems reading/parsing
@@ -127,7 +124,6 @@ public class PortletFileUpload extends FileUpload {
      * compliant {@code multipart/form-data} stream.
      *
      * @param request The portlet request to be parsed.
-     *
      * @return A list of {@code FileItem} instances parsed from the
      *         request, in the order that they were transmitted.
      *

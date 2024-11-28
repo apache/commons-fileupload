@@ -664,7 +664,6 @@ public abstract class FileUploadBase {
          *
          * @param message The detail message.
          * @param cause the original cause
-         *
          * @since 1.3.1
          */
         public InvalidContentTypeException(final String message, final Throwable cause) {
@@ -893,7 +892,6 @@ public abstract class FileUploadBase {
      * content.
      *
      * @param req The servlet request to be evaluated. Must be non-null.
-     *
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      *
@@ -914,7 +912,6 @@ public abstract class FileUploadBase {
      * provide its replacement until this method is removed.</p>
      *
      * @param ctx The request context to be evaluated. Must be non-null.
-     *
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      */
@@ -963,7 +960,6 @@ public abstract class FileUploadBase {
      *                      opposed to a file.
      *
      * @return A newly created {@code FileItem} instance.
-     *
      * @deprecated 1.2 This method is no longer used in favor of
      *   internally created instances of {@link FileItem}.
      */
@@ -1004,7 +1000,6 @@ public abstract class FileUploadBase {
      * header.
      *
      * @param headers A {@code Map} containing the HTTP request headers.
-     *
      * @return The field name for the current {@code encapsulation}.
      */
     protected String getFieldName(final FileItemHeaders headers) {
@@ -1016,7 +1011,6 @@ public abstract class FileUploadBase {
      * header.
      *
      * @param headers A {@code Map} containing the HTTP request headers.
-     *
      * @return The field name for the current {@code encapsulation}.
      * @deprecated 1.2.1 Use {@link #getFieldName(FileItemHeaders)}.
      */
@@ -1068,7 +1062,6 @@ public abstract class FileUploadBase {
      * header.
      *
      * @param headers The HTTP headers object.
-     *
      * @return The file name for the current {@code encapsulation}.
      */
     protected String getFileName(final FileItemHeaders headers) {
@@ -1080,7 +1073,6 @@ public abstract class FileUploadBase {
      * header.
      *
      * @param headers A {@code Map} containing the HTTP request headers.
-     *
      * @return The file name for the current {@code encapsulation}.
      * @deprecated 1.2.1 Use {@link #getFileName(FileItemHeaders)}.
      */
@@ -1136,7 +1128,6 @@ public abstract class FileUploadBase {
      *
      * @param headers A {@code Map} containing the HTTP request headers.
      * @param name    The name of the header to return.
-     *
      * @return The value of specified header, or a comma-separated list if
      *         there were multiple headers of that name.
      * @deprecated 1.2.1 Use {@link FileItemHeaders#getHeader(String)}.
@@ -1164,7 +1155,6 @@ public abstract class FileUploadBase {
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
-     *
      * @return An iterator to instances of {@code FileItemStream}
      *         parsed from the request, in the order that they were
      *         transmitted.
@@ -1334,7 +1324,6 @@ public abstract class FileUploadBase {
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
-     *
      * @return A map of {@code FileItem} instances parsed from the request.
      *
      * @throws FileUploadException if there are problems reading/parsing
@@ -1367,7 +1356,6 @@ public abstract class FileUploadBase {
      * compliant {@code multipart/form-data} stream.
      *
      * @param req The servlet request to be parsed.
-     *
      * @return A list of {@code FileItem} instances parsed from the
      *         request, in the order that they were transmitted.
      *
@@ -1387,7 +1375,6 @@ public abstract class FileUploadBase {
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
-     *
      * @return A list of {@code FileItem} instances parsed from the
      *         request, in the order that they were transmitted.
      *

@@ -92,7 +92,6 @@ final class Base64Decoder {
      *
      * @param data the buffer containing the Base64-encoded data
      * @param out the output stream to hold the decoded bytes
-     *
      * @return the number of bytes produced.
      * @throws IOException thrown when the padding is incorrect or the input is truncated.
      */

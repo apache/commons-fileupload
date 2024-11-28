@@ -101,7 +101,6 @@ public class PortletRequestContext implements UploadContext {
      * Retrieve the input stream for the request.
      *
      * @return The input stream for the request.
-     *
      * @throws IOException if a problem occurs.
      */
     @Override

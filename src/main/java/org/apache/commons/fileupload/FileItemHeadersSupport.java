@@ -21,7 +21,6 @@ package org.apache.commons.fileupload;
  * implementations will accept the headers read for the item.
  *
  * @since 1.2.1
- *
  * @see FileItem
  * @see FileItemStream
  */

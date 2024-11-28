@@ -133,7 +133,6 @@ public class ParameterParser {
      *
      * @param ch the character to test for presence in the array of characters
      * @param charray the array of characters to test against
-     *
      * @return {@code true} if the character is present in the array of
      *   characters, {@code false} otherwise.
      */
@@ -155,7 +154,6 @@ public class ParameterParser {
      * @param charArray the array of characters that contains a sequence of
      * name/value pairs
      * @param separator the name/value pairs separator
-     *
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(final char[] charArray, final char separator) {
@@ -174,7 +172,6 @@ public class ParameterParser {
      * @param offset   the initial offset.
      * @param length   the length.
      * @param separator the name/value pairs separator
-     *
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(
@@ -231,7 +228,6 @@ public class ParameterParser {
      *
      * @param str the string that contains a sequence of name/value pairs
      * @param separator the name/value pairs separator
-     *
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(final String str, final char separator) {
@@ -248,7 +244,6 @@ public class ParameterParser {
      *
      * @param str the string that contains a sequence of name/value pairs
      * @param separators the name/value pairs separators
-     *
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(final String str, final char[] separators) {

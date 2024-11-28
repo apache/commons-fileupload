@@ -516,7 +516,6 @@ public class MultipartStream {
      * @param a     The first array to compare.
      * @param b     The second array to compare.
      * @param count How many bytes should be compared.
-     *
      * @return {@code true} if {@code count} first bytes in arrays
      *         {@code a} and {@code b} are equal.
      */
@@ -631,7 +630,6 @@ public class MultipartStream {
      * @param boundary The token used for dividing the stream into
      *                 {@code encapsulations}.
      * @param bufSize  The size of the buffer to be used, in bytes.
-     *
      * @deprecated 1.2.1 Use {@link #MultipartStream(InputStream, byte[], int,
      * ProgressNotifier)}.
      */
@@ -656,7 +654,6 @@ public class MultipartStream {
      *                  progress listener, if any.
      *
      * @throws IllegalArgumentException If the buffer size is too small
-     *
      * @since 1.3.1
      */
     public MultipartStream(final InputStream input,
@@ -743,7 +740,6 @@ public class MultipartStream {
      * understand.
      *
      * @return The amount of data discarded.
-     *
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
@@ -757,7 +753,6 @@ public class MultipartStream {
      *
      * @param value The value to find.
      * @param pos   The starting position for searching.
-     *
      * @return The position of byte found, counting from beginning of the
      *         {@code buffer}, or {@code -1} if not found.
      */
@@ -832,7 +827,6 @@ public class MultipartStream {
      *               to {@link #discardBodyData()}.
      *
      * @return the amount of data written.
-     *
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
@@ -893,7 +887,6 @@ public class MultipartStream {
      * necessary.
      *
      * @return The next byte from the input stream.
-     *
      * @throws IOException if there is no more data available.
      */
     public byte readByte() throws IOException {
@@ -925,7 +918,6 @@ public class MultipartStream {
      * protect against abuse.
      *
      * @return The {@code header-part} of the current encapsulation.
-     *
      * @throws FileUploadIOException if the bytes read from the stream exceeded the size limits.
      * @throws MalformedStreamException if the stream ends unexpectedly.
      */
