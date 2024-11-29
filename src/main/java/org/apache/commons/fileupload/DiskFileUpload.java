@@ -90,7 +90,6 @@ public class DiskFileUpload
      *
      * @return The path to the temporary file location.
      * @see #setRepositoryPath(String)
-     *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
@@ -104,7 +103,6 @@ public class DiskFileUpload
      *
      * @return The size threshold, in bytes.
      * @see #setSizeThreshold(int)
-     *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
@@ -160,7 +158,6 @@ public class DiskFileUpload
      *
      * @param repositoryPath The path to the temporary file location.
      * @see #getRepositoryPath()
-     *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated
@@ -173,7 +170,6 @@ public class DiskFileUpload
      *
      * @param sizeThreshold The size threshold, in bytes.
      * @see #getSizeThreshold()
-     *
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated

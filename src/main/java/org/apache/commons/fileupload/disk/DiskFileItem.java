@@ -441,7 +441,6 @@ public class DiskFileItem
      *
      * @param charset The charset to use.
      * @return The contents of the file, as a string.
-     *
      * @throws UnsupportedEncodingException if the requested character
      *                                      encoding is not available.
      */
