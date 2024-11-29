@@ -57,7 +57,6 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Gets the contents of the file item as a byte array.
      *
      * @return The contents of the file item as a byte array.
-     *
      * @throws UncheckedIOException if an I/O error occurs
      */
     byte[] get() throws UncheckedIOException;
@@ -80,7 +79,6 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Gets an {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
      *
      * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
-     *
      * @throws IOException if an error occurs.
      */
     InputStream getInputStream() throws IOException;
@@ -99,7 +97,6 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Gets an {@link java.io.OutputStream OutputStream} that can be used for storing the contents of the file.
      *
      * @return An {@link java.io.OutputStream OutputStream} that can be used for storing the contents of the file.
-     *
      * @throws IOException if an error occurs.
      */
     OutputStream getOutputStream() throws IOException;
@@ -123,9 +120,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Gets the contents of the file item as a String, using the specified encoding. This method uses {@link #get()} to retrieve the contents of the item.
      *
      * @param toCharset The character encoding to use.
-     *
      * @return The contents of the item, as a string.
-     *
      * @throws IOException if an I/O error occurs
      */
     String getString(Charset toCharset) throws IOException;

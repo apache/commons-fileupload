@@ -53,7 +53,6 @@ public class JavaxServletFileUpload<I extends FileItem<I>, F extends FileItemFac
      * Tests whether the request contains multipart content.
      *
      * @param request The servlet request to be evaluated. Must be non-null.
-     *
      * @return {@code true} if the request is multipart; {@code false} otherwise.
      */
     public static final boolean isMultipartContent(final HttpServletRequest request) {

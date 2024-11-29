@@ -728,7 +728,6 @@ public final class MultipartInput {
      *
      * @param value The value to find.
      * @param pos   The starting position for searching.
-     *
      * @return The position of byte found, counting from beginning of the {@code buffer}, or {@code -1} if not found.
      */
     protected int findByte(final byte value, final int pos) {

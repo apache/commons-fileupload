@@ -217,7 +217,6 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      * Gets the file name from the {@code Content-disposition} header.
      *
      * @param headers The HTTP headers object.
-     *
      * @return The file name for the current {@code encapsulation}.
      */
     public String getFileName(final FileItemHeaders headers) {

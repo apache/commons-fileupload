@@ -33,7 +33,6 @@ final class QuotedPrintableDecoder {
      *
      * @param data The array of byte data to decode.
      * @param out  The output stream used to return the decoded data.
-     *
      * @return the number of bytes produced.
      * @throws IOException if an IO error occurs
      */
