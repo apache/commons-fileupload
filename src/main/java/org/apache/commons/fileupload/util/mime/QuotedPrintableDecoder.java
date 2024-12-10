@@ -26,7 +26,7 @@ final class QuotedPrintableDecoder {
 
     /**
      * The shift value required to create the upper nibble
-     * from the first of 2 byte values converted from ascii hex.
+     * from the first of 2 byte values converted from ASCII hex.
      */
     private static final int UPPER_NIBBLE_SHIFT = Byte.SIZE / 2;
 
@@ -88,7 +88,7 @@ final class QuotedPrintableDecoder {
     /**
      * Convert a hex digit to the binary value it represents.
      *
-     * @param b the ascii hex byte to convert (0-0, A-F, a-f)
+     * @param b the ASCII hex byte to convert (0-0, A-F, a-f)
      * @return the int value of the hex byte, 0-15
      * @throws IOException if the byte is not a valid hex digit.
      */
