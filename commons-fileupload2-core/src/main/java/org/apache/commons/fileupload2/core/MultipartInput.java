@@ -65,7 +65,10 @@ import org.apache.commons.io.output.NullOutputStream;
  *
  * <pre>
  * try {
- *     MultipartInput multipartStream = new MultipartInput(input, boundary);
+ *     MultipartInput multipartStream = MultipartInput.builder()
+ *             .setBoundary(boundary)
+ *             .setInputStream(input)
+ *             .get();
  *     boolean nextPart = multipartStream.skipPreamble();
  *     OutputStream output;
  *     while (nextPart) {
