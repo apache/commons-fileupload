@@ -33,9 +33,9 @@ property to the number of days since the last release.
 The <action> type attribute can be add,update,fix,remove.
 -->
 
-<document xmlns="http://maven.apache.org/changes/1.0.0"
+<document xmlns="http://maven.apache.org/changes/2.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 http://maven.apache.org/xsd/changes-2.0.0.xsd">
   <properties>
     <title>Apache Commons FileUpload Release Notes</title>
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
@@ -53,7 +53,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Port to Java 1.4 Throwable APIs (!).</action>
       <!--  UPDATE -->
       <action dev="ggregory" type="update">Bump Java from 6 to 8.</action>
-      <action dev="ggregory" type="update">Bump org.apache.commons:commons-parent from 62 to 78.</action>
+      <action dev="ggregory" type="update">Bump org.apache.commons:commons-parent from 62 to 79, upgrades Doxia from 1 to 2.</action>
       <action dev="ggregory" type="update">Bump commons-io from 2.11.0 to 2.17.0.</action>
       <action dev="ggregory" type="update">Bump javax.servlet:servlet-api from 2.4 to 2.5.</action>
       <action dev="ggregory" type="update">Bump JUnit from junit:junit:4.13.2 org.junit.vintage:junit-vintage-engine from parent POM.</action>
@@ -83,10 +83,10 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-245" dev="sebb" type="fix">DiskFileItem.get() may not fully read the data</action>
       <action issue="FILEUPLOAD-243" dev="sebb" type="update" due-to="Ville Skyttä">Make some MultipartStream private fields final</action>
       <action                        dev="ecki" type="add">Site: added security report</action>
-      <action                        dev="markt" due-to="Felix Schumacher">Improve performance for large multi-part boundaries</action>
-      <action issue="FILEUPLOAD-286" dev="jochen" due-to="maxxedev" due-to-email="maxxedev@gmail.com">Added the default character set to the DiskFileItem.</action>
-      <action issue="FILEUPLOAD-288" dev="jochen" due-to="fangwentong" due-to-email="fangwentong2012@gmail.com">Avoid using File.exists() on temporary files, if we know that the file has been created.</action>
-      <action dev="jochen" due-to="Pascal Schumacher">Added .travis.yml, to fix build issues on Github.</action>
+      <action                        dev="markt" type="fix" due-to="Felix Schumacher">Improve performance for large multi-part boundaries</action>
+      <action issue="FILEUPLOAD-286" dev="jochen" type="add" due-to="maxxedev" due-to-email="maxxedev@gmail.com">Added the default character set to the DiskFileItem.</action>
+      <action issue="FILEUPLOAD-288" dev="jochen" type="fix" due-to="fangwentong" due-to-email="fangwentong2012@gmail.com">Avoid using File.exists() on temporary files, if we know that the file has been created.</action>
+      <action type="add" dev="jochen" due-to="Pascal Schumacher">Added .travis.yml, to fix build issues on Github.</action>
     </release>
 
     <release version="1.3.3" description="Bugfix release for 1.3.3" date="2017-06-13">
@@ -434,18 +434,13 @@ fix as well as a small number of bugfixes." date="2014-02-07">
       </action>
 
       <action dev="martinc" type="update">
-        Build updates:
-        <ul>
-          <li>
-            Include NOTICE.txt in the jar file and distributions.
-          </li>
-          <li>
-            Include xdocs in source distribution.
-          </li>
-          <li>
-            Create MD5 checksums for distributions.
-          </li>
-        </ul>
+        Build updates: Include NOTICE.txt in the jar file and distributions.
+      </action>
+      <action dev="martinc" type="update">
+        Build updates: Include xdocs in source distribution.
+      </action>
+      <action dev="martinc" type="update">
+        Build updates: Create MD5 checksums for distributions.
       </action>
 
       <action dev="martinc" type="add">
@@ -491,22 +486,14 @@ fix as well as a small number of bugfixes." date="2014-02-07">
 
       <action dev="martinc" type="update">
         Web site updates:
-        <ul>
-          <li>
             Add detail pages for Source Repository and Issue Tracking, based on
             those for IO and Validator.
-          </li>
-          <li>
+
             Improvements to FileUpload home page, based on similar recent
             changes to IO and Validator home pages.
-          </li>
-          <li>
+
             The Bugzilla component name has a space in it. Fix the URLs.
-          </li>
-          <li>
             Add an FAQ page, using the Maven plugin to generate it.
-          </li>
-        </ul>
       </action>
 
       <action dev="dion" type="fix" issue="COMMONSSITE-2">
@@ -544,39 +531,32 @@ fix as well as a small number of bugfixes." date="2014-02-07">
 
       <action dev="martinc" type="update">
         Substantial refactoring and additions:
-        <ul>
-          <li>
+
             The core package is now independent of servlet / portlet / other
             distinctions, as well as persistence schemes, other than deprecated
             classes and methods retained for backwards compatibility.
-          </li>
-          <li>
+
             Servlet specific functionality has been moved to a new 'servlet'
             package. Existing users should migrate to this as soon as possible,
             since the servlet specific functionality in the generic package
             will be removed in the release after FileUpload 1.1.
-          </li>
-          <li>
+
             Support for portlets (JSR 168) has been added, in a new 'portlet'
             package. This is not well tested at this point, and feedback would
             be very much appreciated. (This also resolves bug #23620.)
-          </li>
-          <li>
+
             The disk-based file item implementation has been moved into a 'disk'
             package, and renamed from Default* to Disk* to reflect what it
             really is. The Default* classes have been retained in the top level
             package for backwards compatibility, but are now deprecated, and
             will be removed in the release after FileUpload 1.1.
-          </li>
-          <li>
+
             The isMultipartRequest method is an unfortunate casualty of this
             refactoring. That method should really be moved to ServletFileUpload,
             but since the method is static, it can only exist in either
             FileUploadBase or ServletFileUpload. Backwards compatibility dictates
             the former for now, but the latter is the desired state, which
             implies some future breakage. Fair warning...
-          </li>
-        </ul>
       </action>
 
       <action dev="martinc" type="fix" issue="FILEUPLOAD-4">
