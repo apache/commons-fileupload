@@ -33,9 +33,9 @@ property to the number of days since the last release.
 The <action> type attribute can be add,update,fix,remove.
 -->
 
-<document xmlns="http://maven.apache.org/changes/1.0.0"
+<document xmlns="http://maven.apache.org/changes/2.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-2.0.0.xsd">
   <properties>
     <title>Apache Commons FileUpload Release Notes</title>
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
@@ -143,10 +143,10 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-245" dev="sebb" type="fix">DiskFileItem.get() may not fully read the data</action>
       <action issue="FILEUPLOAD-243" dev="sebb" type="update" due-to="Ville Skyttä">Make some MultipartStream private fields final</action>
       <action                        dev="ecki" type="add">Site: added security report</action>
-      <action                        dev="markt" due-to="Felix Schumacher">Improve performance for large multi-part boundaries</action>
-      <action issue="FILEUPLOAD-286" dev="jochen" due-to="maxxedev" due-to-email="maxxedev@gmail.com">Added the default character set to the DiskFileItem.</action>
-      <action issue="FILEUPLOAD-288" dev="jochen" due-to="fangwentong" due-to-email="fangwentong2012@gmail.com">Avoid using File.exists() on temporary files, if we know that the file has been created.</action>
-      <action dev="jochen" due-to="Pascal Schumacher">Added .travis.yml, to fix build issues on Github.</action>
+      <action type="fix"             dev="markt" due-to="Felix Schumacher">Improve performance for large multi-part boundaries</action>
+      <action type="add" issue="FILEUPLOAD-286" dev="jochen" due-to="maxxedev" due-to-email="maxxedev@gmail.com">Added the default character set to the DiskFileItem.</action>
+      <action type="fix" issue="FILEUPLOAD-288" dev="jochen" due-to="fangwentong" due-to-email="fangwentong2012@gmail.com">Avoid using File.exists() on temporary files, if we know that the file has been created.</action>
+      <action type="add" dev="jochen" due-to="Pascal Schumacher">Added .travis.yml, to fix build issues on Github.</action>
     </release>
 
     <release version="1.3.3" description="Bugfix release for 1.3.3" date="2017-06-13">
