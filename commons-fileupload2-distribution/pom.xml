@@ -37,6 +37,7 @@ limitations under the License.
     <checkstyle.skip>true</checkstyle.skip>
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
     <commons.release.isDistModule>true</commons.release.isDistModule>
+    <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
     <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
   </properties>
 

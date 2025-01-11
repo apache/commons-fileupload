@@ -40,6 +40,7 @@
     <commons.osgi.requireCapability>osgi.contract;filter:="(&amp;(osgi.contract=JakartaServlet)(version=6.0))"</commons.osgi.requireCapability>
     <!-- Override link to Jakarta EE -->
     <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/10/apidocs/</commons.javadoc.javaee.link>	
+    <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
     <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
     <!-- JaCoCo: Don't make code coverage worse than: -->
     <commons.jacoco.classRatio>0.75</commons.jacoco.classRatio>
