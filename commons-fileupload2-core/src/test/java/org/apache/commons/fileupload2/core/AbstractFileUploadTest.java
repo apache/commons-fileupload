@@ -99,7 +99,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * @throws FileUploadException Test failure.
      */
     @Test
-    public void testEmptyFile() throws FileUploadException {
+    public void testEmptyFile() throws IOException {
         // @formatter:off
         final var fileItems = parseUpload (upload,
                                                 "-----1234\r\n" +
@@ -349,7 +349,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * @throws FileUploadException Test failure.
      */
     @Test
-    public void testIE5MacBug() throws FileUploadException {
+    public void testIE5MacBug() throws IOException {
         final var fileItems = parseUpload(upload,
         // @formatter:off
                 "-----1234\r\n" +
