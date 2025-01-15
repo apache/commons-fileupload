@@ -64,7 +64,7 @@
         <li><a href="./project-reports.html">Project Reports</a></li>
         <li><a href="https://dist.apache.org/repos/dist/release/commons/fileupload/RELEASE-NOTES.txt">Release Notes</a></li>
       </ul>
-      <p>You can also <a href="./scm.html">browse</a> the Subversion repository.</p>
+      <p>You can also <a href="./scm.html">browse</a> the git repository.</p>
     </section>
 
     <section name="Downloading">
