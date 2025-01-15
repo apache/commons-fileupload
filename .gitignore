@@ -1,6 +1,7 @@
 *.code-workspace
 *.iml
 *.iws
+.checkstyle
 .classpath
 .DS_Store
 .externalToolBuilders/
