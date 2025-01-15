@@ -16,3 +16,4 @@
 bin/
 maven-eclipse.xml
 target/
+site-content/
