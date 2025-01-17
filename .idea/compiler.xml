@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="commons-fileupload2-core" />
+        <module name="commons-fileupload2-portlet" />
+        <module name="commons-fileupload2-jakarta-servlet6" />
+        <module name="commons-fileupload2-jakarta-servlet5" />
+        <module name="commons-fileupload2-javax" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
