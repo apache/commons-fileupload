@@ -61,12 +61,6 @@ public class JakartaFileCleaner implements ServletContextListener {
     public void contextDestroyed(final ServletContextEvent sce) {
         getFileCleaningTracker(sce.getServletContext()).exitWhenFinished();
     }
-
-    /**
-     * Called when the web application is initialized. Does nothing.
-     *
-     * @param sce The servlet context, used for calling {@link #setFileCleaningTracker(ServletContext, FileCleaningTracker)}.
-     */
     @Override
     public void contextInitialized(final ServletContextEvent sce) {
         setFileCleaningTracker(sce.getServletContext(), new FileCleaningTracker());
