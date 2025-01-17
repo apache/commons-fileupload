@@ -47,6 +47,11 @@ public class DiskFileItemTest {
      */
     @Test
     public void testToStringDefault() {
-        new DiskFileItem.Builder().get().toString();
+        DiskFileItem fileItem = new DiskFileItem.Builder().get();
+        String stringRepresentation = fileItem.toString();
+
+        // Adding assertion to verify that toString() doesn't return null or an empty string
+        assertNotNull(stringRepresentation, "The toString() method returned null.");
+        assertFalse(stringRepresentation.isEmpty(), "The toString() method returned an empty string.");
     }
 }
