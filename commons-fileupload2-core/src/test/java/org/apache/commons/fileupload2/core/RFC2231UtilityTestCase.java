@@ -37,7 +37,7 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
-    public void testDecodeInvalidEncoding() throws Exception {
+    public void testDecodeInvalidEncoding() {
         assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utils.decodeText("abc'en'hello"));
     }
 
