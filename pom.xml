@@ -130,7 +130,6 @@
           <configuration>
             <excludes>
               <exclude>site-content/**</exclude>
-              <exclude>src/site/resources/download_lang.cgi</exclude>
               <exclude>src/checkstyle/license-header.txt</exclude>
             </excludes>
           </configuration>
