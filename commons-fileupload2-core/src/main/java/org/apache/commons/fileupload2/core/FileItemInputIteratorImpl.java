@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BoundedInputStream;
@@ -31,84 +30,22 @@ import org.apache.commons.io.input.BoundedInputStream;
  * The iterator returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */
 class FileItemInputIteratorImpl implements FileItemInputIterator {
-    /**
-     * The file uploads processing utility.
-     *
-     * @see AbstractFileUpload
-     */
+
     private final AbstractFileUpload<?, ?, ?> fileUpload;
-
-    /**
-     * The request context.
-     *
-     * @see RequestContext
-     */
     private final RequestContext requestContext;
-
-    /**
-     * The maximum allowed size of a complete request.
-     */
     private long sizeMax;
-
-    /**
-     * The maximum allowed size of a single uploaded file.
-     */
     private long fileSizeMax;
-
-    /**
-     * The multi part stream to process.
-     */
     private MultipartInput multiPartInput;
-
-    /**
-     * The notifier, which used for triggering the {@link ProgressListener}.
-     */
     private MultipartInput.ProgressNotifier progressNotifier;
-
-    /**
-     * The boundary, which separates the various parts.
-     */
     private byte[] multiPartBoundary;
-
-    /**
-     * The item, which we currently process.
-     */
     private FileItemInputImpl currentItem;
-
-    /**
-     * The current items field name.
-     */
     private String currentFieldName;
-
-    /**
-     * Whether we are currently skipping the preamble.
-     */
     private boolean skipPreamble;
-
-    /**
-     * Whether the current item may still be read.
-     */
     private boolean itemValid;
-
-    /**
-     * Whether we have seen the end of the file.
-     */
     private boolean eof;
-
-    /**
-     * Is the Request of type {@code multipart/related}.
-     */
     private final boolean multipartRelated;
 
-    /**
-     * Constructs a new instance.
-     *
-     * @param fileUploadBase Main processor.
-     * @param requestContext The request context.
-     * @throws FileUploadException An error occurred while parsing the request.
-     * @throws IOException         An I/O error occurred.
-     */
-    FileItemInputIteratorImpl(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
+    FileItemInputIteratorImpl(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext requestContext) throws IOException {
         this.fileUpload = fileUploadBase;
         this.sizeMax = fileUploadBase.getSizeMax();
         this.fileSizeMax = fileUploadBase.getFileSizeMax();
@@ -118,13 +55,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         findNextItem();
     }
 
-    /**
-     * Finds the next item, if any.
-     *
-     * @return True, if an next item was found, otherwise false.
-     * @throws IOException An I/O error occurred.
-     */
-    private boolean findNextItem() throws FileUploadException, IOException {
+    private boolean findNextItem() throws IOException {
         if (eof) {
             return false;
         }
@@ -142,11 +73,9 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
             }
             if (!nextPart) {
                 if (currentFieldName == null) {
-                    // Outer multipart terminated -> No more data
                     eof = true;
                     return false;
                 }
-                // Inner multipart terminated -> Return to parsing the outer
                 multi.setBoundary(multiPartBoundary);
                 currentFieldName = null;
                 continue;
@@ -161,14 +90,12 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                 progressNotifier.noteItem();
                 itemValid = true;
                 return true;
-            } else  if (currentFieldName == null) {
-                // We're parsing the outer multipart
+            } else if (currentFieldName == null) {
                 final var fieldName = fileUpload.getFieldName(headers);
                 if (fieldName != null) {
                     final var subContentType = headers.getHeader(AbstractFileUpload.CONTENT_TYPE);
                     if (subContentType != null && subContentType.toLowerCase(Locale.ROOT).startsWith(AbstractFileUpload.MULTIPART_MIXED)) {
                         currentFieldName = fieldName;
-                        // Multiple files associated with this field name
                         final var subBoundary = fileUpload.getBoundary(subContentType);
                         multi.setBoundary(subBoundary);
                         skipPreamble = true;
@@ -210,7 +137,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         return fileSizeMax;
     }
 
-    public MultipartInput getMultiPartInput() throws FileUploadException, IOException {
+    public MultipartInput getMultiPartInput() throws IOException {
         if (multiPartInput == null) {
             init(fileUpload, requestContext);
         }
@@ -222,13 +149,6 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         return sizeMax;
     }
 
-    /**
-     * Tests whether another instance of {@link FileItemInput} is available.
-     *
-     * @throws FileUploadException Parsing or processing the file item failed.
-     * @throws IOException         Reading the file item failed.
-     * @return True, if one or more additional file items are available, otherwise false.
-     */
     @Override
     public boolean hasNext() throws IOException {
         if (eof) {
@@ -240,28 +160,23 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         return findNextItem();
     }
 
-    protected void init(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext initContext) throws FileUploadException, IOException {
+    protected void init(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext initContext) throws IOException {
         final var contentType = requestContext.getContentType();
         if (null == contentType || !contentType.toLowerCase(Locale.ROOT).startsWith(AbstractFileUpload.MULTIPART)) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
                     AbstractFileUpload.MULTIPART_FORM_DATA, AbstractFileUpload.MULTIPART_MIXED, contentType), contentType);
         }
         final var contentLengthInt = requestContext.getContentLength();
-        // @formatter:off
         final var requestSize = RequestContext.class.isAssignableFrom(requestContext.getClass())
-                                 // Inline conditional is OK here CHECKSTYLE:OFF
-                                 ? requestContext.getContentLength()
-                                 : contentLengthInt;
-                                 // CHECKSTYLE:ON
-        // @formatter:on
-        final InputStream inputStream; // N.B. this is eventually closed in MultipartInput processing
+                ? requestContext.getContentLength()
+                : contentLengthInt;
+        final InputStream inputStream;
         if (sizeMax >= 0) {
             if (requestSize != -1 && requestSize > sizeMax) {
                 throw new FileUploadSizeException(
                         String.format("the request was rejected because its size (%s) exceeds the configured maximum (%s)", requestSize, sizeMax), sizeMax,
                         requestSize);
             }
-            // N.B. this is eventually closed in MultipartInput processing
             inputStream = new BoundedInputStream(requestContext.getInputStream(), sizeMax) {
                 @Override
                 protected void onMaxLength(final long maxLen, final long count) throws IOException {
@@ -272,32 +187,22 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         } else {
             inputStream = requestContext.getInputStream();
         }
-
         final var charset = Charsets.toCharset(fileUploadBase.getHeaderCharset(), requestContext.getCharset());
         multiPartBoundary = fileUploadBase.getBoundary(contentType);
         if (multiPartBoundary == null) {
-            IOUtils.closeQuietly(inputStream); // avoid possible resource leak
+            IOUtils.closeQuietly(inputStream);
             throw new FileUploadException("the request was rejected because no multipart boundary was found");
         }
-
         progressNotifier = new MultipartInput.ProgressNotifier(fileUploadBase.getProgressListener(), requestSize);
         try {
             multiPartInput = MultipartInput.builder().setInputStream(inputStream).setBoundary(multiPartBoundary).setProgressNotifier(progressNotifier).get();
         } catch (final IllegalArgumentException e) {
-            IOUtils.closeQuietly(inputStream); // avoid possible resource leak
+            IOUtils.closeQuietly(inputStream);
             throw new FileUploadContentTypeException(String.format("The boundary specified in the %s header is too long", AbstractFileUpload.CONTENT_TYPE), e);
         }
         multiPartInput.setHeaderCharset(charset);
     }
 
-    /**
-     * Returns the next available {@link FileItemInput}.
-     *
-     * @throws java.util.NoSuchElementException No more items are available. Use {@link #hasNext()} to prevent this exception.
-     * @throws FileUploadException              Parsing or processing the file item failed.
-     * @throws IOException                      Reading the file item failed.
-     * @return FileItemInput instance, which provides access to the next file item.
-     */
     @Override
     public FileItemInput next() throws IOException {
         if (eof || !itemValid && !hasNext()) {
@@ -319,8 +224,6 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
 
     @Override
     public Iterator<FileItemInput> unwrap() {
-        // TODO Something better?
         return (Iterator<FileItemInput>) this;
     }
-
 }
