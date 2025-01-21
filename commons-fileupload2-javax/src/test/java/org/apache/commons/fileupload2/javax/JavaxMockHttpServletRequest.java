@@ -182,9 +182,9 @@ public class JavaxMockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public Enumeration<String> getHeaderNames() {
-        // todo - implement
-        return null;
+        return java.util.Collections.enumeration(headers.keySet());
     }
+
 
     /**
      * @see HttpServletRequest#getHeaders(String)
