@@ -46,7 +46,7 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
     }
 
     @Override
-    public List<DiskFileItem> parseUpload(final JavaxServletDiskFileUpload upload, final byte[] bytes, final String contentType) throws IOException {
+    public List<DiskFileItem> parseUpload(final JavaxServletDiskFileUpload upload, final byte[] bytes, final String contentType) throws FileUploadException {
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, contentType);
         return upload.parseRequest(new JavaxServletRequestContext(request));
     }
@@ -56,7 +56,7 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
      */
     @Override
     @Test
-    public void testFileUpload() throws IOException {
+    public void testFileUpload() throws Exception {
         final var baos = new ByteArrayOutputStream();
         var add = 16;
         var num = 0;
@@ -93,7 +93,7 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
     }
 
     @Test
-    public void testParseImpliedUtf8() throws IOException {
+    public void testParseImpliedUtf8() throws Exception {
         // utf8 encoded form-data without explicit content-type encoding
         // @formatter:off
         final var text = "-----1234\r\n" +
@@ -121,7 +121,7 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
      * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-210">
      */
     @Test
-    public void testParseParameterMap() throws IOException {
+    public void testParseParameterMap() throws Exception {
         // @formatter:off
         final var text = "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
@@ -157,5 +157,4 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
     }
-
 }
