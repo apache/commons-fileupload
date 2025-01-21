@@ -17,10 +17,14 @@
 package org.apache.commons.fileupload2.javax;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.fileupload2.core.AbstractFileUpload;
 
 final class JavaxHttpServletRequestFactory {
+
+    private static final String BOUNDARY = "----------------------------1234567890";
+    private static final String LINE_FEED = "\r\n";
 
     public static HttpServletRequest createHttpServletRequestWithNullContentType() {
         final var requestData = "foobar".getBytes();
@@ -33,16 +37,44 @@ final class JavaxHttpServletRequestFactory {
     }
 
     public static HttpServletRequest createValidHttpServletRequest(final String[] strFileNames) {
-        // TODO Provide a real implementation.
-
         final var sbRequestData = new StringBuilder();
 
-        for (final String strFileName : strFileNames) {
-            sbRequestData.append(strFileName);
+        // Start building multipart form-data content
+        for (int i = 0; i < strFileNames.length; i++) {
+            // Add boundary
+            sbRequestData.append("--").append(BOUNDARY).append(LINE_FEED);
+
+            // Add content disposition header
+            sbRequestData.append("Content-Disposition: form-data; name=\"file")
+                    .append(i + 1)
+                    .append("\"; filename=\"")
+                    .append(strFileNames[i])
+                    .append("\"")
+                    .append(LINE_FEED);
+
+            // Add content type header
+            sbRequestData.append("Content-Type: application/octet-stream")
+                    .append(LINE_FEED);
+
+            // Add content transfer encoding header
+            sbRequestData.append("Content-Transfer-Encoding: binary")
+                    .append(LINE_FEED);
+
+            // Empty line before content
+            sbRequestData.append(LINE_FEED);
+
+            // Add some dummy content for the file
+            sbRequestData.append("Sample content for file: ")
+                    .append(strFileNames[i])
+                    .append(LINE_FEED);
         }
 
-        final var requestData = sbRequestData.toString().getBytes();
+        // Add final boundary
+        sbRequestData.append("--").append(BOUNDARY).append("--").append(LINE_FEED);
 
-        return new JavaxMockHttpServletRequest(requestData, AbstractFileUpload.MULTIPART_FORM_DATA);
+        final var requestData = sbRequestData.toString().getBytes(StandardCharsets.UTF_8);
+        final var contentType = AbstractFileUpload.MULTIPART_FORM_DATA + "; boundary=" + BOUNDARY;
+
+        return new JavaxMockHttpServletRequest(requestData, contentType);
     }
 }
