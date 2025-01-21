@@ -56,7 +56,7 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
      */
     @Override
     @Test
-    public void testFileUpload() throws IOException, FileUploadException {
+    public void testFileUpload() throws IOException {
         final var baos = new ByteArrayOutputStream();
         var add = 16;
         var num = 0;
@@ -124,24 +124,24 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
     public void testParseParameterMap() throws Exception {
         // @formatter:off
         final var text = "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                      "Content-Type: text/whatever\r\n" +
-                      "\r\n" +
-                      "This is the content of the file\n" +
-                      "\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"field\"\r\n" +
-                      "\r\n" +
-                      "fieldValue\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                      "\r\n" +
-                      "value1\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                      "\r\n" +
-                      "value2\r\n" +
-                      "-----1234--\r\n";
+                "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                "Content-Type: text/whatever\r\n" +
+                "\r\n" +
+                "This is the content of the file\n" +
+                "\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"field\"\r\n" +
+                "\r\n" +
+                "fieldValue\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                "\r\n" +
+                "value1\r\n" +
+                "-----1234\r\n" +
+                "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                "\r\n" +
+                "value2\r\n" +
+                "-----1234--\r\n";
         // @formatter:on
         final var bytes = text.getBytes(StandardCharsets.US_ASCII);
         final HttpServletRequest request = new JavaxMockHttpServletRequest(bytes, Constants.CONTENT_TYPE);
