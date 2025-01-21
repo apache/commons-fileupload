@@ -27,7 +27,7 @@ final class JavaxHttpServletRequestFactory {
         return new JavaxMockHttpServletRequest(requestData, null);
     }
 
-    static public HttpServletRequest createInvalidHttpServletRequest() {
+    public static HttpServletRequest createInvalidHttpServletRequest() {
         final var requestData = "foobar".getBytes();
         return new JavaxMockHttpServletRequest(requestData, AbstractFileUpload.MULTIPART_FORM_DATA);
     }
@@ -45,5 +45,4 @@ final class JavaxHttpServletRequestFactory {
 
         return new JavaxMockHttpServletRequest(requestData, AbstractFileUpload.MULTIPART_FORM_DATA);
     }
-
 }
