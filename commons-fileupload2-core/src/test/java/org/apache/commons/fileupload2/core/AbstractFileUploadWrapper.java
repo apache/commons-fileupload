@@ -23,28 +23,27 @@ import java.util.List;
  * Common tests for implementations of {@link AbstractFileUpload}. This is a parameterized test. Tests must be valid and common to all implementations of
  * FileUpload added as parameter in this class.
  *
- * @param <AFU> The type for {@link AbstractFileUpload}.
- * @param <R>   The FileUpload request type.
- * @param <I>   The FileItem type.
- * @param <F>   The FileItemFactory type.
+ * @param <A> The type for {@link AbstractFileUpload}.
+ * @param <R> The FileUpload request type.
+ * @param <I> The FileItem type.
+ * @param <F> The FileItemFactory type.
  */
-public abstract class AbstractFileUploadWrapper<AFU extends AbstractFileUpload<R, I, F>, R, I extends FileItem<I>, F extends FileItemFactory<I>> {
+public abstract class AbstractFileUploadWrapper<A extends AbstractFileUpload<R, I, F>, R, I extends FileItem<I>, F extends FileItemFactory<I>> {
 
-    protected final AFU upload;
+    protected final A upload;
 
-    protected AbstractFileUploadWrapper(final AFU fileUpload) {
+    protected AbstractFileUploadWrapper(final A fileUpload) {
         this.upload = fileUpload;
     }
 
-    public List<I> parseUpload(final AFU upload, final byte[] bytes) throws FileUploadException {
+    public List<I> parseUpload(final A upload, final byte[] bytes) throws FileUploadException {
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
 
-    public abstract List<I> parseUpload(final AFU upload, final byte[] bytes, final String contentType) throws FileUploadException;
+    public abstract List<I> parseUpload(final A upload, final byte[] bytes, final String contentType) throws FileUploadException;
 
-    public List<I> parseUpload(final AFU upload, final String content) throws FileUploadException {
+    public List<I> parseUpload(final A upload, final String content) throws FileUploadException {
         final var bytes = content.getBytes(StandardCharsets.US_ASCII);
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
-
 }
