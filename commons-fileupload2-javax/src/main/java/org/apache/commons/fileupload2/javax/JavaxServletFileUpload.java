@@ -89,7 +89,7 @@ public class JavaxServletFileUpload<I extends FileItem<I>, F extends FileItemFac
      *                             uploaded content.
      */
     @Override
-    public FileItemInputIterator getItemIterator(final HttpServletRequest request) throws FileUploadException, IOException {
+    public FileItemInputIterator getItemIterator(final HttpServletRequest request) throws IOException {
         return super.getItemIterator(new JavaxServletRequestContext(request));
     }
 

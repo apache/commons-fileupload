@@ -84,9 +84,10 @@ public class JavaxPortletFileUpload<I extends FileItem<I>, F extends FileItemFac
      *                             uploaded content.
      */
     @Override
-    public FileItemInputIterator getItemIterator(final ActionRequest request) throws FileUploadException, IOException {
+    public FileItemInputIterator getItemIterator(final ActionRequest request) throws IOException {
         return super.getItemIterator(new JavaxPortletRequestContext(request));
     }
+
 
     /**
      * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
