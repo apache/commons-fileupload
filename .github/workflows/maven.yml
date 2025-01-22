@@ -13,50 +13,43 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Java CI with Maven
+name: Maven Build
 
 on:
   push:
-    branches:
-      - main  # Trigger when pushing to the main branch
+    branches: [ main ]
   pull_request:
-    branches:
-      - main  # Trigger when making a pull request to the main branch
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  # Checkout the code from your repository
+      - uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          java-version: '11'  # Set the Java version (you can change this to match your project)
-          distribution: 'adoptopenjdk'  # Use the AdoptOpenJDK distribution
-
-      - name: Cache Maven dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository  # Cache the local Maven repository to speed up builds
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
       - name: Build with Maven
-        run: mvn clean install  # Compile the project and install dependencies
+        run: mvn -B package --file pom.xml
 
-      - name: Run tests
-        run: mvn test  # Run unit tests
+      - name: Test with Maven
+        run: mvn test
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v2
+      - name: Cache Maven packages
+        uses: actions/cache@v3
         with:
-          name: test-results
-          path: target/surefire-reports  # Upload the test results for inspection
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
-      - name: Deploy to production (Optional)
-        if: success()  # Deploy if the build and tests are successful
-        run: echo "Deploying the project..."  # Replace with your deployment command
+      - name: Upload Maven build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: maven-build
+          path: target/*.jar
