@@ -178,7 +178,7 @@ public class JavaxPortletMockActionRequest implements ActionRequest {
     }
 
     @Override
-    public BufferedReader getReader() throws UnsupportedEncodingException, IOException {
+    public BufferedReader getReader() throws IOException {
         return null;
     }
 

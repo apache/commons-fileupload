@@ -58,7 +58,7 @@ public class JavaxServletFileUploadTest
      */
     @Override
     @Test
-    public void testFileUpload() throws IOException, FileUploadException {
+    public void testFileUpload() throws IOException {
         final var baos = new ByteArrayOutputStream();
         var add = 16;
         var num = 0;
@@ -74,7 +74,6 @@ public class JavaxServletFileUploadTest
             baos.write("\r\n".getBytes(StandardCharsets.US_ASCII));
         }
         baos.write("-----1234--\r\n".getBytes(StandardCharsets.US_ASCII));
-
         final var fileItems = parseUpload(new JavaxServletFileUpload<>(DiskFileItemFactory.builder().get()), baos.toByteArray());
         final var fileIter = fileItems.iterator();
         add = 16;

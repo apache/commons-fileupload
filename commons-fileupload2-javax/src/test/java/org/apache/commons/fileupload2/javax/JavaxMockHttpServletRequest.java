@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
@@ -35,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload2.core.AbstractFileUpload;
+
 
 /**
  * Test fixture for {@link HttpServletRequest}.
@@ -78,6 +80,17 @@ public class JavaxMockHttpServletRequest implements HttpServletRequest {
     private final int readLimit;
 
     private final Map<String, String> headers = new HashMap<>();
+
+    /**
+     * Represents the input stream for the file item.
+     */
+    private InputStream inputStream;
+
+    /**
+     * Denotes whether the iteration is complete.
+     */
+    private boolean isCompleted;
+
 
     /**
      * Creates a new instance with the given request data and content type.
@@ -182,9 +195,9 @@ public class JavaxMockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public Enumeration<String> getHeaderNames() {
-        // todo - implement
-        return null;
+        return java.util.Collections.enumeration(headers.keySet());
     }
+
 
     /**
      * @see HttpServletRequest#getHeaders(String)
