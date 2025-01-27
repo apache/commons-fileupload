@@ -74,7 +74,7 @@ final class Base64Decoder {
     private static final byte[] DECODING_TABLE = new byte[Byte.MAX_VALUE - Byte.MIN_VALUE + 1];
 
     static {
-        // Initialise as all invalid characters
+        // Initialize as all invalid characters
         for (int i = 0; i < DECODING_TABLE.length; i++) {
             DECODING_TABLE[i] = INVALID_BYTE;
         }
