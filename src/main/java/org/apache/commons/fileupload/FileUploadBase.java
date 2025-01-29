@@ -952,6 +952,13 @@ public abstract class FileUploadBase {
     private ProgressListener listener;
 
     /**
+     * Constructs a new instance.
+     */
+    public FileUploadBase() {
+        // empty
+    }
+
+    /**
      * Creates a new {@link FileItem} instance.
      *
      * @param headers       A {@code Map} containing the HTTP request

@@ -48,6 +48,13 @@ public interface FileItemStream extends FileItemHeadersSupport {
          */
         private static final long serialVersionUID = -7280778431581963740L;
 
+        /**
+         * Constructs a new instance.
+         */
+        public ItemSkippedException() {
+            // empty
+        }
+
     }
 
     /**

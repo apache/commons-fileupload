@@ -62,6 +62,13 @@ public class FileCleanerCleanup implements ServletContextListener {
     }
 
     /**
+     * Constructs a new instance.
+     */
+    public FileCleanerCleanup() {
+        // empty
+    }
+
+    /**
      * Called when the web application is being destroyed.
      * Calls {@link FileCleaningTracker#exitWhenFinished()}.
      *

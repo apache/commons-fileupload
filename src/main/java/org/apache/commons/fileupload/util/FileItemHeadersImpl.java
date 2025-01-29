@@ -46,6 +46,13 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
     private final Map<String, List<String>> headerNameToValueListMap = new LinkedHashMap<>();
 
     /**
+     * Constructs a new instance.
+     */
+    public FileItemHeadersImpl() {
+        // empty
+    }
+
+    /**
      * Method to add header values to this instance.
      *
      * @param name name of this header
