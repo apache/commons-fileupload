@@ -23,6 +23,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.fileupload.InvalidFileNameException;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.NullOutputStream;
 
 /**
  * Utility class for working with streams.
@@ -144,41 +145,14 @@ public final class Streams {
      * @return Number of bytes, which have been copied.
      * @throws IOException An I/O error occurred.
      */
-    public static long copy(final InputStream inputStream,
-            final OutputStream outputStream, final boolean closeOutputStream,
-            final byte[] buffer)
-    throws IOException {
-        OutputStream out = outputStream;
-        InputStream in = inputStream;
+    public static long copy(final InputStream inputStream, final OutputStream outputStream, final boolean closeOutputStream, final byte[] buffer)
+            throws IOException {
         try {
-            long total = 0;
-            for (;;) {
-                final int res = in.read(buffer);
-                if (res == -1) {
-                    break;
-                }
-                if (res > 0) {
-                    total += res;
-                    if (out != null) {
-                        out.write(buffer, 0, res);
-                    }
-                }
-            }
-            if (out != null) {
-                if (closeOutputStream) {
-                    out.close();
-                } else {
-                    out.flush();
-                }
-                out = null;
-            }
-            in.close();
-            in = null;
-            return total;
+            return IOUtils.copyLarge(inputStream, outputStream != null ? outputStream : NullOutputStream.INSTANCE, buffer);
         } finally {
-            IOUtils.closeQuietly(in);
+            IOUtils.closeQuietly(inputStream);
             if (closeOutputStream) {
-                IOUtils.closeQuietly(out);
+                IOUtils.closeQuietly(outputStream);
             }
         }
     }
