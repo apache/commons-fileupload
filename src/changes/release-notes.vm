@@ -23,7 +23,7 @@ adding support for multipart file upload functionality to Servlets and web
 applications. This version requires Java 11 or above.
 
 
-## N.B. the available variables are described here:
+## The available variables are described here:
 ## http://maven.apache.org/plugins/maven-changes-plugin/examples/using-a-custom-announcement-template.html
 ##
 ## Hack to get line breaks to work in release description. For this to work, each line break in the
