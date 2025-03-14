@@ -330,7 +330,7 @@ public abstract class FileUploadBase {
                                 Long.valueOf(requestSize), Long.valueOf(sizeMax)),
                                requestSize, sizeMax);
                 }
-                // N.B. this is eventually closed in MultipartStream processing
+                // this is eventually closed in MultipartStream processing
                 input = new LimitedInputStream(ctx.getInputStream(), sizeMax) {
                     @Override
                     protected void raiseError(final long pSizeMax, final long pCount)
