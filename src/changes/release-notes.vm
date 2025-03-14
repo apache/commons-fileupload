@@ -25,7 +25,7 @@ applications. Version 1.3 onwards requires Java 6 or later.
 No client code changes are required to migrate from version 1.4 to 1.5.
 
 
-## N.B. the available variables are described here:
+## The available variables are described here:
 ## http://maven.apache.org/plugins/maven-changes-plugin/examples/using-a-custom-announcement-template.html
 ##
 ## Hack to get line breaks to work in release description. For this to work, each line break in the
