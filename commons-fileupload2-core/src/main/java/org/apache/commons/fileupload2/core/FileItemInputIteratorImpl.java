@@ -254,14 +254,14 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                                  : contentLengthInt;
                                  // CHECKSTYLE:ON
         // @formatter:on
-        final InputStream inputStream; // N.B. this is eventually closed in MultipartInput processing
+        final InputStream inputStream; // This is eventually closed in MultipartInput processing
         if (sizeMax >= 0) {
             if (requestSize != -1 && requestSize > sizeMax) {
                 throw new FileUploadSizeException(
                         String.format("the request was rejected because its size (%s) exceeds the configured maximum (%s)", requestSize, sizeMax), sizeMax,
                         requestSize);
             }
-            // N.B. this is eventually closed in MultipartInput processing
+            // This is eventually closed in MultipartInput processing
             inputStream = new BoundedInputStream(requestContext.getInputStream(), sizeMax) {
                 @Override
                 protected void onMaxLength(final long maxLen, final long count) throws IOException {
