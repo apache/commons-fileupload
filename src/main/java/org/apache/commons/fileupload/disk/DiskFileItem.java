@@ -18,7 +18,6 @@ package org.apache.commons.fileupload.disk;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -320,12 +319,10 @@ public class DiskFileItem
      * @throws IOException if an error occurs.
      */
     @Override
-    public InputStream getInputStream()
-        throws IOException {
+    public InputStream getInputStream() throws IOException {
         if (!isInMemory()) {
-            return new FileInputStream(dfos.getFile());
+            return Files.newInputStream(dfos.getPath());
         }
-
         if (cachedContent == null) {
             cachedContent = dfos.getData();
         }
