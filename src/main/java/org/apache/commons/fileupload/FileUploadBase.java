@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -299,10 +300,7 @@ public abstract class FileUploadBase {
          */
         FileItemIteratorImpl(final RequestContext ctx)
                 throws FileUploadException, IOException {
-            if (ctx == null) {
-                throw new NullPointerException("ctx parameter");
-            }
-
+            Objects.requireNonNull(ctx, "ctx");
             final String contentType = ctx.getContentType();
             if (null == contentType
                     || !contentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART)) {
