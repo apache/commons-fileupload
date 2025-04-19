@@ -1385,16 +1385,13 @@ public abstract class FileUploadBase {
      * @throws FileUploadException if there are problems reading/parsing
      *                             the request or storing files.
      */
-    public List<FileItem> parseRequest(final RequestContext ctx)
-            throws FileUploadException {
+    public List<FileItem> parseRequest(final RequestContext ctx) throws FileUploadException {
         final List<FileItem> items = new ArrayList<>();
         boolean successful = false;
         try {
             final FileItemIterator iter = getItemIterator(ctx);
-            final FileItemFactory fac = getFileItemFactory();
-            if (fac == null) {
-                throw new NullPointerException("No FileItemFactory has been set.");
-            }
+            final FileItemFactory fileItemFactory = getFileItemFactory();
+            Objects.requireNonNull(fileItemFactory, "getFileItemFactory()");
             final byte[] buffer = new byte[Streams.DEFAULT_BUFFER_SIZE];
             while (iter.hasNext()) {
                 if (items.size() == fileCountMax) {
@@ -1404,16 +1401,14 @@ public abstract class FileUploadBase {
                 final FileItemStream item = iter.next();
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 final String fileName = ((FileItemIteratorImpl.FileItemStreamImpl) item).name;
-                final FileItem fileItem = fac.createItem(item.getFieldName(), item.getContentType(),
-                                                   item.isFormField(), fileName);
+                final FileItem fileItem = fileItemFactory.createItem(item.getFieldName(), item.getContentType(), item.isFormField(), fileName);
                 items.add(fileItem);
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer);
                 } catch (final FileUploadIOException e) {
                     throw (FileUploadException) e.getCause();
                 } catch (final IOException e) {
-                    throw new IOFileUploadException(format("Processing of %s request failed. %s",
-                                                           MULTIPART_FORM_DATA, e.getMessage()), e);
+                    throw new IOFileUploadException(format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
                 final FileItemHeaders fih = item.getHeaders();
                 fileItem.setHeaders(fih);
