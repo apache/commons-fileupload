@@ -35,7 +35,6 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.ParameterParser;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
@@ -567,43 +566,38 @@ public class DiskFileItem
      * This implementation first attempts to rename the uploaded item to the
      * specified destination file, if the item was originally written to disk.
      * Otherwise, the data will be copied to the specified file.
+     * </p>
      * <p>
      * This method is only guaranteed to work <em>once</em>, the first time it
      * is invoked for a particular item. This is because, in the event that the
      * method renames a temporary file, that file will no longer be available
      * to copy or rename again at a later time.
+     * </p>
      *
      * @param file The {@code File} into which the uploaded item should
      *             be stored.
-     *
      * @throws Exception if an error occurs.
      */
     @Override
     public void write(final File file) throws Exception {
         if (isInMemory()) {
-            FileOutputStream fout = null;
-            try {
-                fout = new FileOutputStream(file);
+            try (FileOutputStream fout = new FileOutputStream(file);) {
                 fout.write(get());
-            } finally {
-                IOUtils.closeQuietly(fout);
+            } catch (final IOException ignore) {
+                // ignore
             }
         } else {
             final File outputFile = getStoreLocation();
             if (outputFile == null) {
                 /*
-                 * For whatever reason we cannot write the
-                 * file to disk.
+                 * For whatever reason we cannot write the file to disk.
                  */
-                throw new FileUploadException(
-                    "Cannot write uploaded file to disk!");
+                throw new FileUploadException("Cannot write uploaded file to disk!");
             }
             // Save the length of the file
             size = outputFile.length();
             /*
-             * The uploaded file is being stored on disk
-             * in a temporary location so move it to the
-             * desired file.
+             * The uploaded file is being stored on disk in a temporary location so move it to the desired file.
              */
             if (file.exists() && !file.delete()) {
                 throw new FileUploadException("Cannot write uploaded file to disk!");
