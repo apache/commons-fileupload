@@ -907,18 +907,16 @@ public class MultipartStream {
     }
 
     /**
-     * <p>Reads the {@code header-part} of the current
-     * {@code encapsulation}.
-     *
-     * <p>Headers are returned verbatim to the input stream, including the
-     * trailing {@code CRLF} marker. Parsing is left to the
-     * application.
-     *
-     * <p><strong>TODO</strong> allow limiting maximum header size to
-     * protect against abuse.
+     * Reads the {@code header-part} of the current {@code encapsulation}.
+     * <p>
+     * Headers are returned verbatim to the input stream, including the trailing {@code CRLF} marker. Parsing is left to the application.
+     * </p>
+     * <p>
+     * <strong>TODO</strong> allow limiting maximum header size to protect against abuse.
+     * </p>
      *
      * @return The {@code header-part} of the current encapsulation.
-     * @throws FileUploadIOException if the bytes read from the stream exceeded the size limits.
+     * @throws FileUploadIOException    if the bytes read from the stream exceeded the size limits.
      * @throws MalformedStreamException if the stream ends unexpectedly.
      */
     public String readHeaders() throws FileUploadIOException, MalformedStreamException {
@@ -936,10 +934,10 @@ public class MultipartStream {
             } catch (final IOException e) {
                 throw new MalformedStreamException("Stream ended unexpectedly");
             }
-            if (++size > HEADER_PART_SIZE_MAX) {
-                throw new MalformedStreamException(String.format(
-                        "Header section has more than %s bytes (maybe it is not properly terminated)",
-                        Integer.valueOf(HEADER_PART_SIZE_MAX)));
+            size++;
+            if (size > HEADER_PART_SIZE_MAX) {
+                throw new MalformedStreamException(
+                        String.format("Header section has more than %s bytes (maybe it is not properly terminated)", Integer.valueOf(HEADER_PART_SIZE_MAX)));
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++;
@@ -948,7 +946,6 @@ public class MultipartStream {
             }
             baos.write(b);
         }
-
         String headers;
         if (headerEncoding != null) {
             try {
@@ -961,7 +958,6 @@ public class MultipartStream {
         } else {
             headers = baos.toString();
         }
-
         return headers;
     }
 
