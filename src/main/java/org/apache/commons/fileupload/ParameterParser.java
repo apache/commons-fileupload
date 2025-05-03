@@ -164,22 +164,15 @@ public class ParameterParser {
     }
 
     /**
-     * Extracts a map of name/value pairs from the given array of
-     * characters. Names are expected to be unique.
+     * Extracts a map of name/value pairs from the given array of characters. Names are expected to be unique.
      *
-     * @param charArray the array of characters that contains a sequence of
-     * name/value pairs
-     * @param offset   the initial offset.
-     * @param length   the length.
+     * @param charArray the array of characters that contains a sequence of name/value pairs
+     * @param offset    the initial offset.
+     * @param length    the length.
      * @param separator the name/value pairs separator
      * @return a map of name/value pairs
      */
-    public Map<String, String> parse(
-        final char[] charArray,
-        final int offset,
-        final int length,
-        final char separator) {
-
+    public Map<String, String> parse(final char[] charArray, final int offset, final int length, final char separator) {
         if (charArray == null) {
             return new HashMap<>();
         }
@@ -187,22 +180,15 @@ public class ParameterParser {
         chars = charArray.clone();
         pos = offset;
         len = length;
-
-        String paramName;
-        String paramValue;
         while (hasChar()) {
-            paramName = parseToken(new char[] {
-                    '=', separator });
-            paramValue = null;
+            String paramName = parseToken(new char[] { '=', separator });
+            String paramValue = null;
             if (hasChar() && charArray[pos] == '=') {
                 pos++; // skip '='
-                paramValue = parseQuotedToken(new char[] {
-                        separator });
-
+                paramValue = parseQuotedToken(new char[] { separator });
                 if (paramValue != null) {
                     try {
-                        paramValue = RFC2231Utility.hasEncodedValue(paramName) ? RFC2231Utility.decodeText(paramValue)
-                                : MimeUtility.decodeText(paramValue);
+                        paramValue = RFC2231Utility.hasEncodedValue(paramName) ? RFC2231Utility.decodeText(paramValue) : MimeUtility.decodeText(paramValue);
                     } catch (final UnsupportedEncodingException e) {
                         // let's keep the original value in this case
                     }
