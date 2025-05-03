@@ -218,17 +218,19 @@ public class DiskFileItem
 
     /**
      * Removes the file contents from the temporary storage.
+     *
+     * @throws Throwable Thrown by {@link Object#finalize()}.
      */
     @Override
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         if (dfos == null || dfos.isInMemory()) {
             return;
         }
         final File outputFile = dfos.getFile();
-
         if (outputFile != null && outputFile.exists()) {
             outputFile.delete();
         }
+        super.finalize();
     }
 
     /**
