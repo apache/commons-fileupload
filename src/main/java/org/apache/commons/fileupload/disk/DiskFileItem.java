@@ -39,36 +39,26 @@ import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.io.output.DeferredFileOutputStream;
 
 /**
- * <p> The default implementation of the
- * {@link org.apache.commons.fileupload.FileItem FileItem} interface.
+ * The default implementation of the {@link org.apache.commons.fileupload.FileItem FileItem} interface.
  *
- * <p> After retrieving an instance of this class from a {@link
- * DiskFileItemFactory} instance (see
- * {@link org.apache.commons.fileupload.servlet.ServletFileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
- * either request all contents of file at once using {@link #get()} or
- * request an {@link java.io.InputStream InputStream} with
- * {@link #getInputStream()} and process the file without attempting to load
- * it into memory, which may come handy with large files.
- *
- * <p>Temporary files, which are created for file items, should be
- * deleted later on. The best way to do this is using a
- * {@link org.apache.commons.io.FileCleaningTracker}, which you can set on the
- * {@link DiskFileItemFactory}. However, if you do use such a tracker,
- * then you must consider the following: Temporary files are automatically
- * deleted as soon as they are no longer needed. (More precisely, when the
- * corresponding instance of {@link java.io.File} is garbage collected.)
- * This is done by the so-called reaper thread, which is started and stopped
- * automatically by the {@link org.apache.commons.io.FileCleaningTracker} when
- * there are files to be tracked.
- * It might make sense to terminate that thread, for example, if
- * your web application ends. See the section on "Resource cleanup"
- * in the users guide of commons-fileupload.</p>
+ * <p>
+ * After retrieving an instance of this class from a {@link DiskFileItemFactory} instance (see {@link org.apache.commons.fileupload.servlet.ServletFileUpload
+ * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may either request all contents of file at once using {@link #get()} or request an
+ * {@link java.io.InputStream InputStream} with {@link #getInputStream()} and process the file without attempting to load it into memory, which may come handy
+ * with large files.
+ * </p>
+ * <p>
+ * Temporary files, which are created for file items, should be deleted later on. The best way to do this is using a
+ * {@link org.apache.commons.io.FileCleaningTracker}, which you can set on the {@link DiskFileItemFactory}. However, if you do use such a tracker, then you must
+ * consider the following: Temporary files are automatically deleted as soon as they are no longer needed. (More precisely, when the corresponding instance of
+ * {@link java.io.File} is garbage collected.) This is done by the so-called reaper thread, which is started and stopped automatically by the
+ * {@link org.apache.commons.io.FileCleaningTracker} when there are files to be tracked. It might make sense to terminate that thread, for example, if your web
+ * application ends. See the section on "Resource cleanup" in the users guide of commons-fileupload.
+ * </p>
  *
  * @since FileUpload 1.1
  */
-public class DiskFileItem
-    implements FileItem {
+public class DiskFileItem implements FileItem {
 
     /**
      * Default content charset to be used when no explicit charset
@@ -253,7 +243,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the content charset passed by the agent or {@code null} if
+     * Gets the content charset passed by the agent or {@code null} if
      * not defined.
      *
      * @return The content charset passed by the agent or {@code null} if
@@ -268,7 +258,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the content type passed by the agent or {@code null} if
+     * Gets the content type passed by the agent or {@code null} if
      * not defined.
      *
      * @return The content type passed by the agent or {@code null} if
@@ -280,8 +270,9 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the default charset for use when no explicit charset
+     * Gets the default charset for use when no explicit charset
      * parameter is provided by the sender.
+     *
      * @return the default charset
      */
     public String getDefaultCharset() {
@@ -289,7 +280,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the name of the field in the multipart form corresponding to
+     * Gets the name of the field in the multipart form corresponding to
      * this file item.
      *
      * @return The name of the form field.
@@ -302,7 +293,8 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the file item headers.
+     * Gets the file item headers.
+     *
      * @return The file items headers.
      */
     @Override
@@ -311,7 +303,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns an {@link java.io.InputStream InputStream} that can be
+     * Gets an {@link java.io.InputStream InputStream} that can be
      * used to retrieve the contents of the file.
      *
      * @return An {@link java.io.InputStream InputStream} that can be
@@ -331,7 +323,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the original file name in the client's file system.
+     * Gets the original file name in the client's file system.
      *
      * @return The original file name in the client's file system.
      * @throws org.apache.commons.fileupload.InvalidFileNameException The file name contains a NUL character,
@@ -345,7 +337,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns an {@link java.io.OutputStream OutputStream} that can
+     * Gets an {@link java.io.OutputStream OutputStream} that can
      * be used for storing the contents of the file.
      *
      * @return An {@link java.io.OutputStream OutputStream} that can be used
@@ -368,7 +360,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the size of the file.
+     * Gets the size of the file.
      *
      * @return The size of the file, in bytes.
      */
@@ -387,7 +379,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the {@link java.io.File} object for the {@code FileItem}'s
+     * Gets the {@link java.io.File} object for the {@code FileItem}'s
      * data's temporary location on the disk. Note that for
      * {@code FileItem}s that have their data stored in memory,
      * this method will return {@code null}. When handling large
@@ -410,7 +402,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the contents of the file as a String, using the default
+     * Gets the contents of the file as a String, using the default
      * character encoding.  This method uses {@link #get()} to retrieve the
      * contents of the file.
      *
@@ -433,7 +425,7 @@ public class DiskFileItem
     }
 
     /**
-     * Returns the contents of the file as a String, using the specified
+     * Gets the contents of the file as a String, using the specified
      * encoding.  This method uses {@link #get()} to retrieve the
      * contents of the file.
      *
@@ -456,6 +448,7 @@ public class DiskFileItem
      * <p>
      * <b>Note: Subclasses that override this method must ensure that they return the
      * same File each time.</b>
+     * </p>
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
@@ -474,7 +467,7 @@ public class DiskFileItem
     }
 
     /**
-     * Determines whether or not a {@code FileItem} instance represents
+     * Tests whether or not a {@code FileItem} instance represents
      * a simple form field.
      *
      * @return {@code true} if the instance represents a simple form
@@ -506,6 +499,7 @@ public class DiskFileItem
     /**
      * Sets the default charset for use when no explicit charset
      * parameter is provided by the sender.
+     *
      * @param charset the default charset
      */
     public void setDefaultCharset(final String charset) {
@@ -525,7 +519,7 @@ public class DiskFileItem
     }
 
     /**
-     * Specifies whether or not a {@code FileItem} instance represents
+     * Sets whether or not a {@code FileItem} instance represents
      * a simple form field.
      *
      * @param state {@code true} if the instance represents a simple form
@@ -541,6 +535,7 @@ public class DiskFileItem
 
     /**
      * Sets the file item headers.
+     *
      * @param pHeaders The file items headers.
      */
     @Override
