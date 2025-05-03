@@ -139,7 +139,7 @@ public class DiskFileItem implements FileItem {
     /**
      * Whether or not this item is a simple form field.
      */
-    private boolean isFormField;
+    private boolean formField;
 
     /**
      * The directory in which uploaded files will be stored, if stored on disk.
@@ -184,7 +184,7 @@ public class DiskFileItem implements FileItem {
             final int sizeThreshold, final File repository) {
         this.fieldName = fieldName;
         this.contentType = contentType;
-        this.isFormField = isFormField;
+        this.formField = isFormField;
         this.fileName = fileName;
         this.sizeThreshold = sizeThreshold;
         this.repository = repository;
@@ -485,7 +485,7 @@ public class DiskFileItem implements FileItem {
      */
     @Override
     public boolean isFormField() {
-        return isFormField;
+        return formField;
     }
 
     /**
@@ -529,15 +529,15 @@ public class DiskFileItem implements FileItem {
      * Sets whether or not a {@code FileItem} instance represents
      * a simple form field.
      *
-     * @param state {@code true} if the instance represents a simple form
+     * @param formField {@code true} if the instance represents a simple form
      *              field; {@code false} if it represents an uploaded file.
      *
      * @see #isFormField()
      *
      */
     @Override
-    public void setFormField(final boolean state) {
-        isFormField = state;
+    public void setFormField(final boolean formField) {
+        this.formField = formField;
     }
 
     /**
