@@ -76,16 +76,6 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
     }
 
     /**
-     * Returns a string representation of this object.
-     *
-     * @return a string representation of this object.
-     */
-    @Override
-    public String toString() {
-        return String.format("%s [ContentLength=%s, ContentType=%s]", getClass().getSimpleName(), getContentLength(), getContentType());
-    }
-
-    /**
      * Is the Request of type {@code multipart/related}?
      *
      * @return the Request is of type {@code multipart/related}
@@ -94,5 +84,15 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
     @Override
     public boolean isMultipartRelated() {
         return MULTIPART_RELATED.matcher(getContentType()).matches();
+    }
+
+    /**
+     * Returns a string representation of this object.
+     *
+     * @return a string representation of this object.
+     */
+    @Override
+    public String toString() {
+        return String.format("%s [ContentLength=%s, ContentType=%s]", getClass().getSimpleName(), getContentLength(), getContentType());
     }
 }

@@ -104,6 +104,11 @@ public final class QuotedPrintableDecoderTestCase {
     }
 
     @Test
+    public void testTruncatedEscape() throws Exception {
+        assertIOException("truncated", "=1");
+    }
+
+    @Test
     public void testUnsafeDecode() throws Exception {
         assertEncoded("=\r\n", "=3D=0D=0A");
     }
@@ -111,11 +116,6 @@ public final class QuotedPrintableDecoderTestCase {
     @Test
     public void testUnsafeDecodeLowerCase() throws Exception {
         assertEncoded("=\r\n", "=3d=0d=0a");
-    }
-
-    @Test
-    public void testTruncatedEscape() throws Exception {
-        assertIOException("truncated", "=1");
     }
 
 }
