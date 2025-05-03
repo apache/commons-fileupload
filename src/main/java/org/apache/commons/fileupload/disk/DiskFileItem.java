@@ -61,6 +61,11 @@ import org.apache.commons.io.output.DeferredFileOutputStream;
 public class DiskFileItem implements FileItem {
 
     /**
+     * Counter used in unique identifier generation.
+     */
+    private static final AtomicInteger COUNTER = new AtomicInteger(0);
+
+    /**
      * Default content charset to be used when no explicit charset
      * parameter is provided by the sender. Media subtypes of the
      * "text" type are defined to have a default charset value of
@@ -73,11 +78,6 @@ public class DiskFileItem implements FileItem {
      */
     private static final String UID =
             UUID.randomUUID().toString().replace('-', '_');
-
-    /**
-     * Counter used in unique identifier generation.
-     */
-    private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     /**
      * Returns an identifier that is unique within the class loader used to
@@ -99,9 +99,9 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * The name of the form field as provided by the browser.
+     * Cached contents of the file.
      */
-    private String fieldName;
+    private byte[] cachedContent;
 
     /**
      * The content type passed by the browser, or {@code null} if
@@ -110,15 +110,41 @@ public class DiskFileItem implements FileItem {
     private final String contentType;
 
     /**
-     * Whether or not this item is a simple form field.
+     * Default content charset to be used when no explicit charset
+     * parameter is provided by the sender.
      */
-    private boolean isFormField;
+    private String defaultCharset = DEFAULT_CHARSET;
+
+    /**
+     * Output stream for this item.
+     */
+    private transient DeferredFileOutputStream dfos;
+
+
+    /**
+     * The name of the form field as provided by the browser.
+     */
+    private String fieldName;
 
     /**
      * The original file name in the user's file system.
      */
     private final String fileName;
 
+    /**
+     * The file items headers.
+     */
+    private FileItemHeaders headers;
+
+    /**
+     * Whether or not this item is a simple form field.
+     */
+    private boolean isFormField;
+
+    /**
+     * The directory in which uploaded files will be stored, if stored on disk.
+     */
+    private final File repository;
 
     /**
      * The size of the item, in bytes. This is used to cache the size when a
@@ -132,35 +158,9 @@ public class DiskFileItem implements FileItem {
     private final int sizeThreshold;
 
     /**
-     * The directory in which uploaded files will be stored, if stored on disk.
-     */
-    private final File repository;
-
-    /**
-     * Cached contents of the file.
-     */
-    private byte[] cachedContent;
-
-    /**
-     * Output stream for this item.
-     */
-    private transient DeferredFileOutputStream dfos;
-
-    /**
      * The temporary file to use.
      */
     private transient File tempFile;
-
-    /**
-     * The file items headers.
-     */
-    private FileItemHeaders headers;
-
-    /**
-     * Default content charset to be used when no explicit charset
-     * parameter is provided by the sender.
-     */
-    private String defaultCharset = DEFAULT_CHARSET;
 
     /**
      * Constructs a new {@code DiskFileItem} instance.
@@ -191,6 +191,13 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
+     * Clears the cache.
+     */
+    private void clear() {
+        cachedContent = null; // NOPMD
+    }
+
+    /**
      * Deletes the underlying storage for a file item, including deleting any
      * associated temporary disk file. Although this storage will be deleted
      * automatically when the {@code FileItem} instance is garbage
@@ -199,7 +206,7 @@ public class DiskFileItem implements FileItem {
      */
     @Override
     public void delete() {
-        cachedContent = null;
+        clear();
         final File outputFile = getStoreLocation();
         if (outputFile != null && !isInMemory() && outputFile.exists()) {
             outputFile.delete();
