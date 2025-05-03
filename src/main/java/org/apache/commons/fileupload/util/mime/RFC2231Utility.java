@@ -30,6 +30,12 @@ import java.io.UnsupportedEncodingException;
  * @see <a href="https://tools.ietf.org/html/rfc5987">RFC 5987</a>
  */
 public final class RFC2231Utility {
+
+    /**
+     * Percent character '{@value}'.
+     */
+    private static final char PERCENT = '%';
+
     /**
      * The Hexadecimal values char array.
      */
@@ -89,8 +95,9 @@ public final class RFC2231Utility {
     }
 
     /**
-     * Convert {@code text} to their corresponding Hex value.
-     * @param text   ASCII text input
+     * Converts {@code text} to their corresponding Hex value.
+     *
+     * @param text ASCII text input
      * @return Byte array of characters decoded from ASCII table
      */
     private static byte[] fromHex(final String text) {
@@ -98,7 +105,7 @@ public final class RFC2231Utility {
         final ByteArrayOutputStream out = new ByteArrayOutputStream(text.length());
         for (int i = 0; i < text.length();) {
             final char c = text.charAt(i++);
-            if (c == '%') {
+            if (c == PERCENT) {
                 if (i > text.length() - 2) {
                     break; // unterminated sequence
                 }
