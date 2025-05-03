@@ -25,6 +25,31 @@ import java.io.OutputStream;
 final class QuotedPrintableDecoder {
 
     /**
+     * Carriage return character '{@value}'.
+     */
+    private static final char CR = '\r';
+
+    /**
+     * Equal character '{@value}'.
+     */
+    private static final char EQUAL = '=';
+
+    /**
+     * Line feed character '{@value}'.
+     */
+    private static final char LF = '\n';
+
+    /**
+     * Space character '{@value}'.
+     */
+    private static final char SP = ' ';
+
+    /**
+     * Underscore character '{@value}'.
+     */
+    private static final char UNDERSCORE = '_';
+
+    /**
      * The shift value required to create the upper nibble
      * from the first of 2 byte values converted from ASCII hex.
      */
@@ -48,9 +73,9 @@ final class QuotedPrintableDecoder {
             final byte ch = data[off++];
 
             // space characters were translated to '_' on encode, so we need to translate them back.
-            if (ch == '_') {
-                out.write(' ');
-            } else if (ch == '=') {
+            if (ch == UNDERSCORE) {
+                out.write(SP);
+            } else if (ch == EQUAL) {
                 // we found an encoded character.  Reduce the 3 char sequence to one.
                 // but first, make sure we have two characters to work with.
                 if (off + 1 >= endOffset) {
@@ -61,8 +86,8 @@ final class QuotedPrintableDecoder {
                 final byte b2 = data[off++];
 
                 // we've found an encoded carriage return.  The next char needs to be a newline
-                if (b1 == '\r') {
-                    if (b2 != '\n') {
+                if (b1 == CR) {
+                    if (b2 != LF) {
                         throw new IOException("Invalid quoted printable encoding; CR must be followed by LF");
                     }
                     // this was a soft linebreak inserted by the encoding.  We just toss this away
