@@ -100,7 +100,7 @@ public abstract class FileUploadBase {
             /**
              * The file items input stream.
              */
-            private final InputStream stream;
+            private final InputStream inputStream;
 
             /**
              * Whether the file item was already opened.
@@ -155,7 +155,7 @@ public abstract class FileUploadBase {
                         }
                     };
                 }
-                stream = istream;
+                inputStream = istream;
             }
 
             /**
@@ -164,7 +164,7 @@ public abstract class FileUploadBase {
              * @throws IOException An I/O error occurred.
              */
             void close() throws IOException {
-                stream.close();
+                inputStream.close();
             }
 
             /**
@@ -235,10 +235,10 @@ public abstract class FileUploadBase {
                     throw new IllegalStateException(
                             "The stream was already opened.");
                 }
-                if (((Closeable) stream).isClosed()) {
+                if (((Closeable) inputStream).isClosed()) {
                     throw new FileItemStream.ItemSkippedException();
                 }
-                return stream;
+                return inputStream;
             }
 
             /**
