@@ -25,10 +25,18 @@ import org.apache.commons.fileupload2.core.DiskFileItemFactory;
  */
 public class JavaxServletDiskFileUpload extends JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory> {
 
+    /**
+     * Constructs a new instance.
+     */
     public JavaxServletDiskFileUpload() {
         super(DiskFileItemFactory.builder().get());
     }
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileItemFactory The factory to use for creating file items.
+     */
     public JavaxServletDiskFileUpload(final DiskFileItemFactory fileItemFactory) {
         super(fileItemFactory);
     }
