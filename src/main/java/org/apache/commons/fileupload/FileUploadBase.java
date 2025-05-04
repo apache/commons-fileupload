@@ -115,16 +115,15 @@ public abstract class FileUploadBase {
             /**
              * Creates a new instance.
              *
-             * @param name The items file name, or null.
-             * @param fieldName The items field name.
-             * @param contentType The items content type, or null.
-             * @param formField Whether the item is a form field.
+             * @param name          The items file name, or null.
+             * @param fieldName     The items field name.
+             * @param contentType   The items content type, or null.
+             * @param formField     Whether the item is a form field.
              * @param contentLength The items content length, if known, or -1
              * @throws IOException Creating the file item failed.
              */
-            FileItemStreamImpl(final String name, final String fieldName,
-                    final String contentType, final boolean formField,
-                    final long contentLength) throws IOException {
+            FileItemStreamImpl(final String name, final String fieldName, final String contentType, final boolean formField, final long contentLength)
+                    throws IOException {
                 this.name = name;
                 this.fieldName = fieldName;
                 this.contentType = contentType;
@@ -143,12 +142,12 @@ public abstract class FileUploadBase {
                 InputStream istream = itemStream;
                 if (fileSizeMax != -1) {
                     istream = new LimitedInputStream(istream, fileSizeMax) {
+
                         @Override
                         protected void raiseError(final long sizeMax, final long count) throws IOException {
                             itemStream.close(true);
                             final FileSizeLimitExceededException e = new FileSizeLimitExceededException(
-                                    format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, Long.valueOf(sizeMax)), count,
-                                    sizeMax);
+                                    format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, Long.valueOf(sizeMax)), count, sizeMax);
                             e.setFieldName(fieldName);
                             e.setFileName(name);
                             throw new FileUploadIOException(e);
