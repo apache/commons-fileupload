@@ -178,8 +178,7 @@ public class MultipartStream {
         /**
          * Closes the input stream.
          *
-         * @param closeUnderlying Whether to close the underlying stream
-         *   (hard close)
+         * @param closeUnderlying Whether to close the underlying stream (hard close)
          * @throws IOException An I/O error occurred.
          */
         public void close(final boolean closeUnderlying) throws IOException {
@@ -191,14 +190,16 @@ public class MultipartStream {
                 input.close();
             } else {
                 for (;;) {
-                    int av = available();
-                    if (av == 0) {
-                        av = makeAvailable();
-                        if (av == 0) {
+                    int available = available();
+                    if (available == 0) {
+                        available = makeAvailable();
+                        if (available == 0) {
                             break;
                         }
                     }
-                    skip(av);
+                    if (skip(available) != available) {
+                        // TODO log or throw?
+                    }
                 }
             }
             closed = true;
