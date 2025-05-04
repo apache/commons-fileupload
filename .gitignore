@@ -14,7 +14,7 @@
 /derby.log
 /jackrabbit.log_IS_UNDEFINED
 /jetty.log_IS_UNDEFINED
-bin/
+**/bin/
 maven-eclipse.xml
 target/
 site-content/
