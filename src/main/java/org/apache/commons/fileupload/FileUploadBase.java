@@ -20,7 +20,7 @@ import static java.lang.String.format;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -974,19 +974,12 @@ public abstract class FileUploadBase {
         final ParameterParser parser = new ParameterParser();
         parser.setLowerCaseNames(true);
         // Parameter parser can handle null input
-        final Map<String, String> params = parser.parse(contentType, new char[] {';', ','});
+        final Map<String, String> params = parser.parse(contentType, new char[] { ';', ',' });
         final String boundaryStr = params.get("boundary");
-
         if (boundaryStr == null) {
             return null;
         }
-        byte[] boundary;
-        try {
-            boundary = boundaryStr.getBytes("ISO-8859-1");
-        } catch (final UnsupportedEncodingException e) {
-            boundary = boundaryStr.getBytes(); // Intentionally falls back to default charset
-        }
-        return boundary;
+        return boundaryStr.getBytes(StandardCharsets.ISO_8859_1);
     }
 
     /**
