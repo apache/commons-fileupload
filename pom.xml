@@ -259,6 +259,15 @@
   </reporting>
   <profiles>
     <profile>
+      <id>java8</id>
+      <activation>
+        <jdk>1.8</jdk>
+      </activation>
+      <properties>
+        <commons.jacoco.instructionRatio>0.80</commons.jacoco.instructionRatio>
+      </properties>
+    </profile>
+    <profile>
       <id>setup-checkout</id>
       <activation>
         <file>
