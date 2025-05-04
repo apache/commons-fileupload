@@ -110,6 +110,9 @@ public final class MultipartInput {
          */
         private ProgressNotifier progressNotifier;
 
+        /**
+         * Constructs a new instance.
+         */
         public Builder() {
             setBufferSizeDefault(DEFAULT_BUFSIZE);
         }
@@ -299,6 +302,11 @@ public final class MultipartInput {
             return total;
         }
 
+        /**
+         * Tests whether this instance is closed.
+         *
+         * @return whether this instance is closed.
+         */
         public boolean isClosed() {
             return closed;
         }
