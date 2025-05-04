@@ -201,7 +201,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     /**
      * Whether or not this item is a simple form field.
      */
-    private boolean isFormField;
+    private volatile boolean isFormField;
 
     /**
      * The original file name in the user's file system.
@@ -211,7 +211,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     /**
      * The size of the item, in bytes. This is used to cache the size when a file item is moved from its original location.
      */
-    private long size = -1;
+    private volatile long size = -1;
 
     /**
      * The threshold above which uploads will be stored on disk.
