@@ -1014,8 +1014,7 @@ public abstract class FileUploadBase {
      */
     private String getFieldName(final String contentDisposition) {
         String fieldName = null;
-        if (contentDisposition != null
-                && contentDisposition.toLowerCase(Locale.ROOT).startsWith(FORM_DATA)) {
+        if (contentDisposition != null && contentDisposition.toLowerCase(Locale.ROOT).startsWith(FORM_DATA)) {
             final ParameterParser parser = new ParameterParser();
             parser.setLowerCaseNames(true);
             // Parameter parser can handle null input
@@ -1317,23 +1316,18 @@ public abstract class FileUploadBase {
      *
      * @since 1.3
      */
-    public Map<String, List<FileItem>> parseParameterMap(final RequestContext ctx)
-            throws FileUploadException {
+    public Map<String, List<FileItem>> parseParameterMap(final RequestContext ctx) throws FileUploadException {
         final List<FileItem> items = parseRequest(ctx);
         final Map<String, List<FileItem>> itemsMap = new HashMap<>(items.size());
-
         for (final FileItem fileItem : items) {
             final String fieldName = fileItem.getFieldName();
             List<FileItem> mappedItems = itemsMap.get(fieldName);
-
             if (mappedItems == null) {
                 mappedItems = new ArrayList<>();
                 itemsMap.put(fieldName, mappedItems);
             }
-
             mappedItems.add(fileItem);
         }
-
         return itemsMap;
     }
 
