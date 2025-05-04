@@ -977,7 +977,7 @@ public abstract class FileUploadBase {
         final Map<String, String> params = parser.parse(contentType, new char[] { ';', ',' });
         final String boundaryStr = params.get("boundary");
         if (boundaryStr == null) {
-            return null;
+            return null; // NOPMD
         }
         return boundaryStr.getBytes(StandardCharsets.ISO_8859_1);
     }
