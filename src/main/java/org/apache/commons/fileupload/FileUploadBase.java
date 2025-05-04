@@ -495,7 +495,7 @@ public abstract class FileUploadBase {
          */
         @Override
         public FileItemStream next() throws FileUploadException, IOException {
-            if (eof  ||  !itemValid && !hasNext()) {
+            if (eof || !itemValid && !hasNext()) {
                 throw new NoSuchElementException();
             }
             itemValid = false;
