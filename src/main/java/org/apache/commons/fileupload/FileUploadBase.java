@@ -75,7 +75,7 @@ public abstract class FileUploadBase {
         /**
          * Default implementation of {@link FileItemStream}.
          */
-        class FileItemStreamImpl implements FileItemStream {
+        private final class FileItemStreamImpl implements FileItemStream {
 
             /**
              * The file items content type.
