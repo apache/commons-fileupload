@@ -106,7 +106,7 @@
     </dependency>
   </dependencies>
   <build>
-    <defaultGoal>clean javadoc:javadoc verify apache-rat:check checkstyle:check</defaultGoal>
+    <defaultGoal>clean verify javadoc:javadoc japicmp:cmp apache-rat:check checkstyle:check</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
