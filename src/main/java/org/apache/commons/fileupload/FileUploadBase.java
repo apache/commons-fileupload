@@ -42,20 +42,29 @@ import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.IOUtils;
 
 /**
- * <p>High level API for processing file uploads.</p>
+ * High level API for processing file uploads.
  *
- * <p>This class handles multiple files per single HTML widget, sent using
- * {@code multipart/mixed} encoding type, as specified by
- * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>.  Use {@link
- * #parseRequest(RequestContext)} to acquire a list of {@link
- * org.apache.commons.fileupload.FileItem}s associated with a given HTML
- * widget.</p>
+ * <p>
+ * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
+ * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(RequestContext)} to acquire a list of
+ * {@link org.apache.commons.fileupload.FileItem}s associated with a given HTML widget.
+ * </p>
  *
- * <p>How the data for individual parts is stored is determined by the factory
- * used to create them; a given part may be in memory, on disk, or somewhere
- * else.</p>
+ * <p>
+ * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
+ * </p>
  */
 public abstract class FileUploadBase {
+
+    /**
+     * Line feed.
+     */
+    private static final char LF = '\n';
+
+    /**
+     * Carriage return.
+     */
+    private static final char CR = '\r';
 
     /**
      * The iterator, which is returned by
@@ -1247,12 +1256,12 @@ public abstract class FileUploadBase {
     private int parseEndOfLine(final String headerPart, final int end) {
         int index = end;
         for (;;) {
-            final int offset = headerPart.indexOf('\r', index);
+            final int offset = headerPart.indexOf(CR, index);
             if (offset == -1  ||  offset + 1 >= headerPart.length()) {
                 throw new IllegalStateException(
                     "Expected headers to be terminated by an empty line.");
             }
-            if (headerPart.charAt(offset + 1) == '\n') {
+            if (headerPart.charAt(offset + 1) == LF) {
                 return offset;
             }
             index = offset + 1;
