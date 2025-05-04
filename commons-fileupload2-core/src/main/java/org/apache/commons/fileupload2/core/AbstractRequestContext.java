@@ -22,6 +22,11 @@ import java.util.function.Function;
 import java.util.function.LongSupplier;
 import java.util.regex.Pattern;
 
+/**
+ * Abstracts a RequestContext for implementations.
+ *
+ * @param <T> The request type.
+ */
 public abstract class AbstractRequestContext<T> implements RequestContext {
     /**
      * The Content-Type Pattern for multipart/related Requests.
@@ -71,14 +76,19 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
         }
     }
 
+    /**
+     * Gets the request.
+     *
+     * @return the request.
+     */
     public T getRequest() {
         return request;
     }
 
     /**
-     * Is the Request of type {@code multipart/related}?
+     * Tests whether the Request of type {@code multipart/related}?
      *
-     * @return the Request is of type {@code multipart/related}
+     * @return whether the Request is of type {@code multipart/related}
      * @since 2.0.0
      */
     @Override
