@@ -41,7 +41,7 @@ public class FileCountLimitExceededException extends FileUploadException {
     }
 
     /**
-     * Retrieves the limit that was exceeded.
+     * Gets the limit that was exceeded.
      *
      * @return The limit that was exceeded by the request
      */

@@ -794,7 +794,7 @@ public class MultipartStream {
     }
 
     /**
-     * Retrieves the character encoding used when reading the headers of an
+     * Gets the character encoding used when reading the headers of an
      * individual part. When not specified, or {@code null}, the platform
      * default encoding is used.
      *

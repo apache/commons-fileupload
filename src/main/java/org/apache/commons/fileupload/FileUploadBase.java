@@ -707,7 +707,7 @@ public abstract class FileUploadBase {
         }
 
         /**
-         * Retrieves the actual size of the request.
+         * Gets the actual size of the request.
          *
          * @return The actual size of the request.
          * @since 1.3
@@ -717,7 +717,7 @@ public abstract class FileUploadBase {
         }
 
         /**
-         * Retrieves the permitted size of the request.
+         * Gets the permitted size of the request.
          *
          * @return The permitted size of the request.
          * @since 1.3
@@ -782,8 +782,7 @@ public abstract class FileUploadBase {
      *   content-length header is no longer required.
      */
     @Deprecated
-    public static class UnknownSizeException
-        extends FileUploadException {
+    public static class UnknownSizeException extends FileUploadException {
 
         /**
          * The exceptions UID, for serializing an instance.
@@ -955,7 +954,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the boundary from the {@code Content-type} header.
+     * Gets the boundary from the {@code Content-type} header.
      *
      * @param contentType The value of the content type header from which to
      *                    extract the boundary value.
@@ -982,7 +981,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the field name from the {@code Content-disposition}
+     * Gets the field name from the {@code Content-disposition}
      * header.
      *
      * @param headers A {@code Map} containing the HTTP request headers.
@@ -993,7 +992,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the field name from the {@code Content-disposition}
+     * Gets the field name from the {@code Content-disposition}
      * header.
      *
      * @param headers A {@code Map} containing the HTTP request headers.
@@ -1044,7 +1043,7 @@ public abstract class FileUploadBase {
     public abstract FileItemFactory getFileItemFactory();
 
     /**
-     * Retrieves the file name from the {@code Content-disposition}
+     * Gets the file name from the {@code Content-disposition}
      * header.
      *
      * @param headers The HTTP headers object.
@@ -1055,7 +1054,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the file name from the {@code Content-disposition}
+     * Gets the file name from the {@code Content-disposition}
      * header.
      *
      * @param headers A {@code Map} containing the HTTP request headers.
@@ -1125,7 +1124,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Retrieves the character encoding used when reading the headers of an
+     * Gets the character encoding used when reading the headers of an
      * individual part. When not specified, or {@code null}, the request
      * encoding is used. If that is also not specified, or {@code null},
      * the platform default encoding is used.
