@@ -587,8 +587,10 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * This exception is thrown for hiding an inner
-     * {@link FileUploadException} in an {@link IOException}.
+     * Signals that a FileUpload I/O exception of some sort has occurred. This class is the general class of exceptions produced by failed or interrupted
+     * FileUpload I/O operations.
+     *
+     * This exception wraps a {@link FileUploadException}.
      */
     public static class FileUploadIOException extends IOException {
 
@@ -598,34 +600,13 @@ public abstract class FileUploadBase {
         private static final long serialVersionUID = -7047616958165584154L;
 
         /**
-         * The exceptions cause; we overwrite the parent
-         * classes field, which is available since Java
-         * 1.4 only.
-         */
-        private final FileUploadException cause;
-
-        /**
-         * Creates a {@code FileUploadIOException} with the
-         * given cause.
+         * Creates a {@code FileUploadIOException} with the given cause.
          *
          * @param cause The exceptions cause, if any, or null.
          */
         public FileUploadIOException(final FileUploadException cause) {
-            // We're not doing super(pCause) cause of 1.3 compatibility.
-            this.cause = cause;
+            super(cause);
         }
-
-        /**
-         * Returns the exceptions cause.
-         *
-         * @return The exceptions cause, if any, or null.
-         */
-        @SuppressWarnings("sync-override")
-        @Override
-        public Throwable getCause() {
-            return cause;
-        }
-
     }
 
     /**
