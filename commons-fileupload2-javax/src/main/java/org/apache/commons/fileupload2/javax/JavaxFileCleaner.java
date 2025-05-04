@@ -43,6 +43,13 @@ public class JavaxFileCleaner implements ServletContextListener {
     }
 
     /**
+     * Constructs a new instance.
+     */
+    public JavaxFileCleaner() {
+        // empty
+    }
+
+    /**
      * Sets the instance of {@link FileCleaningTracker}, which is associated with the given {@link ServletContext}.
      *
      * @param servletContext The servlet context to modify
