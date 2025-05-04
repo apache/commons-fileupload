@@ -78,6 +78,9 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     public static class Builder extends AbstractFileItemBuilder<DiskFileItem, Builder> {
 
+        /**
+         * Constructs a new instance.
+         */
         public Builder() {
             setBufferSize(DiskFileItemFactory.DEFAULT_THRESHOLD);
             setPath(PathUtils.getTempDirectory());
