@@ -78,6 +78,9 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          */
         private FileCleaningTracker fileCleaningTracker;
 
+        /**
+         * Constructs a new instance.
+         */
         public Builder() {
             setBufferSize(DEFAULT_THRESHOLD);
             setPath(PathUtils.getTempDirectory());
