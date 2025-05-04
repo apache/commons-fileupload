@@ -1,4 +1,48 @@
-              Apache Commons FileUpload 2.0.0-M2 RELEASE NOTES
+Apache Commons FileUpload 2.0.0-M3 Release Notes
+------------------------------------------------
+
+The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 2.0.0-M3.
+
+The Apache Commons FileUpload component provides a simple yet flexible means of
+adding support for multipart file upload functionality to Servlets and web
+applications. This version requires Java 11 or above.
+
+
+This release requires Java 11.
+
+Changes in version 2.0.0-M3 include:
+
+New features:
+o                  Handle multipart/related Requests without content-disposition header. Thanks to mufasa1976, Gary Gregory.
+
+Fixed Bugs:
+o                  [site] Fix instantiation of DiskFileItemFactory in migration guide #273. Thanks to Gregor Dschung.
+o FILEUPLOAD-355:  [site] Update code example: Use IOUtils instead of Streams utils class. Thanks to Ana, Gary Gregory.
+o                  Replace internal use of Locale.ENGLISH with Locale.ROOT. Thanks to Gary Gregory.
+o                  Pick up JUnit version from parent POM. Thanks to Gary Gregory.
+o FILEUPLOAD-356:  [site] Fix incorrect link to changes report in Commons FileUpload #357. Thanks to Mattias Reichel, GirirajSinghRathore, Gary Gregory.
+o                  Fix changes report link for new version of Maven Changes plugin from commons-parent 79 #388. Thanks to Filipe Roque.
+o                  Fix SpotBugs multithreading issues in DiskFileItem. Thanks to Gary Gregory.
+
+Changes:
+o                  Bump org.apache.commons:commons-parent from 66 to 83 #283, #294, #335, #343, #345, #351, #356, #360, #368. Thanks to Gary Gregory.
+o                  Bump commons-io:commons-io from 2.16.0 to 2.19.0 #297, #352, #377. Thanks to Gary Gregory.
+o                  Bump org.apache.maven.plugins:maven-javadoc-plugin from 3.6.3 to 3.7.0 #319. Thanks to Gary Gregory.
+o                  Bump org.codehaus.mojo:taglist-maven-plugin from 3.0.0 to 3.1.0 #327. Thanks to Gary Gregory.
+o                  Bump org.apache.commons:commons-lang3 from 3.14.0 to 3.17.0 #331, #338, #346. Thanks to Gary Gregory.
+
+
+For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons FileUpload website:
+
+https://commons.apache.org/proper/commons-fileupload/
+
+Download it from https://commons.apache.org/proper/commons-fileupload/download_fileupload.cgi
+
+------------------------------------------------------------------------------
+
+Apache Commons FileUpload 2.0.0-M2 Release Notes
+------------------------------------------------
 
 The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 2.0.0-M2.
 
@@ -39,7 +83,8 @@ Download it from https://commons.apache.org/proper/commons-fileupload/download_f
 
 ------------------------------------------------------------------------------
 
-              Apache Commons FileUpload Parent 2.0.0-M1 RELEASE NOTES
+Apache Commons FileUpload 2.0.0-M1 Release Notes
+------------------------------------------------
 
 The Apache Commons FileUpload Parent team is pleased to announce the release of Apache Commons FileUpload Parent 2.0.0-M1.
 
