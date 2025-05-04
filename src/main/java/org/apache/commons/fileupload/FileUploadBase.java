@@ -231,8 +231,7 @@ public abstract class FileUploadBase {
             @Override
             public InputStream openStream() throws IOException {
                 if (opened) {
-                    throw new IllegalStateException(
-                            "The stream was already opened.");
+                    throw new IllegalStateException("The stream was already opened.");
                 }
                 if (((Closeable) inputStream).isClosed()) {
                     throw new FileItemStream.ItemSkippedException();
@@ -398,9 +397,7 @@ public abstract class FileUploadBase {
                 final FileItemHeaders headers = getParsedHeaders(multi.readHeaders());
                 if (multipartRelated) {
                     currentFieldName = "";
-                    currentItem = new FileItemStreamImpl(
-                        null, null, headers.getHeader(CONTENT_TYPE),
-                        false, getContentLength(headers));
+                    currentItem = new FileItemStreamImpl(null, null, headers.getHeader(CONTENT_TYPE), false, getContentLength(headers));
                     currentItem.setHeaders(headers);
                     notifier.noteItem();
                     itemValid = true;
@@ -411,9 +408,7 @@ public abstract class FileUploadBase {
                     final String fieldName = getFieldName(headers);
                     if (fieldName != null) {
                         final String subContentType = headers.getHeader(CONTENT_TYPE);
-                        if (subContentType != null
-                                &&  subContentType.toLowerCase(Locale.ROOT)
-                                        .startsWith(MULTIPART_MIXED)) {
+                        if (subContentType != null && subContentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART_MIXED)) {
                             currentFieldName = fieldName;
                             // Multiple files associated with this field name
                             final byte[] subBoundary = getBoundary(subContentType);
@@ -422,9 +417,7 @@ public abstract class FileUploadBase {
                             continue;
                         }
                         final String fileName = getFileName(headers);
-                        currentItem = new FileItemStreamImpl(fileName,
-                                fieldName, headers.getHeader(CONTENT_TYPE),
-                                fileName == null, getContentLength(headers));
+                        currentItem = new FileItemStreamImpl(fileName, fieldName, headers.getHeader(CONTENT_TYPE), fileName == null, getContentLength(headers));
                         currentItem.setHeaders(headers);
                         notifier.noteItem();
                         itemValid = true;
@@ -433,10 +426,7 @@ public abstract class FileUploadBase {
                 } else {
                     final String fileName = getFileName(headers);
                     if (fileName != null) {
-                        currentItem = new FileItemStreamImpl(fileName,
-                                currentFieldName,
-                                headers.getHeader(CONTENT_TYPE),
-                                false, getContentLength(headers));
+                        currentItem = new FileItemStreamImpl(fileName, currentFieldName, headers.getHeader(CONTENT_TYPE), false, getContentLength(headers));
                         currentItem.setHeaders(headers);
                         notifier.noteItem();
                         itemValid = true;
