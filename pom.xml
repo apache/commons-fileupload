@@ -17,17 +17,14 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
     <version>83</version>
   </parent>
-
   <artifactId>commons-fileupload2</artifactId>
   <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-
   <name>Apache Commons FileUpload</name>
   <description>
     The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
@@ -40,12 +37,10 @@
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-fileupload.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-fileupload.git</url>
   </scm>
-
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/FILEUPLOAD</url>
   </issueManagement>
-
   <distributionManagement>
     <site>
       <id>apache.website</id>
@@ -53,7 +48,6 @@
       <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-fileupload/</url>
     </site>
   </distributionManagement>
-
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
@@ -64,19 +58,17 @@
     <commons.release.version>2.0.0-M3</commons.release.version>
     <commons.release.next>2.0.0</commons.release.next>
     <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 8 or later</commons.release.desc>
-
+    <!-- version 1.x -->
     <commons.release.2.version>1.5</commons.release.2.version>
     <commons.release.2.desc>in the org.apache.commons.fileupload namespace for Java 6 or later</commons.release.2.desc>
-
+    <!-- project properties -->
     <commons.jira.id>FILEUPLOAD</commons.jira.id>
     <commons.jira.pid>12310476</commons.jira.pid>
     <commons.site.path>fileupload</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-fileupload</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
-    
     <commons.siteOutputDirectory>${basedir}/target/site</commons.siteOutputDirectory>
     <commons.releaseNotesLocation>${commons.parent.dir}/RELEASE-NOTES.txt</commons.releaseNotesLocation>
-
     <commons.osgi.export>!org.apache.commons.fileupload.util.mime,org.apache.commons.*;version=${project.version};-noimport:=true</commons.osgi.export>
     <commons.osgi.import>!javax.portlet,*</commons.osgi.import>
     <commons.osgi.dynamicImport>javax.portlet</commons.osgi.dynamicImport>
@@ -88,7 +80,6 @@
     <commons.javadoc.javaee.link>https://jakarta.ee/specifications/platform/9.1/apidocs/</commons.javadoc.javaee.link>
     <!-- Until commons-parent 73 -->
     <commons.javadoc.options></commons.javadoc.options>
-
     <!-- Commons Release Plugin -->
     <commons.bc.version>2.0.0-M2</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
@@ -105,7 +96,6 @@
     <commons.jacoco.lineRatio>1.00</commons.jacoco.lineRatio>
     <commons.jacoco.complexityRatio>1.00</commons.jacoco.complexityRatio>
   </properties>
-
   <dependencyManagement>
 	<dependencies>
       <dependency>
@@ -120,7 +110,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <build>
     <pluginManagement>
       <plugins>
@@ -177,7 +166,6 @@
     <!-- javadoc:javadoc fails if later in the sequence -->
     <defaultGoal>clean javadoc:javadoc verify apache-rat:check checkstyle:check pmd:check pmd:cpd-check spotbugs:check</defaultGoal>
   </build>
-
   <reporting>
     <excludeDefaults>true</excludeDefaults>
     <plugins>
