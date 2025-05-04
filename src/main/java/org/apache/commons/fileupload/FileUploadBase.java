@@ -106,27 +106,27 @@ public abstract class FileUploadBase {
             /**
              * Creates a new instance.
              *
-             * @param pName The items file name, or null.
-             * @param pFieldName The items field name.
-             * @param pContentType The items content type, or null.
-             * @param pFormField Whether the item is a form field.
-             * @param pContentLength The items content length, if known, or -1
+             * @param name The items file name, or null.
+             * @param fieldName The items field name.
+             * @param contentType The items content type, or null.
+             * @param formField Whether the item is a form field.
+             * @param contentLength The items content length, if known, or -1
              * @throws IOException Creating the file item failed.
              */
-            FileItemStreamImpl(final String pName, final String pFieldName,
-                    final String pContentType, final boolean pFormField,
-                    final long pContentLength) throws IOException {
-                name = pName;
-                fieldName = pFieldName;
-                contentType = pContentType;
-                formField = pFormField;
+            FileItemStreamImpl(final String name, final String fieldName,
+                    final String contentType, final boolean formField,
+                    final long contentLength) throws IOException {
+                this.name = name;
+                this.fieldName = fieldName;
+                this.contentType = contentType;
+                this.formField = formField;
                 // Check if limit is already exceeded
-                if (fileSizeMax != -1 && pContentLength != -1 && pContentLength > fileSizeMax) {
+                if (fileSizeMax != -1 && contentLength != -1 && contentLength > fileSizeMax) {
                     final FileSizeLimitExceededException e = new FileSizeLimitExceededException(
-                            format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, Long.valueOf(fileSizeMax)), pContentLength,
+                            format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, Long.valueOf(fileSizeMax)), contentLength,
                             fileSizeMax);
-                    e.setFileName(pName);
-                    e.setFieldName(pFieldName);
+                    e.setFileName(name);
+                    e.setFieldName(fieldName);
                     throw new FileUploadIOException(e);
                 }
                 // OK to construct stream now
@@ -235,11 +235,11 @@ public abstract class FileUploadBase {
             /**
              * Sets the file item headers.
              *
-             * @param pHeaders The items header object
+             * @param headers The items header object
              */
             @Override
-            public void setHeaders(final FileItemHeaders pHeaders) {
-                headers = pHeaders;
+            public void setHeaders(final FileItemHeaders headers) {
+                this.headers = headers;
             }
 
         }
@@ -331,12 +331,12 @@ public abstract class FileUploadBase {
                 // this is eventually closed in MultipartStream processing
                 input = new LimitedInputStream(ctx.getInputStream(), sizeMax) {
                     @Override
-                    protected void raiseError(final long pSizeMax, final long pCount)
+                    protected void raiseError(final long sizeMax, final long count)
                             throws IOException {
                         final FileUploadException ex = new SizeLimitExceededException(
                         format("the request was rejected because its size (%s) exceeds the configured maximum (%s)",
-                                Long.valueOf(pCount), Long.valueOf(pSizeMax)),
-                               pCount, pSizeMax);
+                                Long.valueOf(count), Long.valueOf(sizeMax)),
+                               count, sizeMax);
                         throw new FileUploadIOException(ex);
                     }
                 };
@@ -453,9 +453,9 @@ public abstract class FileUploadBase {
             }
         }
 
-        private long getContentLength(final FileItemHeaders pHeaders) {
+        private long getContentLength(final FileItemHeaders headers) {
             try {
-                return Long.parseLong(pHeaders.getHeader(CONTENT_LENGTH));
+                return Long.parseLong(headers.getHeader(CONTENT_LENGTH));
             } catch (final Exception e) {
                 return -1;
             }
@@ -567,21 +567,21 @@ public abstract class FileUploadBase {
          * Sets the field name of the item, which caused the
          * exception.
          *
-         * @param pFieldName the field name of the item,
+         * @param fieldName the field name of the item,
          *        which caused the exception.
          */
-        public void setFieldName(final String pFieldName) {
-            fieldName = pFieldName;
+        public void setFieldName(final String fieldName) {
+            this.fieldName = fieldName;
         }
 
         /**
          * Sets the file name of the item, which caused the
          * exception.
          *
-         * @param pFileName the file name of the item, which caused the exception.
+         * @param fileName the file name of the item, which caused the exception.
          */
-        public void setFileName(final String pFileName) {
-            fileName = pFileName;
+        public void setFileName(final String fileName) {
+            this.fileName = fileName;
         }
 
     }
@@ -608,11 +608,11 @@ public abstract class FileUploadBase {
          * Creates a {@code FileUploadIOException} with the
          * given cause.
          *
-         * @param pCause The exceptions cause, if any, or null.
+         * @param cause The exceptions cause, if any, or null.
          */
-        public FileUploadIOException(final FileUploadException pCause) {
+        public FileUploadIOException(final FileUploadException cause) {
             // We're not doing super(pCause) cause of 1.3 compatibility.
-            cause = pCause;
+            this.cause = cause;
         }
 
         /**

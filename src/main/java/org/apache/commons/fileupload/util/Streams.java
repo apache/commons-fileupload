@@ -82,7 +82,7 @@ public final class Streams {
      */
     public static String checkFileName(final String fileName) {
         if (fileName != null  &&  fileName.indexOf('\u0000') != -1) {
-            // pFileName.replace("\u0000", "\\0")
+            // fileName.replace("\u0000", "\\0")
             final StringBuilder sb = new StringBuilder();
             for (int i = 0;  i < fileName.length();  i++) {
                 final char c = fileName.charAt(i);
@@ -105,7 +105,7 @@ public final class Streams {
      * Copies the contents of the given {@link InputStream}
      * to the given {@link OutputStream}. Shortcut for
      * <pre>
-     *   copy(pInputStream, pOutputStream, new byte[8192]);
+     *   copy(pInputStream, outputStream, new byte[8192]);
      * </pre>
      *
      * @param inputStream The input stream, which is being read.

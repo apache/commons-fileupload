@@ -543,11 +543,11 @@ public class DiskFileItem implements FileItem {
     /**
      * Sets the file item headers.
      *
-     * @param pHeaders The file items headers.
+     * @param headers The file items headers.
      */
     @Override
-    public void setHeaders(final FileItemHeaders pHeaders) {
-        headers = pHeaders;
+    public void setHeaders(final FileItemHeaders headers) {
+        this.headers = headers;
     }
 
     /**

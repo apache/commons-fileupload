@@ -148,7 +148,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the default charset for use when no explicit charset
+     * Gets the default charset for use when no explicit charset
      * parameter is provided by the sender.
      * @return the default charset
      */
@@ -157,7 +157,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the tracker, which is responsible for deleting temporary
+     * Gets the tracker, which is responsible for deleting temporary
      * files.
      *
      * @return An instance of {@link FileCleaningTracker}, or null
@@ -168,7 +168,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the directory used to temporarily store files that are larger
+     * Gets the directory used to temporarily store files that are larger
      * than the configured size threshold.
      *
      * @return The directory in which temporary files will be located.
@@ -180,7 +180,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Returns the size threshold beyond which files are written directly to
+     * Gets the size threshold beyond which files are written directly to
      * disk. The default value is 10240 bytes.
      *
      * @return The size threshold, in bytes.
@@ -193,22 +193,23 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * Sets the default charset for use when no explicit charset
      * parameter is provided by the sender.
-     * @param pCharset the default charset
+     *
+     * @param charset the default charset
      */
-    public void setDefaultCharset(final String pCharset) {
-        defaultCharset = pCharset;
+    public void setDefaultCharset(final String charset) {
+        this.defaultCharset = charset;
     }
 
     /**
      * Sets the tracker, which is responsible for deleting temporary
      * files.
      *
-     * @param pTracker An instance of {@link FileCleaningTracker},
+     * @param fileCleaningTracker An instance of {@link FileCleaningTracker},
      *   which will from now on track the created files, or null
      *   (default), to disable tracking.
      */
-    public void setFileCleaningTracker(final FileCleaningTracker pTracker) {
-        fileCleaningTracker = pTracker;
+    public void setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
+        this.fileCleaningTracker = fileCleaningTracker;
     }
 
     /**

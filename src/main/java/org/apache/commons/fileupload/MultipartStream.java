@@ -176,15 +176,15 @@ public class MultipartStream {
         /**
          * Closes the input stream.
          *
-         * @param pCloseUnderlying Whether to close the underlying stream
+         * @param closeUnderlying Whether to close the underlying stream
          *   (hard close)
          * @throws IOException An I/O error occurred.
          */
-        public void close(final boolean pCloseUnderlying) throws IOException {
+        public void close(final boolean closeUnderlying) throws IOException {
             if (closed) {
                 return;
             }
-            if (pCloseUnderlying) {
+            if (closeUnderlying) {
                 closed = true;
                 input.close();
             } else {
