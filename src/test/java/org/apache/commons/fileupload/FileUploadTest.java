@@ -60,12 +60,11 @@ public class FileUploadTest {
     @Parameter
     public FileUpload upload;
 
-    private void assertHeaders(final String[] pHeaderNames, final String[] pHeaderValues,
-            final FileItem pItem, final int pIndex) {
-        for (int i = 0; i < pHeaderNames.length; i++) {
-            final String value = pItem.getHeaders().getHeader(pHeaderNames[i]);
-            if (i == pIndex) {
-                assertEquals(pHeaderValues[i], value);
+    private void assertHeaders(final String[] headerNames, final String[] headerValues, final FileItem item, final int index) {
+        for (int i = 0; i < headerNames.length; i++) {
+            final String value = item.getHeaders().getHeader(headerNames[i]);
+            if (i == index) {
+                assertEquals(headerValues[i], value);
             } else {
                 assertNull(value);
             }

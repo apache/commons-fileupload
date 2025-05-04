@@ -44,8 +44,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
          * Creates a new instance, which returns the given
          * streams data.
          */
-        public MyServletInputStream(final InputStream pStream, final int readLimit) {
-            in = pStream;
+        public MyServletInputStream(final InputStream in, final int readLimit) {
+            this.in = in;
             this.readLimit = readLimit;
         }
 

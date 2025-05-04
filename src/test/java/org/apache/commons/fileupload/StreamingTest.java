@@ -46,9 +46,9 @@ public class StreamingTest {
         return "-----1234--\r\n";
     }
 
-    private String getHeader(final String pField) {
+    private String getHeader(final String fieldName) {
         return "-----1234\r\n"
-            + "Content-Disposition: form-data; name=\"" + pField + "\"\r\n"
+            + "Content-Disposition: form-data; name=\"" + fieldName + "\"\r\n"
             + "\r\n";
 
     }
@@ -105,27 +105,19 @@ public class StreamingTest {
         return parseUpload(new ByteArrayInputStream(bytes), bytes.length);
     }
 
-    private List<FileItem> parseUpload(final InputStream pStream, final int pLength)
-            throws FileUploadException {
+    private List<FileItem> parseUpload(final InputStream in, final int length) throws FileUploadException {
         final String contentType = "multipart/form-data; boundary=---1234";
-
         final FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        final HttpServletRequest request = new MockHttpServletRequest(pStream,
-                pLength, contentType);
-
+        final HttpServletRequest request = new MockHttpServletRequest(in, length, contentType);
         return upload.parseRequest(new ServletRequestContext(request));
     }
 
-    private FileItemIterator parseUpload(final int pLength, final InputStream pStream)
-            throws FileUploadException, IOException {
+    private FileItemIterator parseUpload(final int length, final InputStream in) throws FileUploadException, IOException {
         final String contentType = "multipart/form-data; boundary=---1234";
-
         final FileUploadBase upload = new ServletFileUpload();
         upload.setFileItemFactory(new DiskFileItemFactory());
-        final HttpServletRequest request = new MockHttpServletRequest(pStream,
-                pLength, contentType);
-
+        final HttpServletRequest request = new MockHttpServletRequest(in, length, contentType);
         return upload.getItemIterator(new ServletRequestContext(request));
     }
 
@@ -251,11 +243,12 @@ public class StreamingTest {
      * Tests, whether an IOException is properly delegated.
      */
     @Test
-    public void testIOException()
-            throws IOException {
+    public void testIOException() throws IOException {
         final byte[] request = newRequest();
-        final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)){
+        final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)) {
+
             private int num;
+
             @Override
             public int read() throws IOException {
                 if (++num > 123) {
@@ -263,17 +256,17 @@ public class StreamingTest {
                 }
                 return super.read();
             }
+
             @Override
-            public int read(final byte[] pB, final int pOff, final int pLen)
-                    throws IOException {
-                for (int i = 0;  i < pLen;  i++) {
+            public int read(final byte[] buffer, final int offset, final int length) throws IOException {
+                for (int i = 0; i < length; i++) {
                     final int res = read();
                     if (res == -1) {
                         return i == 0 ? -1 : i;
                     }
-                    pB[pOff+i] = (byte) res;
+                    buffer[offset + i] = (byte) res;
                 }
-                return pLen;
+                return length;
             }
         };
         try {
@@ -284,5 +277,4 @@ public class StreamingTest {
             assertEquals("123", e.getCause().getMessage());
         }
     }
-
 }

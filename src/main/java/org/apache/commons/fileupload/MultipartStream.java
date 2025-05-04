@@ -420,24 +420,24 @@ public class MultipartStream {
          * Creates a new instance with the given listener
          * and content length.
          *
-         * @param pListener The listener to invoke.
-         * @param pContentLength The expected content length.
+         * @param listener The listener to invoke.
+         * @param contentLength The expected content length.
          */
-        ProgressNotifier(final ProgressListener pListener, final long pContentLength) {
-            listener = pListener;
-            contentLength = pContentLength;
+        ProgressNotifier(final ProgressListener listener, final long contentLength) {
+            this.listener = listener;
+            this.contentLength = contentLength;
         }
 
         /**
          * Called to indicate that bytes have been read.
          *
-         * @param pBytes Number of bytes, which have been read.
+         * @param count Number of bytes, which have been read.
          */
-        void noteBytesRead(final int pBytes) {
+        void noteBytesRead(final int count) {
             /* Indicates, that the given number of bytes have been read from
              * the input stream.
              */
-            bytesRead += pBytes;
+            bytesRead += count;
             notifyListener();
         }
 
@@ -650,17 +650,13 @@ public class MultipartStream {
      * @param boundary The token used for dividing the stream into
      *                 {@code encapsulations}.
      * @param bufSize  The size of the buffer to be used, in bytes.
-     * @param pNotifier The notifier, which is used for calling the
+     * @param notifier The notifier, which is used for calling the
      *                  progress listener, if any.
      *
      * @throws IllegalArgumentException If the buffer size is too small
      * @since 1.3.1
      */
-    public MultipartStream(final InputStream input,
-            final byte[] boundary,
-            final int bufSize,
-            final ProgressNotifier pNotifier) {
-
+    public MultipartStream(final InputStream input, final byte[] boundary, final int bufSize, final ProgressNotifier notifier) {
         if (boundary == null) {
             throw new IllegalArgumentException("boundary may not be null");
         }
@@ -668,25 +664,18 @@ public class MultipartStream {
         // body-data tokens.
         this.boundaryLength = boundary.length + BOUNDARY_PREFIX.length;
         if (bufSize < this.boundaryLength + 1) {
-            throw new IllegalArgumentException(
-                    "The buffer size specified for the MultipartStream is too small");
+            throw new IllegalArgumentException("The buffer size specified for the MultipartStream is too small");
         }
-
         this.input = input;
         this.bufSize = Math.max(bufSize, boundaryLength * 2);
         this.buffer = new byte[this.bufSize];
-        this.notifier = pNotifier;
-
+        this.notifier = notifier;
         this.boundary = new byte[this.boundaryLength];
         this.boundaryTable = new int[this.boundaryLength + 1];
         this.keepRegion = this.boundary.length;
-
-        System.arraycopy(BOUNDARY_PREFIX, 0, this.boundary, 0,
-                BOUNDARY_PREFIX.length);
-        System.arraycopy(boundary, 0, this.boundary, BOUNDARY_PREFIX.length,
-                boundary.length);
+        System.arraycopy(BOUNDARY_PREFIX, 0, this.boundary, 0, BOUNDARY_PREFIX.length);
+        System.arraycopy(boundary, 0, this.boundary, BOUNDARY_PREFIX.length, boundary.length);
         computeBoundaryTable();
-
         head = 0;
         tail = 0;
     }
@@ -697,15 +686,13 @@ public class MultipartStream {
      * @param input    The {@code InputStream} to serve as a data source.
      * @param boundary The token used for dividing the stream into
      *                 {@code encapsulations}.
-     * @param pNotifier An object for calling the progress listener, if any.
+     * @param notifier An object for calling the progress listener, if any.
      *
      *
      * @see #MultipartStream(InputStream, byte[], int, ProgressNotifier)
      */
-    MultipartStream(final InputStream input,
-            final byte[] boundary,
-            final ProgressNotifier pNotifier) {
-        this(input, boundary, DEFAULT_BUFSIZE, pNotifier);
+    MultipartStream(final InputStream input, final byte[] boundary, final ProgressNotifier notifier) {
+        this(input, boundary, DEFAULT_BUFSIZE, notifier);
     }
 
     /**

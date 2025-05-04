@@ -42,9 +42,9 @@ public class ProgressListenerTest {
 
         private Integer items;
 
-        ProgressListenerImpl(final long pContentLength, final int pItems) {
-            expectedContentLength = pContentLength;
-            expectedItems = pItems;
+        ProgressListenerImpl(final long expectedContentLength, final int expectedItems) {
+            this.expectedContentLength = expectedContentLength;
+            this.expectedItems = expectedItems;
         }
 
         void checkFinished(){
@@ -53,25 +53,25 @@ public class ProgressListenerTest {
         }
 
         @Override
-        public void update(final long pBytesRead, final long pContentLength, final int pItems) {
-            assertTrue(pBytesRead >= 0  &&  pBytesRead <= expectedContentLength);
-            assertTrue(pContentLength == -1  ||  pContentLength == expectedContentLength);
-            assertTrue(pItems >= 0  &&  pItems <= expectedItems);
+        public void update(final long actualBytesRead, final long actualContentLength, final int actualItems) {
+            assertTrue(actualBytesRead >= 0  &&  actualBytesRead <= expectedContentLength);
+            assertTrue(actualContentLength == -1  ||  actualContentLength == expectedContentLength);
+            assertTrue(actualItems >= 0  &&  actualItems <= expectedItems);
 
-            assertTrue(bytesRead == null  ||  pBytesRead >= bytesRead.longValue());
-            bytesRead = Long.valueOf(pBytesRead);
-            assertTrue(items == null  ||  pItems >= items.intValue());
-            items = Integer.valueOf(pItems);
+            assertTrue(this.bytesRead == null  ||  actualBytesRead >= this.bytesRead.longValue());
+            this.bytesRead = Long.valueOf(actualBytesRead);
+            assertTrue(items == null  ||  actualItems >= items.intValue());
+            this.items = Integer.valueOf(actualItems);
         }
 
     }
 
-    private void runTest(final int NUM_ITEMS, final long pContentLength, final MockHttpServletRequest request) throws FileUploadException, IOException {
+    private void runTest(final int numItems, final long contentLength, final MockHttpServletRequest request) throws FileUploadException, IOException {
         final ServletFileUpload upload = new ServletFileUpload();
-        final ProgressListenerImpl listener = new ProgressListenerImpl(pContentLength, NUM_ITEMS);
+        final ProgressListenerImpl listener = new ProgressListenerImpl(contentLength, numItems);
         upload.setProgressListener(listener);
         final FileItemIterator iter = upload.getItemIterator(request);
-        for (int i = 0;  i < NUM_ITEMS;  i++) {
+        for (int i = 0;  i < numItems;  i++) {
             final FileItemStream stream = iter.next();
             try (InputStream istream = stream.openStream()) {
                 for (int j = 0; j < 16384 + i; j++) {
