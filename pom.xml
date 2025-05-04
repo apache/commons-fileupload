@@ -175,7 +175,7 @@
       </plugins>
     </pluginManagement>
     <!-- javadoc:javadoc fails if later in the sequence -->
-    <defaultGoal>clean javadoc:javadoc verify apache-rat:check checkstyle:check pmd:check spotbugs:check</defaultGoal>
+    <defaultGoal>clean javadoc:javadoc verify apache-rat:check checkstyle:check pmd:check pmd:cpd-check spotbugs:check</defaultGoal>
   </build>
 
   <reporting>
