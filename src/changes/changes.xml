@@ -56,6 +56,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">DiskFileItem.getInputStream() now uses NIO.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Last statement in DiskFileItem.finalize() method should be a call to super.finalize().</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">org.apache.commons.fileupload.FileUploadBase.FileUploadIOException is now a proper Java 1.4-style exception (propagates its cause to super).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Use java.util.Base64 instead of custom code.</action>
       <!--  UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump Java from 6 to 8.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 62 to 83, upgrades Doxia from 1 to 2.</action>

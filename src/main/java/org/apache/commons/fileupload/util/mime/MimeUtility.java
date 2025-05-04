@@ -17,8 +17,8 @@
 package org.apache.commons.fileupload.util.mime;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -232,7 +232,7 @@ public final class MimeUtility {
 
             // Base64 encoded?
             if (encoding.equals(BASE64_ENCODING_MARKER)) {
-                Base64Decoder.decode(encodedData, out);
+                out.write(Base64.getDecoder().decode(encodedData));
             } else if (encoding.equals(QUOTEDPRINTABLE_ENCODING_MARKER)) { // maybe quoted printable.
                 QuotedPrintableDecoder.decode(encodedData, out);
             } else {
@@ -241,7 +241,7 @@ public final class MimeUtility {
             // get the decoded byte data and convert into a string.
             final byte[] decodedData = out.toByteArray();
             return new String(decodedData, javaCharset(charset));
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             throw new UnsupportedEncodingException("Invalid RFC 2047 encoding");
         }
     }
