@@ -44,8 +44,8 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="1.6.0" date="YYYY-MM-DD" description="This release requires Java 8.">
       <!-- ADD -->
-      <action type="fix" dev="ggregory" due-to="mufasa1976, Jochen Wiedmann, Gary Gregory">[1.x] Enable multipart/related on FileUpload #314.</action>
-      <action type="fix" dev="ggregory" due-to="Gary Gregory">Add JApiCmp to the default Maven goal.</action>
+      <action type="add" dev="ggregory" due-to="mufasa1976, Jochen Wiedmann, Gary Gregory">[1.x] Enable multipart/related on FileUpload #314.</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add JApiCmp to the default Maven goal.</action>
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Replace use of Locale.ENGLISH with Locale.ROOT.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove unused exception from FileUploadBase.createItem(Map, boolean).</action>
