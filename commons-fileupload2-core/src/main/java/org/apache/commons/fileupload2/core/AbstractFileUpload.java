@@ -150,6 +150,13 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     private F fileItemFactory;
 
     /**
+     * Constructs a new instance for subclasses.
+     */
+    public AbstractFileUpload() {
+        // empty
+    }
+
+    /**
      * Gets the boundary from the {@code Content-type} header.
      *
      * @param contentType The value of the content type header from which to extract the boundary value.
