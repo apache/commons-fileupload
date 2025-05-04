@@ -53,6 +53,13 @@ public class JakartaFileCleaner implements ServletContextListener {
     }
 
     /**
+     * Constructs a new instance.
+     */
+    public JakartaFileCleaner() {
+        // empty
+    }
+
+    /**
      * Called when the web application is being destroyed. Calls {@link FileCleaningTracker#exitWhenFinished()}.
      *
      * @param sce The servlet context, used for calling {@link #getFileCleaningTracker(ServletContext)}.
