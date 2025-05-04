@@ -71,8 +71,8 @@ public class JakartaServletFileUpload<I extends FileItem<I>, F extends FileItemF
     /**
      * Constructs an instance of this class which uses the supplied factory to create {@code FileItem} instances.
      *
-     * @see AbstractFileUpload#AbstractFileUpload()
      * @param fileItemFactory The factory to use for creating file items.
+     * @see AbstractFileUpload#AbstractFileUpload()
      */
     public JakartaServletFileUpload(final F fileItemFactory) {
         setFileItemFactory(fileItemFactory);
