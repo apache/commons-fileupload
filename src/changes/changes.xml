@@ -41,7 +41,7 @@ The <action> type attribute can be add,update,fix,remove.
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
   <body>
-    <release version="2.0.0-M3" date="2025-05-04" description="This release requires Java 11.">
+    <release version="2.0.0-M3" date="2025-05-07" description="This release requires Java 11.">
       <!-- FIX -->
       <action                        type="fix" dev="ggregory" due-to="Gregor Dschung">[site] Fix instantiation of DiskFileItemFactory in migration guide #273.</action>
       <action issue="FILEUPLOAD-355" type="fix" dev="ggregory" due-to="Ana, Gary Gregory">[site] Update code example: Use IOUtils instead of Streams utils class.</action>
