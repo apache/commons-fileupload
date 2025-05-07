@@ -176,7 +176,6 @@
           <reportSet>
             <reports>
               <report>javadoc-no-fork</report>
-              <report>test-javadoc-no-fork</report>
             </reports>
           </reportSet>
         </reportSets>
