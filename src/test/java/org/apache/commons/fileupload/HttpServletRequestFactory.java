@@ -14,42 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.fileupload;
 
 import javax.servlet.http.HttpServletRequest;
 
 final class HttpServletRequestFactory {
 
-    static public HttpServletRequest createHttpServletRequestWithNullContentType() {
+    public static HttpServletRequest createHttpServletRequestWithNullContentType() {
         final byte[] requestData = "foobar".getBytes();
-        return new MockHttpServletRequest(
-                            requestData,
-                            null);
+        return new MockHttpServletRequest(requestData, null);
     }
 
-    static public HttpServletRequest createInvalidHttpServletRequest() {
+    public static HttpServletRequest createInvalidHttpServletRequest() {
         final byte[] requestData = "foobar".getBytes();
-        return new MockHttpServletRequest(
-                            requestData,
-                            FileUploadBase.MULTIPART_FORM_DATA);
+        return new MockHttpServletRequest(requestData, FileUploadBase.MULTIPART_FORM_DATA);
     }
 
-    static public HttpServletRequest createValidHttpServletRequest(
-            final String[] strFileNames) {
+    public static HttpServletRequest createValidHttpServletRequest(final String[] strFileNames) {
         // TODO provide a real implementation
-
         final StringBuilder sbRequestData = new StringBuilder();
-
         for (final String strFileName : strFileNames) {
             sbRequestData.append(strFileName);
         }
-
         byte[] requestData = null;
         requestData = sbRequestData.toString().getBytes();
-
-        return new MockHttpServletRequest(
-                            requestData,
-                            FileUploadBase.MULTIPART_FORM_DATA);
+        return new MockHttpServletRequest(requestData, FileUploadBase.MULTIPART_FORM_DATA);
     }
 
+    private HttpServletRequestFactory() {
+        // empty
+    }
 }

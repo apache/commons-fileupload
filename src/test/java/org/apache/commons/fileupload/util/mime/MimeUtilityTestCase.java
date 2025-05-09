@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.fileupload.util.mime;
 
 import static org.junit.Assert.assertEquals;
@@ -23,8 +24,7 @@ import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 
 /**
- * Use the online <a href="http://dogmamix.com/MimeHeadersDecoder/">MimeHeadersDecoder</a>
- * to validate expected values.
+ * Use the online <a href="http://dogmamix.com/MimeHeadersDecoder/">MimeHeadersDecoder</a> to validate expected values.
  *
  * @since 1.3
  */
@@ -34,7 +34,7 @@ public final class MimeUtilityTestCase {
         assertEquals(expected, MimeUtility.decodeText(encoded));
     }
 
-    @Test(expected=UnsupportedEncodingException.class)
+    @Test(expected = UnsupportedEncodingException.class)
     public void decodeInvalidEncoding() throws Exception {
         MimeUtility.decodeText("=?invalid?B?xyz-?=");
     }
@@ -42,7 +42,7 @@ public final class MimeUtilityTestCase {
     @Test
     public void decodeIso88591Base64Encoded() throws Exception {
         assertEncoded("If you can read this you understand the example.",
-                      "=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n");
+                "=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n");
     }
 
     @Test

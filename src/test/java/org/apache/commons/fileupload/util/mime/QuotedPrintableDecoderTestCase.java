@@ -52,7 +52,7 @@ public final class QuotedPrintableDecoderTestCase {
             fail("Expected IOException");
         } catch (final IOException e) {
             final String em = e.getMessage();
-            assertTrue("Expected to find " + messageText + " in '" + em + "'",em.contains(messageText));
+            assertTrue("Expected to find " + messageText + " in '" + em + "'", em.contains(messageText));
         }
     }
 

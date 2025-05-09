@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.fileupload;
 
 import static org.junit.Assert.assertNotNull;
@@ -30,7 +31,7 @@ public class MultipartStreamTest {
 
     static private final String BOUNDARY_TEXT = "myboundary";
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSmallBuffer() throws Exception {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
@@ -38,12 +39,7 @@ public class MultipartStreamTest {
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
         final int iBufSize = 1;
         @SuppressWarnings("unused")
-        final
-        MultipartStream unused = new MultipartStream(
-                input,
-                boundary,
-                iBufSize,
-                new MultipartStream.ProgressNotifier(null, contents.length));
+        final MultipartStream unused = new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length));
     }
 
     @Test
@@ -52,13 +48,8 @@ public class MultipartStreamTest {
         final byte[] contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final int iBufSize =
-                boundary.length + MultipartStream.BOUNDARY_PREFIX.length + 1;
-        final MultipartStream ms = new MultipartStream(
-                input,
-                boundary,
-                iBufSize,
-                new MultipartStream.ProgressNotifier(null, contents.length));
+        final int iBufSize = boundary.length + MultipartStream.BOUNDARY_PREFIX.length + 1;
+        final MultipartStream ms = new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length));
         assertNotNull(ms);
     }
 
@@ -68,11 +59,7 @@ public class MultipartStreamTest {
         final byte[] contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final MultipartStream ms = new MultipartStream(
-                input,
-                boundary,
-                new MultipartStream.ProgressNotifier(null, contents.length));
+        final MultipartStream ms = new MultipartStream(input, boundary, new MultipartStream.ProgressNotifier(null, contents.length));
         assertNotNull(ms);
     }
-
 }

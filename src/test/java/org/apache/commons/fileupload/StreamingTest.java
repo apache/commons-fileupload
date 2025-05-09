@@ -62,7 +62,7 @@ public class StreamingTest {
             }
 
             @Override
-            public int read(final byte b[], final int off, final int len) throws IOException {
+            public int read(final byte[] b, final int off, final int len) throws IOException {
                 return bais.read(b, off, Math.min(len, 3));
             }
 
@@ -125,14 +125,13 @@ public class StreamingTest {
      * Tests a file upload with varying file sizes.
      */
     @Test
-    public void testFileUpload()
-            throws IOException, FileUploadException {
+    public void testFileUpload() throws IOException, FileUploadException {
         final byte[] request = newRequest();
         final List<FileItem> fileItems = parseUpload(request);
         final Iterator<FileItem> fileIter = fileItems.iterator();
         int add = 16;
         int num = 0;
-        for (int i = 0;  i < 16384;  i += add) {
+        for (int i = 0; i < 16384; i += add) {
             if (++add == 32) {
                 add = 16;
             }
@@ -140,7 +139,7 @@ public class StreamingTest {
             assertEquals("field" + num++, item.getFieldName());
             final byte[] bytes = item.get();
             assertEquals(i, bytes.length);
-            for (int j = 0;  j < i;  j++) {
+            for (int j = 0; j < i; j++) {
                 assertEquals((byte) j, bytes[j]);
             }
         }
@@ -148,11 +147,10 @@ public class StreamingTest {
     }
 
     /**
-     * Test for FILEUPLOAD-135
+     * Test for FILEUPLOAD-135.
      */
     @Test
-    public void testFILEUPLOAD135()
-            throws IOException, FileUploadException {
+    public void testFILEUPLOAD135() throws IOException, FileUploadException {
         final byte[] request = newShortRequest();
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
         try (InputStream inputStream = newInputStream(bais)) {
@@ -171,15 +169,13 @@ public class StreamingTest {
     }
 
     /**
-     * Tests, whether an invalid request throws a proper
-     * exception.
+     * Tests whether an invalid request throws a proper exception.
      */
     @Test
-    public void testFileUploadException()
-            throws IOException, FileUploadException {
+    public void testFileUploadException() throws IOException, FileUploadException {
         final byte[] request = newRequest();
-        final byte[] invalidRequest = new byte[request.length-11];
-        System.arraycopy(request, 0, invalidRequest, 0, request.length-11);
+        final byte[] invalidRequest = new byte[request.length - 11];
+        System.arraycopy(request, 0, invalidRequest, 0, request.length - 11);
         try {
             parseUpload(invalidRequest);
             fail("Expected EndOfStreamException");
@@ -189,7 +185,7 @@ public class StreamingTest {
     }
 
     /**
-     * Tests, whether an {@link InvalidFileNameException} is thrown.
+     *  whether an {@link InvalidFileNameException} is thrown.
      */
     @Test
     public void testInvalidFileNameException() throws Exception {

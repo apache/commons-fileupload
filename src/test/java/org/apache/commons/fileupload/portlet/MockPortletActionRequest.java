@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.fileupload.portlet;
 
 import java.io.BufferedReader;
@@ -49,9 +50,7 @@ import org.apache.commons.fileupload.FileUploadBase;
 public class MockPortletActionRequest implements ActionRequest {
 
     private final Hashtable<String, Object> attributes = new Hashtable<>();
-
     private final Map<String, String> parameters = new HashMap<>();
-
     private String characterEncoding;
     private final int length;
     private final String contentType;
@@ -267,5 +266,4 @@ public class MockPortletActionRequest implements ActionRequest {
     public void setCharacterEncoding(final String characterEncoding) throws UnsupportedEncodingException {
         this.characterEncoding = characterEncoding;
     }
-
 }

@@ -50,10 +50,10 @@ public class DiskFileUploadTest {
     public void testMoveFile() throws Exception {
         final DiskFileUpload myUpload = new DiskFileUpload();
         myUpload.setSizeThreshold(0);
-    	final String content =
+        final String content =
                 "-----1234\r\n" +
-                "Content-Disposition: form-data; name=\"file\";"
-                		+ "filename=\"foo.tab\"\r\n" +
+                "Content-Disposition: form-data; name=\"file\";" +
+                "filename=\"foo.tab\"\r\n" +
                 "Content-Type: text/whatever\r\n" +
                 "\r\n" +
                 "This is the content of the file\n" +

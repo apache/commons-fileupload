@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
          * Creates a new instance, which returns the given
          * streams data.
          */
-        public MyServletInputStream(final InputStream in, final int readLimit) {
+        MyServletInputStream(final InputStream in, final int readLimit) {
             this.in = in;
             this.readLimit = readLimit;
         }
@@ -55,7 +56,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
         }
 
         @Override
-        public int read(final byte b[], final int off, final int len) throws IOException {
+        public int read(final byte[] b, final int off, final int len) throws IOException {
             if (readLimit > 0) {
                 return in.read(b, off, Math.min(readLimit, len));
             }
@@ -64,15 +65,15 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     }
 
-    private final InputStream m_requestData;
+    private final InputStream requestData;
 
     private long length;
 
-    private final String m_strContentType;
+    private final String strContentType;
 
     private int readLimit = -1;
 
-    private final Map<String, String> m_headers = new java.util.HashMap<>();
+    private final Map<String, String> headers = new HashMap<>();
 
     /**
      * Creates a new instance with the given request data
@@ -91,12 +92,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     public MockHttpServletRequest(
             final InputStream requestData,
-            final long requestLength,
+            final long length,
             final String strContentType) {
-        m_requestData = requestData;
-        length = requestLength;
-        m_strContentType = strContentType;
-        m_headers.put(FileUploadBase.CONTENT_TYPE, strContentType);
+        this.requestData = requestData;
+        this.length = length;
+        this.strContentType = strContentType;
+        this.headers.put(FileUploadBase.CONTENT_TYPE, strContentType);
     }
 
     /**
@@ -138,7 +139,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     public int getContentLength() {
         int iLength = 0;
 
-        if (null == m_requestData) {
+        if (null == requestData) {
             iLength = -1;
         } else {
             if (length > Integer.MAX_VALUE) {
@@ -154,7 +155,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getContentType() {
-        return m_strContentType;
+        return strContentType;
     }
 
     /**
@@ -186,7 +187,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public String getHeader(final String headerName) {
-        return m_headers.get(headerName);
+        return headers.get(headerName);
     }
 
     /**
@@ -212,7 +213,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
      */
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        return new MyServletInputStream(m_requestData, readLimit);
+        return new MyServletInputStream(requestData, readLimit);
     }
 
     /**

@@ -49,7 +49,7 @@ public class FileUploadTest {
     /**
      * @return {@link FileUpload} classes under test.
      */
-    @Parameters(name="{0}")
+    @Parameters(name = "{0}")
     public static Iterable<? extends Object> data() {
         return Util.fileUploadImplementations();
     }
@@ -72,7 +72,7 @@ public class FileUploadTest {
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
+     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>.
      */
     @Test
     public void testContentTypeAttachment()
@@ -195,7 +195,7 @@ public class FileUploadTest {
     }
 
     /**
-     * Test case for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-130">
+     * Tests <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-130">FILEUPLOAD-130</a>.
      */
     @Test
     public void testFileUpload130()
@@ -248,7 +248,7 @@ public class FileUploadTest {
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>
+     * Tests for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-62">FILEUPLOAD-62</a>.
      */
     @Test
     public void testFILEUPLOAD62() throws Exception {
@@ -292,7 +292,7 @@ public class FileUploadTest {
     }
 
     /**
-     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>
+     * Test for <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-111">FILEUPLOAD-111</a>.
      */
     @Test
     public void testFoldedHeaders()

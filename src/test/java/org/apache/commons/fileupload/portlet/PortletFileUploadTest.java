@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.fileupload.portlet;
 
 import static org.junit.Assert.assertEquals;
@@ -42,37 +43,35 @@ public class PortletFileUploadTest {
     private PortletFileUpload upload;
 
     @Test
-    public void parseParameterMap()
-            throws Exception {
-        final String text = "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                      "Content-Type: text/whatever\r\n" +
-                      "\r\n" +
-                      "This is the content of the file\n" +
-                      "\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"field\"\r\n" +
-                      "\r\n" +
-                      "fieldValue\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                      "\r\n" +
-                      "value1\r\n" +
-                      "-----1234\r\n" +
-                      "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                      "\r\n" +
-                      "value2\r\n" +
-                      "-----1234--\r\n";
+    public void parseParameterMap() throws Exception {
+        // @formatter:off
+        final String text = "-----1234\r\n"
+                      + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n"
+                      + "Content-Type: text/whatever\r\n"
+                      + "\r\n"
+                      + "This is the content of the file\n"
+                      + "\r\n"
+                      + "-----1234\r\n"
+                      + "Content-Disposition: form-data; name=\"field\"\r\n"
+                      + "\r\n"
+                      + "fieldValue\r\n"
+                      + "-----1234\r\n"
+                      + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                      + "\r\n"
+                      + "value1\r\n"
+                      + "-----1234\r\n"
+                      + "Content-Disposition: form-data; name=\"multi\"\r\n"
+                      + "\r\n"
+                      + "value2\r\n"
+                      + "-----1234--\r\n";
+        // @formatter:on
         final byte[] bytes = text.getBytes("US-ASCII");
         final ActionRequest request = new MockPortletActionRequest(bytes, Constants.CONTENT_TYPE);
-
         final Map<String, List<FileItem>> mappedParameters = upload.parseParameterMap(request);
         assertTrue(mappedParameters.containsKey("file"));
         assertEquals(1, mappedParameters.get("file").size());
-
         assertTrue(mappedParameters.containsKey("field"));
         assertEquals(1, mappedParameters.get("field").size());
-
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
     }
@@ -81,5 +80,4 @@ public class PortletFileUploadTest {
     public void setUp() {
         upload = new PortletFileUpload(new DiskFileItemFactory());
     }
-
 }
