@@ -23,7 +23,7 @@
     <version>84</version>
   </parent>
   <artifactId>commons-fileupload2</artifactId>
-  <version>2.0.0-M3-SNAPSHOT</version>
+  <version>2.0.0-M4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Apache Commons FileUpload</name>
   <description>
@@ -55,7 +55,7 @@
 	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload2</commons.module.name>
-    <commons.release.version>2.0.0-M3</commons.release.version>
+    <commons.release.version>2.0.0-M4</commons.release.version>
     <commons.release.next>2.0.0</commons.release.next>
     <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 8 or later</commons.release.desc>
     <!-- version 1.x -->
@@ -81,12 +81,12 @@
     <!-- Until commons-parent 73 -->
     <commons.javadoc.options></commons.javadoc.options>
     <!-- Commons Release Plugin -->
-    <commons.bc.version>2.0.0-M2</commons.bc.version>
+    <commons.bc.version>2.0.0-M3</commons.bc.version>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.release.isDistModule>false</commons.release.isDistModule>
     <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
-    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-05-27T11:29:30Z</project.build.outputTimestamp>
     <!-- JaCoCo: Don't make code coverage worse than: -->
     <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
     <commons.jacoco.classRatio>1.00</commons.jacoco.classRatio>
@@ -157,10 +157,6 @@
             </rulesets>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-        </plugin>
       </plugins>
     </pluginManagement>
     <!-- javadoc:javadoc fails if later in the sequence -->
@@ -174,6 +170,14 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <reportSets>
           <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate-no-fork</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>default</id>
             <reports>
               <report>javadoc-no-fork</report>
             </reports>
@@ -217,10 +221,6 @@
                     <matchString>FIXME</matchString>
                     <matchType>exact</matchType>
                   </tag>
-                  <tag>
-                    <matchString>XXX</matchString>
-                    <matchType>exact</matchType>
-                  </tag>
                 </tags>
               </tagClass>
               <tagClass>
@@ -243,25 +243,6 @@
             </tagClasses>
           </tagListOptions>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <id>aggregate</id>
-            <inherited>false</inherited>
-            <reports>
-              <report>aggregate</report>
-            </reports>
-          </reportSet>
-          <reportSet>
-            <id>default</id>
-            <reports>
-              <report>javadoc</report>
-            </reports>
-          </reportSet>
-        </reportSets>
       </plugin>
     </plugins>
   </reporting>
