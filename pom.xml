@@ -79,8 +79,9 @@
     <commons.jacoco.instructionRatio>0.81</commons.jacoco.instructionRatio>
     <commons.jacoco.methodRatio>0.71</commons.jacoco.methodRatio>
     <commons.jacoco.branchRatio>0.77</commons.jacoco.branchRatio>
-    <commons.jacoco.lineRatio>.079</commons.jacoco.lineRatio>
-    <commons.jacoco.complexityRatio>0.66</commons.jacoco.complexityRatio>  </properties>
+    <commons.jacoco.lineRatio>0.79</commons.jacoco.lineRatio>
+    <commons.jacoco.complexityRatio>0.66</commons.jacoco.complexityRatio>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.junit.vintage</groupId>
