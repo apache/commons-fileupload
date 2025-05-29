@@ -18,11 +18,16 @@
 package org.apache.commons.fileupload;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
+
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * Tests {@link org.apache.commons.fileupload.MultipartStream}.
@@ -61,5 +66,63 @@ public class MultipartStreamTest {
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
         final MultipartStream ms = new MultipartStream(input, boundary, new MultipartStream.ProgressNotifier(null, contents.length));
         assertNotNull(ms);
+    }
+
+    @Test
+    public void testMalformedUploadTruncatedHeaders()
+            throws IOException, FileUploadException {
+        final String request =
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file1\"; filename=\"foo1.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "Content-Length: 10\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "\r\n" +
+            "This is the content of the file\n";
+
+        final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        upload.setFileSizeMax(-1);
+        upload.setSizeMax(-1);
+
+        final MockHttpServletRequest req = new MockHttpServletRequest(
+                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        try {
+            upload.parseRequest(req);
+            fail("Expected exception.");
+        } catch (final FileUploadBase.IOFileUploadException e) {
+            // Expected
+        }
+    }
+
+    @Test
+    public void testMalformedUploadTruncatedHeadersOnBoundary() throws IOException {
+        final StringBuilder request = new StringBuilder(
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file1\"; filename=\"foo1.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "Content-Length: 10\r\n" +
+            "X-Padding: ");
+        int paddingLength = MultipartStream.DEFAULT_BUFSIZE - request.length();
+        for (int i = 0; i < paddingLength; i++) {
+            request.append('x');
+        }
+
+        final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        upload.setFileSizeMax(-1);
+        upload.setSizeMax(-1);
+
+        final MockHttpServletRequest req = new MockHttpServletRequest(
+                request.toString().getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        try {
+            upload.parseRequest(req);
+            fail("Expected exception.");
+        } catch (final FileUploadException e) {
+            // Expected
+        }
     }
 }
