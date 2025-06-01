@@ -19,7 +19,6 @@ package org.apache.commons.fileupload2.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -57,9 +56,9 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Gets the contents of the file item as a byte array.
      *
      * @return The contents of the file item as a byte array.
-     * @throws UncheckedIOException if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
-    byte[] get() throws UncheckedIOException;
+    byte[] get() throws IOException;
 
     /**
      * Gets the content type passed by the browser or {@code null} if not defined.
@@ -113,8 +112,10 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * item.
      *
      * @return The contents of the item, as a string.
+     *
+     * @throws IOException if an I/O error occurs
      */
-    String getString();
+    String getString() throws IOException;
 
     /**
      * Gets the contents of the file item as a String, using the specified encoding. This method uses {@link #get()} to retrieve the contents of the item.
