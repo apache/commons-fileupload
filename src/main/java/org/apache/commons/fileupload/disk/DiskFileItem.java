@@ -76,8 +76,7 @@ public class DiskFileItem implements FileItem {
     /**
      * UID used in unique file name generation.
      */
-    private static final String UID =
-            UUID.randomUUID().toString().replace('-', '_');
+    private static final String UID = UUID.randomUUID().toString().replace('-', '_');
 
     /**
      * Returns an identifier that is unique within the class loader used to
@@ -104,14 +103,12 @@ public class DiskFileItem implements FileItem {
     private byte[] cachedContent;
 
     /**
-     * The content type passed by the browser, or {@code null} if
-     * not defined.
+     * The content type passed by the browser, or {@code null} if not defined.
      */
     private final String contentType;
 
     /**
-     * Default content charset to be used when no explicit charset
-     * parameter is provided by the sender.
+     * Default content charset to be used when no explicit charset parameter is provided by the sender.
      */
     private String defaultCharset = DEFAULT_CHARSET;
 
@@ -119,7 +116,6 @@ public class DiskFileItem implements FileItem {
      * Output stream for this item.
      */
     private transient DeferredFileOutputStream dfos;
-
 
     /**
      * The name of the form field as provided by the browser.
@@ -166,22 +162,16 @@ public class DiskFileItem implements FileItem {
      * Constructs a new {@code DiskFileItem} instance.
      *
      * @param fieldName     The name of the form field.
-     * @param contentType   The content type passed by the browser or
-     *                      {@code null} if not specified.
-     * @param isFormField   Whether or not this item is a plain form field, as
-     *                      opposed to a file upload.
-     * @param fileName      The original file name in the user's file system, or
-     *                      {@code null} if not specified.
-     * @param sizeThreshold The threshold, in bytes, below which items will be
-     *                      retained in memory and above which they will be
-     *                      stored as a file.
-     * @param repository    The data repository, which is the directory in
-     *                      which files will be created, should the item size
-     *                      exceed the threshold.
+     * @param contentType   The content type passed by the browser or {@code null} if not specified.
+     * @param isFormField   Whether or not this item is a plain form field, as opposed to a file upload.
+     * @param fileName      The original file name in the user's file system, or {@code null} if not specified.
+     * @param sizeThreshold The threshold, in bytes, below which items will be retained in memory and above which they
+     *                      will be stored as a file.
+     * @param repository    The data repository, which is the directory in which files will be created, should the item
+     *                      size exceed the threshold.
      */
-    public DiskFileItem(final String fieldName,
-            final String contentType, final boolean isFormField, final String fileName,
-            final int sizeThreshold, final File repository) {
+    public DiskFileItem(final String fieldName, final String contentType, final boolean isFormField,
+            final String fileName, final int sizeThreshold, final File repository) {
         this.fieldName = fieldName;
         this.contentType = contentType;
         this.formField = isFormField;
@@ -250,11 +240,9 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets the content charset passed by the agent or {@code null} if
-     * not defined.
+     * Gets the content charset passed by the agent or {@code null} if not defined.
      *
-     * @return The content charset passed by the agent or {@code null} if
-     *         not defined.
+     * @return The content charset passed by the agent or {@code null} if not defined.
      */
     public String getCharSet() {
         final ParameterParser parser = new ParameterParser();
@@ -265,11 +253,9 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets the content type passed by the agent or {@code null} if
-     * not defined.
+     * Gets the content type passed by the agent or {@code null} if not defined.
      *
-     * @return The content type passed by the agent or {@code null} if
-     *         not defined.
+     * @return The content type passed by the agent or {@code null} if not defined.
      */
     @Override
     public String getContentType() {
@@ -277,8 +263,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets the default charset for use when no explicit charset
-     * parameter is provided by the sender.
+     * Gets the default charset for use when no explicit charset parameter is provided by the sender.
      *
      * @return the default charset
      */
@@ -287,12 +272,10 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets the name of the field in the multipart form corresponding to
-     * this file item.
+     * Gets the name of the field in the multipart form corresponding to this file item.
      *
      * @return The name of the form field.
      * @see #setFieldName(String)
-     *
      */
     @Override
     public String getFieldName() {
@@ -310,11 +293,9 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets an {@link java.io.InputStream InputStream} that can be
-     * used to retrieve the contents of the file.
+     * Gets an {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
      *
-     * @return An {@link java.io.InputStream InputStream} that can be
-     *         used to retrieve the contents of the file.
+     * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
      *
      * @throws IOException if an error occurs.
      */
@@ -344,11 +325,9 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets an {@link java.io.OutputStream OutputStream} that can
-     * be used for storing the contents of the file.
+     * Gets an {@link java.io.OutputStream OutputStream} that can be used for storing the contents of the file.
      *
-     * @return An {@link java.io.OutputStream OutputStream} that can be used
-     *         for storing the contents of the file.
+     * @return An {@link java.io.OutputStream OutputStream} that can be used for storing the contents of the file.
      *
      * @throws IOException if an error occurs (never happens).
      */
@@ -395,8 +374,7 @@ public class DiskFileItem implements FileItem {
      * source and destination locations reside within the same logical
      * volume.
      *
-     * @return The data file, or {@code null} if the data is stored in
-     *         memory.
+     * @return The data file, or {@code null} if the data is stored in memory.
      */
     public File getStoreLocation() {
         if (dfos == null) {
@@ -409,10 +387,9 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets the contents of the file as a String, using the default
-     * character encoding.  This method uses {@link #get()} to retrieve the
-     * contents of the file.
-     *
+     * Gets the contents of the file as a String, using the default character encoding. This method uses
+     * {@link #get()} to retrieve the contents of the file.
+     * <p>
      * <strong>TODO</strong> Consider making this method throw UnsupportedEncodingException.
      *
      * @return The contents of the file, as a string.
@@ -432,30 +409,24 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Gets the contents of the file as a String, using the specified
-     * encoding.  This method uses {@link #get()} to retrieve the
-     * contents of the file.
+     * Gets the contents of the file as a String, using the specified encoding. This method uses {@link #get()} to
+     * retrieve the contents of the file.
      *
      * @param charset The charset to use.
      * @return The contents of the file, as a string.
-     * @throws UnsupportedEncodingException if the requested character
-     *                                      encoding is not available.
+     * @throws UnsupportedEncodingException if the requested character encoding is not available.
      */
     @Override
-    public String getString(final String charset)
-        throws UnsupportedEncodingException {
+    public String getString(final String charset) throws UnsupportedEncodingException {
         return new String(get(), charset);
     }
 
     /**
-     * Creates and returns a {@link java.io.File File} representing a uniquely
-     * named temporary file in the configured repository path. The lifetime of
-     * the file is tied to the lifetime of the {@code FileItem} instance;
-     * the file will be deleted when the instance is garbage collected.
+     * Creates and returns a {@link java.io.File File} representing a uniquely named temporary file in the configured
+     * repository path. The lifetime of the file is tied to the lifetime of the {@code FileItem} instance; the file will
+     * be deleted when the instance is garbage collected.
      * <p>
-     * <b>Note: Subclasses that override this method must ensure that they return the
-     * same File each time.</b>
-     * </p>
+     * <b>Note: Subclasses that override this method must ensure that they return the same File each time.</b>
      *
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
@@ -474,14 +445,12 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Tests whether or not a {@code FileItem} instance represents
-     * a simple form field.
+     * Tests whether or not a {@code FileItem} instance represents a simple form field.
      *
-     * @return {@code true} if the instance represents a simple form
-     *         field; {@code false} if it represents an uploaded file.
+     * @return {@code true} if the instance represents a simple form field; {@code false} if it represents an uploaded
+     *             file.
      *
      * @see #setFormField(boolean)
-     *
      */
     @Override
     public boolean isFormField() {
@@ -489,11 +458,9 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Provides a hint as to whether or not the file contents will be read
-     * from memory.
+     * Provides a hint as to whether or not the file contents will be read from memory.
      *
-     * @return {@code true} if the file contents will be read
-     *         from memory; {@code false} otherwise.
+     * @return {@code true} if the file contents will be read from memory; {@code false} otherwise.
      */
     @Override
     public boolean isInMemory() {
@@ -504,8 +471,7 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Sets the default charset for use when no explicit charset
-     * parameter is provided by the sender.
+     * Sets the default charset for use when no explicit charset parameter is provided by the sender.
      *
      * @param charset the default charset
      */
@@ -518,7 +484,6 @@ public class DiskFileItem implements FileItem {
      *
      * @param fieldName The name of the form field.
      * @see #getFieldName()
-     *
      */
     @Override
     public void setFieldName(final String fieldName) {
@@ -526,14 +491,12 @@ public class DiskFileItem implements FileItem {
     }
 
     /**
-     * Sets whether or not a {@code FileItem} instance represents
-     * a simple form field.
+     * Sets whether or not a {@code FileItem} instance represents a simple form field.
      *
      * @param formField {@code true} if the instance represents a simple form
      *              field; {@code false} if it represents an uploaded file.
      *
      * @see #isFormField()
-     *
      */
     @Override
     public void setFormField(final boolean formField) {
