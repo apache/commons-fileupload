@@ -58,7 +58,7 @@ public class Util {
         final byte[] bytes = content.getBytes("US-ASCII");
         return parseUpload(upload, bytes, Constants.CONTENT_TYPE);
     }
-    
+
     private Util() {
         // empty
     }
