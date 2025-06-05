@@ -43,11 +43,11 @@
 Apache Commons FileUpload
 ===================
 
-[![Travis-CI Status](https://travis-ci.org/apache/commons-fileupload.svg)](https://travis-ci.org/apache/commons-fileupload)
-[![GitHub Actions Status](https://github.com/apache/commons-fileupload/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-fileupload/actions)
-[![Coverage Status](https://coveralls.io/repos/apache/commons-fileupload/badge.svg)](https://coveralls.io/r/apache/commons-fileupload)
+[![Java CI](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/commons-fileupload/commons-fileupload?label=Maven%20Central)](https://search.maven.org/artifact/commons-fileupload/commons-fileupload)
-[![Javadocs](https://javadoc.io/badge/commons-fileupload/commons-fileupload/1.6.svg)](https://javadoc.io/doc/commons-fileupload/commons-fileupload/1.6)
+[![Javadocs](https://javadoc.io/badge/commons-fileupload/commons-fileupload/1.6.0.svg)](https://javadoc.io/doc/commons-fileupload/commons-fileupload/1.6.0)
+[![CodeQL](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload)
 
 The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
     file upload functionality to servlets and web applications.
@@ -57,51 +57,64 @@ Documentation
 
 More information can be found on the [Apache Commons FileUpload homepage](https://commons.apache.org/proper/commons-fileupload).
 The [Javadoc](https://commons.apache.org/proper/commons-fileupload/apidocs) can be browsed.
-Questions related to the usage of Apache Commons FileUpload should be posted to the [user mailing list][ml].
+Questions related to the usage of Apache Commons FileUpload should be posted to the [user mailing list](https://commons.apache.org/mail-lists.html).
 
-Where can I get the latest release?
------------------------------------
+Getting the latest release
+--------------------------
 You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-fileupload/download_fileupload.cgi).
 
-Alternatively you can pull it from the central Maven repositories:
+Alternatively, you can pull it from the central Maven repositories:
 
 ```xml
 <dependency>
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.6</version>
+  <version>1.6.0</version>
 </dependency>
 ```
+
+Building
+--------
+
+Building requires a Java JDK and [Apache Maven](https://maven.apache.org/).
+The required Java version is found in the `pom.xml` as the `maven.compiler.source` property.
+
+From a command shell, run `mvn` without arguments to invoke the default Maven goal to run all tests and checks.
 
 Contributing
 ------------
 
-We accept Pull Requests via GitHub. The [developer mailing list][ml] is the main channel of communication for contributors.
+We accept Pull Requests via GitHub. The [developer mailing list](https://commons.apache.org/mail-lists.html) is the main channel of communication for contributors.
 There are some guidelines which will make applying PRs easier for us:
 + No tabs! Please use spaces for indentation.
-+ Respect the code style.
++ Respect the existing code style for each file.
 + Create minimal diffs - disable on save actions like reformat source code or organize imports. If you feel the source code should be reformatted create a separate PR for this change.
-+ Provide JUnit tests for your changes and make sure your changes don't break any existing tests by running ```mvn clean test```.
++ Provide JUnit tests for your changes and make sure your changes don't break any existing tests by running `mvn`.
++ Before you pushing a PR, run `mvn` (by itself), this runs the default goal, which contains all build checks.
++ To see the code coverage report, regardless of coverage failures, run `mvn clean site -Dcommons.jacoco.haltOnFailure=false`
 
 If you plan to contribute on a regular basis, please consider filing a [contributor license agreement](https://www.apache.org/licenses/#clas).
 You can learn more about contributing via GitHub in our [contribution guidelines](CONTRIBUTING.md).
 
 License
 -------
-This code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0).
+This code is licensed under the [Apache License v2](https://www.apache.org/licenses/LICENSE-2.0).
 
 See the `NOTICE.txt` file for required notices and attributions.
 
-Donations
----------
-You like Apache Commons FileUpload? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support the development.
+Donating
+--------
+You like Apache Commons FileUpload? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support development.
 
 Additional Resources
 --------------------
 
 + [Apache Commons Homepage](https://commons.apache.org/)
 + [Apache Issue Tracker (JIRA)](https://issues.apache.org/jira/browse/FILEUPLOAD)
++ [Apache Commons Slack Channel](https://the-asf.slack.com/archives/C60NVB8AD)
 + [Apache Commons Twitter Account](https://twitter.com/ApacheCommons)
-+ `#apache-commons` IRC channel on `irc.freenode.org`
 
-[ml]:https://commons.apache.org/mail-lists.html
+Apache Commons Components
+-------------------------
+
+Please see the [list of components](https://commons.apache.org/components.html)
