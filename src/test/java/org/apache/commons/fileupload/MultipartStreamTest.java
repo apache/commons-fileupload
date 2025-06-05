@@ -17,20 +17,18 @@
 
 package org.apache.commons.fileupload;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
-
 import org.apache.commons.fileupload.MultipartStream.MalformedStreamException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.junit.Test;
 
 /**
  * Tests {@link org.apache.commons.fileupload.MultipartStream}.
@@ -94,12 +92,7 @@ public class MultipartStreamTest {
 
         final MockHttpServletRequest req = new MockHttpServletRequest(
                 request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
-        try {
-            upload.parseRequest(req);
-            fail("Expected exception.");
-        } catch (final FileUploadBase.IOFileUploadException e) {
-            // Expected
-        }
+        assertThrows(FileUploadBase.IOFileUploadException.class, () -> upload.parseRequest(req));
     }
 
     @Test
@@ -122,12 +115,7 @@ public class MultipartStreamTest {
 
         final MockHttpServletRequest req = new MockHttpServletRequest(
                 request.toString().getBytes("US-ASCII"), Constants.CONTENT_TYPE);
-        try {
-            upload.parseRequest(req);
-            fail("Expected exception.");
-        } catch (final FileUploadException e) {
-            // Expected
-            Assert.assertTrue(e.getCause() instanceof MalformedStreamException);
-        }
+        final FileUploadException e = assertThrows(FileUploadException.class, () -> upload.parseRequest(req));
+        assertInstanceOf(MalformedStreamException.class, e.getCause());
     }
 }
