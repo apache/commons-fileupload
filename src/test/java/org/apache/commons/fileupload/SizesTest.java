@@ -299,13 +299,7 @@ public class SizesTest {
         upload.setSizeMax(-1);
         upload.setPartHeaderSizeMax(100);
 
-        final MockHttpServletRequest req = new MockHttpServletRequest(
-                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
-        try {
-            upload.parseRequest(req);
-            fail("Expected exception.");
-        } catch (final FileUploadBase.SizeLimitExceededException e) {
-            assertEquals(100, e.getPermittedSize());
-        }
+        final MockHttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        assertEquals(100, assertThrows(FileUploadBase.SizeLimitExceededException.class, () -> upload.parseRequest(req)).getPermittedSize());
     }
 }

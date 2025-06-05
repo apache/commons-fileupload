@@ -19,6 +19,8 @@ package org.apache.commons.fileupload;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -176,12 +178,8 @@ public class StreamingTest {
         final byte[] request = newRequest();
         final byte[] invalidRequest = new byte[request.length - 11];
         System.arraycopy(request, 0, invalidRequest, 0, request.length - 11);
-        try {
-            parseUpload(invalidRequest);
-            fail("Expected EndOfStreamException");
-        } catch (final IOFileUploadException e) {
-            assertTrue(e.getCause() instanceof MultipartStream.MalformedStreamException);
-        }
+        assertInstanceOf(MultipartStream.MalformedStreamException.class,
+                assertThrows(IOFileUploadException.class, () -> parseUpload(invalidRequest)).getCause());
     }
 
     /**
@@ -214,25 +212,17 @@ public class StreamingTest {
 
         final FileItemIterator fileItemIter = parseUpload(reqBytes.length, new ByteArrayInputStream(reqBytes));
         final FileItemStream fileItemStream = fileItemIter.next();
-        try {
-            fileItemStream.getName();
-            fail("Expected exception");
-        } catch (final InvalidFileNameException e) {
-            assertEquals(fileName, e.getName());
-            assertTrue(e.getMessage().indexOf(fileName) == -1);
-            assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
-        }
+        InvalidFileNameException e = assertThrows(InvalidFileNameException.class, fileItemStream::getName);
+        assertEquals(fileName, e.getName());
+        assertTrue(e.getMessage().indexOf(fileName) == -1);
+        assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
 
         final List<FileItem> fileItems = parseUpload(reqBytes);
         final FileItem fileItem = fileItems.get(0);
-        try {
-            fileItem.getName();
-            fail("Expected exception");
-        } catch (final InvalidFileNameException e) {
-            assertEquals(fileName, e.getName());
-            assertTrue(e.getMessage().indexOf(fileName) == -1);
-            assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
-        }
+        e = assertThrows(InvalidFileNameException.class, fileItem::getName);
+        assertEquals(fileName, e.getName());
+        assertTrue(e.getMessage().indexOf(fileName) == -1);
+        assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
     }
 
     /**
@@ -265,12 +255,8 @@ public class StreamingTest {
                 return length;
             }
         };
-        try {
-            parseUpload(stream, request.length);
-            fail("Expected IOException");
-        } catch (final FileUploadException e) {
-            assertTrue(e.getCause() instanceof IOException);
-            assertEquals("123", e.getCause().getMessage());
-        }
+        final FileUploadException e = assertThrows(FileUploadException.class, () -> parseUpload(stream, request.length));
+        assertTrue(e.getCause() instanceof IOException);
+        assertEquals("123", e.getCause().getMessage());
     }
 }
