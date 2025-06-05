@@ -37,38 +37,6 @@ public class MultipartStreamTest {
 
     static private final String BOUNDARY_TEXT = "myboundary";
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testSmallBuffer() throws Exception {
-        final String strData = "foobar";
-        final byte[] contents = strData.getBytes();
-        final InputStream input = new ByteArrayInputStream(contents);
-        final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final int iBufSize = 1;
-        @SuppressWarnings("unused")
-        final MultipartStream unused = new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length));
-    }
-
-    @Test
-    public void testThreeParamConstructor() throws Exception {
-        final String strData = "foobar";
-        final byte[] contents = strData.getBytes();
-        final InputStream input = new ByteArrayInputStream(contents);
-        final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final int iBufSize = boundary.length + MultipartStream.BOUNDARY_PREFIX.length + 1;
-        final MultipartStream ms = new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length));
-        assertNotNull(ms);
-    }
-
-    @Test
-    public void testTwoParamConstructor() throws Exception {
-        final String strData = "foobar";
-        final byte[] contents = strData.getBytes();
-        final InputStream input = new ByteArrayInputStream(contents);
-        final byte[] boundary = BOUNDARY_TEXT.getBytes();
-        final MultipartStream ms = new MultipartStream(input, boundary, new MultipartStream.ProgressNotifier(null, contents.length));
-        assertNotNull(ms);
-    }
-
     @Test
     public void testMalformedUploadTruncatedHeaders()
             throws IOException, FileUploadException {
@@ -117,5 +85,37 @@ public class MultipartStreamTest {
                 request.toString().getBytes("US-ASCII"), Constants.CONTENT_TYPE);
         final FileUploadException e = assertThrows(FileUploadException.class, () -> upload.parseRequest(req));
         assertInstanceOf(MalformedStreamException.class, e.getCause());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSmallBuffer() throws Exception {
+        final String strData = "foobar";
+        final byte[] contents = strData.getBytes();
+        final InputStream input = new ByteArrayInputStream(contents);
+        final byte[] boundary = BOUNDARY_TEXT.getBytes();
+        final int iBufSize = 1;
+        @SuppressWarnings("unused")
+        final MultipartStream unused = new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length));
+    }
+
+    @Test
+    public void testThreeParamConstructor() throws Exception {
+        final String strData = "foobar";
+        final byte[] contents = strData.getBytes();
+        final InputStream input = new ByteArrayInputStream(contents);
+        final byte[] boundary = BOUNDARY_TEXT.getBytes();
+        final int iBufSize = boundary.length + MultipartStream.BOUNDARY_PREFIX.length + 1;
+        final MultipartStream ms = new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length));
+        assertNotNull(ms);
+    }
+
+    @Test
+    public void testTwoParamConstructor() throws Exception {
+        final String strData = "foobar";
+        final byte[] contents = strData.getBytes();
+        final InputStream input = new ByteArrayInputStream(contents);
+        final byte[] boundary = BOUNDARY_TEXT.getBytes();
+        final MultipartStream ms = new MultipartStream(input, boundary, new MultipartStream.ProgressNotifier(null, contents.length));
+        assertNotNull(ms);
     }
 }

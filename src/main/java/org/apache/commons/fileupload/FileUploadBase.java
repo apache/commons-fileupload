@@ -57,16 +57,6 @@ import org.apache.commons.io.IOUtils;
 public abstract class FileUploadBase {
 
     /**
-     * Line feed.
-     */
-    private static final char LF = '\n';
-
-    /**
-     * Carriage return.
-     */
-    private static final char CR = '\r';
-
-    /**
      * The iterator, which is returned by
      * {@link FileUploadBase#getItemIterator(RequestContext)}.
      */
@@ -786,6 +776,16 @@ public abstract class FileUploadBase {
     }
 
     /**
+     * Line feed.
+     */
+    private static final char LF = '\n';
+
+    /**
+     * Carriage return.
+     */
+    private static final char CR = '\r';
+
+    /**
      * HTTP content type header name.
      */
     public static final String CONTENT_TYPE = "Content-type";
@@ -1143,17 +1143,6 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Obtain the per part size limit for headers.
-     *
-     * @return The maximum size of the headers for a single part in bytes.
-     *
-     * @since 1.6.0
-     */
-    public int getPartHeaderSizeMax() {
-        return partHeaderSizeMax;
-    }
-
-    /**
      * <p> Parses the {@code header-part} and returns as key/value
      * pairs.
      *
@@ -1196,6 +1185,17 @@ public abstract class FileUploadBase {
             parseHeaderLine(headers, header.toString());
         }
         return headers;
+    }
+
+    /**
+     * Obtain the per part size limit for headers.
+     *
+     * @return The maximum size of the headers for a single part in bytes.
+     *
+     * @since 1.6.0
+     */
+    public int getPartHeaderSizeMax() {
+        return partHeaderSizeMax;
     }
 
     /**
