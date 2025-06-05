@@ -845,7 +845,7 @@ public abstract class FileUploadBase {
     /**
      * Default per part header size limit in bytes.
      *
-     * @since 1.6
+     * @since 1.6.0
      */
     public static final int DEFAULT_PART_HEADER_SIZE_MAX = 512;
 
@@ -1147,7 +1147,7 @@ public abstract class FileUploadBase {
      *
      * @return The maximum size of the headers for a single part in bytes.
      *
-     * @since 1.6
+     * @since 1.6.0
      */
     public int getPartHeaderSizeMax() {
         return partHeaderSizeMax;
@@ -1444,7 +1444,7 @@ public abstract class FileUploadBase {
      *
      * @param partHeaderSizeMax The maximum size of the headers in bytes.
      *
-     * @since 1.6
+     * @since 1.6.0
      */
     public void setPartHeaderSizeMax(final int partHeaderSizeMax) {
         this.partHeaderSizeMax = partHeaderSizeMax;

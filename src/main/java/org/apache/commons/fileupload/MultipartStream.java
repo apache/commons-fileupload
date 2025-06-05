@@ -801,7 +801,7 @@ public class MultipartStream {
      *
      * @return The maximum size of the headers for a single part in bytes.
      *
-     * @since 1.6
+     * @since 1.6.0
      */
     public int getPartHeaderSizeMax() {
         return partHeaderSizeMax;
@@ -1000,7 +1000,7 @@ public class MultipartStream {
      *
      * @param partHeaderSizeMax The maximum size of the headers in bytes.
      *
-     * @since 1.6
+     * @since 1.6.0
      */
     public void setPartHeaderSizeMax(final int partHeaderSizeMax) {
         this.partHeaderSizeMax = partHeaderSizeMax;
