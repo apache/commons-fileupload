@@ -50,6 +50,8 @@
     </site>
   </distributionManagement>
   <properties>
+    <commons.main.branch>1.x</commons.main.branch>
+    <commons.release.branch>release-1.x</commons.release.branch>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <commons.componentid>fileupload</commons.componentid>
