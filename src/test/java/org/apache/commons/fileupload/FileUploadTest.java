@@ -21,13 +21,21 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Assert;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUploadTest;
+import org.apache.commons.fileupload.util.Streams;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -439,5 +447,55 @@ public class FileUploadTest {
         assertEquals("some text/plain content", part2.getString());
         assertEquals("text/plain", part2.getContentType());
         assertNull(part2.getName());
+    }
+
+
+    @Test
+    public void testOpenStreamSecondCall() throws IOException, FileUploadException {
+        final String request =
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file1\"; filename=\"foo1.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "Content-Length: 10\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234--\r\n";
+
+        final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        upload.setFileSizeMax(-1);
+        upload.setSizeMax(300);
+
+        // the first item should be within the max size limit
+        // set the read limit to 10 to simulate a "real" stream
+        // otherwise the buffer would be immediately filled
+
+        final MockHttpServletRequest req = new MockHttpServletRequest(
+                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        req.setContentLength(-1);
+        req.setReadLimit(10);
+
+        final FileItemIterator it = upload.getItemIterator(req);
+        assertTrue(it.hasNext());
+
+        FileItemStream item = it.next();
+        assertFalse(item.isFormField());
+        assertEquals("file1", item.getFieldName());
+        assertEquals("foo1.tab", item.getName());
+
+        try (InputStream stream = item.openStream()) {
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Streams.copy(stream, baos, true);
+        }
+
+        try {
+            item.openStream();
+            Assert.fail("Attempt to open a closed stream did not throw an exception");
+        } catch (IOException ioe) {
+            // Expected
+        }
+
+        // Should only be one item
+        assertFalse(it.hasNext());
     }
 }
