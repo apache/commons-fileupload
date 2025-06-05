@@ -217,6 +217,42 @@ public class SizesTest {
         }
     }
 
+    /** Checks, whether the maxSize works.
+     */
+    @Test
+    public void testPartHeaderSizeMaxLimit()
+            throws IOException, FileUploadException {
+        final String request =
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file1\"; filename=\"foo1.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "Content-Length: 10\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234--\r\n";
+
+        final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+        upload.setFileSizeMax(-1);
+        upload.setSizeMax(-1);
+        upload.setPartHeaderSizeMax(100);
+
+        final MockHttpServletRequest req = new MockHttpServletRequest(
+                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        try {
+            upload.parseRequest(req);
+            fail("Expected exception.");
+        } catch (final FileUploadBase.SizeLimitExceededException e) {
+            assertEquals(100, e.getPermittedSize());
+        }
+    }
+
     @Test
     public void testMaxSizeLimitUnknownContentLength()
             throws IOException, FileUploadException {
@@ -280,5 +316,4 @@ public class SizesTest {
             // expected
         }
     }
-
 }

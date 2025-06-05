@@ -20,12 +20,15 @@ package org.apache.commons.fileupload;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import org.junit.Assert;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
 
+import org.apache.commons.fileupload.MultipartStream.MalformedStreamException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -115,6 +118,7 @@ public class MultipartStreamTest {
         final ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         upload.setFileSizeMax(-1);
         upload.setSizeMax(-1);
+        upload.setPartHeaderSizeMax(-1);
 
         final MockHttpServletRequest req = new MockHttpServletRequest(
                 request.toString().getBytes("US-ASCII"), Constants.CONTENT_TYPE);
@@ -123,6 +127,7 @@ public class MultipartStreamTest {
             fail("Expected exception.");
         } catch (final FileUploadException e) {
             // Expected
+            Assert.assertTrue(e.getCause() instanceof MalformedStreamException);
         }
     }
 }
