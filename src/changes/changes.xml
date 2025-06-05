@@ -42,7 +42,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="1.6.0" date="2025-06-09" description="This release requires Java 8.">
+    <release version="1.6.0" date="YYYY-MM-DD" description="This release requires Java 8.">
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="mufasa1976, Jochen Wiedmann, Gary Gregory">[1.x] Enable multipart/related on FileUpload #314.</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add JApiCmp to the default Maven goal.</action>
@@ -95,19 +95,16 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-288" dev="jochen" type="fix" due-to="fangwentong" due-to-email="fangwentong2012@gmail.com">Avoid using File.exists() on temporary files, if we know that the file has been created.</action>
       <action type="add" dev="jochen" due-to="Pascal Schumacher">Added .travis.yml, to fix build issues on Github.</action>
     </release>
-
     <release version="1.3.3" description="Bugfix release for 1.3.3" date="2017-06-13">
       <action issue="FILEUPLOAD-279" dev="jochen" type="fix">
         DiskDileItem can actually no longer be deserialized, unless a system property is set to true.
       </action>
     </release>
-
     <release version="1.3.2" description="Bugfix release for 1.3.1" date="2016.05-26">
       <action issue="FILEUPLOAD-272" dev="jochen" type="update">
         SECURITY - CVE-2016-3092. Performance Improvement in MultipartStream.
       </action>
     </release>
-
     <release version="1.3.2" description=
 "This is a security and maintenance release that includes an important security 
 fix as well. Compared to 1.3.1, no other changes have been made." date="2014-02-07">
@@ -135,7 +132,6 @@ fix as well as a small number of bugfixes." date="2014-02-07">
         Correct example in usage documentation so it compiles.
       </action>
     </release>
-    
     <release version="1.3" description="maintenance release, JDK1.5 update" date="2013-03-27">
       <!-- important notes -->
       <action dev="markt" type="fix">
@@ -301,7 +297,6 @@ fix as well as a small number of bugfixes." date="2014-02-07">
         The FileItemHeader stuff hasn't been actually working.
       </action>
     </release>
-
     <release version="1.2.1" date="2008-01-18">
       <action dev="jochen" type="fix">
         Upgrade to commons-io-1.4-SNAPSHOT, in order to use the new
@@ -341,7 +336,6 @@ fix as well as a small number of bugfixes." date="2014-02-07">
         and Ant.
       </action>
     </release>
-
 	<release version="1.2" date="2007-02-13">
       <action dev="jochen" type="fix" due-to="Aaron Freeman"
            due-to-email="aaron@sendthisfile.com">
@@ -385,61 +379,46 @@ fix as well as a small number of bugfixes." date="2014-02-07">
         has not been set.
       </action>
 	</release>
-
     <release version="1.1.1" date="2006-06-08" description="Bugfix release">
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-20">
         Cache disk file item size when it is moved to a new location.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-30">
         File names were being inadvertently converted to lower case.
       </action>
-
     </release>
-
     <release version="1.1" date="2005-12-24" description="Portlet support, substantial refactoring and numerous bug fixes">
-
       <action dev="martinc" type="update">
         Updates for FileUpload 1.1-RC1.
       </action>
-
       <action dev="martinc" type="add">
         Added release notes for FileUpload 1.1.
       </action>
-
       <action dev="martinc" type="update">
         Update the User Guide to document the "right" way of using FileUpload
         1.1, rather than the older, and thus deprecated, ways that are
         compatible with FileUpload 1.0.
       </action>
-
       <action dev="martinc" type="add">
         Add this change log, including all changes since the Commons FileUpload
         1.0 release.
       </action>
-
       <action dev="martinc" type="update">
         Update Commons IO dependency to version 1.1.
       </action>
-
       <action dev="martinc" type="add">
         Add custom PMD configuration.
       </action>
-
       <action dev="martinc" type="update">
         Make inner exception classes static, which they should have been all
         along.
       </action>
-
       <action dev="martinc" type="fix">
         Fix Checkstyle warnings.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-29" due-to="Rahul Akolkar">
         Remove Javadoc warnings.
       </action>
-
       <action dev="martinc" type="update">
         Build updates: Include NOTICE.txt in the jar file and distributions.
       </action>
@@ -453,44 +432,35 @@ fix as well as a small number of bugfixes." date="2014-02-07">
       <action dev="martinc" type="add">
         Add custom Checkstyle configuration.
       </action>
-
       <action dev="martinc" type="update">
         Update dependencies in POM, and add comments and scope.
       </action>
-
       <action dev="martinc" type="update">
         Standardise on @throws instead of having a mixture of that and
         @exception.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-50" due-to="Niall Pemberton">
         Make DiskFileItem serializable. Thanks to Niall Pemberton for the
         suggestion and patch.
       </action>
-
       <action dev="martinc" type="update">
         Make the temporary file names unique across class loaders, not just
         within them, by including a UID in the file name.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-77">
         Include the actual and permitted sizes in both the exception message
         and the exception itself.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-13">
         If an explicit header encoding is not specified, use the one from the
         appropriate context (i.e. ServletRequest or ActionRequest).
       </action>
-
       <action dev="martinc" type="add">
         Add getCharacterEncoding to the request context.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-83">
         Null check and case insensitivity fixes.
       </action>
-
       <action dev="martinc" type="update">
         Web site updates:
             Add detail pages for Source Repository and Issue Tracking, based on
@@ -502,40 +472,31 @@ fix as well as a small number of bugfixes." date="2014-02-07">
             The Bugzilla component name has a space in it. Fix the URLs.
             Add an FAQ page, using the Maven plugin to generate it.
       </action>
-
       <action dev="dion" type="fix" issue="COMMONSSITE-2">
         Fixes to POMs
       </action>
-
       <action dev="mrdon" type="update">
         Setting source and target for Java 1.3
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-37">
         Fix typos in Javadoc code examples.
       </action>
-
       <action dev="martinc" type="fix">
         Fix typos in exception messages.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-5">
         Obtain request content type from container instead of headers.
       </action>
-
       <action dev="sullis" type="update">
         New mock objects from Jetspeed-2, and new FileUpload test cases.
       </action>
-
       <action dev="sullis" type="add">
         added toString() methods
       </action>
-
       <action dev="martinc" type="add">
         Fix up the existing package.html file and add new ones for the newly
         introduced packages. Fairly minimal, but with a link to the user guide.
       </action>
-
       <action dev="martinc" type="update">
         Substantial refactoring and additions:
 
@@ -565,104 +526,78 @@ fix as well as a small number of bugfixes." date="2014-02-07">
             the former for now, but the latter is the desired state, which
             implies some future breakage. Fair warning...
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-4">
         Specify the encoding (ISO-8859-1) when converting the boundary to a
         byte array.
       </action>
-
       <action dev="martinc" type="update">
         Convert to Sun coding guidelines.
       </action>
-
       <action dev="martinc" type="update">
         DeferredFileOutputStream moved to Commons IO.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-16" due-to="Justin Sampson">
         Workaround for Mac IE5 bug. Thanks to Justin Sampson for the patch and
         tests for this vexing issue.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-104">
         Handle unquoted header parameters.
       </action>
-
       <action dev="martinc" type="add" issue="FILEUPLOAD-78">
         Some documentation on interaction with virus scanners.
       </action>
-
       <action dev="martinc" type="add" issue="FILEUPLOAD-31" due-to="Justin Sampson">
         More unit tests from Justin Sampson.
       </action>
-
       <action dev="martinc" type="update" issue="FILEUPLOAD-95">
         Use FileCleaner from Commons IO to clean up temp files, rather than
         File.deleteOnExit(), which can cause serious problems in long-running
         processes.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-53">
         Check that HTTP method is POST as part of multipart check.
       </action>
-
       <action dev="martinc" type="add">
         Switch to Commons IO version of DeferredFileOutputStream. Adding IO as
         a dependency will allow us to take advantage of other classes in that
         component to fix additional FileUpload bugs.
       </action>
-
       <action dev="martinc" type="add" issue="FILEUPLOAD-40">
         handle quoted boundary specification.
       </action>
-
       <action dev="martinc" type="add" issue="FILEUPLOAD-18">
         use case-independent comparisons for encoding types.
       </action>
-
       <action dev="martinc" type="fix">
         Fix comments to avoid break iterator complaints.
       </action>
-
       <action dev="martinc" type="fix" due-to="Yuji Yamano">
         Fix typos in comments.
       </action>
-
       <action dev="martinc" type="add" issue="FILEUPLOAD-101" due-to="Oleg Kalnichevski">
         Add support for character sets specified for individual parts.
       </action>
-
       <action dev="scolebourne" type="update">
         Change to Apache License 2.0
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-22">
         Correct the comment for the no-args constructor to reflect the fact
         that a factory needs to be set before parsing uploads.
       </action>
-
       <action dev="martinc" type="update">
         Collapse some all but duplicated code.
       </action>
-
       <action dev="jmcnally" type="fix" issue="FILEUPLOAD-72">
         Fix example showing FileItem.write to use a File object.
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-21" due-to="Peter Chase">
         Check for null before attempting to close streams in write().
       </action>
-
       <action dev="martinc" type="fix" issue="FILEUPLOAD-67" due-to="Paul Dalton">
         Correction to sample code in the docs.
       </action>
-
     </release>
-
     <release version="1.0" date="2003-06-26" description="Initial release">
     </release>
-  
-    
   </body>
-
 </document>
