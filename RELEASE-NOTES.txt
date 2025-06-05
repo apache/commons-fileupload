@@ -1,3 +1,34 @@
+              Apache Commons FileUpload 1.6 RELEASE NOTES
+
+The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 1.6.
+
+The Apache Commons FileUpload component provides a simple yet flexible means of
+adding support for multipart file upload functionality to servlets and web
+applications. Version 1.3 onwards requires Java 6 or later.
+
+No client code changes are required to migrate from version 1.5 to 1.6.
+
+Changes in version 1.6 include:
+
+New features:
+o                  Support for uploads using content type multipart/related 
+
+Fixed Bugs:
+o                  Last statement in DiskFileItem.finalize() method should be a call to super.finalize() 
+o                  Use java.util.Base64 instead of custom code.
+
+Changes:
+o                  Bump minimum Java version from 6 to 8 
+o                  Bump Commons IO from 2.11.0 to 2.19.0 
+
+
+For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons FileUpload website:
+
+https://commons.apache.org/proper/commons-fileupload/
+
+------------------------------------------------------------------------------
+
               Apache Commons FileUpload 1.5 RELEASE NOTES
 
 The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 1.5.

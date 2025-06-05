@@ -47,7 +47,7 @@ Apache Commons FileUpload
 [![GitHub Actions Status](https://github.com/apache/commons-fileupload/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-fileupload/actions)
 [![Coverage Status](https://coveralls.io/repos/apache/commons-fileupload/badge.svg)](https://coveralls.io/r/apache/commons-fileupload)
 [![Maven Central](https://img.shields.io/maven-central/v/commons-fileupload/commons-fileupload?label=Maven%20Central)](https://search.maven.org/artifact/commons-fileupload/commons-fileupload)
-[![Javadocs](https://javadoc.io/badge/commons-fileupload/commons-fileupload/1.5.svg)](https://javadoc.io/doc/commons-fileupload/commons-fileupload/1.5)
+[![Javadocs](https://javadoc.io/badge/commons-fileupload/commons-fileupload/1.6.svg)](https://javadoc.io/doc/commons-fileupload/commons-fileupload/1.6)
 
 The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
     file upload functionality to servlets and web applications.
@@ -69,7 +69,7 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>commons-fileupload</groupId>
   <artifactId>commons-fileupload</artifactId>
-  <version>1.5</version>
+  <version>1.6</version>
 </dependency>
 ```
 
