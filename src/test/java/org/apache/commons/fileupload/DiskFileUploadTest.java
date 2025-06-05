@@ -19,6 +19,8 @@ package org.apache.commons.fileupload;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.io.File;
 import java.util.List;
@@ -72,26 +74,12 @@ public class DiskFileUploadTest {
     @Test
     public void testWithInvalidRequest() {
         final HttpServletRequest req = HttpServletRequestFactory.createInvalidHttpServletRequest();
-
-        try {
-            upload.parseRequest(req);
-            fail("testWithInvalidRequest: expected exception was not thrown");
-        } catch (final FileUploadException expected) {
-            // this exception is expected
-        }
+        assertThrows(FileUploadException.class, () -> upload.parseRequest(req));
     }
 
     @Test
     public void testWithNullContentType() {
         final HttpServletRequest req = HttpServletRequestFactory.createHttpServletRequestWithNullContentType();
-
-        try {
-            upload.parseRequest(req);
-            fail("testWithNullContentType: expected exception was not thrown");
-        } catch (final DiskFileUpload.InvalidContentTypeException expected) {
-            // this exception is expected
-        } catch (final FileUploadException unexpected) {
-            fail("testWithNullContentType: unexpected exception was thrown");
-        }
+        assertThrowsExactly(DiskFileUpload.InvalidContentTypeException.class, () -> upload.parseRequest(req));
     }
 }
