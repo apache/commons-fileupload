@@ -21,8 +21,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Assert;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +33,7 @@ import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUploadTest;
 import org.apache.commons.fileupload.util.Streams;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -478,7 +476,7 @@ public class FileUploadTest {
         final FileItemIterator it = upload.getItemIterator(req);
         assertTrue(it.hasNext());
 
-        FileItemStream item = it.next();
+        final FileItemStream item = it.next();
         assertFalse(item.isFormField());
         assertEquals("file1", item.getFieldName());
         assertEquals("foo1.tab", item.getName());
@@ -491,7 +489,7 @@ public class FileUploadTest {
         try {
             item.openStream();
             Assert.fail("Attempt to open a closed stream did not throw an exception");
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
             // Expected
         }
 
