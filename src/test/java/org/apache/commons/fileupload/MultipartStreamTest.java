@@ -71,7 +71,7 @@ public class MultipartStreamTest {
             "Content-Type: text/whatever\r\n" +
             "Content-Length: 10\r\n" +
             "X-Padding: ");
-        int paddingLength = MultipartStream.DEFAULT_BUFSIZE - request.length();
+        final int paddingLength = MultipartStream.DEFAULT_BUFSIZE - request.length();
         for (int i = 0; i < paddingLength; i++) {
             request.append('x');
         }
