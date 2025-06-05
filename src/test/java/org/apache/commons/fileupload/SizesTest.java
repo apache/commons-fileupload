@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,7 +32,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileUploadBase.FileUploadIOException;
-import org.apache.commons.fileupload.FileUploadBase.SizeException;
+import org.apache.commons.fileupload.MultipartStream.MalformedStreamException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
@@ -207,14 +209,8 @@ public class SizesTest {
         upload.setFileSizeMax(-1);
         upload.setSizeMax(200);
 
-        final MockHttpServletRequest req = new MockHttpServletRequest(
-                request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
-        try {
-            upload.parseRequest(req);
-            fail("Expected exception.");
-        } catch (final FileUploadBase.SizeLimitExceededException e) {
-            assertEquals(200, e.getPermittedSize());
-        }
+        final MockHttpServletRequest req = new MockHttpServletRequest(request.getBytes("US-ASCII"), Constants.CONTENT_TYPE);
+        assertEquals(200, assertThrows(FileUploadBase.SizeLimitExceededException.class, () -> upload.parseRequest(req)).getPermittedSize());
     }
 
     @Test
@@ -263,21 +259,17 @@ public class SizesTest {
         }
 
         // the second item is over the size max, thus we expect an error
-        try {
-            // the header is still within size max -> this shall still succeed
-            assertTrue(it.hasNext());
-        } catch (final SizeException e) {
-            fail();
-        }
+        // the header is still within size max -> this shall still succeed
+        assertDoesNotThrow(it::hasNext);
 
         item = it.next();
 
         try (InputStream stream = item.openStream()) {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Streams.copy(stream, baos, true);
-            fail();
-        } catch (final FileUploadIOException e) {
-            // expected
+            assertThrows(FileUploadIOException.class, () -> Streams.copy(stream, baos, true));
+            assertThrows(MalformedStreamException.class, stream::close);
+        } catch (final MalformedStreamException e) {
+            // expected as close() throws again.
         }
     }
 
