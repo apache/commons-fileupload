@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,7 +34,6 @@ import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUploadTest;
 import org.apache.commons.fileupload.util.Streams;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -486,13 +486,7 @@ public class FileUploadTest {
             Streams.copy(stream, baos, true);
         }
 
-        try {
-            item.openStream();
-            Assert.fail("Attempt to open a closed stream did not throw an exception");
-        } catch (final IOException ioe) {
-            // Expected
-        }
-
+        assertThrows(IOException.class, item::openStream, "Attempt to open a closed stream did not throw an exception");
         // Should only be one item
         assertFalse(it.hasNext());
     }

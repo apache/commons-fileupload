@@ -19,6 +19,7 @@ package org.apache.commons.fileupload.util.mime;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -47,13 +48,9 @@ public final class QuotedPrintableDecoderTestCase {
     private static void assertIOException(final String messageText, final String encoded) throws UnsupportedEncodingException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream(encoded.length());
         final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
-        try {
-            QuotedPrintableDecoder.decode(encodedData, out);
-            fail("Expected IOException");
-        } catch (final IOException e) {
-            final String em = e.getMessage();
-            assertTrue("Expected to find " + messageText + " in '" + em + "'", em.contains(messageText));
-        }
+        final IOException e = assertThrows(IOException.class, () -> QuotedPrintableDecoder.decode(encodedData, out));
+        final String em = e.getMessage();
+        assertTrue("Expected to find " + messageText + " in '" + em + "'", em.contains(messageText));
     }
 
     @Test
