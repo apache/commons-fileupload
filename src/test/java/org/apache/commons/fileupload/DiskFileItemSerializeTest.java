@@ -86,22 +86,24 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Create a FileItem with the specfied content bytes.
+     *
+     * @throws IOException test failure. 
      */
-    private FileItem createFileItem(final byte[] contentBytes) {
+    private FileItem createFileItem(final byte[] contentBytes) throws IOException {
         return createFileItem(contentBytes, REPO);
     }
 
     /**
      * Create a FileItem with the specfied content bytes and repository.
+     *
+     * @throws IOException test failure. 
      */
-    private FileItem createFileItem(final byte[] contentBytes, final File repository) {
+    private FileItem createFileItem(final byte[] contentBytes, final File repository) throws IOException {
         final FileItemFactory factory = new DiskFileItemFactory(THRESHOLD, repository);
         final String textFieldName = "textField";
         final FileItem item = factory.createItem(textFieldName, CONTENT_TYPE_TEXT, true, "My File Name");
         try (OutputStream os = item.getOutputStream()) {
             os.write(contentBytes);
-        } catch (final IOException e) {
-            fail("Unexpected IOException" + e);
         }
         return item;
     }
@@ -148,9 +150,11 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test creation of a field for which the amount of data falls above the configured threshold.
+     *
+     * @throws IOException test failure. 
      */
     @Test
-    public void testAboveThreshold() {
+    public void testAboveThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD + 1);
         final FileItem item = createFileItem(testFieldValueBytes);
@@ -163,9 +167,11 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test creation of a field for which the amount of data falls below the configured threshold.
+     *
+     * @throws IOException test failure. 
      */
     @Test
-    public void testBelowThreshold() {
+    public void testBelowThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD - 1);
         testInMemoryObject(testFieldValueBytes);
@@ -173,15 +179,19 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Helper method to test creation of a field.
+     *
+     * @throws IOException test failure. 
      */
-    private void testInMemoryObject(final byte[] testFieldValueBytes) {
+    private void testInMemoryObject(final byte[] testFieldValueBytes) throws IOException {
         testInMemoryObject(testFieldValueBytes, REPO);
     }
 
     /**
      * Helper method to test creation of a field when a repository is used.
+     *
+     * @throws IOException test failure. 
      */
-    private void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) {
+    private void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) throws IOException {
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         // Check state is as expected
         assertTrue("Initial: in memory", item.isInMemory());
@@ -216,9 +226,11 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test creation of a field for which the amount of data equals the configured threshold.
+     *
+     * @throws IOException test failure. 
      */
     @Test
-    public void testThreshold() {
+    public void testThreshold() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes);
@@ -226,9 +238,11 @@ public class DiskFileItemSerializeTest {
 
     /**
      * Test serialization and deserialization when repository is not null.
+     *
+     * @throws IOException test failure. 
      */
     @Test
-    public void testValidRepository() {
+    public void testValidRepository() throws IOException {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes, REPO);
