@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.fileupload.util.mime;
+package org.apache.commons.fileupload;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,9 +22,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.fileupload.RFC2231Utility;
 import org.junit.Test;
 
 /**
+ * Tests {@link RFC2231Utility}.
+ *
  * The expected characters are encoded in UTF16, while the actual characters may be encoded in UTF-8/ISO-8859-1
  *
  * RFC 5987 recommends to support both UTF-8 & ISO 8859-1. Test values are taken from https://tools.ietf.org/html/rfc5987#section-3.2.2

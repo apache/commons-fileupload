@@ -22,7 +22,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.fileupload.util.mime.MimeUtility;
-import org.apache.commons.fileupload.util.mime.RFC2231Utility;
 
 /**
  * A simple parser intended to parse sequences of name/value pairs.
