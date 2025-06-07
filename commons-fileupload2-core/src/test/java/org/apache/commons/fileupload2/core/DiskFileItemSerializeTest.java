@@ -167,7 +167,7 @@ public class DiskFileItemSerializeTest {
      * @throws IOException Test failure.
      */
     @Test
-    public void testAboveThreshold() throws IOException {
+    void testAboveThreshold() throws IOException {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD + 1);
         final var item = createFileItem(testFieldValueBytes);
@@ -187,14 +187,14 @@ public class DiskFileItemSerializeTest {
      * @throws IOException Test failure.
      */
     @Test
-    public void testBelowThreshold() throws IOException {
+    void testBelowThreshold() throws IOException {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD - 1);
         testInMemoryObject(testFieldValueBytes);
     }
 
     @Test
-    public void testCheckFileName() {
+    void testCheckFileName() {
         assertThrows(InvalidPathException.class, () -> DiskFileItem.checkFileName("\0"));
     }
 
@@ -225,7 +225,7 @@ public class DiskFileItemSerializeTest {
      * @throws IOException Test failure.
      */
     @Test
-    public void testInvalidRepository() throws IOException {
+    void testInvalidRepository() throws IOException {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD);
         final var repository = PathUtils.getTempDirectory().resolve("file");
@@ -239,7 +239,7 @@ public class DiskFileItemSerializeTest {
      * @throws IOException Test failure.
      */
     @Test
-    public void testThreshold() throws IOException {
+    void testThreshold() throws IOException {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes);
@@ -251,7 +251,7 @@ public class DiskFileItemSerializeTest {
      * @throws IOException Test failure.
      */
     @Test
-    public void testValidRepository() throws IOException {
+    void testValidRepository() throws IOException {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD);
         testInMemoryObject(testFieldValueBytes, REPOSITORY);

@@ -37,22 +37,22 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
-    public void testDecodeInvalidEncoding() throws Exception {
+    void testDecodeInvalidEncoding() throws Exception {
         assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utils.decodeText("abc'en'hello"));
     }
 
     @Test
-    public void testDecodeIso88591() throws Exception {
+    void testDecodeIso88591() throws Exception {
         assertEncoded("\u00A3 rate", "iso-8859-1'en'%A3%20rate"); // "£ rate"
     }
 
     @Test
-    public void testDecodeUtf8() throws Exception {
+    void testDecodeUtf8() throws Exception {
         assertEncoded("\u00a3 \u0061\u006e\u0064 \u20ac \u0072\u0061\u0074\u0065\u0073", "UTF-8''%c2%a3%20and%20%e2%82%ac%20rates"); // "£ and € rates"
     }
 
     @Test
-    public void testHasEncodedValue() {
+    void testHasEncodedValue() {
         final var nameWithAsteriskAtEnd = "paramname*";
         assertTrue(RFC2231Utils.hasEncodedValue(nameWithAsteriskAtEnd));
 
@@ -64,12 +64,12 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
-    public void testNoNeedToDecode() throws Exception {
+    void testNoNeedToDecode() throws Exception {
         assertEncoded("abc", "abc");
     }
 
     @Test
-    public void testStripDelimiter() {
+    void testStripDelimiter() {
         final var nameWithAsteriskAtEnd = "paramname*";
         assertEquals("paramname", RFC2231Utils.stripDelimiter(nameWithAsteriskAtEnd));
 

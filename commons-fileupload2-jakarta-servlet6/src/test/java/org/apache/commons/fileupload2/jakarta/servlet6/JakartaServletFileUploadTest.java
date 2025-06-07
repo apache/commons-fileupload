@@ -51,7 +51,7 @@ public class JakartaServletFileUploadTest
     }
 
     @Test
-    public void testParseImpliedUtf8() throws Exception {
+    void testParseImpliedUtf8() throws Exception {
         // utf8 encoded form-data without explicit content-type encoding
         // @formatter:off
         final var text = "-----1234\r\n" +
@@ -79,7 +79,7 @@ public class JakartaServletFileUploadTest
      * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-210">
      */
     @Test
-    public void testParseParameterMap() throws Exception {
+    void testParseParameterMap() throws Exception {
         // @formatter:off
         final var text = "-----1234\r\n" +
                       "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +

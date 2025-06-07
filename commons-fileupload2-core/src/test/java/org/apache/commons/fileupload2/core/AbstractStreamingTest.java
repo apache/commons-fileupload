@@ -122,7 +122,7 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      * @throws IOException Test failure.
      */
     @Test
-    public void testFileUpload() throws IOException {
+    void testFileUpload() throws IOException {
         final var request = newRequest();
         final var fileItems = parseUpload(request);
         final var fileIter = fileItems.iterator();
@@ -149,7 +149,7 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      * @throws IOException Test failure.
      */
     @Test
-    public void testFILEUPLOAD135() throws IOException {
+    void testFILEUPLOAD135() throws IOException {
         final var request = newShortRequest();
         final var bais = new ByteArrayInputStream(request);
         final var fileItems = parseUpload(new InputStream() {
@@ -182,7 +182,7 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      * @throws IOException Test failure.
      */
     @Test
-    public void testFileUploadException() throws IOException {
+    void testFileUploadException() throws IOException {
         final var request = newRequest();
         final var invalidRequest = new byte[request.length - 11];
         System.arraycopy(request, 0, invalidRequest, 0, request.length - 11);
@@ -200,7 +200,7 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      * @throws IOException Test failure.
      */
     @Test
-    public void testInvalidFileNameException() throws IOException {
+    void testInvalidFileNameException() throws IOException {
         final var fileName = "foo.exe\u0000.png";
         // @formatter:off
         final var request =
@@ -255,7 +255,7 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
      * @throws IOException Test failure.
      */
     @Test
-    public void testIOException() throws IOException {
+    void testIOException() throws IOException {
         final var request = newRequest();
         final InputStream stream = new FilterInputStream(new ByteArrayInputStream(request)) {
             private int num;

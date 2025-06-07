@@ -102,7 +102,7 @@ public abstract class AbstractProgressListenerTest<AFU extends AbstractFileUploa
      * @throws IOException Test failure.
      */
     @Test
-    public void testProgressListener() throws IOException {
+    void testProgressListener() throws IOException {
         final var numItems = 512;
         final var baos = new ByteArrayOutputStream();
         for (var i = 0; i < numItems; i++) {

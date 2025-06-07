@@ -45,7 +45,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
      * @throws IOException Test failure.
      */
     @Test
-    public void testFileSizeLimit() throws IOException {
+    void testFileSizeLimit() throws IOException {
         final var content = "This is the content of the file\n";
         final var contentSize = content.getBytes().length;
 
@@ -111,7 +111,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
      * @throws IOException Test failure.
      */
     @Test
-    public void testFileSizeLimitWithFakedContentLength() throws IOException {
+    void testFileSizeLimitWithFakedContentLength() throws IOException {
         // @formatter:off
         final var request =
             "-----1234\r\n" +
@@ -169,7 +169,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
      * @throws IOException Test failure.
      */
     @Test
-    public void testMaxSizeLimit() throws IOException {
+    void testMaxSizeLimit() throws IOException {
         // @formatter:off
         final var request =
             "-----1234\r\n" +
@@ -202,7 +202,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
     }
 
     @Test
-    public void testMaxSizeLimitUnknownContentLength() throws IOException {
+    void testMaxSizeLimitUnknownContentLength() throws IOException {
         // @formatter:off
         final var request =
             "-----1234\r\n" +

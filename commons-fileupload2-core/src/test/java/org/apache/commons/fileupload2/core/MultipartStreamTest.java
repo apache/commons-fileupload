@@ -32,7 +32,7 @@ public class MultipartStreamTest {
     static private final String BOUNDARY_TEXT = "myboundary";
 
     @Test
-    public void testSmallBuffer() {
+    void testSmallBuffer() {
         final var strData = "foobar";
         final var contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
@@ -43,7 +43,7 @@ public class MultipartStreamTest {
     }
 
     @Test
-    public void testThreeParamConstructor() throws Exception {
+    void testThreeParamConstructor() throws Exception {
         final var strData = "foobar";
         final var contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
@@ -55,7 +55,7 @@ public class MultipartStreamTest {
     }
 
     @Test
-    public void testTwoParamConstructor() throws Exception {
+    void testTwoParamConstructor() throws Exception {
         final var strData = "foobar";
         final var contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);

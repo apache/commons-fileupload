@@ -144,7 +144,7 @@ public class MockRequestContextTest {
      * Test if the {@code content-type} is {@code multipart/related}
      */
     @Test
-    public void testIsMultipartRelated() {
+    void testIsMultipartRelated() {
         final RequestContext request = new MockRequestContext(
                 x -> "1234",
                 () -> 5678L,
@@ -159,7 +159,7 @@ public class MockRequestContextTest {
      * Test if the {@code content-type} is not {@code multipart/related}
      */
     @Test
-    public void testIsNotMultipartRelated() {
+    void testIsNotMultipartRelated() {
         final RequestContext request = new MockRequestContext(
                 x -> "1234",
                 () -> 5678L,
@@ -174,7 +174,7 @@ public class MockRequestContextTest {
      * Test the {@code toString()} Output
      */
     @Test
-    public void testToString() {
+    void testToString() {
         final RequestContext request = new MockRequestContext(
                 x -> "1234",
                 () -> 5678L,

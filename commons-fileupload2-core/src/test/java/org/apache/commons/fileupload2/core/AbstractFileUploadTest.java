@@ -59,7 +59,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * @throws IOException Test failure.
      */
     @Test
-    public void testContentTypeAttachment() throws IOException {
+    void testContentTypeAttachment() throws IOException {
         // @formatter:off
         final var fileItems = parseUpload(upload,
                 "-----1234\r\n" +
@@ -99,7 +99,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * @throws FileUploadException Test failure.
      */
     @Test
-    public void testEmptyFile() throws IOException {
+    void testEmptyFile() throws IOException {
         // @formatter:off
         final var fileItems = parseUpload (upload,
                                                 "-----1234\r\n" +
@@ -117,7 +117,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
     }
 
     @Test
-    public void testFileNameCaseSensitivity() throws IOException {
+    void testFileNameCaseSensitivity() throws IOException {
         // @formatter:off
         final var fileItems = parseUpload(upload,
                                                "-----1234\r\n" +
@@ -137,7 +137,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
     }
 
     @Test
-    public void testFileUpload() throws IOException {
+    void testFileUpload() throws IOException {
         // @formatter:off
         final var fileItems = parseUpload(upload,
                                                "-----1234\r\n" +
@@ -192,7 +192,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * @throws IOException Test failure.
      */
     @Test
-    public void testFileUpload130() throws IOException {
+    void testFileUpload130() throws IOException {
         final String[] headerNames = { "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader" };
         final String[] headerValues = { "present", "Is there", "Here", "Is That" };
         // @formatter:off
@@ -245,7 +245,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * @throws IOException Test failure.
      */
     @Test
-    public void testFILEUPLOAD62() throws IOException {
+    void testFILEUPLOAD62() throws IOException {
         // @formatter:off
         final var contentType = "multipart/form-data; boundary=AaB03x";
         final var request =
@@ -293,7 +293,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * @throws IOException Test failure.
      */
     @Test
-    public void testFoldedHeaders() throws IOException {
+    void testFoldedHeaders() throws IOException {
         // @formatter:off
         final var fileItems = parseUpload(upload, "-----1234\r\n" +
                 "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
@@ -349,7 +349,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * @throws FileUploadException Test failure.
      */
     @Test
-    public void testIE5MacBug() throws IOException {
+    void testIE5MacBug() throws IOException {
         final var fileItems = parseUpload(upload,
         // @formatter:off
                 "-----1234\r\n" +
@@ -399,7 +399,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
      * This kind of Content-Type is commonly used by SOAP-Requests with Attachments (MTOM)
      */
     @Test
-    public void testMultipleRelated() throws Exception {
+    void testMultipleRelated() throws Exception {
         final String soapEnvelope =
                 "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">\r\n" +
                 "  <soap:Header></soap:Header>\r\n" +

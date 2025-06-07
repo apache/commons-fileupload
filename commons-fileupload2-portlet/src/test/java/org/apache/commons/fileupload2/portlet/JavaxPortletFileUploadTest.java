@@ -51,7 +51,7 @@ public class JavaxPortletFileUploadTest
     }
 
     @Test
-    public void testParseParameterMap() throws Exception {
+    void testParseParameterMap() throws Exception {
         // @formatter:off
         final var text = "-----1234\r\n" +
                       "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +

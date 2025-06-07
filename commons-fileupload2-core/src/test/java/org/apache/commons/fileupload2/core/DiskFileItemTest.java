@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 public class DiskFileItemTest {
 
     @Test
-    public void testBuilderHeaders() {
+    void testBuilderHeaders() {
         final var builder = DiskFileItem.builder();
         assertNotNull(builder.getFileItemHeaders());
         final var fileItem = builder.get();
@@ -46,7 +46,7 @@ public class DiskFileItemTest {
      * Tests FILEUPLOAD-352 NullPointerException in DiskFileItem#toString
      */
     @Test
-    public void testToStringDefault() {
+    void testToStringDefault() {
         new DiskFileItem.Builder().get().toString();
     }
 }
