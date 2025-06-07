@@ -211,6 +211,57 @@ patches, or suggestions for improvement, see the Apache Commons FileUpload Paren
 https://commons.apache.org/proper/commons-fileupload/
 
 ------------------------------------------------------------------------------
+
+Apache Commons FileUpload 1.6.0 Release Notes
+---------------------------------------------
+
+The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 1.6.0.
+
+The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
+file upload functionality to servlets and web applications.
+
+This release requires Java 8.
+
+Changes in this version include:
+
+New features:
+o                  [1.x] Enable multipart/related on FileUpload #314. Thanks to mufasa1976, Jochen Wiedmann, Gary Gregory.
+o                  Add JApiCmp to the default Maven goal. Thanks to Gary Gregory.
+o                  Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes. Thanks to Mark Thomas.
+
+Fixed Bugs:
+o                  Replace use of Locale.ENGLISH with Locale.ROOT. Thanks to Gary Gregory.
+o                  Remove unused exception from FileUploadBase.createItem(Map, boolean). Thanks to Gary Gregory.
+o                  Migrate from deprecated API in DiskFileItem.getOutputStream(). Thanks to Gary Gregory.
+o                  Use try-with-resources. Thanks to Gary Gregory.
+o                  Port to Java 1.4 Throwable APIs (!). Thanks to Gary Gregory.
+o                  Remove -nouses directive from maven-bundle-plugin. OSGi package imports now state 'uses' definitions for package imports, this doesn't affect JPMS (from org.apache.commons:commons-parent:80). Thanks to Gary Gregory.
+o                  DiskFileItem.getInputStream() now uses NIO. Thanks to Gary Gregory.
+o                  Last statement in DiskFileItem.finalize() method should be a call to super.finalize(). Thanks to Gary Gregory.
+o                  org.apache.commons.fileupload.FileUploadBase.FileUploadIOException is now a proper Java 1.4-style exception (propagates its cause to super). Thanks to Gary Gregory.
+o                  Use java.util.Base64 instead of custom code. Thanks to Gary Gregory.
+
+Changes:
+o                  Bump Java from 6 to 8. Thanks to Gary Gregory.
+o                  Bump org.apache.commons:commons-parent from 62 to 84, upgrades Doxia from 1 to 2. Thanks to Gary Gregory.
+o                  Bump commons-io from 2.11.0 to 2.19.0. Thanks to Gary Gregory.
+o                  Bump javax.servlet:servlet-api from 2.4 to 2.5. Thanks to Gary Gregory.
+o                  Bump JUnit from junit:junit:4.13.2 org.junit.vintage:junit-vintage-engine from parent POM. Thanks to Gary Gregory.
+
+
+Historical list of changes: https://commons.apache.org/proper/commons-fileupload/changes.html
+
+For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons FileUpload website:
+
+https://commons.apache.org/proper/commons-fileupload/
+
+Download page: https://commons.apache.org/proper/commons-fileupload/download_fileupload.cgi
+
+Apache Commons Team
+
+------------------------------------------------------------------------------
+
               Apache Commons FileUpload 1.5 RELEASE NOTES
 
 The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 1.5.
