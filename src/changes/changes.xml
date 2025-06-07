@@ -132,7 +132,36 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump commons-parent from 52 to 58, #167, #183, #194.</action>
       <action                        dev="ggregory" type="update" due-to="Dependabot">Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #160.</action>
     </release>
-    <release version="1.5" date="2023-02-01" description="1.5 Release">
+    <release version="1.6.0" date="2025-06-05" description="This release requires Java 8.">
+      <!-- ADD -->
+      <action type="add" dev="ggregory" due-to="mufasa1976, Jochen Wiedmann, Gary Gregory">[1.x] Enable multipart/related on FileUpload #314.</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add JApiCmp to the default Maven goal.</action>
+      <action type="add" dev="markt"    due-to="Mark Thomas">Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes.</action>
+      <!-- FIX -->
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Replace use of Locale.ENGLISH with Locale.ROOT.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove unused exception from FileUploadBase.createItem(Map, boolean).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Migrate from deprecated API in DiskFileItem.getOutputStream().</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Use try-with-resources.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Port to Java 1.4 Throwable APIs (!).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove -nouses directive from maven-bundle-plugin. OSGi package imports now state 'uses' definitions for package imports, this doesn't affect JPMS (from org.apache.commons:commons-parent:80).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">DiskFileItem.getInputStream() now uses NIO.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Last statement in DiskFileItem.finalize() method should be a call to super.finalize().</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">org.apache.commons.fileupload.FileUploadBase.FileUploadIOException is now a proper Java 1.4-style exception (propagates its cause to super).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Use java.util.Base64 instead of custom code.</action>
+      <!--  UPDATE -->
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump Java from 6 to 8.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 62 to 84, upgrades Doxia from 1 to 2.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io from 2.11.0 to 2.19.0.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump javax.servlet:servlet-api from 2.4 to 2.5.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump JUnit from junit:junit:4.13.2 org.junit.vintage:junit-vintage-engine from parent POM.</action>
+    </release>
+    <release version="1.5" date="2023-02-13" description="This release requires Java 6.">
+      <action                        dev="markt" type="update">Bump Commons IO to 2.11.0</action>
+      <action issue="FILEUPLOAD-293" dev="jochen" type="fix">DiskFileItem.write(File) had been changed to use FileUtils.moveFile internally, preventing an existing file as the target</action>
+      <action                        dev="markt" due-to="David Georg Reichelt" type="fix">Improve parsing speed</action>
+      <action issue="FILEUPLOAD-328" dev="markt" due-to="Arturo Bernal" type="update">Switch from Cobertura code coverage to Jacoco code coverage</action>
+      <action                        dev="markt" type="add">Add a configurable limit (disabled by default) for the number of files to upload per request</action>
+      <action                        dev="markt" type="update">Bump JUnit to 4.13.2</action>
     </release>
     <release version="1.4" date="2018-12-23" description="1.4 Release">
       <action issue="FILEUPLOAD-292" dev="chtompki" type="update">Don't create un-needed resources in FileUploadBase.java</action>
