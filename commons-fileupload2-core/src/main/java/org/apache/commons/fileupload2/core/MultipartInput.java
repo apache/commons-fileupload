@@ -154,14 +154,15 @@ public final class MultipartInput {
 
         /** Sets the per part size limit for headers.
          * @param partHeaderSizeMax The maximum size of the headers in bytes.
+         * @return This builder.
          * @since 2.0.0-M4
          */
-        public Builder setPartHeaderSizeMax(int partHeaderSizeMax) {
-        	this.partHeaderSizeMax = partHeaderSizeMax;
-        	return this;
+        public Builder setPartHeaderSizeMax(final int partHeaderSizeMax) {
+            this.partHeaderSizeMax = partHeaderSizeMax;
+            return this;
         }
-        
-        /**
+
+       /**
          * Sets the progress notifier.
          *
          * @param progressNotifier progress notifier.
@@ -177,7 +178,7 @@ public final class MultipartInput {
          * @since 2.0.0-M4
          */
         public int getPartHeaderSizeMax() {
-        	return partHeaderSizeMax;
+            return partHeaderSizeMax;
         }
 
     }
@@ -572,7 +573,7 @@ public final class MultipartInput {
      * Default per part header size limit in bytes.
      * @since 2.0.0-M4
      */
-    public static final int DEFAULT_PART_HEADER_SIZE_MAX=512;
+    public static final int DEFAULT_PART_HEADER_SIZE_MAX = 512;
 
     /**
      * A byte sequence that marks the end of {@code header-part} ({@code CRLFCRLF}).
@@ -684,7 +685,7 @@ public final class MultipartInput {
      * @since 2.0.0-M4
      */
     private int partHeaderSizeMax;
-    
+
     /**
      * Constructs a {@code MultipartInput} with a custom size buffer.
      * <p>
@@ -815,13 +816,13 @@ public final class MultipartInput {
 
     /** Returns the per part size limit for headers.
      *
-     * @param partHeaderSizeMax The maximum size of the headers in bytes.
+     * @return The maximum size of the headers in bytes.
      * @since 2.0.0-M4
      */
     public int getPartHeaderSizeMax() {
-    	return partHeaderSizeMax;
+        return partHeaderSizeMax;
     }
- 
+
     /**
      * Creates a new {@link ItemInputStream}.
      *
@@ -938,10 +939,12 @@ public final class MultipartInput {
             } catch (final IOException e) {
                 throw new MalformedStreamException("Stream ended unexpectedly", e);
             }
-            int phsm = getPartHeaderSizeMax();
+            final int phsm = getPartHeaderSizeMax();
             if (phsm != -1  &&  ++size > phsm) {
-            	throw new FileUploadSizeException(String.format("Header section has more than %s bytes (maybe it is not properly terminated)", Integer.valueOf(phsm)),
-            			        (long) phsm, (long) size);
+                throw new FileUploadSizeException(String.format(
+                        "Header section has more than %s bytes (maybe it"
+                        + " is not properly terminated)", Integer.valueOf(phsm)),
+                            (long) phsm, (long) size);
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++;
