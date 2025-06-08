@@ -56,7 +56,7 @@ public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<Javax
      */
     @Override
     @Test
-    void testFileUpload() throws IOException, FileUploadException {
+    public void testFileUpload() throws IOException, FileUploadException {
         final var baos = new ByteArrayOutputStream();
         var add = 16;
         var num = 0;

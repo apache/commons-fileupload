@@ -137,7 +137,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
     }
 
     @Test
-    void testFileUpload() throws IOException {
+    public void testFileUpload() throws IOException {
         // @formatter:off
         final var fileItems = parseUpload(upload,
                                                "-----1234\r\n" +
