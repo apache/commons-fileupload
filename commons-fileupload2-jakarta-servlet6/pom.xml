@@ -86,35 +86,59 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/src/main/resources</directory>
-      </resource>
-      <!-- include NOTICE/LICENSE in generated jar -->
-      <resource>
-        <directory>${commons.parent.dir}</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>NOTICE.txt</include>
-          <include>LICENSE.txt</include>
-        </includes>
-      </resource>
-    </resources>
-
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-      </testResource>
-      <!-- include NOTICE/LICENSE in generated test jar -->
-      <testResource>
-        <directory>${commons.parent.dir}</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>NOTICE.txt</include>
-          <include>LICENSE.txt</include>
-        </includes>
-      </testResource>
-    </testResources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>dep-unpack-main-resources</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration> 
+              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>dep-unpack-test-resources</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration> 
+              <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <artifactItems>
+            <artifactItem>
+              <groupId>org.apache</groupId>
+              <artifactId>apache-jar-resource-bundle</artifactId>
+              <version>1.4</version>
+              <fileMappers>
+                <org.codehaus.plexus.components.io.filemappers.FlattenFileMapper/>
+              </fileMappers>
+            </artifactItem>
+          </artifactItems>
+          <includes>META-INF/LICENSE.txt,META-INF/NOTICE.txt</includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <configuration>
+          <excludes combine.children="append">
+            <exclude>.project</exclude>
+            <exclude>.classpath</exclude>
+            <exclude>.settings/**/</exclude>
+            <exclude>bin/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
   
 </project>
