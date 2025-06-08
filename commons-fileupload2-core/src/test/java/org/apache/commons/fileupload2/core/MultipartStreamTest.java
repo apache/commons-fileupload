@@ -16,11 +16,16 @@
  */
 package org.apache.commons.fileupload2.core;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
@@ -65,4 +70,54 @@ public class MultipartStreamTest {
         assertNotNull(ms);
     }
 
+    /** Checks, whether the maxSize works.
+     */
+    @Test
+    public void testPartHeaderSizeMaxLimit()
+            throws Exception {
+        final String request =
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file1\"; filename=\"foo1.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "Content-Length: 10\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234--\r\n";
+
+        final String strContents = request;
+        final byte[] byteContents = request.getBytes(StandardCharsets.UTF_8);
+        final InputStream input = new ByteArrayInputStream(byteContents);
+        final byte[] boundary = "---1234".getBytes();
+        final MultipartInput mi = MultipartInput.builder().setInputStream(input).setBoundary(boundary)
+        		.setPartHeaderSizeMax(100).get();
+        assertNotNull(mi);
+        try {
+        	boolean nextPart = mi.skipPreamble();
+        	OutputStream nullOutput = new OutputStream() {
+        		@Override
+        		public void write(int pB) throws IOException {
+        			// Do nothing. (Null output)
+        		}
+        	};
+        	while (nextPart) {
+        		String headers = mi.readHeaders();
+        		System.out.print("Headers=" + headers.length() + ", " + headers);
+				assertNotNull(headers);
+        		// process headers
+        		// create some output stream
+        		mi.readBodyData(nullOutput);
+        		nextPart = mi.readBoundary();
+        	}
+        	fail("Expected Exception");
+        } catch (FileUploadSizeException fuse) {
+        	assertEquals(100, fuse.getPermitted());
+        }
+    }
 }
