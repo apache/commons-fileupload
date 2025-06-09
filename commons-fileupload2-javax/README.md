@@ -40,24 +40,24 @@
  |                                                                      |
  +======================================================================+
 --->
-Apache Commons FileUpload
+Apache Commons FileUpload Javax
 ===================
 
 [![Java CI](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/org.apache.commons/commons-fileupload2?label=Maven%20Central)](https://search.maven.org/artifact/org.apache.commons/commons-fileupload2)
-[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2/2.0.0-M4.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2/2.0.0-M4)
+[![Maven Central](https://img.shields.io/maven-central/v/org.apache.commons/commons-fileupload2-javax?label=Maven%20Central)](https://search.maven.org/artifact/org.apache.commons/commons-fileupload2-javax)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2-javax/2.0.0-M4.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2-javax/2.0.0-M4)
 [![CodeQL](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload)
 
-The Apache Commons FileUpload component provides a simple yet flexible means of adding support for multipart
-    file upload functionality to servlets and web applications.
+The Apache Commons FileUpload Javax component provides a simple yet flexible means of adding support for multipart
+    file upload functionality to Javax servlets and web applications.
 
 Documentation
 -------------
 
-More information can be found on the [Apache Commons FileUpload homepage](https://commons.apache.org/proper/commons-fileupload).
+More information can be found on the [Apache Commons FileUpload Javax homepage](https://commons.apache.org/proper/commons-fileupload).
 The [Javadoc](https://commons.apache.org/proper/commons-fileupload/apidocs) can be browsed.
-Questions related to the usage of Apache Commons FileUpload should be posted to the [user mailing list](https://commons.apache.org/mail-lists.html).
+Questions related to the usage of Apache Commons FileUpload Javax should be posted to the [user mailing list](https://commons.apache.org/mail-lists.html).
 
 Getting the latest release
 --------------------------
@@ -68,7 +68,7 @@ Alternatively, you can pull it from the central Maven repositories:
 ```xml
 <dependency>
   <groupId>org.apache.commons</groupId>
-  <artifactId>commons-fileupload2</artifactId>
+  <artifactId>commons-fileupload2-javax</artifactId>
   <version>2.0.0-M4</version>
 </dependency>
 ```
@@ -104,7 +104,7 @@ See the `NOTICE.txt` file for required notices and attributions.
 
 Donating
 --------
-You like Apache Commons FileUpload? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support development.
+You like Apache Commons FileUpload Javax? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support development.
 
 Additional Resources
 --------------------

@@ -55,6 +55,7 @@
 	<commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.componentid>fileupload</commons.componentid>
     <commons.module.name>org.apache.commons.fileupload2</commons.module.name>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.release.version>2.0.0-M4</commons.release.version>
     <commons.release.next>2.0.0</commons.release.next>
     <commons.release.desc>in the org.apache.commons.fileupload2 namespace for Java 11 or later</commons.release.desc>
