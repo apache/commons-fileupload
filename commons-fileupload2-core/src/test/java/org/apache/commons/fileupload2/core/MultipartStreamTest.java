@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.io.output.NullOutputStream;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,20 +55,13 @@ class MultipartStreamTest {
         assertNotNull(mi);
         try {
             boolean nextPart = mi.skipPreamble();
-            final OutputStream nullOutput = new OutputStream() {
-
-                @Override
-                public void write(final int pB) throws IOException {
-                    // Do nothing. (Null output)
-                }
-            };
             while (nextPart) {
                 final String headers = mi.readHeaders();
                 System.out.print("Headers=" + headers.length() + ", " + headers);
                 assertNotNull(headers);
                 // process headers
                 // create some output stream
-                mi.readBodyData(nullOutput);
+                mi.readBodyData(NullOutputStream.INSTANCE);
                 nextPart = mi.readBoundary();
             }
             fail("Expected Exception");
