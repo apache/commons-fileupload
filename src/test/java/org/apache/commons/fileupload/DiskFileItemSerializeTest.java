@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -87,7 +86,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Create a FileItem with the specfied content bytes.
      *
-     * @throws IOException test failure. 
+     * @throws IOException test failure.
      */
     private FileItem createFileItem(final byte[] contentBytes) throws IOException {
         return createFileItem(contentBytes, REPO);
@@ -96,7 +95,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Create a FileItem with the specfied content bytes and repository.
      *
-     * @throws IOException test failure. 
+     * @throws IOException test failure.
      */
     private FileItem createFileItem(final byte[] contentBytes, final File repository) throws IOException {
         final FileItemFactory factory = new DiskFileItemFactory(THRESHOLD, repository);
@@ -151,7 +150,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Test creation of a field for which the amount of data falls above the configured threshold.
      *
-     * @throws IOException test failure. 
+     * @throws IOException test failure.
      */
     @Test
     public void testAboveThreshold() throws IOException {
@@ -168,7 +167,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Test creation of a field for which the amount of data falls below the configured threshold.
      *
-     * @throws IOException test failure. 
+     * @throws IOException test failure.
      */
     @Test
     public void testBelowThreshold() throws IOException {
@@ -180,7 +179,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Helper method to test creation of a field.
      *
-     * @throws IOException test failure. 
+     * @throws IOException test failure.
      */
     private void testInMemoryObject(final byte[] testFieldValueBytes) throws IOException {
         testInMemoryObject(testFieldValueBytes, REPO);
@@ -189,7 +188,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Helper method to test creation of a field when a repository is used.
      *
-     * @throws IOException test failure. 
+     * @throws IOException test failure.
      */
     private void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) throws IOException {
         final FileItem item = createFileItem(testFieldValueBytes, repository);
@@ -227,7 +226,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Test creation of a field for which the amount of data equals the configured threshold.
      *
-     * @throws IOException test failure. 
+     * @throws IOException test failure.
      */
     @Test
     public void testThreshold() throws IOException {
@@ -239,7 +238,7 @@ public class DiskFileItemSerializeTest {
     /**
      * Test serialization and deserialization when repository is not null.
      *
-     * @throws IOException test failure. 
+     * @throws IOException test failure.
      */
     @Test
     public void testValidRepository() throws IOException {

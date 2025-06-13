@@ -22,7 +22,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.fileupload.RFC2231Utility;
 import org.junit.Test;
 
 /**
