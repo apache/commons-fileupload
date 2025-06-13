@@ -23,9 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.output.NullOutputStream;
@@ -39,7 +37,7 @@ class MultipartStreamTest {
     static private final String BOUNDARY_TEXT = "myboundary";
 
     /**
-     * Checks, whether the maxSize works.
+     * Tests whether the maxSize works.
      */
     @Test
     public void testPartHeaderSizeMaxLimit() throws Exception {
@@ -47,7 +45,6 @@ class MultipartStreamTest {
                 + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234\r\n"
                 + "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" + "Content-Type: text/whatever\r\n" + "\r\n"
                 + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n";
-        final String strContents = request;
         final byte[] byteContents = request.getBytes(StandardCharsets.UTF_8);
         final InputStream input = new ByteArrayInputStream(byteContents);
         final byte[] boundary = "---1234".getBytes();
