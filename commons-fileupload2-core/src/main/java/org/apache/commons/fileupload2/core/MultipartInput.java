@@ -141,6 +141,14 @@ public final class MultipartInput {
             return new MultipartInput(getInputStream(), boundary, getBufferSize(), getPartHeaderSizeMax(), progressNotifier);
         }
 
+        /** Returns the per part size limit for headers.
+         * @return The maximum size of the headers in bytes.
+         * @since 2.0.0-M4
+         */
+        public int getPartHeaderSizeMax() {
+            return partHeaderSizeMax;
+        }
+
         /**
          * Sets the boundary.
          *
@@ -152,34 +160,26 @@ public final class MultipartInput {
             return this;
         }
 
-        /** Sets the per part size limit for headers.
-         * @param partHeaderSizeMax The maximum size of the headers in bytes.
-         * @return This builder.
-         * @since 2.0.0-M4
-         */
-        public Builder setPartHeaderSizeMax(final int partHeaderSizeMax) {
-            this.partHeaderSizeMax = partHeaderSizeMax;
-            return this;
-        }
+       /** Sets the per part size limit for headers.
+     * @param partHeaderSizeMax The maximum size of the headers in bytes.
+     * @return This builder.
+     * @since 2.0.0-M4
+     */
+    public Builder setPartHeaderSizeMax(final int partHeaderSizeMax) {
+        this.partHeaderSizeMax = partHeaderSizeMax;
+        return this;
+    }
 
-       /**
-         * Sets the progress notifier.
-         *
-         * @param progressNotifier progress notifier.
-         * @return {@code this} instance.
-         */
-        public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
-            this.progressNotifier = progressNotifier;
-            return this;
-        }
-
-        /** Returns the per part size limit for headers.
-         * @return The maximum size of the headers in bytes.
-         * @since 2.0.0-M4
-         */
-        public int getPartHeaderSizeMax() {
-            return partHeaderSizeMax;
-        }
+        /**
+             * Sets the progress notifier.
+             *
+             * @param progressNotifier progress notifier.
+             * @return {@code this} instance.
+             */
+            public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
+                this.progressNotifier = progressNotifier;
+                return this;
+            }
 
     }
 

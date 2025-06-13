@@ -36,40 +36,6 @@ class MultipartStreamTest {
 
     static private final String BOUNDARY_TEXT = "myboundary";
 
-    @Test
-    void testSmallBuffer() {
-        final var strData = "foobar";
-        final var contents = strData.getBytes();
-        final InputStream input = new ByteArrayInputStream(contents);
-        final var boundary = BOUNDARY_TEXT.getBytes();
-        final var iBufSize = 1;
-        assertThrows(IllegalArgumentException.class, () -> MultipartInput.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
-                .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get());
-    }
-
-    @Test
-    void testThreeParamConstructor() throws Exception {
-        final var strData = "foobar";
-        final var contents = strData.getBytes();
-        final InputStream input = new ByteArrayInputStream(contents);
-        final var boundary = BOUNDARY_TEXT.getBytes();
-        final var iBufSize = boundary.length + MultipartInput.BOUNDARY_PREFIX.length + 1;
-        final var ms = MultipartInput.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
-                .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get();
-        assertNotNull(ms);
-    }
-
-    @Test
-    void testTwoParamConstructor() throws Exception {
-        final var strData = "foobar";
-        final var contents = strData.getBytes();
-        final InputStream input = new ByteArrayInputStream(contents);
-        final var boundary = BOUNDARY_TEXT.getBytes();
-        final var ms = MultipartInput.builder().setInputStream(input).setBoundary(boundary)
-                .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get();
-        assertNotNull(ms);
-    }
-
     /** Checks, whether the maxSize works.
      */
     @Test
@@ -119,5 +85,39 @@ class MultipartStreamTest {
         } catch (FileUploadSizeException fuse) {
         	assertEquals(100, fuse.getPermitted());
         }
+    }
+
+    @Test
+    void testSmallBuffer() {
+        final var strData = "foobar";
+        final var contents = strData.getBytes();
+        final InputStream input = new ByteArrayInputStream(contents);
+        final var boundary = BOUNDARY_TEXT.getBytes();
+        final var iBufSize = 1;
+        assertThrows(IllegalArgumentException.class, () -> MultipartInput.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
+                .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get());
+    }
+
+    @Test
+    void testThreeParamConstructor() throws Exception {
+        final var strData = "foobar";
+        final var contents = strData.getBytes();
+        final InputStream input = new ByteArrayInputStream(contents);
+        final var boundary = BOUNDARY_TEXT.getBytes();
+        final var iBufSize = boundary.length + MultipartInput.BOUNDARY_PREFIX.length + 1;
+        final var ms = MultipartInput.builder().setInputStream(input).setBoundary(boundary).setBufferSize(iBufSize)
+                .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get();
+        assertNotNull(ms);
+    }
+
+    @Test
+    void testTwoParamConstructor() throws Exception {
+        final var strData = "foobar";
+        final var contents = strData.getBytes();
+        final InputStream input = new ByteArrayInputStream(contents);
+        final var boundary = BOUNDARY_TEXT.getBytes();
+        final var ms = MultipartInput.builder().setInputStream(input).setBoundary(boundary)
+                .setProgressNotifier(new MultipartInput.ProgressNotifier(null, contents.length)).get();
+        assertNotNull(ms);
     }
 }
