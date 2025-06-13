@@ -684,7 +684,7 @@ public final class MultipartInput {
      *Add commentMore actions
      * @since 2.0.0-M4
      */
-    private int partHeaderSizeMax;
+    private final int partHeaderSizeMax;
 
     /**
      * Constructs a {@code MultipartInput} with a custom size buffer.
