@@ -23,7 +23,7 @@
     <version>84</version>
   </parent>
   <artifactId>commons-fileupload2</artifactId>
-  <version>2.0.0-M4-SNAPSHOT</version>
+  <version>2.0.0-M4</version>
   <packaging>pom</packaging>
   <name>Apache Commons FileUpload</name>
   <description>
@@ -87,7 +87,7 @@
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.release.isDistModule>false</commons.release.isDistModule>
     <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
-    <project.build.outputTimestamp>2025-06-09T14:58:23Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-06-13T19:22:56Z</project.build.outputTimestamp>
     <!-- JaCoCo: Don't make code coverage worse than: -->
     <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
     <commons.jacoco.classRatio>1.00</commons.jacoco.classRatio>
@@ -169,21 +169,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <id>aggregate</id>
-            <inherited>false</inherited>
-            <reports>
-              <report>aggregate-no-fork</report>
-            </reports>
-          </reportSet>
-          <reportSet>
-            <id>default</id>
-            <reports>
-              <report>javadoc-no-fork</report>
-            </reports>
-          </reportSet>
-        </reportSets>
+        <configuration>
+          <sourcepath>src/main/java</sourcepath>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
