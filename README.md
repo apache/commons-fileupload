@@ -45,7 +45,7 @@ Apache Commons FileUpload
 
 [![Java CI](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/maven.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.apache.commons/commons-fileupload2?label=Maven%20Central)](https://search.maven.org/artifact/org.apache.commons/commons-fileupload2)
-[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2/2.0.0-M3.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2/2.0.0-M3)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-fileupload2/2.0.0-M4.svg)](https://javadoc.io/doc/org.apache.commons/commons-fileupload2/2.0.0-M4)
 [![CodeQL](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-fileupload/actions/workflows/codeql-analysis.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-fileupload)
 
@@ -69,7 +69,7 @@ Alternatively, you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-fileupload2</artifactId>
-  <version>2.0.0-M3</version>
+  <version>2.0.0-M4</version>
 </dependency>
 ```
 
