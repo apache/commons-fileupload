@@ -937,11 +937,9 @@ public final class MultipartInput {
                 throw new MalformedStreamException("Stream ended unexpectedly", e);
             }
             final int phsm = getPartHeaderSizeMax();
-            if (phsm != -1  &&  ++size > phsm) {
-                throw new FileUploadSizeException(String.format(
-                        "Header section has more than %s bytes (maybe it"
-                        + " is not properly terminated)", Integer.valueOf(phsm)),
-                            (long) phsm, (long) size);
+            if (phsm != -1 && ++size > phsm) {
+                throw new FileUploadSizeException(
+                        String.format("Header section has more than %s bytes (maybe it is not properly terminated)", Integer.valueOf(phsm)), phsm, size);
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++;
@@ -950,7 +948,6 @@ public final class MultipartInput {
             }
             baos.write(b);
         }
-
         try {
             return baos.toString(Charsets.toCharset(headerCharset, Charset.defaultCharset()).name());
         } catch (final UnsupportedEncodingException e) {
