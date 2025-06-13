@@ -161,7 +161,8 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                 progressNotifier.noteItem();
                 itemValid = true;
                 return true;
-            } else  if (currentFieldName == null) {
+            }
+            if (currentFieldName == null) {
                 // We're parsing the outer multipart
                 final var fieldName = fileUpload.getFieldName(headers);
                 if (fieldName != null) {
