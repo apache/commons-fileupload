@@ -263,13 +263,16 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                         requestSize);
             }
             // This is eventually closed in MultipartInput processing
-            inputStream = new BoundedInputStream(requestContext.getInputStream(), sizeMax) {
-                @Override
-                protected void onMaxLength(final long maxLen, final long count) throws IOException {
+            // @formatter:off
+            inputStream = BoundedInputStream.builder()
+                .setInputStream(requestContext.getInputStream())
+                .setMaxCount(sizeMax)
+                .setOnMaxCount((max, count) -> {
                     throw new FileUploadSizeException(
-                            String.format("The request was rejected because its size (%s) exceeds the configured maximum (%s)", count, maxLen), maxLen, count);
-                }
-            };
+                        String.format("The request was rejected because its size (%s) exceeds the configured maximum (%s)", count, max), max, count);
+                })
+                .get();
+            // @formatter:on
         } else {
             inputStream = requestContext.getInputStream();
         }
