@@ -66,14 +66,14 @@ class MultipartStreamTest {
         assertNotNull(mi);
         try {
         	boolean nextPart = mi.skipPreamble();
-        	OutputStream nullOutput = new OutputStream() {
+        	final OutputStream nullOutput = new OutputStream() {
         		@Override
-        		public void write(int pB) throws IOException {
+        		public void write(final int pB) throws IOException {
         			// Do nothing. (Null output)
         		}
         	};
         	while (nextPart) {
-        		String headers = mi.readHeaders();
+        		final String headers = mi.readHeaders();
         		System.out.print("Headers=" + headers.length() + ", " + headers);
 				assertNotNull(headers);
         		// process headers
@@ -82,7 +82,7 @@ class MultipartStreamTest {
         		nextPart = mi.readBoundary();
         	}
         	fail("Expected Exception");
-        } catch (FileUploadSizeException fuse) {
+        } catch (final FileUploadSizeException fuse) {
         	assertEquals(100, fuse.getPermitted());
         }
     }
