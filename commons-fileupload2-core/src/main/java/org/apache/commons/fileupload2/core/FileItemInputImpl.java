@@ -100,15 +100,19 @@ class FileItemInputImpl implements FileItemInput {
             // onMaxLength will be called when the length is greater than _or equal to_ the supplied maxLength.
             // Because we only want to throw an exception when the length is greater than fileSizeMax, we
             // increment fileSizeMax by 1.
-            istream = new BoundedInputStream(istream, fileSizeMax + 1) {
-                @Override
-                protected void onMaxLength(final long sizeMax, final long count) throws IOException {
+            // @formatter:off
+            istream = BoundedInputStream.builder()
+                .setInputStream(istream)
+                .setMaxCount(fileSizeMax + 1)
+                .setOnMaxCount((max, count) -> {
                     itemInputStream.close(true);
                     throw new FileUploadByteCountLimitException(
                             String.format("The field %s exceeds its maximum permitted size of %s bytes.", fieldName, fileSizeMax), count, fileSizeMax, fileName,
                             fieldName);
-                }
-            };
+                })
+                .get();
+            // @formatter:on
+
         }
         this.inputStream = istream;
     }
