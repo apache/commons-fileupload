@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link DiskFileItem}.
  */
-public class DiskFileItemFactoryTest {
+class DiskFileItemFactoryTest {
 
     @Test
     void testHeaders() {

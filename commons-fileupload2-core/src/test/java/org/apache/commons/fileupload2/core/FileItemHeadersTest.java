@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link FileItemHeaders} and {@link FileItemHeadersImpl}.
  */
-public class FileItemHeadersTest {
+class FileItemHeadersTest {
 
     /**
      * @throws Exception

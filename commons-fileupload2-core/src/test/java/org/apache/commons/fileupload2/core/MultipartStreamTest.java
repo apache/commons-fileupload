@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link MultipartInput}.
  */
-public class MultipartStreamTest {
+class MultipartStreamTest {
 
     static private final String BOUNDARY_TEXT = "myboundary";
 

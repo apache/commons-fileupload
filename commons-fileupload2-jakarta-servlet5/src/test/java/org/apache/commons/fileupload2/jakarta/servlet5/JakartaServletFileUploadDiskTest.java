@@ -36,7 +36,7 @@ import jakarta.servlet.http.HttpServletRequest;
  *
  * @see AbstractFileUploadTest
  */
-public class JakartaServletFileUploadDiskTest
+class JakartaServletFileUploadDiskTest
         extends AbstractFileUploadTest<JakartaServletDiskFileUpload, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     public JakartaServletFileUploadDiskTest() {

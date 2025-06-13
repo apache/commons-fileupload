@@ -28,7 +28,7 @@ import org.apache.commons.fileupload2.core.ProgressListener;
 /**
  * Tests the {@link ProgressListener}.
  */
-public class JavaxProgressListenerTest
+class JavaxProgressListenerTest
         extends AbstractProgressListenerTest<JavaxServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     @Override

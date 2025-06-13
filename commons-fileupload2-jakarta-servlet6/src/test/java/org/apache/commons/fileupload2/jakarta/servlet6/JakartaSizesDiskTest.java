@@ -27,7 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * Unit test for items with varying sizes.
  */
-public class JakartaSizesDiskTest extends AbstractSizesTest<JakartaServletDiskFileUpload, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
+class JakartaSizesDiskTest extends AbstractSizesTest<JakartaServletDiskFileUpload, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     @Override
     protected JakartaServletDiskFileUpload newFileUpload() {

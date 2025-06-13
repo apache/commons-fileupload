@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests for {@link AbstractRequestContext}
  */
-public class MockRequestContextTest {
+class MockRequestContextTest {
     private static final class MockRequestContext extends AbstractRequestContext<Object> {
         private final String characterEncoding;
         private final String contentType;

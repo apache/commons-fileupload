@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Serialization Unit tests for {@link DiskFileItem}.
  */
-public class DiskFileItemSerializeTest {
+class DiskFileItemSerializeTest {
 
     /**
      * Use a private repository to catch any files left over by tests.

@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  *
  * @see AbstractFileUploadTest
  */
-public class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<JavaxServletDiskFileUpload, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
+class JavaxServletFileUploadDiskTest extends AbstractFileUploadTest<JavaxServletDiskFileUpload, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     public JavaxServletFileUploadDiskTest() {
         super(new JavaxServletDiskFileUpload());

@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * Tests the {@link ProgressListener}.
  */
-public class JakartaProgressListenerTest extends
+class JakartaProgressListenerTest extends
         AbstractProgressListenerTest<JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory>, HttpServletRequest, DiskFileItem, DiskFileItemFactory> {
 
     @Override

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link ParameterParser}.
  */
-public class ParameterParserTest {
+class ParameterParserTest {
 
     @Test
     void testContentTypeParsing() {
