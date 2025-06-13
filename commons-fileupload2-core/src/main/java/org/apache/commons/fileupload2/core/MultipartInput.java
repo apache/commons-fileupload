@@ -678,11 +678,8 @@ public final class MultipartInput {
      */
     private final ProgressNotifier notifier;
 
-    /** The per part size limit for headers.
-     *
-     * @param partHeaderSizeMax The maximum size of the headers in bytes.
-     *Add commentMore actions
-     * @since 2.0.0-M4
+    /**
+     * The maximum size of the headers in bytes.
      */
     private final int partHeaderSizeMax;
 
