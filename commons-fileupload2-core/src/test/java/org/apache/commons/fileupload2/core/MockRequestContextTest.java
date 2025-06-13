@@ -16,7 +16,10 @@
  */
 package org.apache.commons.fileupload2.core;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +27,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.function.Function;
 import java.util.function.LongSupplier;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link AbstractRequestContext}
