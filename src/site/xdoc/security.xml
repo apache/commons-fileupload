@@ -76,7 +76,7 @@
           </p>
         </subsection>
 
-        <subsection name="Fixed in Apache Commons FileUpload 1.6">
+        <subsection name="Fixed in Apache Commons FileUpload 1.6.0">
           <p><b>Important: Denial of Service</b> <a
           href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-48976">CVE-2025-48976</a></p>
 
