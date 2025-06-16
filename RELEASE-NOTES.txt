@@ -13,7 +13,7 @@ This release requires Java 11.
 Changes in version 2.0.0-M4 include:
 
 New features:
-o                  Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes. Thanks to Mark Thomas.
+o                  SECURITY - CVE-2025-48976. Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes. Thanks to Mark Thomas.
 
 Fixed Bugs:
 o                  Simplify exception handling in FileItem API #309. Thanks to Basil Crow.

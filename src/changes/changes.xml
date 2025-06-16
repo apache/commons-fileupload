@@ -50,7 +50,7 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- FIX -->
       <action                        type="fix" dev="ppkarwasz" due-to="Basil Crow">Simplify exception handling in FileItem API #309.</action>
       <!-- ADD -->
-      <action                        type="add" dev="jochen"    due-to="Mark Thomas">Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes.</action>
+      <action                        type="add" dev="jochen"    due-to="Mark Thomas">SECURITY - CVE-2025-48976. Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes.</action>
       <!-- UPDATE -->
     </release>
     <release version="2.0.0-M3" date="2025-05-07" description="This release requires Java 11.">

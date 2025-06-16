@@ -52,10 +52,46 @@
         href="https://commons.apache.org/security.html">security page
         of the Apache Commons project</a>.</p>
 
+        <subsection name="Fixed in Apache Commons FileUpload 2.0.0-M4">
+          <p><b>Important: Denial of Service</b> <a
+          href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-48976">CVE-2025-48976</a></p>
+
+          <p>Apache Commons FileUpload 2.x before 2.0.0-M4 provides a hard-coded
+          limit of 10kB for the size of the headers associated with a multipart
+          request. A specially crafted request that used a large number of parts
+          with large headers could trigger excessive memory usage on the server
+          leading to a DoS. This limit is now configurable
+          (FileUploadBase#setPartHeaderSizeMax) with a default of 512 bytes.</p>
+
+          <p>This was fixed in commit
+          <a href="https://github.com/apache/commons-fileupload/commit/e5b5543b3a40ac9dde3c33ef1858901b3ca6656a"
+          >e5b5543b</a>.</p>
+
+          <p>Affects: 2.0.0-M1 - 2.0.0-M4</p>
+        </subsection>
+
         <subsection name="Fixed in Apache Commons FileUpload 2.0.0-M1">
           <p>
             Starting in version 2.0.0-M1, no FileUpload classes implement Serializable.
           </p>
+        </subsection>
+
+        <subsection name="Fixed in Apache Commons FileUpload 1.6">
+          <p><b>Important: Denial of Service</b> <a
+          href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-48976">CVE-2025-48976</a></p>
+
+          <p>Apache Commons FileUpload 2.x before 2.0.0-M4 provides a hard-coded
+          limit of 10kB for the size of the headers associated with a multipart
+          request. A specially crafted request that used a large number of parts
+          with large headers could trigger excessive memory usage on the server
+          leading to a DoS. This limit is now configurable
+          (FileUploadBase#setPartHeaderSizeMax) with a default of 512 bytes.</p>
+
+          <p>This was fixed in commit
+          <a href="https://github.com/apache/commons-fileupload/commit/2108495a4775910b8559f18ed5a779d60542ee96"
+          >2108495a</a>.</p>
+
+          <p>Affects: 1.0 - 1.5</p>
         </subsection>
 
         <subsection name="Fixed in Apache Commons FileUpload 1.5">
