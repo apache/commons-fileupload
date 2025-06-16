@@ -46,7 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="mufasa1976, Jochen Wiedmann, Gary Gregory">[1.x] Enable multipart/related on FileUpload #314.</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add JApiCmp to the default Maven goal.</action>
-      <action type="add" dev="markt"    due-to="Mark Thomas">Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes.</action>
+      <action type="add" dev="markt"    due-to="Mark Thomas">SECURITY - CVE-2025-48976. Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes.</action>
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Replace use of Locale.ENGLISH with Locale.ROOT.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove unused exception from FileUploadBase.createItem(Map, boolean).</action>
