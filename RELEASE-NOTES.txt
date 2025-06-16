@@ -28,7 +28,7 @@ Changes in this version include:
 New features:
 o                  [1.x] Enable multipart/related on FileUpload #314. Thanks to mufasa1976, Jochen Wiedmann, Gary Gregory.
 o                  Add JApiCmp to the default Maven goal. Thanks to Gary Gregory.
-o                  Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes. Thanks to Mark Thomas.
+o                  SECURITY - CVE-2025-48976. Add partHeaderSizeMax, a new limit that sets a maximum number of bytes for each individual multipart header. The default is 512 bytes. Thanks to Mark Thomas.
 
 Fixed Bugs:
 o                  Replace use of Locale.ENGLISH with Locale.ROOT. Thanks to Gary Gregory.
