@@ -33,9 +33,9 @@ Migrating
    
    [[2]] Add one or more these dependencies with the <<<groupId>>> <<org.apache.commons>>, and set the <<<artifactId>>> to:
    
-        [[A]] <<commons-fileupload2-jakarta-serverl5>> to use Jakarta Servlets 5.
+        [[A]] <<commons-fileupload2-jakarta-servlet5>> to use Jakarta Servlets 5.
         
-        [[B]] <<commons-fileupload2-jakarta-serverl6>> to use Jakarta Servlets 6.
+        [[B]] <<commons-fileupload2-jakarta-servlet6>> to use Jakarta Servlets 6.
         
         [[C]] <<commons-fileupload2-javax>> to use Javax Servlets.
 
