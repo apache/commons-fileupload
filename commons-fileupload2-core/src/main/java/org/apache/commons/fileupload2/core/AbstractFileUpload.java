@@ -72,6 +72,14 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     public static final String CONTENT_DISPOSITION = "Content-disposition";
 
     /**
+     * HTTP content transfer encoding header name.Add commentMore actions
+     *
+     * @deprecated per rfc7578 Section 4.7
+     */
+    @Deprecated
+    public static final String CONTENT_TRANSFER_ENCODING = "Content-Transfer-Encoding";
+
+    /**
      * HTTP content length header name.
      */
     public static final String CONTENT_LENGTH = "Content-length";
@@ -397,7 +405,8 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * Parses the next header line.
+     * Parses the next header line. Per <a href="https://www.ietf.org/rfc/rfc7578.txt">RFC 7578</a> section 4.8, only
+     * listed part header fields are supported, others MUST be ignored.
      *
      * @param headers String with all headers.
      * @param header  Map where to store the current header.
@@ -410,7 +419,13 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
         }
         final var headerName = header.substring(0, colonOffset).trim();
         final var headerValue = header.substring(colonOffset + 1).trim();
-        headers.addHeader(headerName, headerValue);
+        // see rfc7578 section 4.8
+        if (CONTENT_DISPOSITION.equalsIgnoreCase(headerName) || CONTENT_TYPE.equalsIgnoreCase(headerName) ||
+                CONTENT_TRANSFER_ENCODING.equalsIgnoreCase(headerName)) {
+            // Only listed part header fields are supported
+            // Other header fields MUST be ignored.
+            headers.addHeader(headerName, headerValue);
+        }
     }
 
     /**
