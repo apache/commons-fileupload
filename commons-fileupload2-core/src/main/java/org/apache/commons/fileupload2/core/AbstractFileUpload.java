@@ -72,7 +72,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     public static final String CONTENT_DISPOSITION = "Content-disposition";
 
     /**
-     * HTTP content transfer encoding header name.Add commentMore actions
+     * HTTP content transfer encoding header name.
      *
      * @deprecated per rfc7578 Section 4.7
      */
@@ -420,8 +420,8 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
         final var headerName = header.substring(0, colonOffset).trim();
         final var headerValue = header.substring(colonOffset + 1).trim();
         // see rfc7578 section 4.8
-        if (CONTENT_DISPOSITION.equalsIgnoreCase(headerName) || CONTENT_TYPE.equalsIgnoreCase(headerName) ||
-                CONTENT_TRANSFER_ENCODING.equalsIgnoreCase(headerName)) {
+        if (CONTENT_DISPOSITION.equalsIgnoreCase(headerName) || CONTENT_TYPE.equalsIgnoreCase(headerName)
+                || CONTENT_TRANSFER_ENCODING.equalsIgnoreCase(headerName)) {
             // Only listed part header fields are supported
             // Other header fields MUST be ignored.
             headers.addHeader(headerName, headerValue);
