@@ -467,7 +467,9 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
             getItemIterator(requestContext).forEachRemaining(fileItemInput -> {
                 if (itemList.size() == fileCountMax) {
                     // The next item will exceed the limit.
-                    throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), itemList.size());
+                    throw new FileUploadFileCountLimitException(String.format(
+                            "Processing of %s request failed. Current the number of files exceeds the maximum permitted (%s)",
+                            MULTIPART_FORM_DATA, Long.valueOf(fileCountMax)), getFileCountMax(), itemList.size());
                 }
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 // @formatter:off
