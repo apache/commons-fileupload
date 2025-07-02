@@ -135,6 +135,22 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     private long fileCountMax = -1;
 
     /**
+     * The maximum count of the all parts headers in bytes that may be uploaded in a single request. A value of -1 indicates no maximum.
+     */
+    private int partHeaderTotalCountMax = -1;
+
+
+    /**
+     * The headers count of all parts that have been read.
+     */
+    private int totalHeaderCountRead = 0;
+
+    /**
+     * The maximum size of the all parts headers in bytes that may be uploaded in a single request. A value of -1 indicates no maximum.
+     */
+    private long partHeaderTotalSizeMax = -1;
+
+    /**
      * The content encoding to use when reading part headers.
      */
     private Charset headerCharset;
@@ -272,6 +288,32 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
+     * Gets the maximum allowed number of all parts headers in a single uploaded request.
+     *
+     * @return Maximum number of all parts headers.
+     */
+    public int getPartHeaderTotalCountMax() {
+        return partHeaderTotalCountMax;
+    }
+
+    /**
+     * Gets the maximum allowed size of all parts headers in a single uploaded request.
+     *
+     * @return Maximum size in bytes of all parts headers.
+     */
+    public long getPartHeaderTotalSizeMax() {
+        return partHeaderTotalSizeMax;
+    }
+
+
+    /**
+     * @return The headers count of all parts that have been read
+     */
+    public int getTotalHeaderCountRead() {
+        return totalHeaderCountRead;
+    }
+
+    /**
      * Gets the character encoding used when reading the headers of an individual part. When not specified, or {@code null}, the request encoding is used. If
      * that is also not specified, or {@code null}, the platform default encoding is used.
      *
@@ -403,6 +445,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      * @param header  Map where to store the current header.
      */
     private void parseHeaderLine(final FileItemHeaders headers, final String header) {
+        totalHeaderCountRead++;
         final var colonOffset = header.indexOf(':');
         if (colonOffset == -1) {
             // This header line is malformed, skip it.
@@ -534,6 +577,26 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      */
     public void setFileSizeMax(final long fileSizeMax) {
         this.fileSizeMax = fileSizeMax;
+    }
+
+    /**
+     * Sets the maximum allowed number of all parts headers.
+     *
+     * @see #getPartHeaderTotalCountMax()
+     * @param partHeaderTotalCountMax Maximum number of all parts headers.
+     */
+    public void setPartHeaderTotalCountMax(int partHeaderTotalCountMax) {
+        this.partHeaderTotalCountMax = partHeaderTotalCountMax;
+    }
+
+    /**
+     * Sets the maximum allowed size in bytes of all parts headers.
+     *
+     * @see #getPartHeaderTotalSizeMax()
+     * @param partHeaderTotalSizeMax Maximum size of all parts headers.
+     */
+    public void setPartHeaderTotalSizeMax(long partHeaderTotalSizeMax) {
+        this.partHeaderTotalSizeMax = partHeaderTotalSizeMax;
     }
 
     /**

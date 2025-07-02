@@ -63,4 +63,10 @@ public interface FileItemHeaders {
      */
     Iterator<String> getHeaders(String name);
 
+    /**
+     * Gets the count of all the headers.
+     *
+     * @return the count of all the headers.
+     */
+    int getHeaderCount();
 }
