@@ -483,35 +483,31 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
     @Test
     public void testPassTotalPartHeaderSizeLimit() throws IOException {
         upload.setPartHeaderTotalSizeMax(1 << 10);
-        try {
-            // @formatter:off
-            final var fileItems = parseUpload(upload,
-                                                   "-----1234\r\n" +
-                                                   "Content-Disposition: "
-                                                   + "form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                                                   "Content-Type: text/whatever\r\n" +
-                                                   "\r\n" +
-                                                   "This is the content of the file\n" +
-                                                   "\r\n" +
-                                                   "-----1234\r\n" +
-                                                   "Content-Disposition: form-data; name=\"field\"\r\n" +
-                                                   "\r\n" +
-                                                   "fieldValue\r\n" +
-                                                   "-----1234\r\n" +
-                                                   "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                                                   "\r\n" +
-                                                   "value1\r\n" +
-                                                   "-----1234\r\n" +
-                                                   "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                                                   "Content-Type: text/plain\r\n" +
-                                                   "Content-ID: multi-id\r\n" +
-                                                   "\r\n" +
-                                                   "value2\r\n" +
-                                                   "-----1234--\r\n");
-            // @formatter:on
-            assertEquals(4, fileItems.size());
-        } catch (FileUploadSizeException fse) {
-            fail(fse);
-        }
+        // @formatter:off
+        final var fileItems = parseUpload(upload,
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: "
+                                               + "form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                                               "Content-Type: text/whatever\r\n" +
+                                               "\r\n" +
+                                               "This is the content of the file\n" +
+                                               "\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"field\"\r\n" +
+                                               "\r\n" +
+                                               "fieldValue\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                               "\r\n" +
+                                               "value1\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                               "Content-Type: text/plain\r\n" +
+                                               "Content-ID: multi-id\r\n" +
+                                               "\r\n" +
+                                               "value2\r\n" +
+                                               "-----1234--\r\n");
+        // @formatter:on
+        assertEquals(4, fileItems.size());
     }
 }

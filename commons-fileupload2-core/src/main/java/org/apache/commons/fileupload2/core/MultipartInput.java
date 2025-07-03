@@ -909,12 +909,14 @@ public final class MultipartInput {
     }
 
     /**
-     * The byte size of all headers that have been read.
+     * The byte size of headers for all parts that have been read.
      */
-    private long totalHeaderSizeRead = 0L;
+    private long totalHeaderSizeRead;
 
     /**
-     * @return The byte size of all headers that have been read
+     * Returns the byte size of headers for all parts that have been read.
+     *
+     * @return The byte size of headers for all parts that have been read
      */
     public long getTotalHeaderSizeRead() {
         return totalHeaderSizeRead;
