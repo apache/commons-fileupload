@@ -29,13 +29,6 @@ import java.util.Map;
  */
 class FileItemHeadersImpl implements FileItemHeaders {
 
-    private int headerCount = 0;
-
-    @Override
-    public int getHeaderCount() {
-        return headerCount;
-    }
-
     /**
      * Map of {@code String} keys to a {@code List} of {@code String} instances.
      */
@@ -49,7 +42,6 @@ class FileItemHeadersImpl implements FileItemHeaders {
      */
     @Override
     public synchronized void addHeader(final String name, final String value) {
-        headerCount++;
         headerNameToValueListMap.computeIfAbsent(toLowerCase(name), k -> new ArrayList<>()).add(value);
     }
 

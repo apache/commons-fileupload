@@ -28,23 +28,22 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 /**
- * Common tests for implementations of {@link AbstractFileUpload}. This is a parameterized test. Tests must be valid and
- * common to all implementations of FileUpload added as parameter in this class.
+ * Common tests for implementations of {@link AbstractFileUpload}. This is a parameterized test. Tests must be valid and common to all implementations of
+ * FileUpload added as parameter in this class.
  *
  * @param <AFU> The {@link AbstractFileUpload} type.
  * @param <R>   The FileUpload request type.
  * @param <I>   The FileItem type.
  * @param <F>   The FileItemFactory type.
  */
-public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R,I,F>, R, I extends FileItem<I>, F extends FileItemFactory<I>>
-        extends AbstractFileUploadWrapper<AFU,R,I,F> {
+public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I, F>, R, I extends FileItem<I>, F extends FileItemFactory<I>>
+        extends AbstractFileUploadWrapper<AFU, R, I, F> {
 
     protected AbstractFileUploadTest(final AFU fileUpload) {
         super(fileUpload);
     }
 
-    private void assertHeaders(final String[] headerNames, final String[] headerValues, final I fileItems,
-            final int index) {
+    private void assertHeaders(final String[] headerNames, final String[] headerValues, final I fileItems, final int index) {
         for (var i = 0; i < headerNames.length; i++) {
             final var value = fileItems.getHeaders().getHeader(headerNames[i]);
             if (i == index) {
@@ -345,8 +344,8 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R,I,
     }
 
     /**
-     * Internet Explorer 5 for the Mac has a bug where the carriage return is missing on any boundary line immediately
-     * preceding an input with type=image. (type=submit does not have the bug.)
+     * Internet Explorer 5 for the Mac has a bug where the carriage return is missing on any boundary line immediately preceding an input with type=image.
+     * (type=submit does not have the bug.)
      *
      * @throws FileUploadException Test failure.
      */
@@ -397,22 +396,34 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R,I,
     }
 
     /**
-     * Test for multipart/related without any content-disposition Header. This kind of Content-Type is commonly used by
-     * SOAP-Requests with Attachments (MTOM)
+     * Test for multipart/related without any content-disposition Header.
+     * This kind of Content-Type is commonly used by SOAP-Requests with Attachments (MTOM)
      */
     @Test
     void testMultipleRelated() throws Exception {
-        final String soapEnvelope = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">\r\n" +
-                "  <soap:Header></soap:Header>\r\n" + "  <soap:Body>\r\n" +
+        final String soapEnvelope =
+                "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">\r\n" +
+                "  <soap:Header></soap:Header>\r\n" +
+                "  <soap:Body>\r\n" +
                 "    <ns1:Test xmlns:ns1=\"http://www.test.org/some-test-namespace\">\r\n" +
                 "      <ns1:Attachment>\r\n" +
                 "        <xop:Include xmlns:xop=\"http://www.w3.org/2004/08/xop/include\"" +
-                " href=\"ref-to-attachment%40some.domain.org\"/>\r\n" + "      </ns1:Attachment>\r\n" +
-                "    </ns1:Test>\r\n" + "  </soap:Body>\r\n" + "</soap:Envelope>";
+                " href=\"ref-to-attachment%40some.domain.org\"/>\r\n" +
+                "      </ns1:Attachment>\r\n" +
+                "    </ns1:Test>\r\n" +
+                "  </soap:Body>\r\n" +
+                "</soap:Envelope>";
 
-        final String text = "-----1234\r\n" + "content-type: application/xop+xml; type=\"application/soap+xml\"\r\n" +
-                "\r\n" + soapEnvelope + "\r\n" + "-----1234\r\n" + "Content-type: text/plain\r\n" +
-                "content-id: <ref-to-attachment@some.domain.org>\r\n" + "\r\n" + "some text/plain content\r\n" +
+        final String text =
+                "-----1234\r\n" +
+                "content-type: application/xop+xml; type=\"application/soap+xml\"\r\n" +
+                "\r\n" +
+                soapEnvelope + "\r\n" +
+                "-----1234\r\n" +
+                "Content-type: text/plain\r\n" +
+                "content-id: <ref-to-attachment@some.domain.org>\r\n" +
+                "\r\n" +
+                "some text/plain content\r\n" +
                 "-----1234--\r\n";
 
         final var bytes = text.getBytes(StandardCharsets.US_ASCII);
@@ -433,9 +444,10 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R,I,
         assertNull(part2.getName());
     }
 
+
     @Test
     public void testExceedTotalPartHeaderSizeLimit() throws IOException {
-        upload.setPartHeaderTotalSizeMax(120);
+        upload.setPartHeaderTotalSizeMax(250);
         try {
             // @formatter:off
             final var fileItems = parseUpload(upload,
@@ -464,7 +476,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R,I,
             // @formatter:on
             fail("FileUploadSizeException expected!");
         } catch (FileUploadSizeException fse) {
-            assertEquals(120, fse.getPermitted());
+            assertEquals(upload.getPartHeaderTotalSizeMax(), fse.getPermitted());
         }
     }
 
