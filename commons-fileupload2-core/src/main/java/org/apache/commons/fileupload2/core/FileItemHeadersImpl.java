@@ -84,4 +84,5 @@ class FileItemHeadersImpl implements FileItemHeaders {
     private String toLowerCase(final String value) {
         return value.toLowerCase(Locale.ROOT);
     }
+
 }
