@@ -134,7 +134,6 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         }
         final var multi = getMultiPartInput();
         final var phtsm = fileUpload.getPartHeaderTotalSizeMax();
-        final var phtcm = fileUpload.getPartHeaderTotalCountMax();
         for (;;) {
             final boolean nextPart;
             if (skipPreamble) {
@@ -156,13 +155,8 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
             final var headers = fileUpload.getParsedHeaders(multi.readHeaders());
             if (phtsm != -1 && multi.getTotalHeaderSizeRead() > phtsm) {
                 throw new FileUploadSizeException(String.format(
-                        "Total size of all prcessed part headers exceeds %s bytes",
+                        "The request was rejected because total header size of all parts exceeds the configured partHeaderTotalSizeMax (%s) bytes",
                         Long.valueOf(phtsm)), phtsm, multi.getTotalHeaderSizeRead());
-            }
-            if (phtcm != -1 && fileUpload.getTotalHeaderCountRead() > phtcm) {
-                throw new FileUploadSizeException(String.format(
-                        "Total count of all prcessed part headers exceeds %s",
-                        Long.valueOf(phtcm)), phtcm, fileUpload.getTotalHeaderCountRead());
             }
             if (multipartRelated) {
                 currentFieldName = "";
