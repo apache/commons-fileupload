@@ -49,6 +49,10 @@
       <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-fileupload/</url>
     </site>
   </distributionManagement>
+  <ciManagement>
+    <system>GitHub</system>
+    <url>https://github.com/apache/commons-fileupload/actions</url>
+  </ciManagement>
   <properties>
     <commons.main.branch>1.x</commons.main.branch>
     <commons.release.branch>release-1.x</commons.release.branch>
