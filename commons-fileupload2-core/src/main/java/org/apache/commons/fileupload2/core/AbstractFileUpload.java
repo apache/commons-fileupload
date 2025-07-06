@@ -465,9 +465,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
             final var fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final var buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             getItemIterator(requestContext).forEachRemaining(fileItemInput -> {
-                if (itemList.size() == fileCountMax) {
+                final int size = itemList.size();
+                if (size == fileCountMax) {
                     // The next item will exceed the limit.
-                    throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), itemList.size());
+                    throw new FileUploadFileCountLimitException(
+                            String.format("Request '%s' failed: Maximum file count %,d exceeded.", MULTIPART_FORM_DATA, Long.valueOf(fileCountMax)),
+                            getFileCountMax(), size);
                 }
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 // @formatter:off
@@ -480,13 +483,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
                     .get();
                 // @formatter:on
                 itemList.add(fileItem);
-                try (var inputStream = fileItemInput.getInputStream();
-                        var outputStream = fileItem.getOutputStream()) {
+                try (var inputStream = fileItemInput.getInputStream(); var outputStream = fileItem.getOutputStream()) {
                     IOUtils.copyLarge(inputStream, outputStream, buffer);
                 } catch (final FileUploadException e) {
                     throw e;
                 } catch (final IOException e) {
-                    throw new FileUploadException(String.format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
+                    throw new FileUploadException(String.format("Request '%s' failed: %s", MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
             });
             successful = true;
