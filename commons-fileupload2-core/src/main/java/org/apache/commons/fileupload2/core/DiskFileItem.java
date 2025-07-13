@@ -46,21 +46,46 @@ import org.apache.commons.io.file.PathUtils;
 
 /**
  * The default implementation of the {@link FileItem FileItem} interface.
- * <p>
- * After retrieving an instance of this class from a {@link DiskFileItemFactory} instance (see
+ *
+ * <p>After retrieving an instance of this class from a {@link DiskFileItemFactory} instance (see
  * {@code org.apache.commons.fileupload2.core.servlet.ServletFileUpload
  * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may either request all contents of file at once using {@link #get()} or request an
  * {@link java.io.InputStream InputStream} with {@link #getInputStream()} and process the file without attempting to load it into memory, which may come handy
- * with large files.
- * </p>
- * <p>
- * Temporary files, which are created for file items, should be deleted later on. The best way to do this is using a
+ * with large files.</p>
+ *
+ * <p><em>State model</em>: Instances of {@link DiskFileItem} are subject to a carefully designed state model.
+ * Depending on the so-called {@link #getThreshold() threshold}, either of the three models are possible:</p>
+ * <ol>
+ *   <li><em>threshold = -1</em>
+ *     Uploaded data is never kept in memory. Instead, a temporary file is being created immediately.
+ *
+ *     {@link #isInMemory()} will always return false, {@link #getPath()} will always return the path
+ *     of an existing file. The temporary file may be empty.</li>
+ *   <li><em>threshold = 0</em>
+ *     Uploaded data is never kept in memory. (Same as threshold=-1.) However, the temporary file is
+ *     only created, if data was uploaded. Or, in other words: The uploaded file will never be
+ *     empty.
+ *
+ *     {@link #isInMemory()} will return true, if no data was uploaded, otherwise it will be false.
+ *     In the former case {@link #getPath()} will return null, but in the latter case it returns
+ *     the path of an existing, non-empty file.</li>
+ *   <li><em>threshold > 0</em>
+ *     Uploaded data will be kept in memory, if the size is below the threshold. If the size
+ *     is equal to, or above the threshold, then a temporary file has been created, and all
+ *     uploaded data has been transferred to that file.
+ *
+ *     {@link #isInMemory()} returns true, if the size of the uploaded data is below the threshold.
+ *     If so, {@link #getPath()} returns null. Otherwise, {@link #isInMemory()} returns false,
+ *     and {@link #getPath()} returns the path of an existing, temporary file. The size
+ *     of the temporary file is equal to, or above the threshold.</li>
+ * </ol>
+ *
+ * <p>Temporary files, which are created for file items, should be deleted later on. The best way to do this is using a
  * {@link org.apache.commons.io.FileCleaningTracker}, which you can set on the {@link DiskFileItemFactory}. However, if you do use such a tracker, then you must
  * consider the following: Temporary files are automatically deleted as soon as they are no longer needed. (More precisely, when the corresponding instance of
  * {@link java.io.File} is garbage collected.) This is done by the so-called reaper thread, which is started and stopped automatically by the
  * {@link org.apache.commons.io.FileCleaningTracker} when there are files to be tracked. It might make sense to terminate that thread, for example, if your web
- * application ends. See the section on "Resource cleanup" in the users guide of Commons FileUpload.
- * </p>
+ * application ends. See the section on "Resource cleanup" in the users guide of Commons FileUpload.</p>
  */
 public final class DiskFileItem implements FileItem<DiskFileItem> {
 
@@ -557,22 +582,6 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     @Override
     public String getString(final Charset charset) throws IOException {
         return new String(get(), Charsets.toCharset(charset, charsetDefault));
-    }
-
-    /**
-     * Creates and returns a {@link java.io.File File} representing a uniquely named temporary file in the configured repository path. The lifetime of the file
-     * is tied to the lifetime of the {@code FileItem} instance; the file will be deleted when the instance is garbage collected.
-     * <p>
-     * <strong>Note: Subclasses that override this method must ensure that they return the same File each time.</strong>
-     * </p>
-     *
-     * @return The {@link java.io.File File} to be used for temporary storage.
-     */
-    protected Path getTempFile() {
-        if (dos != null) {
-            return dos.getPath();
-        }
-        return null;
     }
 
     /**

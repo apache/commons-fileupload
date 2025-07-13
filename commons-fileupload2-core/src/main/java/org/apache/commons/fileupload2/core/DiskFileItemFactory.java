@@ -37,10 +37,14 @@ import org.apache.commons.io.file.PathUtils;
  * <li>Size threshold is 10 KB.</li>
  * <li>Repository is the system default temporary directory, as returned by {@code System.getProperty("java.io.tmpdir")}.</li>
  * </ul>
+ * <p><em>State model</em>: The created instances of {@link DiskFileItem} are subject to a carefully designed state model,
+ * which is also controlled by the threshold. Therefore, it is strongly recommended to set the threshold explicitly, using
+ * {@link Builder#setThreshold(int)}. Details
+ * on the state model can be found {@link DiskFileItem here}.</p>
  * <p>
  * <strong>NOTE</strong>: Files are created in the system default temporary directory with predictable names. This means that a local attacker with write access
  * to that directory can perform a TOUTOC attack to replace any uploaded file with a file of the attackers choice. The implications of this will depend on how
- * the uploaded file is used but could be significant. When using this implementation in an environment with local, untrusted users,
+ * the uploaded file is used, but could be significant. When using this implementation in an environment with local, untrusted users,
  * {@link Builder#setPath(Path)} MUST be used to configure a repository location that is not publicly writable. In a Servlet container the location identified
  * by the ServletContext attribute {@code javax.servlet.context.tempdir} may be used.
  * </p>
@@ -127,6 +131,10 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          * a certain number of bytes (the threshold) is reached. At this point, the
          * incoming data is transferred to a temporary file, and the in-memory data
          * is removed.
+         *
+         * The threshold will also control the <em>state model</em> of the created
+         * instances of {@link DiskFileItem}. Details on the state model can be
+         * found {@link DiskFileItem here}.
          * @param threshold The threshold, which is being used.
          * @return This builder.
          */
