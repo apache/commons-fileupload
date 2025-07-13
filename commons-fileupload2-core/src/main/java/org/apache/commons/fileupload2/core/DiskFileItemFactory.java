@@ -118,6 +118,49 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
             return this;
         }
 
+        /** The threshold. We do maintain this separate from the {@link #getBufferSize()},
+         * because the parent class might change the value in {@link #setBufferSize(int)}.
+         */
+        private int threshold;
+
+        /** Sets the threshold. The uploaded data is typically kept in memory, until
+         * a certain number of bytes (the threshold) is reached. At this point, the
+         * incoming data is transferred to a temporary file, and the in-memory data
+         * is removed.
+         * @param threshold The threshold, which is being used.
+         * @return This builder.
+         */
+        public Builder setThreshold(final int threshold) {
+            this.threshold = threshold;
+            return this;
+        }
+
+        /** Returns the threshold.
+         * @return The threshold.
+         */
+        public int getThreshold() {
+            return threshold;
+        }
+
+        /** Eqivalent to {@link #setThreshold(int)}.
+         * @param bufferSize The threshold, which is being used.
+         * @see #setThreshold(int)
+         * @return This builder.
+         * @deprecated Since 2.0.0, use {@link #setThreshold(int)} instead.
+         */
+        @Override
+        public Builder setBufferSize(final int bufferSize) {
+            return setThreshold(bufferSize);
+        }
+
+        /** Equivalent to {@link #getThreshold()}.
+         * @return The threshold, which is being used.
+         * @see #getThreshold()
+         * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
+         */
+        public int getBufferSize() {
+            return getThreshold();
+        }
     }
 
     /**
@@ -177,7 +220,7 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
     public DiskFileItem.Builder fileItemBuilder() {
         // @formatter:off
         return DiskFileItem.builder()
-                .setBufferSize(threshold)
+                .setThreshold(threshold)
                 .setCharset(charsetDefault)
                 .setFileCleaningTracker(fileCleaningTracker)
                 .setPath(repository);
