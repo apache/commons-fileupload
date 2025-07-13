@@ -87,6 +87,18 @@ public class DeferrableOutputStream extends OutputStream {
          */
         closed
     }
+    /** Interface of a listener object, that wishes to be notified about
+     * state changes.
+     */
+    public interface Listener {
+        /** Called, after {@link #persist()} has been invoked,
+         *   and the temporary file has been created.
+         * @param path Path of the temporary file, that has been
+         *   created. All in-memory data has been transferred to
+         *   that file, but it is still opened.
+         */
+         default void persisted(final Path path) { }
+    }
     /** The configured threshold, as an integer. This variable isn't actually
      * used. Instead {@link #longThreshold} is used.
      * @see #longThreshold
@@ -128,6 +140,12 @@ public class DeferrableOutputStream extends OutputStream {
      * Or, in other words: True, if a temporary file has been created.
      */
     private boolean wasPersisted;
+    /** Number of bytes, that have been written to this stream so far.
+     */
+    private long size;
+    /** The configured {@link Listener}, if any, or null.
+     */
+    private final Listener listener;
 
     /** Creates a new instance with the given threshold, and the given supplier for a
      * temporary files path.
@@ -146,10 +164,12 @@ public class DeferrableOutputStream extends OutputStream {
      * @param pathSupplier A supplier for the temporary files path. This supplier must
      *   not return null. The file's directory will be created, if necessary, by
      *   invoking {@link Files#createDirectories(Path, java.nio.file.attribute.FileAttribute...)}.
+     * @param listener An optional listener, which is being notified about important state
+     *   changes.
      * @throws IOException Creating the temporary file (in the case of threshold -1)
      *   has failed.
      */
-    public DeferrableOutputStream(final int threshold, final Supplier<Path> pathSupplier) throws IOException {
+    public DeferrableOutputStream(final int threshold, final Supplier<Path> pathSupplier, final Listener listener) throws IOException {
         if (threshold < 0) {
             this.threshold = -1;
         } else {
@@ -157,6 +177,7 @@ public class DeferrableOutputStream extends OutputStream {
         }
         longThreshold = (long) threshold;
         this.pathSupplier = pathSupplier;
+        this.listener = listener;
         checkThreshold(0);
     }
 
@@ -238,6 +259,9 @@ public class DeferrableOutputStream extends OutputStream {
         out = os;
         baos = null;
         bytes = null;
+        if (listener != null) {
+            listener.persisted(p);
+        }
         return os;
     }
 
@@ -249,6 +273,7 @@ public class DeferrableOutputStream extends OutputStream {
         }
         bytes = null;
         os.write(b);
+        size++;
     }
 
     @Override
@@ -265,6 +290,7 @@ public class DeferrableOutputStream extends OutputStream {
             }
             bytes = null;
             os.write(buffer, offset, len);
+            size += len;
         }
     }
 
@@ -365,5 +391,12 @@ public class DeferrableOutputStream extends OutputStream {
      */
     private IllegalStateException illegalStateError() {
         throw new IllegalStateException("Expected state initialized|opened|persisted|closed, got " + state.name());
+    }
+
+    /** Returns the number of bytes, that have been written to this stream.
+     * @return The number of bytes, that have been written to this stream.
+     */
+    public long getSize() {
+        return size;
     }
 }

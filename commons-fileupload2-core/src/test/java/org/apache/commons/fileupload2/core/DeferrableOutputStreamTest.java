@@ -61,7 +61,7 @@ class DeferrableOutputStreamTest {
 	void testExceedPositiveThreshold() {
 		DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
 		final Consumer<Consumer<OutputStream>> tester = (consumer) -> {
-			try (final DeferrableOutputStream dos = new DeferrableOutputStream(5, testFileSupplier)) {
+			try (final DeferrableOutputStream dos = new DeferrableOutputStream(5, testFileSupplier, null)) {
 				streams[0] = dos;
 				assertTrue(dos.isInMemory());
 				assertNull(dos.getPath());
@@ -134,7 +134,7 @@ class DeferrableOutputStreamTest {
 	void testThresholdZero() {
 		DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
 		final Consumer<Consumer<OutputStream>> tester = (consumer) -> {
-			try (final DeferrableOutputStream dos = new DeferrableOutputStream(0, testFileSupplier)) {
+			try (final DeferrableOutputStream dos = new DeferrableOutputStream(0, testFileSupplier, null)) {
 				streams[0] = dos;
 				assertTrue(dos.isInMemory());
 				assertNull(dos.getPath());
@@ -195,7 +195,7 @@ class DeferrableOutputStreamTest {
 	void testThresholdMinusOne() {
 		DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
 		final Runnable tester = () -> {
-			try (final DeferrableOutputStream dos = new DeferrableOutputStream(-1, testFileSupplier)) {
+			try (final DeferrableOutputStream dos = new DeferrableOutputStream(-1, testFileSupplier, null)) {
 				streams[0] = dos;
 				assertFalse(dos.isInMemory());
 				assertNotNull(dos.getPath());

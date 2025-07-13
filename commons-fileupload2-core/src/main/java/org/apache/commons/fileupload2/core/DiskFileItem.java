@@ -16,10 +16,13 @@
  */
 package org.apache.commons.fileupload2.core;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.UncheckedIOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.CopyOption;
@@ -30,12 +33,16 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
+import org.apache.commons.fileupload2.core.DeferrableOutputStream.Listener;
+import org.apache.commons.fileupload2.core.DeferrableOutputStream.State;
 import org.apache.commons.fileupload2.core.FileItemFactory.AbstractFileItemBuilder;
 import org.apache.commons.io.Charsets;
+import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.file.PathUtils;
-import org.apache.commons.io.output.DeferredFileOutputStream;
+
 
 /**
  * The default implementation of the {@link FileItem FileItem} interface.
@@ -103,11 +110,10 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
                     getFileItemHeaders(), getCharset());
             final var tracker = getFileCleaningTracker();
             if (tracker != null) {
-                tracker.track(diskFileItem.getTempFile().toFile(), diskFileItem);
+                diskFileItem.setFileCleaningTracker(tracker);
             }
             return diskFileItem;
         }
-
     }
 
     /**
@@ -207,11 +213,6 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     private final String fileName;
 
     /**
-     * The size of the item, in bytes. This is used to cache the size when a file item is moved from its original location.
-     */
-    private volatile long size = -1;
-
-    /**
      * The threshold above which uploads will be stored on disk.
      */
     private final int threshold;
@@ -222,19 +223,9 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     private final Path repository;
 
     /**
-     * Cached contents of the file.
-     */
-    private byte[] cachedContent;
-
-    /**
      * Output stream for this item.
      */
-    private DeferredFileOutputStream dfos;
-
-    /**
-     * The temporary file to use.
-     */
-    private final Path tempFile;
+    private DeferrableOutputStream dos;
 
     /**
      * The file items headers.
@@ -245,6 +236,11 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * Default content Charset to be used when no explicit Charset parameter is provided by the sender.
      */
     private Charset charsetDefault = DEFAULT_CHARSET;
+
+    /** The {@link FileCleaningTracker}, which is being used to remove
+     * temporary files.
+     */
+    private FileCleaningTracker fileCleaningTracker;
 
     /**
      * Constructs a new {@code DiskFileItem} instance.
@@ -268,7 +264,24 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         this.fileItemHeaders = fileItemHeaders;
         this.threshold = threshold;
         this.repository = repository != null ? repository : PathUtils.getTempDirectory();
-        this.tempFile = this.repository.resolve(String.format("upload_%s_%s.tmp", UID, getUniqueId()));
+    }
+
+    /** Sets the {@link FileCleaningTracker}, which is being used to remove
+     * temporary files.
+     * @param fileCleaningTracker The {@link FileCleaningTracker}, which is being used to
+     * remove temporary files.
+     */
+    public void setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
+        this.fileCleaningTracker = fileCleaningTracker;
+    }
+
+    /** Returns the {@link FileCleaningTracker}, which is being used to remove
+     * temporary files.
+     * @return The {@link FileCleaningTracker}, which is being used to remove
+     * temporary files.
+     */
+    public FileCleaningTracker getFileCleaningTracker() {
+        return fileCleaningTracker;
     }
 
     /**
@@ -279,10 +292,11 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public DiskFileItem delete() throws IOException {
-        cachedContent = null;
-        final var outputFile = getPath();
-        if (outputFile != null && !isInMemory() && Files.exists(outputFile)) {
-            Files.delete(outputFile);
+        if (dos != null) {
+            final Path path = dos.getPath();
+            if (path != null) {
+                Files.deleteIfExists(path);
+            }
         }
         return this;
     }
@@ -294,17 +308,23 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * @return The contents of the file as an array of bytes or {@code null} if the data cannot be read.
      * @throws IOException if an I/O error occurs.
      * @throws OutOfMemoryError     See {@link Files#readAllBytes(Path)}: If an array of the required size cannot be allocated, for example the file is larger
-     *                              that {@code 2GB}
+     *                              than {@code 2GB}. If so, you should use {@link #getInputStream()}.
+     * @see #getInputStream()
+     * @deprecated Since 2.0.0, use {@link #getInputStream()}, or {@link #getReader()}, instead.
      */
     @Override
     public byte[] get() throws IOException {
-        if (isInMemory()) {
-            if (cachedContent == null && dfos != null) {
-                cachedContent = dfos.getData();
+        if (dos != null) {
+            final byte[] bytes = dos.getBytes();
+            if (bytes != null) {
+                return bytes;
             }
-            return cachedContent != null ? cachedContent.clone() : new byte[0];
+            final Path path = dos.getPath();
+            if (path != null  &&  dos.getState() == State.closed) {
+                return Files.readAllBytes(path);
+            }
         }
-        return Files.readAllBytes(dfos.getFile().toPath());
+        return null;
     }
 
     /**
@@ -368,14 +388,10 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public InputStream getInputStream() throws IOException {
-        if (!isInMemory()) {
-            return Files.newInputStream(dfos.getFile().toPath());
+        if (dos != null  &&  dos.getState() == State.closed) {
+            return dos.getInputStream();
         }
-
-        if (cachedContent == null) {
-            cachedContent = dfos.getData();
-        }
-        return new ByteArrayInputStream(cachedContent);
+        throw new IllegalStateException("The file item has not been fully read.");
     }
 
     /**
@@ -397,10 +413,27 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public OutputStream getOutputStream() {
-        if (dfos == null) {
-            dfos = DeferredFileOutputStream.builder().setThreshold(threshold).setOutputFile(getTempFile().toFile()).get();
+        if (dos == null) {
+            final Supplier<Path> pathSupplier =
+                    () -> this.repository.resolve(String.format("upload_%s_%s.tmp", UID, getUniqueId()));
+            try {
+                final Listener persistenceListener = new Listener() {
+                    @Override
+                    public void persisted(final Path pPath) {
+                        // TODO Auto-generated method stub
+                        Listener.super.persisted(pPath);
+                        final FileCleaningTracker fct = getFileCleaningTracker();
+                        if (fct != null) {
+                            fct.track(getPath(), this);
+                        }
+                        }
+                };
+                dos = new DeferrableOutputStream(threshold, pathSupplier, persistenceListener);
+            } catch (final IOException ioe) {
+                throw new UncheckedIOException(ioe);
+            }
         }
-        return dfos;
+        return dos;
     }
 
     /**
@@ -411,13 +444,10 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * @return The data file, or {@code null} if the data is stored in memory.
      */
     public Path getPath() {
-        if (dfos == null) {
-            return null;
+        if (dos != null) {
+            return dos.getPath();
         }
-        if (isInMemory()) {
-            return null;
-        }
-        return dfos.getFile().toPath();
+        return null;
     }
 
     /**
@@ -427,27 +457,50 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public long getSize() {
-        if (size >= 0) {
-            return size;
+        if (dos != null) {
+            return dos.getSize();
         }
-        if (cachedContent != null) {
-            return cachedContent.length;
-        }
-        return dfos != null ? dfos.getByteCount() : 0;
+        return 0L;
     }
 
     /**
      * Gets the contents of the file as a String, using the default character encoding. This method uses {@link #get()} to retrieve the contents of the file.
-     * <p>
-     * <strong>TODO</strong> Consider making this method throw UnsupportedEncodingException.
-     * </p>
      *
-     * @return The contents of the file, as a string.
+     * @return The contents of the file, as a string, if available, or null.
      * @throws IOException if an I/O error occurs
+     * @throws OutOfMemoryError See {@link Files#readAllBytes(Path)}: If a string of the required size cannot be allocated,
+     *   for example the file is larger than {@code 2GB}. If so, you should use {@link #getReader()}.
+     * @throws UnsupportedEncodingException The chararacter set, which is
+     *   specified in the files "content-type" header, is invalid.
+     * @deprecated Since 2.0.0, use {@link #getReader()} instead.
      */
     @Override
-    public String getString() throws IOException {
-        return new String(get(), getCharset());
+    public String getString() throws IOException, UnsupportedEncodingException, OutOfMemoryError {
+        final byte[] bytes = get();
+        if (bytes == null) {
+            return null;
+        }
+        return new String(bytes, getCharset());
+    }
+
+    /** Returns the contents of the file as a {@link Reader}, using the specified
+     * {@link #getCharset()}. If the contents are not yet available, returns null.
+     * This is the case, for example, if the underlying output stream has not yet
+     * been closed.
+     * @return The contents of the file as a {@link Reader}
+     * @throws UnsupportedEncodingException The chararacter set, which is
+     *   specified in the files "content-type" header, is invalid.
+     * @throws IOException An I/O error occurred, while the
+     *   underlying {@link #getInputStream() input stream} was created.
+     */
+    public Reader getReader() throws IOException, UnsupportedEncodingException {
+        final InputStream is = getInputStream();
+        final var parser = new ParameterParser();
+        parser.setLowerCaseNames(true);
+        // Parameter parser can handle null input
+        final var params = parser.parse(getContentType(), ';');
+        final Charset cs = Charsets.toCharset(params.get("charset"), charsetDefault);
+        return new InputStreamReader(is, cs);
     }
 
     /**
@@ -472,7 +525,10 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * @return The {@link java.io.File File} to be used for temporary storage.
      */
     protected Path getTempFile() {
-        return tempFile;
+        if (dos != null) {
+            return dos.getPath();
+        }
+        return null;
     }
 
     /**
@@ -493,10 +549,10 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public boolean isInMemory() {
-        if (cachedContent != null) {
-            return true;
+        if (dos != null) {
+            return dos.isInMemory();
         }
-        return dfos.isInMemory();
+        return true;
     }
 
     /**
@@ -590,8 +646,6 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
                  */
                 throw new FileUploadException("Cannot write uploaded file to disk.");
             }
-            // Save the length of the file
-            size = Files.size(outputFile);
             //
             // The uploaded file is being stored on disk in a temporary location so move it to the desired file.
             //
