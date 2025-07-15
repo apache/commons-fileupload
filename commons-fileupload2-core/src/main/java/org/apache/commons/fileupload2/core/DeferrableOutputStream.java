@@ -153,12 +153,12 @@ public class DeferrableOutputStream extends OutputStream {
      * no in-memory data will be kept, at all.
      * If the threshold is 0, then the temporary file will be created, as soon as the
      * first byte will be written, but no in-memory data will be kept.
-     * If the threshold is >0, then the temporary file will be created, as soon as that
+     * If the threshold is &gt;0, then the temporary file will be created, as soon as that
      * number of bytes have been written. Up to that point, data will be kept in an
      * in-memory buffer.
      *
      * @param threshold Either of -1 (Create the temporary file immediately), 0 (Create
-     *   the temporary file, as soon as data is being written for the first time), or >0
+     *   the temporary file, as soon as data is being written for the first time), or &gt;0
      *   (Keep data in memory, as long as the given number of bytes is reached, then
      *   create a temporary file, and continue using that).
      * @param pathSupplier A supplier for the temporary files path. This supplier must
