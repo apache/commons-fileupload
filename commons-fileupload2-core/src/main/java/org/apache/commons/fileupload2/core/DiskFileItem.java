@@ -69,7 +69,7 @@ import org.apache.commons.io.file.PathUtils;
  *     {@link #isInMemory()} will return true, if no data was uploaded, otherwise it will be false.
  *     In the former case {@link #getPath()} will return null, but in the latter case it returns
  *     the path of an existing, non-empty file.</li>
- *   <li><em>threshold > 0</em>
+ *   <li><em>threshold &gt; 0</em>
  *     Uploaded data will be kept in memory, if the size is below the threshold. If the size
  *     is equal to, or above the threshold, then a temporary file has been created, and all
  *     uploaded data has been transferred to that file.
