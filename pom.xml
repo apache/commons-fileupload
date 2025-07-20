@@ -116,6 +116,12 @@
       <artifactId>commons-io</artifactId>
       <version>2.20.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.18.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <defaultGoal>clean verify javadoc:javadoc japicmp:cmp apache-rat:check checkstyle:check</defaultGoal>

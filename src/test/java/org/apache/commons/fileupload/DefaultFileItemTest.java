@@ -30,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemProperties;
 import org.junit.Test;
 
 /**
@@ -154,7 +155,8 @@ public class DefaultFileItemTest {
      */
     @Test
     public void testAboveThresholdSpecifiedRepository() throws IOException {
-        final String tempPath = System.getProperty("java.io.tmpdir");
+        final String tempPath = SystemProperties.getJavaIoTmpdir();
+        SystemProperties.getJavaIoTmpdir();
         final String tempDirName = "testAboveThresholdSpecifiedRepository";
         final File tempDir = new File(tempPath, tempDirName);
         FileUtils.forceMkdir(tempDir);

@@ -33,6 +33,7 @@ import java.nio.file.InvalidPathException;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +44,7 @@ import org.junit.Test;
 public class DiskFileItemSerializeTest {
 
     // Use a private repo to catch any files left over by tests
-    private static final File REPO = new File(System.getProperty("java.io.tmpdir"), "diskfileitemrepo");
+    private static final File REPO = new File(SystemProperties.getJavaIoTmpdir(), "diskfileitemrepo");
 
     /**
      * Content type for regular form items.
@@ -206,7 +207,7 @@ public class DiskFileItemSerializeTest {
     public void testInvalidRepository() throws Exception {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
-        final File repository = new File(System.getProperty("java.io.tmpdir"), "file");
+        final File repository = new File(SystemProperties.getJavaIoTmpdir(), "file");
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         deserialize(serialize(item));
     }
@@ -218,7 +219,7 @@ public class DiskFileItemSerializeTest {
     public void testInvalidRepositoryWithNullChar() throws Exception {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
-        final File repository = new File(System.getProperty("java.io.tmpdir"), "\0");
+        final File repository = new File(SystemProperties.getJavaIoTmpdir(), "\0");
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         deserialize(serialize(item));
     }
