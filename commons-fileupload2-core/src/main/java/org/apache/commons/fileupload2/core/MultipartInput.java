@@ -160,15 +160,15 @@ public final class MultipartInput {
             return this;
         }
 
-       /** Sets the per part size limit for headers.
-     * @param partHeaderSizeMax The maximum size of the headers in bytes.
-     * @return This builder.
-     * @since 2.0.0-M4
-     */
-    public Builder setPartHeaderSizeMax(final int partHeaderSizeMax) {
-        this.partHeaderSizeMax = partHeaderSizeMax;
-        return this;
-    }
+        /** Sets the per part size limit for headers.
+         * @param partHeaderSizeMax The maximum size of the headers in bytes.
+         * @return This builder.
+         * @since 2.0.0-M4
+         */
+        public Builder setPartHeaderSizeMax(final int partHeaderSizeMax) {
+            this.partHeaderSizeMax = partHeaderSizeMax;
+            return this;
+        }
 
         /**
              * Sets the progress notifier.
