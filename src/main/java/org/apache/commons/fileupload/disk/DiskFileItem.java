@@ -63,7 +63,7 @@ public class DiskFileItem implements FileItem {
     /**
      * Counter used in unique identifier generation.
      */
-    private static final AtomicInteger COUNTER = new AtomicInteger(0);
+    private static final AtomicInteger COUNTER = new AtomicInteger();
 
     /**
      * Default content charset to be used when no explicit charset
