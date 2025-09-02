@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.apache.commons.fileupload.MultipartStream.IllegalBoundaryException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -397,6 +398,38 @@ public class FileUploadTest {
         assertEquals("field2", field2.getFieldName());
         assertTrue(field2.isFormField());
         assertEquals("fieldValue2", field2.getString());
+    }
+
+    /**
+     * Test upload that uses multipart/mixed without defining a boundary.
+     */
+    @Test
+    public void testMultipartMixedNoBoundary() {
+        final String contentType = "multipart/form-data; boundary=AaB03x";
+        final String request =
+            "--AaB03x\r\n" +
+            "content-disposition: form-data; name=\"field1\"\r\n" +
+            "\r\n" +
+            "Joe Blow\r\n" +
+            "--AaB03x\r\n" +
+            "content-disposition: form-data; name=\"pics\"\r\n" +
+            "Content-type: multipart/mixed\r\n" +
+            "\r\n" +
+            "--BbC04y\r\n" +
+            "Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
+            "Content-Type: text/plain\r\n" +
+            "\r\n" +
+            "... contents of file1.txt ...\r\n" +
+            "--BbC04y\r\n" +
+            "Content-disposition: attachment; filename=\"file2.gif\"\r\n" +
+            "Content-type: image/gif\r\n" +
+            "Content-Transfer-Encoding: binary\r\n" +
+            "\r\n" +
+            "...contents of file2.gif...\r\n" +
+            "--BbC04y--\r\n" +
+            "--AaB03x--";
+        Exception e = assertThrows(FileUploadException.class, () -> Util.parseUpload(upload, request.getBytes("US-ASCII"), contentType));
+        assertEquals(IllegalBoundaryException.class, e.getCause().getClass());
     }
 
     /**

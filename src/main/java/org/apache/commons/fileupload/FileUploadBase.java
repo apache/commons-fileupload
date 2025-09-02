@@ -32,6 +32,7 @@ import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.MultipartStream.IllegalBoundaryException;
 import org.apache.commons.fileupload.MultipartStream.ItemInputStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
@@ -395,6 +396,9 @@ public abstract class FileUploadBase {
                             currentFieldName = fieldName;
                             // Multiple files associated with this field name
                             final byte[] subBoundary = getBoundary(subContentType);
+                            if (subBoundary == null) {
+                                throw new IllegalBoundaryException("The request was rejected because no boundary token was defined for a multipart/mixed part");
+                            }
                             multi.setBoundary(subBoundary);
                             skipPreamble = true;
                             continue;
