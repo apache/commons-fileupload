@@ -45,6 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- FIX -->
       <action                        type="fix" dev="ggregory" due-to="Chenjp, Gary Gregory">Better exception message in org.apache.commons.fileupload2.core.AbstractFileUpload.parseRequest(RequestContext).</action>
       <action issue="FILEUPLOAD-295" type="fix" dev="jochen">Clarified the precise meaning of isInMemory(), get(), getPath(), etc. in DiskFileItem</action>
+      <action                        type="fix" dev="markt"    due-to="Coverity Scan">Better exception type and message if a multipart/mixed part is presented without a boundary defined</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.commons:commons-parent from 84 to 87.</action>

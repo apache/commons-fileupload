@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import org.apache.commons.fileupload2.core.MultipartInput.FileUploadBoundaryException;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BoundedInputStream;
@@ -171,6 +172,9 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                         currentFieldName = fieldName;
                         // Multiple files associated with this field name
                         final var subBoundary = fileUpload.getBoundary(subContentType);
+                        if (subBoundary == null) {
+                            throw new FileUploadBoundaryException("The request was rejected because no boundary token was defined for a multipart/mixed part");
+                        }
                         multi.setBoundary(subBoundary);
                         skipPreamble = true;
                         continue;
