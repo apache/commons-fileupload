@@ -82,6 +82,11 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          */
         private FileCleaningTracker fileCleaningTracker;
 
+        /** The threshold. We do maintain this separate from the {@link #getBufferSize()},
+         * because the parent class might change the value in {@link #setBufferSize(int)}.
+         */
+        private int threshold;
+
         /**
          * Constructs a new instance.
          */
@@ -111,36 +116,13 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
             return new DiskFileItemFactory(getPath(), getBufferSize(), getCharset(), fileCleaningTracker);
         }
 
-        /**
-         * Sets the tracker, which is responsible for deleting temporary files.
-         *
-         * @param fileCleaningTracker Callback to track files created, or null (default) to disable tracking.
-         * @return {@code this} instance.
+        /** Equivalent to {@link #getThreshold()}.
+         * @return The threshold, which is being used.
+         * @see #getThreshold()
+         * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
          */
-        public Builder setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
-            this.fileCleaningTracker = fileCleaningTracker;
-            return this;
-        }
-
-        /** The threshold. We do maintain this separate from the {@link #getBufferSize()},
-         * because the parent class might change the value in {@link #setBufferSize(int)}.
-         */
-        private int threshold;
-
-        /** Sets the threshold. The uploaded data is typically kept in memory, until
-         * a certain number of bytes (the threshold) is reached. At this point, the
-         * incoming data is transferred to a temporary file, and the in-memory data
-         * is removed.
-         *
-         * The threshold will also control the <em>state model</em> of the created
-         * instances of {@link DiskFileItem}. Details on the state model can be
-         * found {@link DiskFileItem here}.
-         * @param threshold The threshold, which is being used.
-         * @return This builder.
-         */
-        public Builder setThreshold(final int threshold) {
-            this.threshold = threshold;
-            return this;
+        public int getBufferSize() {
+            return getThreshold();
         }
 
         /** Returns the threshold.
@@ -161,13 +143,31 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
             return setThreshold(bufferSize);
         }
 
-        /** Equivalent to {@link #getThreshold()}.
-         * @return The threshold, which is being used.
-         * @see #getThreshold()
-         * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
+        /**
+         * Sets the tracker, which is responsible for deleting temporary files.
+         *
+         * @param fileCleaningTracker Callback to track files created, or null (default) to disable tracking.
+         * @return {@code this} instance.
          */
-        public int getBufferSize() {
-            return getThreshold();
+        public Builder setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
+            this.fileCleaningTracker = fileCleaningTracker;
+            return this;
+        }
+
+        /** Sets the threshold. The uploaded data is typically kept in memory, until
+         * a certain number of bytes (the threshold) is reached. At this point, the
+         * incoming data is transferred to a temporary file, and the in-memory data
+         * is removed.
+         *
+         * The threshold will also control the <em>state model</em> of the created
+         * instances of {@link DiskFileItem}. Details on the state model can be
+         * found {@link DiskFileItem here}.
+         * @param threshold The threshold, which is being used.
+         * @return This builder.
+         */
+        public Builder setThreshold(final int threshold) {
+            this.threshold = threshold;
+            return this;
         }
     }
 

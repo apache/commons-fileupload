@@ -108,6 +108,11 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     public static class Builder extends AbstractFileItemBuilder<DiskFileItem, Builder> {
 
+        /** The threshold. We do maintain this separate from the {@link #getBufferSize()},
+         * because the parent class might change the value in {@link #setBufferSize(int)}.
+         */
+        private int threshold;
+
         /**
          * Constructs a new instance.
          */
@@ -140,21 +145,13 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
             return diskFileItem;
         }
 
-        /** The threshold. We do maintain this separate from the {@link #getBufferSize()},
-         * because the parent class might change the value in {@link #setBufferSize(int)}.
+        /** Equivalent to {@link #getThreshold()}.
+         * @return The threshold, which is being used.
+         * @see #getThreshold()
+         * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
          */
-        private int threshold;
-
-        /** Sets the threshold. The uploaded data is typically kept in memory, until
-         * a certain number of bytes (the threshold) is reached. At this point, the
-         * incoming data is transferred to a temporary file, and the in-memory data
-         * is removed.
-         * @param threshold The threshold, which is being used.
-         * @return This builder.
-         */
-        public Builder setThreshold(final int threshold) {
-            this.threshold = threshold;
-            return this;
+        public int getBufferSize() {
+            return getThreshold();
         }
 
         /** Returns the threshold.
@@ -175,13 +172,16 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
             return setThreshold(bufferSize);
         }
 
-        /** Equivalent to {@link #getThreshold()}.
-         * @return The threshold, which is being used.
-         * @see #getThreshold()
-         * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
+        /** Sets the threshold. The uploaded data is typically kept in memory, until
+         * a certain number of bytes (the threshold) is reached. At this point, the
+         * incoming data is transferred to a temporary file, and the in-memory data
+         * is removed.
+         * @param threshold The threshold, which is being used.
+         * @return This builder.
          */
-        public int getBufferSize() {
-            return getThreshold();
+        public Builder setThreshold(final int threshold) {
+            this.threshold = threshold;
+            return this;
         }
     }
 
@@ -335,24 +335,6 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         this.repository = repository != null ? repository : PathUtils.getTempDirectory();
     }
 
-    /** Sets the {@link FileCleaningTracker}, which is being used to remove
-     * temporary files.
-     * @param fileCleaningTracker The {@link FileCleaningTracker}, which is being used to
-     * remove temporary files.
-     */
-    public void setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
-        this.fileCleaningTracker = fileCleaningTracker;
-    }
-
-    /** Returns the {@link FileCleaningTracker}, which is being used to remove
-     * temporary files.
-     * @return The {@link FileCleaningTracker}, which is being used to remove
-     * temporary files.
-     */
-    public FileCleaningTracker getFileCleaningTracker() {
-        return fileCleaningTracker;
-    }
-
     /**
      * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. This method can be used to ensure that this is
      * done at an earlier time, thus preserving system resources.
@@ -439,6 +421,15 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         return fieldName;
     }
 
+    /** Returns the {@link FileCleaningTracker}, which is being used to remove
+     * temporary files.
+     * @return The {@link FileCleaningTracker}, which is being used to remove
+     * temporary files.
+     */
+    public FileCleaningTracker getFileCleaningTracker() {
+        return fileCleaningTracker;
+    }
+
     /**
      * Gets the file item headers.
      *
@@ -519,6 +510,26 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         return null;
     }
 
+    /** Returns the contents of the file as a {@link Reader}, using the specified
+     * {@link #getCharset()}. If the contents are not yet available, returns null.
+     * This is the case, for example, if the underlying output stream has not yet
+     * been closed.
+     * @return The contents of the file as a {@link Reader}
+     * @throws UnsupportedEncodingException The chararacter set, which is
+     *   specified in the files "content-type" header, is invalid.
+     * @throws IOException An I/O error occurred, while the
+     *   underlying {@link #getInputStream() input stream} was created.
+     */
+    public Reader getReader() throws IOException, UnsupportedEncodingException {
+        final InputStream is = getInputStream();
+        final var parser = new ParameterParser();
+        parser.setLowerCaseNames(true);
+        // Parameter parser can handle null input
+        final var params = parser.parse(getContentType(), ';');
+        final Charset cs = Charsets.toCharset(params.get("charset"), charsetDefault);
+        return new InputStreamReader(is, cs);
+    }
+
     /**
      * Gets the size of the file.
      *
@@ -552,26 +563,6 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         return new String(bytes, getCharset());
     }
 
-    /** Returns the contents of the file as a {@link Reader}, using the specified
-     * {@link #getCharset()}. If the contents are not yet available, returns null.
-     * This is the case, for example, if the underlying output stream has not yet
-     * been closed.
-     * @return The contents of the file as a {@link Reader}
-     * @throws UnsupportedEncodingException The chararacter set, which is
-     *   specified in the files "content-type" header, is invalid.
-     * @throws IOException An I/O error occurred, while the
-     *   underlying {@link #getInputStream() input stream} was created.
-     */
-    public Reader getReader() throws IOException, UnsupportedEncodingException {
-        final InputStream is = getInputStream();
-        final var parser = new ParameterParser();
-        parser.setLowerCaseNames(true);
-        // Parameter parser can handle null input
-        final var params = parser.parse(getContentType(), ';');
-        final Charset cs = Charsets.toCharset(params.get("charset"), charsetDefault);
-        return new InputStreamReader(is, cs);
-    }
-
     /**
      * Gets the contents of the file as a String, using the specified encoding. This method uses {@link #get()} to retrieve the contents of the file.
      *
@@ -582,6 +573,13 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     @Override
     public String getString(final Charset charset) throws IOException {
         return new String(get(), Charsets.toCharset(charset, charsetDefault));
+    }
+
+    /** Returns the file items threshold.
+     * @return The threshold.
+     */
+    public int getThreshold() {
+        return threshold;
     }
 
     /**
@@ -629,6 +627,15 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     public DiskFileItem setFieldName(final String fieldName) {
         this.fieldName = fieldName;
         return this;
+    }
+
+    /** Sets the {@link FileCleaningTracker}, which is being used to remove
+     * temporary files.
+     * @param fileCleaningTracker The {@link FileCleaningTracker}, which is being used to
+     * remove temporary files.
+     */
+    public void setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
+        this.fileCleaningTracker = fileCleaningTracker;
     }
 
     /**
@@ -705,12 +712,5 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
             Files.move(outputFile, file, StandardCopyOption.REPLACE_EXISTING);
         }
         return this;
-    }
-
-    /** Returns the file items threshold.
-     * @return The threshold.
-     */
-    public int getThreshold() {
-        return threshold;
     }
 }

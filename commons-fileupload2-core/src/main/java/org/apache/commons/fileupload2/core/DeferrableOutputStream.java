@@ -59,6 +59,18 @@ import java.util.function.Supplier;
  * <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-295</a>)
  */
 public class DeferrableOutputStream extends OutputStream {
+    /** Interface of a listener object, that wishes to be notified about
+     * state changes.
+     */
+    public interface Listener {
+        /** Called, after {@link #persist()} has been invoked,
+         *   and the temporary file has been created.
+         * @param path Path of the temporary file, that has been
+         *   created. All in-memory data has been transferred to
+         *   that file, but it is still opened.
+         */
+         default void persisted(final Path path) { }
+    }
     /** This enumeration represents the possible states of the {@link DeferrableOutputStream}.
      */
     public enum State {
@@ -86,18 +98,6 @@ public class DeferrableOutputStream extends OutputStream {
          * now valid to invoke {@link DeferrableOutputStream#getInputStream()}.
          */
         closed
-    }
-    /** Interface of a listener object, that wishes to be notified about
-     * state changes.
-     */
-    public interface Listener {
-        /** Called, after {@link #persist()} has been invoked,
-         *   and the temporary file has been created.
-         * @param path Path of the temporary file, that has been
-         *   created. All in-memory data has been transferred to
-         *   that file, but it is still opened.
-         */
-         default void persisted(final Path path) { }
     }
     /** The configured threshold, as an integer. This variable isn't actually
      * used. Instead {@link #longThreshold} is used.
@@ -181,13 +181,6 @@ public class DeferrableOutputStream extends OutputStream {
         checkThreshold(0);
     }
 
-    /** Returns the streams configured threshold.
-     * @return The streams configured threshold.
-     */
-    public int getThreshold() {
-        return threshold;
-    }
-
     /** Called to check, whether the threshold will be exceeded, if the given number
      * of bytes are written to the stream. If so, persists the in-memory data by
      * creating a new, temporary file, and writing the in-memory data to the file.
@@ -234,66 +227,6 @@ public class DeferrableOutputStream extends OutputStream {
         }
     }
 
-    /** Create the output file, change the state to {@code persisted}, and
-     * return an {@link OutputStream}, which is writing to that file.
-     * @return The {@link OutputStream}, which is writing to the created,
-     * temporary file.
-     * @throws IOException Creating the temporary file has failed.
-     */
-    protected OutputStream persist() throws IOException {
-        final Path p = pathSupplier.get();
-        final Path dir = p.getParent();
-        if (dir != null) {
-            Files.createDirectories(dir);
-        }
-        final OutputStream os = Files.newOutputStream(p);
-        if (baos != null) {
-            baos.writeTo(os);
-        }
-        /** At this point, the output file has been successfully created,
-         * and we can safely switch state.
-         */
-        state = State.persisted;
-        wasPersisted = true;
-        path = p;
-        out = os;
-        baos = null;
-        bytes = null;
-        if (listener != null) {
-            listener.persisted(p);
-        }
-        return os;
-    }
-
-    @Override
-    public void write(final int b) throws IOException {
-        final OutputStream os = checkThreshold(1);
-        if (os == null) {
-            throw new IOException("This stream has already been closed.");
-        }
-        bytes = null;
-        os.write(b);
-        size++;
-    }
-
-    @Override
-    public void write(final byte[] buffer) throws IOException {
-        write(buffer, 0, buffer.length);
-    }
-
-    @Override
-    public void write(final byte[] buffer, final int offset, final int len) throws IOException {
-        if (len > 0) {
-            final OutputStream os = checkThreshold(len);
-            if (os == null) {
-                throw new IOException("This stream has already been closed.");
-            }
-            bytes = null;
-            os.write(buffer, offset, len);
-            size += len;
-        }
-    }
-
     @Override
     public void close() throws IOException {
         switch (state) {
@@ -314,40 +247,6 @@ public class DeferrableOutputStream extends OutputStream {
         default:
             throw illegalStateError();
         }
-    }
-
-    /** Returns true, if this stream was never persisted,
-     * and no output file has been created.
-     * @return True, if the stream was never in state
-     *   {@link State#persisted}, otherwise false.
-     */
-    public boolean isInMemory() {
-        switch (state) {
-        case initialized:
-        case opened:
-            return true;
-        case persisted:
-            return false;
-        case closed:
-            return !wasPersisted;
-        default:
-            throw illegalStateError();
-        }
-    }
-
-    /** Returns the streams current state.
-     * @return The streams current state.
-     */
-    public State getState() {
-        return state;
-    }
-
-    /** Returns the output file, that has been created, if any, or null.
-     * The latter is the case, if {@link #isInMemory()} returns true.
-     * @return The output file, that has been created, if any, or null.
-     */
-    public Path getPath() {
-        return path;
     }
 
     /** Returns the data, that has been written, if the stream has
@@ -384,6 +283,35 @@ public class DeferrableOutputStream extends OutputStream {
         }
     }
 
+    /** Returns the output file, that has been created, if any, or null.
+     * The latter is the case, if {@link #isInMemory()} returns true.
+     * @return The output file, that has been created, if any, or null.
+     */
+    public Path getPath() {
+        return path;
+    }
+
+    /** Returns the number of bytes, that have been written to this stream.
+     * @return The number of bytes, that have been written to this stream.
+     */
+    public long getSize() {
+        return size;
+    }
+
+    /** Returns the streams current state.
+     * @return The streams current state.
+     */
+    public State getState() {
+        return state;
+    }
+
+    /** Returns the streams configured threshold.
+     * @return The streams configured threshold.
+     */
+    public int getThreshold() {
+        return threshold;
+    }
+
     /** Returns the path of the output file, if such a file has
      * been created. That is the case, if {@link #isInMemory()}
      * returns false. Otherwise, returns null.
@@ -393,10 +321,82 @@ public class DeferrableOutputStream extends OutputStream {
         throw new IllegalStateException("Expected state initialized|opened|persisted|closed, got " + state.name());
     }
 
-    /** Returns the number of bytes, that have been written to this stream.
-     * @return The number of bytes, that have been written to this stream.
+    /** Returns true, if this stream was never persisted,
+     * and no output file has been created.
+     * @return True, if the stream was never in state
+     *   {@link State#persisted}, otherwise false.
      */
-    public long getSize() {
-        return size;
+    public boolean isInMemory() {
+        switch (state) {
+        case initialized:
+        case opened:
+            return true;
+        case persisted:
+            return false;
+        case closed:
+            return !wasPersisted;
+        default:
+            throw illegalStateError();
+        }
+    }
+
+    /** Create the output file, change the state to {@code persisted}, and
+     * return an {@link OutputStream}, which is writing to that file.
+     * @return The {@link OutputStream}, which is writing to the created,
+     * temporary file.
+     * @throws IOException Creating the temporary file has failed.
+     */
+    protected OutputStream persist() throws IOException {
+        final Path p = pathSupplier.get();
+        final Path dir = p.getParent();
+        if (dir != null) {
+            Files.createDirectories(dir);
+        }
+        final OutputStream os = Files.newOutputStream(p);
+        if (baos != null) {
+            baos.writeTo(os);
+        }
+        /** At this point, the output file has been successfully created,
+         * and we can safely switch state.
+         */
+        state = State.persisted;
+        wasPersisted = true;
+        path = p;
+        out = os;
+        baos = null;
+        bytes = null;
+        if (listener != null) {
+            listener.persisted(p);
+        }
+        return os;
+    }
+
+    @Override
+    public void write(final byte[] buffer) throws IOException {
+        write(buffer, 0, buffer.length);
+    }
+
+    @Override
+    public void write(final byte[] buffer, final int offset, final int len) throws IOException {
+        if (len > 0) {
+            final OutputStream os = checkThreshold(len);
+            if (os == null) {
+                throw new IOException("This stream has already been closed.");
+            }
+            bytes = null;
+            os.write(buffer, offset, len);
+            size += len;
+        }
+    }
+
+    @Override
+    public void write(final int b) throws IOException {
+        final OutputStream os = checkThreshold(1);
+        if (os == null) {
+            throw new IOException("This stream has already been closed.");
+        }
+        bytes = null;
+        os.write(b);
+        size++;
     }
 }

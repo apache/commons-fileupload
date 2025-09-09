@@ -41,6 +41,12 @@ import org.apache.commons.fileupload2.core.DeferrableOutputStream.State;
 class DeferrableOutputStreamTest {
 	private static final Path testDir = Paths.get("target/unit-tests/DeferrableOutputStreamTest");
 	private static Path tempTestDir;
+	@BeforeAll
+	static void setUpTestDirs() throws IOException {
+		Files.createDirectories(testDir);
+		tempTestDir = Files.createTempDirectory(testDir, "testDir");
+	}
+
 	private Supplier<Path> testFileSupplier = () -> {
 		try {
 			return Files.createTempFile(tempTestDir, "testFile", ".bin");
@@ -49,10 +55,17 @@ class DeferrableOutputStreamTest {
 		}
 	};
 
-	@BeforeAll
-	static void setUpTestDirs() throws IOException {
-		Files.createDirectories(testDir);
-		tempTestDir = Files.createTempDirectory(testDir, "testDir");
+	protected byte[] read(InputStream pIs) throws IOException {
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		final byte[] buffer = new byte[8192];
+		for (;;) {
+			final int res = pIs.read(buffer);
+			if (res == -1) {
+				return baos.toByteArray();
+			} else if (res > 0) {
+				baos.write(buffer, 0, res);
+			}
+		}
 	}
 
 	/** Tests using the {@link DeferrableOutputStream} with a positive threshold.
@@ -128,6 +141,37 @@ class DeferrableOutputStreamTest {
 		});
 	}
 
+	/** Tests using the {@link DeferrableOutputStream} with threshold -1.
+	 */
+	@Test
+	void testThresholdMinusOne() {
+		DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
+		final Runnable tester = () -> {
+			try (final DeferrableOutputStream dos = new DeferrableOutputStream(-1, testFileSupplier, null)) {
+				streams[0] = dos;
+				assertFalse(dos.isInMemory());
+				assertNotNull(dos.getPath());
+				assertNull(dos.getBytes());
+			} catch (IOException ioe) {
+				throw new UncheckedIOException(ioe);
+			}
+
+			final DeferrableOutputStream dos = streams[0];
+			assertFalse(dos.isInMemory());
+			assertNotNull(dos.getPath());
+			assertTrue(Files.isRegularFile(dos.getPath()));
+			final byte[] actual;
+			try (InputStream is = dos.getInputStream()) {
+				actual = read(is);
+			} catch (IOException ioe) {
+				throw new UncheckedIOException(ioe);
+			}
+			final byte[] expect = "".getBytes(StandardCharsets.UTF_8);
+			assertArrayEquals(expect, actual);
+		};
+		tester.run();
+	}
+
 	/** Tests using the {@link DeferrableOutputStream} with threshold 0.
 	 */
 	@Test
@@ -187,49 +231,5 @@ class DeferrableOutputStreamTest {
 				throw new UncheckedIOException(ioe);
 			}
 		});
-	}
-
-	/** Tests using the {@link DeferrableOutputStream} with threshold -1.
-	 */
-	@Test
-	void testThresholdMinusOne() {
-		DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
-		final Runnable tester = () -> {
-			try (final DeferrableOutputStream dos = new DeferrableOutputStream(-1, testFileSupplier, null)) {
-				streams[0] = dos;
-				assertFalse(dos.isInMemory());
-				assertNotNull(dos.getPath());
-				assertNull(dos.getBytes());
-			} catch (IOException ioe) {
-				throw new UncheckedIOException(ioe);
-			}
-
-			final DeferrableOutputStream dos = streams[0];
-			assertFalse(dos.isInMemory());
-			assertNotNull(dos.getPath());
-			assertTrue(Files.isRegularFile(dos.getPath()));
-			final byte[] actual;
-			try (InputStream is = dos.getInputStream()) {
-				actual = read(is);
-			} catch (IOException ioe) {
-				throw new UncheckedIOException(ioe);
-			}
-			final byte[] expect = "".getBytes(StandardCharsets.UTF_8);
-			assertArrayEquals(expect, actual);
-		};
-		tester.run();
-	}
-
-	protected byte[] read(InputStream pIs) throws IOException {
-		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		final byte[] buffer = new byte[8192];
-		for (;;) {
-			final int res = pIs.read(buffer);
-			if (res == -1) {
-				return baos.toByteArray();
-			} else if (res > 0) {
-				baos.write(buffer, 0, res);
-			}
-		}
 	}
 }
