@@ -137,7 +137,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     /**
      * The maximum permitted size of the headers provided with a single part in bytes.
      */
-    private int partHeaderSizeMax = MultipartInput.DEFAULT_PART_HEADER_SIZE_MAX;
+    private int maxPartHeaderSize = MultipartInput.DEFAULT_PART_HEADER_SIZE_MAX;
 
     /**
      * The content encoding to use when reading part headers.
@@ -359,8 +359,8 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      *
      * @since 2.0.0-M5
      */
-    public int getPartHeaderSizeMax() {
-        return partHeaderSizeMax;
+    public int getMaxPartHeaderSize() {
+        return maxPartHeaderSize;
     }
 
     /**
@@ -571,8 +571,8 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      *
      * @since 2.0.0-M5
      */
-    public void setPartHeaderSizeMax(final int partHeaderSizeMax) {
-        this.partHeaderSizeMax = partHeaderSizeMax;
+    public void setMaxPartHeaderSize(final int partHeaderSizeMax) {
+        this.maxPartHeaderSize = partHeaderSizeMax;
     }
 
     /**

@@ -56,7 +56,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
             "-----1234--\r\n";
 
         final var upload = newFileUpload();
-        upload.setPartHeaderSizeMax(200);
+        upload.setMaxPartHeaderSize(200);
         final var req = newMockHttpServletRequest(request, null, null);
         final var fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
@@ -64,7 +64,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         assertEquals("This is the content of the file\n", new String(item.get()));
 
         var upload2 = newFileUpload();
-        upload2.setPartHeaderSizeMax(10);
+        upload2.setMaxPartHeaderSize(10);
         var req2 = newMockHttpServletRequest(request, null, null);
         assertThrows(FileUploadSizeException.class, () -> upload2.parseRequest(req2));
     }
