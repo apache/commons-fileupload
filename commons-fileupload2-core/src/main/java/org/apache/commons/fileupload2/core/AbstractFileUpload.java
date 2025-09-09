@@ -132,7 +132,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     /**
      * The maximum permitted number of files that may be uploaded in a single request. A value of -1 indicates no maximum.
      */
-    private long fileCountMax = -1;
+    private long maxFileCount = -1;
 
     /**
      * The maximum permitted size of the headers provided with a single part in bytes.
@@ -212,8 +212,8 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      *
      * @return The maximum number of files allowed in a single request.
      */
-    public long getFileCountMax() {
-        return fileCountMax;
+    public long getMaxFileCount() {
+        return maxFileCount;
     }
 
     /**
@@ -482,11 +482,11 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
             final var buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             getItemIterator(requestContext).forEachRemaining(fileItemInput -> {
                 final int size = itemList.size();
-                if (size == fileCountMax) {
+                if (size == maxFileCount) {
                     // The next item will exceed the limit.
                     throw new FileUploadFileCountLimitException(
-                            String.format("Request '%s' failed: Maximum file count %,d exceeded.", MULTIPART_FORM_DATA, Long.valueOf(fileCountMax)),
-                            getFileCountMax(), size);
+                            String.format("Request '%s' failed: Maximum file count %,d exceeded.", MULTIPART_FORM_DATA, Long.valueOf(maxFileCount)),
+                            getMaxFileCount(), size);
                 }
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 // @formatter:off
@@ -531,8 +531,8 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      *
      * @param fileCountMax The new limit. {@code -1} means no limit.
      */
-    public void setFileCountMax(final long fileCountMax) {
-        this.fileCountMax = fileCountMax;
+    public void setMaxFileCount(final long fileCountMax) {
+        this.maxFileCount = fileCountMax;
     }
 
     /**
