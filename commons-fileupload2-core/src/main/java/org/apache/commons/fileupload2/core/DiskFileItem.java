@@ -165,7 +165,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         }
 
         /**
-         * Eqivalent to {@link #setThreshold(int)}.
+         * Equivalent to {@link #setThreshold(int)}.
          * @param bufferSize The threshold, which is being used.
          * @see #setThreshold(int)
          * @return This builder.
