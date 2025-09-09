@@ -48,7 +48,7 @@ class MultipartStreamTest {
         final byte[] byteContents = request.getBytes(StandardCharsets.UTF_8);
         final InputStream input = new ByteArrayInputStream(byteContents);
         final byte[] boundary = "---1234".getBytes();
-        final MultipartInput mi = MultipartInput.builder().setInputStream(input).setBoundary(boundary).setPartHeaderSizeMax(100).get();
+        final MultipartInput mi = MultipartInput.builder().setInputStream(input).setBoundary(boundary).setMaxPartHeaderSize(100).get();
         assertNotNull(mi);
         try {
             boolean nextPart = mi.skipPreamble();

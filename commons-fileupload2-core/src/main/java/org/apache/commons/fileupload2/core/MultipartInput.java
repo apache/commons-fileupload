@@ -112,7 +112,7 @@ public final class MultipartInput {
 
         /** The  per part size limit for headers.
          */
-        private int partHeaderSizeMax = DEFAULT_PART_HEADER_SIZE_MAX;
+        private int maxPartHeaderSize = DEFAULT_PART_HEADER_SIZE_MAX;
 
         /**
          * Constructs a new instance.
@@ -138,17 +138,17 @@ public final class MultipartInput {
          */
         @Override
         public MultipartInput get() throws IOException {
-            return new MultipartInput(getInputStream(), boundary, getBufferSize(), getPartHeaderSizeMax(), progressNotifier);
+            return new MultipartInput(getInputStream(), boundary, getBufferSize(), getMaxPartHeaderSize(), progressNotifier);
         }
 
         /**
          * Gets the per part size limit for headers.
          *
          * @return The maximum size of the headers in bytes.
-         * @since 2.0.0-M4
+         * @since 2.0.0-M5
          */
-        public int getPartHeaderSizeMax() {
-            return partHeaderSizeMax;
+        public int getMaxPartHeaderSize() {
+            return maxPartHeaderSize;
         }
 
         /**
@@ -165,10 +165,10 @@ public final class MultipartInput {
         /** Sets the per part size limit for headers.
          * @param partHeaderSizeMax The maximum size of the headers in bytes.
          * @return This builder.
-         * @since 2.0.0-M4
+         * @since 2.0.0-M5
          */
-        public Builder setPartHeaderSizeMax(final int partHeaderSizeMax) {
-            this.partHeaderSizeMax = partHeaderSizeMax;
+        public Builder setMaxPartHeaderSize(final int partHeaderSizeMax) {
+            this.maxPartHeaderSize = partHeaderSizeMax;
             return this;
         }
 

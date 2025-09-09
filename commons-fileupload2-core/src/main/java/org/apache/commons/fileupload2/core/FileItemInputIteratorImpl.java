@@ -294,7 +294,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                 .setInputStream(inputStream)
                 .setBoundary(multiPartBoundary)
                 .setProgressNotifier(progressNotifier)
-                .setPartHeaderSizeMax(fileUploadBase.getPartHeaderSizeMax())
+                .setMaxPartHeaderSize(fileUploadBase.getPartHeaderSizeMax())
                 .get();
         } catch (final IllegalArgumentException e) {
             IOUtils.closeQuietly(inputStream); // avoid possible resource leak
