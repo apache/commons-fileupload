@@ -137,8 +137,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
          */
         @Override
         public DiskFileItem get() {
-            final var diskFileItem = new DiskFileItem(getFieldName(), getContentType(), isFormField(), getFileName(), getBufferSize(), getPath(),
-                    getFileItemHeaders(), getCharset());
+            final var diskFileItem = new DiskFileItem(this);
             final var tracker = getFileCleaningTracker();
             if (tracker != null) {
                 diskFileItem.setFileCleaningTracker(tracker);
@@ -329,16 +328,15 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * @param fileItemHeaders The file item headers.
      * @param defaultCharset  The default Charset.
      */
-    private DiskFileItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName, final int threshold,
-            final Path repository, final FileItemHeaders fileItemHeaders, final Charset defaultCharset) {
-        this.fieldName = fieldName;
-        this.contentType = contentType;
-        this.charsetDefault = defaultCharset;
-        this.isFormField = isFormField;
-        this.fileName = fileName;
-        this.fileItemHeaders = fileItemHeaders;
-        this.threshold = threshold;
-        this.repository = repository != null ? repository : PathUtils.getTempDirectory();
+    private DiskFileItem(final Builder builder) {
+        this.fieldName = builder.getFieldName();
+        this.contentType = builder.getContentType();
+        this.charsetDefault = builder.getCharset();
+        this.isFormField = builder.isFormField();
+        this.fileName = builder.getFileName();
+        this.fileItemHeaders = builder.getFileItemHeaders();
+        this.threshold = builder.getThreshold();
+        this.repository = builder.getPath() != null ? builder.getPath() : PathUtils.getTempDirectory();
     }
 
     /**
