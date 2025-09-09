@@ -120,14 +120,14 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * The maximum size permitted for the complete request, as opposed to {@link #fileSizeMax}. A value of -1 indicates no maximum.
+     * The maximum size permitted for the complete request, as opposed to {@link #maxFileSize}. A value of -1 indicates no maximum.
      */
     private long maxSize = -1;
 
     /**
      * The maximum size permitted for a single uploaded file, as opposed to {@link #maxSize}. A value of -1 indicates no maximum.
      */
-    private long fileSizeMax = -1;
+    private long maxFileSize = -1;
 
     /**
      * The maximum permitted number of files that may be uploaded in a single request. A value of -1 indicates no maximum.
@@ -269,11 +269,11 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     /**
      * Gets the maximum allowed size of a single uploaded file, as opposed to {@link #getMaxSize()}.
      *
-     * @see #setFileSizeMax(long)
+     * @see #setMaxFileSize(long)
      * @return Maximum size of a single uploaded file.
      */
-    public long getFileSizeMax() {
-        return fileSizeMax;
+    public long getMaxFileSize() {
+        return maxFileSize;
     }
 
     /**
@@ -373,7 +373,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * Gets the maximum allowed size of a complete request, as opposed to {@link #getFileSizeMax()}.
+     * Gets the maximum allowed size of a complete request, as opposed to {@link #getMaxFileSize()}.
      *
      * @return The maximum allowed size, in bytes. The default value of -1 indicates, that there is no limit.
      * @see #setMaxSize(long)
@@ -547,11 +547,11 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     /**
      * Sets the maximum allowed size of a single uploaded file, as opposed to {@link #getMaxSize()}.
      *
-     * @see #getFileSizeMax()
+     * @see #getMaxFileSize()
      * @param fileSizeMax Maximum size of a single uploaded file.
      */
-    public void setFileSizeMax(final long fileSizeMax) {
-        this.fileSizeMax = fileSizeMax;
+    public void setMaxFileSize(final long fileSizeMax) {
+        this.maxFileSize = fileSizeMax;
     }
 
     /**
@@ -585,7 +585,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * Sets the maximum allowed size of a complete request, as opposed to {@link #setFileSizeMax(long)}.
+     * Sets the maximum allowed size of a complete request, as opposed to {@link #setMaxFileSize(long)}.
      *
      * @param sizeMax The maximum allowed size, in bytes. The default value of -1 indicates, that there is no limit.
      * @see #getMaxSize()

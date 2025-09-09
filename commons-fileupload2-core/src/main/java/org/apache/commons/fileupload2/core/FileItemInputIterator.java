@@ -29,7 +29,7 @@ public interface FileItemInputIterator extends IOIterator<FileItemInput> {
 
     /**
      * Gets the maximum size of a single file. An {@link FileUploadByteCountLimitException} will be thrown, if there is an uploaded file, which is exceeding
-     * this value. By default, this value will be copied from the {@link AbstractFileUpload#getFileSizeMax() FileUploadBase} object, however, the user may
+     * this value. By default, this value will be copied from the {@link AbstractFileUpload#getMaxFileSize() FileUploadBase} object, however, the user may
      * replace the default value with a request specific value by invoking {@link #setFileSizeMax(long)} on this object.
      *
      * @return The maximum size of a single, uploaded file. The value -1 indicates "unlimited".
@@ -68,7 +68,7 @@ public interface FileItemInputIterator extends IOIterator<FileItemInput> {
 
     /**
      * Sets the maximum size of a single file. An {@link FileUploadByteCountLimitException} will be thrown, if there is an uploaded file, which is exceeding
-     * this value. By default, this value will be copied from the {@link AbstractFileUpload#getFileSizeMax() FileUploadBase} object, however, the user may
+     * this value. By default, this value will be copied from the {@link AbstractFileUpload#getMaxFileSize() FileUploadBase} object, however, the user may
      * replace the default value with a request specific value by invoking {@link #setFileSizeMax(long)} on this object, so there is no need to configure it
      * here.
      * <p>
