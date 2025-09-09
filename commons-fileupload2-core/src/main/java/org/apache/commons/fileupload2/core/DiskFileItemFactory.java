@@ -114,7 +114,7 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          */
         @Override
         public DiskFileItemFactory get() {
-            return new DiskFileItemFactory(getPath(), getBufferSize(), getCharset(), fileCleaningTracker);
+            return new DiskFileItemFactory(this);
         }
 
         /**
@@ -221,11 +221,11 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
      * @param charsetDefault      Sets the default charset for use when no explicit charset parameter is provided by the sender.
      * @param fileCleaningTracker Callback to track files created, or null (default) to disable tracking.
      */
-    private DiskFileItemFactory(final Path repository, final int threshold, final Charset charsetDefault, final FileCleaningTracker fileCleaningTracker) {
-        this.threshold = threshold;
-        this.repository = repository;
-        this.charsetDefault = charsetDefault;
-        this.fileCleaningTracker = fileCleaningTracker;
+    private DiskFileItemFactory(final Builder builder) {
+        this.threshold = builder.threshold;
+        this.repository = builder.getPath();
+        this.charsetDefault = builder.getCharset();
+        this.fileCleaningTracker = builder.fileCleaningTracker;
     }
 
     @SuppressWarnings("unchecked")
