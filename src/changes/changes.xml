@@ -47,6 +47,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-295" type="fix" dev="jochen">Clarified the precise meaning of isInMemory(), get(), getPath(), etc. in DiskFileItem</action>
       <action                        type="fix" dev="markt"    due-to="Coverity Scan">Better exception type and message if a multipart/mixed part is presented without a boundary defined</action>
       <!-- ADD -->
+      <action                        type="add" dev="ggregory" due-to="Ryan J Murphy">Add AbstractFileUpload support for a maximum part header size #429.</action>
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.commons:commons-parent from 84 to 87.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.18.0 #427.</action>
