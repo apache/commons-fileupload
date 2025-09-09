@@ -319,14 +319,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     /**
      * Constructs a new {@code DiskFileItem} instance.
      *
-     * @param fieldName       The name of the form field.
-     * @param contentType     The content type passed by the browser or {@code null} if not specified.
-     * @param isFormField     Whether or not this item is a plain form field, as opposed to a file upload.
-     * @param fileName        The original file name in the user's file system, or {@code null} if not specified.
-     * @param threshold       The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
-     * @param repository      The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
-     * @param fileItemHeaders The file item headers.
-     * @param defaultCharset  The default Charset.
+     * @param builder The DiskFileItem builder.
      */
     private DiskFileItem(final Builder builder) {
         this.fieldName = builder.getFieldName();
