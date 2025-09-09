@@ -110,7 +110,8 @@ public final class MultipartInput {
          */
         private ProgressNotifier progressNotifier;
 
-        /** The  per part size limit for headers.
+        /** 
+         * The  per part size limit for headers.
          */
         private int maxPartHeaderSize = DEFAULT_PART_HEADER_SIZE_MAX;
 
