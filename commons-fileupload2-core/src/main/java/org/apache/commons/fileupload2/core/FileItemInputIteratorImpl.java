@@ -111,7 +111,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
      */
     FileItemInputIteratorImpl(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         this.fileUpload = fileUploadBase;
-        this.sizeMax = fileUploadBase.getSizeMax();
+        this.sizeMax = fileUploadBase.getMaxSize();
         this.fileSizeMax = fileUploadBase.getFileSizeMax();
         this.requestContext = Objects.requireNonNull(requestContext, "requestContext");
         this.multipartRelated = this.requestContext.isMultipartRelated();

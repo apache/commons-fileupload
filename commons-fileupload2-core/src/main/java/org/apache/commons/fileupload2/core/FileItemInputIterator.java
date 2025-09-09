@@ -38,7 +38,7 @@ public interface FileItemInputIterator extends IOIterator<FileItemInput> {
 
     /**
      * Gets the maximum size of the complete HTTP request. A {@link SizeLimitExceededException} will be thrown, if the HTTP request will exceed this value. By
-     * default, this value will be copied from the {@link AbstractFileUpload#getSizeMax() FileUploadBase} object, however, the user may replace the default
+     * default, this value will be copied from the {@link AbstractFileUpload#getMaxSize() FileUploadBase} object, however, the user may replace the default
      * value with a request specific value by invoking {@link #setSizeMax(long)} on this object.
      *
      * @return The maximum size of the complete HTTP request. The value -1 indicates "unlimited".
@@ -81,7 +81,7 @@ public interface FileItemInputIterator extends IOIterator<FileItemInput> {
 
     /**
      * Sets the maximum size of the complete HTTP request. A {@link SizeLimitExceededException} will be thrown, if the HTTP request will exceed this value. By
-     * default, this value will be copied from the {@link AbstractFileUpload#getSizeMax() FileUploadBase} object, however, the user may replace the default
+     * default, this value will be copied from the {@link AbstractFileUpload#getMaxSize() FileUploadBase} object, however, the user may replace the default
      * value with a request specific value by invoking {@link #setSizeMax(long)} on this object.
      * <p>
      * <em>Note:</em> Setting the maximum size on this object will work only, if the iterator is not yet initialized. In other words: If the methods

@@ -47,6 +47,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="FILEUPLOAD-295" type="fix" dev="jochen">Clarified the precise meaning of isInMemory(), get(), getPath(), etc. in DiskFileItem</action>
       <action                        type="fix" dev="markt"    due-to="Coverity Scan">Better exception type and message if a multipart/mixed part is presented without a boundary defined</action>
       <action                        type="fix" dev="ggregory" due-to="Gary Gregory">Rename MultipartInput.Builder.[get|set]PartHeaderSizeMax() to [get|set]MaxPartHeaderSize().</action>
+      <action                        type="fix" dev="ggregory" due-to="Gary Gregory">Rename AbstractFileUpload.[get|set]SizeMax() to AbstractFileUpload.[get|set]MaxSize().</action>
       <!-- ADD -->
       <action                        type="add" dev="ggregory" due-to="Ryan J Murphy">Add AbstractFileUpload support for a maximum part header size #429.</action>
       <!-- UPDATE -->

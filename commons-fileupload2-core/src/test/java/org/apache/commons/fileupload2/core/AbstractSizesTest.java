@@ -220,7 +220,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
 
         final var upload = newFileUpload();
         upload.setFileSizeMax(-1);
-        upload.setSizeMax(200);
+        upload.setMaxSize(200);
 
         final var req = newMockHttpServletRequest(request, null, null);
         try {
@@ -253,7 +253,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
 
         final var upload = newFileUpload();
         upload.setFileSizeMax(-1);
-        upload.setSizeMax(300);
+        upload.setMaxSize(300);
 
         // the first item should be within the max size limit
         // set the read limit to 10 to simulate a "real" stream
