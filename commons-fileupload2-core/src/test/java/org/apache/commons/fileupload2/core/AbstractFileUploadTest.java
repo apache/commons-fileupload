@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -478,5 +479,72 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
         assertEquals("some text/plain content", part2.getString());
         assertEquals("text/plain", part2.getContentType());
         assertNull(part2.getName());
+    }
+
+
+    @Test
+    public void testExceedTotalPartHeaderSizeLimit() throws IOException {
+        upload.setPartHeaderTotalSizeMax(250);
+        try {
+            // @formatter:off
+            final var fileItems = parseUpload(upload,
+                                                   "-----1234\r\n" +
+                                                   "Content-Disposition: "
+                                                   + "form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                                                   "Content-Type: text/whatever\r\n" +
+                                                   "\r\n" +
+                                                   "This is the content of the file\n" +
+                                                   "\r\n" +
+                                                   "-----1234\r\n" +
+                                                   "Content-Disposition: form-data; name=\"field\"\r\n" +
+                                                   "\r\n" +
+                                                   "fieldValue\r\n" +
+                                                   "-----1234\r\n" +
+                                                   "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                                   "\r\n" +
+                                                   "value1\r\n" +
+                                                   "-----1234\r\n" +
+                                                   "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                                   "Content-Type: text/plain\r\n" +
+                                                   "Content-ID: multi-id\r\n" +
+                                                   "\r\n" +
+                                                   "value2\r\n" +
+                                                   "-----1234--\r\n");
+            // @formatter:on
+            fail("FileUploadSizeException expected!");
+        } catch (FileUploadSizeException fse) {
+            assertEquals(upload.getPartHeaderTotalSizeMax(), fse.getPermitted());
+        }
+    }
+
+    @Test
+    public void testPassTotalPartHeaderSizeLimit() throws IOException {
+        upload.setPartHeaderTotalSizeMax(1 << 10);
+        // @formatter:off
+        final var fileItems = parseUpload(upload,
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: "
+                                               + "form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                                               "Content-Type: text/whatever\r\n" +
+                                               "\r\n" +
+                                               "This is the content of the file\n" +
+                                               "\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"field\"\r\n" +
+                                               "\r\n" +
+                                               "fieldValue\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                               "\r\n" +
+                                               "value1\r\n" +
+                                               "-----1234\r\n" +
+                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                                               "Content-Type: text/plain\r\n" +
+                                               "Content-ID: multi-id\r\n" +
+                                               "\r\n" +
+                                               "value2\r\n" +
+                                               "-----1234--\r\n");
+        // @formatter:on
+        assertEquals(4, fileItems.size());
     }
 }
