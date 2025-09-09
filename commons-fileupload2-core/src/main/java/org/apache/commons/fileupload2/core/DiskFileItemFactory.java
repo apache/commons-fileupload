@@ -82,7 +82,8 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          */
         private FileCleaningTracker fileCleaningTracker;
 
-        /** The threshold. We do maintain this separate from the {@link #getBufferSize()},
+        /**
+         * The threshold. We do maintain this separate from the {@link #getBufferSize()},
          * because the parent class might change the value in {@link #setBufferSize(int)}.
          */
         private int threshold;
@@ -116,7 +117,8 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
             return new DiskFileItemFactory(getPath(), getBufferSize(), getCharset(), fileCleaningTracker);
         }
 
-        /** Equivalent to {@link #getThreshold()}.
+        /**
+         * Equivalent to {@link #getThreshold()}.
          * @return The threshold, which is being used.
          * @see #getThreshold()
          * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
@@ -125,14 +127,16 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
             return getThreshold();
         }
 
-        /** Returns the threshold.
+        /**
+         * Returns the threshold.
          * @return The threshold.
          */
         public int getThreshold() {
             return threshold;
         }
 
-        /** Eqivalent to {@link #setThreshold(int)}.
+        /**
+         * Eqivalent to {@link #setThreshold(int)}.
          * @param bufferSize The threshold, which is being used.
          * @see #setThreshold(int)
          * @return This builder.
@@ -154,7 +158,8 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
             return this;
         }
 
-        /** Sets the threshold. The uploaded data is typically kept in memory, until
+        /**
+         * Sets the threshold. The uploaded data is typically kept in memory, until
          * a certain number of bytes (the threshold) is reached. At this point, the
          * incoming data is transferred to a temporary file, and the in-memory data
          * is removed.

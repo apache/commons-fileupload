@@ -36,7 +36,8 @@ import org.junit.jupiter.api.Test;
 import org.apache.commons.fileupload2.core.DeferrableOutputStream.State;
 
 
-/** Test suite for the {@link DeferrableOutputStream}.
+/**
+ * Test suite for the {@link DeferrableOutputStream}.
  */
 class DeferrableOutputStreamTest {
 	private static final Path testDir = Paths.get("target/unit-tests/DeferrableOutputStreamTest");
@@ -68,7 +69,8 @@ class DeferrableOutputStreamTest {
 		}
 	}
 
-	/** Tests using the {@link DeferrableOutputStream} with a positive threshold.
+	/**
+	 * Tests using the {@link DeferrableOutputStream} with a positive threshold.
 	 */
 	@Test
 	void testExceedPositiveThreshold() {
@@ -141,7 +143,8 @@ class DeferrableOutputStreamTest {
 		});
 	}
 
-	/** Tests using the {@link DeferrableOutputStream} with threshold -1.
+	/**
+	 * Tests using the {@link DeferrableOutputStream} with threshold -1.
 	 */
 	@Test
 	void testThresholdMinusOne() {
@@ -172,7 +175,8 @@ class DeferrableOutputStreamTest {
 		tester.run();
 	}
 
-	/** Tests using the {@link DeferrableOutputStream} with threshold 0.
+	/**
+	 * Tests using the {@link DeferrableOutputStream} with threshold 0.
 	 */
 	@Test
 	void testThresholdZero() {

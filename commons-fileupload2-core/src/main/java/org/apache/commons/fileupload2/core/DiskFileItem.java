@@ -108,7 +108,8 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     public static class Builder extends AbstractFileItemBuilder<DiskFileItem, Builder> {
 
-        /** The threshold. We do maintain this separate from the {@link #getBufferSize()},
+        /**
+         * The threshold. We do maintain this separate from the {@link #getBufferSize()},
          * because the parent class might change the value in {@link #setBufferSize(int)}.
          */
         private int threshold;
@@ -145,7 +146,8 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
             return diskFileItem;
         }
 
-        /** Equivalent to {@link #getThreshold()}.
+        /**
+         * Equivalent to {@link #getThreshold()}.
          * @return The threshold, which is being used.
          * @see #getThreshold()
          * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
@@ -154,14 +156,16 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
             return getThreshold();
         }
 
-        /** Returns the threshold.
+        /**
+         * Returns the threshold.
          * @return The threshold.
          */
         public int getThreshold() {
             return threshold;
         }
 
-        /** Eqivalent to {@link #setThreshold(int)}.
+        /**
+         * Eqivalent to {@link #setThreshold(int)}.
          * @param bufferSize The threshold, which is being used.
          * @see #setThreshold(int)
          * @return This builder.
@@ -172,7 +176,8 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
             return setThreshold(bufferSize);
         }
 
-        /** Sets the threshold. The uploaded data is typically kept in memory, until
+        /**
+         * Sets the threshold. The uploaded data is typically kept in memory, until
          * a certain number of bytes (the threshold) is reached. At this point, the
          * incoming data is transferred to a temporary file, and the in-memory data
          * is removed.
@@ -306,7 +311,8 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     private Charset charsetDefault = DEFAULT_CHARSET;
 
-    /** The {@link FileCleaningTracker}, which is being used to remove
+    /**
+     * The {@link FileCleaningTracker}, which is being used to remove
      * temporary files.
      */
     private FileCleaningTracker fileCleaningTracker;
@@ -421,7 +427,8 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         return fieldName;
     }
 
-    /** Returns the {@link FileCleaningTracker}, which is being used to remove
+    /**
+     * Returns the {@link FileCleaningTracker}, which is being used to remove
      * temporary files.
      * @return The {@link FileCleaningTracker}, which is being used to remove
      * temporary files.
@@ -510,7 +517,8 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         return null;
     }
 
-    /** Returns the contents of the file as a {@link Reader}, using the specified
+    /**
+     * Returns the contents of the file as a {@link Reader}, using the specified
      * {@link #getCharset()}. If the contents are not yet available, returns null.
      * This is the case, for example, if the underlying output stream has not yet
      * been closed.
@@ -575,7 +583,8 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         return new String(get(), Charsets.toCharset(charset, charsetDefault));
     }
 
-    /** Returns the file items threshold.
+    /**
+     * Returns the file items threshold.
      * @return The threshold.
      */
     public int getThreshold() {
@@ -629,7 +638,8 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
         return this;
     }
 
-    /** Sets the {@link FileCleaningTracker}, which is being used to remove
+    /**
+     * Sets the {@link FileCleaningTracker}, which is being used to remove
      * temporary files.
      * @param fileCleaningTracker The {@link FileCleaningTracker}, which is being used to
      * remove temporary files.

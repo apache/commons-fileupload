@@ -26,7 +26,8 @@ import java.nio.file.Path;
 import java.util.function.Supplier;
 
 
-/** An {@link OutputStream}, which keeps its data in memory, until a configured
+/**
+ * An {@link OutputStream}, which keeps its data in memory, until a configured
  * threshold is reached. If that is the case, a temporary file is being created,
  * and the in-memory data is transferred to that file. All following data will
  * be written to that file, too.
@@ -59,11 +60,13 @@ import java.util.function.Supplier;
  * <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-295</a>)
  */
 public class DeferrableOutputStream extends OutputStream {
-    /** Interface of a listener object, that wishes to be notified about
+    /**
+     * Interface of a listener object, that wishes to be notified about
      * state changes.
      */
     public interface Listener {
-        /** Called, after {@link #persist()} has been invoked,
+        /**
+         * Called, after {@link #persist()} has been invoked,
          *   and the temporary file has been created.
          * @param path Path of the temporary file, that has been
          *   created. All in-memory data has been transferred to
@@ -71,19 +74,23 @@ public class DeferrableOutputStream extends OutputStream {
          */
          default void persisted(final Path path) { }
     }
-    /** This enumeration represents the possible states of the {@link DeferrableOutputStream}.
+    /**
+     * This enumeration represents the possible states of the {@link DeferrableOutputStream}.
      */
     public enum State {
-        /** The stream object has been created with a non-negative threshold,
+        /**
+         * The stream object has been created with a non-negative threshold,
          * but so far no data has been written.
          */
         initialized,
-        /** The stream object has been created with a non-negative threshold,
+        /**
+         * The stream object has been created with a non-negative threshold,
          * and some data has been written, but the threshold is not yet exceeded,
          * and the data is still kept in memory.
          */
         opened,
-        /** Either of the following conditions is given:
+        /**
+         * Either of the following conditions is given:
          * <ol>
          *   <li>The stream object has been created with a threshold of -1, or</li>
          *   <li>the stream object has been created with a non-negative threshold,
@@ -94,60 +101,74 @@ public class DeferrableOutputStream extends OutputStream {
          * written to the temporary file, erasing all existing data from memory.
          */
         persisted,
-        /** The stream has been closed, and data can no longer be written. It is
+        /**
+         * The stream has been closed, and data can no longer be written. It is
          * now valid to invoke {@link DeferrableOutputStream#getInputStream()}.
          */
         closed
     }
-    /** The configured threshold, as an integer. This variable isn't actually
+    /**
+     * The configured threshold, as an integer. This variable isn't actually
      * used. Instead {@link #longThreshold} is used.
      * @see #longThreshold
      */
     private final int threshold;
-    /** The configured threshold, as a long integer. (Using a long integer
+    /**
+     * The configured threshold, as a long integer. (Using a long integer
      * enables proper handling of the threshold, when the file size is
      * approaching {@link Integer#MAX_VALUE}.
      * @see #threshold
      */
     private final long longThreshold;
-    /** This supplier will be invoked, if the temporary file is created,
-     * to determine the temporary file's location.
+    /**
+     * This supplier will be invoked, if the temporary file is created,
+     * t
+     *  determine the temporary file's location.
      * @see #path
      */
     private final Supplier<Path> pathSupplier;
-    /** If a temporary file has been created: Path of the temporary
+    /**
+     * If a temporary file has been created: Path of the temporary
      * file. Otherwise null.
      * @see #pathSupplier
      */
     private Path path;
-    /** If no temporary file was created: A stream, to which the
+    /**
+     * If no temporary file was created: A stream, to which the
      * incoming data is being written, until the threshold is reached.
      * Otherwise null.
      */
     private ByteArrayOutputStream baos;
-    /** If no temporary file was created, and the stream is closed:
+    /**
+     * If no temporary file was created, and the stream is closed:
      * The in-memory data, that was written to the stream. Otherwise null.
      */
     private byte[] bytes;
-    /** If a temporary file has been created: An open stream
+    /**
+     * If a temporary file has been created: An open stream
      * for writing to that file. Otherwise null.
      */
     private OutputStream out;
-    /** The streams current state.
+    /**
+     * The streams current state.
      */
     private State state;
-    /** True, if the stream has ever been in state {@link State#persisted}.
+    /**
+     * True, if the stream has ever been in state {@link State#persisted}.
      * Or, in other words: True, if a temporary file has been created.
      */
     private boolean wasPersisted;
-    /** Number of bytes, that have been written to this stream so far.
+    /**
+     * Number of bytes, that have been written to this stream so far.
      */
     private long size;
-    /** The configured {@link Listener}, if any, or null.
+    /**
+     * The configured {@link Listener}, if any, or null.
      */
     private final Listener listener;
 
-    /** Creates a new instance with the given threshold, and the given supplier for a
+    /**
+     * Creates a new instance with the given threshold, and the given supplier for a
      * temporary files path.
      * If the threshold is -1, then the temporary file will be created immediately, and
      * no in-memory data will be kept, at all.
@@ -181,7 +202,8 @@ public class DeferrableOutputStream extends OutputStream {
         checkThreshold(0);
     }
 
-    /** Called to check, whether the threshold will be exceeded, if the given number
+    /**
+     * Called to check, whether the threshold will be exceeded, if the given number
      * of bytes are written to the stream. If so, persists the in-memory data by
      * creating a new, temporary file, and writing the in-memory data to the file.
      * @param numberOfIncomingBytes The number of bytes, which are about to be written.
@@ -249,7 +271,8 @@ public class DeferrableOutputStream extends OutputStream {
         }
     }
 
-    /** Returns the data, that has been written, if the stream has
+    /**
+     * Returns the data, that has been written, if the stream has
      * been closed, and the stream is still in memory
      * ({@link #isInMemory()} returns true). Otherwise, returns null.
      * @return If the stream is closed (no more data can be written),
@@ -261,7 +284,8 @@ public class DeferrableOutputStream extends OutputStream {
         return bytes;
     }
 
-    /** If the stream is closed: Returns an {@link InputStream} on the
+    /**
+     * If the stream is closed: Returns an {@link InputStream} on the
      * data, that has been written to this stream. Otherwise, throws
      * an {@link IllegalStateException}.
      * @return An {@link InputStream} on the data, that has been
@@ -283,7 +307,8 @@ public class DeferrableOutputStream extends OutputStream {
         }
     }
 
-    /** Returns the output file, that has been created, if any, or null.
+    /**
+     * Returns the output file, that has been created, if any, or null.
      * The latter is the case, if {@link #isInMemory()} returns true.
      * @return The output file, that has been created, if any, or null.
      */
@@ -291,28 +316,32 @@ public class DeferrableOutputStream extends OutputStream {
         return path;
     }
 
-    /** Returns the number of bytes, that have been written to this stream.
+    /**
+     * Returns the number of bytes, that have been written to this stream.
      * @return The number of bytes, that have been written to this stream.
      */
     public long getSize() {
         return size;
     }
 
-    /** Returns the streams current state.
+    /**
+     * Returns the streams current state.
      * @return The streams current state.
      */
     public State getState() {
         return state;
     }
 
-    /** Returns the streams configured threshold.
+    /**
+     * Returns the streams configured threshold.
      * @return The streams configured threshold.
      */
     public int getThreshold() {
         return threshold;
     }
 
-    /** Returns the path of the output file, if such a file has
+    /**
+     * Returns the path of the output file, if such a file has
      * been created. That is the case, if {@link #isInMemory()}
      * returns false. Otherwise, returns null.
      * @return Path of the created output file, if any, or null.
@@ -321,7 +350,8 @@ public class DeferrableOutputStream extends OutputStream {
         throw new IllegalStateException("Expected state initialized|opened|persisted|closed, got " + state.name());
     }
 
-    /** Returns true, if this stream was never persisted,
+    /**
+     * Returns true, if this stream was never persisted,
      * and no output file has been created.
      * @return True, if the stream was never in state
      *   {@link State#persisted}, otherwise false.
@@ -340,7 +370,8 @@ public class DeferrableOutputStream extends OutputStream {
         }
     }
 
-    /** Create the output file, change the state to {@code persisted}, and
+    /**
+     * Create the output file, change the state to {@code persisted}, and
      * return an {@link OutputStream}, which is writing to that file.
      * @return The {@link OutputStream}, which is writing to the created,
      * temporary file.
@@ -356,7 +387,8 @@ public class DeferrableOutputStream extends OutputStream {
         if (baos != null) {
             baos.writeTo(os);
         }
-        /** At this point, the output file has been successfully created,
+        /**
+         * At this point, the output file has been successfully created,
          * and we can safely switch state.
          */
         state = State.persisted;

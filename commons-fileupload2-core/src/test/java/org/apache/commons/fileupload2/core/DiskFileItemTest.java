@@ -79,7 +79,8 @@ class DiskFileItemTest {
         assertSame(fileItemHeaders, fileItem.getHeaders());
     }
 
-    /** Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-29</a>:
+    /**
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-29</a>:
      * A {@link #DiskFileItem} with threshold 0 must always create a file, as soon as data comes in.
      */
     @Test
@@ -109,7 +110,8 @@ class DiskFileItemTest {
                 		sb.append('.');
                 		assertState(dfi, State.opened, true, null, null);
                 	}
-                	/** Write another byte. This should hit the threshold,
+                	/*
+                	 * Write another byte. This should hit the threshold,
                 	 * thus trigger persisting the in memory data.
                 	 */
             		os.write(',');
@@ -126,7 +128,8 @@ class DiskFileItemTest {
         tester.accept(8193); // Typical buffer size +1
     }
 
-    /** Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-29</a>:
+    /**
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-29</a>:
      * A {@link #DiskFileItem} with threshold -1 must always create a (possibly empty) file.
      */
     @Test
@@ -162,7 +165,8 @@ class DiskFileItemTest {
         tester.accept("aAbBcCdDeEfF012345");
     }
 
-    /** Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-29</a>:
+    /**
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-29</a>:
      * A {@link #DiskFileItem} with threshold 0 must always create a file, as soon as data comes in.
      */
     @Test

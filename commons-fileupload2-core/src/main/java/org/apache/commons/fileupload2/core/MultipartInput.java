@@ -110,7 +110,7 @@ public final class MultipartInput {
          */
         private ProgressNotifier progressNotifier;
 
-        /** 
+        /**
          * The  per part size limit for headers.
          */
         private int maxPartHeaderSize = DEFAULT_PART_HEADER_SIZE_MAX;
@@ -163,7 +163,8 @@ public final class MultipartInput {
             return this;
         }
 
-        /** Sets the per part size limit for headers.
+        /**
+         * Sets the per part size limit for headers.
          * @param partHeaderSizeMax The maximum size of the headers in bytes.
          * @return This builder.
          * @since 2.0.0-M5
@@ -174,16 +175,15 @@ public final class MultipartInput {
         }
 
         /**
-             * Sets the progress notifier.
-             *
-             * @param progressNotifier progress notifier.
-             * @return {@code this} instance.
-             */
-            public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
-                this.progressNotifier = progressNotifier;
-                return this;
-            }
-
+         * Sets the progress notifier.
+         *
+         * @param progressNotifier progress notifier.
+         * @return {@code this} instance.
+         */
+        public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
+            this.progressNotifier = progressNotifier;
+            return this;
+        }
     }
 
     /**
@@ -814,7 +814,8 @@ public final class MultipartInput {
         return headerCharset;
     }
 
-    /** Returns the per part size limit for headers.
+    /**
+     * Returns the per part size limit for headers.
      *
      * @return The maximum size of the headers in bytes.
      * @since 2.0.0-M5
