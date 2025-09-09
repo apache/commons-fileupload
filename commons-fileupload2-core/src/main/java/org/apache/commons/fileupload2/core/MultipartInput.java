@@ -141,7 +141,9 @@ public final class MultipartInput {
             return new MultipartInput(getInputStream(), boundary, getBufferSize(), getPartHeaderSizeMax(), progressNotifier);
         }
 
-        /** Returns the per part size limit for headers.
+        /**
+         * Gets the per part size limit for headers.
+         *
          * @return The maximum size of the headers in bytes.
          * @since 2.0.0-M4
          */
