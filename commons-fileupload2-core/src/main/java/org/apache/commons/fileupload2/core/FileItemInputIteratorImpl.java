@@ -290,7 +290,12 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
 
         progressNotifier = new MultipartInput.ProgressNotifier(fileUploadBase.getProgressListener(), requestSize);
         try {
-            multiPartInput = MultipartInput.builder().setInputStream(inputStream).setBoundary(multiPartBoundary).setProgressNotifier(progressNotifier).get();
+            multiPartInput = MultipartInput.builder()
+                .setInputStream(inputStream)
+                .setBoundary(multiPartBoundary)
+                .setProgressNotifier(progressNotifier)
+                .setPartHeaderSizeMax(fileUploadBase.getPartHeaderSizeMax())
+                .get();
         } catch (final IllegalArgumentException e) {
             IOUtils.closeQuietly(inputStream); // avoid possible resource leak
             throw new FileUploadContentTypeException(String.format("The boundary specified in the %s header is too long", AbstractFileUpload.CONTENT_TYPE), e);

@@ -40,6 +40,36 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         extends AbstractTest<AFU, R, I, F> {
 
     /**
+     * Checks whether limiting the PartHeaderSizeMax works.
+     *
+     * @throws IOException Test failure.
+     */
+    @Test
+    void testFilePartHeaderSizeMax() throws IOException {
+        final String request = "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "Content-Length: 10\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234--\r\n";
+
+        final var upload = newFileUpload();
+        upload.setPartHeaderSizeMax(200);
+        final var req = newMockHttpServletRequest(request, null, null);
+        final var fileItems = upload.parseRequest(req);
+        assertEquals(1, fileItems.size());
+        final var item = fileItems.get(0);
+        assertEquals("This is the content of the file\n", new String(item.get()));
+
+        var upload2 = newFileUpload();
+        upload2.setPartHeaderSizeMax(10);
+        var req2 = newMockHttpServletRequest(request, null, null);
+        assertThrows(FileUploadSizeException.class, () -> upload2.parseRequest(req2));
+    }
+
+    /**
      * Checks, whether limiting the file size works.
      *
      * @throws IOException Test failure.
