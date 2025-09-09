@@ -683,7 +683,7 @@ public final class MultipartInput {
     /**
      * The maximum size of the headers in bytes.
      */
-    private final int partHeaderSizeMax;
+    private final int maxPartHeaderSize;
 
     /**
      * Constructs a {@code MultipartInput} with a custom size buffer.
@@ -713,7 +713,7 @@ public final class MultipartInput {
         this.bufSize = Math.max(bufferSize, boundaryLength * 2);
         this.buffer = new byte[this.bufSize];
         this.notifier = notifier;
-        this.partHeaderSizeMax = partHeaderSizeMax;
+        this.maxPartHeaderSize = partHeaderSizeMax;
 
         this.boundary = new byte[this.boundaryLength];
         this.boundaryTable = new int[this.boundaryLength + 1];
@@ -816,10 +816,10 @@ public final class MultipartInput {
     /** Returns the per part size limit for headers.
      *
      * @return The maximum size of the headers in bytes.
-     * @since 2.0.0-M4
+     * @since 2.0.0-M5
      */
-    public int getPartHeaderSizeMax() {
-        return partHeaderSizeMax;
+    public int getMaxPartHeaderSize() {
+        return maxPartHeaderSize;
     }
 
     /**
@@ -938,7 +938,7 @@ public final class MultipartInput {
             } catch (final IOException e) {
                 throw new MalformedStreamException("Stream ended unexpectedly", e);
             }
-            final int phsm = getPartHeaderSizeMax();
+            final int phsm = getMaxPartHeaderSize();
             if (phsm != -1 && ++size > phsm) {
                 throw new FileUploadSizeException(
                         String.format("Header section has more than %s bytes (maybe it is not properly terminated)", Integer.valueOf(phsm)), phsm, size);
