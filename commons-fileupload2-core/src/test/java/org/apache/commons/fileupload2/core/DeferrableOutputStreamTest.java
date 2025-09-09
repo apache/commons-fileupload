@@ -16,7 +16,12 @@
  */
 package org.apache.commons.fileupload2.core;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,10 +35,9 @@ import java.nio.file.Paths;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.apache.commons.fileupload2.core.DeferrableOutputStream.State;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import org.apache.commons.fileupload2.core.DeferrableOutputStream.State;
 
 
 /**
