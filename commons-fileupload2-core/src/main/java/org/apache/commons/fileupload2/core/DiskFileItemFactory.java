@@ -37,10 +37,14 @@ import org.apache.commons.io.file.PathUtils;
  * <li>Size threshold is 10 KB.</li>
  * <li>Repository is the system default temporary directory, as returned by {@code System.getProperty("java.io.tmpdir")}.</li>
  * </ul>
+ * <p><em>State model</em>: The created instances of {@link DiskFileItem} are subject to a carefully designed state model,
+ * which is also controlled by the threshold. Therefore, it is strongly recommended to set the threshold explicitly, using
+ * {@link Builder#setThreshold(int)}. Details
+ * on the state model can be found {@link DiskFileItem here}.</p>
  * <p>
  * <strong>NOTE</strong>: Files are created in the system default temporary directory with predictable names. This means that a local attacker with write access
  * to that directory can perform a TOUTOC attack to replace any uploaded file with a file of the attackers choice. The implications of this will depend on how
- * the uploaded file is used but could be significant. When using this implementation in an environment with local, untrusted users,
+ * the uploaded file is used, but could be significant. When using this implementation in an environment with local, untrusted users,
  * {@link Builder#setPath(Path)} MUST be used to configure a repository location that is not publicly writable. In a Servlet container the location identified
  * by the ServletContext attribute {@code javax.servlet.context.tempdir} may be used.
  * </p>
@@ -79,6 +83,12 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
         private FileCleaningTracker fileCleaningTracker;
 
         /**
+         * The threshold. We do maintain this separate from the {@link #getBufferSize()},
+         * because the parent class might change the value in {@link #setBufferSize(int)}.
+         */
+        private int threshold;
+
+        /**
          * Constructs a new instance.
          */
         public Builder() {
@@ -104,7 +114,37 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          */
         @Override
         public DiskFileItemFactory get() {
-            return new DiskFileItemFactory(getPath(), getBufferSize(), getCharset(), fileCleaningTracker);
+            return new DiskFileItemFactory(this);
+        }
+
+        /**
+         * Equivalent to {@link #getThreshold()}.
+         * @return The threshold, which is being used.
+         * @see #getThreshold()
+         * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
+         */
+        public int getBufferSize() {
+            return getThreshold();
+        }
+
+        /**
+         * Returns the threshold.
+         * @return The threshold.
+         */
+        public int getThreshold() {
+            return threshold;
+        }
+
+        /**
+         * Equivalent to {@link #setThreshold(int)}.
+         * @param bufferSize The threshold, which is being used.
+         * @see #setThreshold(int)
+         * @return This builder.
+         * @deprecated Since 2.0.0, use {@link #setThreshold(int)} instead.
+         */
+        @Override
+        public Builder setBufferSize(final int bufferSize) {
+            return setThreshold(bufferSize);
         }
 
         /**
@@ -118,6 +158,22 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
             return this;
         }
 
+        /**
+         * Sets the threshold. The uploaded data is typically kept in memory, until
+         * a certain number of bytes (the threshold) is reached. At this point, the
+         * incoming data is transferred to a temporary file, and the in-memory data
+         * is removed.
+         *
+         * The threshold will also control the <em>state model</em> of the created
+         * instances of {@link DiskFileItem}. Details on the state model can be
+         * found {@link DiskFileItem here}.
+         * @param threshold The threshold, which is being used.
+         * @return This builder.
+         */
+        public Builder setThreshold(final int threshold) {
+            this.threshold = threshold;
+            return this;
+        }
     }
 
     /**
@@ -165,11 +221,11 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
      * @param charsetDefault      Sets the default charset for use when no explicit charset parameter is provided by the sender.
      * @param fileCleaningTracker Callback to track files created, or null (default) to disable tracking.
      */
-    private DiskFileItemFactory(final Path repository, final int threshold, final Charset charsetDefault, final FileCleaningTracker fileCleaningTracker) {
-        this.threshold = threshold;
-        this.repository = repository;
-        this.charsetDefault = charsetDefault;
-        this.fileCleaningTracker = fileCleaningTracker;
+    private DiskFileItemFactory(final Builder builder) {
+        this.threshold = builder.threshold;
+        this.repository = builder.getPath();
+        this.charsetDefault = builder.getCharset();
+        this.fileCleaningTracker = builder.fileCleaningTracker;
     }
 
     @SuppressWarnings("unchecked")
@@ -177,7 +233,7 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
     public DiskFileItem.Builder fileItemBuilder() {
         // @formatter:off
         return DiskFileItem.builder()
-                .setBufferSize(threshold)
+                .setThreshold(threshold)
                 .setCharset(charsetDefault)
                 .setFileCleaningTracker(fileCleaningTracker)
                 .setPath(repository);

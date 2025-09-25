@@ -40,6 +40,36 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         extends AbstractTest<AFU, R, I, F> {
 
     /**
+     * Checks whether limiting the PartHeaderSizeMax works.
+     *
+     * @throws IOException Test failure.
+     */
+    @Test
+    void testFilePartHeaderSizeMax() throws IOException {
+        final String request = "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "Content-Length: 10\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234--\r\n";
+
+        final var upload = newFileUpload();
+        upload.setMaxPartHeaderSize(200);
+        final var req = newMockHttpServletRequest(request, null, null);
+        final var fileItems = upload.parseRequest(req);
+        assertEquals(1, fileItems.size());
+        final var item = fileItems.get(0);
+        assertEquals("This is the content of the file\n", new String(item.get()));
+
+        var upload2 = newFileUpload();
+        upload2.setMaxPartHeaderSize(10);
+        var req2 = newMockHttpServletRequest(request, null, null);
+        assertThrows(FileUploadSizeException.class, () -> upload2.parseRequest(req2));
+    }
+
+    /**
      * Checks, whether limiting the file size works.
      *
      * @throws IOException Test failure.
@@ -61,7 +91,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         // @formatter:on
 
         var upload = newFileUpload();
-        upload.setFileSizeMax(-1);
+        upload.setMaxFileSize(-1);
         var req = newMockHttpServletRequest(request, null, null);
         var fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
@@ -69,7 +99,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         assertEquals(content, new String(item.get()));
 
         upload = newFileUpload();
-        upload.setFileSizeMax(40);
+        upload.setMaxFileSize(40);
         req = newMockHttpServletRequest(request, null, null);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
@@ -77,7 +107,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         assertEquals(content, new String(item.get()));
 
         upload = newFileUpload();
-        upload.setFileSizeMax(contentSize);
+        upload.setMaxFileSize(contentSize);
         req = newMockHttpServletRequest(request, null, null);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
@@ -85,7 +115,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         assertEquals(content, new String(item.get()));
 
         upload = newFileUpload();
-        upload.setFileSizeMax(contentSize - 1);
+        upload.setMaxFileSize(contentSize - 1);
         req = newMockHttpServletRequest(request, null, null);
         try {
             upload.parseRequest(req);
@@ -95,7 +125,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         }
 
         upload = newFileUpload();
-        upload.setFileSizeMax(30);
+        upload.setMaxFileSize(30);
         req = newMockHttpServletRequest(request, null, null);
         try {
             upload.parseRequest(req);
@@ -125,7 +155,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         // @formatter:on
 
         var upload = newFileUpload();
-        upload.setFileSizeMax(-1);
+        upload.setMaxFileSize(-1);
         var req = newMockHttpServletRequest(request, null, null);
         var fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
@@ -133,7 +163,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         assertEquals("This is the content of the file\n", new String(item.get()));
 
         upload = newFileUpload();
-        upload.setFileSizeMax(40);
+        upload.setMaxFileSize(40);
         req = newMockHttpServletRequest(request, null, null);
         fileItems = upload.parseRequest(req);
         assertEquals(1, fileItems.size());
@@ -142,7 +172,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
 
         // provided Content-Length is larger than the FileSizeMax -> handled by ctor
         upload = newFileUpload();
-        upload.setFileSizeMax(5);
+        upload.setMaxFileSize(5);
         req = newMockHttpServletRequest(request, null, null);
         try {
             upload.parseRequest(req);
@@ -153,7 +183,7 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
 
         // provided Content-Length is wrong, actual content is larger -> handled by LimitedInputStream
         upload = newFileUpload();
-        upload.setFileSizeMax(15);
+        upload.setMaxFileSize(15);
         req = newMockHttpServletRequest(request, null, null);
         try {
             upload.parseRequest(req);
@@ -189,8 +219,8 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         // @formatter:on
 
         final var upload = newFileUpload();
-        upload.setFileSizeMax(-1);
-        upload.setSizeMax(200);
+        upload.setMaxFileSize(-1);
+        upload.setMaxSize(200);
 
         final var req = newMockHttpServletRequest(request, null, null);
         try {
@@ -222,8 +252,8 @@ public abstract class AbstractSizesTest<AFU extends AbstractFileUpload<R, I, F>,
         // @formatter:on
 
         final var upload = newFileUpload();
-        upload.setFileSizeMax(-1);
-        upload.setSizeMax(300);
+        upload.setMaxFileSize(-1);
+        upload.setMaxSize(300);
 
         // the first item should be within the max size limit
         // set the read limit to 10 to simulate a "real" stream

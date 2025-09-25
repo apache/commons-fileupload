@@ -120,19 +120,24 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * The maximum size permitted for the complete request, as opposed to {@link #fileSizeMax}. A value of -1 indicates no maximum.
+     * The maximum size permitted for the complete request, as opposed to {@link #maxFileSize}. A value of -1 indicates no maximum.
      */
-    private long sizeMax = -1;
+    private long maxSize = -1;
 
     /**
-     * The maximum size permitted for a single uploaded file, as opposed to {@link #sizeMax}. A value of -1 indicates no maximum.
+     * The maximum size permitted for a single uploaded file, as opposed to {@link #maxSize}. A value of -1 indicates no maximum.
      */
-    private long fileSizeMax = -1;
+    private long maxFileSize = -1;
 
     /**
      * The maximum permitted number of files that may be uploaded in a single request. A value of -1 indicates no maximum.
      */
-    private long fileCountMax = -1;
+    private long maxFileCount = -1;
+
+    /**
+     * The maximum permitted size of the headers provided with a single part in bytes.
+     */
+    private int maxPartHeaderSize = MultipartInput.DEFAULT_PART_HEADER_SIZE_MAX;
 
     /**
      * The maximum size of the all parts headers in bytes that may be uploaded in a single request. A value of -1 indicates no maximum.
@@ -208,15 +213,6 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * Gets the maximum number of files allowed in a single request.
-     *
-     * @return The maximum number of files allowed in a single request.
-     */
-    public long getFileCountMax() {
-        return fileCountMax;
-    }
-
-    /**
      * Gets the factory class used when creating file items.
      *
      * @return The factory class for new file items.
@@ -267,25 +263,6 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * Gets the maximum allowed size of a single uploaded file, as opposed to {@link #getSizeMax()}.
-     *
-     * @see #setFileSizeMax(long)
-     * @return Maximum size of a single uploaded file.
-     */
-    public long getFileSizeMax() {
-        return fileSizeMax;
-    }
-
-    /**
-     * Gets the maximum allowed size of all parts headers in a single uploaded request.
-     *
-     * @return Maximum size in bytes of all parts headers.
-     */
-    public long getPartHeaderTotalSizeMax() {
-        return partHeaderTotalSizeMax;
-    }
-
-    /**
      * Gets the character encoding used when reading the headers of an individual part. When not specified, or {@code null}, the request encoding is used. If
      * that is also not specified, or {@code null}, the platform default encoding is used.
      *
@@ -317,6 +294,46 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      */
     public FileItemInputIterator getItemIterator(final RequestContext requestContext) throws FileUploadException, IOException {
         return new FileItemInputIteratorImpl(this, requestContext);
+    }
+
+    /**
+     * Gets the maximum number of files allowed in a single request.
+     *
+     * @return The maximum number of files allowed in a single request.
+     */
+    public long getMaxFileCount() {
+        return maxFileCount;
+    }
+
+    /**
+     * Gets the maximum allowed size of a single uploaded file, as opposed to {@link #getMaxSize()}.
+     *
+     * @see #setMaxFileSize(long)
+     * @return Maximum size of a single uploaded file.
+     */
+    public long getMaxFileSize() {
+        return maxFileSize;
+    }
+
+    /**
+     * Gets the per part size limit for headers.
+     *
+     * @return The maximum size of the headers for a single part in bytes.
+     *
+     * @since 2.0.0-M5
+     */
+    public int getMaxPartHeaderSize() {
+        return maxPartHeaderSize;
+    }
+
+    /**
+     * Gets the maximum allowed size of a complete request, as opposed to {@link #getMaxFileSize()}.
+     *
+     * @return The maximum allowed size, in bytes. The default value of -1 indicates, that there is no limit.
+     * @see #setMaxSize(long)
+     */
+    public long getMaxSize() {
+        return maxSize;
     }
 
     /**
@@ -368,16 +385,6 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      */
     public ProgressListener getProgressListener() {
         return progressListener;
-    }
-
-    /**
-     * Gets the maximum allowed size of a complete request, as opposed to {@link #getFileSizeMax()}.
-     *
-     * @return The maximum allowed size, in bytes. The default value of -1 indicates, that there is no limit.
-     * @see #setSizeMax(long)
-     */
-    public long getSizeMax() {
-        return sizeMax;
     }
 
     /**
@@ -479,9 +486,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
             final var fileItemFactory = Objects.requireNonNull(getFileItemFactory(), "No FileItemFactory has been set.");
             final var buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
             getItemIterator(requestContext).forEachRemaining(fileItemInput -> {
-                if (itemList.size() == fileCountMax) {
+                final int size = itemList.size();
+                if (size == maxFileCount) {
                     // The next item will exceed the limit.
-                    throw new FileUploadFileCountLimitException(ATTACHMENT, getFileCountMax(), itemList.size());
+                    throw new FileUploadFileCountLimitException(
+                            String.format("Request '%s' failed: Maximum file count %,d exceeded.", MULTIPART_FORM_DATA, Long.valueOf(maxFileCount)),
+                            getMaxFileCount(), size);
                 }
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 // @formatter:off
@@ -494,13 +504,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
                     .get();
                 // @formatter:on
                 itemList.add(fileItem);
-                try (var inputStream = fileItemInput.getInputStream();
-                        var outputStream = fileItem.getOutputStream()) {
+                try (var inputStream = fileItemInput.getInputStream(); var outputStream = fileItem.getOutputStream()) {
                     IOUtils.copyLarge(inputStream, outputStream, buffer);
                 } catch (final FileUploadException e) {
                     throw e;
                 } catch (final IOException e) {
-                    throw new FileUploadException(String.format("Processing of %s request failed. %s", MULTIPART_FORM_DATA, e.getMessage()), e);
+                    throw new FileUploadException(String.format("Request '%s' failed: %s", MULTIPART_FORM_DATA, e.getMessage()), e);
                 }
             });
             successful = true;
@@ -523,41 +532,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * Sets the maximum number of files allowed per request.
-     *
-     * @param fileCountMax The new limit. {@code -1} means no limit.
-     */
-    public void setFileCountMax(final long fileCountMax) {
-        this.fileCountMax = fileCountMax;
-    }
-
-    /**
      * Sets the factory class to use when creating file items.
      *
      * @param factory The factory class for new file items.
      */
     public void setFileItemFactory(final F factory) {
         this.fileItemFactory = factory;
-    }
-
-    /**
-     * Sets the maximum allowed size of a single uploaded file, as opposed to {@link #getSizeMax()}.
-     *
-     * @see #getFileSizeMax()
-     * @param fileSizeMax Maximum size of a single uploaded file.
-     */
-    public void setFileSizeMax(final long fileSizeMax) {
-        this.fileSizeMax = fileSizeMax;
-    }
-
-    /**
-     * Sets the maximum allowed size in bytes of all parts headers.
-     *
-     * @see #getPartHeaderTotalSizeMax()
-     * @param partHeaderTotalSizeMax Maximum size of all parts headers.
-     */
-    public void setPartHeaderTotalSizeMax(long partHeaderTotalSizeMax) {
-        this.partHeaderTotalSizeMax = partHeaderTotalSizeMax;
     }
 
     /**
@@ -571,22 +551,52 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
+     * Sets the maximum number of files allowed per request.
+     *
+     * @param fileCountMax The new limit. {@code -1} means no limit.
+     */
+    public void setMaxFileCount(final long fileCountMax) {
+        this.maxFileCount = fileCountMax;
+    }
+
+    /**
+     * Sets the maximum allowed size of a single uploaded file, as opposed to {@link #getMaxSize()}.
+     *
+     * @see #getMaxFileSize()
+     * @param fileSizeMax Maximum size of a single uploaded file.
+     */
+    public void setMaxFileSize(final long fileSizeMax) {
+        this.maxFileSize = fileSizeMax;
+    }
+
+    /**
+     * Sets the per part size limit for headers.
+     *
+     * @param partHeaderSizeMax The maximum size of the headers in bytes.
+     *
+     * @since 2.0.0-M5
+     */
+    public void setMaxPartHeaderSize(final int partHeaderSizeMax) {
+        this.maxPartHeaderSize = partHeaderSizeMax;
+    }
+
+    /**
+     * Sets the maximum allowed size of a complete request, as opposed to {@link #setMaxFileSize(long)}.
+     *
+     * @param sizeMax The maximum allowed size, in bytes. The default value of -1 indicates, that there is no limit.
+     * @see #getMaxSize()
+     */
+    public void setMaxSize(final long sizeMax) {
+        this.maxSize = sizeMax;
+    }
+
+    /**
      * Sets the progress listener.
      *
      * @param progressListener The progress listener, if any. Defaults to null.
      */
     public void setProgressListener(final ProgressListener progressListener) {
         this.progressListener = progressListener != null ? progressListener : ProgressListener.NOP;
-    }
-
-    /**
-     * Sets the maximum allowed size of a complete request, as opposed to {@link #setFileSizeMax(long)}.
-     *
-     * @param sizeMax The maximum allowed size, in bytes. The default value of -1 indicates, that there is no limit.
-     * @see #getSizeMax()
-     */
-    public void setSizeMax(final long sizeMax) {
-        this.sizeMax = sizeMax;
     }
 
 }

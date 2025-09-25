@@ -19,12 +19,14 @@ package org.apache.commons.fileupload2.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.fileupload2.core.MultipartInput.FileUploadBoundaryException;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -393,6 +395,40 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
         assertEquals("field2", field2.getFieldName());
         assertTrue(field2.isFormField());
         assertEquals("fieldValue2", field2.getString());
+    }
+
+    /**
+     * Test for multipart/mixed with no boundary defined
+     */
+    @Test
+    void testMultipartMixedNoBoundary() {
+        // @formatter:off
+        final var contentType = "multipart/form-data; boundary=AaB03x";
+        final var request =
+            "--AaB03x\r\n" +
+            "content-disposition: form-data; name=\"field1\"\r\n" +
+            "\r\n" +
+            "Joe Blow\r\n" +
+            "--AaB03x\r\n" +
+            "content-disposition: form-data; name=\"pics\"\r\n" +
+            "Content-type: multipart/mixed\r\n" +
+            "\r\n" +
+            "--BbC04y\r\n" +
+            "Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
+            "Content-Type: text/plain\r\n" +
+            "\r\n" +
+            "... contents of file1.txt ...\r\n" +
+            "--BbC04y\r\n" +
+            "Content-disposition: attachment; filename=\"file2.gif\"\r\n" +
+            "Content-type: image/gif\r\n" +
+            "Content-Transfer-Encoding: binary\r\n" +
+            "\r\n" +
+            "...contents of file2.gif...\r\n" +
+            "--BbC04y--\r\n" +
+            "--AaB03x--";
+        // @formatter:on
+        assertThrows(FileUploadBoundaryException.class,
+                () -> parseUpload(upload, request.getBytes(StandardCharsets.US_ASCII), contentType));
     }
 
     /**

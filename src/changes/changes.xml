@@ -43,9 +43,20 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.0.0-M5" date="YYYY-MM-DD" description="This release requires Java 11.">
       <!-- FIX -->
+      <action                        type="fix" dev="ggregory" due-to="Chenjp, Gary Gregory">Better exception message in org.apache.commons.fileupload2.core.AbstractFileUpload.parseRequest(RequestContext).</action>
+      <action issue="FILEUPLOAD-295" type="fix" dev="jochen">Clarified the precise meaning of isInMemory(), get(), getPath(), etc. in DiskFileItem</action>
+      <action                        type="fix" dev="markt"    due-to="Coverity Scan">Better exception type and message if a multipart/mixed part is presented without a boundary defined</action>
+      <action                        type="fix" dev="ggregory" due-to="Gary Gregory">Rename MultipartInput.Builder.[get|set]PartHeaderSizeMax() to [get|set]MaxPartHeaderSize().</action>
+      <action                        type="fix" dev="ggregory" due-to="Gary Gregory">Rename MultipartInput.getPartHeaderSizeMax() to getMaxPartHeaderSize().</action>
+      <action                        type="fix" dev="ggregory" due-to="Gary Gregory">Rename AbstractFileUpload.[get|set]SizeMax() to AbstractFileUpload.[get|set]MaxSize().</action>
+      <action                        type="fix" dev="ggregory" due-to="Gary Gregory">Rename AbstractFileUpload.[get|set]FileSizeMax() to AbstractFileUpload.[get|set]MaxFileSize().</action>
+      <action                        type="fix" dev="ggregory" due-to="Gary Gregory">Rename AbstractFileUpload.[get|set]FileCountMax() to AbstractFileUpload.[get|set]MaxFileCount().</action>
       <!-- ADD -->
+      <action                        type="add" dev="ggregory" due-to="Ryan J Murphy">Add AbstractFileUpload support for a maximum part header size #429.</action>
       <!-- UPDATE -->
-      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 84 to 85.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.commons:commons-parent from 84 to 88 #444.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.19.0 #427.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io:commons-io from 2.19.0 to 2.20.0.</action>
     </release>
     <release version="2.0.0-M4" date="2025-06-13" description="This release requires Java 11.">
       <!-- FIX -->

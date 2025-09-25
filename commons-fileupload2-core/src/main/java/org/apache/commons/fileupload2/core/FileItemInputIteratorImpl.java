@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import org.apache.commons.fileupload2.core.MultipartInput.FileUploadBoundaryException;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BoundedInputStream;
@@ -110,8 +111,8 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
      */
     FileItemInputIteratorImpl(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
         this.fileUpload = fileUploadBase;
-        this.sizeMax = fileUploadBase.getSizeMax();
-        this.fileSizeMax = fileUploadBase.getFileSizeMax();
+        this.sizeMax = fileUploadBase.getMaxSize();
+        this.fileSizeMax = fileUploadBase.getMaxFileSize();
         this.requestContext = Objects.requireNonNull(requestContext, "requestContext");
         this.multipartRelated = this.requestContext.isMultipartRelated();
         this.skipPreamble = true;
@@ -177,6 +178,9 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                         currentFieldName = fieldName;
                         // Multiple files associated with this field name
                         final var subBoundary = fileUpload.getBoundary(subContentType);
+                        if (subBoundary == null) {
+                            throw new FileUploadBoundaryException("The request was rejected because no boundary token was defined for a multipart/mixed part");
+                        }
                         multi.setBoundary(subBoundary);
                         skipPreamble = true;
                         continue;
@@ -292,7 +296,12 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
 
         progressNotifier = new MultipartInput.ProgressNotifier(fileUploadBase.getProgressListener(), requestSize);
         try {
-            multiPartInput = MultipartInput.builder().setInputStream(inputStream).setBoundary(multiPartBoundary).setProgressNotifier(progressNotifier).get();
+            multiPartInput = MultipartInput.builder()
+                .setInputStream(inputStream)
+                .setBoundary(multiPartBoundary)
+                .setProgressNotifier(progressNotifier)
+                .setMaxPartHeaderSize(fileUploadBase.getMaxPartHeaderSize())
+                .get();
         } catch (final IllegalArgumentException e) {
             IOUtils.closeQuietly(inputStream); // avoid possible resource leak
             throw new FileUploadContentTypeException(String.format("The boundary specified in the %s header is too long", AbstractFileUpload.CONTENT_TYPE), e);

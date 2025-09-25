@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -89,18 +88,19 @@ class DiskFileItemSerializeTest {
     /**
      * Create a FileItem with the specfied content bytes.
      */
-    private DiskFileItem createFileItem(final byte[] contentBytes) throws IOException {
-        return createFileItem(contentBytes, REPOSITORY);
+    private DiskFileItem createFileItem(final byte[] contentBytes, int threshold) throws IOException {
+        return createFileItem(contentBytes, REPOSITORY, threshold);
     }
 
     /**
      * Create a FileItem with the specfied content bytes and repository.
      */
-    private DiskFileItem createFileItem(final byte[] contentBytes, final Path repository) throws IOException {
+    private DiskFileItem createFileItem(final byte[] contentBytes, final Path repository, int threshold) throws IOException {
         // @formatter:off
         final FileItemFactory<DiskFileItem> factory = DiskFileItemFactory.builder()
                 .setBufferSize(THRESHOLD)
                 .setPath(repository)
+                .setBufferSize(threshold)
                 .get();
         // @formatter:on
         // @formatter:off
@@ -170,7 +170,7 @@ class DiskFileItemSerializeTest {
     void testAboveThreshold() throws IOException {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD + 1);
-        final var item = createFileItem(testFieldValueBytes);
+        final var item = createFileItem(testFieldValueBytes, THRESHOLD);
 
         // Check state is as expected
         assertFalse(item.isInMemory(), "Initial: in memory");
@@ -189,8 +189,8 @@ class DiskFileItemSerializeTest {
     @Test
     void testBelowThreshold() throws IOException {
         // Create the FileItem
-        final var testFieldValueBytes = createContentBytes(THRESHOLD - 1);
-        testInMemoryObject(testFieldValueBytes);
+        final var testFieldValueBytes = createContentBytes(THRESHOLD-1);
+        testInMemoryObject(testFieldValueBytes, THRESHOLD);
     }
 
     @Test
@@ -201,20 +201,19 @@ class DiskFileItemSerializeTest {
     /**
      * Helper method to test creation of a field.
      */
-    private void testInMemoryObject(final byte[] testFieldValueBytes) throws IOException {
-        testInMemoryObject(testFieldValueBytes, REPOSITORY);
+    private void testInMemoryObject(final byte[] testFieldValueBytes, int threshold) throws IOException {
+        testInMemoryObject(testFieldValueBytes, REPOSITORY, threshold);
     }
 
     /**
      * Helper method to test creation of a field when a repository is used.
      */
-    private void testInMemoryObject(final byte[] testFieldValueBytes, final Path repository) throws IOException {
-        final var item = createFileItem(testFieldValueBytes, repository);
+    private void testInMemoryObject(final byte[] testFieldValueBytes, final Path repository, int threshold) throws IOException {
+        final var item = createFileItem(testFieldValueBytes, repository, threshold);
 
-        // Check state is as expected
-        assertTrue(item.isInMemory(), "Initial: in memory");
+        // Check state is as expectedthreshold >= testFieldValueBytes.length, item.isInMemory(), "Initial: in memory");
         assertEquals(item.getSize(), testFieldValueBytes.length, "Initial: size");
-        compareBytes("Initial", item.get(), testFieldValueBytes);
+        compareBytes("Inititem.getSize(), testFieldValueBytes.lengthial", item.get(), testFieldValueBytes);
         testWritingToFile(item, testFieldValueBytes);
         item.delete();
     }
@@ -229,7 +228,7 @@ class DiskFileItemSerializeTest {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD);
         final var repository = PathUtils.getTempDirectory().resolve("file");
-        final var item = createFileItem(testFieldValueBytes, repository);
+        final var item = createFileItem(testFieldValueBytes, repository, THRESHOLD);
         assertThrows(IOException.class, () -> deserialize(serialize(item)));
     }
 
@@ -242,7 +241,7 @@ class DiskFileItemSerializeTest {
     void testThreshold() throws IOException {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD);
-        testInMemoryObject(testFieldValueBytes);
+        testInMemoryObject(testFieldValueBytes, THRESHOLD);
     }
 
     /**
@@ -254,7 +253,7 @@ class DiskFileItemSerializeTest {
     void testValidRepository() throws IOException {
         // Create the FileItem
         final var testFieldValueBytes = createContentBytes(THRESHOLD);
-        testInMemoryObject(testFieldValueBytes, REPOSITORY);
+        testInMemoryObject(testFieldValueBytes, REPOSITORY, THRESHOLD+1);
     }
 
     /**

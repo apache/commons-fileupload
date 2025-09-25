@@ -110,9 +110,10 @@ public final class MultipartInput {
          */
         private ProgressNotifier progressNotifier;
 
-        /** The  per part size limit for headers.
+        /**
+         * The  per part size limit for headers.
          */
-        private int partHeaderSizeMax = DEFAULT_PART_HEADER_SIZE_MAX;
+        private int maxPartHeaderSize = DEFAULT_PART_HEADER_SIZE_MAX;
 
         /**
          * Constructs a new instance.
@@ -138,15 +139,17 @@ public final class MultipartInput {
          */
         @Override
         public MultipartInput get() throws IOException {
-            return new MultipartInput(getInputStream(), boundary, getBufferSize(), getPartHeaderSizeMax(), progressNotifier);
+            return new MultipartInput(this);
         }
 
-        /** Returns the per part size limit for headers.
+        /**
+         * Gets the per part size limit for headers.
+         *
          * @return The maximum size of the headers in bytes.
-         * @since 2.0.0-M4
+         * @since 2.0.0-M5
          */
-        public int getPartHeaderSizeMax() {
-            return partHeaderSizeMax;
+        public int getMaxPartHeaderSize() {
+            return maxPartHeaderSize;
         }
 
         /**
@@ -160,27 +163,27 @@ public final class MultipartInput {
             return this;
         }
 
-       /** Sets the per part size limit for headers.
-     * @param partHeaderSizeMax The maximum size of the headers in bytes.
-     * @return This builder.
-     * @since 2.0.0-M4
-     */
-    public Builder setPartHeaderSizeMax(final int partHeaderSizeMax) {
-        this.partHeaderSizeMax = partHeaderSizeMax;
-        return this;
-    }
+        /**
+         * Sets the per part size limit for headers.
+         * @param partHeaderSizeMax The maximum size of the headers in bytes.
+         * @return This builder.
+         * @since 2.0.0-M5
+         */
+        public Builder setMaxPartHeaderSize(final int partHeaderSizeMax) {
+            this.maxPartHeaderSize = partHeaderSizeMax;
+            return this;
+        }
 
         /**
-             * Sets the progress notifier.
-             *
-             * @param progressNotifier progress notifier.
-             * @return {@code this} instance.
-             */
-            public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
-                this.progressNotifier = progressNotifier;
-                return this;
-            }
-
+         * Sets the progress notifier.
+         *
+         * @param progressNotifier progress notifier.
+         * @return {@code this} instance.
+         */
+        public Builder setProgressNotifier(final ProgressNotifier progressNotifier) {
+            this.progressNotifier = progressNotifier;
+            return this;
+        }
     }
 
     /**
@@ -681,7 +684,7 @@ public final class MultipartInput {
     /**
      * The maximum size of the headers in bytes.
      */
-    private final int partHeaderSizeMax;
+    private final int maxPartHeaderSize;
 
     /**
      * Constructs a {@code MultipartInput} with a custom size buffer.
@@ -694,33 +697,30 @@ public final class MultipartInput {
      * @param boundary   The token used for dividing the stream into {@code encapsulations}.
      * @param bufferSize The size of the buffer to be used, in bytes.
      * @param notifier   The notifier, which is used for calling the progress listener, if any.
+     * @throws IOException Thrown if an I/O error occurs.
      * @throws IllegalArgumentException If the buffer size is too small.
      */
-    private MultipartInput(final InputStream input, final byte[] boundary, final int bufferSize, final int partHeaderSizeMax, final ProgressNotifier notifier) {
-        if (boundary == null) {
+    private MultipartInput(final Builder builder) throws IOException {
+        if (builder.boundary == null) {
             throw new IllegalArgumentException("boundary may not be null");
         }
         // We prepend CR/LF to the boundary to chop trailing CR/LF from
         // body-data tokens.
-        this.boundaryLength = boundary.length + BOUNDARY_PREFIX.length;
-        if (bufferSize < this.boundaryLength + 1) {
+        this.boundaryLength = builder.boundary.length + BOUNDARY_PREFIX.length;
+        if (builder.getBufferSize() < this.boundaryLength + 1) {
             throw new IllegalArgumentException("The buffer size specified for the MultipartInput is too small");
         }
-
-        this.input = input;
-        this.bufSize = Math.max(bufferSize, boundaryLength * 2);
+        this.input = builder.getInputStream();
+        this.bufSize = Math.max(builder.getBufferSize(), boundaryLength * 2);
         this.buffer = new byte[this.bufSize];
-        this.notifier = notifier;
-        this.partHeaderSizeMax = partHeaderSizeMax;
-
+        this.notifier = builder.progressNotifier;
+        this.maxPartHeaderSize = builder.getMaxPartHeaderSize();
         this.boundary = new byte[this.boundaryLength];
         this.boundaryTable = new int[this.boundaryLength + 1];
         this.keepRegion = this.boundary.length;
-
         System.arraycopy(BOUNDARY_PREFIX, 0, this.boundary, 0, BOUNDARY_PREFIX.length);
-        System.arraycopy(boundary, 0, this.boundary, BOUNDARY_PREFIX.length, boundary.length);
+        System.arraycopy(builder.boundary, 0, this.boundary, BOUNDARY_PREFIX.length, builder.boundary.length);
         computeBoundaryTable();
-
         head = 0;
         tail = 0;
     }
@@ -811,13 +811,14 @@ public final class MultipartInput {
         return headerCharset;
     }
 
-    /** Returns the per part size limit for headers.
+    /**
+     * Returns the per part size limit for headers.
      *
      * @return The maximum size of the headers in bytes.
-     * @since 2.0.0-M4
+     * @since 2.0.0-M5
      */
-    public int getPartHeaderSizeMax() {
-        return partHeaderSizeMax;
+    public int getMaxPartHeaderSize() {
+        return maxPartHeaderSize;
     }
 
     /**
@@ -950,7 +951,7 @@ public final class MultipartInput {
             } catch (final IOException e) {
                 throw new MalformedStreamException("Stream ended unexpectedly", e);
             }
-            final int phsm = getPartHeaderSizeMax();
+            final int phsm = getMaxPartHeaderSize();
             if (phsm != -1 && ++size > phsm) {
                 throw new FileUploadSizeException(
                         String.format("Header section has more than %s bytes (maybe it is not properly terminated)", Integer.valueOf(phsm)), phsm, size);
