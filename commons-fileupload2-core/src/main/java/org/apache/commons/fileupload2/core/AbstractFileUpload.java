@@ -140,6 +140,11 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     private int maxPartHeaderSize = MultipartInput.DEFAULT_PART_HEADER_SIZE_MAX;
 
     /**
+     * The maximum size of the all parts headers in bytes that may be uploaded in a single request. A value of -1 indicates no maximum.
+     */
+    private long partHeaderTotalSizeMax = -1;
+
+    /**
      * The content encoding to use when reading part headers.
      */
     private Charset headerCharset;
