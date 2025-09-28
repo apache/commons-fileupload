@@ -910,20 +910,6 @@ public final class MultipartInput {
     }
 
     /**
-     * The byte size of headers for all parts that have been read.
-     */
-    private long totalHeaderSizeRead;
-
-    /**
-     * Returns the byte size of headers for all parts that have been read.
-     *
-     * @return The byte size of headers for all parts that have been read
-     */
-    public long getTotalHeaderSizeRead() {
-        return totalHeaderSizeRead;
-    }
-
-    /**
      * Reads the {@code header-part} of the current {@code encapsulation}.
      * <p>
      * Headers are returned verbatim to the input stream, including the trailing {@code CRLF} marker. Parsing is left to the application.
@@ -964,7 +950,6 @@ public final class MultipartInput {
             baos.write(b);
         }
         try {
-            totalHeaderSizeRead += baos.size();
             return baos.toString(Charsets.toCharset(headerCharset, Charset.defaultCharset()).name());
         } catch (final UnsupportedEncodingException e) {
             // not possible

@@ -483,7 +483,8 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
 
     @Test
     public void testExceedTotalPartHeaderSizeLimit() throws IOException {
-        upload.setPartHeaderTotalSizeMax(250);
+    	long max = 250;
+        upload.setPartHeaderTotalSizeMax(max);
         try {
             // @formatter:off
             final var fileItems = parseUpload(upload,
@@ -512,7 +513,7 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
             // @formatter:on
             fail("FileUploadSizeException expected!");
         } catch (FileUploadSizeException fse) {
-            assertEquals(upload.getPartHeaderTotalSizeMax(), fse.getPermitted());
+            assertEquals(max, fse.getPermitted());
         }
     }
 
