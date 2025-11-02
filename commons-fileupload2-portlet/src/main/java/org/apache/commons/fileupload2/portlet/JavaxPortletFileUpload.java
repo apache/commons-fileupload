@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.fileupload2.portlet;
 
 import java.io.IOException;
@@ -33,8 +34,8 @@ import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
  * High level API for processing file uploads.
  * <p>
  * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
- * <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link JavaxServletFileUpload#parseRequest(javax.servlet.http.HttpServletRequest)} to acquire
- * a list of {@link FileItem}s associated with a given HTML widget.
+ * <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link JavaxServletFileUpload#parseRequest(javax.servlet.http.HttpServletRequest)} to
+ * acquire a list of {@link FileItem}s associated with a given HTML widget.
  * </p>
  * <p>
  * How the data for individual parts is stored is determined by the factory used to create them; a given part may be in memory, on disk, or somewhere else.
@@ -111,5 +112,4 @@ public class JavaxPortletFileUpload<I extends FileItem<I>, F extends FileItemFac
     public List<I> parseRequest(final ActionRequest request) throws FileUploadException {
         return parseRequest(new JavaxPortletRequestContext(request));
     }
-
 }
