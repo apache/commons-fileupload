@@ -33,7 +33,7 @@ import org.apache.commons.io.IOUtils;
  * High level API for processing file uploads.
  * <p>
  * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
- * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(RequestContext)} to acquire a list of {@link FileItem}s associated with
+ * <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(RequestContext)} to acquire a list of {@link FileItem}s associated with
  * a given HTML widget.
  * </p>
  * <p>
@@ -279,7 +279,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     public abstract FileItemInputIterator getItemIterator(R request) throws FileUploadException, IOException;
 
     /**
-     * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     * Gets an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param requestContext The context for the request to be parsed.
      * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
@@ -430,7 +430,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     * Parses an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param request The servlet request to be parsed.
      * @return A map of {@code FileItem} instances parsed from the request.
@@ -439,7 +439,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     public abstract Map<String, List<I>> parseParameterMap(R request) throws FileUploadException;
 
     /**
-     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     * Parses an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
      * @return A map of {@code FileItem} instances parsed from the request.
@@ -459,7 +459,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     }
 
     /**
-     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     * Parses an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param request The servlet request to be parsed.
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
@@ -468,7 +468,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     public abstract List<I> parseRequest(R request) throws FileUploadException;
 
     /**
-     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     * Parses an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param requestContext The context for the request to be parsed.
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.

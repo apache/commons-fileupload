@@ -33,7 +33,7 @@ import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
  * High level API for processing file uploads.
  * <p>
  * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
- * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link JavaxServletFileUpload#parseRequest(javax.servlet.http.HttpServletRequest)} to acquire
+ * <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link JavaxServletFileUpload#parseRequest(javax.servlet.http.HttpServletRequest)} to acquire
  * a list of {@link FileItem}s associated with a given HTML widget.
  * </p>
  * <p>
@@ -75,7 +75,7 @@ public class JavaxPortletFileUpload<I extends FileItem<I>, F extends FileItemFac
     }
 
     /**
-     * Gets an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} file item iterator.
+     * Gets an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} file item iterator.
      *
      * @param request The portlet request to be parsed.
      * @return An iterator to instances of {@code FileItemInput} parsed from the request, in the order that they were transmitted.
@@ -89,7 +89,7 @@ public class JavaxPortletFileUpload<I extends FileItem<I>, F extends FileItemFac
     }
 
     /**
-     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     * Parses an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param request The portlet request to be parsed.
      * @return A map of {@code FileItem} instances parsed from the request.
@@ -101,7 +101,7 @@ public class JavaxPortletFileUpload<I extends FileItem<I>, F extends FileItemFac
     }
 
     /**
-     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     * Parses an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
      * @param request The portlet request to be parsed.
      * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.

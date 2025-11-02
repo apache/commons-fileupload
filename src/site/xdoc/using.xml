@@ -53,7 +53,7 @@
       <p>
         A file upload request comprises an ordered list of <em>items</em> that
         are encoded according to
-        <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>,
+        <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>,
         "Form-based File Upload in HTML". FileUpload can parse such a request
         and provide your application with a list of the individual uploaded
         items. Each such item implements the <code>FileItem</code> interface,

@@ -17,7 +17,7 @@
 
 /**
  * <p>
- * A component for handling HTML file uploads as specified by <a href="http://www.ietf.org/rfc/rfc1867.txt" target="_top">RFC&nbsp;1867</a>. This component
+ * A component for handling HTML file uploads as specified by <a href="https://www.ietf.org/rfc/rfc1867.txt" target="_top">RFC&nbsp;1867</a>. This component
  * provides support for uploads within both servlets (JSR 53) and portlets (JSR 168).
  * </p>
  * <p>

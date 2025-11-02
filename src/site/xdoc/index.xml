@@ -33,7 +33,7 @@
       </p>
       <p>
         FileUpload parses HTTP requests which conform to
-        <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>,
+        <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>,
         "Form-based File Upload in HTML". That is, if an HTTP request is
         submitted using the POST method, and with a content type of
         "multipart/form-data", then FileUpload can parse that request, and
