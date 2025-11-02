@@ -24,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 
 /**
- * Use the online <a href="http://dogmamix.com/MimeHeadersDecoder/">MimeHeadersDecoder</a> to validate expected values.
+ * Use the online <a href="https://dogmamix.com/MimeHeadersDecoder/">MimeHeadersDecoder</a> to validate expected values.
  *
  * @since 1.3
  */

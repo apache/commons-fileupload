@@ -55,7 +55,7 @@ public class ParameterParserTest {
     }
 
     /**
-     * Tests <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>.
+     * Tests <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-199">FILEUPLOAD-199</a>.
      */
     @Test
     public void testFileUpload199() {

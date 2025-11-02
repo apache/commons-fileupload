@@ -62,7 +62,7 @@ public class ServletFileUploadTest {
 
 
     /**
-     * Tests <a href="http://issues.apache.org/jira/browse/FILEUPLOAD-210">FILEUPLOAD-210</a>.
+     * Tests <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-210">FILEUPLOAD-210</a>.
      */
     @Test
     public void parseParameterMap()

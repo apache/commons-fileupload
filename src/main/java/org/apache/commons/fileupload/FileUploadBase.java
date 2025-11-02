@@ -47,7 +47,7 @@ import org.apache.commons.io.IOUtils;
  *
  * <p>
  * This class handles multiple files per single HTML widget, sent using {@code multipart/mixed} encoding type, as specified by
- * <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(RequestContext)} to acquire a list of
+ * <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>. Use {@link #parseRequest(RequestContext)} to acquire a list of
  * {@link org.apache.commons.fileupload.FileItem}s associated with a given HTML widget.
  * </p>
  *
@@ -1122,7 +1122,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Processes an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
@@ -1302,7 +1302,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Processes an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
@@ -1328,7 +1328,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Processes an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param req The servlet request to be parsed.
@@ -1347,7 +1347,7 @@ public abstract class FileUploadBase {
     }
 
     /**
-     * Processes an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
+     * Processes an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a>
      * compliant {@code multipart/form-data} stream.
      *
      * @param ctx The context for the request to be parsed.
