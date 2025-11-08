@@ -230,13 +230,10 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
                 final var sb = new StringBuilder();
                 for (var i = 0; i < fileName.length(); i++) {
                     final var c = fileName.charAt(i);
-                    switch (c) {
-                    case 0:
+                    if (c == 0) {
                         sb.append("\\0");
-                        break;
-                    default:
+                    } else {
                         sb.append(c);
-                        break;
                     }
                 }
                 throw new InvalidPathException(fileName, sb.toString(), indexOf0);
@@ -478,13 +475,12 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
                 final Listener persistenceListener = new Listener() {
                     @Override
                     public void persisted(final Path pPath) {
-                        // TODO Auto-generated method stub
                         Listener.super.persisted(pPath);
                         final FileCleaningTracker fct = getFileCleaningTracker();
                         if (fct != null) {
                             fct.track(getPath(), this);
                         }
-                        }
+                    }
                 };
                 dos = new DeferrableOutputStream(threshold, pathSupplier, persistenceListener);
             } catch (final IOException ioe) {
@@ -496,16 +492,13 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
 
     /**
      * Gets the {@link Path} for the {@code FileItem}'s data's temporary location on the disk. Note that for {@code FileItem}s that have their data stored in
-     * memory, this method will return {@code null}. When handling large files, you can use {@link Files#move(Path,Path,CopyOption...)} to move the file to new
-     * location without copying the data, if the source and destination locations reside within the same logical volume.
+     * memory, this method will return {@code null}. When handling large files, you can use {@link Files#move(Path,Path,CopyOption...)} to move the file to a
+     * new location without copying the data, if the source and destination locations reside within the same logical volume.
      *
      * @return The data file, or {@code null} if the data is stored in memory.
      */
     public Path getPath() {
-        if (dos != null) {
-            return dos.getPath();
-        }
-        return null;
+        return dos == null ? null : dos.getPath();
     }
 
     /**
@@ -514,7 +507,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * This is the case, for example, if the underlying output stream has not yet
      * been closed.
      * @return The contents of the file as a {@link Reader}
-     * @throws UnsupportedEncodingException The chararacter set, which is
+     * @throws UnsupportedEncodingException The character set, which is
      *   specified in the files "content-type" header, is invalid.
      * @throws IOException An I/O error occurred, while the
      *   underlying {@link #getInputStream() input stream} was created.
@@ -536,10 +529,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public long getSize() {
-        if (dos != null) {
-            return dos.getSize();
-        }
-        return 0L;
+        return dos == null ? 0L : dos.getSize();
     }
 
     /**
@@ -549,17 +539,14 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * @throws IOException if an I/O error occurs
      * @throws OutOfMemoryError See {@link Files#readAllBytes(Path)}: If a string of the required size cannot be allocated,
      *   for example the file is larger than {@code 2GB}. If so, you should use {@link #getReader()}.
-     * @throws UnsupportedEncodingException The chararacter set, which is
+     * @throws UnsupportedEncodingException The character set, which is
      *   specified in the files "content-type" header, is invalid.
      * @deprecated Since 2.0.0, use {@link #getReader()} instead.
      */
     @Override
     public String getString() throws IOException, UnsupportedEncodingException, OutOfMemoryError {
         final byte[] bytes = get();
-        if (bytes == null) {
-            return null;
-        }
-        return new String(bytes, getCharset());
+        return bytes == null ? null : new String(bytes, getCharset());
     }
 
     /**
@@ -600,10 +587,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     @Override
     public boolean isInMemory() {
-        if (dos != null) {
-            return dos.isInMemory();
-        }
-        return true;
+        return dos == null || dos.isInMemory();
     }
 
     /**
