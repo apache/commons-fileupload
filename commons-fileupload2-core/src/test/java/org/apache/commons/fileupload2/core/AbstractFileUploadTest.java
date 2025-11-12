@@ -55,6 +55,16 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
         }
     }
 
+    @Test
+    void testIsMultipartRequestMethod() {
+        for (String allowed : new String[]{"POST", "PUT", "PATCH"}) {
+            assertTrue(AbstractFileUpload.isMultipartRequestMethod(allowed));
+        }
+        for (String disallowed : new String[]{"GET", "HEAD", "DELETE", "CONNECT", "OPTIONS", "TRACE"}) {
+            assertFalse(AbstractFileUpload.isMultipartRequestMethod(disallowed));
+        }
+    }
+
     /**
      * Tests <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
      *
