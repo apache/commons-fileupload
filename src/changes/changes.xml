@@ -55,7 +55,7 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- ADD -->
       <action                        type="add" dev="ggregory" due-to="Ryan J Murphy">Add AbstractFileUpload support for a maximum part header size #429.</action>
       <!-- UPDATE -->
-      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.commons:commons-parent from 84 to 92 #444, #459.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.commons:commons-parent from 84 to 93 #444, #459, #463.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.20.0 #427.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io:commons-io from 2.19.0 to 2.21.0.</action>
     </release>
