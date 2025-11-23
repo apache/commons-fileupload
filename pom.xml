@@ -123,10 +123,10 @@
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
           <configuration>
-            <excludes>
-              <exclude>site-content/**</exclude>
-              <exclude>src/checkstyle/license-header.txt</exclude>
-            </excludes>
+            <inputExcludes>
+              <inputExclude>site-content/**</inputExclude>
+              <inputExclude>src/checkstyle/license-header.txt</inputExclude>
+            </inputExcludes>
           </configuration>
         </plugin>
         <!-- override skip property of parent pom for new major release -->

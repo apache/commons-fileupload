@@ -124,12 +124,12 @@
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
         <configuration>
-          <excludes combine.children="append">
-            <exclude>.project</exclude>
-            <exclude>.classpath</exclude>
-            <exclude>.settings/**/</exclude>
-            <exclude>bin/**</exclude>
-          </excludes>
+          <inputExcludes combine.children="append">
+            <inputExclude>.project</inputExclude>
+            <inputExclude>.classpath</inputExclude>
+            <inputExclude>.settings/**/</inputExclude>
+            <inputExclude>bin/**</inputExclude>
+          </inputExcludes>
         </configuration>
       </plugin>
     </plugins>
