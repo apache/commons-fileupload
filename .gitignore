@@ -6,3 +6,7 @@
 /.sdkmanrc
 site-content/
 /.checkstyle
+
+# NetBeans files
+nb-configuration.xml
+nbactions.xml
