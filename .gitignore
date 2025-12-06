@@ -18,3 +18,7 @@
 maven-eclipse.xml
 target/
 site-content/
+
+# NetBeans files
+nb-configuration.xml
+nbactions.xml
