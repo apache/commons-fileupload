@@ -50,12 +50,12 @@ import java.util.function.Supplier;
  * Technically, this is similar to
  * {@link org.apache.commons.io.output.DeferredFileOutputStream}, which has
  * been used in the past, except that this implementation observes
- * a precisely specified behaviour, and semantics, that match the needs of the
+ * a precisely specified behavior, and semantics, that match the needs of the
  * {@link DiskFileItem}.
  *
  * Background: Over the various versions of commons-io, the
  * {@link org.apache.commons.io.output.DeferredFileOutputStream} has changed
- * semantics, and behaviour more than once.
+ * semantics, and behavior more than once.
  * (For details, see
  * <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-295</a>)
  */
