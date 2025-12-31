@@ -720,9 +720,9 @@ public abstract class FileUploadBase {
         }
 
         /**
+         * @param message The exceptions detail message.
          * @deprecated 1.2 Replaced by
          * {@link #SizeLimitExceededException(String, long, long)}
-         * @param message The exceptions detail message.
          */
         @Deprecated
         public SizeLimitExceededException(final String message) {
