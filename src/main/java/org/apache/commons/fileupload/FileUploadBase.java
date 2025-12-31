@@ -839,6 +839,7 @@ public abstract class FileUploadBase {
     /**
      * The maximum length of a single header line that will be parsed
      * (1024 bytes).
+     *
      * @deprecated This constant is no longer used. As of commons-fileupload
      *   1.6, the applicable limit is the total size of a single part's headers,
      *   {@link #getPartHeaderSizeMax()} in bytes.
@@ -994,6 +995,7 @@ public abstract class FileUploadBase {
     /**
      * Returns the field name, which is given by the content-disposition
      * header.
+     *
      * @param contentDisposition The content-dispositions header value.
      * @return The field name.
      */
@@ -1054,6 +1056,7 @@ public abstract class FileUploadBase {
 
     /**
      * Returns the given content-disposition headers file name.
+     *
      * @param contentDisposition The content-disposition headers value.
      * @return The file name
      */
@@ -1227,6 +1230,7 @@ public abstract class FileUploadBase {
 
     /**
      * Creates a new instance of {@link FileItemHeaders}.
+     *
      * @return The new instance.
      */
     protected FileItemHeadersImpl newFileItemHeaders() {
@@ -1235,6 +1239,7 @@ public abstract class FileUploadBase {
 
     /**
      * Skips bytes until the end of the current line.
+     *
      * @param headerPart The headers, which are being parsed.
      * @param end Index of the last byte, which has yet been
      *   processed.
@@ -1258,6 +1263,7 @@ public abstract class FileUploadBase {
 
     /**
      * Reads the next header line.
+     *
      * @param headers String with all headers.
      * @param header Map where to store the current header.
      */
