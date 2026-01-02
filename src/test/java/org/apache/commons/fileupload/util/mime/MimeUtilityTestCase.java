@@ -17,11 +17,11 @@
 
 package org.apache.commons.fileupload.util.mime;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Use the online <a href="https://dogmamix.com/MimeHeadersDecoder/">MimeHeadersDecoder</a> to validate expected values.
@@ -34,9 +34,9 @@ public final class MimeUtilityTestCase {
         assertEquals(expected, MimeUtility.decodeText(encoded));
     }
 
-    @Test(expected = UnsupportedEncodingException.class)
+    @Test
     public void decodeInvalidEncoding() throws Exception {
-        MimeUtility.decodeText("=?invalid?B?xyz-?=");
+        assertThrows(UnsupportedEncodingException.class, () -> MimeUtility.decodeText("=?invalid?B?xyz-?="));
     }
 
     @Test

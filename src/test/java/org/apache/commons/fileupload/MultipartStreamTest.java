@@ -28,7 +28,7 @@ import java.io.InputStream;
 import org.apache.commons.fileupload.MultipartStream.MalformedStreamException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link org.apache.commons.fileupload.MultipartStream}.
@@ -87,15 +87,14 @@ public class MultipartStreamTest {
         assertInstanceOf(MalformedStreamException.class, e.getCause());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSmallBuffer() throws Exception {
         final String strData = "foobar";
         final byte[] contents = strData.getBytes();
         final InputStream input = new ByteArrayInputStream(contents);
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
         final int iBufSize = 1;
-        @SuppressWarnings("unused")
-        final MultipartStream unused = new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length));
+        assertThrows(IllegalArgumentException.class, () -> new MultipartStream(input, boundary, iBufSize, new MultipartStream.ProgressNotifier(null, contents.length)));
     }
 
     @Test

@@ -45,6 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- FIX -->
       <action type="fix" dev="markt" due-to="Coverity Scan">Better exception type and message if a multipart/mixed part is presented without a boundary defined</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix Apache RAT plugin console warnings.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Port to JUnit 5.</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 84 to 93.</action>

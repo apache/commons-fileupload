@@ -16,13 +16,11 @@
  */
 package org.apache.commons.fileupload;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link RFC2231Utility}.
@@ -37,9 +35,9 @@ public final class RFC2231UtilityTestCase {
         assertEquals(expected, RFC2231Utility.decodeText(encoded));
     }
 
-    @Test(expected = UnsupportedEncodingException.class)
+    @Test
     public void decodeInvalidEncoding() throws Exception {
-        RFC2231Utility.decodeText("abc'en'hello");
+        assertThrows(UnsupportedEncodingException.class, () -> RFC2231Utility.decodeText("abc'en'hello"));
     }
 
     @Test

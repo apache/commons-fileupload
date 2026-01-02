@@ -17,10 +17,7 @@
 
 package org.apache.commons.fileupload;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,9 +31,9 @@ import java.nio.file.InvalidPathException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemProperties;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Serialization Unit tests for {@link org.apache.commons.fileupload.disk.DiskFileItem}.
@@ -60,11 +57,11 @@ public class DiskFileItemSerializeTest {
      * Compare content bytes.
      */
     private void compareBytes(final String text, final byte[] origBytes, final byte[] newBytes) {
-        assertNotNull("origBytes must not be null", origBytes);
-        assertNotNull("newBytes must not be null", newBytes);
-        assertEquals(text + " byte[] length", origBytes.length, newBytes.length);
+        assertNotNull(origBytes, "origBytes must not be null");
+        assertNotNull(newBytes, "newBytes must not be null");
+        assertEquals(origBytes.length, newBytes.length, text + " byte[] length");
         for (int i = 0; i < origBytes.length; i++) {
-            assertEquals(text + " byte[" + i + "]", origBytes[i], newBytes[i]);
+            assertEquals(origBytes[i], newBytes[i], text + " byte[" + i + "]");
         }
     }
 
@@ -132,7 +129,7 @@ public class DiskFileItemSerializeTest {
         return baos;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         if (REPO.exists()) {
             FileUtils.deleteDirectory(REPO);
@@ -140,7 +137,7 @@ public class DiskFileItemSerializeTest {
         FileUtils.forceMkdir(REPO);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws IOException {
         for (final File file : FileUtils.listFiles(REPO, null, true)) {
             System.out.println("Found leftover file " + file);
@@ -159,8 +156,8 @@ public class DiskFileItemSerializeTest {
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD + 1);
         final FileItem item = createFileItem(testFieldValueBytes);
         // Check state is as expected
-        assertFalse("Initial: in memory", item.isInMemory());
-        assertEquals("Initial: size", item.getSize(), testFieldValueBytes.length);
+        assertFalse(item.isInMemory(), "Initial: in memory");
+        assertEquals(testFieldValueBytes.length, item.getSize(), "Initial: size");
         compareBytes("Initial", item.get(), testFieldValueBytes);
         item.delete();
     }
@@ -194,8 +191,8 @@ public class DiskFileItemSerializeTest {
     private void testInMemoryObject(final byte[] testFieldValueBytes, final File repository) throws IOException {
         final FileItem item = createFileItem(testFieldValueBytes, repository);
         // Check state is as expected
-        assertTrue("Initial: in memory", item.isInMemory());
-        assertEquals("Initial: size", item.getSize(), testFieldValueBytes.length);
+        assertTrue(item.isInMemory(), "Initial: in memory");
+        assertEquals(testFieldValueBytes.length, item.getSize(), "Initial: size");
         compareBytes("Initial", item.get(), testFieldValueBytes);
         item.delete();
     }
@@ -203,25 +200,24 @@ public class DiskFileItemSerializeTest {
     /**
      * Test deserialization fails when repository is not valid.
      */
-    @Test(expected = IOException.class)
+    @Test
     public void testInvalidRepository() throws Exception {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(SystemProperties.getJavaIoTmpdir(), "file");
         final FileItem item = createFileItem(testFieldValueBytes, repository);
-        deserialize(serialize(item));
+        assertThrows(IOException.class, () -> deserialize(serialize(item)));
     }
 
     /**
      * Test deserialization fails when repository contains a null character.
      */
-    @Test(expected = InvalidPathException.class)
+    @Test
     public void testInvalidRepositoryWithNullChar() throws Exception {
         // Create the FileItem
         final byte[] testFieldValueBytes = createContentBytes(THRESHOLD);
         final File repository = new File(SystemProperties.getJavaIoTmpdir(), "\0");
-        final FileItem item = createFileItem(testFieldValueBytes, repository);
-        deserialize(serialize(item));
+        assertThrows(InvalidPathException.class, () -> createFileItem(testFieldValueBytes, repository));
     }
 
     /**

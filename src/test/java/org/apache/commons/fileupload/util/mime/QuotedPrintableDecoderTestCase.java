@@ -16,15 +16,13 @@
  */
 package org.apache.commons.fileupload.util.mime;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @since 1.3
@@ -49,7 +47,7 @@ public final class QuotedPrintableDecoderTestCase {
         final byte[] encodedData = encoded.getBytes(US_ASCII_CHARSET);
         final IOException e = assertThrows(IOException.class, () -> QuotedPrintableDecoder.decode(encodedData, out));
         final String em = e.getMessage();
-        assertTrue("Expected to find " + messageText + " in '" + em + "'", em.contains(messageText));
+        assertTrue(em.contains(messageText), "Expected to find " + messageText + " in '" + em + "'");
     }
 
     @Test
@@ -62,9 +60,9 @@ public final class QuotedPrintableDecoderTestCase {
         assertEncoded("", "");
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void invalidCharDecode() throws Exception {
-        assertEncoded("=\r\n", "=3D=XD=XA");
+        assertIOException("not a valid hex digit", "=3D=XD=XA");
     }
 
     @Test

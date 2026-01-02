@@ -16,11 +16,7 @@
  */
 package org.apache.commons.fileupload;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,18 +24,17 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.commons.fileupload.MultipartStream.IllegalBoundaryException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
+import org.apache.commons.fileupload.portlet.PortletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUploadTest;
 import org.apache.commons.fileupload.util.Streams;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Common tests for implementations of {@link FileUpload}. This is a parameterized test.
@@ -50,22 +45,18 @@ import org.junit.runners.Parameterized.Parameters;
  * @see PortletFileUploadTest
  * @since 1.4
  */
-@RunWith(Parameterized.class)
 public class FileUploadTest {
+
+    private FileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
 
     /**
      * @return {@link FileUpload} classes under test.
      */
-    @Parameters(name = "{0}")
-    public static Iterable<? extends Object> data() {
-        return Util.fileUploadImplementations();
+    public static Stream<FileUpload> data() {
+        return Stream.of(
+                new ServletFileUpload(new DiskFileItemFactory()),
+                new PortletFileUpload(new DiskFileItemFactory()));
     }
-
-    /**
-     * Current parameterized FileUpload.
-     */
-    @Parameter
-    public FileUpload upload;
 
     private void assertHeaders(final String[] headerNames, final String[] headerValues, final FileItem item, final int index) {
         for (int i = 0; i < headerNames.length; i++) {
@@ -81,8 +72,9 @@ public class FileUploadTest {
     /**
      * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>.
      */
-    @Test
-    public void testContentTypeAttachment()
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testContentTypeAttachment(FileUpload upload)
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                 "-----1234\r\n" +
@@ -118,8 +110,9 @@ public class FileUploadTest {
     /**
      * This is what the browser does if you submit the form without choosing a file.
      */
-    @Test
-    public void testEmptyFile()
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testEmptyFile(FileUpload upload)
             throws UnsupportedEncodingException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload (upload,
                                                 "-----1234\r\n" +
@@ -135,8 +128,9 @@ public class FileUploadTest {
         assertEquals("", file.getName());
     }
 
-    @Test
-    public void testFilenameCaseSensitivity()
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testFilenameCaseSensitivity(FileUpload upload)
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
@@ -153,8 +147,9 @@ public class FileUploadTest {
         assertEquals("FOO.tab", file.getName());
     }
 
-    @Test
-    public void testFileUpload()
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testFileUpload(FileUpload upload)
             throws IOException, FileUploadException {
         final List<FileItem> fileItems = Util.parseUpload(upload,
                                                "-----1234\r\n" +
@@ -204,8 +199,9 @@ public class FileUploadTest {
     /**
      * Tests <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-130">FILEUPLOAD-130</a>.
      */
-    @Test
-    public void testFileUpload130()
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testFileUpload130(FileUpload upload)
             throws Exception {
         final String[] headerNames = {
             "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader"
