@@ -36,14 +36,17 @@ final class RFC2231Utils {
      * The Hexadecimal values char array.
      */
     private static final char[] HEX_DIGITS = "0123456789ABCDEF".toCharArray();
+
     /**
      * The Hexadecimal representation of 127.
      */
     private static final byte MASK = 0x7f;
+
     /**
      * The Hexadecimal representation of 128.
      */
     private static final int MASK_128 = 0x80;
+
     /**
      * The Hexadecimal decode value.
      */

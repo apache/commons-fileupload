@@ -32,6 +32,7 @@ import org.apache.commons.io.input.BoundedInputStream;
  * The iterator returned by {@link AbstractFileUpload#getItemIterator(RequestContext)}.
  */
 class FileItemInputIteratorImpl implements FileItemInputIterator {
+
     /**
      * The file uploads processing utility.
      *

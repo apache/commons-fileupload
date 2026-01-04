@@ -60,11 +60,13 @@ import java.util.function.Supplier;
  * <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-295</a>)
  */
 public class DeferrableOutputStream extends OutputStream {
+
     /**
      * Interface of a listener object, that wishes to be notified about
      * state changes.
      */
     public interface Listener {
+
         /**
          * Called, after {@link #persist()} has been invoked,
          *   and the temporary file has been created.
@@ -74,21 +76,25 @@ public class DeferrableOutputStream extends OutputStream {
          */
          default void persisted(final Path path) { }
     }
+
     /**
      * This enumeration represents the possible states of the {@link DeferrableOutputStream}.
      */
     public enum State {
+
         /**
          * The stream object has been created with a non-negative threshold,
          * but so far no data has been written.
          */
         initialized,
+
         /**
          * The stream object has been created with a non-negative threshold,
          * and some data has been written, but the threshold is not yet exceeded,
          * and the data is still kept in memory.
          */
         opened,
+
         /**
          * Either of the following conditions is given:
          * <ol>
@@ -101,18 +107,21 @@ public class DeferrableOutputStream extends OutputStream {
          * written to the temporary file, erasing all existing data from memory.
          */
         persisted,
+
         /**
          * The stream has been closed, and data can no longer be written. It is
          * now valid to invoke {@link DeferrableOutputStream#getInputStream()}.
          */
         closed
     }
+
     /**
      * The configured threshold, as an integer. This variable isn't actually
      * used. Instead {@link #longThreshold} is used.
      * @see #longThreshold
      */
     private final int threshold;
+
     /**
      * The configured threshold, as a long integer. (Using a long integer
      * enables proper handling of the threshold, when the file size is
@@ -120,6 +129,7 @@ public class DeferrableOutputStream extends OutputStream {
      * @see #threshold
      */
     private final long longThreshold;
+
     /**
      * This supplier will be invoked, if the temporary file is created,
      * t
@@ -127,41 +137,49 @@ public class DeferrableOutputStream extends OutputStream {
      * @see #path
      */
     private final Supplier<Path> pathSupplier;
+
     /**
      * If a temporary file has been created: Path of the temporary
      * file. Otherwise null.
      * @see #pathSupplier
      */
     private Path path;
+
     /**
      * If no temporary file was created: A stream, to which the
      * incoming data is being written, until the threshold is reached.
      * Otherwise null.
      */
     private ByteArrayOutputStream baos;
+
     /**
      * If no temporary file was created, and the stream is closed:
      * The in-memory data, that was written to the stream. Otherwise null.
      */
     private byte[] bytes;
+
     /**
      * If a temporary file has been created: An open stream
      * for writing to that file. Otherwise null.
      */
     private OutputStream out;
+
     /**
      * The streams current state.
      */
     private State state;
+
     /**
      * True, if the stream has ever been in state {@link State#persisted}.
      * Or, in other words: True, if a temporary file has been created.
      */
     private boolean wasPersisted;
+
     /**
      * Number of bytes, that have been written to this stream so far.
      */
     private long size;
+
     /**
      * The configured {@link Listener}, if any, or null.
      */
@@ -387,6 +405,7 @@ public class DeferrableOutputStream extends OutputStream {
         if (baos != null) {
             baos.writeTo(os);
         }
+
         /**
          * At this point, the output file has been successfully created,
          * and we can safely switch state.

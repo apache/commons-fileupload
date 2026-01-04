@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
  * @param <T> The request type.
  */
 public abstract class AbstractRequestContext<T> implements RequestContext {
+
     /**
      * The Content-Type Pattern for multipart/related Requests.
      */
