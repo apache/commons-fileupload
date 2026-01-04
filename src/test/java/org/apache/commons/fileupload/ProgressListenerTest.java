@@ -77,10 +77,10 @@ public class ProgressListenerTest {
             try (InputStream istream = stream.openStream()) {
                 final int maxIn = 16384;
                 for (int j = 0; j < maxIn + i; j++) {
-                    /**
-                     * This used to be assertEquals((byte) j, (byte) istream.read()); but this seems to trigger a bug in JRockit, so we express the same like
-                     * this:
-                     */
+                    //
+                    // This used to be assertEquals((byte) j, (byte) istream.read()); but this seems to trigger a bug in JRockit, so we express the same like
+                    // this:
+                    //
                     final byte b1 = (byte) j;
                     final byte b2 = (byte) istream.read();
                     if (b1 != b2) {
