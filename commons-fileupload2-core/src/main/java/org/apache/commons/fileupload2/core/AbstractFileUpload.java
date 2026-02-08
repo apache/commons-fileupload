@@ -166,6 +166,16 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     private int maxPartHeaderSize = MultipartInput.DEFAULT_PART_HEADER_SIZE_MAX;
 
     /**
+     * The maximum size of the all parts headers in bytes that may be uploaded in a single request. A value of -1 indicates no maximum.
+     */
+    private long partHeaderTotalSizeMax = -1;
+
+    /**
+     * The size of all headers of all parts that have been read.
+     */
+    private long partHeaderTotalReads;
+
+    /**
      * The content encoding to use when reading part headers.
      */
     private Charset headerCharset;
@@ -368,6 +378,7 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
      */
     public FileItemHeaders getParsedHeaders(final String headerPart) {
         final var len = headerPart.length();
+        partHeaderTotalReads += len;
         final var headers = newFileItemHeaders();
         var start = 0;
         for (;;) {
@@ -514,6 +525,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
                             String.format("Request '%s' failed: Maximum file count %,d exceeded.", MULTIPART_FORM_DATA, Long.valueOf(maxFileCount)),
                             getMaxFileCount(), size);
                 }
+				if (partHeaderTotalSizeMax > -1 && partHeaderTotalReads >= partHeaderTotalSizeMax) {
+					// The next item will exceed total headers size of all parts
+					throw new FileUploadSizeException(
+							"The request was rejected because total header size of all parts exceeds the configured partHeaderTotalSizeMax (%s) bytes",
+							partHeaderTotalSizeMax, partHeaderTotalReads);
+				}
                 // Don't use getName() here to prevent an InvalidFileNameException.
                 // @formatter:off
                 final var fileItem = fileItemFactory.fileItemBuilder()
@@ -600,6 +617,17 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     public void setMaxPartHeaderSize(final int partHeaderSizeMax) {
         this.maxPartHeaderSize = partHeaderSizeMax;
     }
+
+	/**
+	 * Sets the total size limit for the all parts headers
+	 * 
+	 * @param partHeaderTotalSizeMax The maximum size of the all parts headers in
+	 *                               bytes that may be uploaded in a single request.
+	 * 
+	 */
+	public void setPartHeaderTotalSizeMax(long partHeaderTotalSizeMax) {
+		this.partHeaderTotalSizeMax = partHeaderTotalSizeMax;
+	}
 
     /**
      * Sets the maximum allowed size of a complete request, as opposed to {@link #setMaxFileSize(long)}.
