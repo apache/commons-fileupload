@@ -84,11 +84,10 @@ public class DiskFileItem implements FileItem {
      *
      * @return A String with the non-random looking instance identifier.
      */
-    private static String getUniqueId() {
+    private static String nextUniqueId() {
         final int limit = 100_000_000;
         final int current = COUNTER.getAndIncrement();
         String id = Integer.toString(current);
-
         // If you manage to get more than 100 million of ids, you'll
         // start getting ids longer than 8 characters.
         if (current < limit) {
@@ -438,7 +437,7 @@ public class DiskFileItem implements FileItem {
                 tempDir = new File(System.getProperty("java.io.tmpdir"));
             }
 
-            final String tempFileName = String.format("upload_%s_%s.tmp", UID, getUniqueId());
+            final String tempFileName = String.format("upload_%s_%s.tmp", UID, nextUniqueId());
 
             tempFile = new File(tempDir, tempFileName);
         }
