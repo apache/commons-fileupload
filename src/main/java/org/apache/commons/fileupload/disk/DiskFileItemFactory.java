@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.fileupload.disk;
 
 import java.io.File;
@@ -23,47 +24,32 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.io.FileCleaningTracker;
 
 /**
- * <p>The default {@link org.apache.commons.fileupload.FileItemFactory}
- * implementation. This implementation creates
- * {@link org.apache.commons.fileupload.FileItem} instances which keep their
- * content either in memory, for smaller items, or in a temporary file on disk,
- * for larger items. The size threshold, above which content will be stored on
- * disk, is configurable, as is the directory in which temporary files will be
- * created.</p>
- *
- * <p>If not otherwise configured, the default configuration values are as
- * follows:</p>
+ * <p>
+ * The default {@link org.apache.commons.fileupload.FileItemFactory} implementation. This implementation creates {@link org.apache.commons.fileupload.FileItem}
+ * instances which keep their content either in memory, for smaller items, or in a temporary file on disk, for larger items. The size threshold, above which
+ * content will be stored on disk, is configurable, as is the directory in which temporary files will be created.
+ * </p>
+ * <p>
+ * If not otherwise configured, the default configuration values are as follows:
+ * </p>
  * <ul>
- *   <li>Size threshold is 10KB.</li>
- *   <li>Repository is the system default temp directory, as returned by
- *       {@code System.getProperty("java.io.tmpdir")}.</li>
+ * <li>Size threshold is 10KB.</li>
+ * <li>Repository is the system default temp directory, as returned by {@code System.getProperty("java.io.tmpdir")}.</li>
  * </ul>
  * <p>
- * <strong>NOTE</strong>: Files are created in the system default temp directory with
- * predictable names. This means that a local attacker with write access to that
- * directory can perform a TOUTOC attack to replace any uploaded file with a
- * file of the attackers choice. The implications of this will depend on how the
- * uploaded file is used but could be significant. When using this
- * implementation in an environment with local, untrusted users,
- * {@link #setRepository(File)} MUST be used to configure a repository location
- * that is not publicly writable. In a Servlet container the location identified
- * by the ServletContext attribute {@code javax.servlet.context.tempdir}
- * may be used.
+ * <strong>NOTE</strong>: Files are created in the system default temp directory with predictable names. This means that a local attacker with write access to
+ * that directory can perform a TOUTOC attack to replace any uploaded file with a file of the attackers choice. The implications of this will depend on how the
+ * uploaded file is used but could be significant. When using this implementation in an environment with local, untrusted users, {@link #setRepository(File)}
+ * MUST be used to configure a repository location that is not publicly writable. In a Servlet container the location identified by the ServletContext attribute
+ * {@code javax.servlet.context.tempdir} may be used.
  * </p>
- *
- * <p>Temporary files, which are created for file items, should be
- * deleted later on. The best way to do this is using a
- * {@link FileCleaningTracker}, which you can set on the
- * {@link DiskFileItemFactory}. However, if you do use such a tracker,
- * then you must consider the following: Temporary files are automatically
- * deleted as soon as they are no longer needed. (More precisely, when the
- * corresponding instance of {@link java.io.File} is garbage collected.)
- * This is done by the so-called reaper thread, which is started and stopped
- * automatically by the {@link FileCleaningTracker} when there are files to be
- * tracked.
- * It might make sense to terminate that thread, for example, if
- * your web application ends. See the section on "Resource cleanup"
- * in the users guide of commons-fileupload.</p>
+ * <p>
+ * Temporary files, which are created for file items, should be deleted later on. The best way to do this is using a {@link FileCleaningTracker}, which you can
+ * set on the {@link DiskFileItemFactory}. However, if you do use such a tracker, then you must consider the following: Temporary files are automatically
+ * deleted as soon as they are no longer needed. (More precisely, when the corresponding instance of {@link java.io.File} is garbage collected.) This is done by
+ * the so-called reaper thread, which is started and stopped automatically by the {@link FileCleaningTracker} when there are files to be tracked. It might make
+ * sense to terminate that thread, for example, if your web application ends. See the section on "Resource cleanup" in the users guide of commons-fileupload.
+ * </p>
  *
  * @since FileUpload 1.1
  */
@@ -85,21 +71,22 @@ public class DiskFileItemFactory implements FileItemFactory {
     private int sizeThreshold = DEFAULT_SIZE_THRESHOLD;
 
     /**
-     * <p>The instance of {@link FileCleaningTracker}, which is responsible
-     * for deleting temporary files.</p>
-     * <p>May be null, if tracking files is not required.</p>
+     * <p>
+     * The instance of {@link FileCleaningTracker}, which is responsible for deleting temporary files.
+     * </p>
+     * <p>
+     * May be null, if tracking files is not required.
+     * </p>
      */
     private FileCleaningTracker fileCleaningTracker;
 
     /**
-     * Default content charset to be used when no explicit charset
-     * parameter is provided by the sender.
+     * Default content charset to be used when no explicit charset parameter is provided by the sender.
      */
     private String defaultCharset = DiskFileItem.DEFAULT_CHARSET;
 
     /**
-     * Constructs an unconfigured instance of this class. The resulting factory
-     * may be configured by calling the appropriate setter methods.
+     * Constructs an unconfigured instance of this class. The resulting factory may be configured by calling the appropriate setter methods.
      */
     public DiskFileItemFactory() {
         this(DEFAULT_SIZE_THRESHOLD, null);
@@ -137,41 +124,35 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Gets the default charset for use when no explicit charset
-     * parameter is provided by the sender.
+     * Gets the default charset for use when no explicit charset parameter is provided by the sender.
      *
-     * @return the default charset
+     * @return the default charset.
      */
     public String getDefaultCharset() {
         return defaultCharset;
     }
 
     /**
-     * Gets the tracker, which is responsible for deleting temporary
-     * files.
+     * Gets the tracker, which is responsible for deleting temporary files.
      *
-     * @return An instance of {@link FileCleaningTracker}, or null
-     *   (default), if temporary files aren't tracked.
+     * @return An instance of {@link FileCleaningTracker}, or null (default), if temporary files aren't tracked.
      */
     public FileCleaningTracker getFileCleaningTracker() {
         return fileCleaningTracker;
     }
 
     /**
-     * Gets the directory used to temporarily store files that are larger
-     * than the configured size threshold.
+     * Gets the directory used to temporarily store files that are larger than the configured size threshold.
      *
      * @return The directory in which temporary files will be located.
      * @see #setRepository(java.io.File)
-     *
      */
     public File getRepository() {
         return repository;
     }
 
     /**
-     * Gets the size threshold beyond which files are written directly to
-     * disk. The default value is 10240 bytes.
+     * Gets the size threshold beyond which files are written directly to disk. The default value is 10240 bytes.
      *
      * @return The size threshold, in bytes.
      * @see #setSizeThreshold(int)
@@ -181,34 +162,29 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Sets the default charset for use when no explicit charset
-     * parameter is provided by the sender.
+     * Sets the default charset for use when no explicit charset parameter is provided by the sender.
      *
-     * @param charset the default charset
+     * @param charset the default charset.
      */
     public void setDefaultCharset(final String charset) {
         this.defaultCharset = charset;
     }
 
     /**
-     * Sets the tracker, which is responsible for deleting temporary
-     * files.
+     * Sets the tracker, which is responsible for deleting temporary files.
      *
-     * @param fileCleaningTracker An instance of {@link FileCleaningTracker},
-     *   which will from now on track the created files, or null
-     *   (default), to disable tracking.
+     * @param fileCleaningTracker An instance of {@link FileCleaningTracker}, which will from now on track the created files, or null (default), to disable
+     *                            tracking.
      */
     public void setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
         this.fileCleaningTracker = fileCleaningTracker;
     }
 
     /**
-     * Sets the directory used to temporarily store files that are larger
-     * than the configured size threshold.
+     * Sets the directory used to temporarily store files that are larger than the configured size threshold.
      *
      * @param repository The directory in which temporary files will be located.
      * @see #getRepository()
-     *
      */
     public void setRepository(final File repository) {
         this.repository = repository;
@@ -219,7 +195,6 @@ public class DiskFileItemFactory implements FileItemFactory {
      *
      * @param sizeThreshold The size threshold, in bytes.
      * @see #getSizeThreshold()
-     *
      */
     public void setSizeThreshold(final int sizeThreshold) {
         this.sizeThreshold = sizeThreshold;
