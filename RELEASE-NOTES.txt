@@ -1,3 +1,48 @@
+Apache Commons FileUpload 2.0.0-M5 Release Notes
+------------------------------------------------
+
+The Apache Commons FileUpload team is pleased to announce the release of Apache Commons FileUpload 2.0.0-M5.
+
+The Apache Commons FileUpload component provides a simple yet flexible means of
+adding support for multipart file upload functionality to Servlets and web
+applications. This version requires Java 11 or above.
+
+
+This release requires Java 11.
+
+Changes in version 2.0.0-M5 include:
+
+New features:
+o                  Add AbstractFileUpload support for a maximum part header size #429. Thanks to Ryan J Murphy.
+o FILEUPLOAD-367:  Jakarta and Javax ServletFileUpload.isMultipartContent(HttpServletRequest) should allow PUT and PATCH request methods in addition to POST. Thanks to Gary Gregory.
+o FILEUPLOAD-367:  Add AbstractFileUpload.isMultipartRequestMethod(String). Thanks to Gary Gregory.
+
+Fixed Bugs:
+o                  Better exception message in org.apache.commons.fileupload2.core.AbstractFileUpload.parseRequest(RequestContext). Thanks to Chenjp, Gary Gregory.
+o FILEUPLOAD-295:  Clarified the precise meaning of isInMemory(), get(), getPath(), etc. in DiskFileItem
+o                  Better exception type and message if a multipart/mixed part is presented without a boundary defined Thanks to Coverity Scan.
+o                  Rename MultipartInput.Builder.[get|set]PartHeaderSizeMax() to [get|set]MaxPartHeaderSize(). Thanks to Gary Gregory.
+o                  Rename MultipartInput.getPartHeaderSizeMax() to getMaxPartHeaderSize(). Thanks to Gary Gregory.
+o                  Rename AbstractFileUpload.[get|set]SizeMax() to AbstractFileUpload.[get|set]MaxSize(). Thanks to Gary Gregory.
+o                  Rename AbstractFileUpload.[get|set]FileSizeMax() to AbstractFileUpload.[get|set]MaxFileSize(). Thanks to Gary Gregory.
+o                  Rename AbstractFileUpload.[get|set]FileCountMax() to AbstractFileUpload.[get|set]MaxFileCount(). Thanks to Gary Gregory.
+o                  Minor readability and cleanup improvements in DiskFileItem #458. Thanks to tPionTech.
+o                  Fix Apache RAT plugin console warnings. Thanks to Gary Gregory.
+
+Changes:
+o                  Bump org.apache.commons:commons-parent from 84 to 96 #444, #459, #463. Thanks to Gary Gregory, Dependabot.
+o                  Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.20.0 #427. Thanks to Gary Gregory.
+o                  Bump commons-io:commons-io from 2.19.0 to 2.21.0. Thanks to Gary Gregory.
+
+
+For complete information on Apache Commons FileUpload, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons FileUpload website:
+
+https://commons.apache.org/proper/commons-fileupload/
+
+Download it from https://commons.apache.org/proper/commons-fileupload/download_fileupload.cgi
+
+------------------------------------------------------------------------------
 Apache Commons FileUpload 2.0.0-M4 Release Notes
 ------------------------------------------------
 

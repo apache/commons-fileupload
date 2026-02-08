@@ -115,32 +115,32 @@ limitations under the License.
       </p>
     </subsection>
     </section>
-    <section name="Apache Commons FileUpload 2.0.0-M4 in the org.apache.commons.fileupload2 namespace for Java 11 or later">
+    <section name="Apache Commons FileUpload 2.0.0-M5 in the org.apache.commons.fileupload2 namespace for Java 11 or later">
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/fileupload/binaries/commons-fileupload2-2.0.0-M4-bin.tar.gz">commons-fileupload2-2.0.0-M4-bin.tar.gz</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M4-bin.tar.gz.sha512">sha512</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M4-bin.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/fileupload/binaries/commons-fileupload2-2.0.0-M5-bin.tar.gz">commons-fileupload2-2.0.0-M5-bin.tar.gz</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M5-bin.tar.gz.sha512">sha512</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M5-bin.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/fileupload/binaries/commons-fileupload2-2.0.0-M4-bin.zip">commons-fileupload2-2.0.0-M4-bin.zip</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M4-bin.zip.sha512">sha512</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M4-bin.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/fileupload/binaries/commons-fileupload2-2.0.0-M5-bin.zip">commons-fileupload2-2.0.0-M5-bin.zip</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M5-bin.zip.sha512">sha512</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/binaries/commons-fileupload2-2.0.0-M5-bin.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
       <subsection name="Source">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/fileupload/source/commons-fileupload2-2.0.0-M4-src.tar.gz">commons-fileupload2-2.0.0-M4-src.tar.gz</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M4-src.tar.gz.sha512">sha512</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M4-src.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/fileupload/source/commons-fileupload2-2.0.0-M5-src.tar.gz">commons-fileupload2-2.0.0-M5-src.tar.gz</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M5-src.tar.gz.sha512">sha512</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M5-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/fileupload/source/commons-fileupload2-2.0.0-M4-src.zip">commons-fileupload2-2.0.0-M4-src.zip</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M4-src.zip.sha512">sha512</a></td>
-              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M4-src.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/fileupload/source/commons-fileupload2-2.0.0-M5-src.zip">commons-fileupload2-2.0.0-M5-src.zip</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M5-src.zip.sha512">sha512</a></td>
+              <td><a href="https://downloads.apache.org/commons/fileupload/source/commons-fileupload2-2.0.0-M5-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
