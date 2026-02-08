@@ -47,6 +47,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix Apache RAT plugin console warnings.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Port to JUnit 5.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">org.apache.commons.fileupload.util.Closeable now extends java.io.Closeable.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">If DiskFileItem.delete() can't delete the file, it marks it for deletion on JVM exit.</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 84 to 96.</action>

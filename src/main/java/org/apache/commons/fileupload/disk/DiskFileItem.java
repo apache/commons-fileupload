@@ -199,7 +199,9 @@ public class DiskFileItem implements FileItem {
         clear();
         final File outputFile = getStoreLocation();
         if (outputFile != null && !isInMemory() && outputFile.exists()) {
-            outputFile.delete();
+            if (!outputFile.delete()) {
+                outputFile.deleteOnExit();
+            }
         }
     }
 
