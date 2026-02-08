@@ -288,7 +288,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     private final int threshold;
 
     /**
-     * The directory in which uploaded files will be stored, if stored on disk.
+     * The directory in which uploaded files will be stored, if stored on disk, never null.
      */
     private final Path repository;
 
