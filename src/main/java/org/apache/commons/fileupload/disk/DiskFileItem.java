@@ -334,11 +334,10 @@ public class DiskFileItem implements FileItem {
     @Override
     public OutputStream getOutputStream() throws IOException {
         if (dfos == null) {
-            final File outputFile = getTempFile();
             // @formatter:off
             dfos = DeferredFileOutputStream.builder()
                     .setThreshold(sizeThreshold)
-                    .setOutputFile(outputFile)
+                    .setOutputFile(getTempFile())
                     .get();
             // @formatter:on
         }
