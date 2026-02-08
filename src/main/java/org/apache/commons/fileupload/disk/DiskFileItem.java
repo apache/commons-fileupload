@@ -437,9 +437,7 @@ public class DiskFileItem implements FileItem {
             if (tempDir == null) {
                 tempDir = new File(System.getProperty("java.io.tmpdir"));
             }
-
             final String tempFileName = String.format("upload_%s_%s.tmp", UID, nextUniqueId());
-
             tempFile = new File(tempDir, tempFileName);
         }
         return tempFile;
@@ -557,16 +555,12 @@ public class DiskFileItem implements FileItem {
         } else {
             final File outputFile = getStoreLocation();
             if (outputFile == null) {
-                /*
-                 * For whatever reason we cannot write the file to disk.
-                 */
+                // For whatever reason we cannot write the file to disk.
                 throw new FileUploadException("Cannot write uploaded file to disk!");
             }
             // Save the length of the file
             size = outputFile.length();
-            /*
-             * The uploaded file is being stored on disk in a temporary location so move it to the desired file.
-             */
+            // The uploaded file is being stored on disk in a temporary location so move it to the desired file.
             if (file.exists() && !file.delete()) {
                 throw new FileUploadException("Cannot write uploaded file to disk!");
             }
