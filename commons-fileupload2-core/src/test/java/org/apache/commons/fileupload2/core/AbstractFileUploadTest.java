@@ -396,6 +396,16 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
         assertEquals("fieldValue2", field2.getString());
     }
 
+    @Test
+    void testIsMultipartRequestMethod() {
+        for (String allowed : new String[]{"POST", "PUT", "PATCH"}) {
+            assertTrue(AbstractFileUpload.isMultipartRequestMethod(allowed));
+        }
+        for (String disallowed : new String[]{"GET", "HEAD", "DELETE", "CONNECT", "OPTIONS", "TRACE"}) {
+            assertFalse(AbstractFileUpload.isMultipartRequestMethod(disallowed));
+        }
+    }
+
     /**
      * Test for multipart/mixed with no boundary defined
      */

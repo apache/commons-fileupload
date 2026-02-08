@@ -55,6 +55,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        type="fix" dev="ggregory" due-to="Gary Gregory">Fix Apache RAT plugin console warnings.</action>
       <!-- ADD -->
       <action                        type="add" dev="ggregory" due-to="Ryan J Murphy">Add AbstractFileUpload support for a maximum part header size #429.</action>
+      <action issue="FILEUPLOAD-367" type="add" dev="ggregory" due-to="Gary Gregory">Jakarta and Javax ServletFileUpload.isMultipartContent(HttpServletRequest) should allow PUT and PATCH request methods in addition to POST.</action>
+      <action issue="FILEUPLOAD-367" type="add" dev="ggregory" due-to="Gary Gregory">Add AbstractFileUpload.isMultipartRequestMethod(String).</action>
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.commons:commons-parent from 84 to 96 #444, #459, #463.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.20.0 #427.</action>

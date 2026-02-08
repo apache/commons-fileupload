@@ -62,6 +62,21 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     private static final String FILENAME_KEY = "filename";
 
     /**
+     * Constant for HTTP POST method.
+     */
+    private static final String POST_METHOD = "POST";
+
+    /**
+     * Constant for HTTP PUT method.
+     */
+    private static final String PUT_METHOD = "PUT";
+
+    /**
+     * Constant for HTTP PATCH method.
+     */
+    private static final String PATCH_METHOD = "PATCH";
+
+    /**
      * HTTP content type header name.
      */
     public static final String CONTENT_TYPE = "Content-type";
@@ -117,6 +132,17 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
             return false;
         }
         return contentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART);
+    }
+
+    /**
+     * Checks if a given request method is a valid multipart request method.
+     *
+     * @param method The request method verb.
+     * @return {@code true} if the request method supports multipart request payloads; {@code false} otherwise.
+     * @since 2.0.0-M5
+     */
+    protected static boolean isMultipartRequestMethod(final String method) {
+        return POST_METHOD.equalsIgnoreCase(method) || PUT_METHOD.equalsIgnoreCase(method) || PATCH_METHOD.equalsIgnoreCase(method);
     }
 
     /**

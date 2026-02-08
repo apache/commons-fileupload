@@ -45,18 +45,13 @@ import org.apache.commons.fileupload2.core.FileUploadException;
 public class JavaxServletFileUpload<I extends FileItem<I>, F extends FileItemFactory<I>> extends AbstractFileUpload<HttpServletRequest, I, F> {
 
     /**
-     * Constant for HTTP POST method.
-     */
-    private static final String POST_METHOD = "POST";
-
-    /**
      * Tests whether the request contains multipart content.
      *
      * @param request The servlet request to be evaluated. Must be non-null.
      * @return {@code true} if the request is multipart; {@code false} otherwise.
      */
     public static final boolean isMultipartContent(final HttpServletRequest request) {
-        return POST_METHOD.equalsIgnoreCase(request.getMethod()) && AbstractFileUpload.isMultipartContent(new JavaxServletRequestContext(request));
+        return isMultipartRequestMethod(request.getMethod()) && AbstractFileUpload.isMultipartContent(new JavaxServletRequestContext(request));
     }
 
     /**
