@@ -108,12 +108,8 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * Constructs a preconfigured instance of this class.
      *
-     * @param sizeThreshold The threshold, in bytes, below which items will be
-     *                      retained in memory and above which they will be
-     *                      stored as a file.
-     * @param repository    The data repository, which is the directory in
-     *                      which files will be created, should the item size
-     *                      exceed the threshold.
+     * @param sizeThreshold The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
+     * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
      */
     public DiskFileItemFactory(final int sizeThreshold, final File repository) {
         this.sizeThreshold = sizeThreshold;
@@ -121,24 +117,17 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Create a new {@link DiskFileItem}
-     * instance from the supplied parameters and the local factory
-     * configuration.
+     * Create a new {@link DiskFileItem} instance from the supplied parameters and the local factory configuration.
      *
      * @param fieldName   The name of the form field.
      * @param contentType The content type of the form field.
-     * @param isFormField {@code true} if this is a plain form field;
-     *                    {@code false} otherwise.
-     * @param fileName    The name of the uploaded file, if any, as supplied
-     *                    by the browser or other client.
-     *
+     * @param isFormField {@code true} if this is a plain form field; {@code false} otherwise.
+     * @param fileName    The name of the uploaded file, if any, as supplied by the browser or other client.
      * @return The newly created file item.
      */
     @Override
-    public FileItem createItem(final String fieldName, final String contentType,
-            final boolean isFormField, final String fileName) {
-        final DiskFileItem result = new DiskFileItem(fieldName, contentType,
-                isFormField, fileName, sizeThreshold, repository);
+    public FileItem createItem(final String fieldName, final String contentType, final boolean isFormField, final String fileName) {
+        final DiskFileItem result = new DiskFileItem(fieldName, contentType, isFormField, fileName, sizeThreshold, repository);
         result.setDefaultCharset(defaultCharset);
         final FileCleaningTracker tracker = getFileCleaningTracker();
         if (tracker != null) {
