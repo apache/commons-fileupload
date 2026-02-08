@@ -21,13 +21,14 @@ import java.io.IOException;
 /**
  * Interface of an object, which may be closed.
  */
-public interface Closeable {
+public interface Closeable extends java.io.Closeable {
 
     /**
      * Closes the object.
      *
      * @throws IOException An I/O error occurred.
      */
+    @Override
     void close() throws IOException;
 
     /**
