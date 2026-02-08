@@ -72,7 +72,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * The default threshold above which uploads will be stored on disk.
      */
-    public static final int DEFAULT_SIZE_THRESHOLD = 10240;
+    public static final int DEFAULT_SIZE_THRESHOLD = 10_240;
 
     /**
      * The directory in which uploaded files will be stored, if stored on disk.
