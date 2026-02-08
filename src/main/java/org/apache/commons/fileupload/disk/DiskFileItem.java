@@ -138,7 +138,7 @@ public class DiskFileItem implements FileItem {
     private boolean formField;
 
     /**
-     * The directory in which uploaded files will be stored, if stored on disk.
+     * The directory in which uploaded files will be stored, if stored on disk, never {@code null}.
      */
     private final File repository;
 
@@ -177,7 +177,7 @@ public class DiskFileItem implements FileItem {
         this.formField = isFormField;
         this.fileName = fileName;
         this.sizeThreshold = sizeThreshold;
-        this.repository = repository;
+        this.repository = repository != null ? repository : FileUtils.getTempDirectory();
     }
 
     /**
@@ -433,12 +433,7 @@ public class DiskFileItem implements FileItem {
      */
     protected File getTempFile() {
         if (tempFile == null) {
-            File tempDir = repository;
-            if (tempDir == null) {
-                tempDir = FileUtils.getTempDirectory();
-            }
-            final String tempFileName = String.format("upload_%s_%s.tmp", UID, nextUniqueId());
-            tempFile = new File(tempDir, tempFileName);
+            tempFile = new File(repository, String.format("upload_%s_%s.tmp", UID, nextUniqueId()));
         }
         return tempFile;
     }
