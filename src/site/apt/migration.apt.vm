@@ -29,7 +29,7 @@ Migrating
 
    To use version 2, you must to update your projects as follows:
 
-   [[1]] Use Java 8 or above.
+   [[1]] Use Java 11 or above.
    
    [[2]] Add one or more these dependencies with the <<<groupId>>> <<org.apache.commons>>, and set the <<<artifactId>>> to:
    
