@@ -28,7 +28,7 @@ limitations under the License.
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-fileupload2</artifactId>
-    <version>2.0.0-M5</version>
+    <version>2.0.0-M6-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -38,7 +38,7 @@ limitations under the License.
 	<commons.parent.dir>${basedir}/..</commons.parent.dir>
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
-    <project.build.outputTimestamp>2026-02-08T17:46:05Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-02-17T15:47:28Z</project.build.outputTimestamp>
   </properties>
 
   <build>
