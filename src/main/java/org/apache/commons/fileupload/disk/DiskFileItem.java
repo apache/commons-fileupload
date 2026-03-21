@@ -198,7 +198,7 @@ public class DiskFileItem implements FileItem {
     public void delete() {
         clear();
         final File outputFile = getStoreLocation();
-        if (outputFile != null && !isInMemory() && outputFile.exists()) {
+        if (outputFile != null && outputFile.exists()) {
             if (!outputFile.delete()) {
                 outputFile.deleteOnExit();
             }
@@ -212,13 +212,7 @@ public class DiskFileItem implements FileItem {
      */
     @Override
     protected void finalize() throws Throwable {
-        if (dfos == null || dfos.isInMemory()) {
-            return;
-        }
-        final File outputFile = dfos.getFile();
-        if (outputFile != null && outputFile.exists()) {
-            outputFile.delete();
-        }
+        delete();
         super.finalize();
     }
 
