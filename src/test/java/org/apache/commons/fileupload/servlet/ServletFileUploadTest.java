@@ -27,6 +27,7 @@ import org.apache.commons.fileupload.Constants;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadTest;
 import org.apache.commons.fileupload.MockHttpServletRequest;
+import org.apache.commons.fileupload.Util;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.junit.jupiter.api.Test;
 
@@ -57,6 +58,7 @@ public class ServletFileUploadTest {
         final List<FileItem> fileItems = upload.parseRequest(request);
         final FileItem fileItem = fileItems.get(0);
         assertTrue(fileItem.getString().contains("co�te�t"), fileItem.getString());
+        Util.deleteFileItems(fileItems);
     }
 
 
@@ -98,5 +100,6 @@ public class ServletFileUploadTest {
 
         assertTrue(mappedParameters.containsKey("multi"));
         assertEquals(2, mappedParameters.get("multi").size());
+        Util.deleteFileItems(mappedParameters);
     }
 }

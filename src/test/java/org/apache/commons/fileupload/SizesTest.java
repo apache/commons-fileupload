@@ -78,6 +78,7 @@ public class SizesTest {
         } catch (final FileUploadBase.FileSizeLimitExceededException e) {
             assertEquals(30, e.getPermittedSize());
         }
+        Util.deleteFileItems(fileItems);
     }
 
     /** Checks, whether a faked Content-Length header is detected.
@@ -133,6 +134,7 @@ public class SizesTest {
         } catch (final FileUploadBase.FileSizeLimitExceededException e) {
             assertEquals(15, e.getPermittedSize());
         }
+        Util.deleteFileItems(fileItems);
     }
 
     /**
@@ -177,6 +179,7 @@ public class SizesTest {
             }
         }
         assertTrue(!fileIter.hasNext());
+        Util.deleteFileItems(fileItems);
     }
 
     /** Checks, whether the maxSize works.

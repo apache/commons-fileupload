@@ -142,6 +142,7 @@ public class StreamingTest {
             }
         }
         assertTrue(!fileIter.hasNext());
+        Util.deleteFileItems(fileItems);
     }
 
     /**
@@ -163,7 +164,9 @@ public class StreamingTest {
             assertEquals((byte) '2', bytes[1]);
             assertEquals((byte) '3', bytes[2]);
             assertTrue(!fileIter.hasNext());
+            Util.deleteFileItems(fileItems);
         }
+        
     }
 
     /**
@@ -219,6 +222,7 @@ public class StreamingTest {
         assertEquals(fileName, e.getName());
         assertTrue(e.getMessage().indexOf(fileName) == -1);
         assertTrue(e.getMessage().indexOf("foo.exe\\0.png") != -1);
+        Util.deleteFileItems(fileItems);
     }
 
     /**

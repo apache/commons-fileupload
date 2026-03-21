@@ -19,6 +19,7 @@ package org.apache.commons.fileupload;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,6 +34,14 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
  * @since 1.4
  */
 public class Util {
+
+    public static void deleteFileItems(final List<FileItem> fileItems) {
+        fileItems.forEach(FileItem::delete);
+    }
+
+    public static void deleteFileItems(final Map<String, List<FileItem>> mappedParameters) {
+        mappedParameters.values().stream().flatMap(List::stream).forEach(FileItem::delete);
+    }
 
     /**
      * Return a list of {@link FileUpload} implementations for parameterized tests.

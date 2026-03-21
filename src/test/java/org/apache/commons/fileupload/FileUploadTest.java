@@ -105,6 +105,7 @@ public class FileUploadTest {
         assertEquals("... contents of file1.txt ...", file.getString());
         assertEquals("text/plain", file.getContentType());
         assertEquals("file1.txt", file.getName());
+        Util.deleteFileItems(fileItems);
     }
 
     /**
@@ -126,6 +127,7 @@ public class FileUploadTest {
         assertFalse(file.isFormField());
         assertEquals("", file.getString());
         assertEquals("", file.getName());
+        Util.deleteFileItems(fileItems);
     }
 
     @ParameterizedTest
@@ -145,6 +147,7 @@ public class FileUploadTest {
         final FileItem file = fileItems.get(0);
         assertEquals("FiLe", file.getFieldName());
         assertEquals("FOO.tab", file.getName());
+        Util.deleteFileItems(fileItems);
     }
 
     @ParameterizedTest
@@ -194,6 +197,7 @@ public class FileUploadTest {
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
+        Util.deleteFileItems(fileItems);
     }
 
     /**
@@ -248,6 +252,7 @@ public class FileUploadTest {
 
         final FileItem multi1 = fileItems.get(3);
         assertHeaders(headerNames, headerValues, multi1, 3);
+        Util.deleteFileItems(fileItems);
     }
 
     /**
@@ -292,6 +297,7 @@ public class FileUploadTest {
         assertEquals("pics", item2.getFieldName());
         assertEquals("file2.gif", item2.getName());
         assertEquals("...contents of file2.gif...", new String(item2.get()));
+        Util.deleteFileItems(fileItems);
     }
 
     /**
@@ -344,6 +350,7 @@ public class FileUploadTest {
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
+        Util.deleteFileItems(fileItems);
     }
 
     /**
@@ -394,6 +401,7 @@ public class FileUploadTest {
         assertEquals("field2", field2.getFieldName());
         assertTrue(field2.isFormField());
         assertEquals("fieldValue2", field2.getString());
+        Util.deleteFileItems(fileItems);
     }
 
     /**
@@ -474,6 +482,7 @@ public class FileUploadTest {
         assertEquals("some text/plain content", part2.getString());
         assertEquals("text/plain", part2.getContentType());
         assertNull(part2.getName());
+        Util.deleteFileItems(fileItems);
     }
 
 

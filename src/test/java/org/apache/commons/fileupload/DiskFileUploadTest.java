@@ -57,14 +57,15 @@ public class DiskFileUploadTest {
                 "This is the content of the file\n" +
                 "\r\n" +
                 "-----1234--\r\n";
-    	final byte[] contentBytes = content.getBytes("US-ASCII");
+    	  final byte[] contentBytes = content.getBytes("US-ASCII");
         final HttpServletRequest request = new MockHttpServletRequest(contentBytes, Constants.CONTENT_TYPE);
-        final List<FileItem> items = myUpload.parseRequest(request);
-        assertNotNull(items);
-        assertFalse(items.isEmpty());
-        final DiskFileItem dfi = (DiskFileItem) items.get(0);
+        final List<FileItem> fileItems = myUpload.parseRequest(request);
+        assertNotNull(fileItems);
+        assertFalse(fileItems.isEmpty());
+        final DiskFileItem dfi = (DiskFileItem) fileItems.get(0);
         final File out = File.createTempFile("install", ".tmp");
         dfi.write(out);
+        Util.deleteFileItems(fileItems);
     }
 
     @Test
