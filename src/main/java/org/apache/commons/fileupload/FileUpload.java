@@ -62,7 +62,7 @@ public class FileUpload
     }
 
     /**
-     * Returns the factory class used when creating file items.
+     * Gets the factory class used when creating file items.
      *
      * @return The factory class for new file items.
      */
