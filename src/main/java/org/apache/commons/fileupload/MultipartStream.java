@@ -114,7 +114,7 @@ public class MultipartStream {
     }
 
     /**
-     * An {@link InputStream} for reading an items contents.
+     * An {@link InputStream} for reading item contents.
      */
     public class ItemInputStream extends InputStream implements Closeable {
 
