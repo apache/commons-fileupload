@@ -197,7 +197,7 @@ public class DiskFileItem implements FileItem {
     @Override
     public void delete() {
         clear();
-        final File outputFile = getStoreLocation();
+        final File outputFile = dfos != null ? dfos.getFile() : null;
         if (outputFile != null && outputFile.exists()) {
             if (!outputFile.delete()) {
                 outputFile.deleteOnExit();
