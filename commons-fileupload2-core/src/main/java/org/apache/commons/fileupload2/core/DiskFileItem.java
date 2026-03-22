@@ -363,7 +363,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
                 return bytes;
             }
             final Path path = dos.getPath();
-            if (path != null  &&  dos.getState() == State.closed) {
+            if (path != null && dos.getState() == State.closed) {
                 return Files.readAllBytes(path);
             }
         }
