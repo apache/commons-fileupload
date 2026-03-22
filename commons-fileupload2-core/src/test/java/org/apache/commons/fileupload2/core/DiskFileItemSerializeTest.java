@@ -36,6 +36,8 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Serialization Unit tests for {@link DiskFileItem}.
@@ -193,9 +195,16 @@ class DiskFileItemSerializeTest {
         testInMemoryObject(testFieldValueBytes, THRESHOLD);
     }
 
-    @Test
-    void testCheckFileName() {
-        assertThrows(InvalidPathException.class, () -> DiskFileItem.checkFileName("\0"));
+    @ParameterizedTest
+    @ValueSource(strings = { "\0", "file\0name" })
+    void testCheckFileNameInvalid(final String fileName) {
+        assertThrows(InvalidPathException.class, () -> DiskFileItem.checkFileName(fileName));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "file name", "file name.txt", "file_name.txt", "file?name.txt" })
+    void testCheckFileNameValid(final String fileName) {
+        assertEquals(fileName, DiskFileItem.checkFileName(fileName));
     }
 
     /**
