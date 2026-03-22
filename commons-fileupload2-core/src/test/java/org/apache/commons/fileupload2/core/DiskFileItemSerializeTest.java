@@ -196,7 +196,7 @@ class DiskFileItemSerializeTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "\0", "file\0name" })
+    @ValueSource(strings = { "\0", "file\0name", "file\1name" })
     void testCheckFileNameInvalid(final String fileName) {
         assertThrows(InvalidPathException.class, () -> DiskFileItem.checkFileName(fileName));
     }

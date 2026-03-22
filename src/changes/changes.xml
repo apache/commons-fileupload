@@ -44,6 +44,7 @@ The <action> type attribute can be add,update,fix,remove.
     <release version="2.0.0-M6" date="YYYY-MM-DD" description="This is a milestone release. Java 11 or later is required.">
       <!-- FIX -->
       <action                        type="fix" dev="ggregory" due-to="Henri Biestro, Gary Gregory">Fix migration documentation to mention Java 11.</action>
+      <action issue="FILEUPLOAD-362" type="fix" dev="ggregory" due-to="Kusal Kithul-Godage, Gary Gregory">Unable to parse requests for file uploads with special characters in filename on Windows.</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 96 to 97.</action>

@@ -233,9 +233,9 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
             fail("Expected exception");
         } catch (final InvalidPathException e) {
             assertEquals(fileName, e.getInput());
-            assertEquals(26, e.getMessage().indexOf(fileName));
+            assertEquals(29, e.getMessage().indexOf(fileName));
             assertEquals(7, e.getIndex());
-            assertTrue(e.getMessage().contains("foo.exe\\0.png"));
+            assertTrue(e.getMessage().contains("foo.exe\\0000.png"));
         }
 
         try {
@@ -243,9 +243,9 @@ public abstract class AbstractStreamingTest<AFU extends AbstractFileUpload<R, I,
             fail("Expected exception");
         } catch (final InvalidPathException e) {
             assertEquals(fileName, e.getInput());
-            assertEquals(26, e.getMessage().indexOf(fileName));
+            assertEquals(29, e.getMessage().indexOf(fileName));
             assertEquals(7, e.getIndex());
-            assertTrue(e.getMessage().contains("foo.exe\\0.png"));
+            assertTrue(e.getMessage().contains("foo.exe\\0000.png"));
         }
     }
 

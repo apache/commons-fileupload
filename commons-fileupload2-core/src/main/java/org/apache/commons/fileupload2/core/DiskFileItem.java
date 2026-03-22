@@ -29,7 +29,6 @@ import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -224,22 +223,21 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      */
     public static String checkFileName(final String fileName) {
         if (fileName != null) {
-            // Specific NUL check to build a better exception message.
-            final var indexOf0 = fileName.indexOf(0);
-            if (indexOf0 != -1) {
-                final var sb = new StringBuilder();
-                for (var i = 0; i < fileName.length(); i++) {
-                    final var c = fileName.charAt(i);
-                    if (c == 0) {
-                        sb.append("\\0");
-                    } else {
-                        sb.append(c);
-                    }
+            var indexOfCtrl = -1;
+            final var sb = new StringBuilder();
+            for (var i = 0; i < fileName.length(); i++) {
+                final var c = fileName.charAt(i);
+                if (Character.isISOControl(c)) {
+                    indexOfCtrl = i;
+                    sb.append("\\");
+                    sb.append(String.format("%04x", (int) c));
+                } else {
+                    sb.append(c);
                 }
-                throw new InvalidPathException(fileName, sb.toString(), indexOf0);
             }
-            // Throws InvalidPathException on invalid file names
-            Paths.get(fileName);
+            if (indexOfCtrl != -1) {
+                throw new InvalidPathException(fileName, sb.toString(), indexOfCtrl);
+            }
         }
         return fileName;
     }
