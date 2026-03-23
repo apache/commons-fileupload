@@ -25,39 +25,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
-
 /**
- * An {@link OutputStream}, which keeps its data in memory, until a configured
- * threshold is reached. If that is the case, a temporary file is being created,
- * and the in-memory data is transferred to that file. All following data will
- * be written to that file, too.
- *
- * In other words: If an uploaded file is small, then it will be kept completely
- * in memory. On the other hand, if the uploaded file's size exceeds the
- * configured threshold, it it considered a large file, and the data is kept
- * in a temporary file.
- *
- * More precisely, this output stream supports three modes of operation:
+ * An {@link OutputStream} which keeps its data in memory until a configured threshold is reached. Once the threshold is reached, a temporary file is created,
+ * and the in-memory data is transferred to that file. Follow up data is then appended to that file.
+ * <p>
+ * If an uploaded file is small, then it is kept in memory. If the uploaded file's size exceeds the threshold, then the data is kept in a temporary file.
+ * </p>
+ * <p>
+ * This output stream supports three modes of operation:
+ * </p>
  * <ol>
- *   <li>{@code threshold=-1}: <em>Always</em> create a temporary file, even if
- *     the uploaded file is empty.</li>
- *   <li>{@code threshold=0}: Don't create empty, temporary files. (Create a
- *     temporary file, as soon as the first byte is written.)</li>
- *   <li>{@code threshold>0}: Create a temporary file, if the size exceeds the
- *     threshold, otherwise keep the file in memory.</li>
+ * <li>{@code threshold = -1}: <em>Always</em> create a temporary file, even if the uploaded file is empty.</li>
+ * <li>{@code threshold = 0}: Don't create an empty temporary files. Create a temporary file, as soon as the first byte is written.</li>
+ * <li>{@code threshold > 0}: Create a temporary file if the size exceeds the threshold, otherwise keep the file in memory.</li>
  * </ol>
- *
- * Technically, this is similar to
- * {@link org.apache.commons.io.output.DeferredFileOutputStream}, which has
- * been used in the past, except that this implementation observes
- * a precisely specified behavior, and semantics, that match the needs of the
- * {@link DiskFileItem}.
- *
- * Background: Over the various versions of commons-io, the
- * {@link org.apache.commons.io.output.DeferredFileOutputStream} has changed
- * semantics, and behavior more than once.
- * (For details, see
- * <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-295</a>)
+ * <p>
+ * This is similar to {@link org.apache.commons.io.output.DeferredFileOutputStream}, customized for {@link DiskFileItem}.
+ * </p>
+ * <p>
+ * For history, see <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-295">FILEUPLOAD-295</a>)
+ * </p>
  */
 public class DeferrableOutputStream extends OutputStream {
 
