@@ -65,7 +65,7 @@ public class DeferrableOutputStream extends OutputStream {
     }
 
     /**
-     * This enumeration represents the possible states of the {@link DeferrableOutputStream}.
+     * Enumerates the possible states of the {@link DeferrableOutputStream}.
      */
     public enum State {
 
