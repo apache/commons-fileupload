@@ -22,13 +22,13 @@ import java.io.File;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 
 /**
- * <p>
  * The default implementation of the {@link org.apache.commons.fileupload.FileItem FileItem} interface.
  * <p>
  * After retrieving an instance of this class from a {@link org.apache.commons.fileupload.DiskFileUpload DiskFileUpload} instance (see
  * {@link org.apache.commons.fileupload.DiskFileUpload #parseRequest(javax.servlet.http.HttpServletRequest)}), you may either request all contents of file at
  * once using {@link #get()} or request an {@link java.io.InputStream InputStream} with {@link #getInputStream()} and process the file without attempting to
  * load it into memory, which may come handy with large files.
+ * </p>
  *
  * @deprecated 1.1 Use {@code DiskFileItem} instead.
  */
