@@ -23,35 +23,33 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 /**
- * <p> This class represents a file or form item that was received within a
- * {@code multipart/form-data} POST request.
- *
- * <p> After retrieving an instance of this class from a {@link
- * org.apache.commons.fileupload.FileUpload FileUpload} instance (see
- * {@link org.apache.commons.fileupload.servlet.ServletFileUpload
- * #parseRequest(javax.servlet.http.HttpServletRequest)}), you may
- * either request all contents of the file at once using {@link #get()} or
- * request an {@link java.io.InputStream InputStream} with
- * {@link #getInputStream()} and process the file without attempting to load
- * it into memory, which may come handy with large files.
- *
- * <p> While this interface does not extend
- * {@code javax.activation.DataSource} per se (to avoid a seldom used
- * dependency), several of the defined methods are specifically defined with
- * the same signatures as methods in that interface. This allows an
- * implementation of this interface to also implement
+ * Represents a file or form item that was received within a {@code multipart/form-data} POST request.
+ * <p>
+ * Although the underlying storage will be deleted automatically when the {@code FileItem} instance is garbage collected, you shouldn't rely on this behavior
+ * because it is deprecated in Java 18 with <a href="https://openjdk.org/jeps/421">JEP 421: Deprecate Finalization for Removal</a>.
+ * </p>
+ * <p>
+ * After retrieving an instance of this class from a {@link org.apache.commons.fileupload.FileUpload FileUpload} instance (see
+ * {@link org.apache.commons.fileupload.servlet.ServletFileUpload #parseRequest(javax.servlet.http.HttpServletRequest)}), you may either request all contents of
+ * the file at once using {@link #get()} or request an {@link java.io.InputStream InputStream} with {@link #getInputStream()} and process the file without
+ * attempting to load it into memory, which may come handy with large files.
+ * </p>
+ * <p>
+ * While this interface does not extend {@code javax.activation.DataSource} per se (to avoid a seldom used dependency), several of the defined methods are
+ * specifically defined with the same signatures as methods in that interface. This allows an implementation of this interface to also implement
  * {@code javax.activation.DataSource} with minimal additional work.
+ * </p>
  *
  * @since 1.3 additionally implements FileItemHeadersSupport
  */
 public interface FileItem extends FileItemHeadersSupport {
 
     /**
-     * Deletes the underlying storage for a file item, including deleting any
-     * associated temporary disk file. Although this storage will be deleted
-     * automatically when the {@code FileItem} instance is garbage
-     * collected, this method can be used to ensure that this is done at an
-     * earlier time, thus preserving system resources.
+     * Deletes the underlying storage for a file item, including deleting any associated temporary disk file.
+     * <p>
+     * Although the underlying storage will be deleted automatically when the {@code FileItem} instance is garbage collected, you shouldn't rely on this
+     * behavior because it is deprecated in Java 18 with <a href="https://openjdk.org/jeps/421">JEP 421: Deprecate Finalization for Removal</a>.
+     * </p>
      */
     void delete();
 

@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">org.apache.commons.fileupload.util.Closeable now extends java.io.Closeable.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">If DiskFileItem.delete() can't delete the file, it marks it for deletion on JVM exit.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">DiskFileItem.delete() and finalize() always ties to delete its backing file.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Javadoc that you shouldn't rely on the garbage collection to cause the JVM to call FileItem.delete() through finalization; see JEP 421: Deprecate Finalization for Removal.</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 84 to 98.</action>
