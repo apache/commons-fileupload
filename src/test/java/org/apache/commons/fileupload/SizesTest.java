@@ -165,26 +165,27 @@ public class SizesTest {
             baos.write("\r\n".getBytes("US-ASCII"));
         }
         baos.write("-----1234--\r\n".getBytes("US-ASCII"));
-
-        final List<FileItem> fileItems =
-                Util.parseUpload(new ServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
-        final Iterator<FileItem> fileIter = fileItems.iterator();
-        add = 16;
-        num = 0;
-        for (int i = 0;  i < 16384;  i += add) {
-            if (++add == 32) {
-                add = 16;
+        final List<FileItem> fileItems = Util.parseUpload(new ServletFileUpload(new DiskFileItemFactory()), baos.toByteArray());
+        try {
+            final Iterator<FileItem> fileIter = fileItems.iterator();
+            add = 16;
+            num = 0;
+            for (int i = 0; i < 16384; i += add) {
+                if (++add == 32) {
+                    add = 16;
+                }
+                final FileItem item = fileIter.next();
+                assertEquals("field" + num++, item.getFieldName());
+                final byte[] bytes = item.get();
+                assertEquals(i, bytes.length);
+                for (int j = 0; j < i; j++) {
+                    assertEquals((byte) j, bytes[j]);
+                }
             }
-            final FileItem item = fileIter.next();
-            assertEquals("field" + num++, item.getFieldName());
-            final byte[] bytes = item.get();
-            assertEquals(i, bytes.length);
-            for (int j = 0;  j < i;  j++) {
-                assertEquals((byte) j, bytes[j]);
-            }
+            assertTrue(!fileIter.hasNext());
+        } finally {
+            Util.deleteFileItems(fileItems);
         }
-        assertTrue(!fileIter.hasNext());
-        Util.deleteFileItems(fileItems);
     }
 
     /** Checks, whether the maxSize works.

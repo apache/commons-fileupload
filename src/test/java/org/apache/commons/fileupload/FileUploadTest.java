@@ -16,7 +16,11 @@
  */
 package org.apache.commons.fileupload;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,6 +33,7 @@ import java.util.stream.Stream;
 import org.apache.commons.fileupload.MultipartStream.IllegalBoundaryException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUpload;
+import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUploadTest;
 import org.apache.commons.fileupload.util.Streams;
@@ -92,20 +97,21 @@ public class FileUploadTest {
                 "... contents of file1.txt ...\r\n" +
                 "-----9876--\r\n" +
                 "-----1234--\r\n");
-        assertEquals(2, fileItems.size());
-
-        final FileItem field = fileItems.get(0);
-        assertEquals("field1", field.getFieldName());
-        assertTrue(field.isFormField());
-        assertEquals("Joe Blow", field.getString());
-
-        final FileItem file = fileItems.get(1);
-        assertEquals("pics", file.getFieldName());
-        assertFalse(file.isFormField());
-        assertEquals("... contents of file1.txt ...", file.getString());
-        assertEquals("text/plain", file.getContentType());
-        assertEquals("file1.txt", file.getName());
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(2, fileItems.size());
+            final FileItem field = fileItems.get(0);
+            assertEquals("field1", field.getFieldName());
+            assertTrue(field.isFormField());
+            assertEquals("Joe Blow", field.getString());
+            final FileItem file = fileItems.get(1);
+            assertEquals("pics", file.getFieldName());
+            assertFalse(file.isFormField());
+            assertEquals("... contents of file1.txt ...", file.getString());
+            assertEquals("text/plain", file.getContentType());
+            assertEquals("file1.txt", file.getName());
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
     /**
@@ -121,13 +127,15 @@ public class FileUploadTest {
                                                 "\r\n" +
                                                 "\r\n" +
                                                 "-----1234--\r\n");
-        assertEquals(1, fileItems.size());
-
-        final FileItem file = fileItems.get(0);
-        assertFalse(file.isFormField());
-        assertEquals("", file.getString());
-        assertEquals("", file.getName());
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(1, fileItems.size());
+            final FileItem file = fileItems.get(0);
+            assertFalse(file.isFormField());
+            assertEquals("", file.getString());
+            assertEquals("", file.getName());
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
     @ParameterizedTest
@@ -142,12 +150,14 @@ public class FileUploadTest {
                                                "This is the content of the file\n" +
                                                "\r\n" +
                                                "-----1234--\r\n");
-        assertEquals(1, fileItems.size());
-
-        final FileItem file = fileItems.get(0);
-        assertEquals("FiLe", file.getFieldName());
-        assertEquals("FOO.tab", file.getName());
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(1, fileItems.size());
+            final FileItem file = fileItems.get(0);
+            assertEquals("FiLe", file.getFieldName());
+            assertEquals("FOO.tab", file.getName());
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
     @ParameterizedTest
@@ -174,30 +184,29 @@ public class FileUploadTest {
                                                "\r\n" +
                                                "value2\r\n" +
                                                "-----1234--\r\n");
-        assertEquals(4, fileItems.size());
-
-        final FileItem file = fileItems.get(0);
-        assertEquals("file", file.getFieldName());
-        assertFalse(file.isFormField());
-        assertEquals("This is the content of the file\n", file.getString());
-        assertEquals("text/whatever", file.getContentType());
-        assertEquals("foo.tab", file.getName());
-
-        final FileItem field = fileItems.get(1);
-        assertEquals("field", field.getFieldName());
-        assertTrue(field.isFormField());
-        assertEquals("fieldValue", field.getString());
-
-        final FileItem multi0 = fileItems.get(2);
-        assertEquals("multi", multi0.getFieldName());
-        assertTrue(multi0.isFormField());
-        assertEquals("value1", multi0.getString());
-
-        final FileItem multi1 = fileItems.get(3);
-        assertEquals("multi", multi1.getFieldName());
-        assertTrue(multi1.isFormField());
-        assertEquals("value2", multi1.getString());
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(4, fileItems.size());
+            final FileItem file = fileItems.get(0);
+            assertEquals("file", file.getFieldName());
+            assertFalse(file.isFormField());
+            assertEquals("This is the content of the file\n", file.getString());
+            assertEquals("text/whatever", file.getContentType());
+            assertEquals("foo.tab", file.getName());
+            final FileItem field = fileItems.get(1);
+            assertEquals("field", field.getFieldName());
+            assertTrue(field.isFormField());
+            assertEquals("fieldValue", field.getString());
+            final FileItem multi0 = fileItems.get(2);
+            assertEquals("multi", multi0.getFieldName());
+            assertTrue(multi0.isFormField());
+            assertEquals("value1", multi0.getString());
+            final FileItem multi1 = fileItems.get(3);
+            assertEquals("multi", multi1.getFieldName());
+            assertTrue(multi1.isFormField());
+            assertEquals("value2", multi1.getString());
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
     /**
@@ -239,20 +248,19 @@ public class FileUploadTest {
                                                "\r\n" +
                                                "value2\r\n" +
                                                "-----1234--\r\n");
-        assertEquals(4, fileItems.size());
-
-        final FileItem file = fileItems.get(0);
-        assertHeaders(headerNames, headerValues, file, 0);
-
-        final FileItem field = fileItems.get(1);
-        assertHeaders(headerNames, headerValues, field, 1);
-
-        final FileItem multi0 = fileItems.get(2);
-        assertHeaders(headerNames, headerValues, multi0, 2);
-
-        final FileItem multi1 = fileItems.get(3);
-        assertHeaders(headerNames, headerValues, multi1, 3);
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(4, fileItems.size());
+            final FileItem file = fileItems.get(0);
+            assertHeaders(headerNames, headerValues, file, 0);
+            final FileItem field = fileItems.get(1);
+            assertHeaders(headerNames, headerValues, field, 1);
+            final FileItem multi0 = fileItems.get(2);
+            assertHeaders(headerNames, headerValues, multi0, 2);
+            final FileItem multi1 = fileItems.get(3);
+            assertHeaders(headerNames, headerValues, multi1, 3);
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
     /**
@@ -284,20 +292,23 @@ public class FileUploadTest {
             "--BbC04y--\r\n" +
             "--AaB03x--";
         final List<FileItem> fileItems = Util.parseUpload(upload, request.getBytes("US-ASCII"), contentType);
-        assertEquals(3, fileItems.size());
-        final FileItem item0 = fileItems.get(0);
-        assertEquals("field1", item0.getFieldName());
-        assertNull(item0.getName());
-        assertEquals("Joe Blow", new String(item0.get()));
-        final FileItem item1 = fileItems.get(1);
-        assertEquals("pics", item1.getFieldName());
-        assertEquals("file1.txt", item1.getName());
-        assertEquals("... contents of file1.txt ...", new String(item1.get()));
-        final FileItem item2 = fileItems.get(2);
-        assertEquals("pics", item2.getFieldName());
-        assertEquals("file2.gif", item2.getName());
-        assertEquals("...contents of file2.gif...", new String(item2.get()));
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(3, fileItems.size());
+            final FileItem item0 = fileItems.get(0);
+            assertEquals("field1", item0.getFieldName());
+            assertNull(item0.getName());
+            assertEquals("Joe Blow", new String(item0.get()));
+            final FileItem item1 = fileItems.get(1);
+            assertEquals("pics", item1.getFieldName());
+            assertEquals("file1.txt", item1.getName());
+            assertEquals("... contents of file1.txt ...", new String(item1.get()));
+            final FileItem item2 = fileItems.get(2);
+            assertEquals("pics", item2.getFieldName());
+            assertEquals("file2.gif", item2.getName());
+            assertEquals("...contents of file2.gif...", new String(item2.get()));
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
     /**
@@ -327,30 +338,29 @@ public class FileUploadTest {
                 "\r\n" +
                 "value2\r\n" +
                 "-----1234--\r\n");
-        assertEquals(4, fileItems.size());
-
-        final FileItem file = fileItems.get(0);
-        assertEquals("file", file.getFieldName());
-        assertFalse(file.isFormField());
-        assertEquals("This is the content of the file\n", file.getString());
-        assertEquals("text/whatever", file.getContentType());
-        assertEquals("foo.tab", file.getName());
-
-        final FileItem field = fileItems.get(1);
-        assertEquals("field", field.getFieldName());
-        assertTrue(field.isFormField());
-        assertEquals("fieldValue", field.getString());
-
-        final FileItem multi0 = fileItems.get(2);
-        assertEquals("multi", multi0.getFieldName());
-        assertTrue(multi0.isFormField());
-        assertEquals("value1", multi0.getString());
-
-        final FileItem multi1 = fileItems.get(3);
-        assertEquals("multi", multi1.getFieldName());
-        assertTrue(multi1.isFormField());
-        assertEquals("value2", multi1.getString());
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(4, fileItems.size());
+            final FileItem file = fileItems.get(0);
+            assertEquals("file", file.getFieldName());
+            assertFalse(file.isFormField());
+            assertEquals("This is the content of the file\n", file.getString());
+            assertEquals("text/whatever", file.getContentType());
+            assertEquals("foo.tab", file.getName());
+            final FileItem field = fileItems.get(1);
+            assertEquals("field", field.getFieldName());
+            assertTrue(field.isFormField());
+            assertEquals("fieldValue", field.getString());
+            final FileItem multi0 = fileItems.get(2);
+            assertEquals("multi", multi0.getFieldName());
+            assertTrue(multi0.isFormField());
+            assertEquals("value1", multi0.getString());
+            final FileItem multi1 = fileItems.get(3);
+            assertEquals("multi", multi1.getFieldName());
+            assertTrue(multi1.isFormField());
+            assertEquals("value2", multi1.getString());
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
     /**
@@ -379,29 +389,27 @@ public class FileUploadTest {
                                                "\r\n" +
                                                "fieldValue2\r\n" +
                                                "-----1234--\r\n");
-
-        assertEquals(4, fileItems.size());
-
-        final FileItem field1 = fileItems.get(0);
-        assertEquals("field1", field1.getFieldName());
-        assertTrue(field1.isFormField());
-        assertEquals("fieldValue", field1.getString());
-
-        final FileItem submitX = fileItems.get(1);
-        assertEquals("submitName.x", submitX.getFieldName());
-        assertTrue(submitX.isFormField());
-        assertEquals("42", submitX.getString());
-
-        final FileItem submitY = fileItems.get(2);
-        assertEquals("submitName.y", submitY.getFieldName());
-        assertTrue(submitY.isFormField());
-        assertEquals("21", submitY.getString());
-
-        final FileItem field2 = fileItems.get(3);
-        assertEquals("field2", field2.getFieldName());
-        assertTrue(field2.isFormField());
-        assertEquals("fieldValue2", field2.getString());
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(4, fileItems.size());
+            final FileItem field1 = fileItems.get(0);
+            assertEquals("field1", field1.getFieldName());
+            assertTrue(field1.isFormField());
+            assertEquals("fieldValue", field1.getString());
+            final FileItem submitX = fileItems.get(1);
+            assertEquals("submitName.x", submitX.getFieldName());
+            assertTrue(submitX.isFormField());
+            assertEquals("42", submitX.getString());
+            final FileItem submitY = fileItems.get(2);
+            assertEquals("submitName.y", submitY.getFieldName());
+            assertTrue(submitY.isFormField());
+            assertEquals("21", submitY.getString());
+            final FileItem field2 = fileItems.get(3);
+            assertEquals("field2", field2.getFieldName());
+            assertTrue(field2.isFormField());
+            assertEquals("fieldValue2", field2.getString());
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
     /**
@@ -469,20 +477,21 @@ public class FileUploadTest {
         final List<FileItem> fileItems = Util.parseUpload(upload, content.getBytes(StandardCharsets.US_ASCII),
                 "multipart/related; boundary=---1234;" +
                     " type=\"application/xop+xml\"; start-info=\"application/soap+xml\"");
-        assertEquals(2, fileItems.size());
-
-        final FileItem part1 = fileItems.get(0);
-        assertNull(part1.getFieldName());
-        assertFalse(part1.isFormField());
-        assertEquals(soapEnvelope, part1.getString());
-
-        final FileItem part2 = fileItems.get(1);
-        assertNull(part2.getFieldName());
-        assertFalse(part2.isFormField());
-        assertEquals("some text/plain content", part2.getString());
-        assertEquals("text/plain", part2.getContentType());
-        assertNull(part2.getName());
-        Util.deleteFileItems(fileItems);
+        try {
+            assertEquals(2, fileItems.size());
+            final FileItem part1 = fileItems.get(0);
+            assertNull(part1.getFieldName());
+            assertFalse(part1.isFormField());
+            assertEquals(soapEnvelope, part1.getString());
+            final FileItem part2 = fileItems.get(1);
+            assertNull(part2.getFieldName());
+            assertFalse(part2.isFormField());
+            assertEquals("some text/plain content", part2.getString());
+            assertEquals("text/plain", part2.getContentType());
+            assertNull(part2.getName());
+        } finally {
+            Util.deleteFileItems(fileItems);
+        }
     }
 
 

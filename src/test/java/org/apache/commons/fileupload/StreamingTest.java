@@ -157,19 +157,21 @@ public class StreamingTest {
         final ByteArrayInputStream bais = new ByteArrayInputStream(request);
         try (InputStream inputStream = newInputStream(bais)) {
             final List<FileItem> fileItems = parseUpload(inputStream, request.length);
-            final Iterator<FileItem> fileIter = fileItems.iterator();
-            assertTrue(fileIter.hasNext());
-            final FileItem item = fileIter.next();
-            assertEquals("field", item.getFieldName());
-            final byte[] bytes = item.get();
-            assertEquals(3, bytes.length);
-            assertEquals((byte) '1', bytes[0]);
-            assertEquals((byte) '2', bytes[1]);
-            assertEquals((byte) '3', bytes[2]);
-            assertTrue(!fileIter.hasNext());
-            Util.deleteFileItems(fileItems);
+            try {
+                final Iterator<FileItem> fileIter = fileItems.iterator();
+                assertTrue(fileIter.hasNext());
+                final FileItem item = fileIter.next();
+                assertEquals("field", item.getFieldName());
+                final byte[] bytes = item.get();
+                assertEquals(3, bytes.length);
+                assertEquals((byte) '1', bytes[0]);
+                assertEquals((byte) '2', bytes[1]);
+                assertEquals((byte) '3', bytes[2]);
+                assertTrue(!fileIter.hasNext());
+            } finally {
+                Util.deleteFileItems(fileItems);
+            }
         }
-        
     }
 
     /**
