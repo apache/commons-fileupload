@@ -33,7 +33,7 @@ import org.apache.commons.io.FileCleaningTracker;
  * If not otherwise configured, the default configuration values are as follows:
  * </p>
  * <ul>
- * <li>Size threshold is 10KB.</li>
+ * <li>Size threshold is 10 KiB.</li>
  * <li>Repository is the system default temp directory, as returned by {@code System.getProperty("java.io.tmpdir")}.</li>
  * </ul>
  * <p>
@@ -56,7 +56,7 @@ import org.apache.commons.io.FileCleaningTracker;
 public class DiskFileItemFactory implements FileItemFactory {
 
     /**
-     * The default threshold above which uploads will be stored on disk.
+     * The default threshold above which uploads will be stored on disk: {@value}.
      */
     public static final int DEFAULT_SIZE_THRESHOLD = 10_240;
 
@@ -91,6 +91,9 @@ public class DiskFileItemFactory implements FileItemFactory {
      * The resulting factory may be configured by calling the appropriate setter methods. The default data repository, which is the directory in which files
      * will be created, should the item size exceed the threshold is set from the system default temporary directory in the system property
      * {@code java.io.tmpdir} is used.
+     * </p>
+     * <p>
+     * The default size threshold is {@link #DEFAULT_SIZE_THRESHOLD} KiB.
      * </p>
      */
     public DiskFileItemFactory() {
@@ -158,9 +161,9 @@ public class DiskFileItemFactory implements FileItemFactory {
     }
 
     /**
-     * Gets the size threshold beyond which files are written directly to disk. The default value is 10240 bytes.
+     * Gets the size in bytes threshold beyond which files are written directly to disk. The default value is {@link #DEFAULT_SIZE_THRESHOLD} bytes.
      *
-     * @return The size threshold, in bytes.
+     * @return The size threshold in bytes.
      * @see #setSizeThreshold(int)
      */
     public int getSizeThreshold() {
