@@ -43,7 +43,8 @@ public class DefaultFileItem extends DiskFileItem {
      * @param isFormField   Whether or not this item is a plain form field, as opposed to a file upload.
      * @param fileName      The original file name in the user's file system, or {@code null} if not specified.
      * @param sizeThreshold The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
-     * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
+     * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold. If
+     *                      {@code null}, the system default temporary directory in the system property {@code java.io.tmpdir} is used.
      * @deprecated 1.1 Use {@code DiskFileItem} instead.
      */
     @Deprecated

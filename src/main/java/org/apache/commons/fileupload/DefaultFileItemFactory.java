@@ -55,13 +55,9 @@ public class DefaultFileItemFactory extends DiskFileItemFactory {
     /**
      * Constructs a preconfigured instance of this class.
      *
-     * @param sizeThreshold The threshold, in bytes, below which items will be
-     *                      retained in memory and above which they will be
-     *                      stored as a file.
-     * @param repository    The data repository, which is the directory in
-     *                      which files will be created, should the item size
-     *                      exceed the threshold.
-     *
+     * @param sizeThreshold The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
+     * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold. If
+     *                      {@code null}, the system default temporary directory in the system property {@code java.io.tmpdir} is used.
      * @deprecated 1.1 Use {@code DiskFileItemFactory} instead.
      */
     @Deprecated

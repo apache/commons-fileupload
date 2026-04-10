@@ -86,17 +86,23 @@ public class DiskFileItemFactory implements FileItemFactory {
     private String defaultCharset = DiskFileItem.DEFAULT_CHARSET;
 
     /**
-     * Constructs an unconfigured instance of this class. The resulting factory may be configured by calling the appropriate setter methods.
+     * Constructs a new instance.
+     * <p>
+     * The resulting factory may be configured by calling the appropriate setter methods. The default data repository, which is the directory in which files
+     * will be created, should the item size exceed the threshold is set from the system default temporary directory in the system property
+     * {@code java.io.tmpdir} is used.
+     * </p>
      */
     public DiskFileItemFactory() {
         this(DEFAULT_SIZE_THRESHOLD, null);
     }
 
     /**
-     * Constructs a preconfigured instance of this class.
+     * Constructs a new instance.
      *
      * @param sizeThreshold The threshold, in bytes, below which items will be retained in memory and above which they will be stored as a file.
-     * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold.
+     * @param repository    The data repository, which is the directory in which files will be created, should the item size exceed the threshold. If
+     *                      {@code null}, the system default temporary directory in the system property {@code java.io.tmpdir} is used.
      */
     public DiskFileItemFactory(final int sizeThreshold, final File repository) {
         this.sizeThreshold = sizeThreshold;
