@@ -50,6 +50,11 @@ import org.apache.commons.io.FileCleaningTracker;
  * the so-called reaper thread, which is started and stopped automatically by the {@link FileCleaningTracker} when there are files to be tracked. It might make
  * sense to terminate that thread, for example, if your web application ends. See the section on "Resource cleanup" in the users guide of commons-fileupload.
  * </p>
+ * <p>
+ * Although the underlying storage will be deleted automatically when the {@code FileItem} instance is garbage collected, you shouldn't rely on this behavior
+ * because it is deprecated in Java 18 with <a href="https://openjdk.org/jeps/421">JEP 421: Deprecate Finalization for Removal</a>.
+ * Use {@link FileItem#delete()} to ensure that the underlying storage is deleted.
+ * </p>
  *
  * @since FileUpload 1.1
  */
