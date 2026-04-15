@@ -550,13 +550,13 @@ public class DiskFileItem implements FileItem {
             final File outputFile = getStoreLocation();
             if (outputFile == null) {
                 // For whatever reason we cannot write the file to disk.
-                throw new FileUploadException("Cannot write uploaded file to disk!");
+                throw new FileUploadException("Cannot write uploaded file to disk.");
             }
             // Save the length of the file
             size = outputFile.length();
             // The uploaded file is being stored on disk in a temporary location so move it to the desired file.
             if (file.exists() && !file.delete()) {
-                throw new FileUploadException("Cannot write uploaded file to disk!");
+                throw new FileUploadException("Cannot write uploaded file to disk.");
             }
             FileUtils.moveFile(outputFile, file);
         }
