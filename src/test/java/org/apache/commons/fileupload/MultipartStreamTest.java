@@ -31,7 +31,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests {@link org.apache.commons.fileupload.MultipartStream}.
+ * Tests {@link MultipartStream}.
  */
 public class MultipartStreamTest {
 
