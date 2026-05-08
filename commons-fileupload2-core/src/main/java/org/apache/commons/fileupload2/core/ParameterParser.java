@@ -156,7 +156,6 @@ public class ParameterParser {
      * @return a map of name/value pairs
      */
     public Map<String, String> parse(final char[] charArray, final int offset, final int length, final char separator) {
-
         if (charArray == null) {
             return new HashMap<>();
         }
