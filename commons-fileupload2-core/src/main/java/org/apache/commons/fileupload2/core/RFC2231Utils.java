@@ -48,11 +48,25 @@ final class RFC2231Utils {
     private static final int MASK_128 = 0x80;
 
     /**
+     * ASCII DEL character.
+     */
+    private static final int DEL = 127;
+
+    /**
+     * Number of ASCII code points.
+     */
+    private static final int ASCII_CODE_POINT_COUNT = 128;
+
+    /**
      * The Hexadecimal decode value.
      */
     private static final byte[] HEX_DECODE = new byte[MASK_128];
 
-    private static final boolean[] ATTR_CHAR = new boolean[128];
+    /**
+     * Flags, one for each ASCII code point, that indicate if that code point is valid for use in an RFC 5987 extended
+     * attribute value.
+     */
+    private static final boolean[] ATTR_CHAR = new boolean[ASCII_CODE_POINT_COUNT];
 
     // create a ASCII decoded array of Hexadecimal values
     static {
@@ -61,10 +75,11 @@ final class RFC2231Utils {
             HEX_DECODE[Character.toLowerCase(HEX_DIGITS[i])] = (byte) i;
         }
 
-        for (var i = 0; i < 128; i++) {
-            if (i < 32 || i == ' ' || i == '\"' || i == '%' || i == '\'' || i == '(' || i == ')' || i == '*' ||
-                    i == ',' || i == '/' || i == ':' || i == ';' || i == '<' || i == '=' || i == '>' || i == '?' ||
-                    i == '@' || i == '[' || i == '\\' || i == ']' || i == '{' || i == '}' || i == 127) {
+        for (var i = 0; i < ASCII_CODE_POINT_COUNT; i++) {
+            // See RFC 5987
+            if (i < ' ' || i == ' ' || i == '\"' || i == '%' || i == '\'' || i == '(' || i == ')' || i == '*' || i == ','
+                    || i == '/' || i == ':' || i == ';' || i == '<' || i == '=' || i == '>' || i == '?' || i == '@'
+                    || i == '[' || i == '\\' || i == ']' || i == '{' || i == '}' || i == DEL) {
                 // Not valid attr-char
                 ATTR_CHAR[i] = false;
             } else {
@@ -74,11 +89,11 @@ final class RFC2231Utils {
     }
 
 
-    static boolean isAttrChar(char c) {
+    static boolean isAttrChar(final char c) {
         // Fast for valid values. Slow for some invalid ones.
         try {
             return ATTR_CHAR[c];
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (final ArrayIndexOutOfBoundsException e) {
             return false;
         }
     }
