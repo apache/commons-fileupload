@@ -52,13 +52,37 @@ final class RFC2231Utils {
      */
     private static final byte[] HEX_DECODE = new byte[MASK_128];
 
+    private static final boolean[] ATTR_CHAR = new boolean[128];
+
     // create a ASCII decoded array of Hexadecimal values
     static {
         for (var i = 0; i < HEX_DIGITS.length; i++) {
             HEX_DECODE[HEX_DIGITS[i]] = (byte) i;
             HEX_DECODE[Character.toLowerCase(HEX_DIGITS[i])] = (byte) i;
         }
+
+        for (var i = 0; i < 128; i++) {
+            if (i < 32 || i == ' ' || i == '\"' || i == '%' || i == '\'' || i == '(' || i == ')' || i == '*' ||
+                    i == ',' || i == '/' || i == ':' || i == ';' || i == '<' || i == '=' || i == '>' || i == '?' ||
+                    i == '@' || i == '[' || i == '\\' || i == ']' || i == '{' || i == '}' || i == 127) {
+                // Not valid attr-char
+                ATTR_CHAR[i] = false;
+            } else {
+                ATTR_CHAR[i] = true;
+            }
+        }
     }
+
+
+    static boolean isAttrChar(char c) {
+        // Fast for valid values. Slow for some invalid ones.
+        try {
+            return ATTR_CHAR[c];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
+        }
+    }
+
 
     /**
      * Decodes a string of text obtained from a HTTP header as per RFC 2231
@@ -71,9 +95,10 @@ final class RFC2231Utils {
      *
      * @param encodedText   Text to be decoded has a format of {@code <charset>'<language>'<encoded_value>} and ASCII only
      * @return Decoded text based on charset encoding
+     * @throws IllegalArgumentException The encoded text contained characters not permitted by RFC 2231
      * @throws UnsupportedEncodingException The requested character set wasn't found.
      */
-    static String decodeText(final String encodedText) throws UnsupportedEncodingException {
+    static String decodeText(final String encodedText) throws IllegalArgumentException, UnsupportedEncodingException {
         final var langDelimitStart = encodedText.indexOf('\'');
         if (langDelimitStart == -1) {
             // missing charset
@@ -88,6 +113,7 @@ final class RFC2231Utils {
         final var bytes = fromHex(encodedText.substring(langDelimitEnd + 1));
         return new String(bytes, getJavaCharset(mimeCharset));
     }
+
 
     /**
      * Converts {@code text} to their corresponding Hex value.
@@ -107,8 +133,10 @@ final class RFC2231Utils {
                 final var b1 = HEX_DECODE[text.charAt(i++) & MASK];
                 final var b2 = HEX_DECODE[text.charAt(i++) & MASK];
                 out.write(b1 << shift | b2);
-            } else {
+            } else if (isAttrChar(c)) {
                 out.write((byte) c);
+            } else {
+                throw new IllegalArgumentException();
             }
         }
         return out.toByteArray();

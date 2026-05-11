@@ -82,4 +82,17 @@ public final class RFC2231UtilityTestCase {
         final var nameWithoutAsterisk = "paramname";
         assertEquals("paramname", RFC2231Utils.stripDelimiter(nameWithoutAsterisk));
     }
+
+
+    @Test
+    void testDecodeNonTokenChracters() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''Not*allowed"));
+    }
+
+
+    @Test
+    void testDecodeUTF8Chracters() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("UTF-8''\\u8a2e"));
+    }
+
 }

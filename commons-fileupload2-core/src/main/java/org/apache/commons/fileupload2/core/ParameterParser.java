@@ -176,6 +176,9 @@ public class ParameterParser {
                 if (paramValue != null) {
                     try {
                         paramValue = RFC2231Utils.hasEncodedValue(paramName) ? RFC2231Utils.decodeText(paramValue) : MimeUtils.decodeText(paramValue);
+                    } catch (final IllegalArgumentException iae) {
+                        // Treat invalid values as if they were not provided
+                        paramValue = null;
                     } catch (final UnsupportedEncodingException ignored) {
                         // let's keep the original value in this case
                     }
