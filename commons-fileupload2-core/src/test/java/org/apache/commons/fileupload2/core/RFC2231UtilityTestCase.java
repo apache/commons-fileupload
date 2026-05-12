@@ -85,14 +85,19 @@ public final class RFC2231UtilityTestCase {
 
 
     @Test
-    void testDecodeNonTokenChracters() throws Exception {
+    void testDecodeNonTokenCharacters() throws Exception {
         assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''Not*allowed"));
     }
 
 
     @Test
-    void testDecodeUTF8Chracters() throws Exception {
+    void testDecodeUTF8Characters() throws Exception {
         assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("UTF-8''\\u8a2e"));
     }
 
+
+    @Test
+    void testDecodeInvalidHex() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%HHworld"));
+    }
 }

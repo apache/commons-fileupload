@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- FIX -->
       <action                        type="fix" dev="ggregory" due-to="Henri Biestro, Gary Gregory">Fix migration documentation to mention Java 11.</action>
       <action issue="FILEUPLOAD-362" type="fix" dev="ggregory" due-to="Kusal Kithul-Godage, Gary Gregory">Unable to parse requests for file uploads with special characters in filename on Windows.</action>
-      <action                        type="fix" dev="markt"    due-to="Mark Thomas">Implement stricter checks for fields using RFC 2231 / RFC 5987 and ignore values where invalid characters appear in the extended value.</action>
+      <action                        type="fix" dev="markt"    due-to="Mark Thomas">Implement stricter checks for fields using RFC 2231 / RFC 5987. Invalid extended values will be ignored.</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 96 to 99.</action>

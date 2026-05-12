@@ -43,11 +43,6 @@ final class RFC2231Utils {
     private static final byte MASK = 0x7f;
 
     /**
-     * The Hexadecimal representation of 128.
-     */
-    private static final int MASK_128 = 0x80;
-
-    /**
      * ASCII DEL character.
      */
     private static final int DEL = 127;
@@ -60,7 +55,7 @@ final class RFC2231Utils {
     /**
      * The Hexadecimal decode value.
      */
-    private static final byte[] HEX_DECODE = new byte[MASK_128];
+    private static final byte[] HEX_DECODE = new byte[ASCII_CODE_POINT_COUNT];
 
     /**
      * Flags, one for each ASCII code point, that indicate if that code point is valid for use in an RFC 5987 extended
@@ -70,6 +65,11 @@ final class RFC2231Utils {
 
     // create a ASCII decoded array of Hexadecimal values
     static {
+        // Initialise all values to invalid
+        for (var i = 0; i < ASCII_CODE_POINT_COUNT; i++) {
+            HEX_DECODE[i] = -1;
+        }
+        // Configure the valid hex digits
         for (var i = 0; i < HEX_DIGITS.length; i++) {
             HEX_DECODE[HEX_DIGITS[i]] = (byte) i;
             HEX_DECODE[Character.toLowerCase(HEX_DIGITS[i])] = (byte) i;
@@ -77,12 +77,9 @@ final class RFC2231Utils {
 
         for (var i = 0; i < ASCII_CODE_POINT_COUNT; i++) {
             // See RFC 5987
-            if (i < ' ' || i == ' ' || i == '\"' || i == '%' || i == '\'' || i == '(' || i == ')' || i == '*' || i == ','
+            if (!(i < ' ' || i == ' ' || i == '\"' || i == '%' || i == '\'' || i == '(' || i == ')' || i == '*' || i == ','
                     || i == '/' || i == ':' || i == ';' || i == '<' || i == '=' || i == '>' || i == '?' || i == '@'
-                    || i == '[' || i == '\\' || i == ']' || i == '{' || i == '}' || i == DEL) {
-                // Not valid attr-char
-                ATTR_CHAR[i] = false;
-            } else {
+                    || i == '[' || i == '\\' || i == ']' || i == '{' || i == '}' || i == DEL)) {
                 ATTR_CHAR[i] = true;
             }
         }
@@ -90,12 +87,7 @@ final class RFC2231Utils {
 
 
     static boolean isAttrChar(final char c) {
-        // Fast for valid values. Slow for some invalid ones.
-        try {
-            return ATTR_CHAR[c];
-        } catch (final ArrayIndexOutOfBoundsException e) {
-            return false;
-        }
+        return c < ASCII_CODE_POINT_COUNT && ATTR_CHAR[c];
     }
 
 
@@ -147,6 +139,9 @@ final class RFC2231Utils {
                 }
                 final var b1 = HEX_DECODE[text.charAt(i++) & MASK];
                 final var b2 = HEX_DECODE[text.charAt(i++) & MASK];
+                if (b1 < 0 || b2 < 0) {
+                    throw new IllegalArgumentException();
+                }
                 out.write(b1 << shift | b2);
             } else if (isAttrChar(c)) {
                 out.write((byte) c);
