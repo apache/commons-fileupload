@@ -43,22 +43,53 @@ final class RFC2231Utils {
     private static final byte MASK = 0x7f;
 
     /**
-     * The Hexadecimal representation of 128.
+     * ASCII DEL character.
      */
-    private static final int MASK_128 = 0x80;
+    private static final int DEL = 127;
+
+    /**
+     * Number of ASCII code points.
+     */
+    private static final int ASCII_CODE_POINT_COUNT = 128;
 
     /**
      * The Hexadecimal decode value.
      */
-    private static final byte[] HEX_DECODE = new byte[MASK_128];
+    private static final byte[] HEX_DECODE = new byte[ASCII_CODE_POINT_COUNT];
+
+    /**
+     * Flags, one for each ASCII code point, that indicate if that code point is valid for use in an RFC 5987 extended
+     * attribute value.
+     */
+    private static final boolean[] ATTR_CHAR = new boolean[ASCII_CODE_POINT_COUNT];
 
     // create a ASCII decoded array of Hexadecimal values
     static {
+        // Initialise all values to invalid
+        for (var i = 0; i < ASCII_CODE_POINT_COUNT; i++) {
+            HEX_DECODE[i] = -1;
+        }
+        // Configure the valid hex digits
         for (var i = 0; i < HEX_DIGITS.length; i++) {
             HEX_DECODE[HEX_DIGITS[i]] = (byte) i;
             HEX_DECODE[Character.toLowerCase(HEX_DIGITS[i])] = (byte) i;
         }
+
+        for (var i = 0; i < ASCII_CODE_POINT_COUNT; i++) {
+            // See RFC 5987
+            if (!(i < ' ' || i == ' ' || i == '\"' || i == '%' || i == '\'' || i == '(' || i == ')' || i == '*' || i == ','
+                    || i == '/' || i == ':' || i == ';' || i == '<' || i == '=' || i == '>' || i == '?' || i == '@'
+                    || i == '[' || i == '\\' || i == ']' || i == '{' || i == '}' || i == DEL)) {
+                ATTR_CHAR[i] = true;
+            }
+        }
     }
+
+
+    static boolean isAttrChar(final char c) {
+        return c < ASCII_CODE_POINT_COUNT && ATTR_CHAR[c];
+    }
+
 
     /**
      * Decodes a string of text obtained from a HTTP header as per RFC 2231
@@ -71,9 +102,10 @@ final class RFC2231Utils {
      *
      * @param encodedText   Text to be decoded has a format of {@code <charset>'<language>'<encoded_value>} and ASCII only
      * @return Decoded text based on charset encoding
+     * @throws IllegalArgumentException The encoded text contained characters not permitted by RFC 2231
      * @throws UnsupportedEncodingException The requested character set wasn't found.
      */
-    static String decodeText(final String encodedText) throws UnsupportedEncodingException {
+    static String decodeText(final String encodedText) throws IllegalArgumentException, UnsupportedEncodingException {
         final var langDelimitStart = encodedText.indexOf('\'');
         if (langDelimitStart == -1) {
             // missing charset
@@ -88,6 +120,7 @@ final class RFC2231Utils {
         final var bytes = fromHex(encodedText.substring(langDelimitEnd + 1));
         return new String(bytes, getJavaCharset(mimeCharset));
     }
+
 
     /**
      * Converts {@code text} to their corresponding Hex value.
@@ -106,9 +139,14 @@ final class RFC2231Utils {
                 }
                 final var b1 = HEX_DECODE[text.charAt(i++) & MASK];
                 final var b2 = HEX_DECODE[text.charAt(i++) & MASK];
+                if (b1 < 0 || b2 < 0) {
+                    throw new IllegalArgumentException();
+                }
                 out.write(b1 << shift | b2);
-            } else {
+            } else if (isAttrChar(c)) {
                 out.write((byte) c);
+            } else {
+                throw new IllegalArgumentException();
             }
         }
         return out.toByteArray();
