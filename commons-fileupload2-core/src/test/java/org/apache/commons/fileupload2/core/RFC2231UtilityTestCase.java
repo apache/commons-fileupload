@@ -100,4 +100,9 @@ public final class RFC2231UtilityTestCase {
     void testDecodeInvalidHex() throws Exception {
         assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%HHworld"));
     }
+    
+    @Test
+    void testDecodeInvalidPercentEncoded() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%3\u8a35"));
+    }
 }
