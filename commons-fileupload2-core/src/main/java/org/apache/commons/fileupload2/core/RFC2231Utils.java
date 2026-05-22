@@ -140,7 +140,7 @@ final class RFC2231Utils {
                 final var c1 = text.charAt(i++);
                 final var c2 = text.charAt(i++);
                 if (c1 >= ASCII_CODE_POINT_COUNT || c2 >= ASCII_CODE_POINT_COUNT) {
-                    // throw new IllegalArgumentException();
+                     throw new IllegalArgumentException();
                 }
                 final var b1 = HEX_DECODE[c1 & MASK];
                 final var b2 = HEX_DECODE[c2 & MASK];
