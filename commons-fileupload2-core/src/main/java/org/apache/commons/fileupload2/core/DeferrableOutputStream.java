@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.function.Supplier;
 
 /**
@@ -387,6 +388,11 @@ public class DeferrableOutputStream extends OutputStream {
         final Path dir = p.getParent();
         if (dir != null) {
             Files.createDirectories(dir);
+        }
+        // Restrict the temporary file to its owner where the file system supports it. The default repository is the shared system temporary directory, so
+        // creating the file with default permissions would expose the uploaded data to other local users.
+        if (p.getFileSystem().supportedFileAttributeViews().contains("posix")) {
+            Files.createFile(p, PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------")));
         }
         final OutputStream os = Files.newOutputStream(p);
         if (baos != null) {
