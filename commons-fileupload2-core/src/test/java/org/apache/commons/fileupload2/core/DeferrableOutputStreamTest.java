@@ -260,4 +260,19 @@ class DeferrableOutputStreamTest {
 		assertTrue(Files.isRegularFile(target));
 		assertEquals("rw-------", PosixFilePermissions.toString(Files.getPosixFilePermissions(target)));
 	}
+
+	/**
+	 * Tests that persisting over an already existing path truncates and overwrites it, matching the prior
+	 * {@link Files#newOutputStream} behavior. Guards against a regression if {@code TRUNCATE_EXISTING} is dropped.
+	 */
+	@Test
+	void testPersistedFileOverwritesExisting() throws IOException {
+		final Path target = tempTestDir.resolve("overwrite.bin");
+		Files.write(target, "stale-and-longer".getBytes(StandardCharsets.UTF_8));
+		try (final DeferrableOutputStream dos = new DeferrableOutputStream(-1, () -> target, null)) {
+			dos.write("new".getBytes(StandardCharsets.UTF_8));
+		}
+		assertTrue(Files.isRegularFile(target));
+		assertArrayEquals("new".getBytes(StandardCharsets.UTF_8), Files.readAllBytes(target));
+	}
 }

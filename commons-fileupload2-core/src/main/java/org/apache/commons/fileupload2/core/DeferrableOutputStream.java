@@ -394,13 +394,13 @@ public class DeferrableOutputStream extends OutputStream {
         }
         // Restrict the temporary file to its owner where the file system supports it. The default repository is the shared system temporary directory, so
         // creating the file with default permissions would expose the uploaded data to other local users.
+        final EnumSet<StandardOpenOption> options = EnumSet.of(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
         final OutputStream os;
         if (p.getFileSystem().supportedFileAttributeViews().contains("posix")) {
-            os = Channels.newOutputStream(Files.newByteChannel(p,
-                    EnumSet.of(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE),
+            os = Channels.newOutputStream(Files.newByteChannel(p, options,
                     PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------"))));
         } else {
-            os = Files.newOutputStream(p);
+            os = Channels.newOutputStream(Files.newByteChannel(p, options));
         }
         if (baos != null) {
             baos.writeTo(os);
