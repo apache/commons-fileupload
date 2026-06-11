@@ -48,7 +48,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        type="fix" dev="markt"    due-to="Mark Thomas">Implement stricter checks for fields using RFC 2231 / RFC 5987. Invalid extended values will be ignored.</action>
       <!-- ADD -->
       <!-- UPDATE -->
-      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 96 to 101.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 96 to 102.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io:commons-io from 2.21.0 to 2.22.0.</action>
     </release>
     <release version="2.0.0-M5" date="2026-02-08" description="This is a milestone release. Java 11 or later is required.">
