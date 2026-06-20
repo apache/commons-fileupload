@@ -59,6 +59,29 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
+    void testDecodeInvalidHex() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utility.decodeText("ISO-8859-1''hello%HHworld"));
+    }
+
+    @Test
+    void testDecodeInvalidPercentEncoded() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utility.decodeText("ISO-8859-1''hello%3\u8a35"));
+    }
+
+
+    @Test
+    void testDecodeNonTokenCharacters() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utility.decodeText("ISO-8859-1''Not*allowed"));
+    }
+
+
+    @Test
+    void testDecodeUTF8Characters() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utility.decodeText("UTF-8''\\u8a2e"));
+    }
+
+
+    @Test
     public void testHasEncodedValue() {
         final String nameWithAsteriskAtEnd = "paramname*";
         assertTrue(RFC2231Utility.hasEncodedValue(nameWithAsteriskAtEnd));
@@ -83,23 +106,5 @@ public final class RFC2231UtilityTestCase {
 
         final String nameWithoutAsterisk = "paramname";
         assertEquals("paramname", RFC2231Utility.stripDelimiter(nameWithoutAsterisk));
-    }
-
-
-    @Test
-    void testDecodeNonTokenCharacters() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> RFC2231Utility.decodeText("ISO-8859-1''Not*allowed"));
-    }
-
-
-    @Test
-    void testDecodeUTF8Characters() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> RFC2231Utility.decodeText("UTF-8''\\u8a2e"));
-    }
-
-
-    @Test
-    void testDecodeInvalidHex() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> RFC2231Utility.decodeText("ISO-8859-1''hello%HHworld"));
     }
 }
