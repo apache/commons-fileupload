@@ -137,8 +137,13 @@ final class RFC2231Utils {
                 if (i > text.length() - 2) {
                     break; // unterminated sequence
                 }
-                final var b1 = HEX_DECODE[text.charAt(i++) & MASK];
-                final var b2 = HEX_DECODE[text.charAt(i++) & MASK];
+                final var c1 = text.charAt(i++);
+                final var c2 = text.charAt(i++);
+                if (c1 >= ASCII_CODE_POINT_COUNT || c2 >= ASCII_CODE_POINT_COUNT) {
+                     throw new IllegalArgumentException();
+                }
+                final var b1 = HEX_DECODE[c1 & MASK];
+                final var b2 = HEX_DECODE[c2 & MASK];
                 if (b1 < 0 || b2 < 0) {
                     throw new IllegalArgumentException();
                 }
