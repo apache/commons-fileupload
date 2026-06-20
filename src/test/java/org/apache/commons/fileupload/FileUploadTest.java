@@ -52,8 +52,6 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class FileUploadTest {
 
-    private FileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-
     /**
      * @return {@link FileUpload} classes under test.
      */
@@ -62,6 +60,8 @@ public class FileUploadTest {
                 new ServletFileUpload(new DiskFileItemFactory()),
                 new PortletFileUpload(new DiskFileItemFactory()));
     }
+
+    private FileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
 
     private void assertHeaders(final String[] headerNames, final String[] headerValues, final FileItem item, final int index) {
         for (int i = 0; i < headerNames.length; i++) {
