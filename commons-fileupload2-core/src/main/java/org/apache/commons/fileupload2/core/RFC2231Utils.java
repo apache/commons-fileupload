@@ -86,11 +86,6 @@ final class RFC2231Utils {
     }
 
 
-    static boolean isAttrChar(final char c) {
-        return c < ASCII_CODE_POINT_COUNT && ATTR_CHAR[c];
-    }
-
-
     /**
      * Decodes a string of text obtained from a HTTP header as per RFC 2231
      *
@@ -157,6 +152,7 @@ final class RFC2231Utils {
         return out.toByteArray();
     }
 
+
     private static String getJavaCharset(final String mimeCharset) {
         // good enough for standard values
         return mimeCharset;
@@ -173,6 +169,10 @@ final class RFC2231Utils {
             return paramName.lastIndexOf('*') == paramName.length() - 1;
         }
         return false;
+    }
+
+    static boolean isAttrChar(final char c) {
+        return c < ASCII_CODE_POINT_COUNT && ATTR_CHAR[c];
     }
 
     /**

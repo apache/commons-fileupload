@@ -42,14 +42,36 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
+    void testDecodeInvalidHex() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%HHworld"));
+    }
+
+    @Test
+    void testDecodeInvalidPercentEncoded() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%3\u8a35"));
+    }
+
+    @Test
     void testDecodeIso88591() throws Exception {
         assertEncoded("\u00A3 rate", "iso-8859-1'en'%A3%20rate"); // "£ rate"
+    }
+
+    @Test
+    void testDecodeNonTokenCharacters() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''Not*allowed"));
     }
 
     @Test
     void testDecodeUtf8() throws Exception {
         assertEncoded("\u00a3 \u0061\u006e\u0064 \u20ac \u0072\u0061\u0074\u0065\u0073", "UTF-8''%c2%a3%20and%20%e2%82%ac%20rates"); // "£ and € rates"
     }
+
+
+    @Test
+    void testDecodeUTF8Characters() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("UTF-8''\\u8a2e"));
+    }
+
 
     @Test
     void testHasEncodedValue() {
@@ -63,11 +85,12 @@ public final class RFC2231UtilityTestCase {
         assertFalse(RFC2231Utils.hasEncodedValue(nameWithoutAsterisk));
     }
 
+
     @Test
     void testNoNeedToDecode() throws Exception {
         assertEncoded("abc", "abc");
     }
-
+    
     @Test
     void testStripDelimiter() {
         final var nameWithAsteriskAtEnd = "paramname*";
@@ -81,28 +104,5 @@ public final class RFC2231UtilityTestCase {
 
         final var nameWithoutAsterisk = "paramname";
         assertEquals("paramname", RFC2231Utils.stripDelimiter(nameWithoutAsterisk));
-    }
-
-
-    @Test
-    void testDecodeNonTokenCharacters() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''Not*allowed"));
-    }
-
-
-    @Test
-    void testDecodeUTF8Characters() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("UTF-8''\\u8a2e"));
-    }
-
-
-    @Test
-    void testDecodeInvalidHex() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%HHworld"));
-    }
-    
-    @Test
-    void testDecodeInvalidPercentEncoded() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%3\u8a35"));
     }
 }
