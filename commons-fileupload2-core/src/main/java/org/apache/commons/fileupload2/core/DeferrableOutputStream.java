@@ -397,18 +397,15 @@ public class DeferrableOutputStream extends OutputStream {
         final EnumSet<StandardOpenOption> options = EnumSet.of(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
         final OutputStream os;
         if (p.getFileSystem().supportedFileAttributeViews().contains("posix")) {
-            os = Channels.newOutputStream(Files.newByteChannel(p, options,
-                    PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------"))));
+            os = Channels.newOutputStream(Files.newByteChannel(p, options, PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------"))));
         } else {
             os = Channels.newOutputStream(Files.newByteChannel(p, options));
         }
         if (baos != null) {
             baos.writeTo(os);
         }
-
         /**
-         * At this point, the output file has been successfully created,
-         * and we can safely switch state.
+         * At this point, the output file has been successfully created, and we can safely switch state.
          */
         state = State.persisted;
         wasPersisted = true;
