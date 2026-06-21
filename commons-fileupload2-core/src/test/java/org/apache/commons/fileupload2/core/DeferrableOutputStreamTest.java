@@ -20,8 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,9 +31,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -239,5 +243,36 @@ class DeferrableOutputStreamTest {
 				throw new UncheckedIOException(ioe);
 			}
 		});
+	}
+
+	/**
+	 * Tests that the temporary file is created with owner-only permissions on POSIX file systems,
+	 * so that uploaded data in the shared system temporary directory is not readable by other users.
+	 */
+	@Test
+	void testPersistedFileIsOwnerOnlyOnPosix() throws IOException {
+		assumeTrue(FileSystems.getDefault().supportedFileAttributeViews().contains("posix"));
+		// Mirror production, where the supplier only resolves a not-yet-existing path.
+		final Path target = tempTestDir.resolve("posixPerms.bin");
+		try (final DeferrableOutputStream dos = new DeferrableOutputStream(-1, () -> target, null)) {
+			dos.write("secret".getBytes(StandardCharsets.UTF_8));
+		}
+		assertTrue(Files.isRegularFile(target));
+		assertEquals("rw-------", PosixFilePermissions.toString(Files.getPosixFilePermissions(target)));
+	}
+
+	/**
+	 * Tests that persisting over an already existing path truncates and overwrites it, matching the prior
+	 * {@link Files#newOutputStream} behavior. Guards against a regression if {@code TRUNCATE_EXISTING} is dropped.
+	 */
+	@Test
+	void testPersistedFileOverwritesExisting() throws IOException {
+		final Path target = tempTestDir.resolve("overwrite.bin");
+		Files.write(target, "stale-and-longer".getBytes(StandardCharsets.UTF_8));
+		try (final DeferrableOutputStream dos = new DeferrableOutputStream(-1, () -> target, null)) {
+			dos.write("new".getBytes(StandardCharsets.UTF_8));
+		}
+		assertTrue(Files.isRegularFile(target));
+		assertArrayEquals("new".getBytes(StandardCharsets.UTF_8), Files.readAllBytes(target));
 	}
 }
