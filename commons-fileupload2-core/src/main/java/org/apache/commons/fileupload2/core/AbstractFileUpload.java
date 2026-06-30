@@ -42,7 +42,7 @@ import org.apache.commons.io.IOUtils;
  *
  * @param <R> The request context type.
  * @param <I> The FileItem type.
- * @param <F> the FileItemFactory type.
+ * @param <F> The FileItemFactory type.
  */
 public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends FileItemFactory<I>> {
 

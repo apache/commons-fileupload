@@ -33,8 +33,8 @@ public interface FileItemFactory<I extends FileItem<I>> {
     /**
      * Abstracts building for subclasses.
      *
-     * @param <I> the type of {@link FileItem} to build.
-     * @param <B> the type of builder subclass.
+     * @param <I> The type of {@link FileItem} to build.
+     * @param <B> The type of builder subclass.
      */
     abstract class AbstractFileItemBuilder<I extends FileItem<I>, B extends AbstractFileItemBuilder<I, B>> extends AbstractStreamBuilder<I, B> {
 

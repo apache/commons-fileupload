@@ -42,7 +42,7 @@ import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
  * </p>
  *
  * @param <I> The FileItem type.
- * @param <F> the FileItemFactory type.
+ * @param <F> The FileItemFactory type.
  */
 public class JavaxPortletFileUpload<I extends FileItem<I>, F extends FileItemFactory<I>> extends AbstractFileUpload<ActionRequest, I, F> {
 

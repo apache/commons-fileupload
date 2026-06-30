@@ -40,7 +40,7 @@ import org.apache.commons.fileupload2.core.FileUploadException;
  * </p>
  *
  * @param <I> The FileItem type.
- * @param <F> the FileItemFactory type.
+ * @param <F> The FileItemFactory type.
  */
 public class JavaxServletFileUpload<I extends FileItem<I>, F extends FileItemFactory<I>> extends AbstractFileUpload<HttpServletRequest, I, F> {
 

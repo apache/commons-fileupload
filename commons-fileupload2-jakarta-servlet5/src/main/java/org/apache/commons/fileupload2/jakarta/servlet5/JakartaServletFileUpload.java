@@ -40,7 +40,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * </p>
  *
  * @param <I> The FileItem type.
- * @param <F> the FileItemFactory type.
+ * @param <F> The FileItemFactory type.
  */
 public class JakartaServletFileUpload<I extends FileItem<I>, F extends FileItemFactory<I>> extends AbstractFileUpload<HttpServletRequest, I, F> {
 
