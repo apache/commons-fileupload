@@ -337,8 +337,8 @@ byte[] data = item.get();
     <section name="Interaction with virus scanners">
       <p>
         Virus scanners running on the same system as the web container can cause
-        some unexpected behaviours for applications using FileUpload. This section
-        describes some of the behaviours that you might encounter, and provides
+        some unexpected behaviors for applications using FileUpload. This section
+        describes some of the behaviors that you might encounter, and provides
         some ideas for how to handle them.
       </p>
       <p>
