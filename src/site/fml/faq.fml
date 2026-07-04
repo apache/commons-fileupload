@@ -98,7 +98,7 @@
         I'm using FileUpload in an Action, but it's not working. Why?
       </question>
       <answer>
-        Struts 1 recognises multipart requests, and parses them automatically,
+        Struts 1 recognizes multipart requests, and parses them automatically,
         presenting the request parameters to your code in the same manner as
         if they were regular request parameters. Since Struts has already
         processed the request, and made it available in your form bean, the

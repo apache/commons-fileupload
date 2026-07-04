@@ -27,7 +27,7 @@
       copyright years can vary per source file.
 
     - Disable the HiddenField module, since FileUpload has always used the
-      "this.foo = foo" pattern, which is not recognised by this module.
+      "this.foo = foo" pattern, which is not recognized by this module.
 
     - Disable the DesignForExtension module, since fixing those complaints
       would result in backwards incompatible API changes.
