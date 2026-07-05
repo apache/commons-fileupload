@@ -139,7 +139,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     public int getContentLength() {
         int iLength = 0;
 
-        if (null == requestData) {
+        if (requestData == null) {
             iLength = -1;
         } else {
             if (length > Integer.MAX_VALUE) {

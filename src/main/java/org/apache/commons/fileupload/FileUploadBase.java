@@ -291,7 +291,7 @@ public abstract class FileUploadBase {
         FileItemIteratorImpl(final RequestContext ctx) throws FileUploadException, IOException {
             Objects.requireNonNull(ctx, "ctx");
             final String contentType = ctx.getContentType();
-            if (null == contentType || !contentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART)) {
+            if (contentType == null || !contentType.toLowerCase(Locale.ROOT).startsWith(MULTIPART)) {
                 throw new InvalidContentTypeException(format("the request neither contains a %s nor a %s nor a %s stream, content type header is %s",
                         MULTIPART_FORM_DATA, MULTIPART_MIXED, MULTIPART_RELATED, contentType));
             }

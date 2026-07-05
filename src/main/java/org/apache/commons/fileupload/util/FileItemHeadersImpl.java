@@ -61,7 +61,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
     public synchronized void addHeader(final String name, final String value) {
         final String nameLower = name.toLowerCase(Locale.ROOT);
         List<String> headerValueList = headerNameToValueListMap.get(nameLower);
-        if (null == headerValueList) {
+        if (headerValueList == null) {
             headerValueList = new ArrayList<>();
             headerNameToValueListMap.put(nameLower, headerValueList);
         }
@@ -72,7 +72,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
     public String getHeader(final String name) {
         final String nameLower = name.toLowerCase(Locale.ROOT);
         final List<String> headerValueList = headerNameToValueListMap.get(nameLower);
-        if (null == headerValueList) {
+        if (headerValueList == null) {
             return null;
         }
         return headerValueList.get(0);
@@ -87,7 +87,7 @@ public class FileItemHeadersImpl implements FileItemHeaders, Serializable {
     public Iterator<String> getHeaders(final String name) {
         final String nameLower = name.toLowerCase(Locale.ROOT);
         List<String> headerValueList = headerNameToValueListMap.get(nameLower);
-        if (null == headerValueList) {
+        if (headerValueList == null) {
             headerValueList = Collections.emptyList();
         }
         return headerValueList.iterator();
