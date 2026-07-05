@@ -51,7 +51,7 @@ class FileItemHeadersImpl implements FileItemHeaders {
     @Override
     public String getHeader(final String name) {
         final var headerValueList = getList(name);
-        if (null == headerValueList) {
+        if (headerValueList == null) {
             return null;
         }
         return headerValueList.get(0);
@@ -71,7 +71,7 @@ class FileItemHeadersImpl implements FileItemHeaders {
     @Override
     public Iterator<String> getHeaders(final String name) {
         var headerValueList = getList(name);
-        if (null == headerValueList) {
+        if (headerValueList == null) {
             headerValueList = Collections.emptyList();
         }
         return headerValueList.iterator();
