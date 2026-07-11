@@ -117,8 +117,8 @@ public class ParameterParser {
     /**
      * Tests if the given character is present in the array of characters.
      *
-     * @param ch      the character to test for presence in the array of characters
-     * @param charray the array of characters to test against
+     * @param ch      The character to test for presence in the array of characters
+     * @param charray The array of characters to test against
      * @return {@code true} if the character is present in the array of characters, {@code false} otherwise.
      */
     private boolean isOneOf(final char ch, final char[] charray) {
@@ -135,8 +135,8 @@ public class ParameterParser {
     /**
      * Parses a map of name/value pairs from the given array of characters. Names are expected to be unique.
      *
-     * @param charArray the array of characters that contains a sequence of name/value pairs
-     * @param separator the name/value pairs separator
+     * @param charArray The array of characters that contains a sequence of name/value pairs
+     * @param separator The name/value pairs separator
      * @return A map of name/value pairs
      */
     public Map<String, String> parse(final char[] charArray, final char separator) {
@@ -149,10 +149,10 @@ public class ParameterParser {
     /**
      * Parses a map of name/value pairs from the given array of characters. Names are expected to be unique.
      *
-     * @param charArray the array of characters that contains a sequence of name/value pairs
-     * @param offset      the initial offset.
-     * @param length      the length.
-     * @param separator the name/value pairs separator
+     * @param charArray The array of characters that contains a sequence of name/value pairs
+     * @param offset      The initial offset.
+     * @param length      The length.
+     * @param separator The name/value pairs separator
      * @return A map of name/value pairs
      */
     public Map<String, String> parse(final char[] charArray, final int offset, final int length, final char separator) {
@@ -201,8 +201,8 @@ public class ParameterParser {
     /**
      * Parses a map of name/value pairs from the given string. Names are expected to be unique.
      *
-     * @param str       the string that contains a sequence of name/value pairs
-     * @param separator the name/value pairs separator
+     * @param str       The string that contains a sequence of name/value pairs
+     * @param separator The name/value pairs separator
      * @return A map of name/value pairs
      */
     public Map<String, String> parse(final String str, final char separator) {
@@ -216,8 +216,8 @@ public class ParameterParser {
      * Parses a map of name/value pairs from the given string. Names are expected to be unique. Multiple separators may be specified and the earliest found in
      * the input string is used.
      *
-     * @param str        the string that contains a sequence of name/value pairs
-     * @param separators the name/value pairs separators
+     * @param str        The string that contains a sequence of name/value pairs
+     * @param separators The name/value pairs separators
      * @return A map of name/value pairs
      */
     public Map<String, String> parse(final String str, final char[] separators) {
@@ -241,7 +241,7 @@ public class ParameterParser {
     /**
      * Parses out a token until any of the given terminators is encountered outside the quotation marks.
      *
-     * @param terminators the array of terminating characters. Any of these characters when encountered outside the quotation marks signify the end of the token
+     * @param terminators The array of terminating characters. Any of these characters when encountered outside the quotation marks signify the end of the token
      * @return The token
      */
     private String parseQuotedToken(final char[] terminators) {
@@ -269,7 +269,7 @@ public class ParameterParser {
     /**
      * Parses out a token until any of the given terminators is encountered.
      *
-     * @param terminators the array of terminating characters. Any of these characters when encountered signify the end of the token
+     * @param terminators The array of terminating characters. Any of these characters when encountered signify the end of the token
      * @return The token
      */
     private String parseToken(final char[] terminators) {

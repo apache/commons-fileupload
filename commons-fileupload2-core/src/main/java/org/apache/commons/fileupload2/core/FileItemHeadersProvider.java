@@ -36,7 +36,7 @@ public interface FileItemHeadersProvider<T extends FileItemHeadersProvider<T>> {
      * Sets the headers read from within an item. Implementations of {@link FileItem} or {@link FileItemInput} should implement this interface to be able to get
      * the raw headers found within the item header block.
      *
-     * @param headers the instance that holds onto the headers for this instance.
+     * @param headers The instance that holds onto the headers for this instance.
      * @return {@code this} instance.
      */
     T setHeaders(FileItemHeaders headers);

@@ -86,7 +86,7 @@ final class QuotedPrintableDecoder {
     /**
      * Converts a hexadecimal digit to the binary value it represents.
      *
-     * @param b the ASCII hexadecimal byte to convert (0-0, A-F, a-f)
+     * @param b The ASCII hexadecimal byte to convert (0-0, A-F, a-f)
      * @return The int value of the hexadecimal byte, 0-15
      * @throws IOException if the byte is not a valid hexadecimal digit.
      */

@@ -145,7 +145,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Sets the content type.
          *
-         * @param contentType the content type.
+         * @param contentType The content type.
          * @return {@code this} instance.
          */
         public B setContentType(final String contentType) {
@@ -156,7 +156,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Sets the field name.
          *
-         * @param fieldName the field name.
+         * @param fieldName The field name.
          * @return {@code this} instance.
          */
         public B setFieldName(final String fieldName) {
@@ -167,7 +167,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Sets the file cleaning tracker.
          *
-         * @param fileCleaningTracker the file cleaning tracker.
+         * @param fileCleaningTracker The file cleaning tracker.
          * @return {@code this} instance.
          */
         public B setFileCleaningTracker(final FileCleaningTracker fileCleaningTracker) {
@@ -178,7 +178,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Sets the file item headers.
          *
-         * @param fileItemHeaders the item headers.
+         * @param fileItemHeaders The item headers.
          * @return {@code this} instance.
          */
         public B setFileItemHeaders(final FileItemHeaders fileItemHeaders) {
@@ -189,7 +189,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Sets the file name.
          *
-         * @param fileName the file name.
+         * @param fileName The file name.
          * @return {@code this} instance.
          */
         public B setFileName(final String fileName) {

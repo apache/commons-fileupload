@@ -155,7 +155,7 @@ public final class MultipartInput {
         /**
          * Sets the boundary.
          *
-         * @param boundary the boundary.
+         * @param boundary The boundary.
          * @return {@code this} instance.
          */
         public Builder setBoundary(final byte[] boundary) {
