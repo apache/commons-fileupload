@@ -35,7 +35,7 @@ public interface FileItemHeaders {
      * name, this method returns the first header in the item.  The header
      * name is case insensitive.
      *
-     * @param name a {@code String} specifying the header name
+     * @param name A {@code String} specifying the header name
      * @return A {@code String} containing the value of the requested
      *         header, or {@code null} if the item does not have a header
      *         of that name
@@ -64,7 +64,7 @@ public interface FileItemHeaders {
      * case insensitive.
      * </p>
      *
-     * @param name a {@code String} specifying the header name
+     * @param name A {@code String} specifying the header name
      * @return An {@code Iterator} containing the values of the
      *         requested header. If the item does not have any headers of
      *         that name, return an empty {@code Iterator}

@@ -38,7 +38,7 @@ public class FileUploadException extends Exception {
      * Constructs a new {@code FileUploadException} with specified detail
      * message.
      *
-     * @param message the error message.
+     * @param message The error message.
      */
     public FileUploadException(final String message) {
         super(message);

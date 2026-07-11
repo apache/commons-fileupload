@@ -538,7 +538,7 @@ public abstract class FileUploadBase {
          * Sets the field name of the item, which caused the
          * exception.
          *
-         * @param fieldName the field name of the item,
+         * @param fieldName The field name of the item,
          *        which caused the exception.
          */
         public void setFieldName(final String fieldName) {
@@ -549,7 +549,7 @@ public abstract class FileUploadBase {
          * Sets the file name of the item, which caused the
          * exception.
          *
-         * @param fileName the file name of the item, which caused the exception.
+         * @param fileName The file name of the item, which caused the exception.
          */
         public void setFileName(final String fileName) {
             this.fileName = fileName;
@@ -613,7 +613,7 @@ public abstract class FileUploadBase {
          * the specified detail message and cause.
          *
          * @param message The detail message.
-         * @param cause the original cause
+         * @param cause The original cause
          * @since 1.3.1
          */
         public InvalidContentTypeException(final String message, final Throwable cause) {

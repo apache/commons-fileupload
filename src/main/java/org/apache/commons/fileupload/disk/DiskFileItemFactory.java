@@ -178,7 +178,7 @@ public class DiskFileItemFactory implements FileItemFactory {
     /**
      * Sets the default charset for use when no explicit charset parameter is provided by the sender.
      *
-     * @param charset the default charset.
+     * @param charset The default charset.
      */
     public void setDefaultCharset(final String charset) {
         this.defaultCharset = charset;

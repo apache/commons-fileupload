@@ -556,7 +556,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * Sets the read limit. This can be used to limit the number of bytes to read ahead.
      *
-     * @param readLimit the read limit to use
+     * @param readLimit The read limit to use
      */
     public void setReadLimit(final int readLimit) {
         this.readLimit = readLimit;

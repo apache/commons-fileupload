@@ -39,7 +39,7 @@ public interface FileItemHeadersSupport {
      * interface to be able to get the raw headers found within the item
      * header block.
      *
-     * @param headers the instance that holds onto the headers
+     * @param headers The instance that holds onto the headers
      *         for this instance.
      */
     void setHeaders(FileItemHeaders headers);
