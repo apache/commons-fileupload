@@ -45,7 +45,7 @@ public class Util {
 
     /**
      * Return a list of {@link FileUpload} implementations for parameterized tests.
-     * @return a list of {@link FileUpload} implementations
+     * @return A list of {@link FileUpload} implementations
      */
     public static List<FileUpload> fileUploadImplementations() {
         return Arrays.asList(

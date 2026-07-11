@@ -111,7 +111,7 @@ public class PortletRequestContext implements UploadContext {
     /**
      * Returns a string representation of this object.
      *
-     * @return a string representation of this object.
+     * @return A string representation of this object.
      */
     @Override
     public String toString() {
