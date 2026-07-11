@@ -80,7 +80,7 @@ public abstract class AbstractRequestContext<T> implements RequestContext {
     /**
      * Gets the request.
      *
-     * @return the request.
+     * @return The request.
      */
     public T getRequest() {
         return request;

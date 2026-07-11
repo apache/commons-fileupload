@@ -386,7 +386,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     /**
      * Gets the default charset for use when no explicit charset parameter is provided by the sender.
      *
-     * @return the default charset
+     * @return The default charset
      */
     public Charset getCharsetDefault() {
         return charsetDefault;

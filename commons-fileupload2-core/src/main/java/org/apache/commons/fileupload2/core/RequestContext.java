@@ -73,7 +73,7 @@ public interface RequestContext {
     /**
      * Is the Request of type {@code multipart/related}?
      *
-     * @return the Request is of type {@code multipart/related}
+     * @return The Request is of type {@code multipart/related}
      * @since 2.0.0
      */
     boolean isMultipartRelated();

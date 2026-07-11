@@ -28,7 +28,7 @@ public interface FileItemHeadersProvider<T extends FileItemHeadersProvider<T>> {
     /**
      * Gets the collection of headers defined locally within this item.
      *
-     * @return the {@link FileItemHeaders} present for this item.
+     * @return The {@link FileItemHeaders} present for this item.
      */
     FileItemHeaders getHeaders();
 

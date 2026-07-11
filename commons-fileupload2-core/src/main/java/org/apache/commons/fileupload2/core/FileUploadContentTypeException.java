@@ -55,7 +55,7 @@ public class FileUploadContentTypeException extends FileUploadException {
     /**
      * Gets the content type.
      *
-     * @return the content type.
+     * @return The content type.
      */
     public String getContentType() {
         return contentType;

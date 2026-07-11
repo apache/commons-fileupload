@@ -91,7 +91,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Gets the content type.
          *
-         * @return the content type.
+         * @return The content type.
          */
         public String getContentType() {
             return contentType;
@@ -100,7 +100,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Gets the field name.
          *
-         * @return the field name.
+         * @return The field name.
          */
         public String getFieldName() {
             return fieldName;
@@ -109,7 +109,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Gets the file cleaning tracker.
          *
-         * @return the file cleaning tracker.
+         * @return The file cleaning tracker.
          */
         public FileCleaningTracker getFileCleaningTracker() {
             return fileCleaningTracker;
@@ -118,7 +118,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Gets the field item headers.
          *
-         * @return the field item headers.
+         * @return The field item headers.
          */
         public FileItemHeaders getFileItemHeaders() {
             return fileItemHeaders;
@@ -127,7 +127,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Gets the file name.
          *
-         * @return the file name.
+         * @return The file name.
          */
         public String getFileName() {
             return fileName;
