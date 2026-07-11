@@ -29,7 +29,7 @@ public interface FileItemHeadersSupport {
     /**
      * Returns the collection of headers defined locally within this item.
      *
-     * @return the {@link FileItemHeaders} present for this item.
+     * @return The {@link FileItemHeaders} present for this item.
      */
     FileItemHeaders getHeaders();
 

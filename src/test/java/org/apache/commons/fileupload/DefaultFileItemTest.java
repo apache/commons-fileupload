@@ -105,7 +105,7 @@ public class DefaultFileItemTest {
      * Creates a new {@code FileItemFactory} and returns it, obscuring from the caller the underlying implementation of this interface.
      *
      * @param repository The directory within which temporary files will be created.
-     * @return the new {@code FileItemFactory} instance.
+     * @return The new {@code FileItemFactory} instance.
      */
     protected FileItemFactory createFactory(final File repository) {
         return new DefaultFileItemFactory(THRESHOLD, repository);

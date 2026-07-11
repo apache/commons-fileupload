@@ -79,7 +79,7 @@ public class ParameterParser {
      *
      * @param quoted {@code true} if quotation marks are expected,
      *               {@code false} otherwise.
-     * @return the token
+     * @return The token
      */
     private String getToken(final boolean quoted) {
         // Trim leading white spaces
@@ -260,7 +260,7 @@ public class ParameterParser {
      * characters when encountered outside the quotation marks signify the end
      * of the token
      *
-     * @return the token
+     * @return The token
      */
     private String parseQuotedToken(final char[] terminators) {
         char ch;
@@ -291,7 +291,7 @@ public class ParameterParser {
      * @param terminators the array of terminating characters. Any of these
      * characters when encountered signify the end of the token
      *
-     * @return the token
+     * @return The token
      */
     private String parseToken(final char[] terminators) {
         char ch;

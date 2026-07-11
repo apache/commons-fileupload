@@ -60,7 +60,7 @@ final class QuotedPrintableDecoder {
      *
      * @param data   The array of byte data to decode.
      * @param out    The output stream used to return the decoded data.
-     * @return the number of bytes produced.
+     * @return The number of bytes produced.
      * @throws IOException if an IO error occurs
      */
     public static int decode(final byte[] data, final OutputStream out) throws IOException {
@@ -114,7 +114,7 @@ final class QuotedPrintableDecoder {
      * Convert a hex digit to the binary value it represents.
      *
      * @param b the ASCII hex byte to convert (0-0, A-F, a-f)
-     * @return the int value of the hex byte, 0-15
+     * @return The int value of the hex byte, 0-15
      * @throws IOException if the byte is not a valid hex digit.
      */
     private static int hexToBinary(final byte b) throws IOException {

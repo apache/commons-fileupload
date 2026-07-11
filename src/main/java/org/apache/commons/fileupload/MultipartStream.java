@@ -826,7 +826,7 @@ public class MultipartStream {
      *
      * @param output The {@code Stream} to write data into. May be null, in which case this method is equivalent to {@link #discardBodyData()}.
      *
-     * @return the amount of data written.
+     * @return The amount of data written.
      * @throws MalformedStreamException if the stream ends unexpectedly.
      * @throws IOException              if an i/o error occurs.
      */
