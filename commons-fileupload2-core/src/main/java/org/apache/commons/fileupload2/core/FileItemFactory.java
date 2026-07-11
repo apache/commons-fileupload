@@ -41,7 +41,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
         /**
          * Create a new FileItemHeaders implementation.
          *
-         * @return a new FileItemHeaders implementation.
+         * @return A new FileItemHeaders implementation.
          */
         public static FileItemHeaders newFileItemHeaders() {
             return new FileItemHeadersImpl();
@@ -214,7 +214,7 @@ public interface FileItemFactory<I extends FileItem<I>> {
      * Creates a new AbstractFileItemBuilder.
      *
      * @param <B> The type of AbstractFileItemBuilder.
-     * @return a new AbstractFileItemBuilder.
+     * @return A new AbstractFileItemBuilder.
      */
     <B extends AbstractFileItemBuilder<I, B>> AbstractFileItemBuilder<I, B> fileItemBuilder();
 

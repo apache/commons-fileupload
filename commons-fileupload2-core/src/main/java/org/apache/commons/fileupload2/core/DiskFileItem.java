@@ -130,7 +130,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
          * {@link UnsupportedOperationException}.
          * </p>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws UnsupportedOperationException if the origin cannot provide a Path.
          * @see AbstractOrigin#getReader(Charset)
          */
@@ -207,7 +207,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();
@@ -647,7 +647,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
     /**
      * Returns a string representation of this object.
      *
-     * @return a string representation of this object.
+     * @return A string representation of this object.
      */
     @Override
     public String toString() {

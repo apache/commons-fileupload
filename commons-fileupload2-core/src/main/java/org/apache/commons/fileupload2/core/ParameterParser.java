@@ -137,7 +137,7 @@ public class ParameterParser {
      *
      * @param charArray the array of characters that contains a sequence of name/value pairs
      * @param separator the name/value pairs separator
-     * @return a map of name/value pairs
+     * @return A map of name/value pairs
      */
     public Map<String, String> parse(final char[] charArray, final char separator) {
         if (charArray == null) {
@@ -153,7 +153,7 @@ public class ParameterParser {
      * @param offset      the initial offset.
      * @param length      the length.
      * @param separator the name/value pairs separator
-     * @return a map of name/value pairs
+     * @return A map of name/value pairs
      */
     public Map<String, String> parse(final char[] charArray, final int offset, final int length, final char separator) {
         if (charArray == null) {
@@ -203,7 +203,7 @@ public class ParameterParser {
      *
      * @param str       the string that contains a sequence of name/value pairs
      * @param separator the name/value pairs separator
-     * @return a map of name/value pairs
+     * @return A map of name/value pairs
      */
     public Map<String, String> parse(final String str, final char separator) {
         if (str == null) {
@@ -218,7 +218,7 @@ public class ParameterParser {
      *
      * @param str        the string that contains a sequence of name/value pairs
      * @param separators the name/value pairs separators
-     * @return a map of name/value pairs
+     * @return A map of name/value pairs
      */
     public Map<String, String> parse(final String str, final char[] separators) {
         if (separators == null || separators.length == 0) {

@@ -108,7 +108,7 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
          * {@link UnsupportedOperationException}.
          * </p>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws UnsupportedOperationException if the origin cannot provide a Path.
          * @see AbstractOrigin#getReader(Charset)
          */
@@ -184,7 +184,7 @@ public final class DiskFileItemFactory implements FileItemFactory<DiskFileItem> 
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();

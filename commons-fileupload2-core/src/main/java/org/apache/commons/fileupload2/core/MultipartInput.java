@@ -132,7 +132,7 @@ public final class MultipartInput {
          * {@link UnsupportedOperationException}.
          * </p>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IOException                   if an I/O error occurs.
          * @throws UnsupportedOperationException if the origin cannot provide a Path.
          * @see AbstractOrigin#getReader(Charset)
@@ -618,7 +618,7 @@ public final class MultipartInput {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();

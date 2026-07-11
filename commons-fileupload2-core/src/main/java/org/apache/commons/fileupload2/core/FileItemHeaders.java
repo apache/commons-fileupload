@@ -39,14 +39,14 @@ public interface FileItemHeaders {
      * </p>
      *
      * @param name a {@code String} specifying the header name
-     * @return a {@code String} containing the value of the requested header, or {@code null} if the item does not have a header of that name
+     * @return A {@code String} containing the value of the requested header, or {@code null} if the item does not have a header of that name
      */
     String getHeader(String name);
 
     /**
      * Gets an {@code Iterator} of all the header names.
      *
-     * @return an {@code Iterator} containing all of the names of headers provided with this file item. If the item does not have any headers return an empty
+     * @return An {@code Iterator} containing all of the names of headers provided with this file item. If the item does not have any headers return an empty
      *         {@code Iterator}
      */
     Iterator<String> getHeaderNames();
@@ -58,7 +58,7 @@ public interface FileItemHeaders {
      * </p>
      *
      * @param name a {@code String} specifying the header name
-     * @return an {@code Iterator} containing the values of the requested header. If the item does not have any headers of that name, return an empty
+     * @return An {@code Iterator} containing the values of the requested header. If the item does not have any headers of that name, return an empty
      *         {@code Iterator}
      */
     Iterator<String> getHeaders(String name);
