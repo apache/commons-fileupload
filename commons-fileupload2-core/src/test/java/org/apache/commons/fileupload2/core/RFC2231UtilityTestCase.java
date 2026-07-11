@@ -52,6 +52,12 @@ public final class RFC2231UtilityTestCase {
     }
 
     @Test
+    void testDecodeTruncatedPercentEncoded() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%"));
+        assertThrows(IllegalArgumentException.class, () -> RFC2231Utils.decodeText("ISO-8859-1''hello%3"));
+    }
+
+    @Test
     void testDecodeIso88591() throws Exception {
         assertEncoded("\u00A3 rate", "iso-8859-1'en'%A3%20rate"); // "£ rate"
     }

@@ -130,7 +130,8 @@ final class RFC2231Utils {
             final var c = text.charAt(i++);
             if (c == '%') {
                 if (i > text.length() - 2) {
-                    break; // unterminated sequence
+                    // A '%' that is not followed by two hex digits is a truncated escape sequence.
+                    throw new IllegalArgumentException();
                 }
                 final var c1 = text.charAt(i++);
                 final var c2 = text.charAt(i++);
