@@ -55,8 +55,20 @@ public final class MimeUtilityTestCase {
     }
 
     @Test
+    void testDecodeUtf8Base64EncodedLowerCaseMarker() throws Exception {
+        // RFC 2047 section 2: the encoding token is case-independent, so 'b' decodes like 'B'.
+        assertEncoded(" h\u00e9! \u00e0\u00e8\u00f4u !!!", "=?UTF-8?b?IGjDqSEgw6DDqMO0dSAhISE=?=");
+    }
+
+    @Test
     void testDecodeUtf8QuotedPrintableEncoded() throws Exception {
         assertEncoded(" h\u00e9! \u00e0\u00e8\u00f4u !!!", "=?UTF-8?Q?_h=C3=A9!_=C3=A0=C3=A8=C3=B4u_!!!?=");
+    }
+
+    @Test
+    void testDecodeUtf8QuotedPrintableEncodedLowerCaseMarker() throws Exception {
+        // RFC 2047 section 2: the encoding token is case-independent, so 'q' decodes like 'Q'.
+        assertEncoded(" h\u00e9! \u00e0\u00e8\u00f4u !!!", "=?UTF-8?q?_h=C3=A9!_=C3=A0=C3=A8=C3=B4u_!!!?=");
     }
 
     @Test
