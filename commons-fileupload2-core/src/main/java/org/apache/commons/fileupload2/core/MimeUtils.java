@@ -224,10 +224,10 @@ final class MimeUtils {
 
             final var encodedData = encodedText.getBytes(StandardCharsets.US_ASCII);
 
-            // Base64 encoded?
-            if (encoding.equals(BASE64_ENCODING_MARKER)) {
+            // Base64 encoded? RFC 2047 section 2 defines the encoding token as case-independent, so 'b' and 'q' are also valid.
+            if (encoding.equalsIgnoreCase(BASE64_ENCODING_MARKER)) {
                 out.write(Base64.getMimeDecoder().decode(encodedData));
-            } else if (encoding.equals(QUOTEDPRINTABLE_ENCODING_MARKER)) { // maybe quoted printable.
+            } else if (encoding.equalsIgnoreCase(QUOTEDPRINTABLE_ENCODING_MARKER)) { // maybe quoted printable.
                 QuotedPrintableDecoder.decode(encodedData, out);
             } else {
                 throw new UnsupportedEncodingException("Unknown RFC 2047 encoding: " + encoding);
