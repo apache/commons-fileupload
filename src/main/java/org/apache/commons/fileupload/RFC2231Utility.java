@@ -139,7 +139,8 @@ final class RFC2231Utility {
             final char c = text.charAt(i++);
             if (c == PERCENT) {
                 if (i > text.length() - 2) {
-                    break; // unterminated sequence
+                    // A '%' that is not followed by two hex digits is a truncated escape sequence.
+                    throw new IllegalArgumentException();
                 }
                 final char c1 = text.charAt(i++);
                 final char c2 = text.charAt(i++);
