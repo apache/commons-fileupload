@@ -235,7 +235,9 @@ final class MimeUtils {
             // get the decoded byte data and convert into a string.
             final var decodedData = out.toByteArray();
             return new String(decodedData, javaCharset(charset));
-        } catch (final IOException e) {
+        } catch (final IOException | IllegalArgumentException e) {
+            // IllegalArgumentException is thrown by the Base64 decoder on a malformed final unit; treat it like a
+            // quoted-printable decode failure so both encodings reject malformed input the same way.
             throw new UnsupportedEncodingException("Invalid RFC 2047 encoding");
         }
     }

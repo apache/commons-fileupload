@@ -33,6 +33,13 @@ public final class MimeUtilityTestCase {
     }
 
     @Test
+    void testDecodeInvalidBase64() {
+        // A base64 payload whose final unit is truncated ("A" is a single base64 char) is rejected the same way as a
+        // malformed quoted-printable payload, rather than leaking an IllegalArgumentException from the base64 decoder.
+        assertThrows(UnsupportedEncodingException.class, () -> MimeUtils.decodeText("=?UTF-8?B?A?="));
+    }
+
+    @Test
     void testDecodeInvalidEncoding() {
         assertThrows(UnsupportedEncodingException.class, () -> MimeUtils.decodeText("=?invalid?B?xyz-?="));
     }
