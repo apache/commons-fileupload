@@ -49,6 +49,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action                        type="fix" dev="ggregory" due-to="Chenjp, Gary Gregory">RFC2231Utils decodeText: Incorrect handling of percent encoded text (#472).</action>
       <action                        type="fix" dev="ggregory" due-to="alhuda, Gary Gregory">Create temporary upload file with owner-only permissions (#473).</action>
       <action                        type="fix" dev="ggregory" due-to="alhuda, Gary Gregory">Match RFC 2047 encoding token case-insensitively in decodeWord (#476).</action>
+      <action                        type="fix" dev="ggregory" due-to="alhuda, Gary Gregory">Reject malformed base64 payload in RFC 2047 decodeWord (#478).</action>
       <!-- ADD -->
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 96 to 102.</action>
