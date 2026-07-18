@@ -169,6 +169,7 @@ public class ParameterParser {
         while (hasChar()) {
             paramName = parseToken(new char[] { '=', separator });
             paramValue = null;
+            var invalid = false;
             if (hasChar() && charArray[pos] == '=') {
                 pos++; // skip '='
                 paramValue = parseQuotedToken(new char[] { separator });
@@ -177,8 +178,8 @@ public class ParameterParser {
                     try {
                         paramValue = RFC2231Utils.hasEncodedValue(paramName) ? RFC2231Utils.decodeText(paramValue) : MimeUtils.decodeText(paramValue);
                     } catch (final IllegalArgumentException iae) {
-                        // Treat invalid values as if they were not provided
-                        paramValue = null;
+                        // Treat invalid values as if they were not provided, so a malformed filename* cannot override a valid filename.
+                        invalid = true;
                     } catch (final UnsupportedEncodingException ignored) {
                         // let's keep the original value in this case
                     }
@@ -187,7 +188,7 @@ public class ParameterParser {
             if (hasChar() && charArray[pos] == separator) {
                 pos++; // skip separator
             }
-            if (paramName != null && !paramName.isEmpty()) {
+            if (!invalid && paramName != null && !paramName.isEmpty()) {
                 paramName = RFC2231Utils.stripDelimiter(paramName);
                 if (this.lowerCaseNames) {
                     paramName = paramName.toLowerCase(Locale.ROOT);

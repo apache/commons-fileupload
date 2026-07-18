@@ -99,6 +99,34 @@ class ParameterParserTest {
         assertEquals("a'b'c", params.get("filename"));
     }
 
+    /**
+     * An invalid RFC 2231 / RFC 5987 extended value must be ignored rather than overwrite a valid plain value for the same parameter.
+     */
+    @Test
+    void testInvalidExtendedValueIgnored() {
+        final var parser = new ParameterParser();
+
+        // A truncated %nn escape in filename* must not erase the valid filename.
+        var s = "Content-Disposition: form-data; name=\"file\"; filename=\"safe.txt\"; filename*=UTF-8''bad%2\r\n";
+        var params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals("safe.txt", params.get("filename"));
+
+        // Order independent: an invalid filename* before the valid filename is also ignored.
+        s = "Content-Disposition: form-data; name=\"file\"; filename*=UTF-8''bad%2; filename=\"safe.txt\"\r\n";
+        params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals("safe.txt", params.get("filename"));
+
+        // An invalid filename* on its own is not reported as a (null) value.
+        s = "Content-Disposition: form-data; name=\"file\"; filename*=UTF-8''bad%2\r\n";
+        params = parser.parse(s, new char[] { ',', ';' });
+        assertNull(params.get("filename"));
+
+        // A valid filename* still decodes normally.
+        s = "Content-Disposition: form-data; name=\"file\"; filename=\"safe.txt\"; filename*=UTF-8''real.exe\r\n";
+        params = parser.parse(s, new char[] { ',', ';' });
+        assertEquals("real.exe", params.get("filename"));
+    }
+
     @Test
     void testParsing() {
         var s = "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff";
