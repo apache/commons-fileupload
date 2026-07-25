@@ -105,15 +105,15 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
     /**
      * Constructs a new instance.
      *
-     * @param fileUploadBase Main processor.
+     * @param fileUpload Main processor.
      * @param requestContext The request context.
      * @throws FileUploadException An error occurred while parsing the request.
      * @throws IOException         An I/O error occurred.
      */
-    FileItemInputIteratorImpl(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext requestContext) throws FileUploadException, IOException {
-        this.fileUpload = fileUploadBase;
-        this.sizeMax = fileUploadBase.getMaxSize();
-        this.fileSizeMax = fileUploadBase.getMaxFileSize();
+    FileItemInputIteratorImpl(final AbstractFileUpload<?, ?, ?> fileUpload, final RequestContext requestContext) throws FileUploadException, IOException {
+        this.fileUpload = fileUpload;
+        this.sizeMax = fileUpload.getMaxSize();
+        this.fileSizeMax = fileUpload.getMaxFileSize();
         this.requestContext = Objects.requireNonNull(requestContext, "requestContext");
         this.multipartRelated = this.requestContext.isMultipartRelated();
         this.skipPreamble = true;
@@ -246,7 +246,7 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         return findNextItem();
     }
 
-    protected void init(final AbstractFileUpload<?, ?, ?> fileUploadBase, final RequestContext initContext) throws FileUploadException, IOException {
+    protected void init(final AbstractFileUpload<?, ?, ?> fileUpload, final RequestContext initContext) throws FileUploadException, IOException {
         final var contentType = requestContext.getContentType();
         if (contentType == null || !contentType.toLowerCase(Locale.ROOT).startsWith(AbstractFileUpload.MULTIPART)) {
             throw new FileUploadContentTypeException(String.format("the request doesn't contain a %s or %s stream, content type header is %s",
@@ -282,20 +282,20 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
             inputStream = requestContext.getInputStream();
         }
 
-        final var charset = Charsets.toCharset(fileUploadBase.getHeaderCharset(), requestContext.getCharset());
-        multiPartBoundary = fileUploadBase.getBoundary(contentType);
+        final var charset = Charsets.toCharset(fileUpload.getHeaderCharset(), requestContext.getCharset());
+        multiPartBoundary = fileUpload.getBoundary(contentType);
         if (multiPartBoundary == null) {
             IOUtils.closeQuietly(inputStream); // avoid possible resource leak
             throw new FileUploadException("the request was rejected because no multipart boundary was found");
         }
 
-        progressNotifier = new MultipartInput.ProgressNotifier(fileUploadBase.getProgressListener(), requestSize);
+        progressNotifier = new MultipartInput.ProgressNotifier(fileUpload.getProgressListener(), requestSize);
         try {
             multiPartInput = MultipartInput.builder()
                 .setInputStream(inputStream)
                 .setBoundary(multiPartBoundary)
                 .setProgressNotifier(progressNotifier)
-                .setMaxPartHeaderSize(fileUploadBase.getMaxPartHeaderSize())
+                .setMaxPartHeaderSize(fileUpload.getMaxPartHeaderSize())
                 .get();
         } catch (final IllegalArgumentException e) {
             IOUtils.closeQuietly(inputStream); // avoid possible resource leak
