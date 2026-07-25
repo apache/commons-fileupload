@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
  * Covers normal use-cases as well as edge cases such as size limits, file count limits, empty payloads, and non-multipart requests.
  * </p>
  */
-class JakartaServletFileUploadGetItemIteratorTest {
+class JavaxServletFileUploadGetItemIteratorTest {
 
     /** Boundary value used throughout these tests. */
     private static final String BOUNDARY = "---1234";
