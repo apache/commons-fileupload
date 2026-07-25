@@ -467,12 +467,12 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
     /**
      * Parses an <a href="https://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
      *
-     * @param ctx The context for the request to be parsed.
+     * @param requestContext The context for the request to be parsed.
      * @return A map of {@code FileItem} instances parsed from the request.
      * @throws FileUploadException if there are problems reading/parsing the request or storing files.
      */
-    public Map<String, List<I>> parseParameterMap(final RequestContext ctx) throws FileUploadException {
-        final var items = parseRequest(ctx);
+    public Map<String, List<I>> parseParameterMap(final RequestContext requestContext) throws FileUploadException {
+        final var items = parseRequest(requestContext);
         final Map<String, List<I>> itemsMap = new HashMap<>(items.size());
 
         for (final I fileItem : items) {
