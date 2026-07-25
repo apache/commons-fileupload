@@ -27,14 +27,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileItemInput;
 import org.apache.commons.fileupload2.core.FileItemInputIterator;
 import org.apache.commons.fileupload2.core.FileUploadByteCountLimitException;
 import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.FileUploadFileCountLimitException;
 import org.junit.jupiter.api.Test;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Tests for {@link JakartaServletFileUpload#getItemIterator(HttpServletRequest)}.
@@ -46,7 +47,6 @@ class JavaxServletFileUploadGetItemIteratorTest {
 
     /** Boundary value used throughout these tests. */
     private static final String BOUNDARY = "---1234";
-
     /** Content-type header value that matches {@link #BOUNDARY}. */
     private static final String CONTENT_TYPE = "multipart/form-data; boundary=" + BOUNDARY;
 
@@ -124,6 +124,43 @@ class JavaxServletFileUploadGetItemIteratorTest {
         final var upload = newUpload();
         final FileItemInputIterator iter = upload.getItemIterator(request);
         assertFalse(iter.hasNext(), "Expected no items in an empty multipart body");
+    }
+
+    /**
+     * When the number of uploaded files exceeds {@code maxFileCount}, iterating must throw a {@link FileUploadFileCountLimitException} with the expected
+     * permitted count.
+     */
+    @Test
+    void testFileCountLimitExceededThrowsException() throws Exception {
+        final long maxFileCount = 2;
+        final var body = buildMultiFileParts((int) maxFileCount + 1);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(body, CONTENT_TYPE);
+        final var upload = newUpload();
+        upload.setMaxFileCount(maxFileCount);
+        final FileItemInputIterator iter = upload.getItemIterator(request);
+        // Consume allowed items first
+        for (int i = 0; i < maxFileCount; i++) {
+            assertTrue(iter.hasNext());
+            iter.next();
+        }
+        // The next hasNext() call triggers the limit check
+        final var ex = assertThrows(FileUploadFileCountLimitException.class, iter::hasNext);
+        assertEquals(maxFileCount, ex.getPermitted());
+    }
+
+    /**
+     * A file-count limit of 1 allows exactly one file; attempting to move to the second must throw {@link FileUploadFileCountLimitException}.
+     */
+    @Test
+    void testFileCountLimitOfOneThrowsOnSecondFile() throws Exception {
+        final var body = buildMultiFileParts(2);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(body, CONTENT_TYPE);
+        final var upload = newUpload();
+        upload.setMaxFileCount(1L);
+        final FileItemInputIterator iter = upload.getItemIterator(request);
+        assertTrue(iter.hasNext());
+        iter.next(); // consume the first (allowed) item
+        assertThrows(FileUploadFileCountLimitException.class, iter::hasNext);
     }
 
     /**
