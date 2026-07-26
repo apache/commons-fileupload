@@ -27,14 +27,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileItemInput;
 import org.apache.commons.fileupload2.core.FileItemInputIterator;
 import org.apache.commons.fileupload2.core.FileUploadByteCountLimitException;
 import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.FileUploadFileCountLimitException;
 import org.junit.jupiter.api.Test;
-
-import javax.servlet.http.HttpServletRequest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Tests for {@link JakartaServletFileUpload#getItemIterator(HttpServletRequest)}.
@@ -46,9 +49,36 @@ class JavaxServletFileUploadGetItemIteratorTest {
 
     /** Boundary value used throughout these tests. */
     private static final String BOUNDARY = "---1234";
-
     /** Content-type header value that matches {@link #BOUNDARY}. */
     private static final String CONTENT_TYPE = "multipart/form-data; boundary=" + BOUNDARY;
+    /** Content-type header value for multipart/related requests that matches {@link #BOUNDARY}. */
+    private static final String CONTENT_TYPE_RELATED = "multipart/related; boundary=" + BOUNDARY;
+    /** Boundary value used for nested multipart/mixed parts. */
+    private static final String MIXED_BOUNDARY = "---9876";
+
+    /**
+     * Builds a complete multipart body that contains a single form-data part holding a nested multipart/mixed part with {@code fileCount} identical files.
+     *
+     * @param fileCount number of nested files to include
+     * @return raw multipart bytes encoded in US-ASCII
+     */
+    private static byte[] buildMixedFileParts(final int fileCount) {
+        final var sb = new StringBuilder();
+        sb.append("--").append(BOUNDARY).append("\r\n");
+        sb.append("Content-Disposition: form-data; name=\"files\"\r\n");
+        sb.append("Content-Type: multipart/mixed; boundary=").append(MIXED_BOUNDARY).append("\r\n");
+        sb.append("\r\n");
+        for (int i = 1; i <= fileCount; i++) {
+            sb.append("--").append(MIXED_BOUNDARY).append("\r\n");
+            sb.append("Content-Disposition: attachment; filename=\"file").append(i).append(".txt\"\r\n");
+            sb.append("Content-Type: text/plain\r\n");
+            sb.append("\r\n");
+            sb.append("Content of file ").append(i).append("\r\n");
+        }
+        sb.append("--").append(MIXED_BOUNDARY).append("--\r\n");
+        sb.append("--").append(BOUNDARY).append("--\r\n");
+        return sb.toString().getBytes(StandardCharsets.US_ASCII);
+    }
 
     /**
      * Builds a complete multipart body that contains {@code fileCount} identical file parts.
@@ -64,6 +94,25 @@ class JavaxServletFileUploadGetItemIteratorTest {
             sb.append("Content-Type: text/plain\r\n");
             sb.append("\r\n");
             sb.append("Content of file ").append(i).append("\r\n");
+        }
+        sb.append("--").append(BOUNDARY).append("--\r\n");
+        return sb.toString().getBytes(StandardCharsets.US_ASCII);
+    }
+
+    /**
+     * Builds a complete multipart/related body that contains {@code partCount} identical parts.
+     *
+     * @param partCount number of parts to include
+     * @return raw multipart bytes encoded in US-ASCII
+     */
+    private static byte[] buildMultiRelatedParts(final int partCount) {
+        final var sb = new StringBuilder();
+        for (int i = 1; i <= partCount; i++) {
+            sb.append("--").append(BOUNDARY).append("\r\n");
+            sb.append("Content-Type: text/plain\r\n");
+            sb.append("Content-ID: <part").append(i).append("@example.org>\r\n");
+            sb.append("\r\n");
+            sb.append("Content of part ").append(i).append("\r\n");
         }
         sb.append("--").append(BOUNDARY).append("--\r\n");
         return sb.toString().getBytes(StandardCharsets.US_ASCII);
@@ -124,6 +173,28 @@ class JavaxServletFileUploadGetItemIteratorTest {
         final var upload = newUpload();
         final FileItemInputIterator iter = upload.getItemIterator(request);
         assertFalse(iter.hasNext(), "Expected no items in an empty multipart body");
+    }
+
+    /**
+     * When the number of uploaded files exceeds {@code maxFileCount}, iterating must throw a {@link FileUploadFileCountLimitException} with the expected
+     * permitted count. Tested for maxFileCount values of 1, 2, 4, and 8.
+     */
+    @ParameterizedTest
+    @ValueSource(longs = { 1, 2, 4, 8 })
+    void testFileCountLimitExceededThrowsException(final long maxFileCount) throws Exception {
+        final var body = buildMultiFileParts((int) maxFileCount + 1);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(body, CONTENT_TYPE);
+        final var upload = newUpload();
+        upload.setMaxFileCount(maxFileCount);
+        final FileItemInputIterator iter = upload.getItemIterator(request);
+        // Consume allowed items first
+        for (int i = 0; i < maxFileCount; i++) {
+            assertTrue(iter.hasNext());
+            iter.next();
+        }
+        // The next hasNext() call triggers the limit check
+        final var ex = assertThrows(FileUploadFileCountLimitException.class, iter::hasNext);
+        assertEquals(maxFileCount, ex.getPermitted());
     }
 
     /**
@@ -326,6 +397,50 @@ class JavaxServletFileUploadGetItemIteratorTest {
         assertEquals("field2", part3.getFieldName());
         assertTrue(part3.isFormField());
         assertFalse(iter.hasNext());
+    }
+
+    /**
+     * When the number of files in a nested multipart/mixed part exceeds {@code maxFileCount}, iterating must throw a {@link FileUploadFileCountLimitException}
+     * with the expected permitted count. Tested for maxFileCount values of 1, 2, 4, and 8.
+     */
+    @ParameterizedTest
+    @ValueSource(longs = { 1, 2, 4, 8 })
+    void testMultipartMixedFileCountLimitExceededThrowsException(final long maxFileCount) throws Exception {
+        final var body = buildMixedFileParts((int) maxFileCount + 1);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(body, CONTENT_TYPE);
+        final var upload = newUpload();
+        upload.setMaxFileCount(maxFileCount);
+        final FileItemInputIterator iter = upload.getItemIterator(request);
+        // Consume allowed items first
+        for (int i = 0; i < maxFileCount; i++) {
+            assertTrue(iter.hasNext());
+            iter.next();
+        }
+        // The next hasNext() call triggers the limit check
+        final var ex = assertThrows(FileUploadFileCountLimitException.class, iter::hasNext);
+        assertEquals(maxFileCount, ex.getPermitted());
+    }
+
+    /**
+     * When the number of parts in a multipart/related request exceeds {@code maxFileCount}, iterating must throw a {@link FileUploadFileCountLimitException}
+     * with the expected permitted count. Tested for maxFileCount values of 1, 2, 4, and 8.
+     */
+    @ParameterizedTest
+    @ValueSource(longs = { 1, 2, 4, 8 })
+    void testMultipartRelatedFileCountLimitExceededThrowsException(final long maxFileCount) throws Exception {
+        final var body = buildMultiRelatedParts((int) maxFileCount + 1);
+        final HttpServletRequest request = new JavaxMockHttpServletRequest(body, CONTENT_TYPE_RELATED);
+        final var upload = newUpload();
+        upload.setMaxFileCount(maxFileCount);
+        final FileItemInputIterator iter = upload.getItemIterator(request);
+        // Consume allowed items first
+        for (int i = 0; i < maxFileCount; i++) {
+            assertTrue(iter.hasNext());
+            iter.next();
+        }
+        // The next hasNext() call triggers the limit check
+        final var ex = assertThrows(FileUploadFileCountLimitException.class, iter::hasNext);
+        assertEquals(maxFileCount, ex.getPermitted());
     }
 
     /**

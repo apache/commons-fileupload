@@ -58,6 +58,16 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
     private long maxFileSize;
 
     /**
+     * The current number of files.
+     */
+    private long curFileCount;
+
+    /**
+     * The maximum permitted number of files that may be uploaded in a single request. A value of -1 indicates no maximum.
+     */
+    private final long maxFileCount;
+
+    /**
      * The multi part stream to process.
      */
     private MultipartInput multiPartInput;
@@ -114,10 +124,17 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         this.fileUpload = fileUpload;
         this.maxSize = fileUpload.getMaxSize();
         this.maxFileSize = fileUpload.getMaxFileSize();
+        this.maxFileCount = fileUpload.getMaxFileCount();
         this.requestContext = Objects.requireNonNull(requestContext, "requestContext");
         this.multipartRelated = this.requestContext.isMultipartRelated();
         this.skipPreamble = true;
         findNextItem();
+    }
+
+    private void checkMaxFileCount() throws FileUploadFileCountLimitException {
+        if (curFileCount == maxFileCount) {
+            throw new FileUploadFileCountLimitException(String.format("Maximum file count %,d exceeded.", maxFileCount), maxFileCount, curFileCount);
+        }
     }
 
     /**
@@ -155,13 +172,10 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
             }
             final var headers = fileUpload.getParsedHeaders(multi.readHeaders());
             if (multipartRelated) {
+                checkMaxFileCount();
                 currentFieldName = "";
-                currentItem = new FileItemInputImpl(
-                        this, null, null, headers.getHeader(AbstractFileUpload.CONTENT_TYPE),
-                        false, getContentLength(headers));
-                currentItem.setHeaders(headers);
-                progressNotifier.noteItem();
-                itemValid = true;
+                currentItem = new FileItemInputImpl(this, null, null, headers.getHeader(AbstractFileUpload.CONTENT_TYPE), false, getContentLength(headers));
+                itemValid(headers);
                 return true;
             }
             if (currentFieldName == null) {
@@ -180,22 +194,20 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
                         skipPreamble = true;
                         continue;
                     }
+                    checkMaxFileCount();
                     final var fileName = fileUpload.getFileName(headers);
                     currentItem = new FileItemInputImpl(this, fileName, fieldName, headers.getHeader(AbstractFileUpload.CONTENT_TYPE), fileName == null,
                             getContentLength(headers));
-                    currentItem.setHeaders(headers);
-                    progressNotifier.noteItem();
-                    itemValid = true;
+                    itemValid(headers);
                     return true;
                 }
             } else {
                 final var fileName = fileUpload.getFileName(headers);
                 if (fileName != null) {
+                    checkMaxFileCount();
                     currentItem = new FileItemInputImpl(this, fileName, currentFieldName, headers.getHeader(AbstractFileUpload.CONTENT_TYPE), false,
                             getContentLength(headers));
-                    currentItem.setHeaders(headers);
-                    progressNotifier.noteItem();
-                    itemValid = true;
+                    itemValid(headers);
                     return true;
                 }
             }
@@ -304,6 +316,13 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         multiPartInput.setHeaderCharset(charset);
     }
 
+    private void itemValid(final FileItemHeaders headers) {
+        currentItem.setHeaders(headers);
+        progressNotifier.noteItem();
+        itemValid = true;
+        curFileCount++;
+    }
+
     /**
      * Returns the next available {@link FileItemInput}.
      *
@@ -336,5 +355,4 @@ class FileItemInputIteratorImpl implements FileItemInputIterator {
         // TODO Something better?
         return (Iterator<FileItemInput>) this;
     }
-
 }
