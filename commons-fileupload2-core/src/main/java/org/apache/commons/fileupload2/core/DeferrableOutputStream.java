@@ -205,7 +205,7 @@ public class DeferrableOutputStream extends OutputStream {
         } else {
             this.threshold = threshold;
         }
-        longThreshold = (long) threshold;
+        longThreshold = threshold;
         this.pathSupplier = pathSupplier;
         this.listener = listener;
         checkThreshold(0);
@@ -234,27 +234,26 @@ public class DeferrableOutputStream extends OutputStream {
                 state = State.initialized;
                 return baos;
             }
-        } else {
-            switch (state) {
-            case initialized:
-            case opened:
-                final int bytesWritten = baos.size();
-                if ((long) bytesWritten + (long) numberOfIncomingBytes >= longThreshold) {
-                    return persist();
-                }
-                if (numberOfIncomingBytes > 0) {
-                    state = State.opened;
-                }
-                return baos;
-            case persisted:
-                // Do nothing, we're staying in the current state.
-                return out;
-            case closed:
-                // Do nothing, we're staying in the current state.
-                return null;
-            default:
-                throw illegalStateError();
+        }
+        switch (state) {
+        case initialized:
+        case opened:
+            final int bytesWritten = baos.size();
+            if ((long) bytesWritten + (long) numberOfIncomingBytes >= longThreshold) {
+                return persist();
             }
+            if (numberOfIncomingBytes > 0) {
+                state = State.opened;
+            }
+            return baos;
+        case persisted:
+            // Do nothing, we're staying in the current state.
+            return out;
+        case closed:
+            // Do nothing, we're staying in the current state.
+            return null;
+        default:
+            throw illegalStateError();
         }
     }
 
@@ -305,14 +304,13 @@ public class DeferrableOutputStream extends OutputStream {
      *   failed.
      */
     public InputStream getInputStream() throws IOException {
-        if (state == State.closed) {
-            if (bytes != null) {
-                return new ByteArrayInputStream(bytes);
-            } else {
-                return Files.newInputStream(path);
-            }
-        } else {
+        if (state != State.closed) {
             throw new IllegalStateException("This stream isn't yet closed.");
+        }
+        if (bytes != null) {
+            return new ByteArrayInputStream(bytes);
+        } else {
+            return Files.newInputStream(path);
         }
     }
 
