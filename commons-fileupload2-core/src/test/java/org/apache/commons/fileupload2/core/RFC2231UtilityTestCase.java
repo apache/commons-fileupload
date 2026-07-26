@@ -96,7 +96,7 @@ public final class RFC2231UtilityTestCase {
     void testNoNeedToDecode() throws Exception {
         assertEncoded("abc", "abc");
     }
-    
+
     @Test
     void testStripDelimiter() {
         final var nameWithAsteriskAtEnd = "paramname*";
