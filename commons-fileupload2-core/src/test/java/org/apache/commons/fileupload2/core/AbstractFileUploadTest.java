@@ -398,10 +398,10 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
 
     @Test
     void testIsMultipartRequestMethod() {
-        for (String allowed : new String[]{"POST", "PUT", "PATCH"}) {
+        for (final String allowed : new String[]{"POST", "PUT", "PATCH"}) {
             assertTrue(AbstractFileUpload.isMultipartRequestMethod(allowed));
         }
-        for (String disallowed : new String[]{"GET", "HEAD", "DELETE", "CONNECT", "OPTIONS", "TRACE"}) {
+        for (final String disallowed : new String[]{"GET", "HEAD", "DELETE", "CONNECT", "OPTIONS", "TRACE"}) {
             assertFalse(AbstractFileUpload.isMultipartRequestMethod(disallowed));
         }
     }
