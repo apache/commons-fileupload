@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
  */
 class DiskFileItemTest {
     @SuppressWarnings("deprecation")
-    protected void assertState(final DiskFileItem dfi, final State state, final boolean inMemory, final Path parentDir, String testString) throws IOException {
+    protected void assertState(final DiskFileItem dfi, final State state, final boolean inMemory, final Path parentDir, final String testString) throws IOException {
         final DeferrableOutputStream dos = (DeferrableOutputStream) dfi.getOutputStream();
         assertEquals(state, dos.getState());
         assertEquals(inMemory, dfi.isInMemory());
@@ -84,7 +84,7 @@ class DiskFileItemTest {
      */
     @Test
     void testStateModelWithPositiveThreshold() {
-        final IntConsumer tester = (numBytes) -> {
+        final IntConsumer tester = numBytes -> {
             try {
                 final Path testDir = Paths.get("target/unit-tests/" + DiskFileItemTest.class.getSimpleName());
                 Files.createDirectories(testDir);
@@ -119,7 +119,7 @@ class DiskFileItemTest {
                 }
                 // The output stream is closed now, so the state has changed again.
                 assertState(dfi, State.closed, false, tempTestDir, sb.toString());
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         };
@@ -133,7 +133,7 @@ class DiskFileItemTest {
      */
     @Test
     void testStateModelWithThresholdMinusOne() {
-        final Consumer<String> tester = (ts) -> {
+        final Consumer<String> tester = ts -> {
             try {
                 final Path testDir = Paths.get("target/unit-tests/" + DiskFileItemTest.class.getSimpleName());
                 Files.createDirectories(testDir);
@@ -156,7 +156,7 @@ class DiskFileItemTest {
                 }
                 // After writing some data, the output file does still exist, except that the size has changed.
                 assertState(dfi, State.closed, false, tempTestDir, ts);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         };
@@ -170,7 +170,7 @@ class DiskFileItemTest {
      */
     @Test
     void testStateModelWithThresholdZero() {
-        final IntConsumer tester = (numBytes) -> {
+        final IntConsumer tester = numBytes -> {
             try {
                 final Path testDir = Paths.get("target/unit-tests/" + DiskFileItemTest.class.getSimpleName());
                 Files.createDirectories(testDir);
@@ -200,7 +200,7 @@ class DiskFileItemTest {
                 }
                 // The output stream is closed now, so the state has changed again.
                 assertState(dfi, State.closed, false, tempTestDir, sb.toString());
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         };
