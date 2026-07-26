@@ -150,6 +150,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
          * @see #getThreshold()
          * @deprecated Since 2.0.0, use {@link #getThreshold()} instead.
          */
+        @Override
         public int getBufferSize() {
             return getThreshold();
         }
