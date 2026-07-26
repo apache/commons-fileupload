@@ -59,22 +59,23 @@ class DeferrableOutputStreamTest {
         tempTestDir = Files.createTempDirectory(testDir, "testDir");
     }
 
-    private Supplier<Path> testFileSupplier = () -> {
+    private final Supplier<Path> testFileSupplier = () -> {
         try {
             return Files.createTempFile(tempTestDir, "testFile", ".bin");
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
             throw new UncheckedIOException(ioe);
         }
     };
 
-    protected byte[] read(InputStream pIs) throws IOException {
+    protected byte[] read(final InputStream pIs) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final byte[] buffer = new byte[8192];
         for (;;) {
             final int res = pIs.read(buffer);
             if (res == -1) {
                 return baos.toByteArray();
-            } else if (res > 0) {
+            }
+            if (res > 0) {
                 baos.write(buffer, 0, res);
             }
         }
@@ -85,8 +86,8 @@ class DeferrableOutputStreamTest {
      */
     @Test
     void testExceedPositiveThreshold() {
-        DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
-        final Consumer<Consumer<OutputStream>> tester = (consumer) -> {
+        final DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
+        final Consumer<Consumer<OutputStream>> tester = consumer -> {
             try (final DeferrableOutputStream dos = new DeferrableOutputStream(5, testFileSupplier, null)) {
                 streams[0] = dos;
                 assertTrue(dos.isInMemory());
@@ -96,7 +97,7 @@ class DeferrableOutputStreamTest {
                 for (int i = 0; i < 4; i++) {
                     try {
                         dos.write('.');
-                    } catch (IOException ioe) {
+                    } catch (final IOException ioe) {
                         throw new UncheckedIOException(ioe);
                     }
                     assertSame(State.opened, dos.getState());
@@ -108,7 +109,7 @@ class DeferrableOutputStreamTest {
                 assertFalse(dos.isInMemory());
                 assertNotNull(dos.getPath());
                 assertNull(dos.getBytes());
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
             final DeferrableOutputStream dos = streams[0];
@@ -118,35 +119,35 @@ class DeferrableOutputStreamTest {
             final byte[] actual;
             try (InputStream is = dos.getInputStream()) {
                 actual = read(is);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
             final byte[] expect = "....,".getBytes(StandardCharsets.UTF_8);
             assertArrayEquals(expect, actual);
         };
         // Break the threshold using OutputStream.write(int);
-        tester.accept((os) -> {
+        tester.accept(os -> {
             try {
                 os.write(',');
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         });
         // Break the threshold using OutputStream.write(byte[]);
-        tester.accept((os) -> {
-            final byte[] buffer = new byte[] { ',' };
+        tester.accept(os -> {
+            final byte[] buffer = { ',' };
             try {
                 os.write(buffer);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         });
         // Break the threshold using OutputStream.write(byte[], int, int);
-        tester.accept((os) -> {
-            final byte[] buffer = new byte[] { ',', '-' };
+        tester.accept(os -> {
+            final byte[] buffer = { ',', '-' };
             try {
                 os.write(buffer, 0, 1);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         });
@@ -188,14 +189,14 @@ class DeferrableOutputStreamTest {
      */
     @Test
     void testThresholdMinusOne() {
-        DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
+        final DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
         final Runnable tester = () -> {
             try (final DeferrableOutputStream dos = new DeferrableOutputStream(-1, testFileSupplier, null)) {
                 streams[0] = dos;
                 assertFalse(dos.isInMemory());
                 assertNotNull(dos.getPath());
                 assertNull(dos.getBytes());
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
             final DeferrableOutputStream dos = streams[0];
@@ -205,7 +206,7 @@ class DeferrableOutputStreamTest {
             final byte[] actual;
             try (InputStream is = dos.getInputStream()) {
                 actual = read(is);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
             final byte[] expect = "".getBytes(StandardCharsets.UTF_8);
@@ -219,8 +220,8 @@ class DeferrableOutputStreamTest {
      */
     @Test
     void testThresholdZero() {
-        DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
-        final Consumer<Consumer<OutputStream>> tester = (consumer) -> {
+        final DeferrableOutputStream[] streams = new DeferrableOutputStream[1];
+        final Consumer<Consumer<OutputStream>> tester = consumer -> {
             try (final DeferrableOutputStream dos = new DeferrableOutputStream(0, testFileSupplier, null)) {
                 streams[0] = dos;
                 assertTrue(dos.isInMemory());
@@ -231,7 +232,7 @@ class DeferrableOutputStreamTest {
                 assertFalse(dos.isInMemory());
                 assertNotNull(dos.getPath());
                 assertNull(dos.getBytes());
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
             final DeferrableOutputStream dos = streams[0];
@@ -241,35 +242,35 @@ class DeferrableOutputStreamTest {
             final byte[] actual;
             try (InputStream is = dos.getInputStream()) {
                 actual = read(is);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
             final byte[] expect = ",".getBytes(StandardCharsets.UTF_8);
             assertArrayEquals(expect, actual);
         };
         // Break the threshold using OutputStream.write(int);
-        tester.accept((os) -> {
+        tester.accept(os -> {
             try {
                 os.write(',');
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         });
         // Break the threshold using OutputStream.write(byte[]);
-        tester.accept((os) -> {
-            final byte[] buffer = new byte[] { ',' };
+        tester.accept(os -> {
+            final byte[] buffer = { ',' };
             try {
                 os.write(buffer);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         });
         // Break the threshold using OutputStream.write(byte[], int, int);
-        tester.accept((os) -> {
-            final byte[] buffer = new byte[] { ',', '-' };
+        tester.accept(os -> {
+            final byte[] buffer = { ',', '-' };
             try {
                 os.write(buffer, 0, 1);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
         });
