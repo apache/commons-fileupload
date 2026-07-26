@@ -90,14 +90,14 @@ class DiskFileItemSerializeTest {
     /**
      * Create a FileItem with the specfied content bytes.
      */
-    private DiskFileItem createFileItem(final byte[] contentBytes, int threshold) throws IOException {
+    private DiskFileItem createFileItem(final byte[] contentBytes, final int threshold) throws IOException {
         return createFileItem(contentBytes, REPOSITORY, threshold);
     }
 
     /**
      * Create a FileItem with the specfied content bytes and repository.
      */
-    private DiskFileItem createFileItem(final byte[] contentBytes, final Path repository, int threshold) throws IOException {
+    private DiskFileItem createFileItem(final byte[] contentBytes, final Path repository, final int threshold) throws IOException {
         // @formatter:off
         final FileItemFactory<DiskFileItem> factory = DiskFileItemFactory.builder()
                 .setBufferSize(THRESHOLD)
@@ -210,14 +210,14 @@ class DiskFileItemSerializeTest {
     /**
      * Helper method to test creation of a field.
      */
-    private void testInMemoryObject(final byte[] testFieldValueBytes, int threshold) throws IOException {
+    private void testInMemoryObject(final byte[] testFieldValueBytes, final int threshold) throws IOException {
         testInMemoryObject(testFieldValueBytes, REPOSITORY, threshold);
     }
 
     /**
      * Helper method to test creation of a field when a repository is used.
      */
-    private void testInMemoryObject(final byte[] testFieldValueBytes, final Path repository, int threshold) throws IOException {
+    private void testInMemoryObject(final byte[] testFieldValueBytes, final Path repository, final int threshold) throws IOException {
         final var item = createFileItem(testFieldValueBytes, repository, threshold);
 
         // Check state is as expectedthreshold >= testFieldValueBytes.length, item.isInMemory(), "Initial: in memory");
