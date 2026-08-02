@@ -332,7 +332,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * Deletes the underlying storage for a file item, including deleting any associated temporary disk file. This method can be used to ensure that this is
      * done at an earlier time, thus preserving system resources.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public DiskFileItem delete() throws IOException {
@@ -350,7 +350,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * and cached.
      *
      * @return The contents of the file as an array of bytes or {@code null} if the data cannot be read.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @throws OutOfMemoryError     See {@link Files#readAllBytes(Path)}: If an array of the required size cannot be allocated, for example the file is larger
      *                              than {@code 2GB}. If so, you should use {@link #getInputStream()}.
      * @see #getInputStream()
@@ -438,7 +438,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * Gets an {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
      *
      * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public InputStream getInputStream() throws IOException {
@@ -535,7 +535,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * Gets the contents of the file as a String, using the default character encoding. This method uses {@link #get()} to retrieve the contents of the file.
      *
      * @return The contents of the file, as a string, if available, or null.
-     * @throws IOException if an I/O error occurs
+     * @throws IOException Thrown if an I/O error occurs
      * @throws OutOfMemoryError See {@link Files#readAllBytes(Path)}: If a string of the required size cannot be allocated,
      *   for example the file is larger than {@code 2GB}. If so, you should use {@link #getReader()}.
      * @throws UnsupportedEncodingException The character set, which is
@@ -553,7 +553,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      *
      * @param charset The charset to use.
      * @return The contents of the file, as a string.
-     * @throws IOException if an I/O error occurs
+     * @throws IOException Thrown if an I/O error occurs
      */
     @Override
     public String getString(final Charset charset) throws IOException {
@@ -672,7 +672,7 @@ public final class DiskFileItem implements FileItem<DiskFileItem> {
      * </p>
      *
      * @param file The {@code File} into which the uploaded item should be stored.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public DiskFileItem write(final Path file) throws IOException {

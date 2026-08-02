@@ -34,7 +34,7 @@ final class QuotedPrintableDecoder {
      * @param data The array of byte data to decode.
      * @param out  The output stream used to return the decoded data.
      * @return The number of bytes produced.
-     * @throws IOException if an IO error occurs
+     * @throws IOException Thrown if an IO error occurs
      */
     public static int decode(final byte[] data, final OutputStream out) throws IOException {
         var off = 0;
@@ -88,7 +88,7 @@ final class QuotedPrintableDecoder {
      *
      * @param b The ASCII hexadecimal byte to convert (0-0, A-F, a-f)
      * @return The int value of the hexadecimal byte, 0-15
-     * @throws IOException if the byte is not a valid hexadecimal digit.
+     * @throws IOException Thrown if the byte is not a valid hexadecimal digit.
      */
     private static int hexToBinary(final byte b) throws IOException {
         // CHECKSTYLE IGNORE MagicNumber FOR NEXT 1 LINE

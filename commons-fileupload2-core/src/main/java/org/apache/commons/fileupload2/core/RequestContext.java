@@ -66,7 +66,7 @@ public interface RequestContext {
      * Gets the input stream for the request.
      *
      * @return The input stream for the request.
-     * @throws IOException if a problem occurs.
+     * @throws IOException Thrown if a problem occurs.
      */
     InputStream getInputStream() throws IOException;
 

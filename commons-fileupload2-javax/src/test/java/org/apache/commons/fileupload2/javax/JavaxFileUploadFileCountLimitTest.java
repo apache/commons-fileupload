@@ -60,7 +60,7 @@ class JavaxFileUploadFileCountLimitTest {
      * {@code maxFileCount}. The request contains {@code maxFileCount + 1} files so that the limit is always exceeded.
      *
      * @param maxFileCount the maximum number of files allowed, set to a non-default value
-     * @throws Exception if the test fails unexpectedly
+     * @throws Exception Thrown if the test fails unexpectedly
      */
     @ParameterizedTest
     @ValueSource(longs = { 1, 2, 4, 8 })

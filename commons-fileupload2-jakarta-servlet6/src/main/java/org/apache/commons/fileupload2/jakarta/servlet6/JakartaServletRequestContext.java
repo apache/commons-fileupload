@@ -61,7 +61,7 @@ public class JakartaServletRequestContext extends AbstractRequestContext<HttpSer
      * Gets the input stream for the request.
      *
      * @return The input stream for the request.
-     * @throws IOException if a problem occurs.
+     * @throws IOException Thrown if a problem occurs.
      */
     @Override
     public InputStream getInputStream() throws IOException {

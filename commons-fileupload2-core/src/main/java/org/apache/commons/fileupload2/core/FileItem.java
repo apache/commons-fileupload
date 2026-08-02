@@ -48,7 +48,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * earlier time, to preserve resources.
      *
      * @return {@code this} instance.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     F delete() throws IOException;
 
@@ -56,7 +56,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Gets the contents of the file item as a byte array.
      *
      * @return The contents of the file item as a byte array.
-     * @throws IOException if an I/O error occurs
+     * @throws IOException Thrown if an I/O error occurs
      */
     byte[] get() throws IOException;
 
@@ -78,7 +78,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Gets an {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
      *
      * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     InputStream getInputStream() throws IOException;
 
@@ -96,7 +96,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * Gets an {@link java.io.OutputStream OutputStream} that can be used for storing the contents of the file.
      *
      * @return An {@link java.io.OutputStream OutputStream} that can be used for storing the contents of the file.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     OutputStream getOutputStream() throws IOException;
 
@@ -113,7 +113,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      *
      * @return The contents of the item, as a string.
      *
-     * @throws IOException if an I/O error occurs
+     * @throws IOException Thrown if an I/O error occurs
      */
     String getString() throws IOException;
 
@@ -122,7 +122,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      *
      * @param toCharset The character encoding to use.
      * @return The contents of the item, as a string.
-     * @throws IOException if an I/O error occurs
+     * @throws IOException Thrown if an I/O error occurs
      */
     String getString(Charset toCharset) throws IOException;
 
@@ -168,7 +168,7 @@ public interface FileItem<F extends FileItem<F>> extends FileItemHeadersProvider
      * </p>
      *
      * @param file The {@code File} into which the uploaded item should be stored.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      * @return {@code this} instance.
      */
     F write(Path file) throws IOException;
