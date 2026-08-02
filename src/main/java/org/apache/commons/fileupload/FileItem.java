@@ -84,7 +84,7 @@ public interface FileItem extends FileItemHeadersSupport {
      * @return An {@link java.io.InputStream InputStream} that can be
      *         used to retrieve the contents of the file.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     InputStream getInputStream() throws IOException;
 
@@ -109,7 +109,7 @@ public interface FileItem extends FileItemHeadersSupport {
      * @return An {@link java.io.OutputStream OutputStream} that can be used
      *         for storing the contents of the file.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     OutputStream getOutputStream() throws IOException;
 
@@ -189,7 +189,7 @@ public interface FileItem extends FileItemHeadersSupport {
      * @param file The {@code File} into which the uploaded item should
      *             be stored.
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     void write(File file) throws Exception;
 

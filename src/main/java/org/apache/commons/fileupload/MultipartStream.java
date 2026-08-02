@@ -887,7 +887,7 @@ public class MultipartStream {
      * necessary.
      *
      * @return The next byte from the input stream.
-     * @throws IOException if there is no more data available.
+     * @throws IOException Thrown if there is no more data available.
      */
     public byte readByte() throws IOException {
         // Buffer depleted ?
@@ -1013,7 +1013,7 @@ public class MultipartStream {
      * @return {@code true} if an {@code encapsulation} was found in
      *         the stream.
      *
-     * @throws IOException if an i/o error occurs.
+     * @throws IOException Thrown if an i/o error occurs.
      */
     public boolean skipPreamble() throws IOException {
         // First delimiter may be not preceded with a CRLF.
