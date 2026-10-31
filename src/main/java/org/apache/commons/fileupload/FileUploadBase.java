@@ -271,6 +271,11 @@ public abstract class FileUploadBase {
         private boolean itemValid;
 
         /**
+         * The number of items found so far.
+         */
+        private long curFileCount;
+
+        /**
          * Whether we have seen the end of the file.
          */
         private boolean eof;
@@ -347,12 +352,24 @@ public abstract class FileUploadBase {
         }
 
         /**
+         * Throws if accepting another item would exceed {@link FileUploadBase#getFileCountMax()}.
+         *
+         * @throws FileCountLimitExceededException The maximum number of files was reached.
+         */
+        private void checkFileCountMax() throws FileCountLimitExceededException {
+            if (curFileCount == fileCountMax) {
+                throw new FileCountLimitExceededException(format("Maximum file count %s exceeded.", Long.valueOf(fileCountMax)), fileCountMax);
+            }
+        }
+
+        /**
          * Called for finding the next item, if any.
          *
          * @return True, if an next item was found, otherwise false.
+         * @throws FileUploadException The maximum number of files was exceeded.
          * @throws IOException An I/O error occurred.
          */
-        private boolean findNextItem() throws IOException {
+        private boolean findNextItem() throws FileUploadException, IOException {
             if (eof) {
                 return false;
             }
@@ -380,11 +397,10 @@ public abstract class FileUploadBase {
                 }
                 final FileItemHeaders headers = getParsedHeaders(multi.readHeaders());
                 if (multipartRelated) {
+                    checkFileCountMax();
                     currentFieldName = "";
                     currentItem = new FileItemStreamImpl(null, null, headers.getHeader(CONTENT_TYPE), false, getContentLength(headers));
-                    currentItem.setHeaders(headers);
-                    notifier.noteItem();
-                    itemValid = true;
+                    itemValid(headers);
                     return true;
                 }
                 if (currentFieldName == null) {
@@ -403,20 +419,18 @@ public abstract class FileUploadBase {
                             skipPreamble = true;
                             continue;
                         }
+                        checkFileCountMax();
                         final String fileName = getFileName(headers);
                         currentItem = new FileItemStreamImpl(fileName, fieldName, headers.getHeader(CONTENT_TYPE), fileName == null, getContentLength(headers));
-                        currentItem.setHeaders(headers);
-                        notifier.noteItem();
-                        itemValid = true;
+                        itemValid(headers);
                         return true;
                     }
                 } else {
                     final String fileName = getFileName(headers);
                     if (fileName != null) {
+                        checkFileCountMax();
                         currentItem = new FileItemStreamImpl(fileName, currentFieldName, headers.getHeader(CONTENT_TYPE), false, getContentLength(headers));
-                        currentItem.setHeaders(headers);
-                        notifier.noteItem();
-                        itemValid = true;
+                        itemValid(headers);
                         return true;
                     }
                 }
@@ -430,6 +444,13 @@ public abstract class FileUploadBase {
             } catch (final Exception e) {
                 return -1;
             }
+        }
+
+        private void itemValid(final FileItemHeaders headers) {
+            currentItem.setHeaders(headers);
+            notifier.noteItem();
+            itemValid = true;
+            curFileCount++;
         }
 
         /**
