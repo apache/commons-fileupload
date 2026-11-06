@@ -620,4 +620,45 @@ public abstract class AbstractFileUpload<R, I extends FileItem<I>, F extends Fil
         this.progressListener = progressListener != null ? progressListener : ProgressListener.NOP;
     }
 
+    //Atlassian patch: old method names for backward compatibility
+    @Deprecated
+    public int getPartHeaderSizeMax() {
+        return maxPartHeaderSize;
+    }
+
+    @Deprecated
+    public void setPartHeaderSizeMax(final int partHeaderSizeMax) {
+        this.maxPartHeaderSize = partHeaderSizeMax;
+    }
+
+    @Deprecated
+    public long getFileCountMax() {
+        return maxFileCount;
+    }
+
+    @Deprecated
+    public void setFileCountMax(final long fileCountMax) {
+        this.maxFileCount = fileCountMax;
+    }
+
+    @Deprecated
+    public long getFileSizeMax() {
+        return maxFileSize;
+    }
+
+    @Deprecated
+    public void setFileSizeMax(final long fileSizeMax) {
+        this.maxFileSize = fileSizeMax;
+    }
+
+    @Deprecated
+    public long getSizeMax() {
+        return maxSize;
+    }
+
+    @Deprecated
+    public void setSizeMax(final long sizeMax) {
+        this.maxSize = sizeMax;
+    }
+    //END Atlassian patch
 }
