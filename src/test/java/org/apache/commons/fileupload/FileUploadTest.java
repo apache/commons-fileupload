@@ -30,12 +30,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Stream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.MultipartStream.IllegalBoundaryException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.portlet.PortletFileUpload;
 import org.apache.commons.fileupload.portlet.PortletFileUploadTest;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUploadTest;
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.fileupload.util.Streams;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -61,7 +64,76 @@ public class FileUploadTest {
                 new PortletFileUpload(new DiskFileItemFactory()));
     }
 
+    private static final String RELATED_CONTENT_TYPE = "multipart/related; boundary=---1234";
+
     private FileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+
+    /**
+     * Reads the permitted number of items from an iterator over {@code body}, then expects the next item to be rejected.
+     */
+    private void assertFileCountMaxEnforced(final FileUpload upload, final String body, final String contentType) throws Exception {
+        final long limit = upload.getFileCountMax();
+        final FileItemIterator iter = newItemIterator(upload, body, contentType);
+        for (long i = 0; i < limit; i++) {
+            assertTrue(iter.hasNext());
+            iter.next();
+        }
+        final FileCountLimitExceededException e = assertThrows(FileCountLimitExceededException.class, iter::hasNext);
+        assertEquals(limit, e.getLimit());
+    }
+
+    private void assertFileCountMaxNotExceeded(final FileUpload upload, final String body, final String contentType) throws Exception {
+        final FileItemIterator iter = newItemIterator(upload, body, contentType);
+        for (long i = 0; i < upload.getFileCountMax(); i++) {
+            assertTrue(iter.hasNext());
+            iter.next();
+        }
+        assertFalse(iter.hasNext());
+    }
+
+    private static String formDataFiles(final int count) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= count; i++) {
+            sb.append("-----1234\r\n")
+                    .append("Content-Disposition: form-data; name=\"file").append(i).append("\"; filename=\"file").append(i).append(".txt\"\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("\r\n")
+                    .append("Content of file ").append(i).append("\r\n");
+        }
+        return sb.append("-----1234--\r\n").toString();
+    }
+
+    private static String mixedFiles(final int count) {
+        final StringBuilder sb = new StringBuilder("-----1234\r\n")
+                .append("Content-Disposition: form-data; name=\"files\"\r\n")
+                .append("Content-Type: multipart/mixed; boundary=---9876\r\n")
+                .append("\r\n");
+        for (int i = 1; i <= count; i++) {
+            sb.append("-----9876\r\n")
+                    .append("Content-Disposition: attachment; filename=\"file").append(i).append(".txt\"\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("\r\n")
+                    .append("Content of file ").append(i).append("\r\n");
+        }
+        return sb.append("-----9876--\r\n").append("-----1234--\r\n").toString();
+    }
+
+    private static FileItemIterator newItemIterator(final FileUpload upload, final String body, final String contentType) throws Exception {
+        final HttpServletRequest request = new MockHttpServletRequest(body.getBytes(StandardCharsets.US_ASCII), contentType);
+        return upload.getItemIterator(new ServletRequestContext(request));
+    }
+
+    private static String relatedParts(final int count) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= count; i++) {
+            sb.append("-----1234\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-ID: <part").append(i).append("@example.org>\r\n")
+                    .append("\r\n")
+                    .append("Content of part ").append(i).append("\r\n");
+        }
+        return sb.append("-----1234--\r\n").toString();
+    }
 
     private void assertHeaders(final String[] headerNames, final String[] headerValues, final FileItem item, final int index) {
         for (int i = 0; i < headerNames.length; i++) {
@@ -136,6 +208,62 @@ public class FileUploadTest {
         } finally {
             Util.deleteFileItems(fileItems);
         }
+    }
+
+    /**
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-360">FILEUPLOAD-360</a>: the file count limit applies to the item iterator.
+     */
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testFileCountMaxFormDataItemIterator(final FileUpload upload) throws Exception {
+        upload.setFileCountMax(2);
+        assertFileCountMaxEnforced(upload, formDataFiles(3), Constants.CONTENT_TYPE);
+    }
+
+    /**
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-360">FILEUPLOAD-360</a>: the file count limit applies to files nested in a
+     * {@code multipart/mixed} part.
+     */
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testFileCountMaxMixedItemIterator(final FileUpload upload) throws Exception {
+        upload.setFileCountMax(2);
+        assertFileCountMaxEnforced(upload, mixedFiles(3), Constants.CONTENT_TYPE);
+    }
+
+    /**
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-360">FILEUPLOAD-360</a>: a request that holds exactly the permitted number of files is
+     * still accepted by the item iterator.
+     */
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testFileCountMaxNotExceededItemIterator(final FileUpload upload) throws Exception {
+        upload.setFileCountMax(3);
+        assertFileCountMaxNotExceeded(upload, formDataFiles(3), Constants.CONTENT_TYPE);
+        assertFileCountMaxNotExceeded(upload, mixedFiles(3), Constants.CONTENT_TYPE);
+        assertFileCountMaxNotExceeded(upload, relatedParts(3), RELATED_CONTENT_TYPE);
+    }
+
+    /**
+     * {@link FileUploadBase#parseRequest(org.apache.commons.fileupload.RequestContext)} has always enforced the file count limit.
+     */
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testFileCountMaxParseRequest(final FileUpload upload) {
+        upload.setFileCountMax(2);
+        final FileCountLimitExceededException e = assertThrows(FileCountLimitExceededException.class, () -> Util.parseUpload(upload, formDataFiles(3)));
+        assertEquals(2, e.getLimit());
+    }
+
+    /**
+     * Test for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-360">FILEUPLOAD-360</a>: the file count limit applies to the parts of a
+     * {@code multipart/related} request.
+     */
+    @ParameterizedTest
+    @MethodSource("data")
+    public void testFileCountMaxRelatedItemIterator(final FileUpload upload) throws Exception {
+        upload.setFileCountMax(2);
+        assertFileCountMaxEnforced(upload, relatedParts(3), RELATED_CONTENT_TYPE);
     }
 
     @ParameterizedTest
