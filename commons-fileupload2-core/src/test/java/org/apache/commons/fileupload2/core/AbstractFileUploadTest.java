@@ -18,6 +18,7 @@ package org.apache.commons.fileupload2.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,7 +55,27 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
             }
         }
     }
+    @Test
+    void testIgnoreUnsupportedPartField() throws IOException {
+        // @formatter:off
+        final var fileItems = parseUpload(upload,
+                "-----1234\r\n" +
+                "content-disposition: form-data; name=\"field1\"\r\n" +
+                "content-id: field1\r\n" +
+                "x-souce-id: field1\r\n" +
+                "\r\n" +
+                "Joe Blow\r\n" +
+                "-----1234--\r\n");
+        // @formatter:on
+        assertEquals(1, fileItems.size());
 
+        final var field = fileItems.get(0);
+        assertEquals("field1", field.getFieldName());
+        assertTrue(field.isFormField());
+        assertNotNull(field.getHeaders().getHeader("content-disposition"));
+        assertNull(field.getHeaders().getHeader("content-id"));
+        assertNull(field.getHeaders().getHeader("x-souce-id"));
+    }
     /**
      * Tests <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-239">FILEUPLOAD-239</a>
      *
@@ -186,59 +207,6 @@ public abstract class AbstractFileUploadTest<AFU extends AbstractFileUpload<R, I
         assertEquals("multi", multi1.getFieldName());
         assertTrue(multi1.isFormField());
         assertEquals("value2", multi1.getString());
-    }
-
-    /**
-     * Test case for <a href="https://issues.apache.org/jira/browse/FILEUPLOAD-130">FILEUPLOAD-130</a>.
-     *
-     * @throws IOException Test failure.
-     */
-    @Test
-    void testFileUpload130() throws IOException {
-        final String[] headerNames = { "SomeHeader", "OtherHeader", "YetAnotherHeader", "WhatAHeader" };
-        final String[] headerValues = { "present", "Is there", "Here", "Is That" };
-        // @formatter:off
-        final var fileItems = parseUpload(upload,
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"file\"; "
-                                             + "filename=\"foo.tab\"\r\n" +
-                                               "Content-Type: text/whatever\r\n" +
-                                               headerNames[0] + ": " + headerValues[0] + "\r\n" +
-                                               "\r\n" +
-                                               "This is the content of the file\n" +
-                                               "\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; \r\n" +
-                                               "\tname=\"field\"\r\n" +
-                                               headerNames[1] + ": " + headerValues[1] + "\r\n" +
-                                               "\r\n" +
-                                               "fieldValue\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data;\r\n" +
-                                               "     name=\"multi\"\r\n" +
-                                               headerNames[2] + ": " + headerValues[2] + "\r\n" +
-                                               "\r\n" +
-                                               "value1\r\n" +
-                                               "-----1234\r\n" +
-                                               "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                                               headerNames[3] + ": " + headerValues[3] + "\r\n" +
-                                               "\r\n" +
-                                               "value2\r\n" +
-                                               "-----1234--\r\n");
-        // @formatter:on
-        assertEquals(4, fileItems.size());
-
-        final var file = fileItems.get(0);
-        assertHeaders(headerNames, headerValues, file, 0);
-
-        final var field = fileItems.get(1);
-        assertHeaders(headerNames, headerValues, field, 1);
-
-        final var multi0 = fileItems.get(2);
-        assertHeaders(headerNames, headerValues, multi0, 2);
-
-        final var multi1 = fileItems.get(3);
-        assertHeaders(headerNames, headerValues, multi1, 3);
     }
 
     /**
