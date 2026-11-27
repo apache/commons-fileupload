@@ -17,13 +17,19 @@
 
 package org.apache.commons.fileupload;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.fileupload.MultipartStream.MalformedStreamException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -116,5 +122,54 @@ public class MultipartStreamTest {
         final byte[] boundary = BOUNDARY_TEXT.getBytes();
         final MultipartStream ms = new MultipartStream(input, boundary, new MultipartStream.ProgressNotifier(null, contents.length));
         assertNotNull(ms);
+    }
+
+    /**
+     * Parses a body with the boundary {@code ab} and returns the content of each part.
+     */
+    private static List<String> parseParts(final String body) throws IOException {
+        final byte[] contents = body.getBytes(StandardCharsets.ISO_8859_1);
+        final MultipartStream ms = new MultipartStream(new ByteArrayInputStream(contents), "ab".getBytes(StandardCharsets.ISO_8859_1),
+                new MultipartStream.ProgressNotifier(null, contents.length));
+        final List<String> parts = new ArrayList<>();
+        boolean next = ms.skipPreamble();
+        while (next) {
+            ms.readHeaders();
+            final ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ms.readBodyData(out);
+            parts.add(out.toString("ISO-8859-1"));
+            next = ms.readBoundary();
+        }
+        return parts;
+    }
+
+    private static final String PART_HEADERS = "Content-Disposition: form-data; name=\"a\"\r\n\r\n";
+
+    @Test
+    public void testNoTransportPadding() throws Exception {
+        assertEquals(Arrays.asList("v1", "v2"), parseParts("--ab\r\n" + PART_HEADERS + "v1\r\n--ab\r\n" + PART_HEADERS + "v2\r\n--ab--\r\n"));
+    }
+
+    /**
+     * RFC 2046, section 5.1.1: a delimiter may be followed by transport padding, which a receiver must be able to handle.
+     */
+    @Test
+    public void testTransportPaddingAfterFirstDelimiter() throws Exception {
+        assertEquals(Arrays.asList("v1"), parseParts("--ab \t\r\n" + PART_HEADERS + "v1\r\n--ab--\r\n"));
+    }
+
+    @Test
+    public void testTransportPaddingAfterEncapsulationDelimiter() throws Exception {
+        assertEquals(Arrays.asList("v1", "v2"), parseParts("--ab\r\n" + PART_HEADERS + "v1\r\n--ab  \r\n" + PART_HEADERS + "v2\r\n--ab--\r\n"));
+    }
+
+    @Test
+    public void testTransportPaddingAfterCloseDelimiter() throws Exception {
+        assertEquals(Arrays.asList("v1"), parseParts("--ab\r\n" + PART_HEADERS + "v1\r\n--ab--  \r\n"));
+    }
+
+    @Test
+    public void testTransportPaddingBeforeCloseMarker() {
+        assertThrows(MalformedStreamException.class, () -> parseParts("--ab\r\n" + PART_HEADERS + "v1\r\n--ab  --\r\n"));
     }
 }
